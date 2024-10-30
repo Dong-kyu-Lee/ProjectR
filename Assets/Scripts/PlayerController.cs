@@ -9,12 +9,20 @@ public class PlayerController : MonoBehaviour
 
     public float moveSpeed;
     public float jumpPower;
+    public float dashFactor;
+    public float dashTime;
+    public float dashCoolTime;
 
-    bool isJumping;
+    bool enableJump;
+    bool enableDash;
 
     void Start()
     {
-        isJumping = false;
+        enableJump = true;
+        enableDash = true;
+        dashFactor = 1.0f;
+        dashTime = 0.2f;
+        dashCoolTime = 1.0f;
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -26,25 +34,51 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (enableDash)
+            {
+                StartCoroutine(Dash());
+            }
+        }
     }
 
     // 플레이어 좌우 이동 속도 지정
     void PlayerMove()
     {
-        moveVector.x = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+        moveVector.x = Input.GetAxis("Horizontal") * moveSpeed * dashFactor * Time.deltaTime;
         moveVector.y = playerRigidBody.velocity.y;
         playerRigidBody.velocity = moveVector;
     }
 
-    // 점프 수행
+    // 점프
     void Jump()
     {
-        if (!isJumping)
+        if (enableJump)
         {
-            isJumping = true;
+            enableJump = false;
             playerRigidBody.AddForce(new Vector2(0f, jumpPower));
         }
     }
+
+    // 대쉬
+    IEnumerator Dash()
+    {
+        Debug.Log("Dash couroutine on");
+        if (enableDash)
+        {
+            enableDash = false;
+            dashFactor = 5.0f;
+
+            yield return new WaitForSeconds(dashTime);
+            dashFactor = 1.0f;
+            
+            yield return new WaitForSeconds(dashCoolTime);
+            enableDash = true;
+        }
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -57,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
             if (Mathf.Approximately(dotResult, 0.0f))
             {
-                isJumping = false;
+                enableJump = true;
             }
         }
     }
