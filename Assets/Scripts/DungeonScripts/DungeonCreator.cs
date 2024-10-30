@@ -7,18 +7,28 @@ public class DungeonCreator : MonoBehaviour
 {
     public int dungeonWidth;
     public int dungeonLength;
-    public int roomWidthMin, roomLengthMin;
+
+    [Header("Whole Random Only")]
+    public int roomWidthMin;
+    public int roomLengthMin;
     public int maxIteration;
     public int corridorWidth;
 
     void Start()
     {
-        CreateDungeon();
+
+        // CreateAllRandomDungeon();
     }
 
-    private void CreateDungeon()
+    private void CreateFixedRoomDungeon()
     {
-        DungeonGenerator dungeonGenerator = new DungeonGenerator(dungeonWidth, dungeonLength);
+        FixedRoomDungeonGenerator dungeonGenerator = new FixedRoomDungeonGenerator(dungeonWidth, dungeonLength);
+        var listOfRooms = dungeonGenerator.SelectRooms();
+    }
+
+    private void CreateAllRandomDungeon()
+    {
+        AllRandomDungeonGenerator dungeonGenerator = new AllRandomDungeonGenerator(dungeonWidth, dungeonLength);
         var listOfRooms = dungeonGenerator.CalculateRooms(maxIteration, roomWidthMin, roomLengthMin);
     }
 }

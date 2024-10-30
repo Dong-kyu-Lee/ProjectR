@@ -13,7 +13,7 @@ public class RoomGenerator
         this.roomWidthMin = roomWidthMin;
     }
 
-    internal List<RoomNode> GenerateRoomInGivenSpace(List<Node> roomSpace)
+    public List<RoomNode> GenerateRoomInGivenSpace(List<Node> roomSpace)
     {
         throw new NotImplementedException();
     }
