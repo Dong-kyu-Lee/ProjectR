@@ -1,21 +1,23 @@
-﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomNode : Node
+public class RoomNode
 {
-    public RoomNode(
-        Vector2Int bottomLeftAreaCorner,
-        Vector2Int topRightAreaCorner,
-        Node parentNode,
-        int index) : base(parentNode)
+    private Vector2Int roomPosition;
+    private Vector2Int parentRoomPosition;
+    private List<Vector2Int> childrenRoomPositions;
+
+    public Vector2Int RoomPosition { get => roomPosition; }
+
+    public RoomNode(Vector2Int roomPosition)
     {
-        this.BottomLeftAreaCorner = bottomLeftAreaCorner;
-        this.TopRightAreaCorner = topRightAreaCorner;
-        this.BottomRightAreaCorner = new Vector2Int(TopRightAreaCorner.x, BottomLeftAreaCorner.y);
-        this.TopLeftAreaCorner = new Vector2Int(BottomLeftAreaCorner.x, TopRightAreaCorner.y);
-        this.TreeLayerIndex = index;
+        this.roomPosition = roomPosition;
+        childrenRoomPositions = new List<Vector2Int>();
     }
 
-    public int Width { get => (int)(TopRightAreaCorner.x - TopLeftAreaCorner.x); }
-    public int Length { get => (int)(TopLeftAreaCorner.y - BottomLeftAreaCorner.y); }
+    public void AddChildrenRoomPosition(Vector2Int roomPosition)
+    {
+        childrenRoomPositions.Add(roomPosition);
+    }
 }

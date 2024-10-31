@@ -5,30 +5,18 @@ using UnityEngine;
 
 public class DungeonCreator : MonoBehaviour
 {
-    public int dungeonWidth;
-    public int dungeonLength;
-
-    [Header("Whole Random Only")]
-    public int roomWidthMin;
-    public int roomLengthMin;
-    public int maxIteration;
-    public int corridorWidth;
+    public int dungeonRow;
+    public int dungeonColumn;
 
     void Start()
     {
 
-        // CreateAllRandomDungeon();
     }
-
+    
+    // 선택된 던전 조각들을 Instantiate하는 함수
     private void CreateFixedRoomDungeon()
     {
-        FixedRoomDungeonGenerator dungeonGenerator = new FixedRoomDungeonGenerator(dungeonWidth, dungeonLength);
+        FixedRoomDungeonGenerator dungeonGenerator = new FixedRoomDungeonGenerator(dungeonRow, dungeonColumn);
         var listOfRooms = dungeonGenerator.SelectRooms();
-    }
-
-    private void CreateAllRandomDungeon()
-    {
-        AllRandomDungeonGenerator dungeonGenerator = new AllRandomDungeonGenerator(dungeonWidth, dungeonLength);
-        var listOfRooms = dungeonGenerator.CalculateRooms(maxIteration, roomWidthMin, roomLengthMin);
     }
 }
