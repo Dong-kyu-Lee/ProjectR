@@ -9,11 +9,14 @@ public class RoomNode
     private List<Vector2Int> childrenRoomPositions;
 
     public Vector2Int RoomPosition { get => roomPosition; }
+    public Vector2Int ParentRoomPosition { get => parentRoomPosition; }
 
-    public RoomNode(Vector2Int roomPosition)
+    public RoomNode(Vector2Int roomPosition, RoomNode parentNode = null)
     {
         this.roomPosition = roomPosition;
         childrenRoomPositions = new List<Vector2Int>();
+        if (parentNode == null) parentNode = this;
+        this.parentRoomPosition = parentNode.ParentRoomPosition;
     }
 
     public void AddChildrenRoomPosition(Vector2Int roomPosition)
