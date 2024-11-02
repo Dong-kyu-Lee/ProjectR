@@ -5,24 +5,32 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D playerRigidBody;
+
     Vector2 moveVector = new Vector2(0f, 0f);
+
+    public GameObject projectilePref;
+    public Camera playerCamera;
 
     public float moveSpeed;
     public float jumpPower;
     public float dashFactor;
     public float dashTime;
     public float dashCoolTime;
+    public float attackCoolTime;
 
     bool enableJump;
     bool enableDash;
+    bool enableAttack;
 
     void Start()
     {
         enableJump = true;
         enableDash = true;
+        enableAttack = true;
         dashFactor = 1.0f;
         dashTime = 0.2f;
         dashCoolTime = 1.0f;
+        attackCoolTime = 0.5f;
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -41,6 +49,11 @@ public class PlayerController : MonoBehaviour
             {
                 StartCoroutine(Dash());
             }
+        }
+
+        if (Input.GetMouseButtonDown(0) && enableAttack)
+        {
+            StartCoroutine(Attack());
         }
     }
 
@@ -77,6 +90,30 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(dashCoolTime);
             enableDash = true;
         }
+    }
+
+    // 공격
+    IEnumerator Attack()
+    {
+        enableAttack = false;
+
+        Vector3 curMouseVector = playerCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 spawnVector;
+        if (curMouseVector.x >= transform.position.x)
+        {
+            spawnVector = new Vector2(transform.position.x + 1.5f, transform.position.y);
+        }
+        else
+        {
+            spawnVector = new Vector2(transform.position.x - 1.5f, transform.position.y);
+        }
+
+        GameObject projectileObj = Instantiate(projectilePref, spawnVector, Quaternion.identity);
+        Vector2 velocityVector = new Vector2(curMouseVector.x - spawnVector.x, curMouseVector.y - spawnVector.y);
+        projectileObj.GetComponent<Projectile>().Velocity = velocityVector.normalized;
+
+        yield return new WaitForSeconds(attackCoolTime);
+        enableAttack = true;
     }
 
 
