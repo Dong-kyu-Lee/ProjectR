@@ -8,11 +8,14 @@ public class PlayerController : MonoBehaviour
 
     Vector2 moveVector = new Vector2(0f, 0f);
 
+    PlayerStatus playerStatus;
+
     public GameObject projectilePref;
     public Camera playerCamera;
 
-    public float moveSpeed;
+    float moveSpeed;
     public float jumpPower;
+    public float moveFactor;
     public float dashFactor;
     public float dashTime;
     public float dashCoolTime;
@@ -30,14 +33,16 @@ public class PlayerController : MonoBehaviour
         dashFactor = 1.0f;
         dashTime = 0.2f;
         dashCoolTime = 1.0f;
-        attackCoolTime = 0.5f;
+        moveFactor = 100f;
+        jumpPower = 900f;
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
+        playerStatus = gameObject.GetComponent<PlayerStatus>();
+        moveSpeed = playerStatus.MoveSpeed;
+        attackCoolTime = playerStatus.TotalAttackSpeed;
     }
 
     void Update()
     {
-        PlayerMove();
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
@@ -57,10 +62,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        PlayerMove();
+    }
+
     // 플레이어 좌우 이동 속도 지정
     void PlayerMove()
     {
-        moveVector.x = Input.GetAxis("Horizontal") * moveSpeed * dashFactor * Time.deltaTime;
+        moveVector.x = Input.GetAxis("Horizontal") * moveSpeed * moveFactor * dashFactor * Time.deltaTime;
         moveVector.y = playerRigidBody.velocity.y;
         playerRigidBody.velocity = moveVector;
     }
