@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class FixedRoomDungeonGenerator
 {
@@ -21,11 +22,13 @@ public class FixedRoomDungeonGenerator
         // TODO: 방들을 잇는 그래프 생성
         DungeonStructureGenerator dungeonStructureGenerator
              = new DungeonStructureGenerator(dungeonRow, dungeonColumn);
+        var roomNodes = dungeonStructureGenerator.CreateDungeonStructure();
+
         // TODO: 각 방 랜덤 선택
 
         // TODO: 조각의 통로와 벽, 위치 결정 후 리턴
 
-        List<RoomNode> roomNodes = new List<RoomNode>();
-        return roomNodes;
+        List<RoomNode> listToReturn = new List<RoomNode>();
+        return listToReturn;
     }
 }

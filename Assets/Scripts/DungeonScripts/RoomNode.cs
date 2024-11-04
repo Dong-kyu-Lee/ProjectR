@@ -8,15 +8,13 @@ public class RoomNode
     private Vector2Int parentRoomPosition;
     private List<Vector2Int> childrenRoomPositions;
 
-    public Vector2Int RoomPosition { get => roomPosition; }
-    public Vector2Int ParentRoomPosition { get => parentRoomPosition; }
+    public Vector2Int RoomPosition { get => roomPosition; set => roomPosition = value; }
+    public Vector2Int ParentRoomPosition { get => parentRoomPosition; set => parentRoomPosition = value; }
 
-    public RoomNode(Vector2Int roomPosition, RoomNode parentNode = null)
+    public RoomNode(Vector2Int roomPosition)
     {
         this.roomPosition = roomPosition;
         childrenRoomPositions = new List<Vector2Int>();
-        if (parentNode == null) parentNode = this;
-        this.parentRoomPosition = parentNode.ParentRoomPosition;
     }
 
     public void AddChildrenRoomPosition(Vector2Int roomPosition)

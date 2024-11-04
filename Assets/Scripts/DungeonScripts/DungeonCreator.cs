@@ -7,10 +7,11 @@ public class DungeonCreator : MonoBehaviour
 {
     public int dungeonRow;
     public int dungeonColumn;
+    public GameObject[] roomPrefabs;
 
     void Start()
     {
-
+        CreateFixedRoomDungeon();
     }
     
     // 선택된 던전 조각들을 Instantiate하는 함수
