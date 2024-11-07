@@ -23,9 +23,7 @@ public class FixedRoomDungeonGenerator
         DungeonStructureGenerator dungeonStructureGenerator
              = new DungeonStructureGenerator(dungeonRow, dungeonColumn);
         var roomNodes = dungeonStructureGenerator.CreateDungeonStructure();
-
-        // TODO: 각 방 랜덤 선택
-
+        
         // TODO: 조각의 통로와 벽, 위치 결정 후 리턴
 
         List<RoomNode> listToReturn = new List<RoomNode>();

@@ -29,18 +29,18 @@ public class DungeonStructureGenerator
             roomNodes.Add(new List<RoomNode>());
             for(int j = 0; j < dungeonColumn; ++j)
             {
-                roomNodes[i].Add(new RoomNode(new Vector2Int(0, 0)));
+                roomNodes[i].Add(new RoomNode(new Vector2Int(j, i)));
             }
         }
         
         Vector2Int root = new Vector2Int(1, 1);
         queue.Enqueue(root);
         visited[root.y, root.x] = true;
+        roomNodes[root.y][root.x].ParentRoomPosition = root;
 
         while(queue.Count != 0)
         {
             var room = queue.Dequeue();
-            roomNodes[room.y][room.x].RoomPosition = room;
 
             EnqueueSuitableChildRoom(room, roomNodes);
         }
@@ -48,7 +48,7 @@ public class DungeonStructureGenerator
         return roomNodes;
     }
 
-    // 현재 방 위치에서 이동 가능한 방(자식)을 탐색 후 큐에 삽입하는 함수
+    // 현재 방 위치에서 이동 가능한 방(자식)을 탐색 후 큐에 삽입하는 함수 (BFS와 유사)
     private void EnqueueSuitableChildRoom(Vector2Int room, List<List<RoomNode>> roomNodes)
     {
         int newRoomX = 0, newRoomY = 0;
