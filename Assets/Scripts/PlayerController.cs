@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class PlayerController : MonoBehaviour
     Vector2 moveVector = new Vector2(0f, 0f);
 
     PlayerStatus playerStatus;
+
+    public UnityEvent OnEnableCharacterInfoUI;
 
     public GameObject projectilePref;
     public Camera playerCamera;
@@ -24,12 +27,16 @@ public class PlayerController : MonoBehaviour
     bool enableJump;
     bool enableDash;
     bool enableAttack;
+    bool enableUI;
+    bool isPause;
 
     void Start()
     {
+        isPause = false;
         enableJump = true;
         enableDash = true;
         enableAttack = true;
+        enableUI = true;
         dashFactor = 1.0f;
         dashTime = 0.2f;
         dashCoolTime = 1.0f;
@@ -43,28 +50,40 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!isPause)
         {
-            Jump();
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            if (enableDash)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                StartCoroutine(Dash());
+                Jump();
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                if (enableDash)
+                {
+                    StartCoroutine(Dash());
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                EnableCharacterUI();
+            }
+
+            if (Input.GetMouseButtonDown(0) && enableAttack)
+            {
+                StartCoroutine(Attack());
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && enableAttack)
-        {
-            StartCoroutine(Attack());
-        }
     }
 
     private void FixedUpdate()
     {
-        PlayerMove();
+        if (!isPause)
+        {
+            PlayerMove();
+        }
     }
 
     // 플레이어 좌우 이동 속도 지정
@@ -83,6 +102,24 @@ public class PlayerController : MonoBehaviour
             enableJump = false;
             playerRigidBody.AddForce(new Vector2(0f, jumpPower));
         }
+    }
+
+    // 캐릭터 정보 UI 활성화
+    void EnableCharacterUI()
+    {
+        if (enableUI)
+        {
+            isPause = true;
+            enableUI = false;
+            OnEnableCharacterInfoUI.Invoke();
+        }
+    }
+
+    // 캐릭터 정보 UI 비활성화
+    public void DisableCharacterUI()
+    {
+        isPause = false;
+        enableUI = true;
     }
 
     // 대쉬
