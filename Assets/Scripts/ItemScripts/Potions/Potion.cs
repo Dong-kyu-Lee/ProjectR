@@ -16,19 +16,19 @@ public enum PotionType
 public abstract class Potion : MonoBehaviour
 {
     [SerializeField]
-    private Item item;  //기본적인 아이템의 정보를 가지는 스크립터블 오브젝트
+    private BasicItemData basicItemData;  //기본적인 아이템의 정보를 가지는 스크립터블 오브젝트
     [SerializeField]
     private PotionType type;
 
     public void Awake()
     {
-        GetComponent<SpriteRenderer>().sprite = item.itemSprite;
+        GetComponent<SpriteRenderer>().sprite = basicItemData.itemSprite;
     }
 
-    public string ItemName { get { return item.itemName; } }
-    public string ItemDescription { get { return item.itemDescription; } }
-    public int ItemID { get { return item.itemID; } }
-    public Sprite Sprite { get { return item.itemSprite; } }
+    public string ItemName { get { return basicItemData.itemName; } }
+    public string ItemDescription { get { return basicItemData.itemDescription; } }
+    public int ItemID { get { return basicItemData.itemID; } }
+    public Sprite Sprite { get { return basicItemData.itemSprite; } }
     public PotionType Type { get { return type; } }
 
     //플레이어와 충돌 시 포션 사용
