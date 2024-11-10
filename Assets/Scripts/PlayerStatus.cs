@@ -40,6 +40,7 @@ public class PlayerStatus : Status
         {
             additionalDamage = value;
             totalDamage = Damage + (Damage * additionalDamage * 0.01f);
+            CriticalDamage = totalDamage * 0.5f;
         } 
     }
 
@@ -65,19 +66,20 @@ public class PlayerStatus : Status
 
     void Awake()
     {
-        Hp = 100;
-        Damage = 10;
+        Hp = 100f;
+        Damage = 0;
         DamageReduction = 0;
         AttackSpeed = 1.5f;
-        MoveSpeed = 3;
+        MoveSpeed = 3f;
 
-        level = 1;
+        level = 1f;
         exp = 0;
+        criticalDamage = 0;
         AdditionalDamage = 0;
         AddtionalDamageReduction = 0;
         AdditionalAttackSpeed = 0;
+        totalAttackSpeed = 1.5f;
         criticalPercent = 0;
-        criticalDamage = 0;
         priceAdditional = 0;
     }
 
