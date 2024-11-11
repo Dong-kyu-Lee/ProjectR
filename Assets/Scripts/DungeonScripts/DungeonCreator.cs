@@ -19,5 +19,11 @@ public class DungeonCreator : MonoBehaviour
     {
         FixedRoomDungeonGenerator dungeonGenerator = new FixedRoomDungeonGenerator(dungeonRow, dungeonColumn);
         var listOfRooms = dungeonGenerator.SelectRooms();
+
+        // 조건에 맞는 방들을 랜덤으로 선택해 생성
+        foreach( var room in listOfRooms )
+        {
+            
+        }
     }
 }

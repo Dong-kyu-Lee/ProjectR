@@ -17,7 +17,14 @@ public class RoomNode
     private bool[] openNeededWay = { false, false, false, false };
 
     public Vector2Int RoomPosition { get => roomPosition; set => roomPosition = value; }
-    public Vector2Int ParentRoomPosition { get => parentRoomPosition; set => parentRoomPosition = value; }
+    public Vector2Int ParentRoomPosition { 
+        get => parentRoomPosition;
+        set
+        {
+            CalculateWhichWayNeedOpen(value);
+            parentRoomPosition = value;
+        }
+    }
 
     public RoomNode(Vector2Int roomPosition)
     {
@@ -28,9 +35,10 @@ public class RoomNode
     public void AddChildrenRoomPosition(Vector2Int roomPosition)
     {
         childrenRoomPositions.Add(roomPosition);
+        CalculateWhichWayNeedOpen(roomPosition);
     }
 
-    // 현재 노드의 위치와 pos위치를 비교해 4개의 통로 중 어떤 곳과 연결되어 있는지 판단하는 함수
+    // 현재 노드의 위치와 pos위치를 비교해 4개의 통로 중 어떤 곳을 열어야 할 지 결정하는 함수
     private void CalculateWhichWayNeedOpen(Vector2Int pos)
     {
         if (roomPosition + new Vector2Int(0, 1) == pos) openNeededWay[0] = true;

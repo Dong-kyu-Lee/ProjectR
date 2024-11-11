@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class FixedRoomDungeonGenerator
@@ -19,14 +20,20 @@ public class FixedRoomDungeonGenerator
     // 던전 조각들을 알고리즘에 따라 선택하는 함수
     public List<RoomNode> SelectRooms()
     {
-        // TODO: 방들을 잇는 그래프 생성
+        // 방들을 잇는 그래프 생성
         DungeonStructureGenerator dungeonStructureGenerator
              = new DungeonStructureGenerator(dungeonRow, dungeonColumn);
-        var roomNodes = dungeonStructureGenerator.CreateDungeonStructure();
-        
-        // TODO: 조각의 통로와 벽, 위치 결정 후 리턴
 
+        // 조각의 통로와 벽, 위치 결정 후 리턴
+        var roomNodes = dungeonStructureGenerator.CreateDungeonStructure();
         List<RoomNode> listToReturn = new List<RoomNode>();
+        for(int i = 0; i < roomNodes.Count; ++i)
+        {
+            for(int j = 0;j <  roomNodes[i].Count; ++j)
+            {
+                listToReturn.Add(roomNodes[i][j]);
+            }
+        }
         return listToReturn;
     }
 }
