@@ -17,7 +17,7 @@ public class FixedRoomDungeonGenerator
         this.dungeonColumn = dungeonColumn;
     }
 
-    // 던전 조각들을 알고리즘에 따라 선택하는 함수
+    // 방 프리펩을 놓을 위치와 방들 간의 연결 정보를 담은 노드들을 생성하는 함수
     public List<RoomNode> SelectRooms()
     {
         // 방들을 잇는 그래프 생성

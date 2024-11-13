@@ -48,7 +48,7 @@ public class DungeonStructureGenerator
         return roomNodes;
     }
 
-    // 현재 방 위치에서 이동 가능한 방(자식)을 탐색 후 큐에 삽입하는 함수 (BFS와 유사)
+    // 현재 방 위치에서 이동 가능한 방(자식)을 탐색 후 큐에 삽입하는 함수
     private void EnqueueSuitableChildRoom(Vector2Int room, List<List<RoomNode>> roomNodes)
     {
         int newRoomX = 0, newRoomY = 0;
