@@ -33,7 +33,7 @@ public class DungeonStructureGenerator
             }
         }
         
-        Vector2Int root = new Vector2Int(1, 1);
+        Vector2Int root = new Vector2Int(Random.Range(0, dungeonColumn), Random.Range(0, dungeonRow));
         queue.Enqueue(root);
         visited[root.y, root.x] = true;
         roomNodes[root.y][root.x].ParentRoomPosition = root;

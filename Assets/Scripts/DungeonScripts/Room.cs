@@ -13,14 +13,10 @@ public class Room : MonoBehaviour
     public TileBase backgroundTileBase;
 
     [Header("Gate")]
-    [SerializeField]
-    private bool isUpGateOpen;
-    [SerializeField]
-    private bool isDownGateOpen;
-    [SerializeField]
-    private bool isRightGateOpen;
-    [SerializeField]
-    private bool isLeftGateOpen;
+    public bool isUpOpenable;
+    public bool isDownOpenable;
+    public bool isRightOpenable;
+    public bool isLeftOpenable;
 
     void Start()
     {
@@ -34,40 +30,36 @@ public class Room : MonoBehaviour
         }
     }
 
-    // 열려야 할 통로의 벽 타일을 바꾸는 함수
+    // 통로가 되어야 할 곳의 벽 타일을 지우는 함수
     public void OpenGateTile(bool[] openedGateArray)
     {
         if(openedGateArray[0] == true) // 위
         {
-            groundTilemap.SetTile(new Vector3Int(8, 19, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(9, 19, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(10, 19, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(11, 19, 0), backgroundTileBase);
-            isUpGateOpen = true;
+            groundTilemap.SetTile(new Vector3Int(8, 19, 0), null);
+            groundTilemap.SetTile(new Vector3Int(9, 19, 0), null);
+            groundTilemap.SetTile(new Vector3Int(10, 19, 0), null);
+            groundTilemap.SetTile(new Vector3Int(11, 19, 0), null);
         }
         if (openedGateArray[1] == true) // 오른쪽
         {
-            groundTilemap.SetTile(new Vector3Int(19, 8, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(19, 9, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(19, 10, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(19, 11, 0), backgroundTileBase);
-            isRightGateOpen = true;
+            groundTilemap.SetTile(new Vector3Int(19, 8, 0), null);
+            groundTilemap.SetTile(new Vector3Int(19, 9, 0), null);
+            groundTilemap.SetTile(new Vector3Int(19, 10, 0), null);
+            groundTilemap.SetTile(new Vector3Int(19, 11, 0), null);
         }
         if(openedGateArray[2] == true) // 아래
         {
-            groundTilemap.SetTile(new Vector3Int(8, 0, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(9, 0, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(10, 0, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(11, 0, 0), backgroundTileBase);
-            isDownGateOpen = true;
+            groundTilemap.SetTile(new Vector3Int(8, 0, 0), null);
+            groundTilemap.SetTile(new Vector3Int(9, 0, 0), null);
+            groundTilemap.SetTile(new Vector3Int(10, 0, 0), null);
+            groundTilemap.SetTile(new Vector3Int(11, 0, 0), null);
         }
         if(openedGateArray[3] == true) // 왼쪽
         {
-            groundTilemap.SetTile(new Vector3Int(0, 8, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(0, 9, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(0, 10, 0), backgroundTileBase);
-            groundTilemap.SetTile(new Vector3Int(0, 11, 0), backgroundTileBase);
-            isLeftGateOpen = true;
+            groundTilemap.SetTile(new Vector3Int(0, 8, 0), null);
+            groundTilemap.SetTile(new Vector3Int(0, 9, 0), null);
+            groundTilemap.SetTile(new Vector3Int(0, 10, 0), null);
+            groundTilemap.SetTile(new Vector3Int(0, 11, 0), null);
         }
 
         gateTilemap.SetActive(false);

@@ -12,12 +12,11 @@ public class DungeonCreator : MonoBehaviour
     public GameObject[] roomPrefabs;
 
     [SerializeField]
-    private List<GameObject> generatedRooms;
+    private List<GameObject> generatedRooms = new List<GameObject>();
 
     void Start()
     {
         CreateFixedRoomDungeon();
-        generatedRooms = new List<GameObject>();
     }
     
     // 선택된 던전 조각들을 Instantiate하는 함수
