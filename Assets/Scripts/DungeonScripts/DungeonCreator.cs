@@ -9,13 +9,18 @@ public class DungeonCreator : MonoBehaviour
     public int dungeonRow;
     public int dungeonColumn;
     public GameObject grid;
-    public GameObject[] roomPrefabs;
+    public RoomContainer roomContainer;
 
     [SerializeField]
     private List<GameObject> generatedRooms = new List<GameObject>();
 
     void Start()
     {
+        if (roomContainer == null)
+        {
+            gameObject.AddComponent<RoomContainer>();
+            roomContainer = GetComponent<RoomContainer>();
+        }
         CreateFixedRoomDungeon();
     }
     
@@ -31,10 +36,11 @@ public class DungeonCreator : MonoBehaviour
             Vector3 generatePosition = new Vector3(20 * room.RoomPosition.x, 20 * room.RoomPosition.y, 0);
 
             // TODO : room 프리펩 여러 종류 구현 후 배치 조건에 따라 if문 생성
+            var roomPrefabs = roomContainer.GetRooms(room.OpenNeededGate);
 
-            generatedRooms.Add(Instantiate(roomPrefabs[Random.Range(0, roomPrefabs.Length)], generatePosition,
+            generatedRooms.Add(Instantiate(roomPrefabs[Random.Range(0, roomPrefabs.Count)].roomPrefab, generatePosition,
                 transform.rotation, grid.transform));
-            // 방의 Gate를 닫는 작업
+            // 방의 통로를 만드는 작업
             generatedRooms[generatedRooms.Count - 1].GetComponent<Room>().OpenGateTile(room.OpenNeededGate);
         }
     }
