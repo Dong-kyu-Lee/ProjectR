@@ -18,10 +18,11 @@ public class UpgradeStatus : MonoBehaviour
     public int Dexterity { get { return dexterity; } set { dexterity = value; } }
     public int Mystery { get { return mystery; } set { mystery = value; } }
 
-    private HashSet<string> unlockedEffects = new HashSet<string>();  // 중복 실행 방지용
+    private HashSet<string> unlockedEffects = new HashSet<string>();  // 중복 실행 방지용.
 
-    [SerializeField] private Status status;
+    [SerializeField] private PlayerStatus playerStatus;
     [SerializeField] private StatusEffect statusEffect;
+    [SerializeField] private StatusValueText statusValueText;
 
     void Awake()
     {
@@ -33,12 +34,15 @@ public class UpgradeStatus : MonoBehaviour
         mystery = 0;
     }
 
+    // 테스트용.
     private void FixedUpdate()
     {
-        Debug.Log("Force : " + force);
+        Debug.Log("Damage : " + playerStatus.Damage);
+        Debug.Log("CriticalPercent : " + playerStatus.CriticalPercent);
+        Debug.Log("CriticalDamage : " + playerStatus.CriticalDamage);
     }
 
-    // 스킬 포인트 사용, 업그레이드 스테이터스 증가
+    // 스킬 포인트 사용, 업그레이드 스테이터스 증가.
     public void IncreaseStat(string statName)
     {
         if (skillPoint <= 0)
@@ -51,7 +55,7 @@ public class UpgradeStatus : MonoBehaviour
         {
             case "force":
                 force++;
-                status.Damage += 1;
+                playerStatus.Damage += 1;
                 CheckUnlock("force", force);
                 break;
             case "indurance":
@@ -60,6 +64,7 @@ public class UpgradeStatus : MonoBehaviour
                 break;
             case "critical":
                 critical++;
+                playerStatus.CriticalPercent += 2;
                 CheckUnlock("critical", critical);
                 break;
             case "dexterity":
@@ -76,13 +81,14 @@ public class UpgradeStatus : MonoBehaviour
         }
 
         skillPoint--;
-        Debug.Log($"{statName} 1 증가. 남은 스킬포인트 : {skillPoint}");
+        statusValueText.SetupValueText(this);
     }
 
-    // 스테이터스 초기화
+    // 스테이터스 초기화.
     public void ResetStat()
     {
-        status.Damage -= force;
+        playerStatus.Damage -= force;
+        playerStatus.CriticalPercent -= critical * 2;
         force = indurance = critical = dexterity = mystery = 0;
         CheckUnlock("force", force);
         CheckUnlock("indurance", indurance);
@@ -91,7 +97,7 @@ public class UpgradeStatus : MonoBehaviour
         CheckUnlock("mystery", mystery);
     }
 
-    // 특수 효과 해금 여부 확인
+    // 특수 효과 해금 여부 확인.
     private void CheckUnlock(string statName, int statValue)
     {
         int[] unlockPoints = { 1, 4, 7, 10, 13, 16 };
