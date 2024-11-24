@@ -7,10 +7,16 @@ public class UpgradeOnClick : MonoBehaviour
 {
     [SerializeField] private UpgradeStatus upgradeStatus;
     [SerializeField] private StatusValueText statusValueText;
+    [SerializeField] private LevelUp levelup;
 
     public void IncreaseStatOnClick(string statName)
     {
         upgradeStatus.IncreaseStat(statName);
+    }
+
+    public void IncreaseExpOnClick(int value)
+    {
+        levelup.IncreaseExp(value);
     }
 
     public void IncreaseSPOnClick()
@@ -19,8 +25,8 @@ public class UpgradeOnClick : MonoBehaviour
         statusValueText.skillpointText.text = "스킬포인트 : " + upgradeStatus.SkillPoint;
     }
 
-    public void ResetStatOnClick()
+    public void ResetLevelOnClick()
     {
-        upgradeStatus.ResetStat();
+        levelup.ResetLevel();
     }
 }

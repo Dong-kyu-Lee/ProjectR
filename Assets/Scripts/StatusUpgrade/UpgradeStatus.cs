@@ -38,8 +38,7 @@ public class UpgradeStatus : MonoBehaviour
     private void FixedUpdate()
     {
         Debug.Log("Damage : " + playerStatus.Damage);
-        Debug.Log("CriticalPercent : " + playerStatus.CriticalPercent);
-        Debug.Log("CriticalDamage : " + playerStatus.CriticalDamage);
+        Debug.Log("Hp : " + playerStatus.Hp);
     }
 
     // 스킬 포인트 사용, 업그레이드 스테이터스 증가.
@@ -90,11 +89,13 @@ public class UpgradeStatus : MonoBehaviour
         playerStatus.Damage -= force;
         playerStatus.CriticalPercent -= critical * 2;
         force = indurance = critical = dexterity = mystery = 0;
+        skillPoint = 0;
         CheckUnlock("force", force);
         CheckUnlock("indurance", indurance);
         CheckUnlock("critical", critical);
         CheckUnlock("dexterity", dexterity);
         CheckUnlock("mystery", mystery);
+        statusValueText.SetupValueText(this);
     }
 
     // 특수 효과 해금 여부 확인.

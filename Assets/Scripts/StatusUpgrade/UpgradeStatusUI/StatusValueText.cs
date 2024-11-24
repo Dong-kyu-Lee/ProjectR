@@ -12,6 +12,7 @@ public class StatusValueText : MonoBehaviour
     public Text mysteryText;
     public Text skillpointText;
 
+    // 스테이터스 값 표시.
     public void SetupValueText(UpgradeStatus upgradeStatus)
     {
         forceText.text = "" + upgradeStatus.Force;
