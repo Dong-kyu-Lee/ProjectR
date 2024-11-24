@@ -3051,6 +3051,7 @@ GameObject:
   - component: {fileID: 9036694678958889534}
   - component: {fileID: 3876051710393344225}
   - component: {fileID: 3842903198805543405}
+  - component: {fileID: 1576205176}
   m_Layer: 5
   m_Name: MeleeEnemy
   m_TagString: Untagged
@@ -3105,7 +3106,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -3143,6 +3144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStatus: {fileID: 3842903198805543405}
+  attackRange: {fileID: 1576205176}
 --- !u!114 &3842903198805543405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3156,6 +3158,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 40843861306502d48ae24fd524055e43, type: 2}
+--- !u!61 &1576205176
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7154700476304014582}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.4}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.2}
+  m_EdgeRadius: 0
 --- !u!1 &7351776412024414394
 GameObject:
   m_ObjectHideFlags: 0

@@ -250,6 +250,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3876051710393344225, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+      propertyPath: enemyAnimator
+      value: 
+      objectReference: {fileID: 936099892}
+    - target: {fileID: 3876051710393344225, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+      propertyPath: attackRangeCol
+      value: 
+      objectReference: {fileID: 1576205176}
     - target: {fileID: 7154700476304014582, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy
@@ -3602,6 +3610,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 902699345}
   m_CullTransparentMesh: 1
+--- !u!95 &936099892 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8819960237501646309, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+  m_PrefabInstance: {fileID: 97995257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &965229787
 GameObject:
   m_ObjectHideFlags: 0
@@ -6299,6 +6312,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557490274}
   m_CullTransparentMesh: 1
+--- !u!61 &1576205176 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1576205176, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+  m_PrefabInstance: {fileID: 97995257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1591160799
 GameObject:
   m_ObjectHideFlags: 0

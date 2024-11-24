@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     protected EnemyStatus enemyStatus;
 
+    [SerializeField]
+    protected Animator enemyAnimator;
+
     void Start()
     {
         

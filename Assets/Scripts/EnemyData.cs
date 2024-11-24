@@ -28,6 +28,6 @@ public class EnemyData : ScriptableObject
     public float DamageReduction { get { return damageReduction; } }
     public float AttackSpeed { get { return attackSpeed; } }
     public float MoveSpeed { get { return moveSpeed; } }
-    public float AttackRange { get { return AttackRange; } }
+    public float AttackRange { get { return attackRange; } }
     public float SightRange { get { return sightRange; } }
 }
