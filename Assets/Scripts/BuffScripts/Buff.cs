@@ -5,14 +5,16 @@ using UnityEngine;
 public enum BuffType
 {
     attackDamageIncrease,
+    DamageReductionIncrease,
+    Bless
 }
 
 public abstract class Buff
 {
-    protected float currentDuration;        //남은 버프 지속시간.
+    protected float currentDuration;        //남은 버프 지속시간
     protected GameObject targetObject;      //버프 적용 대상
-    protected int currentBuffLevel = 0;     //버프 중첩 횟수.
-    protected int maxBuffLevel = 3;
+    protected int currentBuffLevel = 0;     //현재 버프 레벨
+    protected int maxBuffLevel = 3;         //최대 버프 레벨
 
     public float CurrentDuration { 
         get { return currentDuration; }
@@ -38,15 +40,26 @@ public abstract class Buff
         targetObject = target;
     }
 
-    //버프를 target에게 적용시키는 메서드.
+    //특정 스탯 증가량을 대상에게 적용시키는 메서드
     public abstract void ApplyBuffEffect();
 
-    //버프를 중첩시키는 메서드
-    public abstract void BuffOverlap(float duration);
-    
-    //target에게 적용된 버프를 제거하는 메서드
+    //대상에게 적용된 스탯증가량을 제거하는 메서드
     public abstract void RemoveBuffEffect();
 
-    //버프를 업그레이드 후 타겟에게 적용시키는 메서드
-    protected abstract void BuffUpgrade();
+    //버프를 중첩시키는 메서드
+    public virtual void BuffOverlap(float duration)
+    {
+        if (currentBuffLevel < maxBuffLevel - 1)
+        {
+            currentBuffLevel++;
+            ApplyBuffEffect();
+        }
+        currentDuration += duration;
+    }
+
+    //버프가 지속되는 동안 효과를 정의하는 메서드
+    public virtual void DoActionOnActivate(float tickDuration = 1.0f) 
+    {
+        CurrentDuration -= tickDuration;
+    }
 }
