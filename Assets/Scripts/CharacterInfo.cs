@@ -60,14 +60,14 @@ public class CharacterInfo : MonoBehaviour
         }
 
         float additionalDamageValue = playerStatus.Damage * playerStatus.AdditionalDamage * 0.01f;
-        float additionalDamageReductionValue = playerStatus.DamageReduction * playerStatus.AddtionalDamageReduction * 0.01f;
+        float additionalDamageReductionValue = playerStatus.DamageReduction * playerStatus.AdditionalDamageReduction * 0.01f;
         statusObjList[0].GetComponent<Text>().text = "레벨 : " + playerStatus.Level;
         // 경험치 추가 예정.
         statusObjList[1].GetComponent<Text>().text = "피해량 : " + playerStatus.TotalDamage + "(" + playerStatus.Damage + "+" + "<color=yellow>" + additionalDamageValue + "</color>" + "<color=black>)</color>";
         statusObjList[2].GetComponent<Text>().text = "추가 피해량 : " + playerStatus.AdditionalDamage + "%";
         statusObjList[3].GetComponent<Text>().text = "치명타 확률 : " + playerStatus.CriticalPercent + "%";
         statusObjList[4].GetComponent<Text>().text = "피해 감소량 : " + playerStatus.TotalDamageReduction + "(" + playerStatus.DamageReduction + "+" + "<color=yellow>" + additionalDamageReductionValue + "</color>" + "<color=black>)</color>";
-        statusObjList[5].GetComponent<Text>().text = "추가 피해 감소량 : " + playerStatus.AddtionalDamageReduction + "%";
+        statusObjList[5].GetComponent<Text>().text = "추가 피해 감소량 : " + playerStatus.AdditionalDamageReduction + "%";
         statusObjList[6].GetComponent<Text>().text = "공격속도 : " + playerStatus.AttackSpeed;
         statusObjList[7].GetComponent<Text>().text = "이동속도 : " + playerStatus.MoveSpeed;
         statusObjList[8].GetComponent<Text>().text = "재화 획득량 : " + playerStatus.PriceAdditional;
