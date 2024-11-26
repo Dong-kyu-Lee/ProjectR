@@ -30,6 +30,12 @@ public class BuffFactory
             case BuffType.Bless :
                 buff = new BlessBuff(duration, targetObject);
                 break;
+            case BuffType.Raging:
+                buff = new RagingBuff(duration, targetObject);
+                break;
+            default:
+                buff = null;
+                break;
         }
 
         return buff;

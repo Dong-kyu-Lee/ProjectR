@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlessBuff : Buff
 {
-    private float[] healAmount = { 0.1f, 0.2f, 0.7f };    //틱(0.1초)당 체력 회복 량
+    private float[] healAmount = { 1.0f, 2.0f, 3.0f };    //틱(0.1초)당 체력 회복 량
 
     public BlessBuff(float duration, GameObject target) : base(duration, target) { }
 
@@ -13,7 +13,6 @@ public class BlessBuff : Buff
     {
         PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
         playerStatus.Hp += healAmount[currentBuffLevel];
-        Debug.Log($"플레이어 도트힐 제공 : {playerStatus.Hp}");
 
         CurrentDuration -= tickDuration;
     }
@@ -21,12 +20,10 @@ public class BlessBuff : Buff
     //대상에게 특정 스탯 증가량을 적용시키는 메서드. 하는 일 없음.
     public override void ApplyBuffEffect()
     {
-        Debug.Log("축복 버프 실행");
     }
 
     //대상에게 적용된 스탯 증가량을 해제 메서드. 하는 일 없음.
     public override void RemoveBuffEffect()
     {
-        Debug.Log("축복 버프 해제");
     }
 }

@@ -5,40 +5,21 @@ using UnityEngine;
 
 public class PlayerBuffManager : MonoBehaviour
 {
-    private Dictionary<BuffType, Buff> activeBuffList = new Dictionary<BuffType, Buff>();
-    private BuffFactory buffFactory;
+    private Dictionary<BuffType, Buff> activeBuffDict = new Dictionary<BuffType, Buff>();
+    private BuffFactory buffFactory;    //버프 생성을 위한 팩토리 클래스
 
     private void Start()
     {
         buffFactory = new BuffFactory(gameObject);
-        ActivateBuff(BuffType.Bless, 5);
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            ActivateBuff(BuffType.DamageReductionIncrease, 3);
-
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            float dmg = gameObject.GetComponent<PlayerStatus>().AddtionalDamageReduction;
-            Debug.Log($"현재 추가 방어력 : {dmg}");
-        }
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            DeActivateAllBuffs();
-        }
-
-    }
 
     //BuffType에 해당하는 버프를 생성하고 활성화 시키는 메서드
     public void ActivateBuff(BuffType type, float duration = 10.0f)
     {
         if (isBuffActive(type))
         {
-            activeBuffList[type].BuffOverlap(duration);
+            activeBuffDict[type].BuffOverlap(duration);
             return;
         }
 
@@ -48,19 +29,18 @@ public class PlayerBuffManager : MonoBehaviour
             return;
         }
 
-        activeBuffList.Add(type, buff);
+        activeBuffDict.Add(type, buff);
         StartCoroutine(StartBuffEffect(type));
     }
 
     //버프 효과 처리 코루틴
     public IEnumerator StartBuffEffect(BuffType type)
     {
-        activeBuffList[type].ApplyBuffEffect();
-        Debug.Log("버프 활성화 시작");
+        activeBuffDict[type].ApplyBuffEffect();
 
-        while (activeBuffList[type].CurrentDuration > 0.0f)
+        while (activeBuffDict[type].CurrentDuration > 0.0f)
         {
-            activeBuffList[type].DoActionOnActivate(0.1f);
+            activeBuffDict[type].DoActionOnActivate(0.1f);
             yield return new WaitForSeconds(0.1f);
         }
         DeActivateBuff(type);
@@ -69,11 +49,10 @@ public class PlayerBuffManager : MonoBehaviour
     //Type에 해당하는 버프를 해제하는 메서드
     public void DeActivateBuff(BuffType type)
     {
-        if(activeBuffList.ContainsKey(type))
+        if(activeBuffDict.ContainsKey(type))
         {
-            activeBuffList[type].RemoveBuffEffect();
-            activeBuffList.Remove(type);
-            Debug.Log("버프삭제 완료");
+            activeBuffDict[type].RemoveBuffEffect();
+            activeBuffDict.Remove(type);
         }
         else
         {
@@ -84,18 +63,18 @@ public class PlayerBuffManager : MonoBehaviour
     //활성화 된 모든 버프 해제 메서드
     public void DeActivateAllBuffs()
     {
-        if (activeBuffList.Count == 0) return;
+        if (activeBuffDict.Count == 0) return;
 
-        foreach(Buff target in activeBuffList.Values)
+        foreach(Buff target in activeBuffDict.Values)
         {
             target.RemoveBuffEffect();
         }
         StopAllCoroutines();
-        activeBuffList.Clear();
+        activeBuffDict.Clear();
     }
 
     public bool isBuffActive(BuffType type)
     {
-        return activeBuffList.ContainsKey(type);
+        return activeBuffDict.ContainsKey(type);
     }
 }

@@ -6,14 +6,15 @@ public enum BuffType
 {
     attackDamageIncrease,
     DamageReductionIncrease,
-    Bless
+    Bless,
+    Raging
 }
 
 public abstract class Buff
 {
     protected float currentDuration;        //남은 버프 지속시간
     protected GameObject targetObject;      //버프 적용 대상
-    protected int currentBuffLevel = 0;     //현재 버프 레벨
+    protected int currentBuffLevel = 0;     //현재 버프 레벨 (0 ~ maxBuffLevel - 1 의 값을 가짐)
     protected int maxBuffLevel = 3;         //최대 버프 레벨
 
     public float CurrentDuration { 

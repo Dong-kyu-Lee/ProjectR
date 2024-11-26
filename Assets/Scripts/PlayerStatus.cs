@@ -18,7 +18,7 @@ public class PlayerStatus : Status
 
     public float Level { get { return level; } set { level = value; } }
     public float CriticalPercent { get { return criticalPercent; } set { criticalPercent = value; } }
-    public float CriticalDamage { get { return criticalDamage; } set { criticalDamage = value; } }
+    public float CriticalDamage { get { return criticalDamage; } set { criticalDamage = (value < 0.0f) ? 0 : value;  } }
     public float PriceAdditional { get { return priceAdditional; } set { priceAdditional = value; } }
     public float TotalDamage { get { return totalDamage; } }
     public float TotalDamageReduction { get { return totalDamageReduction; } }
@@ -44,7 +44,7 @@ public class PlayerStatus : Status
         } 
     }
 
-    public float AddtionalDamageReduction
+    public float AdditionalDamageReduction
     {
         get { return additionalDamageReduction; }
         set
@@ -76,7 +76,7 @@ public class PlayerStatus : Status
         exp = 0;
         criticalDamage = 0;
         AdditionalDamage = 0;
-        AddtionalDamageReduction = 0;
+        AdditionalDamageReduction = 0;
         AdditionalAttackSpeed = 0;
         totalAttackSpeed = 1.5f;
         criticalPercent = 0;
