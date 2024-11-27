@@ -20,4 +20,10 @@ public class EnemySpawner : MonoBehaviour
             secondWaveEnemy.SetActive(false);
         }
     }
+
+    public void SpawnEnemy(bool isSecondWave)
+    {
+        if (!isSecondWave) firstWaveEnemy.SetActive(true);
+        else secondWaveEnemy.SetActive(true);
+    }
 }

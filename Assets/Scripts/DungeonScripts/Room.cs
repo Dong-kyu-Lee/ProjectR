@@ -3,14 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
 public class Room : MonoBehaviour
 {
-    public GameObject roomPrefab;
     public Tilemap groundTilemap;
     public GameObject gateTilemap;
 
     public List<GameObject> enemySpawnPoint = new List<GameObject>();
     public List<GameObject> interactableObjPoint = new List<GameObject>();
+
+    public Transform playerSpawnPosition;
+    public Transform finishSpotPosition;
+
+    [SerializeField]
+    private Vector3 bottomLeftCorner;
+    [SerializeField]
+    private Vector3 topRightCorner;
+
+    public Vector3 BottomLeftCorner { get => bottomLeftCorner; }
+    public Vector3 TopRightcorner { get => topRightCorner; }
 
     [Header("Gate")]
     public bool isUpOpenable;
@@ -20,6 +31,7 @@ public class Room : MonoBehaviour
 
     [Header("Corner Tiles")]
     // 통로 가장자리 부분의 자연스럽지 않은 일자 타일을 코너 타일로 바꾸기 위한 타일 데이터
+    // 추후 타일 에셋 관리 클래스를 만들고 그 클래스에서 타일 정보를 가져오도록 바꿀 것.
     [SerializeField] private TileBase rightDownCornerTile;
     [SerializeField] private TileBase leftDownCornerTile;
     [SerializeField] private TileBase rightUpCornerTile;
@@ -31,17 +43,18 @@ public class Room : MonoBehaviour
     [SerializeField] private TileBase upSideTile;
     [SerializeField] private TileBase downSideTile;
 
-
-    void Start()
+    void OnEnable()
     {
-        if(gateTilemap == null)
+        if(playerSpawnPosition == null)
         {
-            Debug.LogError($"{gameObject.name} doesn't have Gate Tilemap property");
+            Debug.LogError($"Player Spawn Position is null");
         }
-        if(groundTilemap == null)
+        if(finishSpotPosition == null)
         {
-            Debug.LogError($"{gameObject.name} doesn't have Ground Tilemap property");
+            Debug.LogError("Finish Spot Position is null");
         }
+        playerSpawnPosition.gameObject.SetActive(false);
+        finishSpotPosition.gameObject.SetActive(false);
     }
 
     // 통로가 되어야 할 곳의 벽 타일을 지우는 함수
@@ -112,5 +125,18 @@ public class Room : MonoBehaviour
         }
 
         gateTilemap.SetActive(false);
+    }
+
+    // 해당 방의 경계값을 왼쪽 아래 좌표와 오른쪽 위 좌표로 설정하는 함수
+    public void SetRoomBoundary(Vector3 bottomLeftCorner, Vector3 topRightCorner)
+    {
+        this.bottomLeftCorner = bottomLeftCorner;
+        this.topRightCorner = topRightCorner;
+    }
+
+    // 도착 지점을 활성화하는 함수
+    public void ActiveFinishSpot()
+    {
+        finishSpotPosition.gameObject.SetActive(true);
     }
 }

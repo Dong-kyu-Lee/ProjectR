@@ -18,7 +18,7 @@ public class FixedRoomDungeonGenerator
     }
 
     // 방 프리펩을 놓을 위치와 방들 간의 연결 정보를 담은 노드들을 생성하는 함수
-    public List<RoomNode> SelectRooms()
+    public List<RoomNode> CreateRoomNodes()
     {
         // 방들을 잇는 그래프 생성
         DungeonStructureGenerator dungeonStructureGenerator

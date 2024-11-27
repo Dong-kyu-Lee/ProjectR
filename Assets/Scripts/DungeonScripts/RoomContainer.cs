@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RoomContainer : MonoBehaviour
 {
-    public List<Room> rooms;
+    public List<GameObject> rooms;
 
     void Start()
     {
@@ -13,14 +13,17 @@ public class RoomContainer : MonoBehaviour
     }
 
     // 열려야 할 통로에 대응할 수 있는 방들을 리스트로 가져오는 함수
-    public List<Room> GetRooms(bool[] openNeededGate)
+    public List<GameObject> GetRooms(bool[] openNeededGate)
     {
-        List<Room> listToReturn = new List<Room>();
+        List<GameObject> listToReturn = new List<GameObject>();
 
         foreach (var room in rooms)
         {
+            Room currentRoom = room.GetComponent<Room>();
+
             bool[] currentGateOfRoom =
-                { room.isUpOpenable, room.isRightOpenable, room.isDownOpenable, room.isLeftOpenable };
+                { currentRoom.isUpOpenable, currentRoom.isRightOpenable,
+                currentRoom.isDownOpenable, currentRoom.isLeftOpenable };
 
             // 열려야 할 통로를 해당 방이 지원해주지 않는다면 해당 방을 건너뜀
             if ((openNeededGate[0] && !currentGateOfRoom[0]) ||

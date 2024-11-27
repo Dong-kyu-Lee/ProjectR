@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &298264966
 AudioListener:
   m_ObjectHideFlags: 0
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dungeonRow: 3
-  dungeonColumn: 5
+  dungeonColumn: 3
   grid: {fileID: 718480433}
   roomContainer: {fileID: 1780063519}
   generatedRooms: []
@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rooms:
-  - {fileID: 1256955559788752141, guid: d955cb7958f07de47b2d37fc7bb3cadf, type: 3}
-  - {fileID: 4572687163002901237, guid: 1322fdf735b9f9e4e91824da2eb29ff8, type: 3}
-  - {fileID: 6291891226184738005, guid: a83c8bde2c3b21741bc2766cf84dd259, type: 3}
-  - {fileID: 7586450118039027788, guid: 83854889c451289458a78b752d8f623d, type: 3}
+  - {fileID: 9219656273369618665, guid: d955cb7958f07de47b2d37fc7bb3cadf, type: 3}
+  - {fileID: 5905947934621050641, guid: 1322fdf735b9f9e4e91824da2eb29ff8, type: 3}
+  - {fileID: 4166427100786430257, guid: a83c8bde2c3b21741bc2766cf84dd259, type: 3}
+  - {fileID: 561589670255998376, guid: 83854889c451289458a78b752d8f623d, type: 3}

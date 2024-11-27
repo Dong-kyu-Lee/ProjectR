@@ -21,27 +21,45 @@ public class DungeonCreator : MonoBehaviour
             gameObject.AddComponent<RoomContainer>();
             roomContainer = GetComponent<RoomContainer>();
         }
-        CreateFixedRoomDungeon();
+
+        var dungeonFlow = DungeonFlowManager.Instance.GetCurrentDungeonFlow;
+        DungeonFlowManager.Instance.onDungeonCreate.Invoke();
     }
     
     // 선택된 던전 조각들을 Instantiate하는 함수
-    private void CreateFixedRoomDungeon()
+    public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition)
     {
         FixedRoomDungeonGenerator dungeonGenerator = new FixedRoomDungeonGenerator(dungeonRow, dungeonColumn);
-        var listOfRooms = dungeonGenerator.SelectRooms();
+        var listOfRoomNodes = dungeonGenerator.CreateRoomNodes();
 
         // 조건에 맞는 방들을 랜덤으로 선택해 생성
-        foreach( var room in listOfRooms )
+        foreach( RoomNode roomNode in listOfRoomNodes)
         {
-            Vector3 generatePosition = new Vector3(20 * room.RoomPosition.x, 20 * room.RoomPosition.y, 0);
+            Vector3 generatePosition = new Vector3(20 * roomNode.RoomPosition.x, 20 * roomNode.RoomPosition.y, 0);
 
-            // TODO : room 프리펩 여러 종류 구현 후 배치 조건에 따라 if문 생성
-            var roomPrefabs = roomContainer.GetRooms(room.OpenNeededGate);
+            var usableRooms = roomContainer.GetRooms(roomNode.OpenNeededGate);
 
-            generatedRooms.Add(Instantiate(roomPrefabs[Random.Range(0, roomPrefabs.Count)].roomPrefab, generatePosition,
+            generatedRooms.Add(Instantiate(usableRooms[Random.Range(0, usableRooms.Count)], generatePosition,
                 transform.rotation, grid.transform));
             // 방의 통로를 만드는 작업
-            generatedRooms[generatedRooms.Count - 1].GetComponent<Room>().OpenGateTile(room.OpenNeededGate);
+            generatedRooms[generatedRooms.Count - 1].GetComponent<Room>().OpenGateTile(roomNode.OpenNeededGate);
+            // 해당 방의 경계값을 저장
+            generatedRooms[generatedRooms.Count - 1].GetComponent<Room>().
+                SetRoomBoundary(generatePosition, generatePosition + new Vector3(20, 20, 0));
         }
+
+        // 스테이지의 플레이어 스폰 지점을 결정
+        playerSpawnPosition = generatedRooms[0].GetComponent<Room>().playerSpawnPosition.position;
+        // 스테이지의 클리어 지점 결정 후 활성화
+        generatedRooms[Random.Range(1, generatedRooms.Count)].GetComponent<Room>().ActiveFinishSpot();
+    }
+
+    public void RemoveAllRooms()
+    {
+        for(int i = 0; i < generatedRooms.Count; ++i)
+        {
+            Destroy(generatedRooms[i]);
+        }
+        generatedRooms.Clear();
     }
 }
