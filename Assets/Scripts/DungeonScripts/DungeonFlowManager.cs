@@ -15,7 +15,9 @@ public class DungeonFlowManager : MonoBehaviour
     private static DungeonFlowManager instance;
     private static DungeonFlowState currentState;
 
-    public DungeonCreator dungeonCreator;
+    [SerializeField]
+    private DungeonCreator dungeonCreator;
+    public DungeonCreator DungeonCreator { get => dungeonCreator; }
     public Vector3 playerSpawnPosition = new Vector3();
     public Vector3 finishSpotPosition = new Vector3();
 

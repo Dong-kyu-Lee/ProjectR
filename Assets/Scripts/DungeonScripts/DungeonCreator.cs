@@ -11,8 +11,7 @@ public class DungeonCreator : MonoBehaviour
     public GameObject grid;
     public RoomContainer roomContainer;
 
-    [SerializeField]
-    private List<GameObject> generatedRooms = new List<GameObject>();
+    public List<GameObject> generatedRooms = new List<GameObject>();
 
     void Start()
     {
