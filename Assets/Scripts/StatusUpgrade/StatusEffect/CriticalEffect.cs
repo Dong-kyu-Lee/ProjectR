@@ -4,91 +4,89 @@ using UnityEngine;
 
 public class CriticalEffect : MonoBehaviour
 {
-    private StatusEffectTooltip statusEffectTooltip;
+    private StatusEffectTooltip[] statusEffectTooltip = new StatusEffectTooltip[6];
+
+    private void Awake()
+    {
+        statusEffectTooltip[0] = GameObject.Find("CriticalEffect1").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[1] = GameObject.Find("CriticalEffect4").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[2] = GameObject.Find("CriticalEffect7").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[3] = GameObject.Find("CriticalEffect10").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[4] = GameObject.Find("CriticalEffect13").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[5] = GameObject.Find("CriticalEffect16").GetComponent<StatusEffectTooltip>();
+    }
 
     public void EnableCriticalEffect1(PlayerStatus playerStatus)
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect1").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.yellow;
-        statusEffectTooltip.image.color = Color.yellow;
+        statusEffectTooltip[0].defaultColor = Color.yellow;
+        statusEffectTooltip[0].image.color = Color.yellow;
         playerStatus.CriticalDamage += 10;
     }
 
     public void EnableCriticalEffect4()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect4").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.yellow;
-        statusEffectTooltip.image.color = Color.yellow;
+        statusEffectTooltip[1].defaultColor = Color.yellow;
+        statusEffectTooltip[1].image.color = Color.yellow;
     }
 
     public void EnableCriticalEffect7()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect7").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.yellow;
-        statusEffectTooltip.image.color = Color.yellow;
+        statusEffectTooltip[2].defaultColor = Color.yellow;
+        statusEffectTooltip[2].image.color = Color.yellow;
     }
 
     public void EnableCriticalEffect10()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect10").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.yellow;
-        statusEffectTooltip.image.color = Color.yellow;
+        statusEffectTooltip[3].defaultColor = Color.yellow;
+        statusEffectTooltip[3].image.color = Color.yellow;
     }
 
     public void EnableCriticalEffect13()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect13").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.yellow;
-        statusEffectTooltip.image.color = Color.yellow;
+        statusEffectTooltip[4].defaultColor = Color.yellow;
+        statusEffectTooltip[4].image.color = Color.yellow;
     }
 
     public void EnableCriticalEffect16()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect16").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.yellow;
-        statusEffectTooltip.image.color = Color.yellow;
+        statusEffectTooltip[5].defaultColor = Color.yellow;
+        statusEffectTooltip[5].image.color = Color.yellow;
     }
 
     public void DisableCriticalEffect1(PlayerStatus playerStatus)
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect1").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.white;
-        statusEffectTooltip.image.color = Color.white;
+        statusEffectTooltip[0].defaultColor = Color.white;
+        statusEffectTooltip[0].image.color = Color.white;
         playerStatus.CriticalDamage -= 10;
     }
 
     public void DisableCriticalEffect4()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect4").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.white;
-        statusEffectTooltip.image.color = Color.white;
+        statusEffectTooltip[1].defaultColor = Color.white;
+        statusEffectTooltip[1].image.color = Color.white;
     }
 
     public void DisableCriticalEffect7()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect7").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.white;
-        statusEffectTooltip.image.color = Color.white;
+        statusEffectTooltip[2].defaultColor = Color.white;
+        statusEffectTooltip[2].image.color = Color.white;
     }
 
     public void DisableCriticalEffect10()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect10").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.white;
-        statusEffectTooltip.image.color = Color.white;
+        statusEffectTooltip[3].defaultColor = Color.white;
+        statusEffectTooltip[3].image.color = Color.white;
     }
 
     public void DisableCriticalEffect13()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect13").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.white;
-        statusEffectTooltip.image.color = Color.white;
+        statusEffectTooltip[4].defaultColor = Color.white;
+        statusEffectTooltip[4].image.color = Color.white;
     }
 
     public void DisableCriticalEffect16()
     {
-        statusEffectTooltip = GameObject.Find("CriticalEffect16").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip.defaultColor = Color.white;
-        statusEffectTooltip.image.color = Color.white;
+        statusEffectTooltip[5].defaultColor = Color.white;
+        statusEffectTooltip[5].image.color = Color.white;
     }
 }

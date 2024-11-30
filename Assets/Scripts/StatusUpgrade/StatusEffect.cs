@@ -5,11 +5,21 @@ using UnityEngine;
 public class StatusEffect : MonoBehaviour
 {
     [SerializeField] private PlayerStatus playerStatus;
-    [SerializeField] private ForceEffect forceEffect;
-    [SerializeField] private InduranceEffect induranceEffect;
-    [SerializeField] private CriticalEffect criticalEffect;
-    [SerializeField] private DexterityEffect dexterityEffect;
-    [SerializeField] private MysteryEffect mysteryEffect;
+    private ForceEffect forceEffect;
+    private InduranceEffect induranceEffect;
+    private CriticalEffect criticalEffect;
+    private DexterityEffect dexterityEffect;
+    private MysteryEffect mysteryEffect;
+
+    // 컴포넌트 할당.
+    private void Start()
+    {
+        forceEffect = GetComponent<ForceEffect>();
+        induranceEffect = GetComponent<InduranceEffect>();
+        criticalEffect = GetComponent<CriticalEffect>();
+        dexterityEffect = GetComponent<DexterityEffect>();
+        mysteryEffect = GetComponent<MysteryEffect>();
+    }
 
     // 특수 효과 활성화.
     public void EnableEffect(string statName, int point)

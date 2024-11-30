@@ -8,10 +8,25 @@ public class StatusTooltip : MonoBehaviour
     [SerializeField] private Text statusEffectNameText;
     [SerializeField] private Text statusEffectDescText;
 
-    // 툴팁이 마우스를 따라가는 기능.
+    private float halfwidth;
+    private RectTransform rectTransform;
+
+    private void Start()
+    {
+        halfwidth = GetComponentInParent<CanvasScaler>().referenceResolution.x * 0.5f;
+        rectTransform = GetComponent<RectTransform>();
+    }
+
     private void Update()
     {
+        // 툴팁이 마우스를 따라가는 기능.
         transform.position = Input.mousePosition;
+
+        // 툴팁 피벗 조정.
+        if (rectTransform.anchoredPosition.x + rectTransform.sizeDelta.x > halfwidth)
+            rectTransform.pivot = new Vector2(1, 1);
+        else
+            rectTransform.pivot = new Vector2(0, 1);
     }
 
     // 툴팁 정보 설정.

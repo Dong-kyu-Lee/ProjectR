@@ -46,13 +46,17 @@ public class LevelUp : MonoBehaviour
     {
         playerStatus.Level++;
         upgradeStatus.SkillPoint++;
+
         playerStatus.Damage += 1;
         playerStatus.Hp += 5;
+
         playerStatus.Exp -= requiredExp[(int)playerStatus.Level - 1];
+
         if (playerStatus.Exp > requiredExp[(int)playerStatus.Level])
         {
             UpLevel();
         }
+
         statusValueText.SetupValueText(upgradeStatus);
     }
 
