@@ -14,7 +14,9 @@ public class AtkDmgIncBuff : Buff
     public override void ApplyBuffEffect()
     {
         PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
+        Debug.Log($"공격력 증가 전 : {playerStatus.AdditionalDamage}");
         playerStatus.AdditionalDamage += atkDmgIncGap[currentBuffLevel];
+        Debug.Log($"공격력 증가 후 : {playerStatus.AdditionalDamage}");
     }
 
     //적용된 버프를 해제하는 함수. 각 스탯마다 누적된 값을 계산해 감소하는 식
@@ -22,6 +24,7 @@ public class AtkDmgIncBuff : Buff
     {
         PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
         playerStatus.AdditionalDamage -= GetCurrentSumOfArray(atkDmgIncGap);
+        Debug.Log($"공격력 증가 복구 : {playerStatus.AdditionalDamage}");
     }
 
     //현재 버프 레벨까지의 스탯 증가 누적량을 계산해주는 함수

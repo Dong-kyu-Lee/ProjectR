@@ -13,7 +13,7 @@ public class BlessBuff : Buff
     {
         PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
         playerStatus.Hp += healAmount[currentBuffLevel];
-
+        Debug.Log($"플레이어 체력 : {playerStatus.Hp}");
         CurrentDuration -= tickDuration;
     }
 
