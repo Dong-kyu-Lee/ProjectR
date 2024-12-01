@@ -4,11 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "New Item_Scriptable", menuName = "Item_Scriptable_Data")]
+[CreateAssetMenu(fileName = "Basic_Item_Data", menuName = "Scriptable Object/Basic_Item_Data", order = 1)]
 public class BasicItemData : ScriptableObject
 {
-    public string itemName;
-    public string itemDescription;
-    public int itemID;
-    public Sprite itemSprite;
+    [SerializeField]
+    protected string itemName;
+    [SerializeField]
+    protected string itemDescription;
+    [SerializeField]
+    protected int itemID;
+    [SerializeField]
+    protected Sprite itemSprite;
+
+    public string ItemName { get { return itemName; } }
+    public string ItemDescription { get { return itemDescription; } }
+    public int ItemID { get { return itemID; } }
+    public Sprite ItemSprite { get { return itemSprite; } }
 }
