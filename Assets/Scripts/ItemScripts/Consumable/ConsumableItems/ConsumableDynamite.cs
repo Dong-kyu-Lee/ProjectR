@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New ConsumableDynamite", menuName = "DynamiteData")]
+[CreateAssetMenu(fileName = "ConsumableDynamite_Data", menuName = "Scriptable Object/ConsumableDynamite_Data", order = 1)]
 public class ConsumableDynamite : ConsumableItemData
 {
     //다이너마이트 아이템 Data

@@ -22,13 +22,13 @@ public abstract class Potion : MonoBehaviour
 
     public void Awake()
     {
-        GetComponent<SpriteRenderer>().sprite = basicItemData.itemSprite;
+        GetComponent<SpriteRenderer>().sprite = basicItemData.ItemSprite;
     }
 
-    public string ItemName { get { return basicItemData.itemName; } }
-    public string ItemDescription { get { return basicItemData.itemDescription; } }
-    public int ItemID { get { return basicItemData.itemID; } }
-    public Sprite Sprite { get { return basicItemData.itemSprite; } }
+    public string ItemName { get { return basicItemData.ItemName; } }
+    public string ItemDescription { get { return basicItemData.ItemName; } }
+    public int ItemID { get { return basicItemData.ItemID; } }
+    public Sprite Sprite { get { return basicItemData.ItemSprite; } }
     public PotionType Type { get { return type; } }
 
     //플레이어와 충돌 시 포션 사용

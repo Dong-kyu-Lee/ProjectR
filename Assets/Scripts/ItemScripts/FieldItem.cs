@@ -13,7 +13,7 @@ public class FieldItem : MonoBehaviour
 
     private void Awake()
     {
-        GetComponent<SpriteRenderer>().sprite = myItemData.itemSprite;
+        GetComponent<SpriteRenderer>().sprite = myItemData.ItemSprite;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
