@@ -7,13 +7,20 @@ public class MeleeEnemy : Enemy
     [SerializeField]
     private BoxCollider2D attackRangeCol;
 
+    [SerializeField]
+    private EnemyAIController enemyController;
+
+    public EnemyAIController StateMachine { get; }
+    
     private void Awake()
     {
         attackRangeCol.size = new Vector2(enemyStatus.EnemyStatusData.AttackRange, attackRangeCol.size.y);
+        enemyController.Initialize(this);
     }
 
     void Start()
     {
+
     }
 
     void Update()

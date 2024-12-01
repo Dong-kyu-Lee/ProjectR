@@ -9,6 +9,7 @@ public class IdleState : IState
     public IdleState(Enemy enemy)
     {
         this.enemy = enemy;
+
     }
 
     public void Enter()
