@@ -23,30 +23,16 @@ public class ItemExplain : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("콜라이더에 들어옴");
         if (collision.tag == "Player")
         {
-            Debug.Log("들어옴");
             ChangeInfo();
             itemExplainUI.SetActive(true);
         }
     }
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    Debug.Log("콜라이더에 들어옴");
-    //    if (collision.gameObject.name =="Player")
-    //    {
-    //        Debug.Log("들어옴");
-    //        ChangeInfo();
-    //        itemExplainUI.SetActive(true);
-    //    }
-    //}
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("콜라이더에서 나감");
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("나감");
             itemExplainUI.SetActive(false);
         }
     }

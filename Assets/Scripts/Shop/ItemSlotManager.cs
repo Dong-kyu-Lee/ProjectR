@@ -19,16 +19,27 @@ public class ItemSlotManager : MonoBehaviour
     public void SellingItem()
     {
         int[] checkOverlap = new int[4];
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            reset:
-            int randomItem = Random.Range(0, sellList.Length);
-            itemImage[i].sprite = sellList[randomItem];
-            checkOverlap[i] = randomItem;
-            for(int j = 0; j < i; j++)
+            bool isOverlap;
+            do
             {
-                if(randomItem == checkOverlap[j]) goto reset;
-            }
+                isOverlap = false;
+                int randomItem = Random.Range(0, sellList.Length);
+                for (int j = 0; j < i; j++)
+                {
+                    if (randomItem == checkOverlap[j])
+                    {
+                        isOverlap = true;
+                        break;
+                    }
+                }
+                if (!isOverlap)
+                {
+                    itemImage[i].sprite = sellList[randomItem];
+                    checkOverlap[i] = randomItem;
+                }
+            } while (isOverlap);
         }
     }
 }
