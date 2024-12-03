@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     private GameObject currentPlayer;
     public GameObject CurrentPlayer { get => currentPlayer; }
+    public GameObject cameraObject;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
         {
             currentPlayer = Instantiate(playerPrefab, new Vector3(0, 0, 0), transform.rotation);
             DontDestroyOnLoad(currentPlayer);
+            cameraObject.transform.SetParent(currentPlayer.transform);
         }
     }
 
