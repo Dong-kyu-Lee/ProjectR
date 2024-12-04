@@ -5,6 +5,6 @@ using UnityEngine;
 public interface IState
 {
     public void Enter();
-    public void Update();
+    public void Update(float delta);
     public void Exit();
 }

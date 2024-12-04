@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ChaseState : IState
+{
+    private Enemy enemy;
+
+    public ChaseState(Enemy enemy)
+    {
+        this.enemy = enemy;
+
+    }
+
+    public void Enter()
+    {
+
+    }
+
+    public void Update(float delta)
+    {
+
+    }
+
+    public void Exit()
+    {
+
+    }
+}

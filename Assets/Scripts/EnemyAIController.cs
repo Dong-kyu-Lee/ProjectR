@@ -7,10 +7,16 @@ public class EnemyAIController : MonoBehaviour
     public IState CurrentState { get; private set; }
 
     public IdleState idleState;
+    public WanderState wanderState;
+    public ChaseState chaseState;
+    public AttackState attackState;
 
     public void Initialize(Enemy enemy)
     {
         this.idleState = new IdleState(enemy);
+        this.wanderState = new WanderState(enemy);
+        this.chaseState = new ChaseState(enemy);
+        this.attackState = new AttackState(enemy);
 
         CurrentState = idleState;
         idleState.Enter();
@@ -30,6 +36,9 @@ public class EnemyAIController : MonoBehaviour
 
     void Update()
     {
-        CurrentState.Update();
+        if (CurrentState != null)
+        {
+            CurrentState.Update(Time.deltaTime);
+        }
     }
 }
