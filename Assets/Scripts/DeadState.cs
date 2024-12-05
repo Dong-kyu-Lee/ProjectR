@@ -22,6 +22,11 @@ public class DeadState : IState
 
     }
 
+    public void FixedUpdate()
+    {
+
+    }
+
     public void Exit()
     {
 

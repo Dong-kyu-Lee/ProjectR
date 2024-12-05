@@ -41,4 +41,18 @@ public class EnemyAIController : MonoBehaviour
             CurrentState.Update(Time.deltaTime);
         }
     }
+
+    private void FixedUpdate()
+    {
+        if (CurrentState != null)
+        {
+            CurrentState.FixedUpdate();
+        }
+    }
+
+    public IEnumerator IdleCoroutine(float idleTime)
+    {
+        yield return new WaitForSeconds(idleTime);
+        TransitionTo(wanderState);
+    }
 }

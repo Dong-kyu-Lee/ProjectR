@@ -22,6 +22,11 @@ public class ChaseState : IState
 
     }
 
+    public void FixedUpdate()
+    {
+
+    }
+
     public void Exit()
     {
 

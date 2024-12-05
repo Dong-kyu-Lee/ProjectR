@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MeleeEnemy : Enemy
 {   
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         AttackRangeCol.size = new Vector2(enemyStatus.EnemyStatusData.AttackRange, AttackRangeCol.size.y);
         StateMachine.Initialize(this);
     }
@@ -18,5 +19,11 @@ public class MeleeEnemy : Enemy
     void Update()
     {
         
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
     }
 }
