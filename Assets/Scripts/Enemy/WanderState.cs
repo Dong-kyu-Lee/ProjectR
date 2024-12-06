@@ -7,14 +7,11 @@ public class WanderState : IState
     private Enemy enemy;
     private float movePos;
     private Vector2 direction;
-    private Rigidbody2D rigidbody;
     private float value;
-    private float speed = 10f;
 
     public WanderState(Enemy enemy)
     {
         this.enemy = enemy;
-        rigidbody = enemy.GetComponent<Rigidbody2D>();
     }
 
     public void Enter()
@@ -35,33 +32,34 @@ public class WanderState : IState
 
     public void Exit()
     {
-
+        enemy.Rigidbody.velocity = Vector2.zero;
+        direction = Vector2.zero;
     }
 
     void SetVelocity()
     {
         if (direction.x >= 1f)
         {
-            if (rigidbody.position.x >= movePos)
+            if (enemy.Rigidbody.position.x >= movePos)
             {
-                rigidbody.velocity = Vector2.zero;
+                enemy.Rigidbody.velocity = Vector2.zero;
                 enemy.StateMachine.TransitionTo(enemy.StateMachine.idleState);
             }
             else
             {
-                rigidbody.velocity = direction * speed;
+                enemy.Rigidbody.velocity = direction * enemy.Speed;
             }
         }
         else if (direction.x <= -1f)
         {
-            if (rigidbody.position.x <= movePos)
+            if (enemy.Rigidbody.position.x <= movePos)
             {
-                rigidbody.velocity = Vector2.zero;
+                enemy.Rigidbody.velocity = Vector2.zero;
                 enemy.StateMachine.TransitionTo(enemy.StateMachine.idleState);
             }
             else
             {
-                rigidbody.velocity = direction * speed;
+                enemy.Rigidbody.velocity = direction * enemy.Speed;
             }
         }
     }

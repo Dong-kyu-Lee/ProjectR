@@ -199,6 +199,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18740884}
   m_CullTransparentMesh: 1
+--- !u!1 &62881310 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5456784485947500350, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+  m_PrefabInstance: {fileID: 97995257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &62881313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62881310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f551130f1b3ed4eb1a7f86f51eb180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &97995257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -206,10 +223,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2854206439868323322, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
-      propertyPath: m_Mass
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 3260529182925472828, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -255,6 +268,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3876051710393344225, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876051710393344225, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
       propertyPath: leftEdge
       value: 
       objectReference: {fileID: 1166246389}
@@ -262,25 +279,9 @@ PrefabInstance:
       propertyPath: rightEdge
       value: 
       objectReference: {fileID: 208179301}
-    - target: {fileID: 3876051710393344225, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
-      propertyPath: enemyAnimator
-      value: 
-      objectReference: {fileID: 936099892}
-    - target: {fileID: 3876051710393344225, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
-      propertyPath: attackRangeCol
-      value: 
-      objectReference: {fileID: 1576205176}
-    - target: {fileID: 3876051710393344225, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
-      propertyPath: enemyController
-      value: 
-      objectReference: {fileID: 1918481558}
     - target: {fileID: 7154700476304014582, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8157251784681445156, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
-      propertyPath: m_FlipX
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
@@ -3661,11 +3662,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 902699345}
   m_CullTransparentMesh: 1
---- !u!95 &936099892 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8819960237501646309, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
-  m_PrefabInstance: {fileID: 97995257}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &965229787
 GameObject:
   m_ObjectHideFlags: 0
@@ -6394,11 +6390,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557490274}
   m_CullTransparentMesh: 1
---- !u!61 &1576205176 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 1576205176, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
-  m_PrefabInstance: {fileID: 97995257}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1591160799
 GameObject:
   m_ObjectHideFlags: 0
@@ -7701,23 +7692,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903842958}
   m_CullTransparentMesh: 1
---- !u!1 &1918481551 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7154700476304014582, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
-  m_PrefabInstance: {fileID: 97995257}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1918481558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1918481551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f898987560aeb14c8dfe73cde4109db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1945749233
 GameObject:
   m_ObjectHideFlags: 0
@@ -8737,6 +8711,10 @@ PrefabInstance:
     - target: {fileID: 5991675828630517409, guid: e0bb4022d7d2f5047a85403631a12dd0, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8064677607227596059, guid: e0bb4022d7d2f5047a85403631a12dd0, type: 3}
+      propertyPath: moveFactor
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8064677607227596059, guid: e0bb4022d7d2f5047a85403631a12dd0, type: 3}
       propertyPath: playerCamera

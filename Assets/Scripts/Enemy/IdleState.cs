@@ -15,7 +15,7 @@ public class IdleState : IState
     public void Enter()
     {
         idleTime = Mathf.Round(Random.Range(1f, 2.5f) * 10f) / 10f;
-        enemy.StateMachine.StartCoroutine(IdleCoroutine(idleTime));
+        enemy.StateMachine.StartCoroutine(enemy.StateMachine.IdleCoroutine(idleTime));
     }
 
     public void Update(float delta)
@@ -30,7 +30,7 @@ public class IdleState : IState
 
     public void Exit()
     {
-
+        enemy.StateMachine.StopCoroutine(enemy.StateMachine.IdleCoroutine(idleTime));
     }
 
     public IEnumerator IdleCoroutine(float idleTime)

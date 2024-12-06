@@ -9,7 +9,6 @@ public class ChaseState : IState
     public ChaseState(Enemy enemy)
     {
         this.enemy = enemy;
-
     }
 
     public void Enter()
@@ -24,11 +23,15 @@ public class ChaseState : IState
 
     public void FixedUpdate()
     {
-
+        if (enemy.PlayerTransform != null)
+        {
+            enemy.Rigidbody.velocity = (enemy.PlayerTransform.position.x > enemy.transform.position.x) ? Vector2.right : Vector2.left;
+            enemy.Rigidbody.velocity *= enemy.Speed;
+        }
     }
 
     public void Exit()
     {
-
+        enemy.Rigidbody.velocity = Vector2.zero;
     }
 }
