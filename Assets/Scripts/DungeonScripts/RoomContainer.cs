@@ -25,7 +25,7 @@ public class RoomContainer : MonoBehaviour
                 { currentRoom.isUpOpenable, currentRoom.isRightOpenable,
                 currentRoom.isDownOpenable, currentRoom.isLeftOpenable };
 
-            // 열려야 할 통로를 해당 방이 지원해주지 않는다면 해당 방을 건너뜀
+            // 열려야 할 통로를 해당 방이 열 수 없다면 방을 건너뜀
             if ((openNeededGate[0] && !currentGateOfRoom[0]) ||
                 (openNeededGate[1] && !currentGateOfRoom[1]) ||
                 (openNeededGate[2] && !currentGateOfRoom[2]) ||
