@@ -20,13 +20,12 @@ public class DungeonCreator : MonoBehaviour
             gameObject.AddComponent<RoomContainer>();
             roomContainer = GetComponent<RoomContainer>();
         }
-
-        var dungeonFlow = DungeonFlowManager.Instance.GetCurrentDungeonFlow;
-        DungeonFlowManager.Instance.onDungeonCreate.Invoke();
+        DungeonFlowManager.Instance.DungeonCreator = this;
+        DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
     }
     
     // 선택된 던전 조각들을 Instantiate하는 함수
-    public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition)
+    public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
         FixedRoomDungeonGenerator dungeonGenerator = new FixedRoomDungeonGenerator(dungeonRow, dungeonColumn);
         var listOfRoomNodes = dungeonGenerator.CreateRoomNodes();
@@ -50,7 +49,7 @@ public class DungeonCreator : MonoBehaviour
         // 스테이지의 플레이어 스폰 지점을 결정
         playerSpawnPosition = generatedRooms[0].GetComponent<Room>().playerSpawnPosition.position;
         // 스테이지의 클리어 지점 결정 후 활성화
-        generatedRooms[Random.Range(1, generatedRooms.Count)].GetComponent<Room>().ActiveFinishSpot();
+        finishSpotPosition = generatedRooms[Random.Range(1, generatedRooms.Count)].GetComponent<Room>().finishSpotPosition.position;
     }
 
     public void RemoveAllRooms()

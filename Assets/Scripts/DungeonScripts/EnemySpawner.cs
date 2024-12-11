@@ -9,6 +9,11 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
+        
+    }
+
+    public void InitEnemySpawner()
+    {
         if (firstWaveEnemy != null)
         {
             firstWaveEnemy = Instantiate(firstWaveEnemy, transform.position, transform.rotation);

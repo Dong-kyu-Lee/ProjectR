@@ -9,7 +9,7 @@ public class Room : MonoBehaviour
     public Tilemap groundTilemap;
     public GameObject gateTilemap;
 
-    public List<GameObject> enemySpawnPoint = new List<GameObject>();
+    public List<Transform> enemySpawnPoint = new List<Transform>();
     public List<GameObject> interactableObjPoint = new List<GameObject>();
 
     public Transform playerSpawnPosition;
@@ -135,8 +135,8 @@ public class Room : MonoBehaviour
     }
 
     // 도착 지점을 활성화하는 함수
-    public void ActiveFinishSpot()
+    /*public void ActiveFinishSpot()
     {
         finishSpotPosition.gameObject.SetActive(true);
-    }
+    }*/
 }
