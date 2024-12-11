@@ -168,6 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dungeonCreator: {fileID: 0}
+  enemySpawnManager: {fileID: 0}
+  finishSpotPrefab: {fileID: 2223033067248664399, guid: 32e8c290480fc8a4eb50f14dc357e605, type: 3}
   playerSpawnPosition: {x: 0, y: 0, z: 0}
   finishSpotPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1258365071
@@ -357,6 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2d52742e6ad404ea989003d3d29a79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWaveEnd: 1
 --- !u!4 &4840190325892718150
 Transform:
   m_ObjectHideFlags: 0

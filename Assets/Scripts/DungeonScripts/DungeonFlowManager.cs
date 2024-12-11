@@ -17,12 +17,26 @@ public class DungeonFlowManager : MonoBehaviour
 
     [SerializeField]
     private DungeonCreator dungeonCreator;
-    public DungeonCreator DungeonCreator { get => dungeonCreator; }
+    public DungeonCreator DungeonCreator 
+    { 
+        get => dungeonCreator; 
+        set { if (dungeonCreator == null) dungeonCreator = value; }
+    }
+    [SerializeField]
+    private EnemySpawnManager enemySpawnManager;
+    public EnemySpawnManager EnemySpawnManager
+    {
+        get => enemySpawnManager;
+        set { if (enemySpawnManager == null) enemySpawnManager = value; }
+    }
+
+    public GameObject finishSpotPrefab;
+    private GameObject currentFinishSpot;
     public Vector3 playerSpawnPosition = new Vector3();
     public Vector3 finishSpotPosition = new Vector3();
 
     // DungeonCreator가 던전 생성 준비를 마쳤으니 던전 생성을 요청할 때 호출하는 Action
-    public Action onDungeonCreate;
+    public Action onDungeonCreatorReady;
 
     public DungeonFlowState GetCurrentDungeonFlow { get => currentState; }
 
@@ -50,7 +64,7 @@ public class DungeonFlowManager : MonoBehaviour
         }
         instance = this;
         currentState = DungeonFlowState.Lobby;
-        onDungeonCreate += CreateStage;
+        onDungeonCreatorReady += CreateStage;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -70,10 +84,15 @@ public class DungeonFlowManager : MonoBehaviour
             dungeonCreator = FindObjectOfType<DungeonCreator>();
             if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
         }
-        dungeonCreator.CreateFixedRoomDungeon(out playerSpawnPosition);
-
+        // 던전 생성
+        dungeonCreator.CreateFixedRoomDungeon(out playerSpawnPosition, out finishSpotPosition);
         // 테스트 플레이어 생성
         GameManager.Instance.PlacePlayerObject(playerSpawnPosition);
+        // 도착 위치 생성
+        currentFinishSpot = Instantiate(finishSpotPrefab, finishSpotPosition, transform.rotation);
+        Debug.Log("Finish Spot 생성됨. 닫힌 상태");
+        // 적 생성
+        dungeonCreator.gameObject.GetComponent<EnemySpawnManager>().GenerateEnemies();
     }
 
     private void ResetDungeon()
@@ -140,6 +159,11 @@ public class DungeonFlowManager : MonoBehaviour
     public void ResetDungeonFlow()
     {
         currentState = DungeonFlowState.Lobby;
+    }
+
+    public void OpenFinishSpot()
+    {
+        currentFinishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
     }
 }
 

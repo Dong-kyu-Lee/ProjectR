@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FinishSpot : MonoBehaviour
-{
-    private void Start()
-    {
-        
-    }
+{ 
+    public bool isWaveEnd = false;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))
         {
-            DungeonFlowManager.Instance.LoadNextDungeon();
+            if(isWaveEnd) DungeonFlowManager.Instance.LoadNextDungeon();
         }
     }
 }
