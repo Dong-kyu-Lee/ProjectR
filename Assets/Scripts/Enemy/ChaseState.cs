@@ -13,7 +13,7 @@ public class ChaseState : IState
 
     public void Enter()
     {
-
+        enemy.StateMachine.isChasing = true;
     }
 
     public void Update(float delta)

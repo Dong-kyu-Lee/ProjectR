@@ -43,7 +43,8 @@ public class WanderState : IState
             if (enemy.Rigidbody.position.x >= movePos)
             {
                 enemy.Rigidbody.velocity = Vector2.zero;
-                enemy.StateMachine.TransitionTo(enemy.StateMachine.idleState);
+                if (enemy.StateMachine.isChasing == false)
+                    enemy.StateMachine.TransitionTo(enemy.StateMachine.idleState);
             }
             else
             {
@@ -55,7 +56,8 @@ public class WanderState : IState
             if (enemy.Rigidbody.position.x <= movePos)
             {
                 enemy.Rigidbody.velocity = Vector2.zero;
-                enemy.StateMachine.TransitionTo(enemy.StateMachine.idleState);
+                if(enemy.StateMachine.isChasing == false)
+                    enemy.StateMachine.TransitionTo(enemy.StateMachine.idleState);
             }
             else
             {

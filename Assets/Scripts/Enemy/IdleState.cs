@@ -32,10 +32,4 @@ public class IdleState : IState
     {
         enemy.StateMachine.StopCoroutine(enemy.StateMachine.IdleCoroutine(idleTime));
     }
-
-    public IEnumerator IdleCoroutine(float idleTime)
-    {
-        yield return new WaitForSeconds(idleTime);
-        enemy.StateMachine.TransitionTo(enemy.StateMachine.wanderState);
-    }
 }

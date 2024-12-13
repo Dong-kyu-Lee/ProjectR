@@ -79,6 +79,7 @@ public class Enemy : MonoBehaviour
     public void SetTarget(Transform transform)
     {
         playerTransform = transform;
+        StateMachine.isChasing = true;
         StateMachine.TransitionTo(StateMachine.chaseState);
     }
 

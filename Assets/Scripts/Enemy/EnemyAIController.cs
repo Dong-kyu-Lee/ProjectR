@@ -11,12 +11,16 @@ public class EnemyAIController : MonoBehaviour
     public ChaseState chaseState;
     public AttackState attackState;
 
+    public bool isChasing = false;
+
     public void Initialize(Enemy enemy)
     {
         this.idleState = new IdleState(enemy);
         this.wanderState = new WanderState(enemy);
         this.chaseState = new ChaseState(enemy);
         this.attackState = new AttackState(enemy);
+
+        isChasing = false;
 
         CurrentState = idleState;
         idleState.Enter();
@@ -26,6 +30,7 @@ public class EnemyAIController : MonoBehaviour
     {
         CurrentState.Exit();
         CurrentState = nextState;
+        Debug.Log("상태 변경 : " + nextState.ToString());
         nextState.Enter();
     }
 
@@ -53,6 +58,12 @@ public class EnemyAIController : MonoBehaviour
     public IEnumerator IdleCoroutine(float idleTime)
     {
         yield return new WaitForSeconds(idleTime);
-        TransitionTo(wanderState);
+        if (isChasing == false)
+            TransitionTo(wanderState);
+    }
+
+    public void StartChase()
+    {
+        isChasing = true;
     }
 }
