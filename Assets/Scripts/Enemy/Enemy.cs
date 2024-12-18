@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
     public Transform PlayerTransform { get { return playerTransform; } }
     public float Speed { get { return speed; } }
     public Rigidbody2D Rigidbody { get { return enemyRigidbody; } }
+    public Animator EnemyAnimator { get { return enemyAnimator; } }
 
     protected virtual void Awake()
     {
@@ -81,6 +82,11 @@ public class Enemy : MonoBehaviour
         playerTransform = transform;
         StateMachine.isChasing = true;
         StateMachine.TransitionTo(StateMachine.chaseState);
+    }
+
+    public void Attack()
+    {
+        StateMachine.TransitionTo(StateMachine.attackState);
     }
 
     protected void CheckEdge()

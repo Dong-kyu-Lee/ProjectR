@@ -62,6 +62,12 @@ public class EnemyAIController : MonoBehaviour
             TransitionTo(wanderState);
     }
 
+    public IEnumerator AttackCoroutine(float attackTime)
+    {
+        yield return new WaitForSeconds(attackTime);
+        TransitionTo(chaseState);
+    }
+
     public void StartChase()
     {
         isChasing = true;

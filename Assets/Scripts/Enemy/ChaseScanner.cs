@@ -23,14 +23,10 @@ public class ChaseScanner : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (enemy.PlayerTransform != null)
-        {
-            return;
-        }
-
         if (collision.tag == "Player")
         {
             enemy.SetTarget(collision.transform);
+            gameObject.SetActive(false);
         }
     }
 }

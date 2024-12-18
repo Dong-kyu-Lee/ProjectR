@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class AttackScanner : MonoBehaviour
 {
-    // Start is called before the first frame update
+    Enemy enemy;
+
+    private void Awake()
+    {
+        enemy = transform.parent.GetComponent<Enemy>();
+    }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
 
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            enemy.Attack();
+        }
+    }
 }
