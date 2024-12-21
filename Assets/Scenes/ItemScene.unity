@@ -851,6 +851,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RagingBuffItem
       objectReference: {fileID: 0}
+    - target: {fileID: 9122783408855162798, guid: e99e01808cb8ecb4b951fb1d75ff3c76, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9122783408855162802, guid: e99e01808cb8ecb4b951fb1d75ff3c76, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -907,6 +911,10 @@ PrefabInstance:
     - target: {fileID: 5021083596259864458, guid: b8d9499f4430cbd4a9579bd2ca861530, type: 3}
       propertyPath: m_Name
       value: BlessBuffItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 5021083596259864458, guid: b8d9499f4430cbd4a9579bd2ca861530, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5021083596259864470, guid: b8d9499f4430cbd4a9579bd2ca861530, type: 3}
       propertyPath: m_RootOrder
@@ -1009,6 +1017,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DmgReductIncItem
       objectReference: {fileID: 0}
+    - target: {fileID: 675969987969993745, guid: 648b7e074593ad648a5b1581ceb31fdf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 648b7e074593ad648a5b1581ceb31fdf, type: 3}
 --- !u!1001 &8934775740030461627
@@ -1024,7 +1036,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8934775739626209769, guid: 2d4c5484f1abe3242ae8eeab1c6832e3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.47
+      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: 8934775739626209769, guid: 2d4c5484f1abe3242ae8eeab1c6832e3, type: 3}
       propertyPath: m_LocalPosition.y
