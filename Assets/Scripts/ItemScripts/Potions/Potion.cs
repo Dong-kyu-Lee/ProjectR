@@ -18,28 +18,74 @@ public abstract class Potion : MonoBehaviour
     [SerializeField]
     private BasicItemData basicItemData;  //기본적인 아이템의 정보를 가지는 스크립터블 오브젝트
     [SerializeField]
-    private PotionType type;
+    private PotionType type;        //포션 타입
+    [SerializeField]
+    private ItemDescriptionPanel itemDescriptionPanel;   //아이템 설명 패널
+    private PlayerStatus playerStatus = null;                  //근처 플레이어 스테이터스
+
+
+    public string ItemName { get { return basicItemData.ItemName; } }
+    public string ItemDescription { get { return basicItemData.ItemName; } }
+    public int ItemID { get { return basicItemData.ItemID; } }
+    public Sprite Sprite { get { return basicItemData.ItemSprite; } }
+    public PotionType Type { get { return type; } }
 
     public void Awake()
     {
-        GetComponent<SpriteRenderer>().sprite = basicItemData.itemSprite;
+        GetComponent<SpriteRenderer>().sprite = basicItemData.ItemSprite;
+        itemDescriptionPanel = transform.GetChild(0).GetComponent<ItemDescriptionPanel>();
+        InitItemDescriptionPanel();
     }
 
-    public string ItemName { get { return basicItemData.itemName; } }
-    public string ItemDescription { get { return basicItemData.itemDescription; } }
-    public int ItemID { get { return basicItemData.itemID; } }
-    public Sprite Sprite { get { return basicItemData.itemSprite; } }
-    public PotionType Type { get { return type; } }
-
     //플레이어와 충돌 시 포션 사용
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
+    /*    public void OnTriggerEnter2D(Collider2D other)
         {
-            DoEffect(other.GetComponent<PlayerStatus>());
+            if (other.CompareTag("Player"))
+            {
+                DoEffect(other.GetComponent<PlayerStatus>());
+                Destroy(gameObject);
+            }
+        }*/
+
+    //근처에 있는 플레이어가 E키를 누르면 해당 포션 사용
+    private void Update()
+    {
+        if (playerStatus != null && Input.GetKeyDown(KeyCode.E))
+        {
+            DoEffect(playerStatus);
             Destroy(gameObject);
         }
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            //아이템 설명 활성화
+            Debug.Log("아이템 설명 활성화");
+            itemDescriptionPanel.gameObject.SetActive(true);
+            playerStatus = collision.GetComponent<PlayerStatus>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            //아이템 설명 비활성화
+            Debug.Log("아이템 설명 비활성화");
+            itemDescriptionPanel.gameObject.SetActive(false);
+            playerStatus = null;
+        }
+    }
+
+    private void InitItemDescriptionPanel()
+    {
+        itemDescriptionPanel.ItemName = basicItemData.ItemName;
+        itemDescriptionPanel.ItemDescription = basicItemData.ItemDescription;
+    }
+
 
     //각 포션들이 구현해야할 효과 발생 메소드
     public abstract void DoEffect(PlayerStatus playerStatus);

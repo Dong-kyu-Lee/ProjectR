@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New ConsumableDynamite", menuName = "DynamiteData")]
+[CreateAssetMenu(fileName = "ConsumableDynamite_Data", menuName = "Scriptable Object/ConsumableDynamite_Data", order = 1)]
 public class ConsumableDynamite : ConsumableItemData
 {
     //다이너마이트 아이템 Data
@@ -13,13 +13,13 @@ public class ConsumableDynamite : ConsumableItemData
 
     public override void ActivateItemEffect(GameObject player)
     {
-        ThrowBomb(player);
+        ThrowBomb(player.transform);
     }
 
     //다이너마이트 Projectile을 생성하는 메서드
-    private void ThrowBomb(GameObject player)
+    private void ThrowBomb(Transform playerTf)
     {
-        Instantiate(dynamitePrefab, GameObject.Find("Player").transform.position, Quaternion.identity);
+        Instantiate(dynamitePrefab, playerTf.position, Quaternion.identity);
         Debug.Log("폭탄 투척");
     }
 }

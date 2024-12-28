@@ -12,9 +12,9 @@ public class DamageReductionPotion : Potion
     //피해 감소량 증가 효과 발생
     public override void DoEffect(PlayerStatus playerStatus)
     {
-        float forDebug = playerStatus.AddtionalDamageReduction; //디버깅용
-        playerStatus.AddtionalDamageReduction += dmgReductionPercent;
-        Debug.Log($"피해 감소량 {dmgReductionPercent}% 증가함 : {forDebug} -> {playerStatus.AddtionalDamageReduction}");
+        float forDebug = playerStatus.AdditionalDamageReduction; //디버깅용
+        playerStatus.AdditionalDamageReduction += dmgReductionPercent;
+        Debug.Log($"피해 감소량 {dmgReductionPercent}% 증가함 : {forDebug} -> {playerStatus.AdditionalDamageReduction}");
                 
         Destroy(gameObject);
     }
