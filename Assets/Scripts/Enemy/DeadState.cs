@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : IState
+public class DeadState : IState
 {
     private Enemy enemy;
 
-    public IdleState(Enemy enemy)
+    public DeadState(Enemy enemy)
     {
         this.enemy = enemy;
 
@@ -17,7 +17,12 @@ public class IdleState : IState
 
     }
 
-    public void Update()
+    public void Update(float delta)
+    {
+
+    }
+
+    public void FixedUpdate()
     {
 
     }
@@ -26,6 +31,4 @@ public class IdleState : IState
     {
 
     }
-
-
 }
