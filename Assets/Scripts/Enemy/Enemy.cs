@@ -84,9 +84,15 @@ public class Enemy : MonoBehaviour
         StateMachine.TransitionTo(StateMachine.chaseState);
     }
 
-    public void Attack()
+    public void StartAttack()
     {
         StateMachine.TransitionTo(StateMachine.attackState);
+        Attack();
+    }
+
+    protected virtual void Attack()
+    {
+
     }
 
     protected void CheckEdge()

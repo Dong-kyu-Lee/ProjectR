@@ -279,9 +279,17 @@ PrefabInstance:
       propertyPath: rightEdge
       value: 
       objectReference: {fileID: 208179301}
+    - target: {fileID: 5760656626525738439, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 7154700476304014582, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901037968461984229, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
@@ -6658,6 +6666,29 @@ RectTransform:
   m_AnchoredPosition: {x: 491, y: -350}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1659117090 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8901037968461984229, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+  m_PrefabInstance: {fileID: 97995257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &1659117092 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 488687963708116845, guid: d4809ddc4bc175842b41e61805a67d3d, type: 3}
+  m_PrefabInstance: {fileID: 97995257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1659117093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659117090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aecd4811cde0351409ae495a761d868c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitBoxCol: {fileID: 1659117092}
 --- !u!1 &1674221317
 GameObject:
   m_ObjectHideFlags: 0
@@ -6784,7 +6815,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674221317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30, y: 3, z: 0}
+  m_LocalPosition: {x: -28.1, y: 3, z: 0}
   m_LocalScale: {x: 50, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

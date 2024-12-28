@@ -25,7 +25,7 @@ public class AttackScanner : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            enemy.Attack();
+            enemy.StartAttack();
         }
     }
 }
