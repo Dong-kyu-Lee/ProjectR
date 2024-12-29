@@ -158,6 +158,7 @@ public class PlayerController : MonoBehaviour
         GameObject projectileObj = Instantiate(projectilePref, spawnVector, Quaternion.identity);
         Vector2 velocityVector = new Vector2(curMouseVector.x - spawnVector.x, curMouseVector.y - spawnVector.y);
         projectileObj.GetComponent<Projectile>().Velocity = velocityVector.normalized;
+        projectileObj.GetComponent<Projectile>().damage = playerStatus.Damage;
 
         yield return new WaitForSeconds(attackCoolTime);
         enableAttack = true;

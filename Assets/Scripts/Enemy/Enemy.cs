@@ -106,4 +106,15 @@ public class Enemy : MonoBehaviour
             transform.position = new Vector3(LeftEdge.transform.position.x, transform.position.y, transform.position.z);
         }
     }
+
+    public void Dead()
+    {
+        StartCoroutine(DeadCoroutine());
+    }
+
+    protected IEnumerator DeadCoroutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+        gameObject.SetActive(false);
+    }
 }

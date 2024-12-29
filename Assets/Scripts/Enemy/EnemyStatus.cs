@@ -28,4 +28,10 @@ public class EnemyStatus : Status
     {
         
     }
+
+    protected override void Dead()
+    {
+        EnemyAIController enemyAIController = GetComponent<Enemy>().StateMachine;
+        enemyAIController.TransitionTo(enemyAIController.deadState);
+    }
 }

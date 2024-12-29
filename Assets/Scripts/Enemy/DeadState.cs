@@ -14,7 +14,8 @@ public class DeadState : IState
 
     public void Enter()
     {
-
+        enemy.EnemyAnimator.SetTrigger("Die");
+        enemy.Dead();
     }
 
     public void Update(float delta)

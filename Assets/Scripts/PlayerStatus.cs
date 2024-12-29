@@ -67,7 +67,7 @@ public class PlayerStatus : Status
     void Awake()
     {
         Hp = 100f;
-        Damage = 0;
+        Damage = 10f;
         DamageReduction = 0;
         AttackSpeed = 1.5f;
         MoveSpeed = 3f;
