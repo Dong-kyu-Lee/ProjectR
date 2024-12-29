@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject projectilePref;
     public Camera playerCamera;
+    public Animator playerAnimator;
 
     float moveSpeed;
     public float jumpPower;
@@ -179,5 +180,19 @@ public class PlayerController : MonoBehaviour
                 enableJump = true;
             }
         }
+    }
+
+    public void Dead()
+    {
+        StartCoroutine(DeadCoroutine());
+    }
+
+    IEnumerator DeadCoroutine()
+    {
+        playerAnimator.SetTrigger("Die");
+
+        yield return new WaitForSeconds(1.5f);
+
+        gameObject.SetActive(false);
     }
 }
