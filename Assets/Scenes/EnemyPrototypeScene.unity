@@ -786,6 +786,7 @@ MonoBehaviour:
         m_CallState: 2
   projectilePref: {fileID: 2127986129719347135, guid: 9545418416f37464b95a11a2de2a92e8, type: 3}
   playerCamera: {fileID: 1281468549}
+  playerAnimator: {fileID: 0}
   jumpPower: 2000
   moveFactor: 0
   dashFactor: 0
@@ -3266,6 +3267,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706246436}
   m_CullTransparentMesh: 1
+--- !u!95 &755138599 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5991675828993095249, guid: e0bb4022d7d2f5047a85403631a12dd0, type: 3}
+  m_PrefabInstance: {fileID: 1562876096502544967}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &764741895
 GameObject:
   m_ObjectHideFlags: 0
@@ -6689,6 +6695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitBoxCol: {fileID: 1659117092}
+  damage: 0
 --- !u!1 &1674221317
 GameObject:
   m_ObjectHideFlags: 0
@@ -8768,6 +8775,10 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 1281468549}
+    - target: {fileID: 8064677607227596059, guid: e0bb4022d7d2f5047a85403631a12dd0, type: 3}
+      propertyPath: playerAnimator
+      value: 
+      objectReference: {fileID: 755138599}
     - target: {fileID: 8064677607227596059, guid: e0bb4022d7d2f5047a85403631a12dd0, type: 3}
       propertyPath: OnEnableCharacterInfoUI.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

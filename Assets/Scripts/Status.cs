@@ -10,7 +10,19 @@ public class Status : MonoBehaviour
     private float attackSpeed;
     private float moveSpeed;
 
-    public float Hp { get { return hp; } set { hp = value; } }
+    public float Hp
+    { 
+        get { return hp; }
+        set
+        {
+            hp = value;
+            if (hp <= 0f)
+            {
+                hp = 0f;
+                Dead();
+            }
+        }
+    }
     public float Damage { get { return damage; } set { damage = value; } }
     public float DamageReduction { get { return damageReduction; } set { damageReduction = value; } }
     public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
@@ -24,5 +36,15 @@ public class Status : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Hp -= damage;
+    }
+
+    protected virtual void Dead()
+    {
+
     }
 }

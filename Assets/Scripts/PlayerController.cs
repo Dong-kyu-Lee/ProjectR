@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject projectilePref;
     public Camera playerCamera;
+    public Animator playerAnimator;
 
     float moveSpeed;
     public float jumpPower;
@@ -158,6 +159,7 @@ public class PlayerController : MonoBehaviour
         GameObject projectileObj = Instantiate(projectilePref, spawnVector, Quaternion.identity);
         Vector2 velocityVector = new Vector2(curMouseVector.x - spawnVector.x, curMouseVector.y - spawnVector.y);
         projectileObj.GetComponent<Projectile>().Velocity = velocityVector.normalized;
+        projectileObj.GetComponent<Projectile>().damage = playerStatus.Damage;
 
         yield return new WaitForSeconds(attackCoolTime);
         enableAttack = true;
@@ -178,5 +180,19 @@ public class PlayerController : MonoBehaviour
                 enableJump = true;
             }
         }
+    }
+
+    public void Dead()
+    {
+        StartCoroutine(DeadCoroutine());
+    }
+
+    IEnumerator DeadCoroutine()
+    {
+        playerAnimator.SetTrigger("Die");
+
+        yield return new WaitForSeconds(1.5f);
+
+        gameObject.SetActive(false);
     }
 }

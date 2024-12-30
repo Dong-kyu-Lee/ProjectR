@@ -10,6 +10,7 @@ public class EnemyAIController : MonoBehaviour
     public WanderState wanderState;
     public ChaseState chaseState;
     public AttackState attackState;
+    public DeadState deadState;
 
     public bool isChasing = false;
 
@@ -19,6 +20,7 @@ public class EnemyAIController : MonoBehaviour
         this.wanderState = new WanderState(enemy);
         this.chaseState = new ChaseState(enemy);
         this.attackState = new AttackState(enemy);
+        this.deadState = new DeadState(enemy);
 
         isChasing = false;
 
@@ -30,7 +32,6 @@ public class EnemyAIController : MonoBehaviour
     {
         CurrentState.Exit();
         CurrentState = nextState;
-        Debug.Log("상태 변경 : " + nextState.ToString());
         nextState.Enter();
     }
 

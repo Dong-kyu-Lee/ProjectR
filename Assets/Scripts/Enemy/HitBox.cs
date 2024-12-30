@@ -7,6 +7,15 @@ public class HitBox : MonoBehaviour
     [SerializeField]
     private BoxCollider2D hitBoxCol;
 
+    [SerializeField]
+    private float damage;
+
+    private void Awake()
+    {
+        damage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
+    }
+
+
     void Start()
     {
         StartCoroutine(HitBoxCoroutine());
@@ -21,10 +30,9 @@ public class HitBox : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            Debug.Log("hit");
-
-            gameObject.SetActive(false);
+            collision.gameObject.GetComponent<Status>().TakeDamage(damage);
         }
+        gameObject.SetActive(false);
     }
 
     IEnumerator HitBoxCoroutine()
