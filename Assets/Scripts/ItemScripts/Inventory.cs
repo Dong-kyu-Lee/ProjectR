@@ -5,11 +5,18 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    //소모품 관련 칸
     private ConsumableItemData quickSlot = null;
     private int quickSlotItemAmount = 0;
     [SerializeField]
-    private Dictionary<ConsumableItemData, int> inventory;  //인벤토리 딕셔너리<아이템정보, 갯수>
+    private Dictionary<BasicItemData, int> inventory;  //인벤토리 딕셔너리<아이템정보, 갯수>
+    
+    //장비 관련 칸
+    [SerializeField]
+    private EquipmentItemData EquipmentItemSlot;
+    [SerializeField] 
     public int maxSlotSize = 6;
+    private PlayerStatus playerStatus;
     
     public int QuickSlotItemAmount
     { 
@@ -21,20 +28,21 @@ public class Inventory : MonoBehaviour
     }
     public ConsumableItemData QuickSlot { get { return quickSlot; } }
     public int QuickSlotAmount { get { return quickSlotItemAmount; } }
-    public Dictionary<ConsumableItemData, int> InventoryList { get { return inventory; } }
+    public Dictionary<BasicItemData, int> InventoryList { get { return inventory; } }
     public int MaxSlotSize { get { return maxSlotSize; } }
 
     private void Awake()
     {
-        inventory = new Dictionary<ConsumableItemData, int>();
+        inventory = new Dictionary<BasicItemData, int>();
+        playerStatus = GetComponentInParent<PlayerStatus>();
     }
 
     //퀵슬롯에 있는 아이템을 사용하는 메서드
-    public void UseQuickSlotItem(GameObject player)
+    public void UseQuickSlotItem()
     {
         if(quickSlot)
         {
-            quickSlot.ActivateItemEffect(player);
+            quickSlot.ActivateItemEffect(playerStatus);
             QuickSlotItemAmount--;
             Debug.Log(quickSlotItemAmount);
 
@@ -51,14 +59,29 @@ public class Inventory : MonoBehaviour
     }
 
     //아이템을 퀵슬롯에 로드하는 메서드
-    public void LoadToQuickSlot(ConsumableItemData item, int amount = 1)
+    public void LoadToQuickSlot(BasicItemData item, int amount = 1)
     {
-        quickSlot = item;
+        quickSlot = item as ConsumableItemData;
         quickSlotItemAmount += amount;
     }
 
     //아이템을 인벤토리에 추가하는 메서드 
-    public bool AddItem(ConsumableItemData item, int amount = 1)
+    public bool AddItem(BasicItemData item, int amount = 1)
+    {
+        switch(item.ItemType)
+        {
+            case ItemType.CONSUMABLE:
+                return AddConsumableItem(item as ConsumableItemData, amount);
+            case ItemType.EQUIPMENT:
+                Debug.Log("장비 추가 함수 실행");
+                return AddEquipmentItem(item as EquipmentItemData);
+            default:
+                Debug.Log("아이템이 어떠한 클래스 타입이랑도 매칭되지 않음");
+                return false;
+        }
+    }
+
+    private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
         if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우
         {
@@ -83,5 +106,48 @@ public class Inventory : MonoBehaviour
                 return false;
             }
         }
+    }
+
+    //인벤토리에 장비를 추가하는 함수
+    private bool AddEquipmentItem(EquipmentItemData item)
+    {
+        if(EquipmentItemSlot == null)
+        {
+            LoadEquipmentItem(item);
+            return true;
+
+        }
+        else
+        {
+            if (inventory.ContainsKey(item))
+            {
+                Debug.Log("이미 인벤토리에 존재하는 아이템입니다.");
+                return false;
+            }
+            else {
+                inventory.Add(item, 1);
+                return true;
+            }
+        }
+    }
+
+    //장비 장착칸에 장비를 추가하는 메서드
+    private void LoadEquipmentItem(EquipmentItemData item)
+    {
+        EquipmentItemSlot = item;
+        Debug.Log("장비 장착함");
+        EquipmentItemSlot.EquipItem(playerStatus);
+    }
+
+    public void UnloadEquipmentItem()
+    {
+        if(EquipmentItemSlot != null)
+        {
+            EquipmentItemSlot.UnEquipItem(playerStatus);
+            AddEquipmentItem(EquipmentItemSlot);
+            Debug.Log("장비 해제함");
+            EquipmentItemSlot = null;
+        }
+
     }
 }
