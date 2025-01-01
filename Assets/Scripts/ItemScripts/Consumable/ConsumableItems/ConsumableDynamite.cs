@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ConsumableDynamite_Data", menuName = "Scriptable Object/ConsumableDynamite_Data", order = 1)]
+[CreateAssetMenu(fileName = "ConsumableWeaponItem_Data", menuName = "Scriptable Object/Consumable Weapon Item Data", order = 1)]
 public class ConsumableDynamite : ConsumableItemData
 {
     //다이너마이트 아이템 Data
     [SerializeField]
     private GameObject dynamitePrefab;  //다이너마이트 Projectile Prefab
 
-    public override void ActivateItemEffect(GameObject player)
+    public override void ActivateItemEffect(PlayerStatus player)
     {
         ThrowBomb(player.transform);
     }

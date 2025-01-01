@@ -8,7 +8,9 @@ using UnityEngine;
 public class FieldItem : MonoBehaviour
 {
     [SerializeField]
-    private ConsumableItemData myItemData;  //필드에 떨어진 아이템의 정보
+    //private ConsumableItemData myItemData;  //필드에 떨어진 아이템의 정보
+    private BasicItemData myItemData;  //기본적인 아이템의 정보를 가지는 스크립터블 오브젝트
+
     [SerializeField]
     private int amount = 1;                 //습득했을 경우 얻게되는 아이템 수
     private PlayerItemUseController playerController = null;    //플레이어의 아이템 사용 컨트롤러
