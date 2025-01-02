@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ConsumableBuffItem_Data", menuName = "Scriptable Object/ConsumableBuffItem_Data", order = 1)]
+[CreateAssetMenu(fileName = "ConsumableBuffItem_Data", menuName = "Scriptable Object/Consumable Buff Item Data", order = 1)]
 public class ConsumableBuffItem : ConsumableItemData
 {
     [SerializeField]
@@ -10,7 +10,7 @@ public class ConsumableBuffItem : ConsumableItemData
     [SerializeField]
     private float buffDuration;
 
-    public override void ActivateItemEffect(GameObject player)
+    public override void ActivateItemEffect(PlayerStatus player)
     {
         player.GetComponent<PlayerBuffManager>().ActivateBuff(buffType, buffDuration);
     }
