@@ -33,8 +33,9 @@ public class Inventory : MonoBehaviour
     }
     public ConsumableItemData QuickSlot { get { return quickSlot; } }
     public int QuickSlotAmount { get { return quickSlotItemAmount; } }
-    public Dictionary<BasicItemData, int> InventoryList { get { return inventory; } }
+    public Dictionary<BasicItemData, int> InventoryDict { get { return inventory; } }
     public int MaxInventorySlot { get { return maxInventorySlot; } }
+    public EquipmentItemData[] EquipmentItemSlot { get { return equipmentItemSlot; } }
 
     private void Awake()
     {
