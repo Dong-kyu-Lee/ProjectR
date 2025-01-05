@@ -23,7 +23,7 @@ public class Status : MonoBehaviour
             }
         }
     }
-    public float Damage { get { return damage; } set { damage = value; } }
+    public virtual float Damage { get { return damage; } set { damage = value; } }
     public float DamageReduction { get { return damageReduction; } set { damageReduction = value; } }
     public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
@@ -40,7 +40,8 @@ public class Status : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Hp -= damage;
+        Debug.Log((1 - damageReduction * 0.01f) * damage);
+        Hp -= (1 - damageReduction * 0.01f) * damage;
     }
 
     protected virtual void Dead()
