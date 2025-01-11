@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,17 +16,27 @@ public class PlayerItemUseController : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))    //Äü½½·Ô¿¡ µî·ÏµÈ ¾ÆÀÌÅÛ »ç¿ë
+        if (Input.GetMouseButtonDown(1))    //í€µìŠ¬ë¡¯ì— ë“±ë¡ëœ ì•„ì´í…œ ì‚¬ìš©
         {
-            myInventory.UseQuickSlotItem();
+            //myInventory.UseQuickSlotItem();
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
             myInventory.UnloadEquipmentItem();
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            myInventory.SwapEquipmentItemSlots(0, 4);
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            var temp = myInventory.InventoryDict.Keys.First();  //ë””ë²„ê¹…ì„ ìœ„í•´ ì¸ë²¤í† ë¦¬ì˜ keyë“¤ì„ ë°°ì—´ë¡œ ë°˜í™˜í•œ ê²ƒ.
+            myInventory.SwapEquippedItemWithInventory(1, temp as EquipmentItemData);
+        }
     }
 
-    //¾ÆÀÌÅÛÀ» ÀÎº¥Åä¸®¿¡ Ãß°¡ÇÏ´Â ¸Ş¼­µå
+    //ì•„ì´í…œì„ ì¸ë²¤í† ë¦¬ì— ì¶”ê°€í•˜ëŠ” ë©”ì„œë“œ
     public bool AddItem(BasicItemData item, int amount)
     {
         return myInventory.AddItem(item, amount);

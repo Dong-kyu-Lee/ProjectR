@@ -39,7 +39,20 @@ public class CharacterInfo : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            //장비 해제
+            UpdateAllInventorySlotImages();
+            UpdateAllEquippedItemSlotImages();
+        }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            //장비 칸끼리 교체
+            //UpdateAllEquippedItemSlotImages();
+            UpdateEquippedItemSlotImage(0);
+            UpdateEquippedItemSlotImage(4);
+        }
     }
 
     private void OnEnable()
@@ -116,13 +129,18 @@ public class CharacterInfo : MonoBehaviour
     {
         for (int i = 0; i < equipSlotImgs.Count; i++)
         {
-            if (playerInventory.EquipmentItemSlot[i] != null)
-                UpdateEquippedItemSlotImage(playerInventory.EquipmentItemSlot[i].ItemSprite.texture, i);
+            UpdateEquippedItemSlotImage(i);
         }
     }
 
+    private void UpdateEquippedItemSlotImage(int slotIdx)
+    {
+        equipSlotImgs[slotIdx].GetComponent<RawImage>().texture
+            = playerInventory.EquipmentItemSlot[slotIdx].ItemSprite.texture;
+    }
+
     //해당 장비칸 이미지 업데이트 함수
-    public void UpdateEquippedItemSlotImage(Texture texture, int slotIndex)
+    public void ChangeEquippedItemSlotImage(Texture texture, int slotIndex)
     {
         equipSlotImgs[slotIndex].GetComponent<RawImage>().texture = texture;
     }
@@ -135,7 +153,7 @@ public class CharacterInfo : MonoBehaviour
 
         foreach(var item in playerInventory.InventoryDict)
         {
-            UpdateInventorySlotImage(item.Key.ItemSprite, row, col);
+            ChangeInventorySlotImage(item.Key.ItemSprite, row, col);
             if (col > inventorySlotParentObj[row].transform.childCount)
             {
                 col = 0;
@@ -149,8 +167,8 @@ public class CharacterInfo : MonoBehaviour
     }
 
     //해당 인벤토리 슬롯 이미지 업데이트 함수
-    public void UpdateInventorySlotImage(Sprite targetSprite, int row, int col)
+    public void ChangeInventorySlotImage(Sprite targetSprite, int slotRowIdx, int slotColIdx)
     {
-        inventorySlotParentObj[row].transform.GetChild(col).GetComponent<Image>().sprite = targetSprite;
+        inventorySlotParentObj[slotRowIdx].transform.GetChild(slotColIdx).GetComponent<Image>().sprite = targetSprite;
     }
 }
