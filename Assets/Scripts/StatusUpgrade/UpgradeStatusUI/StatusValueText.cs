@@ -12,7 +12,7 @@ public class StatusValueText : MonoBehaviour
     public Text mysteryText;
     public Text skillpointText;
 
-    // ½ºÅ×ÀÌÅÍ½º °ª Ç¥½Ã.
+    // ìŠ¤í…Œì´í„°ìŠ¤ ê°’ í‘œì‹œ.
     public void SetupValueText(UpgradeStatus upgradeStatus)
     {
         forceText.text = "" + upgradeStatus.Force;
@@ -20,6 +20,6 @@ public class StatusValueText : MonoBehaviour
         criticalText.text = "" + upgradeStatus.Critical;
         dexterityText.text = "" + upgradeStatus.Dexterity;
         mysteryText.text = "" + upgradeStatus.Mystery;
-        skillpointText.text = "½ºÅ³Æ÷ÀÎÆ® : " + upgradeStatus.SkillPoint;
+        skillpointText.text = "ìŠ¤í‚¬í¬ì¸íŠ¸ : " + upgradeStatus.SkillPoint;
     }
 }

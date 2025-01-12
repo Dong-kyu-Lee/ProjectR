@@ -207,4 +207,24 @@ public class PlayerController : MonoBehaviour
 
         gameObject.SetActive(false);
     }
+
+    // 공격의 크리티컬 여부 확인.
+    public float CheckCritical()
+    {
+        float damage = playerStatus.TotalDamage;
+        float criticalPercnet = playerStatus.CriticalPercent;
+        float criticalDamage = playerStatus.CriticalDamage;
+
+        float randomValue = Random.Range(0f, 100f);
+
+        if (randomValue < criticalPercnet)
+        {
+            Debug.Log("크리티컬!");
+            return damage * (1 + criticalDamage * 0.01f);
+        }
+        else
+        {
+            return damage;
+        }
+    }
 }
