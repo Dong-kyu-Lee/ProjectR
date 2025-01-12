@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
         GameObject projectileObj = Instantiate(projectilePref, spawnVector, Quaternion.identity);
         Vector2 velocityVector = new Vector2(curMouseVector.x - spawnVector.x, curMouseVector.y - spawnVector.y);
         projectileObj.GetComponent<Projectile>().Velocity = velocityVector.normalized;
-        projectileObj.GetComponent<Projectile>().damage = playerStatus.Damage;
+        projectileObj.GetComponent<Projectile>().damage = CheckCritical();
 
         yield return new WaitForSeconds(attackCoolTime);
         enableAttack = true;
@@ -194,5 +194,25 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         gameObject.SetActive(false);
+    }
+
+    // 공격의 크리티컬 여부 확인.
+    public float CheckCritical()
+    {
+        float damage = playerStatus.TotalDamage;
+        float criticalPercnet = playerStatus.CriticalPercent;
+        float criticalDamage = playerStatus.CriticalDamage;
+
+        float randomValue = Random.Range(0f, 100f);
+
+        if (randomValue < criticalPercnet)
+        {
+            Debug.Log("크리티컬!");
+            return damage * (1 + criticalDamage * 0.01f);
+        }
+        else
+        {
+            return damage;
+        }
     }
 }

@@ -33,6 +33,16 @@ public class PlayerStatus : Status
         }
     }
 
+    public override float Damage
+    {
+        get { return base.Damage; }
+        set
+        {
+            base.Damage = value;
+            totalDamage = base.Damage + (base.Damage * additionalDamage * 0.01f);
+        }
+    }
+
     public float AdditionalDamage
     {
         get { return additionalDamage; }
@@ -40,7 +50,6 @@ public class PlayerStatus : Status
         {
             additionalDamage = value;
             totalDamage = Damage + (Damage * additionalDamage * 0.01f);
-            CriticalDamage = totalDamage * 0.5f;
         } 
     }
 
@@ -74,12 +83,12 @@ public class PlayerStatus : Status
 
         level = 1f;
         exp = 0;
-        criticalDamage = 0;
-        AdditionalDamage = 0;
+        criticalDamage = 50f;
+        AdditionalDamage = 0f;
         AdditionalDamageReduction = 0;
         AdditionalAttackSpeed = 0;
         totalAttackSpeed = 1.5f;
-        criticalPercent = 0;
+        criticalPercent = 0f;
         priceAdditional = 0;
     }
 
