@@ -11,10 +11,15 @@ public class ItemSlotManager : MonoBehaviour
     private SpriteRenderer[] itemImage;
     [SerializeField]
     private Sprite[] sellList;
+    private Inventory inventory;
+    private PlayerStatus playerStatus;
+
 
     private void Awake()
     {
         SellingItem();
+        inventory = GetComponent<Inventory>();
+        playerStatus = GetComponent<PlayerStatus>();
     }
     public void SellingItem()
     {
@@ -42,4 +47,14 @@ public class ItemSlotManager : MonoBehaviour
             } while (isOverlap);
         }
     }
+    public void EmptySlot()
+    {
+        
+    }
+
+    public void BuyItem(BasicItemData item)
+    {
+        inventory.AddItem(item);
+        playerStatus.Gold -= item.ItemPrice;
+    } 
 }

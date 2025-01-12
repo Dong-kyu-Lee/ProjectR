@@ -8,15 +8,15 @@ public class ItemExplain : MonoBehaviour
     [SerializeField]
     GameObject itemExplainUI;   
     [SerializeField]
-    TextMeshPro itemExTxt;      //ºÎ¿¬¼³¸í
+    TextMeshPro itemExTxt;      //ë¶€ì—°ì„¤ëª…
     [SerializeField]
-    TextMeshPro itemEffectTxt;  //È¿°ú
+    TextMeshPro itemEffectTxt;  //íš¨ê³¼
     [SerializeField]
-    TextMeshPro itemPriceText;  //°¡°İ
+    TextMeshPro itemPriceText;  //ê°€ê²©
     [SerializeField]
-    SpriteRenderer exItemImage;   //¼³¸íÁöÀÇ ÀÌ¹ÌÁö
+    SpriteRenderer exItemImage;   //ì„¤ëª…ì§€ì˜ ì´ë¯¸ì§€
     [SerializeField]
-    SpriteRenderer sellingItemImage;    //¸Å´ëÀÇ ¾ÆÀÌÅÛ ÀÌ¹ÌÁö
+    SpriteRenderer sellingItemImage;    //ë§¤ëŒ€ì˜ ì•„ì´í…œ ì´ë¯¸ì§€
     private void Awake()
     {
         itemExplainUI.SetActive(false);
@@ -39,7 +39,7 @@ public class ItemExplain : MonoBehaviour
     private void ChangeInfo()
     {
         exItemImage.sprite = sellingItemImage.sprite;
-        /* ÃßÈÄ ¾ÆÀÌÅÛ ¼³Á¤µÇ¸é º¯°æ
+        /* ì¶”í›„ ì•„ì´í…œ ì„¤ì •ë˜ë©´ ë³€ê²½
          * itemPriceText.text = sellingItemImage.name;
          */
     }

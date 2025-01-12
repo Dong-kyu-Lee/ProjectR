@@ -15,6 +15,7 @@ public class PlayerStatus : Status
     private float totalDamage;
     private float totalDamageReduction;
     private float totalAttackSpeed;
+    private float gold;
 
     public float Level { get { return level; } set { level = value; } }
     public float CriticalPercent { get { return criticalPercent; } set { criticalPercent = value; } }
@@ -23,6 +24,7 @@ public class PlayerStatus : Status
     public float TotalDamage { get { return totalDamage; } }
     public float TotalDamageReduction { get { return totalDamageReduction; } }
     public float TotalAttackSpeed { get { return totalAttackSpeed; } }
+    public float Gold;
 
     public float Exp
     {

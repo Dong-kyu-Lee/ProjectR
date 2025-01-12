@@ -12,18 +12,20 @@ public enum ItemType
 public class BasicItemData : ScriptableObject
 {
     [SerializeField]
-    protected string itemName;  //¾ÆÀÌÅÛ ÀÌ¸§
+    protected string itemName;  //ì•„ì´í…œ ì´ë¦„
     
     [SerializeField, Multiline]
-    protected string itemDescription;   //¾ÆÀÌÅÛ ¼³¸í¹®
+    protected string itemDescription;   //ì•„ì´í…œ ì„¤ëª…ë¬¸
     [SerializeField]
-    protected int itemID;       //¾ÆÀÌÅÛ ID
+    protected int itemID;       //ì•„ì´í…œ ID
     [SerializeField]
-    protected Sprite itemSprite;    //¾ÆÀÌÅÛ ½ºÇÁ¶óÀÌÆ®
+    protected Sprite itemSprite;    //ì•„ì´í…œ ìŠ¤í”„ë¼ì´íŠ¸
     [SerializeField]
-    protected int maxAmount = 99;   //ÇÑ¹øÀÇ ÃÖ´ë º¸À¯·®
+    protected int maxAmount = 99;   //í•œë²ˆì˜ ìµœëŒ€ ë³´ìœ ëŸ‰
     [SerializeField]
-    protected ItemType itemType;    //¾ÆÀÌÅÛ Å¸ÀÔ
+    protected ItemType itemType;    //ì•„ì´í…œ íƒ€ì…
+    [SerializeField]
+    protected int itemPrice;    
 
     public string ItemName { get { return itemName; } }
     public string ItemDescription { get { return itemDescription; } }
@@ -31,4 +33,5 @@ public class BasicItemData : ScriptableObject
     public Sprite ItemSprite { get { return itemSprite; } }
     public int MaxAmount { get { return maxAmount; } }
     public ItemType ItemType { get { return itemType; } }
+    public int ItemPrice { get { return itemPrice; } }
 }
