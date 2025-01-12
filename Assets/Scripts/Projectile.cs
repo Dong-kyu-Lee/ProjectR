@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
 
     Vector2 velocity;
 
-    // ¹ß»ç ¼Óµµ ÇÁ·ÎÆÛÆ¼
+    // ë°œì‚¬ ì†ë„ í”„ë¡œí¼í‹°
     public Vector2 Velocity
     {
         get
