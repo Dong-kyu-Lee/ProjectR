@@ -14,7 +14,7 @@ public class ItemExplain : MonoBehaviour
     [SerializeField]
     TextMeshPro itemPriceText;  //가격
     [SerializeField]
-    BasicItemData sellingItem;  //매대의 아이템 
+    public BasicItemData sellingItem;  //매대의 아이템 
     [SerializeField]
     TextMeshPro itemName;   //아이템 이름
     private void Awake()

@@ -13,8 +13,11 @@ public class ItemSlotManager : MonoBehaviour
     private BasicItemData[] item;
     [SerializeField]
     private BasicItemData[] sellList;
+    [SerializeField]
+    private ItemExplain[] itemExplain;
     private Inventory inventory;
     private PlayerStatus playerStatus;
+    
 
 
     private void Awake()
@@ -45,6 +48,7 @@ public class ItemSlotManager : MonoBehaviour
                 {
                     item[i] = sellList[randomItem];
                     itemImage[i].sprite = item[i].ItemSprite;
+                    itemExplain[i].sellingItem = item[i];
                     checkOverlap[i] = randomItem;
                 }
             } while (isOverlap);
