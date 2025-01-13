@@ -16,7 +16,7 @@ public class ItemExplain : MonoBehaviour
     [SerializeField]
     SpriteRenderer exItemImage;   //설명지의 이미지
     [SerializeField]
-    SpriteRenderer sellingItemImage;    //매대의 아이템 이미지
+    BasicItemData sellingItem;  //매대의 아이템 
     private void Awake()
     {
         itemExplainUI.SetActive(false);
@@ -38,9 +38,8 @@ public class ItemExplain : MonoBehaviour
     }
     private void ChangeInfo()
     {
-        exItemImage.sprite = sellingItemImage.sprite;
-        /* 추후 아이템 설정되면 변경
-         * itemPriceText.text = sellingItemImage.name;
-         */
+        exItemImage.sprite = sellingItem.ItemSprite;
+        itemPriceText.text = sellingItem.ItemPrice.ToString();
+        itemEffectTxt.text = sellingItem.ItemDescription.ToString();    //수정 필요
     }
 }

@@ -17,8 +17,8 @@ public class ShopMaster : MonoBehaviour
         timeCount += Time.deltaTime;
         if(timeCount >= 3)
         {
-            //sayNum = Random.Range(0, 3);
-            //Á¤ÇØÁø ¸» Áß ·»´ıÀ¸·Î Á¤ÇØÁø ¸»Ç³¼± Ãâ·Â
+            sayNum = Random.Range(0, 3);
+            //ì •í•´ì§„ ë§ ì¤‘ ë Œë¤ìœ¼ë¡œ ì •í•´ì§„ ë§í’ì„  ì¶œë ¥
             timeCount = 0;
         }
     }

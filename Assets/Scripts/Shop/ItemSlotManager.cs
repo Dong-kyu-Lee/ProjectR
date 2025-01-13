@@ -10,7 +10,9 @@ public class ItemSlotManager : MonoBehaviour
     [SerializeField]
     private SpriteRenderer[] itemImage;
     [SerializeField]
-    private Sprite[] sellList;
+    private BasicItemData[] item;
+    [SerializeField]
+    private BasicItemData[] sellList;
     private Inventory inventory;
     private PlayerStatus playerStatus;
 
@@ -41,7 +43,8 @@ public class ItemSlotManager : MonoBehaviour
                 }
                 if (!isOverlap)
                 {
-                    itemImage[i].sprite = sellList[randomItem];
+                    item[i] = sellList[randomItem];
+                    itemImage[i].sprite = item[i].ItemSprite;
                     checkOverlap[i] = randomItem;
                 }
             } while (isOverlap);
