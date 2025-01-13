@@ -14,9 +14,9 @@ public class ItemExplain : MonoBehaviour
     [SerializeField]
     TextMeshPro itemPriceText;  //가격
     [SerializeField]
-    SpriteRenderer exItemImage;   //설명지의 이미지
-    [SerializeField]
     BasicItemData sellingItem;  //매대의 아이템 
+    [SerializeField]
+    TextMeshPro itemName;   //아이템 이름
     private void Awake()
     {
         itemExplainUI.SetActive(false);
@@ -38,8 +38,9 @@ public class ItemExplain : MonoBehaviour
     }
     private void ChangeInfo()
     {
-        exItemImage.sprite = sellingItem.ItemSprite;
         itemPriceText.text = sellingItem.ItemPrice.ToString();
-        itemEffectTxt.text = sellingItem.ItemDescription.ToString();    //수정 필요
+        itemEffectTxt.text = sellingItem.ItemDescription;
+        itemExTxt.text = sellingItem.ItemExplain;
+        itemName.text = sellingItem.ItemName;
     }
 }

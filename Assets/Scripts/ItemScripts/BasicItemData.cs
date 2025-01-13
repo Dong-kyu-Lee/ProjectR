@@ -25,7 +25,9 @@ public class BasicItemData : ScriptableObject
     [SerializeField]
     protected ItemType itemType;    //아이템 타입
     [SerializeField]
-    protected int itemPrice;    
+    protected int itemPrice;
+    [SerializeField]
+    protected string itemExplain;
 
     public string ItemName { get { return itemName; } }
     public string ItemDescription { get { return itemDescription; } }
@@ -34,4 +36,5 @@ public class BasicItemData : ScriptableObject
     public int MaxAmount { get { return maxAmount; } }
     public ItemType ItemType { get { return itemType; } }
     public int ItemPrice { get { return itemPrice; } }
+    public string ItemExplain { get { return itemExplain; } }
 }
