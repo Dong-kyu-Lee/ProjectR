@@ -10,9 +10,14 @@ public class PlayerItemUseController : MonoBehaviour
     private Inventory myInventory;
     public Inventory MyInventory { get { return myInventory; } }
 
+    //디버그용 변수들
+    public int equippedSlotIndex1 = 0;
+    public int equippedSlotIndex2 = 4;
+    public int inventorySlotIndex = 0;
+
     private void Awake()
     {
-
+        myInventory = transform.GetChild(0).GetComponent<Inventory>();
     }
     private void Update()
     {
@@ -22,17 +27,13 @@ public class PlayerItemUseController : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
-            myInventory.UnloadEquipmentItem();
+            myInventory.UnloadEquipmentItem(equippedSlotIndex1);
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            myInventory.SwapEquipmentItemSlots(0, 4);
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            var temp = myInventory.InventoryDict.Keys.First();  //디버깅을 위해 인벤토리의 key들을 배열로 반환한 것.
-            myInventory.SwapEquippedItemWithInventory(1, temp as EquipmentItemData);
+            //myInventory.SwapEquipmentItemSlots(0, 4);
+            myInventory.SwapEquipmentItemSlots(equippedSlotIndex1, equippedSlotIndex2);
         }
     }
 

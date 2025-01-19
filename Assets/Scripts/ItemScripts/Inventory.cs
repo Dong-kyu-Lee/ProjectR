@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -24,6 +25,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private EquipmentItemData[] equipmentItemSlot;
 
     [SerializeField] private EquipmentItemData dummyItemData;
+    [SerializeField] private InventoryUI inventoryUI;
 
     public int QuickSlotItemAmount
     {
@@ -38,6 +40,7 @@ public class Inventory : MonoBehaviour
     public int QuickSlotAmount { get { return quickSlotItemAmount; } }
     public Dictionary<BasicItemData, int> InventoryDict { get { return inventory; } }
     public int MaxInventorySlot { get { return maxInventorySlot; } }
+    public int MaxEquipSlot { get { return maxEquipSlot; } }
     public EquipmentItemData[] EquipmentItemSlot { get { return equipmentItemSlot; } }
 
     private void Awake()
@@ -132,6 +135,7 @@ public class Inventory : MonoBehaviour
         equipmentItemSlot[idx] = item;
         equipmentItemSlot[idx].EquipItem(playerStatus);
         Debug.Log("장비 장착함");
+        inventoryUI.SetEquippedItemSlotData(idx, item);
     }
 
     //대상 장비 장착칸에 장비를 제거하는 메서드
@@ -141,23 +145,18 @@ public class Inventory : MonoBehaviour
         AddItemsToInventory(equipmentItemSlot[idx], 1);
         equipmentItemSlot[idx] = dummyItemData;
         Debug.Log("장비 해제함");
+        inventoryUI.SetEquippedItemSlotData(idx, equipmentItemSlot[idx]);
     }
 
     //인벤토리에 있는 장비와 장착칸의 장비를 서로 교체하는 함수
-    public void SwapEquippedItemWithInventory(int slotIdx, EquipmentItemData itemData)
+    public void SwapEquippedItemWithInventory(int equippedSlotIdx, EquipmentItemData inventoryItemData)
     {
-        /*EquipmentItemData temp = equipmentItemSlot[slotIdx];
-        equipmentItemSlot[slotIdx].UnEquipItem(playerStatus);
-
-        equipmentItemSlot[slotIdx] = itemData;
-        equipmentItemSlot[slotIdx].EquipItem(playerStatus);
-
-        inventory.Remove(itemData);
-        inventory.Add(temp, 1);*/
-        
-        inventory.Remove(itemData);
-        UnloadEquipmentItem(slotIdx);
-        LoadEquipmentItem(itemData, slotIdx);
+        if(inventoryItemData.ItemType != ItemType.DUMMY)
+        {
+            inventory.Remove(inventoryItemData);
+        }
+        UnloadEquipmentItem(equippedSlotIdx);
+        LoadEquipmentItem(inventoryItemData, equippedSlotIdx);
     }
 
     //장비 장착칸의 아이템 슬롯끼리 교체하는 함수
@@ -166,30 +165,35 @@ public class Inventory : MonoBehaviour
         EquipmentItemData temp = equipmentItemSlot[idx1];
         equipmentItemSlot[idx1] = equipmentItemSlot[idx2];
         equipmentItemSlot[idx2] = temp;
+
+        inventoryUI.SetEquippedItemSlotData(idx1, equipmentItemSlot[idx1]);
+        inventoryUI.SetEquippedItemSlotData(idx2, equipmentItemSlot[idx2]);
     }
 
     //대상 아이템을 인벤토리에 추가하는 함수
     private bool AddItemsToInventory(BasicItemData item, int amount)
     {
+        bool isSuccess = false;
         if (inventory.ContainsKey(item))   //인벤토리에 있는 경우
         {
-            if(inventory[item] + amount <= item.MaxAmount)
+            if (inventory[item] + amount <= item.MaxAmount)
             {
                 inventory[item] += amount;
-                return true;
-            }
-            else
-            {
-                return false;
+                isSuccess = true;
             }
         }
         else if (inventory.Count <= maxInventorySlot)
         {
             inventory.Add(item, amount);
-            return true;
+            isSuccess = true;
         }
-        else 
-            return false;
+
+        if (isSuccess)
+        {
+            inventoryUI.SetAllInventorySlotItemDatas();
+        }
+
+        return isSuccess;
     }
 
     public void GetMyInventoryStatus()  //디버깅용 인벤토리 확인 함수
@@ -199,5 +203,4 @@ public class Inventory : MonoBehaviour
             Debug.Log("아이템 이름 : " + i.Key.ItemName + " 아이템 수량 : " + i.Value);
         }
     }
-
 }
