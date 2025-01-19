@@ -9,6 +9,8 @@ public class HitBox : MonoBehaviour
 
     [SerializeField]
     private float damage;
+    [SerializeField]
+    private float ignoreDamageReduction;
 
     private void Awake()
     {
@@ -30,7 +32,7 @@ public class HitBox : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            collision.gameObject.GetComponent<Status>().TakeDamage(damage);
+            collision.gameObject.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction);
         }
         gameObject.SetActive(false);
     }

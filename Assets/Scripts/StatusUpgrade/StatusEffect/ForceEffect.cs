@@ -6,6 +6,8 @@ public class ForceEffect : MonoBehaviour
 {
     private StatusEffectTooltip[] statusEffectTooltip = new StatusEffectTooltip[6];
 
+    private bool canForceEffect4 = false;
+
     private void Awake()
     {
         statusEffectTooltip[0] = GameObject.Find("ForceEffect1").GetComponent<StatusEffectTooltip>();
@@ -23,11 +25,11 @@ public class ForceEffect : MonoBehaviour
         playerStatus.Damage += 5;
     }
 
-    public void EnableForceEffect4(PlayerStatus playerStatus)
+    public void EnableForceEffect4()
     {
         statusEffectTooltip[1].defaultColor = Color.yellow;
         statusEffectTooltip[1].image.color = Color.yellow;
-        playerStatus.Damage += 10;
+        CalcDamage.Instance.forceEffect4 = true;
     }
 
     public void EnableForceEffect7(PlayerStatus playerStatus)
@@ -41,14 +43,14 @@ public class ForceEffect : MonoBehaviour
     {
         statusEffectTooltip[3].defaultColor = Color.yellow;
         statusEffectTooltip[3].image.color = Color.yellow;
-        playerStatus.Damage += 20;
+        playerStatus.IgnoreDamageReduction = 1 - (1 - playerStatus.IgnoreDamageReduction) * (1 - 0.3f);
     }
 
-    public void EnableForceEffect13(PlayerStatus playerStatus)
+    public void EnableForceEffect13()
     {
         statusEffectTooltip[4].defaultColor = Color.yellow;
         statusEffectTooltip[4].image.color = Color.yellow;
-        playerStatus.Damage += 25;
+        CalcDamage.Instance.forceEffect13 = true;
     }
 
     public void EnableForceEffect16(PlayerStatus playerStatus)
@@ -65,11 +67,11 @@ public class ForceEffect : MonoBehaviour
         playerStatus.Damage -= 5;
     }
 
-    public void DisableForceEffect4(PlayerStatus playerStatus)
+    public void DisableForceEffect4()
     {
         statusEffectTooltip[1].defaultColor = Color.white;
         statusEffectTooltip[1].image.color = Color.white;
-        playerStatus.Damage -= 10;
+        CalcDamage.Instance.forceEffect4 = false;
     }
 
     public void DisableForceEffect7(PlayerStatus playerStatus)
@@ -83,14 +85,14 @@ public class ForceEffect : MonoBehaviour
     {
         statusEffectTooltip[3].defaultColor = Color.white;
         statusEffectTooltip[3].image.color = Color.white;
-        playerStatus.Damage -= 20;
+        playerStatus.IgnoreDamageReduction = 1 - (1 - playerStatus.IgnoreDamageReduction) / (1 - 0.3f);
     }
 
-    public void DisableForceEffect13(PlayerStatus playerStatus)
+    public void DisableForceEffect13()
     {
         statusEffectTooltip[4].defaultColor = Color.white;
         statusEffectTooltip[4].image.color = Color.white;
-        playerStatus.Damage -= 25;
+        CalcDamage.Instance.forceEffect13 = false;
     }
 
     public void DisableForceEffect16(PlayerStatus playerStatus)

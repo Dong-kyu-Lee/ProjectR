@@ -25,19 +25,16 @@ public class StatusEffect : MonoBehaviour
     // 특수 효과 활성화.
     public void EnableEffect(string statName, int point)
     {
-
-
-        Debug.Log(statName + point);
         switch (statName)
         {
             case "force":
                 switch (point)
                 {
                     case 1: forceEffect.EnableForceEffect1(playerStatus); break;
-                    case 4: forceEffect.EnableForceEffect4(playerStatus); break;
+                    case 4: forceEffect.EnableForceEffect4(); break;
                     case 7: forceEffect.EnableForceEffect7(playerStatus); break;
                     case 10: forceEffect.EnableForceEffect10(playerStatus); break;
-                    case 13: forceEffect.EnableForceEffect13(playerStatus); break;
+                    case 13: forceEffect.EnableForceEffect13(); break;
                     case 16: forceEffect.EnableForceEffect16(playerStatus); break;
                     default:
                         Debug.Log("올바르지 않는 스텟포인트");
@@ -115,10 +112,10 @@ public class StatusEffect : MonoBehaviour
                 switch (point)
                 {
                     case 1: forceEffect.DisableForceEffect1(playerStatus); break;
-                    case 4: forceEffect.DisableForceEffect4(playerStatus); break;
+                    case 4: forceEffect.DisableForceEffect4(); break;
                     case 7: forceEffect.DisableForceEffect7(playerStatus); break;
                     case 10: forceEffect.DisableForceEffect10(playerStatus); break;
-                    case 13: forceEffect.DisableForceEffect13(playerStatus); break;
+                    case 13: forceEffect.DisableForceEffect13(); break;
                     case 16: forceEffect.DisableForceEffect16(playerStatus); break;
                     default:
                         Debug.Log("올바르지 않는 스텟포인트");
