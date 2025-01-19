@@ -110,19 +110,28 @@ public class BartenderController : MonoBehaviour
         moveVector.x = Input.GetAxis("Horizontal") * moveSpeed * moveFactor * dashFactor * Time.deltaTime;
         moveVector.y = playerRigidBody.velocity.y;
         playerRigidBody.velocity = moveVector;
-        Flip();
+        if (playerRigidBody.velocity.x != 0f)
+        {
+            playerAnimator.SetBool("isMove", true);
+            Flip();
+        }
+        else
+        {
+            playerAnimator.SetBool("isMove", false);
+
+        }
     }
 
     // 플레이어 좌우 이동에 따른 y축 회전
     void Flip()
     {
-        if (playerRigidBody.velocity.x >= 0)
+        if (playerRigidBody.velocity.x > 0)
         {
-            rendererObject.transform.eulerAngles = new Vector3(0.0f, 180f, 0.0f);
+            rendererObject.GetComponent<SpriteRenderer>().flipX = true;
         }
-        else
+        else if (playerRigidBody.velocity.x < 0)
         {
-            rendererObject.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+            rendererObject.GetComponent<SpriteRenderer>().flipX = false;
         }
     }
 
