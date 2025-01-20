@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-//[CreateAssetMenu(fileName = "ConsumableDynamite_Data", menuName = "Scriptable Object/ConsumableDynamite_Data", order = 1)]
+//[CreateAssetMenu(fileName = "EquipmentItem_Data", menuName = "Scriptable Object/EquipmentItem_Data", order = 1)]
 public abstract class EquipmentItemData : BasicItemData
 {
-    public abstract void EquipItem(PlayerStatus player);  //ÀåÂø ½Ã ¾ÆÀÌÅÛ È¿°ú¸¦ ¹ß»ı½ÃÅ°´Â ¸Ş¼­µå
-    public abstract void UnEquipItem(PlayerStatus player);    //ÀåÂø ÇØÁ¦ ½Ã ¾ÆÀÌÅÛ È¿°ú¸¦ ÇØÁ¦½ÃÅ°´Â ¸Ş¼­µå
+    public abstract void EquipItem(PlayerStatus player);     //ì¥ì°© ì‹œ ì•„ì´í…œ íš¨ê³¼ë¥¼ ë°œìƒì‹œí‚¤ëŠ” ë©”ì„œë“œ
+    public abstract void UnEquipItem(PlayerStatus player);   //ì¥ì°© í•´ì œ ì‹œ ì•„ì´í…œ íš¨ê³¼ë¥¼ í•´ì œì‹œí‚¤ëŠ” ë©”ì„œë“œ
 }
