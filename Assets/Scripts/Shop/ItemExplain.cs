@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class ItemExplain : MonoBehaviour
 {
     [SerializeField]
-    GameObject itemExplainUI;   
+    GameObject itemExplainUI;
     [SerializeField]
     TextMeshPro itemExTxt;      //부연설명
     [SerializeField]
     TextMeshPro itemEffectTxt;  //효과
     [SerializeField]
-    TextMeshPro itemPriceText;  //가격
-    [SerializeField]
-    public BasicItemData sellingItem;  //매대의 아이템 
+    TextMeshPro itemPriceTxt;  //가격
     [SerializeField]
     TextMeshPro itemName;   //아이템 이름
+    [SerializeField]
+    public BasicItemData sellingItem;  //매대의 아이템 
+
     private void Awake()
     {
         itemExplainUI.SetActive(false);
@@ -38,7 +39,7 @@ public class ItemExplain : MonoBehaviour
     }
     private void ChangeInfo()
     {
-        itemPriceText.text = sellingItem.ItemPrice.ToString();
+        itemPriceTxt.text = sellingItem.ItemPrice.ToString();
         itemEffectTxt.text = sellingItem.ItemDescription;
         itemExTxt.text = sellingItem.ItemExplain;
         itemName.text = sellingItem.ItemName;

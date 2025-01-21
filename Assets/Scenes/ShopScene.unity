@@ -334,9 +334,20 @@ MonoBehaviour:
   itemExplainUI: {fileID: 1857865992}
   itemExTxt: {fileID: 892514810}
   itemEffectTxt: {fileID: 1215099102}
-  itemPriceText: {fileID: 2108490841}
-  sellingItem: {fileID: 0}
+  itemPriceTxt: {fileID: 2108490841}
   itemName: {fileID: 193364267}
+  sellingItem: {fileID: 0}
+--- !u!114 &155176240 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 719262563829245598, guid: e0bb4022d7d2f5047a85403631a12dd0, type: 3}
+  m_PrefabInstance: {fileID: 238000928}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c0e2870d8a50d418730fc683e57008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &169211373
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,6 +692,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &196901238 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6613199010117736787, guid: e0bb4022d7d2f5047a85403631a12dd0, type: 3}
+  m_PrefabInstance: {fileID: 238000928}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc8de8434fee7b40850ad9818ca3ec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &238000928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4919,9 +4941,9 @@ MonoBehaviour:
   itemExplainUI: {fileID: 1286181742}
   itemExTxt: {fileID: 2093464946}
   itemEffectTxt: {fileID: 169211375}
-  itemPriceText: {fileID: 1647743624}
-  sellingItem: {fileID: 0}
+  itemPriceTxt: {fileID: 1647743624}
   itemName: {fileID: 487390796}
+  sellingItem: {fileID: 0}
 --- !u!1 &660965697
 GameObject:
   m_ObjectHideFlags: 0
@@ -5992,9 +6014,9 @@ MonoBehaviour:
   itemExplainUI: {fileID: 2011987721}
   itemExTxt: {fileID: 1705813705}
   itemEffectTxt: {fileID: 1643751120}
-  itemPriceText: {fileID: 1077119411}
-  sellingItem: {fileID: 0}
+  itemPriceTxt: {fileID: 1077119411}
   itemName: {fileID: 1036109493}
+  sellingItem: {fileID: 0}
 --- !u!1 &1122273883
 GameObject:
   m_ObjectHideFlags: 0
@@ -6410,6 +6432,8 @@ MonoBehaviour:
   - {fileID: 1115208463}
   - {fileID: 524639575}
   - {fileID: 1276349255}
+  inventory: {fileID: 196901238}
+  playerStatus: {fileID: 155176240}
 --- !u!1 &1215099100
 GameObject:
   m_ObjectHideFlags: 0
@@ -6881,9 +6905,9 @@ MonoBehaviour:
   itemExplainUI: {fileID: 1008543055}
   itemExTxt: {fileID: 430877436}
   itemEffectTxt: {fileID: 2139892862}
-  itemPriceText: {fileID: 1408261005}
-  sellingItem: {fileID: 0}
+  itemPriceTxt: {fileID: 1408261005}
   itemName: {fileID: 1122273885}
+  sellingItem: {fileID: 0}
 --- !u!1 &1286181742
 GameObject:
   m_ObjectHideFlags: 0
@@ -9246,7 +9270,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.31325674}
+  m_Offset: {x: 0.011109829, y: -0.208902}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -9257,7 +9281,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.6265135}
+  m_Size: {x: 1.466609, y: 2.670831}
   m_EdgeRadius: 0
 --- !u!212 &2095802994
 SpriteRenderer:
@@ -9340,7 +9364,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSlotManager: {fileID: 1207871573}
-  rerollCoastTxt: {fileID: 0}
+  rerollCoastTxt: {fileID: 1728104249}
+  canReroll: 0
+  playerStatus: {fileID: 155176240}
 --- !u!1 &2108490839
 GameObject:
   m_ObjectHideFlags: 0

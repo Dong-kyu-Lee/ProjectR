@@ -15,16 +15,13 @@ public class ItemSlotManager : MonoBehaviour
     private BasicItemData[] sellList;
     [SerializeField]
     private ItemExplain[] itemExplain;
+    [SerializeField]
     private Inventory inventory;
+    [SerializeField]
     private PlayerStatus playerStatus;
-    
-
-
     private void Awake()
     {
         SellingItem();
-        inventory = GetComponent<Inventory>();
-        playerStatus = GetComponent<PlayerStatus>();
     }
     public void SellingItem()
     {
