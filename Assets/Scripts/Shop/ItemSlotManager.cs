@@ -51,14 +51,32 @@ public class ItemSlotManager : MonoBehaviour
             } while (isOverlap);
         }
     }
-    public void EmptySlot()
+    public void EmptySlot(BasicItemData itemB)
     {
-        
+        Debug.Log("비우기 시작");
+        for (int i = 0; i < item.Length; i++) {
+            if (item[i] == itemB)
+            {
+                item[i]=null;
+                itemImage[i].sprite = null;
+                itemExplain[i].sellingItem = null;
+                Debug.Log("비우기 끝");
+            }
+        }
     }
 
     public void BuyItem(BasicItemData item)
     {
-        inventory.AddItem(item);
-        playerStatus.Gold -= item.ItemPrice;
+        if (item.ItemPrice <= playerStatus.Gold)
+        {
+            Debug.Log(playerStatus.Gold + "-" + item.ItemPrice);
+            playerStatus.Gold -= item.ItemPrice;
+            Debug.Log("골드뺌");
+            inventory.AddItem(item);
+            Debug.Log("아이템 삼");
+            EmptySlot(item);
+        }
+        else
+            Debug.Log("골드가 부족합니다.");
     } 
 }

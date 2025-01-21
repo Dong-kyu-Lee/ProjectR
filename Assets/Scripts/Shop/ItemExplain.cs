@@ -17,17 +17,33 @@ public class ItemExplain : MonoBehaviour
     TextMeshPro itemName;   //아이템 이름
     [SerializeField]
     public BasicItemData sellingItem;  //매대의 아이템 
+    [SerializeField]
+    ItemSlotManager itemSlotManager;
 
     private void Awake()
     {
         itemExplainUI.SetActive(false);
     }
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            if (itemExplainUI.activeSelf)
+            {
+                itemSlotManager.BuyItem(sellingItem);
+                itemExplainUI.SetActive(false);
+            }
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            ChangeInfo();
-            itemExplainUI.SetActive(true);
+            if (sellingItem != null)
+            {
+                ChangeInfo();
+                itemExplainUI.SetActive(true);
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
