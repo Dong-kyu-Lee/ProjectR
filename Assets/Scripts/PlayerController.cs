@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +15,10 @@ public class PlayerController : MonoBehaviour
 
     public GameObject projectilePref;
     public Camera playerCamera;
+    public Animator playerAnimator;
+    public LayerMask groundLayer;
+    public Transform groundCheck;
+
 
     float moveSpeed;
     public float jumpPower;
@@ -23,6 +27,9 @@ public class PlayerController : MonoBehaviour
     public float dashTime;
     public float dashCoolTime;
     public float attackCoolTime;
+    public float projectielSpawnOffset;
+    float minDistance = 0.5f;
+    float groundCheckRadius = 0.2f;
 
     bool enableJump;
     bool enableDash;
@@ -41,7 +48,7 @@ public class PlayerController : MonoBehaviour
         dashTime = 0.2f;
         dashCoolTime = 1.0f;
         moveFactor = 100f;
-        jumpPower = 900f;
+        projectielSpawnOffset = 1f;
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
         playerStatus = gameObject.GetComponent<PlayerStatus>();
         moveSpeed = playerStatus.MoveSpeed;
@@ -52,7 +59,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isPause)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && enableJump)
             {
                 Jump();
             }
@@ -83,6 +90,16 @@ public class PlayerController : MonoBehaviour
         if (!isPause)
         {
             PlayerMove();
+            JumpCheck();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
 
@@ -102,6 +119,12 @@ public class PlayerController : MonoBehaviour
             enableJump = false;
             playerRigidBody.AddForce(new Vector2(0f, jumpPower));
         }
+    }
+
+    void JumpCheck()
+    {
+        // 플레이어 아래에 발판 오브젝트가 오버랩되는지 확인
+        enableJump = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
     // 캐릭터 정보 UI 활성화
@@ -144,39 +167,44 @@ public class PlayerController : MonoBehaviour
     {
         enableAttack = false;
 
-        Vector3 curMouseVector = playerCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 spawnVector;
-        if (curMouseVector.x >= transform.position.x)
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = Mathf.Abs(playerCamera.transform.position.z);
+        Vector3 curMousePoint = playerCamera.ScreenToWorldPoint(mousePos);
+
+        Vector3 direction = curMousePoint - gameObject.transform.position;
+        float distance = direction.magnitude;
+        Debug.Log(distance);
+
+        if (distance < minDistance)
         {
-            spawnVector = new Vector2(transform.position.x + 1.5f, transform.position.y);
+            direction = (direction.x > 0 ? Vector3.right : Vector3.left);
         }
         else
         {
-            spawnVector = new Vector2(transform.position.x - 1.5f, transform.position.y);
+            direction.Normalize();
         }
 
-        GameObject projectileObj = Instantiate(projectilePref, spawnVector, Quaternion.identity);
-        Vector2 velocityVector = new Vector2(curMouseVector.x - spawnVector.x, curMouseVector.y - spawnVector.y);
-        projectileObj.GetComponent<Projectile>().Velocity = velocityVector.normalized;
+        Vector3 spawnPosition = gameObject.transform.position + direction * projectielSpawnOffset;
+
+        GameObject projectile = Instantiate(projectilePref, spawnPosition, Quaternion.identity);
+        projectile.GetComponent<Projectile>().Velocity = direction;
+        projectile.GetComponent<Projectile>().playerStatus = playerStatus;
 
         yield return new WaitForSeconds(attackCoolTime);
         enableAttack = true;
     }
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void Dead()
     {
-        // 바닥 충돌 시 내적계산을 통해 점프 가능 변수 활성화
-        Vector2 hitNormalVector = collision.GetContact(0).normal;
+        StartCoroutine(DeadCoroutine());
+    }
 
-        if (Mathf.Approximately(hitNormalVector.y, 1.0f))
-        {
-            float dotResult = Vector2.Dot(gameObject.transform.right, hitNormalVector);
+    IEnumerator DeadCoroutine()
+    {
+        playerAnimator.SetTrigger("Die");
 
-            if (Mathf.Approximately(dotResult, 0.0f))
-            {
-                enableJump = true;
-            }
-        }
+        yield return new WaitForSeconds(1.5f);
+
+        gameObject.SetActive(false);
     }
 }

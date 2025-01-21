@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DynamiteProjectile : Projectile
+{
+    [SerializeField]
+    private float timeToExplode = 5.0f;     //Æø¹ß ½Ã°£
+    [SerializeField]
+    private float explosionRadius = 5.0f;   //Æø¹ß ¹Ý°æ
+    [SerializeField]
+    private float explosionDmg = 100.0f;    //Æø¹ß µ¥¹ÌÁö
+
+
+    private void Start()
+    {
+        StartCoroutine(StartExplodeTimer());
+    }
+
+    private IEnumerator StartExplodeTimer()
+    {
+        yield return new WaitForSeconds(timeToExplode);
+        Explode();
+        Destroy(gameObject);
+    }
+
+    private void Explode()
+    {
+        Debug.Log("Æø¹ßÇÔ");
+        ProcessExplosionDamage();
+    }
+
+    //Æø¹ß µ¥¹ÌÁö Ã³¸® ÇÔ¼ö
+    private void ProcessExplosionDamage()  
+    {
+        Collider2D[] mops = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+
+        foreach (Collider2D mop in mops)
+        {
+            if(mop.CompareTag("Player"))
+            {
+                mop.GetComponent<PlayerStatus>().Hp -= explosionDmg;
+            }
+        }
+
+    }
+
+}

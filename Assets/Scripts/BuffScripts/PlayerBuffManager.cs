@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,7 +13,6 @@ public class PlayerBuffManager : MonoBehaviour
     {
         buffFactory = new BuffFactory(gameObject);
     }
-
 
     //BuffType에 해당하는 버프를 생성하고 활성화 시키는 메서드
     public void ActivateBuff(BuffType type, float duration = 10.0f)
@@ -37,6 +37,7 @@ public class PlayerBuffManager : MonoBehaviour
     public IEnumerator StartBuffEffect(BuffType type)
     {
         activeBuffDict[type].ApplyBuffEffect();
+        Debug.Log("버프 활성화 : " + type.ToString());
 
         while (activeBuffDict[type].CurrentDuration > 0.0f)
         {
@@ -58,6 +59,7 @@ public class PlayerBuffManager : MonoBehaviour
         {
             Debug.Log("제거할 버프가 없습니다.");
         }
+        Debug.Log("버프 해제 완료" + type.ToString());
     }
 
     //활성화 된 모든 버프 해제 메서드
