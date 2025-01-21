@@ -11,7 +11,8 @@ public class Reroll : MonoBehaviour
     private int rerollCoast;
     private int rerollCount;
 
-    public bool canReroll = false;
+    public bool inRoll = false;
+    private bool canReroll;
     [SerializeField]
     private PlayerStatus playerStatus;
 
@@ -24,9 +25,18 @@ public class Reroll : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (canReroll)
+            if (rerollCoast <= playerStatus.Gold)
+                canReroll = true;
+            else
+                canReroll = false;
+            
+            if (canReroll && inRoll)
             {
                 RerollItem();
+            }
+            else if (!canReroll && inRoll)
+            {
+                Debug.Log("돈이 부족합니다.");
             }
         }
     }
@@ -34,17 +44,14 @@ public class Reroll : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            canReroll = true;
-            Debug.Log(canReroll);
+            inRoll = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-
-            canReroll = false;
-            Debug.Log(canReroll);
+            inRoll = false;
         }
     }
     private void RerollItem()

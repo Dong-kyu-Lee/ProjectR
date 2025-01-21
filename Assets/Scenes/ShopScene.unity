@@ -6430,6 +6430,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61fab7698c37d5e438cb87bc8df420a4, type: 2}
   - {fileID: 11400000, guid: c2b2ab1fa982aee4f941f96d0aebac13, type: 2}
   - {fileID: 11400000, guid: 2d539133788794e4b9533059f9bc5987, type: 2}
+  noneItem: {fileID: 11400000, guid: a3a49d66d27a5024590799e1a17d14af, type: 2}
   itemExplain:
   - {fileID: 83766511}
   - {fileID: 1115208463}
@@ -9369,7 +9370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSlotManager: {fileID: 1207871573}
   rerollCoastTxt: {fileID: 1728104249}
-  canReroll: 0
+  inRoll: 0
   playerStatus: {fileID: 155176240}
 --- !u!1 &2108490839
 GameObject:

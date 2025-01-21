@@ -39,7 +39,7 @@ public class ItemExplain : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            if (sellingItem != null)
+            if (sellingItem.ItemName != "None")
             {
                 ChangeInfo();
                 itemExplainUI.SetActive(true);

@@ -72,7 +72,7 @@ public class PlayerStatus : Status
         DamageReduction = 0;
         AttackSpeed = 1.5f;
         MoveSpeed = 3f;
-        Gold = 100f;
+        Gold = 1000f;
 
         level = 1f;
         exp = 0;
