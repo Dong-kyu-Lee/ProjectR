@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,23 +10,34 @@ public class PlayerItemUseController : MonoBehaviour
     private Inventory myInventory;
     public Inventory MyInventory { get { return myInventory; } }
 
+    //ë””ë²„ê·¸ìš© ë³€ìˆ˜ë“¤
+    public int equippedSlotIndex1 = 0;
+    public int equippedSlotIndex2 = 4;
+    public int inventorySlotIndex = 0;
+
     private void Awake()
     {
-
+        myInventory = transform.GetChild(0).GetComponent<Inventory>();
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))    //Äü½½·Ô¿¡ µî·ÏµÈ ¾ÆÀÌÅÛ »ç¿ë
+        if (Input.GetMouseButtonDown(1))    //í€µìŠ¬ë¡¯ì— ë“±ë¡ëœ ì•„ì´í…œ ì‚¬ìš©
         {
-            myInventory.UseQuickSlotItem();
+            //myInventory.UseQuickSlotItem();
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
-            myInventory.UnloadEquipmentItem();
+            myInventory.UnloadEquipmentItem(equippedSlotIndex1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            //myInventory.SwapEquipmentItemSlots(0, 4);
+            myInventory.SwapEquipmentItemSlots(equippedSlotIndex1, equippedSlotIndex2);
         }
     }
 
-    //¾ÆÀÌÅÛÀ» ÀÎº¥Åä¸®¿¡ Ãß°¡ÇÏ´Â ¸Ş¼­µå
+    //ì•„ì´í…œì„ ì¸ë²¤í† ë¦¬ì— ì¶”ê°€í•˜ëŠ” ë©”ì„œë“œ
     public bool AddItem(BasicItemData item, int amount)
     {
         return myInventory.AddItem(item, amount);

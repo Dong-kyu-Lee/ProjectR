@@ -30,7 +30,7 @@ public class HitBox : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            collision.gameObject.GetComponent<Status>().TakeDamage(damage);
+            collision.gameObject.GetComponent<Status>().TakeDamage(damage, 0);
         }
         gameObject.SetActive(false);
     }

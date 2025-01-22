@@ -6,7 +6,8 @@ using UnityEngine;
 public enum ItemType
 {
     CONSUMABLE,
-    EQUIPMENT
+    EQUIPMENT,
+    DUMMY
 }
 [CreateAssetMenu(fileName = "Basic_Item_Data", menuName = "Scriptable Object/Basic_Item_Data", order = 1)]
 public class BasicItemData : ScriptableObject
@@ -28,6 +29,7 @@ public class BasicItemData : ScriptableObject
     protected int itemPrice;
     [SerializeField]
     protected string itemExplain;
+
 
     public string ItemName { get { return itemName; } }
     public string ItemDescription { get { return itemDescription; } }
