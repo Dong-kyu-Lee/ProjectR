@@ -9,7 +9,7 @@ public enum DungeonFlowState
     Lobby, Stage1, Stage2, MiddleBoss, Stage3, Stage4, FinalBoss
 }
 
-// ´øÀü ½ºÅ×ÀÌÁö ÁøÇàÀ» °ü¸®ÇÏ´Â Å¬·¡½º
+// ë˜ì „ ìŠ¤í…Œì´ì§€ ì§„í–‰ì„ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
 public class DungeonFlowManager : MonoBehaviour
 {
     private static DungeonFlowManager instance;
@@ -35,7 +35,7 @@ public class DungeonFlowManager : MonoBehaviour
     public Vector3 playerSpawnPosition = new Vector3();
     public Vector3 finishSpotPosition = new Vector3();
 
-    // DungeonCreator°¡ ´øÀü »ı¼º ÁØºñ¸¦ ¸¶ÃÆÀ¸´Ï ´øÀü »ı¼ºÀ» ¿äÃ»ÇÒ ¶§ È£ÃâÇÏ´Â Action
+    // DungeonCreatorê°€ ë˜ì „ ìƒì„± ì¤€ë¹„ë¥¼ ë§ˆì³¤ìœ¼ë‹ˆ ë˜ì „ ìƒì„±ì„ ìš”ì²­í•  ë•Œ í˜¸ì¶œí•˜ëŠ” Action
     public Action onDungeonCreatorReady;
 
     public DungeonFlowState GetCurrentDungeonFlow { get => currentState; }
@@ -68,15 +68,7 @@ public class DungeonFlowManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void OnDestroy()
-    {
-        if (instance == this)
-        {
-            instance = null;
-        }
-    }
-
-    // ½ºÅ×ÀÌÁö(´øÀü¸Ê, ÇÃ·¹ÀÌ¾î ½ºÆù) »ı¼º
+    // ìŠ¤í…Œì´ì§€(ë˜ì „ë§µ, í”Œë ˆì´ì–´ ìŠ¤í°) ìƒì„±
     private void CreateStage()
     {
         if (dungeonCreator == null)
@@ -84,15 +76,18 @@ public class DungeonFlowManager : MonoBehaviour
             dungeonCreator = FindObjectOfType<DungeonCreator>();
             if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
         }
-        // ´øÀü »ı¼º
+        // ë˜ì „ ìƒì„±
         dungeonCreator.CreateFixedRoomDungeon(out playerSpawnPosition, out finishSpotPosition);
-        // Å×½ºÆ® ÇÃ·¹ÀÌ¾î »ı¼º
+        // í…ŒìŠ¤íŠ¸ í”Œë ˆì´ì–´ ìƒì„±
         GameManager.Instance.PlacePlayerObject(playerSpawnPosition);
-        // µµÂø À§Ä¡ »ı¼º
+        // ë„ì°© ìœ„ì¹˜ ìƒì„±
         currentFinishSpot = Instantiate(finishSpotPrefab, finishSpotPosition, transform.rotation);
-        Debug.Log("Finish Spot »ı¼ºµÊ. ´İÈù »óÅÂ");
-        // Àû »ı¼º
-        dungeonCreator.gameObject.GetComponent<EnemySpawnManager>().GenerateEnemies();
+        Debug.Log("Finish Spot ìƒì„±ë¨. ë‹«íŒ ìƒíƒœ");
+        // ì  ìƒì„±
+        if (GameManager.Instance.isCreateEnemies == true)
+            dungeonCreator.gameObject.GetComponent<EnemySpawnManager>().GenerateEnemies();
+        else
+            OpenFinishSpot();
     }
 
     private void ResetDungeon()
@@ -108,6 +103,7 @@ public class DungeonFlowManager : MonoBehaviour
         }
     }
 
+    // í˜„ì¬ ìŠ¤í…Œì´ì§€ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë‹¤ìŒ ì°¨ë¡€ì˜ ìŠ¤í…Œì´ì§€ë¥¼ ì •í•œë‹¤.
     public void LoadNextDungeon()
     {
         switch(currentState)
@@ -128,7 +124,7 @@ public class DungeonFlowManager : MonoBehaviour
             case DungeonFlowState.Stage2:
                 {
                     ResetDungeon();
-                    // Áß°£º¸½º ¹æ ÇÁ¸®Æé »ı¼º
+                    // ì¤‘ê°„ë³´ìŠ¤ ë°© í”„ë¦¬í© ìƒì„±
                     Debug.Log("Middle Boss Room was Generated");
                     break;
                 }
@@ -141,14 +137,14 @@ public class DungeonFlowManager : MonoBehaviour
                 }
             case DungeonFlowState.Stage4:
                 {
-                    // ½ºÅ×ÀÌÁö º¸½º ¾ÀÀ¸·Î ÀÌµ¿
+                    // ìŠ¤í…Œì´ì§€ ë³´ìŠ¤ ì”¬ìœ¼ë¡œ ì´ë™
                     Debug.Log("Final Boss Room is Generated");
                     break;
                 }
             case DungeonFlowState.FinalBoss:
                 {
-                    // ÀÏ¹İ ´øÀü »ı¼º ¾À ÀÌµ¿
-                    // ÃÖÁ¾ ½ºÅ×ÀÌÁöÀÏ °æ¿ì ¿£µù ¾ÀÀ¸·Î ÀÌµ¿
+                    // ì¼ë°˜ ë˜ì „ ìƒì„± ì”¬ ì´ë™
+                    // ìµœì¢… ìŠ¤í…Œì´ì§€ì¼ ê²½ìš° ì—”ë”© ì”¬ìœ¼ë¡œ ì´ë™
                     break;
                 }
         }
