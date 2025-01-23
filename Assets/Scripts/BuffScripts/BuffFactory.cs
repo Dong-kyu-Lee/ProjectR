@@ -48,6 +48,18 @@ public class BuffFactory
             case BuffType.MoveSpeedIncrease:
                 buff = new MoveSpeedIncBuff(duration, targetObject);
                 break;
+            case BuffType.ExtremeSpeed:
+                buff = new ExtremeSpeedBuff(duration, targetObject);
+                break;
+            case BuffType.EagleEye:
+                buff = new EagleEyeBuff(duration, targetObject);
+                break;
+            case BuffType.BulkUp:
+                buff = new BulkUpBuff(duration, targetObject);
+                break;
+            case BuffType.IronBody:
+                buff = new IronBody(duration, targetObject);
+                break;
             default:
                 throw new Exception("Invalid Buff Type");
         }

@@ -13,13 +13,13 @@ public class AttackSpeedIncBuff : Buff
 
     public override void ApplyBuffEffect()
     {
-        targetObject.GetComponent<PlayerStatus>().AttackSpeed += attackSpeedIncGap[currentBuffLevel];
+        targetObject.GetComponent<PlayerStatus>().AdditionalAttackSpeed += attackSpeedIncGap[currentBuffLevel];
         Debug.Log("공격 속도 증가" + attackSpeedIncGap[currentBuffLevel] + " 적용됨");
     }
 
     public override void RemoveBuffEffect()
     {
-        targetObject.GetComponent<PlayerStatus>().AttackSpeed -= GetCurrentSumOfArray(attackSpeedIncGap);
+        targetObject.GetComponent<PlayerStatus>().AdditionalAttackSpeed -= GetCurrentSumOfArray(attackSpeedIncGap);
         Debug.Log("공격 속도 증가" + GetCurrentSumOfArray(attackSpeedIncGap) + " 복구됨");
     }
 }

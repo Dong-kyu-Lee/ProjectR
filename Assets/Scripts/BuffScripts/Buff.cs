@@ -13,6 +13,10 @@ public enum BuffType
     PriceAdditionalIncrease,    //재화 획득량 증가
     AttackSpeedIncrease,        //공격 속도 증가
     MoveSpeedIncrease,          //이동 속도 증가
+    ExtremeSpeed,               //신속 버프
+    EagleEye,
+    BulkUp,
+    IronBody
 }
 
 public abstract class Buff
