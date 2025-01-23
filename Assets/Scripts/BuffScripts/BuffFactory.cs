@@ -16,7 +16,8 @@ public class BuffFactory
 
     public Buff GenerateBuff(BuffType type, float duration = 0.0f)
     {
-        Buff buff = null;
+        Buff buff;
+
 
         switch (type)
         {
@@ -41,8 +42,13 @@ public class BuffFactory
             case BuffType.PriceAdditionalIncrease :
                 buff = new PriceAdditionalIncBuff(duration, targetObject);
                 break;
+            case BuffType.AttackSpeedIncrease:
+                buff = new AttackSpeedIncBuff(duration, targetObject);
+                break;
+            case BuffType.MoveSpeedIncrease:
+                buff = new MoveSpeedIncBuff(duration, targetObject);
+                break;
             default:
-                buff = null;
                 throw new Exception("Invalid Buff Type");
         }
 

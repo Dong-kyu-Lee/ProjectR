@@ -10,7 +10,9 @@ public enum BuffType
     Raging,                     //광분 버프
     CritDamageIncrease,         //크리티컬 데미지 증가
     CritPercentIncrease,        //크리티컬 확률 증가
-    PriceAdditionalIncrease,     //재화 획득량 증가
+    PriceAdditionalIncrease,    //재화 획득량 증가
+    AttackSpeedIncrease,        //공격 속도 증가
+    MoveSpeedIncrease,          //이동 속도 증가
 }
 
 public abstract class Buff
@@ -24,8 +26,7 @@ public abstract class Buff
         get { return currentDuration; }
         set
         {
-            currentDuration = value;
-            if (currentDuration < 0.0f) currentDuration = 0.0f;
+            currentDuration = (value< 0.0f) ? 0.0f : value;
         }
     }
     public int CurrentBuffLevel
@@ -33,8 +34,7 @@ public abstract class Buff
         get { return currentBuffLevel; } 
         set 
         {
-            currentBuffLevel = value;
-            if(currentBuffLevel < 0) currentBuffLevel = 0;
+            currentBuffLevel = (value < 0) ? 0 : value;
         } 
     }
 

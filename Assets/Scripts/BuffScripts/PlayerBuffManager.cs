@@ -7,14 +7,18 @@ using UnityEngine;
 public class PlayerBuffManager : MonoBehaviour
 {
     private Dictionary<BuffType, Buff> activeBuffDict = new Dictionary<BuffType, Buff>();
-    private BuffFactory buffFactory;    //¹öÇÁ »ı¼ºÀ» À§ÇÑ ÆÑÅä¸® Å¬·¡½º
+    private BuffFactory buffFactory;    //ë²„í”„ ìƒì„±ì„ ìœ„í•œ íŒ©í† ë¦¬ í´ë˜ìŠ¤
 
     private void Start()
     {
         buffFactory = new BuffFactory(gameObject);
+        ActivateBuff(BuffType.MoveSpeedIncrease, 3.0f);
+        ActivateBuff(BuffType.MoveSpeedIncrease, 3.0f);
+        ActivateBuff(BuffType.MoveSpeedIncrease, 3.0f);
+
     }
 
-    //BuffType¿¡ ÇØ´çÇÏ´Â ¹öÇÁ¸¦ »ı¼ºÇÏ°í È°¼ºÈ­ ½ÃÅ°´Â ¸Ş¼­µå
+    //BuffTypeì— í•´ë‹¹í•˜ëŠ” ë²„í”„ë¥¼ ìƒì„±í•˜ê³  í™œì„±í™” ì‹œí‚¤ëŠ” ë©”ì„œë“œ
     public void ActivateBuff(BuffType type, float duration = 10.0f)
     {
         if (isBuffActive(type))
@@ -25,7 +29,7 @@ public class PlayerBuffManager : MonoBehaviour
 
         Buff buff = buffFactory.GenerateBuff(type, duration);
         if (buff == null) {
-            Debug.Log("¹öÇÁ »ı¼º ½ÇÆĞ");
+            Debug.Log("ë²„í”„ ìƒì„± ì‹¤íŒ¨");
             return;
         }
 
@@ -33,11 +37,11 @@ public class PlayerBuffManager : MonoBehaviour
         StartCoroutine(StartBuffEffect(type));
     }
 
-    //¹öÇÁ È¿°ú Ã³¸® ÄÚ·çÆ¾
+    //ë²„í”„ íš¨ê³¼ ì²˜ë¦¬ ì½”ë£¨í‹´
     public IEnumerator StartBuffEffect(BuffType type)
     {
         activeBuffDict[type].ApplyBuffEffect();
-        Debug.Log("¹öÇÁ È°¼ºÈ­ : " + type.ToString());
+        Debug.Log("ë²„í”„ í™œì„±í™” : " + type.ToString());
 
         while (activeBuffDict[type].CurrentDuration > 0.0f)
         {
@@ -47,7 +51,7 @@ public class PlayerBuffManager : MonoBehaviour
         DeActivateBuff(type);
     }
 
-    //Type¿¡ ÇØ´çÇÏ´Â ¹öÇÁ¸¦ ÇØÁ¦ÇÏ´Â ¸Ş¼­µå
+    //Typeì— í•´ë‹¹í•˜ëŠ” ë²„í”„ë¥¼ í•´ì œí•˜ëŠ” ë©”ì„œë“œ
     public void DeActivateBuff(BuffType type)
     {
         if(activeBuffDict.ContainsKey(type))
@@ -57,12 +61,12 @@ public class PlayerBuffManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Á¦°ÅÇÒ ¹öÇÁ°¡ ¾ø½À´Ï´Ù.");
+            Debug.Log("ì œê±°í•  ë²„í”„ê°€ ì—†ìŠµë‹ˆë‹¤.");
         }
-        Debug.Log("¹öÇÁ ÇØÁ¦ ¿Ï·á" + type.ToString());
+        Debug.Log("ë²„í”„ í•´ì œ ì™„ë£Œ" + type.ToString());
     }
 
-    //È°¼ºÈ­ µÈ ¸ğµç ¹öÇÁ ÇØÁ¦ ¸Ş¼­µå
+    //í™œì„±í™” ëœ ëª¨ë“  ë²„í”„ í•´ì œ ë©”ì„œë“œ
     public void DeActivateAllBuffs()
     {
         if (activeBuffDict.Count == 0) return;
