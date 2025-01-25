@@ -21,6 +21,8 @@ public enum BuffType
 
 public abstract class Buff
 {
+
+
     protected float currentDuration;        //남은 버프 지속시간
     protected GameObject targetObject;      //버프 적용 대상
     protected int currentBuffLevel = 0;     //현재 버프 레벨 (0 ~ maxBuffLevel - 1 의 값을 가짐)

@@ -12,10 +12,8 @@ public class PlayerBuffManager : MonoBehaviour
     private void Start()
     {
         buffFactory = new BuffFactory(gameObject);
-        ActivateBuff(BuffType.MoveSpeedIncrease, 3.0f);
-        ActivateBuff(BuffType.MoveSpeedIncrease, 3.0f);
-        ActivateBuff(BuffType.MoveSpeedIncrease, 3.0f);
 
+        ActivateBuff(BuffType.MoveSpeedIncrease, 5.0f);
     }
 
     //BuffType에 해당하는 버프를 생성하고 활성화 시키는 메서드
