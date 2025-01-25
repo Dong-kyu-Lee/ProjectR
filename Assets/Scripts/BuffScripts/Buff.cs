@@ -14,15 +14,14 @@ public enum BuffType
     AttackSpeedIncrease,        //공격 속도 증가
     MoveSpeedIncrease,          //이동 속도 증가
     ExtremeSpeed,               //신속 버프
-    EagleEye,
-    BulkUp,
-    IronBody
+    EagleEye,                   //매의 눈 버프
+    BulkUp,                     //벌크 업 버프
+    IronBody,                   //강철 몸 버프
+    Posion,                     //독 디버프
 }
 
 public abstract class Buff
 {
-
-
     protected float currentDuration;        //남은 버프 지속시간
     protected GameObject targetObject;      //버프 적용 대상
     protected int currentBuffLevel = 0;     //현재 버프 레벨 (0 ~ maxBuffLevel - 1 의 값을 가짐)

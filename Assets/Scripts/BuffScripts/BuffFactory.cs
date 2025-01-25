@@ -7,7 +7,7 @@ public class BuffFactory
 {
     private GameObject targetObject;    //적용 대상 오브젝트
     delegate Buff BuffConstructor(float duration, GameObject targetObject);
-    private List<BuffConstructor> constructorList = new List<BuffConstructor>();
+    private BuffConstructor[] buffConstructors = new BuffConstructor[Enum.GetValues(typeof(BuffType)).Length];
 
     //버프팩토리(팩토리 패턴)
     public BuffFactory(GameObject target)
@@ -19,24 +19,25 @@ public class BuffFactory
     private void GenerateBuffConstructorList()
     {
         //BuffType 열거형 순서에 맞게 델리게이트 생성자들을 추가할 것.
-        constructorList.Add((duration, targetObject) => new AtkDmgIncBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new DmgReductIncBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new BlessBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new RagingBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new CritDmgIncBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new CritPercentIncBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new PriceAdditionalIncBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new AttackSpeedIncBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new MoveSpeedIncBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new ExtremeSpeedBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new EagleEyeBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new BulkUpBuff(duration, targetObject));
-        constructorList.Add((duration, targetObject) => new IronBody(duration, targetObject));
+        buffConstructors[(int)BuffType.AttackDamageIncrease] = (duration, targetObject) => new AtkDmgIncBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.DamageReductionIncrease] = (duration, targetObject) => new DmgReductIncBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Bless] = (duration, targetObject) => new BlessBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Raging] = (duration, targetObject) => new RagingBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.CritDamageIncrease] = (duration, targetObject) => new CritDmgIncBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.CritPercentIncrease] = (duration, targetObject) => new CritPercentIncBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.PriceAdditionalIncrease] = (duration, targetObject) => new PriceAdditionalIncBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.AttackSpeedIncrease] = (duration, targetObject) => new AttackSpeedIncBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.MoveSpeedIncrease] = (duration, targetObject) => new MoveSpeedIncBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.ExtremeSpeed] = (duration, targetObject) => new ExtremeSpeedBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.EagleEye] = (duration, targetObject) => new EagleEyeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.BulkUp] = (duration, targetObject) => new BulkUpBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.IronBody] = (duration, targetObject) => new IronBody(duration, targetObject);
+        buffConstructors[(int)BuffType.Posion] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);
     }
 
     public Buff GenerateBuff(BuffType type, float duration = 0.0f)
     {
-        return constructorList[(int)type](duration, targetObject);
+        return buffConstructors[(int)type](duration, targetObject);
         
         /* 버프 생성 메서드를 델리게이트와 람다 써서 했긴 했는데 혹시 오류날까봐 구버전 코드를 주석처리함.
         Buff buff = constructorList[(int)type](duration, targetObject);
