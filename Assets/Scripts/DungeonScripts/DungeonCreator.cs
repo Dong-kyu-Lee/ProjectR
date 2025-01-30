@@ -2,26 +2,39 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class DungeonCreator : MonoBehaviour
 {
+    [Header("Fixed Room Setting")]
     public int dungeonRow;
     public int dungeonColumn;
+    [Header("Random Room Setting")]
+    public int roomCount;
+    public int jumpHeight, dashWidth;
+    public int roomWidthMin, roomHeightMin;
+    public int roomWidthMax, roomHeightMax;
+
+    [Header("For Random Dungeon Test")]
+    public Tilemap tilemap;
+    public TileBase tile;
+    public TileBase boundTile;
+
+    [Header("Needed Objects")]
     public GameObject grid;
     public RoomContainer roomContainer;
-
     public List<GameObject> generatedRooms = new List<GameObject>();
 
     void Start()
     {
-        if (roomContainer == null)
+        /*if (roomContainer == null)
         {
             gameObject.AddComponent<RoomContainer>();
             roomContainer = GetComponent<RoomContainer>();
         }
         DungeonFlowManager.Instance.DungeonCreator = this;
-        DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
+        DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();*/
     }
     
     // 선택된 던전 조각들을 Instantiate하는 함수
@@ -50,6 +63,26 @@ public class DungeonCreator : MonoBehaviour
         playerSpawnPosition = generatedRooms[0].GetComponent<Room>().playerSpawnPosition.position;
         // 스테이지의 클리어 지점 결정 후 활성화
         finishSpotPosition = generatedRooms[Random.Range(1, generatedRooms.Count)].GetComponent<Room>().finishSpotPosition.position;
+    }
+
+    public void CreateRandomRoomDungeon()
+    {
+        RandomRoomGenerator dungeonGenerator = new RandomRoomGenerator(roomCount, jumpHeight, dashWidth);
+        var listOfRooms = dungeonGenerator.CalculateDungeon(roomCount, roomWidthMin, roomHeightMin, roomWidthMax, roomHeightMax);
+    
+        foreach(var room in listOfRooms)
+        {
+            for (int i = room.BottomLeft.y; i <= room.TopRight.y; ++i)
+            {
+                for (int j = room.BottomLeft.x; j <= room.TopRight.x; ++j)
+                {
+                    if (i == room.BottomLeft.y || i == room.TopRight.y ||
+                        j == room.BottomLeft.x || j == room.TopRight.x)
+                        tilemap.SetTile(new Vector3Int(j, i, 0), boundTile);
+                    //else tilemap.SetTile(new Vector3Int(j, i, 0), tile);
+                }
+            }
+        }
     }
 
     public void RemoveAllRooms()

@@ -299,6 +299,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonRow: 2
   dungeonColumn: 4
+  roomCount: 5
+  jumpHeight: 5
+  dashWidth: 5
+  roomWidthMin: 35
+  roomHeightMin: 25
+  roomWidthMax: 65
+  roomHeightMax: 50
   grid: {fileID: 718480433}
   roomContainer: {fileID: 1780063519}
   generatedRooms: []
@@ -336,4 +343,6 @@ MonoBehaviour:
   - {fileID: 1280731479445131409, guid: 20c9fbeb7e3a3754baa7eb121aaa45f7, type: 3}
   - {fileID: 2449811229591162573, guid: bf7e5e5024577d443aa7cdd1f13fcd9a, type: 3}
   - {fileID: 6372177664587926293, guid: 0d06d8646d866744abddbcdce64dea49, type: 3}
-  currentEnemies: []
+  firstWaveEnemies: []
+  secondWaveEnemies: []
+  enemyCountOnWave: 0
