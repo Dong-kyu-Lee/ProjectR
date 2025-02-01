@@ -27,7 +27,8 @@ public class BartenderController : MonoBehaviour
     public float dashFactor;
     public float dashTime;
     public float dashCoolTime;
-    public float attackCoolTime;
+    public float attackCoolTimeA;
+    public float attackCoolTimeB;
     public float projectielSpawnOffset;
     float minDistance = 0.5f;
     float groundCheckRadius = 0.2f;
@@ -37,6 +38,7 @@ public class BartenderController : MonoBehaviour
     bool enableAttack;
     bool enableUI;
     bool isPause;
+    bool isAttaking;
 
     void Start()
     {
@@ -45,6 +47,7 @@ public class BartenderController : MonoBehaviour
         enableDash = true;
         enableAttack = true;
         enableUI = true;
+        isAttaking = false;
         dashFactor = 1.0f;
         dashTime = 0.2f;
         dashCoolTime = 1.0f;
@@ -53,7 +56,8 @@ public class BartenderController : MonoBehaviour
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
         playerStatus = gameObject.GetComponent<PlayerStatus>();
         moveSpeed = playerStatus.MoveSpeed;
-        attackCoolTime = playerStatus.TotalAttackSpeed;
+        attackCoolTimeA = 0.5f;
+        attackCoolTimeB = playerStatus.TotalAttackSpeed - attackCoolTimeA;
     }
 
     void Update()
@@ -113,7 +117,10 @@ public class BartenderController : MonoBehaviour
         if (playerRigidBody.velocity.x != 0f)
         {
             playerAnimator.SetBool("isMove", true);
-            Flip();
+            if (!isAttaking)
+            {
+                Flip();
+            }
         }
         else
         {
@@ -191,6 +198,8 @@ public class BartenderController : MonoBehaviour
     IEnumerator Attack()
     {
         enableAttack = false;
+        isAttaking = true;
+        playerAnimator.SetTrigger("Attack");
 
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Mathf.Abs(playerCamera.transform.position.z);
@@ -211,11 +220,23 @@ public class BartenderController : MonoBehaviour
 
         Vector3 spawnPosition = gameObject.transform.position + direction * projectielSpawnOffset;
 
+        if (spawnPosition.x > gameObject.transform.position.x)
+        {
+            rendererObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            rendererObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+
         GameObject projectile = Instantiate(projectilePref, spawnPosition, Quaternion.identity);
         projectile.GetComponent<Projectile>().Velocity = direction;
         projectile.GetComponent<Projectile>().damage = playerStatus.Damage;
 
-        yield return new WaitForSeconds(attackCoolTime);
+        yield return new WaitForSeconds(attackCoolTimeA);
+        isAttaking = false;
+
+        yield return new WaitForSeconds(attackCoolTimeB);
         enableAttack = true;
     }
 
