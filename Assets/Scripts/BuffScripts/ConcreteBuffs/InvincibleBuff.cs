@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class InvincibleBuff : Buff
 {
+    private float prevDamageReduction = 0.0f;
     public InvincibleBuff(float totalDuration, GameObject target) : base(totalDuration, target) { }
 
     public override void ApplyBuffEffect()
     {
+        Status targetStatus = targetObject.GetComponent<Status>();
+        prevDamageReduction = targetStatus.DamageReduction;
+        targetStatus.DamageReduction = 1;
         Debug.Log("무적버프 활성화");
-        //무적버프의 데미지 처리 로직은 PlayerController의 Hit() 따위의 메서드에서 처리해야할 듯 싶음.
-        //대충 ActiveBuffDict.ContainsKey(BuffType.Invincible) 이런 식으로 체크해서 버프가 true면 데미지 처리하도록 하면 될 듯.
     }
 
     public override void RemoveBuffEffect()
     {
+        targetObject.GetComponent<Status>().DamageReduction = prevDamageReduction;
         Debug.Log("무적버프 비활성화");
     }
 }

@@ -32,7 +32,10 @@ public class BuffFactory
         buffConstructors[(int)BuffType.EagleEye] = (duration, targetObject) => new EagleEyeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.BulkUp] = (duration, targetObject) => new BulkUpBuff(duration, targetObject);
         buffConstructors[(int)BuffType.IronBody] = (duration, targetObject) => new IronBodyBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Posion] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Reflection] = (duration, targetObject) => new ReflectionBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Invincible] = (duration, targetObject) => new InvincibleBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Poision] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Slow] = (duration, targetObject) => new SlowDeBuff(duration, targetObject);
     }
 
     public Buff GenerateBuff(BuffType type, float duration = 0.0f)

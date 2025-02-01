@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulkUpBuff : Buff
 {
     private float[] attackDamageIncGap = { 10.0f, 20.0f, 30.0f };
-    private float[] damageReduceIncGap = { 10.0f, 20.0f, 30.0f };
+    private float[] damageReduceIncGap = { 0.1f, 0.1f, 0.1f };
 
     public BulkUpBuff(float duration, GameObject target) : base(duration, target){}
 

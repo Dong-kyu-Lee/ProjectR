@@ -17,9 +17,7 @@ public class PlayerBuffManager : MonoBehaviour
     {
         buffFactory = new BuffFactory(gameObject);
         nextEffectTime = new WaitForSeconds(1.0f);
-        ActivateBuff(BuffType.Posion, 10.0f);
-        ActivateBuff(BuffType.Posion, 0.0f);
-        ActivateBuff(BuffType.Posion, 0.0f);
+        //ActivateBuff(BuffType.Slow, 5.0f);
     }
 
     //BuffType에 해당하는 버프를 생성하고 활성화 시키는 메서드

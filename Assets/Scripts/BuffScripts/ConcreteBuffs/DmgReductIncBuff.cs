@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DmgReductIncBuff : Buff
 {
-    private float[] DmgReductIncGap = { 10.0f, 20.0f, 20.0f };  //피해감소량 증가량
+    private float[] DmgReductIncGap = { 0.1f, 0.1f, 0.1f };  //피해감소량 증가량
 
     public DmgReductIncBuff(float duration, GameObject target) : base(duration, target){}
 
