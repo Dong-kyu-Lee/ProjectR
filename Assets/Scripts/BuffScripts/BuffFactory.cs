@@ -31,7 +31,7 @@ public class BuffFactory
         buffConstructors[(int)BuffType.ExtremeSpeed] = (duration, targetObject) => new ExtremeSpeedBuff(duration, targetObject);
         buffConstructors[(int)BuffType.EagleEye] = (duration, targetObject) => new EagleEyeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.BulkUp] = (duration, targetObject) => new BulkUpBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.IronBody] = (duration, targetObject) => new IronBody(duration, targetObject);
+        buffConstructors[(int)BuffType.IronBody] = (duration, targetObject) => new IronBodyBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Posion] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);
     }
 

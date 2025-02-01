@@ -8,24 +8,30 @@ public class PlayerBuffManager : MonoBehaviour
 {
     private Dictionary<BuffType, Buff> activeBuffDict = new Dictionary<BuffType, Buff>();
     private BuffFactory buffFactory;    //버프 생성을 위한 팩토리 클래스
+    private WaitForSeconds nextEffectTime;
+    private float deltaNextEffectTime = 1.0f;
+    
+    public Dictionary<BuffType, Buff> ActiveBuffDict { get => activeBuffDict; }
 
     private void Start()
     {
         buffFactory = new BuffFactory(gameObject);
-
+        nextEffectTime = new WaitForSeconds(1.0f);
         ActivateBuff(BuffType.Posion, 10.0f);
+        ActivateBuff(BuffType.Posion, 0.0f);
+        ActivateBuff(BuffType.Posion, 0.0f);
     }
 
     //BuffType에 해당하는 버프를 생성하고 활성화 시키는 메서드
-    public void ActivateBuff(BuffType type, float duration = 10.0f)
+    public void ActivateBuff(BuffType type, float totalDuration = 10.0f)
     {
         if (isBuffActive(type))
         {
-            activeBuffDict[type].BuffOverlap(duration);
+            activeBuffDict[type].BuffOverlap(totalDuration);
             return;
         }
 
-        Buff buff = buffFactory.GenerateBuff(type, duration);
+        Buff buff = buffFactory.GenerateBuff(type, totalDuration);
         if (buff == null) {
             Debug.Log("버프 생성 실패");
             return;
@@ -43,8 +49,8 @@ public class PlayerBuffManager : MonoBehaviour
 
         while (activeBuffDict[type].CurrentDuration > 0.0f)
         {
-            activeBuffDict[type].DoActionOnActivate(0.1f);
-            yield return new WaitForSeconds(0.1f);
+            activeBuffDict[type].DoActionOnActivate(deltaNextEffectTime);
+            yield return nextEffectTime;
         }
         DeActivateBuff(type);
     }
