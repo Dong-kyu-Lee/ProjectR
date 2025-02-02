@@ -40,14 +40,30 @@ public class Status : MonoBehaviour
 
     public void TakeDamage(float damage, float ignoreDamageReduction)
     {
-        Debug.Log("Attack " + (1 - (damageReduction * (1 - ignoreDamageReduction))) * damage);
-        Debug.Log(ignoreDamageReduction);
-        Hp -= (1 - (damageReduction * (1 - ignoreDamageReduction))) * damage;
+        float receiveDamage = (1 - damageReduction * (1 - ignoreDamageReduction)) * damage;
+
+        if (gameObject.tag == "Enemy")
+        {
+            CapsuleCollider2D collider = this.GetComponent<CapsuleCollider2D>();
+            GameObject damageTextObj = ObjectPoolManager.Instance.GetDamageText();
+            float offset = collider.bounds.size.y + 0.4f * (ObjectPoolManager.Instance.activeDamageTexts - 1);
+            damageTextObj.transform.position = transform.position + Vector3.up * offset;
+            damageTextObj.GetComponent<DamageText>().SetText(receiveDamage.ToString());
+        }
+        Hp -= receiveDamage;
     }
 
     public void TakeTrueDamage(float damage)
     {
         Debug.Log("True Attack " + damage);
+        if (gameObject.tag == "Enemy")
+        {
+            CapsuleCollider2D collider = this.GetComponent<CapsuleCollider2D>();
+            GameObject damageTextObj = ObjectPoolManager.Instance.GetDamageText();
+            float offset = collider.bounds.size.y + 0.4f * (ObjectPoolManager.Instance.activeDamageTexts - 1);
+            damageTextObj.transform.position = transform.position + Vector3.up * offset;
+            damageTextObj.GetComponent<DamageText>().SetText(damage.ToString());
+        }
         Hp -= damage;
     }
 
