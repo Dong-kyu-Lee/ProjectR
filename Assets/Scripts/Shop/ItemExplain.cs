@@ -1,32 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class ItemExplain : MonoBehaviour
 {
     [SerializeField]
-    GameObject itemExplainUI;   
+    GameObject itemExplainUI;
     [SerializeField]
-    TextMeshPro itemExTxt;      //∫Œø¨º≥∏Ì
+    TextMeshPro itemExTxt;      //Î∂ÄÏó∞ÏÑ§Î™Ö
     [SerializeField]
-    TextMeshPro itemEffectTxt;  //»ø∞˙
+    TextMeshPro itemEffectTxt;  //Ìö®Í≥º
     [SerializeField]
-    TextMeshPro itemPriceText;  //∞°∞›
+    TextMeshPro itemPriceTxt;  //Í∞ÄÍ≤©
     [SerializeField]
-    SpriteRenderer exItemImage;   //º≥∏Ì¡ˆ¿« ¿ÃπÃ¡ˆ
+    TextMeshPro itemName;   //ÏïÑÏù¥ÌÖú Ïù¥Î¶Ñ
     [SerializeField]
-    SpriteRenderer sellingItemImage;    //∏≈¥Î¿« æ∆¿Ã≈€ ¿ÃπÃ¡ˆ
+    public BasicItemData sellingItem;  //Îß§ÎåÄÏùò ÏïÑÏù¥ÌÖú 
+    [SerializeField]
+    ItemSlotManager itemSlotManager;
+
     private void Awake()
     {
         itemExplainUI.SetActive(false);
+    }
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            if (itemExplainUI.activeSelf)
+            {
+                itemSlotManager.BuyItem(sellingItem);
+                itemExplainUI.SetActive(false);
+            }
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            ChangeInfo();
-            itemExplainUI.SetActive(true);
+            if (sellingItem.ItemName != "None")
+            {
+                ChangeInfo();
+                itemExplainUI.SetActive(true);
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -38,9 +55,9 @@ public class ItemExplain : MonoBehaviour
     }
     private void ChangeInfo()
     {
-        exItemImage.sprite = sellingItemImage.sprite;
-        /* √ﬂ»ƒ æ∆¿Ã≈€ º≥¡§µ«∏È ∫Ø∞Ê
-         * itemPriceText.text = sellingItemImage.name;
-         */
+        itemPriceTxt.text = sellingItem.ItemPrice.ToString();
+        itemEffectTxt.text = sellingItem.ItemDescription;
+        itemExTxt.text = sellingItem.ItemExplain;
+        itemName.text = sellingItem.ItemName;
     }
 }
