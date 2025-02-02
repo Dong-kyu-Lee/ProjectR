@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public abstract class Buff
 {
@@ -31,13 +32,13 @@ public abstract class Buff
         targetObject = target;
     }
 
-    //특정 스탯 증가량을 대상에게 적용시키는 메서드
+    //버프가 활성화 될때 해야할 일을 지정하는 메서드
     public abstract void ApplyBuffEffect();
 
-    //대상에게 적용된 스탯증가량을 제거하는 메서드
+    //버프가 비활성화 될 때 해야할 일을 지정하는 메서드
     public abstract void RemoveBuffEffect();
 
-    //버프를 중첩시키는 메서드
+    //버프를 중첩시키고 효과를 적용하는 메서드
     public virtual void BuffOverlap(float duration)
     {
         if (currentBuffLevel < maxBuffLevel - 1)
@@ -48,7 +49,7 @@ public abstract class Buff
         currentDuration += duration;
     }
 
-    //버프가 지속되는 동안 효과를 정의하는 메서드
+    //버프가 지속되는 동안 해야할 일을 정의하는 메서드
     public virtual void DoActionOnActivate(float tickDuration = 1.0f) 
     {
         CurrentDuration -= tickDuration;

@@ -36,6 +36,9 @@ public class BuffFactory
         buffConstructors[(int)BuffType.Invincible] = (duration, targetObject) => new InvincibleBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Poision] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Slow] = (duration, targetObject) => new SlowDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Freeze] = (duration, targetObject) => new FreezeDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Sleep] = (duration, targetObject) => new SleepDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Drunken] = (duration, targetObject) => new DrunkenDeBuff(duration, targetObject);
     }
 
     public Buff GenerateBuff(BuffType type, float duration = 0.0f)

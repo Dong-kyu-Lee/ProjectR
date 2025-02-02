@@ -18,4 +18,7 @@ public enum BuffType
 
     Poision,                     //독 디버프
     Slow,                        //둔화 디버프
+    Freeze,                      //빙결 디버프
+    Sleep,                       //수면 디버프
+    Drunken,                       //만취 디버프
 }
