@@ -23,7 +23,7 @@ public class PlayerBuffManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            ActivateBuff(BuffType.Drunken, 3.0f);
+            ActivateBuff(BuffType.Confusion, 3.0f);
         }
     }
 
@@ -36,14 +36,21 @@ public class PlayerBuffManager : MonoBehaviour
             return;
         }
 
-        Buff buff = buffFactory.GenerateBuff(type, totalDuration);
-        if (buff == null) {
+        try
+        {
+            Buff buff = buffFactory.GenerateBuff(type, totalDuration);
+            activeBuffDict.Add(type, buff);
+            StartCoroutine(StartBuffEffect(type));
+        }
+        catch(System.Exception e)
+        {
+            Debug.Log("버프 생성 실패 : " + e.Message);
+        }
+/*        if (buff == null) {
             Debug.Log("버프 생성 실패");
             return;
         }
-
-        activeBuffDict.Add(type, buff);
-        StartCoroutine(StartBuffEffect(type));
+*/
     }
 
     //활성중인 버프 레벨을 1단계 올리는 메서드

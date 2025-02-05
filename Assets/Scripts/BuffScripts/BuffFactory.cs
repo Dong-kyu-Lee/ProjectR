@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BuffFactory
@@ -39,10 +37,18 @@ public class BuffFactory
         buffConstructors[(int)BuffType.Freeze] = (duration, targetObject) => new FreezeDeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Sleep] = (duration, targetObject) => new SleepDeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Drunken] = (duration, targetObject) => new DrunkenDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Bleeding] = (duration, targetObject) => new BleedingDebuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Stun] = (duration, targetObject) => new StunDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.StoneCurse] = (duration, targetObject) => new StoneCurseDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Confusion] = (duration, targetObject) => new ConfusionDeBuff(duration, targetObject);
     }
 
     public Buff GenerateBuff(BuffType type, float duration = 0.0f)
     {
+        if (buffConstructors[(int)type] == null)
+        {
+            throw new Exception("Invalid Buff Type : " + type.ToString());
+        }
         return buffConstructors[(int)type](duration, targetObject);
         
         /* 버프 생성 메서드를 델리게이트와 람다 써서 했긴 했는데 혹시 오류날까봐 구버전 코드를 주석처리함.

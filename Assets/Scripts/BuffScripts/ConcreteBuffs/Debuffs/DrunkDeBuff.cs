@@ -25,7 +25,6 @@ public class DrunkenDeBuff : Buff
             ActivateSleepBuff();
         }
         Debug.Log("만취 디버프 부여");
-
     }
 
     //스택이 3스택 이상 쌓일 경우 슬립 디버프로 전환시키는 메서드

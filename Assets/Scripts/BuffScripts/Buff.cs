@@ -5,16 +5,23 @@ using UnityEngine.UIElements;
 
 public abstract class Buff
 {
-    protected float currentDuration;        //남은 버프 지속시간
+    protected float maxDuration = 10.0f;             //최대 버프 지속시간
+    protected float currentDuration = 0.0f;        //남은 버프 지속시간
     protected GameObject targetObject;      //버프 적용 대상
     protected int currentBuffLevel = 0;     //현재 버프 레벨 (0 ~ maxBuffLevel - 1 의 값을 가짐)
     protected int maxBuffLevel = 3;         //최대 버프 레벨
+
+
+    public float MaxDuration { 
+        get { return maxDuration; }
+    }
 
     public float CurrentDuration { 
         get { return currentDuration; }
         set
         {
-            currentDuration = (value< 0.0f) ? 0.0f : value;
+            currentDuration
+                = (value < 0.0f) ? 0.0f : ((value < MaxDuration) ? value : MaxDuration);
         }
     }
     public int CurrentBuffLevel
@@ -46,7 +53,7 @@ public abstract class Buff
             currentBuffLevel++;
             ApplyBuffEffect();
         }
-        currentDuration += duration;
+        CurrentDuration += duration;
     }
 
     //버프가 지속되는 동안 해야할 일을 정의하는 메서드
