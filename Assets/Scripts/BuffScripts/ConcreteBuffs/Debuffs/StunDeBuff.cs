@@ -5,7 +5,7 @@ using UnityEngine;
 public class StunDeBuff : Buff
 {
     private float prevMoveSpeed = 0.0f;
-    //private float prevJumpPower = 0.0f;
+    private float prevJumpPower = 0.0f;
 
     public StunDeBuff(float duration, GameObject target) : base(duration, target)
     { 
@@ -17,8 +17,10 @@ public class StunDeBuff : Buff
         Status targetStatus = targetObject.GetComponent<Status>();
         prevMoveSpeed += targetStatus.MoveSpeed;
         targetStatus.MoveSpeed = 0.0f;
-        //prevJumpPower += targetStatus.JumpPower;
-        //targetStatus.JumpPower = 0.0f;
+        
+        PlayerController targetController = targetObject.GetComponent<PlayerController>();
+        prevJumpPower += targetController.jumpPower;
+        targetController.jumpPower = 0.0f;
         Debug.Log("기절 디버프 활성화");
     }
 
@@ -32,7 +34,9 @@ public class StunDeBuff : Buff
     {
         Status targetStatus = targetObject.GetComponent<Status>();
         targetStatus.MoveSpeed += prevMoveSpeed;
-        //targetStatus.JumpPower += prevJumpPower;
+
+        PlayerController targetController = targetObject.GetComponent<PlayerController>();
+        targetController.jumpPower += prevJumpPower;
         Debug.Log("기절 디버프 비활성화");
     }
 }
