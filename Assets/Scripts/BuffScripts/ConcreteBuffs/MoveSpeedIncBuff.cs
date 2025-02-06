@@ -9,8 +9,7 @@ public class MoveSpeedIncBuff : Buff
 
     public override void ApplyBuffEffect()
     {
-        targetObject.GetComponent<PlayerStatus>().MoveSpeed += moveSpeedIncGap[currentBuffLevel];
-
+        targetObject.GetComponent<Status>().MoveSpeed += moveSpeedIncGap[currentBuffLevel];
     }
 
     public override void RemoveBuffEffect()

@@ -6,11 +6,11 @@ using UnityEngine.UIElements;
 public abstract class Buff
 {
     protected float maxDuration = 10.0f;             //최대 버프 지속시간
-    protected float currentDuration = 0.0f;        //남은 버프 지속시간
+    protected float currentDuration = 0.0f;        //현재 버프 지속시간
+    protected float buffEffectTick = 1.0f;
     protected GameObject targetObject;      //버프 적용 대상
     protected int currentBuffLevel = 0;     //현재 버프 레벨 (0 ~ maxBuffLevel - 1 의 값을 가짐)
     protected int maxBuffLevel = 3;         //최대 버프 레벨
-
 
     public float MaxDuration { 
         get { return maxDuration; }
@@ -20,8 +20,7 @@ public abstract class Buff
         get { return currentDuration; }
         set
         {
-            currentDuration
-                = (value < 0.0f) ? 0.0f : ((value < MaxDuration) ? value : MaxDuration);
+            currentDuration = (value < MaxDuration) ? value : MaxDuration;
         }
     }
     public int CurrentBuffLevel
@@ -60,6 +59,12 @@ public abstract class Buff
     public virtual void DoActionOnActivate(float tickDuration = 1.0f) 
     {
         CurrentDuration -= tickDuration;
+        //버프 적용 주기가 1.0초인 버프가 0.2초 남았는데도 로직에 의해 효과를 한번 더 받는 경우를 고려해야할 필요가 있음.
+        //버프 지속 시간들이 항상 버프 적용 주기의 배수임을 보장하면 이 부분은 고려 안해도 됨.
+        /*if(currentDuration > 1.0f)
+        {
+            ApplyBuffEffect();
+        }*/
     }
 
     //현재 버프 레벨까지의 특정 스탯 증감 누적량을 계산해주는 함수

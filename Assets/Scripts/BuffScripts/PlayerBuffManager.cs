@@ -72,6 +72,9 @@ public class PlayerBuffManager : MonoBehaviour
         {
             activeBuffDict[type].DoActionOnActivate(deltaNextEffectTime);
             yield return nextEffectTime;
+            /*activeBuffDict[type].DoActionOnActivate(Time.deltaTime);
+             * yeild return new WaitForSeconds(Time.deltaTime);
+             */
         }
         DeActivateBuff(type);
     }
