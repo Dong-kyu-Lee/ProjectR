@@ -24,34 +24,11 @@ public class InventoryUI : MonoBehaviour
     private void Awake()
     {
         Init();
-        UpdateAllEquippedItemSlotImages();
-        UpdateAllInventorySlotImages();
     }
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.R))
-        {
-            //장비 해제
-            SetAllInventorySlotItemDatas();
-            UpdateAllEquippedItemSlotImages();
-        }
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            //장비 칸끼리 교체
-            //UpdateAllEquippedItemSlotImages();
-            UpdateEquippedItemSlotImage(0);
-            UpdateEquippedItemSlotImage(4);
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            //1번 인벤토리 슬룻을 1번 장비칸으로 옮기기
-            playerInventory.SwapEquippedItemWithInventory(0, inventorySlotParentObj[0].transform.GetChild(0).GetComponent<ItemSlotUI>().NowItemData as EquipmentItemData);
-            UpdateAllEquippedItemSlotImages();
-            UpdateInventorySlotImages(0, 0);    //row, col
-        }*/
     }
     
     public void Init()
