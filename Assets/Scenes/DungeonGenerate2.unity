@@ -134,6 +134,9 @@ GameObject:
   - component: {fileID: 592312058}
   - component: {fileID: 592312060}
   - component: {fileID: 592312059}
+  - component: {fileID: 592312063}
+  - component: {fileID: 592312062}
+  - component: {fileID: 592312061}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -215,15 +218,39 @@ Tilemap:
   m_Enabled: 1
   m_Tiles: {}
   m_AnimatedTiles: {}
-  m_TileAssetArray: []
-  m_TileSpriteArray: []
-  m_TileMatrixArray: []
-  m_TileColorArray: []
+  m_TileAssetArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  m_TileMatrixArray:
+  - m_RefCount: 0
+    m_Data:
+      e00: 0
+      e01: 0
+      e02: -2.0401127e+10
+      e03: -2.0401127e+10
+      e10: 0
+      e11: 0
+      e12: 7.62e-43
+      e13: 7.62e-43
+      e20: -3.5546722
+      e21: 1e-45
+      e22: 2.449656e-19
+      e23: 3.7016915e+19
+      e30: 4.5905e-41
+      e31: 0
+      e32: 7.64e-43
+      e33: 7.67e-43
+  m_TileColorArray:
+  - m_RefCount: 0
+    m_Data: {r: 3.4719e-41, g: 3.4719e-41, b: 3.4719e-41, a: 3.4719e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
-  m_Size: {x: 0, y: 0, z: 1}
+  m_Size: {x: 77, y: 31, z: 1}
   m_TileAnchor: {x: 0, y: 0, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -243,6 +270,67 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &592312061
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592312057}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+--- !u!66 &592312062
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592312057}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 592312061}
+    m_ColliderPaths: []
+  m_CompositePaths:
+    m_Paths: []
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0.00005
+--- !u!50 &592312063
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592312057}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &907366802
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,17 +506,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonRow: 0
   dungeonColumn: 0
-  roomCount: 5
+  roomCount: 4
   jumpHeight: 5
-  dashWidth: 5
-  roomWidthMin: 45
-  roomHeightMin: 30
-  roomWidthMax: 65
-  roomHeightMax: 50
+  dashWidth: 10
+  roomWidthMin: 50
+  roomHeightMin: 20
+  roomWidthMax: 60
+  roomHeightMax: 30
+  floatingTileWidthMin: 5
+  floatingTileWidthMax: 20
   tilemap: {fileID: 592312060}
-  tile: {fileID: 11400000, guid: 21dce20be362ec94997c7c2a4c9a23fb, type: 2}
+  floatingTile: {fileID: 11400000, guid: 5f0586ce77eda7f408634dc72a07ee17, type: 2}
   boundTile: {fileID: 11400000, guid: 62d18382034965e409bb04fa84205434, type: 2}
-  grid: {fileID: 0}
+  grid: {fileID: 907366802}
   roomContainer: {fileID: 0}
   generatedRooms: []
 --- !u!1 &1897230718
@@ -508,7 +598,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897230718}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54.188194, y: 65.69672, z: 0}
+  m_LocalPosition: {x: 1.2, y: -1.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -15,10 +15,11 @@ public class DungeonCreator : MonoBehaviour
     public int jumpHeight, dashWidth;
     public int roomWidthMin, roomHeightMin;
     public int roomWidthMax, roomHeightMax;
+    public int floatingTileWidthMin, floatingTileWidthMax;
 
     [Header("For Random Dungeon Test")]
     public Tilemap tilemap;
-    public TileBase tile;
+    public TileBase floatingTile;
     public TileBase boundTile;
 
     [Header("Needed Objects")]
@@ -65,12 +66,28 @@ public class DungeonCreator : MonoBehaviour
         finishSpotPosition = generatedRooms[Random.Range(1, generatedRooms.Count)].GetComponent<Room>().finishSpotPosition.position;
     }
 
+    
+    // 랜덤 던전을 생성하는 함수
     public void CreateRandomRoomDungeon()
     {
+        tilemap.ClearAllTiles();
+
+        // 랜덤 던전 방 구조를 생성
         RandomRoomGenerator dungeonGenerator = new RandomRoomGenerator(roomCount, jumpHeight, dashWidth);
-        var listOfRooms = dungeonGenerator.CalculateDungeon(roomCount, roomWidthMin, roomHeightMin, roomWidthMax, roomHeightMax);
-    
-        foreach(var room in listOfRooms)
+        var listOfRoom = dungeonGenerator.CalculateDungeon(roomCount, roomWidthMin, roomHeightMin, roomWidthMax, roomHeightMax);
+
+        // 발판 타일 생성
+        FloatingTileGenerator floatingTileGenerator = new FloatingTileGenerator(jumpHeight, dashWidth, floatingTileWidthMin, floatingTileWidthMax);
+        var listOfFloatingTile = floatingTileGenerator.GenerateFloatingTile(listOfRoom);
+
+        // 벽 타일을 그릴 위치
+        List<Vector3Int> boundTilePositions = new List<Vector3Int>();
+        // 벽 타일이 다른 방과 겹치는 위치
+        List<Vector3Int> overlappedPositions = new List<Vector3Int>();
+        int overlappedPosSize = 0;
+
+        // 방 타일 그리기
+        foreach (var room in listOfRoom)
         {
             for (int i = room.BottomLeft.y; i <= room.TopRight.y; ++i)
             {
@@ -78,9 +95,50 @@ public class DungeonCreator : MonoBehaviour
                 {
                     if (i == room.BottomLeft.y || i == room.TopRight.y ||
                         j == room.BottomLeft.x || j == room.TopRight.x)
-                        tilemap.SetTile(new Vector3Int(j, i, 0), boundTile);
-                    //else tilemap.SetTile(new Vector3Int(j, i, 0), tile);
+                    {
+                        Vector3Int point = new Vector3Int(j, i, 0);
+                        if (boundTilePositions.Contains(point))
+                        {
+                            overlappedPositions.Add(point);
+                        }
+                        else
+                        {
+                            boundTilePositions.Add(point);
+                        }
+                    }
                 }
+            }
+
+            // 겹치는 벽 타일들 중, 첫번째와 마지막 벽 타일은 맵의 매끄러움을 위해 빼준다.
+            if (overlappedPositions.Count > 0)
+            {
+                overlappedPositions.RemoveAt(overlappedPosSize);
+                overlappedPositions.RemoveAt(overlappedPositions.Count - 1);
+                overlappedPosSize = overlappedPositions.Count;
+            }
+        }
+        // 벽 타일 그리기
+        foreach(var point in boundTilePositions)
+        {
+            tilemap.SetTile(point, boundTile);
+        }
+        // 겹치는 벽 타일 지우기
+        foreach(var point in overlappedPositions)
+        {
+            tilemap.SetTile(point, null);
+        }
+
+        // 발판 타일 그리기
+        foreach (var tile in listOfFloatingTile)
+        {
+            GameObject newTilemapObj = new GameObject("FloatingTile");
+            newTilemapObj.transform.parent = grid.transform;
+            Tilemap newTilemap = newTilemapObj.AddComponent<Tilemap>();
+            newTilemap.tileAnchor = new Vector3(0, 0, 0);
+            newTilemapObj.AddComponent<TilemapRenderer>();
+            for(int i = tile.left.x; i <= tile.right.x; ++i)
+            {
+                newTilemap.SetTile(new Vector3Int(i, tile.left.y), floatingTile);
             }
         }
     }

@@ -60,28 +60,28 @@ public class RandomRoomGenerator
             switch (direction)
             {
                 case NextRoomDirection.UpLeft:
-                    newTopRight.x = Random.Range(currentNode.BottomLeft.x + dashWidth, (int)currentNode.Central.x + 1);
+                    newTopRight.x = Random.Range(currentNode.BottomLeft.x + dashWidth, (int)currentNode.Center.x + 1);
                     newTopRight.y = Random.Range(currentNode.TopRight.y + roomHeightMin, currentNode.TopRight.y + roomHeightMax + 1);
                     newBottomLeft.x = Random.Range(newTopRight.x - roomWidthMax, newTopRight.x - roomWidthMin + 1);
-                    newBottomLeft.y = currentNode.TopRight.y + 1;
+                    newBottomLeft.y = currentNode.TopRight.y;
                     break;
                 case NextRoomDirection.UpRight:
-                    newBottomLeft.x = Random.Range((int)currentNode.Central.x, currentNode.TopRight.x - dashWidth + 1);
-                    newBottomLeft.y = currentNode.TopRight.y + 1;
+                    newBottomLeft.x = Random.Range((int)currentNode.Center.x, currentNode.TopRight.x - dashWidth + 1);
+                    newBottomLeft.y = currentNode.TopRight.y;
                     newTopRight.x = Random.Range(newBottomLeft.x + roomWidthMin, newBottomLeft.x + roomWidthMax + 1);
                     newTopRight.y = Random.Range(currentNode.TopRight.y + roomHeightMin, currentNode.TopRight.y + roomHeightMax + 1);
                     break;
                 case NextRoomDirection.Left:
                     newBottomLeft.x = Random.Range(currentNode.BottomLeft.x - roomWidthMax, currentNode.BottomLeft.x - roomWidthMin + 1);
                     newBottomLeft.y = Random.Range(currentNode.BottomLeft.y, currentNode.TopRight.y - jumpHeight + 1);
-                    newTopRight.x = currentNode.BottomLeft.x - 1;
+                    newTopRight.x = currentNode.BottomLeft.x;
                     newTopRight.y = Random.Range(newBottomLeft.y + roomHeightMin, newBottomLeft.y + roomHeightMax + 1);
                     break;
                 case NextRoomDirection.Right:
-                    newBottomLeft.x = currentNode.TopRight.x + 1;
+                    newBottomLeft.x = currentNode.TopRight.x;
                     newBottomLeft.y = Random.Range(currentNode.BottomLeft.y, currentNode.TopRight.y - jumpHeight + 1);
                     newTopRight.x = Random.Range(newBottomLeft.x + roomWidthMin, newBottomLeft.x + roomWidthMax + 1);
-                    newTopRight.y = Random.Range(newBottomLeft.y + roomHeightMin, newBottomLeft.y + roomWidthMax + 1);
+                    newTopRight.y = Random.Range(newBottomLeft.y + roomHeightMin, newBottomLeft.y + roomHeightMax + 1);
                     break;
                 default:
                     break;
@@ -106,7 +106,7 @@ public class RandomRoomGenerator
         foreach (var rect2 in listOfRoomNode)
         {
             // x축 겹침 확인
-            bool xOverlap = rect1BottomLeft.x < rect2.TopRight.x && rect1TopRight.x > rect2.BottomLeft.x;
+            bool xOverlap = rect1BottomLeft.x < rect2.TopRight.x - 1 && rect1TopRight.x > rect2.BottomLeft.x + 1;
 
             // y축 겹침 확인
             bool yOverlap = rect1BottomLeft.y < rect2.TopRight.y && rect1TopRight.y > rect2.BottomLeft.y;
