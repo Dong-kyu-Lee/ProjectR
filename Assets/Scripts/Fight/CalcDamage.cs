@@ -20,6 +20,8 @@ public class CalcDamage : MonoBehaviour
     public bool dexterityEffect16;
     public int dexterityEffect16_Stack;
 
+    public bool isCritical;
+
     private static CalcDamage instance;
 
     public static CalcDamage Instance
@@ -63,8 +65,8 @@ public class CalcDamage : MonoBehaviour
             if (forceEffect13)
             {
                 damage = 5 * damage;
-                damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction);
-                enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction);
+                damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
+                enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
                 DexterityEffect4_TrueDamage(playerStatus, enemy);
                 StackDexterityEffect16(playerStatus, enemy);
                 StartCoroutine(ForceEffect4_Cooldown(4f));
@@ -72,8 +74,8 @@ public class CalcDamage : MonoBehaviour
             else
             {
                 damage = 2 * damage;
-                damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction);
-                enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction);
+                damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
+                enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
                 DexterityEffect4_TrueDamage(playerStatus, enemy);
                 StackDexterityEffect16(playerStatus, enemy);
                 StartCoroutine(ForceEffect4_Cooldown(5f));
@@ -84,8 +86,8 @@ public class CalcDamage : MonoBehaviour
         if (dexterityEffect10 && !dexterityEffect10_Cooldown)
         {
             damage = 0.2f * damage;
-            damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction);
-            enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction);
+            damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
+            enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
             DexterityEffect4_TrueDamage(playerStatus, enemy);
             StackDexterityEffect16(playerStatus, enemy);
             StartCoroutine(ForceEffect4_Cooldown(0.5f));
@@ -117,7 +119,7 @@ public class CalcDamage : MonoBehaviour
             if (dexterityEffect16_Stack >= 15)
             {
                 dexterityEffect16_Stack -= 15;
-                damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction);
+                damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
                 enemy.GetComponent<Status>().TakeTrueDamage(damage);
                 DexterityEffect4_TrueDamage(playerStatus, enemy);
             }
@@ -149,7 +151,7 @@ public class CalcDamage : MonoBehaviour
     }
 
     // 공격의 크리티컬 여부 확인.
-    public float CheckCritical(PlayerStatus playerStatus, float damage, ref float ignoreDamageReduction)
+    public float CheckCritical(PlayerStatus playerStatus, float damage, ref float ignoreDamageReduction, ref bool isCritical)
     {
         float criticalPercent = playerStatus.CriticalPercent;
         float criticalDamage = playerStatus.CriticalDamage;
@@ -174,6 +176,7 @@ public class CalcDamage : MonoBehaviour
         if (randomValue < criticalPercent)
         {
             Debug.Log("크리티컬!");
+            isCritical = true;
             if (criticalEffect13)
                 ignoreDamageReduction = 1 - (1 - playerStatus.IgnoreDamageReduction) * (1 - 0.5f);
             if (criticalEffect10)
@@ -187,6 +190,7 @@ public class CalcDamage : MonoBehaviour
         }
         else
         {
+            isCritical = false;
             return damage;
         }
     }

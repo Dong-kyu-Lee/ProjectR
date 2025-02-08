@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
         playerStatus = gameObject.GetComponent<PlayerStatus>();
         moveSpeed = playerStatus.MoveSpeed;
-        attackCoolTime = playerStatus.TotalAttackSpeed;
+        attackCoolTime = 1 / playerStatus.TotalAttackSpeed;
     }
 
     void Update()

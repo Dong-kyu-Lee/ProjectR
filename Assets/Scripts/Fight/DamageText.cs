@@ -5,7 +5,7 @@ using TMPro;
 
 public class DamageText : MonoBehaviour
 {
-    private TextMeshPro damageText;
+    public TextMeshPro damageText;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float fadeSpeed;
     [SerializeField] private float duration;

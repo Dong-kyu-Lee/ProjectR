@@ -72,7 +72,7 @@ public class StatusEffect : MonoBehaviour
             case "dexterity":
                 switch (point)
                 {
-                    case 1: dexterityEffect.EnableDexterityEffect1(); break;
+                    case 1: dexterityEffect.EnableDexterityEffect1(playerStatus); break;
                     case 4: dexterityEffect.EnableDexterityEffect4(); break;
                     case 7: dexterityEffect.EnableDexterityEffect7(); break;
                     case 10: dexterityEffect.EnableDexterityEffect10(); break;
@@ -153,7 +153,7 @@ public class StatusEffect : MonoBehaviour
             case "dexterity":
                 switch (point)
                 {
-                    case 1: dexterityEffect.DisableDexterityEffect1(); break;
+                    case 1: dexterityEffect.DisableDexterityEffect1(playerStatus); break;
                     case 4: dexterityEffect.DisableDexterityEffect4(); break;
                     case 7: dexterityEffect.DisableDexterityEffect7(); break;
                     case 10: dexterityEffect.DisableDexterityEffect10(); break;

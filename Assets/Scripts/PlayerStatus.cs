@@ -71,7 +71,7 @@ public class PlayerStatus : Status
         set
         {
             additionalAttackSpeed = value;
-            totalAttackSpeed = AttackSpeed - (AttackSpeed * additionalAttackSpeed * 0.01f * 0.5f);
+            totalAttackSpeed = AttackSpeed + (AttackSpeed * additionalAttackSpeed * 0.01f);
         }
     }
 
@@ -80,7 +80,7 @@ public class PlayerStatus : Status
         Hp = 100f;
         Damage = 10f;
         DamageReduction = 0;
-        AttackSpeed = 1.5f;
+        AttackSpeed = 0.7f;
         MoveSpeed = 3f;
 
         level = 1f;
@@ -89,7 +89,7 @@ public class PlayerStatus : Status
         AdditionalDamage = 0;
         AdditionalDamageReduction = 0;
         AdditionalAttackSpeed = 0;
-        totalAttackSpeed = 1.5f;
+        totalAttackSpeed = 0.7f;
         criticalPercent = 0;
         priceAdditional = 0;
         ignoreDamageReduction = 0;

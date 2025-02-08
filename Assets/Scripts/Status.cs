@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Status : MonoBehaviour
 {
@@ -38,33 +39,75 @@ public class Status : MonoBehaviour
         
     }
 
-    public void TakeDamage(float damage, float ignoreDamageReduction)
+    private Dictionary<GameObject, Queue<float>> damageQueue = new Dictionary<GameObject, Queue<float>>();
+    private Dictionary<GameObject, Queue<int>> damageTypeQueue = new Dictionary<GameObject, Queue<int>>();
+    private Dictionary<GameObject, bool> isProcessing = new Dictionary<GameObject, bool>();
+    private float damageInterval = 0.05f;
+
+    public void TakeDamage(float damage, float ignoreDamageReduction, bool isCritical)
     {
         float receiveDamage = (1 - damageReduction * (1 - ignoreDamageReduction)) * damage;
 
-        if (gameObject.tag == "Enemy")
+        if (!damageQueue.ContainsKey(gameObject))
         {
-            CapsuleCollider2D collider = this.GetComponent<CapsuleCollider2D>();
-            GameObject damageTextObj = ObjectPoolManager.Instance.GetDamageText();
-            float offset = collider.bounds.size.y + 0.4f * (ObjectPoolManager.Instance.activeDamageTexts - 1);
-            damageTextObj.transform.position = transform.position + Vector3.up * offset;
-            damageTextObj.GetComponent<DamageText>().SetText(receiveDamage.ToString());
+            damageQueue[gameObject] = new Queue<float>();
+            damageTypeQueue[gameObject] = new Queue<int>();
+            isProcessing[gameObject] = false;
         }
+
+        damageQueue[gameObject].Enqueue(receiveDamage);
+        if (isCritical) damageTypeQueue[gameObject].Enqueue(1);
+        else damageTypeQueue[gameObject].Enqueue(0);
+
+
+        if (!isProcessing[gameObject])
+        {
+            StartCoroutine(ProcessDamageQueue(gameObject));
+        }
+
         Hp -= receiveDamage;
     }
 
     public void TakeTrueDamage(float damage)
     {
-        Debug.Log("True Attack " + damage);
-        if (gameObject.tag == "Enemy")
+        if (!damageQueue.ContainsKey(gameObject))
         {
-            CapsuleCollider2D collider = this.GetComponent<CapsuleCollider2D>();
-            GameObject damageTextObj = ObjectPoolManager.Instance.GetDamageText();
-            float offset = collider.bounds.size.y + 0.4f * (ObjectPoolManager.Instance.activeDamageTexts - 1);
-            damageTextObj.transform.position = transform.position + Vector3.up * offset;
-            damageTextObj.GetComponent<DamageText>().SetText(damage.ToString());
+            damageQueue[gameObject] = new Queue<float>();
+            damageTypeQueue[gameObject] = new Queue<int>();
+            isProcessing[gameObject] = false;
         }
+
+        damageQueue[gameObject].Enqueue(damage);
+        damageTypeQueue[gameObject].Enqueue(2);
+
+        if (!isProcessing[gameObject])
+        {
+            StartCoroutine(ProcessDamageQueue(gameObject));
+        }
+
         Hp -= damage;
+    }
+
+    private IEnumerator ProcessDamageQueue(GameObject gameObject)
+    {
+        isProcessing[gameObject] = true;
+
+        while (damageQueue[gameObject].Count > 0)
+        {
+            float damage = damageQueue[gameObject].Dequeue(); // 큐에서 하나 가져옴
+            float damageType = damageTypeQueue[gameObject].Dequeue();
+
+            GameObject damageTextObj = ObjectPoolManager.Instance.GetDamageText();
+            damageTextObj.transform.position = transform.position;
+            if (damageType == 0) damageTextObj.GetComponent<DamageText>().damageText.color = Color.white;
+            else if (damageType == 1) damageTextObj.GetComponent<DamageText>().damageText.color = Color.red;
+            else if (damageType == 2) damageTextObj.GetComponent<DamageText>().damageText.color = Color.yellow;
+            damageTextObj.GetComponent<DamageText>().SetText(damage.ToString());
+
+            yield return new WaitForSeconds(damageInterval); // 0.1초 대기
+        }
+
+        isProcessing[gameObject] = false;
     }
 
     protected virtual void Dead()
