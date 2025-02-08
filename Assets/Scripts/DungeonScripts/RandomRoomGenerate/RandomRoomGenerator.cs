@@ -73,13 +73,13 @@ public class RandomRoomGenerator
                     break;
                 case NextRoomDirection.Left:
                     newBottomLeft.x = Random.Range(currentNode.BottomLeft.x - roomWidthMax, currentNode.BottomLeft.x - roomWidthMin + 1);
-                    newBottomLeft.y = Random.Range(currentNode.BottomLeft.y, currentNode.TopRight.y - jumpHeight + 1);
+                    newBottomLeft.y = Random.Range(currentNode.BottomLeft.y + 1, currentNode.TopRight.y - jumpHeight + 1);
                     newTopRight.x = currentNode.BottomLeft.x;
                     newTopRight.y = Random.Range(newBottomLeft.y + roomHeightMin, newBottomLeft.y + roomHeightMax + 1);
                     break;
                 case NextRoomDirection.Right:
                     newBottomLeft.x = currentNode.TopRight.x;
-                    newBottomLeft.y = Random.Range(currentNode.BottomLeft.y, currentNode.TopRight.y - jumpHeight + 1);
+                    newBottomLeft.y = Random.Range(currentNode.BottomLeft.y + 1, currentNode.TopRight.y - jumpHeight + 1);
                     newTopRight.x = Random.Range(newBottomLeft.x + roomWidthMin, newBottomLeft.x + roomWidthMax + 1);
                     newTopRight.y = Random.Range(newBottomLeft.y + roomHeightMin, newBottomLeft.y + roomHeightMax + 1);
                     break;
@@ -109,7 +109,7 @@ public class RandomRoomGenerator
             bool xOverlap = rect1BottomLeft.x < rect2.TopRight.x - 1 && rect1TopRight.x > rect2.BottomLeft.x + 1;
 
             // y축 겹침 확인
-            bool yOverlap = rect1BottomLeft.y < rect2.TopRight.y && rect1TopRight.y > rect2.BottomLeft.y;
+            bool yOverlap = rect1BottomLeft.y <= rect2.TopRight.y && rect1TopRight.y >= rect2.BottomLeft.y;
 
             // x축과 y축 모두 겹치면 두 직사각형이 겹친다
             if(xOverlap && yOverlap) return true;

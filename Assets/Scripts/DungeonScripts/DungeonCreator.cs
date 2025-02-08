@@ -27,6 +27,8 @@ public class DungeonCreator : MonoBehaviour
     public RoomContainer roomContainer;
     public List<GameObject> generatedRooms = new List<GameObject>();
 
+    private List<GameObject> currentFloatingTiles = new List<GameObject>();
+
     void Start()
     {
         /*if (roomContainer == null)
@@ -71,6 +73,14 @@ public class DungeonCreator : MonoBehaviour
     public void CreateRandomRoomDungeon()
     {
         tilemap.ClearAllTiles();
+        if(currentFloatingTiles.Count > 0)
+        {
+            foreach(var item in currentFloatingTiles)
+            {
+                Destroy(item);
+            }
+            currentFloatingTiles.Clear();
+        }
 
         // 랜덤 던전 방 구조를 생성
         RandomRoomGenerator dungeonGenerator = new RandomRoomGenerator(roomCount, jumpHeight, dashWidth);
@@ -140,6 +150,8 @@ public class DungeonCreator : MonoBehaviour
             {
                 newTilemap.SetTile(new Vector3Int(i, tile.left.y), floatingTile);
             }
+
+            currentFloatingTiles.Add(newTilemapObj);
         }
     }
 
