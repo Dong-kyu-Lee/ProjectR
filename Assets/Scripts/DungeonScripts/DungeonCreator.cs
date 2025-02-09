@@ -31,13 +31,13 @@ public class DungeonCreator : MonoBehaviour
 
     void Start()
     {
-        /*if (roomContainer == null)
+        if (roomContainer == null)
         {
             gameObject.AddComponent<RoomContainer>();
             roomContainer = GetComponent<RoomContainer>();
         }
         DungeonFlowManager.Instance.DungeonCreator = this;
-        DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();*/
+        DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
     }
     
     // 선택된 던전 조각들을 Instantiate하는 함수
