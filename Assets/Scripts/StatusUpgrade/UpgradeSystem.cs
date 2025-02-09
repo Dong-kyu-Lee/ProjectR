@@ -38,7 +38,7 @@ public class UpgradeSystem : MonoBehaviour
         {
             case "force":
                 upgradeStatus.Force++;
-                playerStatus.Damage += 1;
+                playerStatus.Damage += 2;
                 CheckUnlock("force", upgradeStatus.Force);
                 break;
             case "indurance":
@@ -52,6 +52,7 @@ public class UpgradeSystem : MonoBehaviour
                 break;
             case "dexterity":
                 upgradeStatus.Dexterity++;
+                playerStatus.AdditionalAttackSpeed += 2;
                 CheckUnlock("dexterity", upgradeStatus.Dexterity);
                 break;
             case "mystery":
@@ -70,8 +71,10 @@ public class UpgradeSystem : MonoBehaviour
     // 스테이터스 초기화.
     public void ResetStat()
     {
-        playerStatus.Damage -= upgradeStatus.Force;
+        playerStatus.Damage -= upgradeStatus.Force * 2;
         playerStatus.CriticalPercent -= upgradeStatus.Critical * 2;
+        playerStatus.AdditionalAttackSpeed -= upgradeStatus.Dexterity * 2;
+
         upgradeStatus.Force = upgradeStatus.Indurance = upgradeStatus.Critical = upgradeStatus.Dexterity = upgradeStatus.Mystery = 0;
         upgradeStatus.SkillPoint = 0;
         CheckUnlock("force", upgradeStatus.Force);

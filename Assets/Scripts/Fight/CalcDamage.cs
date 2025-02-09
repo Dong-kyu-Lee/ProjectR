@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class CalcDamage : MonoBehaviour
 {
+    private Dictionary<string, float> skillCooldowns = new Dictionary<string, float>();
+
     public bool forceEffect4;
     public bool forceEffect13;
-    public bool forceEffect4_Cooldown;
 
     public bool criticalEffect7;
-    public bool criticalEffect7_Cooldown;
     public bool criticalEffect10;
     public bool criticalEffect13;
     public bool criticalEffect16;
 
     public bool dexterityEffect4;
     public bool dexterityEffect10;
-    public bool dexterityEffect10_Cooldown;
     public bool dexterityEffect16;
     public int dexterityEffect16_Stack;
 
@@ -60,7 +59,7 @@ public class CalcDamage : MonoBehaviour
         float ignoreDamageReduction = playerStatus.IgnoreDamageReduction;
 
         // 무력 4레벨 & 13레벨.
-        if (forceEffect4 && !forceEffect4_Cooldown)
+        if (forceEffect4 && !IsOnCooldown("ForceEffect4"))
         {
             if (forceEffect13)
             {
@@ -69,7 +68,7 @@ public class CalcDamage : MonoBehaviour
                 enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
                 DexterityEffect4_TrueDamage(playerStatus, enemy);
                 StackDexterityEffect16(playerStatus, enemy);
-                StartCoroutine(ForceEffect4_Cooldown(4f));
+                StartCoroutine(Cooldown("ForceEffect4", 4f));
             }
             else
             {
@@ -78,19 +77,19 @@ public class CalcDamage : MonoBehaviour
                 enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
                 DexterityEffect4_TrueDamage(playerStatus, enemy);
                 StackDexterityEffect16(playerStatus, enemy);
-                StartCoroutine(ForceEffect4_Cooldown(5f));
+                StartCoroutine(Cooldown("ForceEffect4", 5f));
             }
         }
 
         // 재주 10레벨.
-        if (dexterityEffect10 && !dexterityEffect10_Cooldown)
+        if (dexterityEffect10 && !IsOnCooldown("DexterityEffect10"))
         {
             damage = 0.2f * damage;
             damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
             enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
             DexterityEffect4_TrueDamage(playerStatus, enemy);
             StackDexterityEffect16(playerStatus, enemy);
-            StartCoroutine(ForceEffect4_Cooldown(0.5f));
+            StartCoroutine(Cooldown("DexterityEffect10", 0.5f));
         }
     }
 
@@ -126,28 +125,23 @@ public class CalcDamage : MonoBehaviour
         }
     }
 
-    // 무력 4레벨 쿨타임.
-    private IEnumerator ForceEffect4_Cooldown(float cooldown)
+    // 쿨타임 계산.
+    private IEnumerator Cooldown(string skillName, float cooldown)
     {
-        forceEffect4_Cooldown = true;
-        yield return new WaitForSeconds(cooldown);
-        forceEffect4_Cooldown = false;
+        skillCooldowns[skillName] = cooldown;
+
+        while (skillCooldowns[skillName] > 0)
+        {
+            skillCooldowns[skillName] -= Time.deltaTime;
+            yield return null;
+        }
+
+        skillCooldowns[skillName] = 0;
     }
 
-    // 치명 7레벨 쿨타임.
-    private IEnumerator CriticalEffect7_Cooldown(float cooldown)
+    public bool IsOnCooldown(string skillName)
     {
-        criticalEffect7_Cooldown = true;
-        yield return new WaitForSeconds(cooldown);
-        criticalEffect7_Cooldown = false;
-    }
-
-    // 재주 10레벨 쿨타임.
-    private IEnumerator DexterityEffect10_Cooldown(float cooldown)
-    {
-        dexterityEffect10_Cooldown = true;
-        yield return new WaitForSeconds(cooldown);
-        dexterityEffect10_Cooldown = false;
+        return skillCooldowns.ContainsKey(skillName) && skillCooldowns[skillName] > 0;
     }
 
     // 공격의 크리티컬 여부 확인.
@@ -156,11 +150,11 @@ public class CalcDamage : MonoBehaviour
         float criticalPercent = playerStatus.CriticalPercent;
         float criticalDamage = playerStatus.CriticalDamage;
 
-        if (criticalEffect7 && !criticalEffect7_Cooldown)
+        if (criticalEffect7 && !IsOnCooldown("CriticalEffect7"))
         {
             // 크리티컬 증가 버프 추가해야 함.
             Debug.Log("크리티컬 증가");
-            StartCoroutine(CriticalEffect7_Cooldown(20f));
+            StartCoroutine(Cooldown("CriticalEffect7", 20f));
         }
 
         if (criticalEffect16)
