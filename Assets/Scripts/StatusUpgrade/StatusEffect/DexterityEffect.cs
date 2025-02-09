@@ -21,7 +21,7 @@ public class DexterityEffect : MonoBehaviour
     {
         statusEffectTooltip[0].defaultColor = Color.yellow;
         statusEffectTooltip[0].image.color = Color.yellow;
-        playerStatus.AdditionalAttackSpeed += 10;
+        playerStatus.AdditionalAttackSpeed += 0.1f;
     }
 
     public void EnableDexterityEffect4()
@@ -61,7 +61,7 @@ public class DexterityEffect : MonoBehaviour
     {
         statusEffectTooltip[0].defaultColor = Color.white;
         statusEffectTooltip[0].image.color = Color.white;
-        playerStatus.AdditionalAttackSpeed -= 10;
+        playerStatus.AdditionalAttackSpeed -= 0.1f;
     }
 
     public void DisableDexterityEffect4()

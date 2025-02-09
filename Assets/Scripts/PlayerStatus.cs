@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerObj;
 
 public class PlayerStatus : Status
 {
@@ -41,7 +42,7 @@ public class PlayerStatus : Status
         set
         {
             base.Damage = value;
-            totalDamage = base.Damage + (base.Damage * additionalDamage * 0.01f);
+            totalDamage = base.Damage + (base.Damage * additionalDamage);
         }
     }
 
@@ -51,7 +52,7 @@ public class PlayerStatus : Status
         set
         {
             additionalDamage = value;
-            totalDamage = Damage + (Damage * additionalDamage * 0.01f);
+            totalDamage = Damage + (Damage * additionalDamage);
         }
     }
 
@@ -61,7 +62,11 @@ public class PlayerStatus : Status
         set
         {
             additionalDamageReduction = value;
-            totalDamageReduction = DamageReduction + (DamageReduction * additionalDamageReduction * 0.01f);
+            if (additionalDamageReduction >= 0)
+                DamageReduction = 1 - (1 - DamageReduction) * (1 - additionalDamageReduction);
+            else
+                DamageReduction = 1 - (1 - DamageReduction) / (1 + additionalDamageReduction);
+            additionalDamageReduction = 0f;
         }
     }
 
@@ -71,13 +76,14 @@ public class PlayerStatus : Status
         set
         {
             additionalAttackSpeed = value;
-            totalAttackSpeed = AttackSpeed + (AttackSpeed * additionalAttackSpeed * 0.01f);
+            totalAttackSpeed = AttackSpeed + (AttackSpeed * additionalAttackSpeed);
         }
     }
 
     void Awake()
     {
-        Hp = 100f;
+        MaxHp = 100f;
+        Hp = MaxHp;
         Damage = 10f;
         DamageReduction = 0;
         AttackSpeed = 0.7f;
@@ -85,7 +91,7 @@ public class PlayerStatus : Status
 
         level = 1f;
         exp = 0;
-        criticalDamage = 50f;
+        criticalDamage = 0.5f;
         AdditionalDamage = 0;
         AdditionalDamageReduction = 0;
         AdditionalAttackSpeed = 0;
@@ -102,7 +108,8 @@ public class PlayerStatus : Status
 
     void Update()
     {
-
+        Debug.Log("Damage : " + Damage);
+        Debug.Log("Hp : " + MaxHp + " / " + Hp);
     }
 
     protected override void Dead()

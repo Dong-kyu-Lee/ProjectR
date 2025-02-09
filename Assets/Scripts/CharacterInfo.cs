@@ -28,29 +28,29 @@ public class CharacterInfo : MonoBehaviour
         SetStatus();
     }
 
-    // UI È°¼ºÈ­
+    // UI í™œì„±í™”
     public void EnableUI()
     {
         gameObject.SetActive(true);
     }
 
-    // UI ºñÈ°¼ºÈ­
+    // UI ë¹„í™œì„±í™”
     public void DisableUI()
     {
         Time.timeScale = 1f;
         gameObject.SetActive(false);
     }
 
-    // ¼¼ÆÃ Àü ÃÊ±âÈ­
+    // ì„¸íŒ… ì „ ì´ˆê¸°í™”
     void Init()
     {
         statusObjList.Clear();
     }
 
-    // ½ºÅ×ÀÌÅÍ½º ¼¼ÆÃ
+    // ìŠ¤í…Œì´í„°ìŠ¤ ì„¸íŒ…
     void SetStatus()
     {
-        characterName.GetComponent<Text>().text = "¹ÙÅÙ´õ";
+        characterName.GetComponent<Text>().text = "ë°”í…ë”";
 
         for (int i = 0; i <= 8; i++)
         {
@@ -61,15 +61,15 @@ public class CharacterInfo : MonoBehaviour
 
         float additionalDamageValue = playerStatus.Damage * playerStatus.AdditionalDamage * 0.01f;
         float additionalDamageReductionValue = playerStatus.DamageReduction * playerStatus.AdditionalDamageReduction * 0.01f;
-        statusObjList[0].GetComponent<Text>().text = "·¹º§ : " + playerStatus.Level;
-        // °æÇèÄ¡ Ãß°¡ ¿¹Á¤.
-        statusObjList[1].GetComponent<Text>().text = "ÇÇÇØ·® : " + playerStatus.TotalDamage + "(" + playerStatus.Damage + "+" + "<color=yellow>" + additionalDamageValue + "</color>" + "<color=black>)</color>";
-        statusObjList[2].GetComponent<Text>().text = "Ãß°¡ ÇÇÇØ·® : " + playerStatus.AdditionalDamage + "%";
-        statusObjList[3].GetComponent<Text>().text = "Ä¡¸íÅ¸ È®·ü : " + playerStatus.CriticalPercent + "%";
-        statusObjList[4].GetComponent<Text>().text = "ÇÇÇØ °¨¼Ò·® : " + playerStatus.TotalDamageReduction + "(" + playerStatus.DamageReduction + "+" + "<color=yellow>" + additionalDamageReductionValue + "</color>" + "<color=black>)</color>";
-        statusObjList[5].GetComponent<Text>().text = "Ãß°¡ ÇÇÇØ °¨¼Ò·® : " + playerStatus.AdditionalDamageReduction + "%";
-        statusObjList[6].GetComponent<Text>().text = "°ø°İ¼Óµµ : " + playerStatus.AttackSpeed;
-        statusObjList[7].GetComponent<Text>().text = "ÀÌµ¿¼Óµµ : " + playerStatus.MoveSpeed;
-        statusObjList[8].GetComponent<Text>().text = "ÀçÈ­ È¹µæ·® : " + playerStatus.PriceAdditional;
+        statusObjList[0].GetComponent<Text>().text = "ë ˆë²¨ : " + playerStatus.Level;
+        // ê²½í—˜ì¹˜ ì¶”ê°€ ì˜ˆì •.
+        statusObjList[1].GetComponent<Text>().text = "í”¼í•´ëŸ‰ : " + playerStatus.TotalDamage + "(" + playerStatus.Damage + "+" + "<color=yellow>" + additionalDamageValue + "</color>" + "<color=black>)</color>";
+        statusObjList[2].GetComponent<Text>().text = "ì¶”ê°€ í”¼í•´ëŸ‰ : " + playerStatus.AdditionalDamage + "%";
+        statusObjList[3].GetComponent<Text>().text = "ì¹˜ëª…íƒ€ í™•ë¥  : " + playerStatus.CriticalPercent + "%";
+        statusObjList[4].GetComponent<Text>().text = "í”¼í•´ ê°ì†ŒëŸ‰ : " + playerStatus.TotalDamageReduction + "(" + playerStatus.DamageReduction + "+" + "<color=yellow>" + additionalDamageReductionValue + "</color>" + "<color=black>)</color>";
+        statusObjList[5].GetComponent<Text>().text = "ì¶”ê°€ í”¼í•´ ê°ì†ŒëŸ‰ : " + playerStatus.AdditionalDamageReduction + "%";
+        statusObjList[6].GetComponent<Text>().text = "ê³µê²©ì†ë„ : " + playerStatus.AttackSpeed;
+        statusObjList[7].GetComponent<Text>().text = "ì´ë™ì†ë„ : " + playerStatus.MoveSpeed;
+        statusObjList[8].GetComponent<Text>().text = "ì¬í™” íšë“ëŸ‰ : " + playerStatus.PriceAdditional;
     }
 }

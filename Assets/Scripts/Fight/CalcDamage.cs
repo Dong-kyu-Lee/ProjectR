@@ -139,6 +139,7 @@ public class CalcDamage : MonoBehaviour
         skillCooldowns[skillName] = 0;
     }
 
+    // 쿨타임 확인.
     public bool IsOnCooldown(string skillName)
     {
         return skillCooldowns.ContainsKey(skillName) && skillCooldowns[skillName] > 0;
@@ -150,6 +151,7 @@ public class CalcDamage : MonoBehaviour
         float criticalPercent = playerStatus.CriticalPercent;
         float criticalDamage = playerStatus.CriticalDamage;
 
+        // 치명 7레벨.
         if (criticalEffect7 && !IsOnCooldown("CriticalEffect7"))
         {
             // 크리티컬 증가 버프 추가해야 함.
@@ -157,15 +159,16 @@ public class CalcDamage : MonoBehaviour
             StartCoroutine(Cooldown("CriticalEffect7", 20f));
         }
 
+        // 치명 16레벨.
         if (criticalEffect16)
         {
-            if (criticalPercent >= 100)
+            if (criticalPercent >= 1)
             {
-                float temp = criticalPercent - 100f;
+                float temp = criticalPercent - 1f;
                 criticalDamage += temp;
             }
         }
-        float randomValue = Random.Range(0f, 100f);
+        float randomValue = Random.Range(0f, 1f);
 
         if (randomValue < criticalPercent)
         {
@@ -175,11 +178,11 @@ public class CalcDamage : MonoBehaviour
                 ignoreDamageReduction = 1 - (1 - playerStatus.IgnoreDamageReduction) * (1 - 0.5f);
             if (criticalEffect10)
             {
-                return 1.2f * damage * (1 + criticalDamage * 0.01f);
+                return 1.2f * damage * (1 + criticalDamage);
             }
             else
             {
-                return damage * (1 + criticalDamage * 0.01f);
+                return damage * (1 + criticalDamage);
             }
         }
         else

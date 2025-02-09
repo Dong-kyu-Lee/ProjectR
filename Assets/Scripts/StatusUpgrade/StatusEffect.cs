@@ -44,7 +44,7 @@ public class StatusEffect : MonoBehaviour
             case "indurance":
                 switch (point)
                 {
-                    case 1: induranceEffect.EnableInduranceEffect1(); break;
+                    case 1: induranceEffect.EnableInduranceEffect1(playerStatus); break;
                     case 4: induranceEffect.EnableInduranceEffect4(); break;
                     case 7: induranceEffect.EnableInduranceEffect7(); break;
                     case 10: induranceEffect.EnableInduranceEffect10(); break;
@@ -125,7 +125,7 @@ public class StatusEffect : MonoBehaviour
             case "indurance":
                 switch (point)
                 {
-                    case 1: induranceEffect.DisableInduranceEffect1(); break;
+                    case 1: induranceEffect.DisableInduranceEffect1(playerStatus); break;
                     case 4: induranceEffect.DisableInduranceEffect4(); break;
                     case 7: induranceEffect.DisableInduranceEffect7(); break;
                     case 10: induranceEffect.DisableInduranceEffect10(); break;

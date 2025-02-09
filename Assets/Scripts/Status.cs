@@ -1,15 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Status : MonoBehaviour
 {
+    private float maxHp;
     private float hp;
     private float damage;
     private float damageReduction;
     private float attackSpeed;
     private float moveSpeed;
+
+    public float MaxHp
+    {
+        get { return maxHp; }
+        set
+        {
+            maxHp = value;
+            if (Hp > maxHp) Hp = maxHp;
+        }
+    }
 
     public float Hp
     { 
@@ -44,10 +54,12 @@ public class Status : MonoBehaviour
     private Dictionary<GameObject, bool> isProcessing = new Dictionary<GameObject, bool>();
     private float damageInterval = 0.05f;
 
+    // 피해를 입힘. 
     public void TakeDamage(float damage, float ignoreDamageReduction, bool isCritical)
     {
         float receiveDamage = (1 - damageReduction * (1 - ignoreDamageReduction)) * damage;
 
+        // 데미지 텍스트 출력 준비.
         if (!damageQueue.ContainsKey(gameObject))
         {
             damageQueue[gameObject] = new Queue<float>();
@@ -55,8 +67,8 @@ public class Status : MonoBehaviour
             isProcessing[gameObject] = false;
         }
 
-        damageQueue[gameObject].Enqueue(receiveDamage);
-        if (isCritical) damageTypeQueue[gameObject].Enqueue(1);
+        damageQueue[gameObject].Enqueue(receiveDamage); // 데미지를 큐에 삽입.
+        if (isCritical) damageTypeQueue[gameObject].Enqueue(1); // 크리티컬 여부에 따라 데미지 타입을 큐에 삽입.
         else damageTypeQueue[gameObject].Enqueue(0);
 
 
@@ -65,9 +77,10 @@ public class Status : MonoBehaviour
             StartCoroutine(ProcessDamageQueue(gameObject));
         }
 
-        Hp -= receiveDamage;
+        Hp -= receiveDamage; // 체력 감소.
     }
 
+    // 고정 피해를 입힘.
     public void TakeTrueDamage(float damage)
     {
         if (!damageQueue.ContainsKey(gameObject))
@@ -77,8 +90,8 @@ public class Status : MonoBehaviour
             isProcessing[gameObject] = false;
         }
 
-        damageQueue[gameObject].Enqueue(damage);
-        damageTypeQueue[gameObject].Enqueue(2);
+        damageQueue[gameObject].Enqueue(damage); // 데미지를 큐에 삽입.
+        damageTypeQueue[gameObject].Enqueue(2); // 고정 피해 데미지 타입을 큐에 삽입.
 
         if (!isProcessing[gameObject])
         {
@@ -88,13 +101,14 @@ public class Status : MonoBehaviour
         Hp -= damage;
     }
 
+    // 일정 시간 간격으로 데미지 출력.
     private IEnumerator ProcessDamageQueue(GameObject gameObject)
     {
         isProcessing[gameObject] = true;
 
         while (damageQueue[gameObject].Count > 0)
         {
-            float damage = damageQueue[gameObject].Dequeue(); // 큐에서 하나 가져옴
+            float damage = damageQueue[gameObject].Dequeue();
             float damageType = damageTypeQueue[gameObject].Dequeue();
 
             GameObject damageTextObj = ObjectPoolManager.Instance.GetDamageText();
@@ -104,7 +118,7 @@ public class Status : MonoBehaviour
             else if (damageType == 2) damageTextObj.GetComponent<DamageText>().damageText.color = Color.yellow;
             damageTextObj.GetComponent<DamageText>().SetText(damage.ToString());
 
-            yield return new WaitForSeconds(damageInterval); // 0.1초 대기
+            yield return new WaitForSeconds(damageInterval);
         }
 
         isProcessing[gameObject] = false;
