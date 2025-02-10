@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerObj;
 
 public class DexterityEffect : MonoBehaviour
 {
@@ -16,10 +17,11 @@ public class DexterityEffect : MonoBehaviour
         statusEffectTooltip[5] = GameObject.Find("DexterityEffect16").GetComponent<StatusEffectTooltip>();
     }
 
-    public void EnableDexterityEffect1()
+    public void EnableDexterityEffect1(PlayerStatus playerStatus)
     {
         statusEffectTooltip[0].defaultColor = Color.yellow;
         statusEffectTooltip[0].image.color = Color.yellow;
+        playerStatus.AdditionalAttackSpeed += 0.1f;
     }
 
     public void EnableDexterityEffect4()
@@ -55,10 +57,11 @@ public class DexterityEffect : MonoBehaviour
         CalcDamage.Instance.dexterityEffect16 = true;
     }
 
-    public void DisableDexterityEffect1()
+    public void DisableDexterityEffect1(PlayerStatus playerStatus)
     {
         statusEffectTooltip[0].defaultColor = Color.white;
         statusEffectTooltip[0].image.color = Color.white;
+        playerStatus.AdditionalAttackSpeed -= 0.1f;
     }
 
     public void DisableDexterityEffect4()

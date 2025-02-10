@@ -20,7 +20,7 @@ public class CriticalEffect : MonoBehaviour
     {
         statusEffectTooltip[0].defaultColor = Color.yellow;
         statusEffectTooltip[0].image.color = Color.yellow;
-        playerStatus.CriticalDamage += 10;
+        playerStatus.CriticalDamage += 0.1f;
     }
 
     public void EnableCriticalEffect4()
@@ -61,7 +61,7 @@ public class CriticalEffect : MonoBehaviour
     {
         statusEffectTooltip[0].defaultColor = Color.white;
         statusEffectTooltip[0].image.color = Color.white;
-        playerStatus.CriticalDamage -= 10;
+        playerStatus.CriticalDamage -= 0.1f;
     }
 
     public void DisableCriticalEffect4()
