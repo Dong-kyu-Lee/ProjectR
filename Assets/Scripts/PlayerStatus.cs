@@ -24,7 +24,7 @@ public class PlayerStatus : Status
     public float PriceAdditional { get { return priceAdditional; } set { priceAdditional = value; } }
     public float TotalDamage { get { return totalDamage; } }
     public float TotalDamageReduction { get { return totalDamageReduction; } }
-    public float TotalAttackSpeed { get { return totalAttackSpeed; } 
+    public float TotalAttackSpeed { get { return totalAttackSpeed; } }
     public float IgnoreDamageReduction { get { return ignoreDamageReduction; } set { ignoreDamageReduction = value; } }
     public float Gold;
 

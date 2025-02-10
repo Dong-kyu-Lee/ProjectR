@@ -105,11 +105,11 @@ public class Inventory : MonoBehaviour
 
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우
+      /*if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우
         {
             LoadToQuickSlot(item, amount);
             return true;
-        }
+        }*/
 
         return AddItemsToInventory(item, amount);
     }
@@ -187,11 +187,11 @@ public class Inventory : MonoBehaviour
             inventory.Add(item, amount);
             isSuccess = true;
         }
-
+/*
         if (isSuccess)
         {
             inventoryUI.SetAllInventorySlotItemDatas();
-        }
+        }*/
 
         return isSuccess;
     }

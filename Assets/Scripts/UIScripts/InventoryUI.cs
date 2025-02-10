@@ -16,7 +16,6 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private GameObject[] inventorySlotParentObj;
     
-
     //플레이어 인벤토리
     [SerializeField]
     private Inventory playerInventory;
@@ -26,11 +25,12 @@ public class InventoryUI : MonoBehaviour
         Init();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-
+        SetAllInventorySlotItemDatas();
+        UpdateAllEquippedItemSlotImages();
     }
-    
+
     public void Init()
     {
         if (equipSlotImgs == null) GenerateEquippedItemSlot();
@@ -89,18 +89,18 @@ public class InventoryUI : MonoBehaviour
     {
         int row = 0;
         int col = 0;
-
         foreach (var item in playerInventory.InventoryDict)
         {
             UpdateInventorySlotImages(row, col);
-            if (col > inventorySlotParentObj[row].transform.childCount)
+            if (col < inventorySlotParentObj[row].transform.childCount)
             {
-                col = 0;
-                row++;
+                col++;
             }
             else
             {
-                col++;
+                col = 0;
+                row++;
+
             }
         }
     }
@@ -113,6 +113,7 @@ public class InventoryUI : MonoBehaviour
 
         foreach (var item in playerInventory.InventoryDict)
         {
+            Debug.Log($"{row} , {col}");
             SetInventorySlotData(item.Key, row, col);
             if (col > inventorySlotParentObj[row].transform.childCount)
             {
