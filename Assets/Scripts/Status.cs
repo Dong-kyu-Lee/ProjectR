@@ -38,10 +38,17 @@ public class Status : MonoBehaviour
         
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, float ignoreDamageReduction)
     {
-        Debug.Log((1 - damageReduction * 0.01f) * damage);
-        Hp -= (1 - damageReduction * 0.01f) * damage;
+        Debug.Log("Attack " + (1 - (damageReduction * (1 - ignoreDamageReduction))) * damage);
+        Debug.Log(ignoreDamageReduction);
+        Hp -= (1 - (damageReduction * (1 - ignoreDamageReduction))) * damage;
+    }
+
+    public void TakeTrueDamage(float damage)
+    {
+        Debug.Log("True Attack " + damage);
+        Hp -= damage;
     }
 
     protected virtual void Dead()

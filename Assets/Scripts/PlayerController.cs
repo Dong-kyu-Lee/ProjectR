@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     // 플레이어 좌우 이동 속도 지정
     void PlayerMove()
     {
-        moveVector.x = Input.GetAxis("Horizontal") * moveSpeed * moveFactor * dashFactor * Time.deltaTime;
+        moveVector.x = Input.GetAxis("Horizontal") * playerStatus.MoveSpeed * moveFactor * dashFactor * Time.deltaTime;
         moveVector.y = playerRigidBody.velocity.y;
         playerRigidBody.velocity = moveVector;
     }
@@ -188,7 +188,7 @@ public class PlayerController : MonoBehaviour
 
         GameObject projectile = Instantiate(projectilePref, spawnPosition, Quaternion.identity);
         projectile.GetComponent<Projectile>().Velocity = direction;
-        projectile.GetComponent<Projectile>().damage = playerStatus.Damage;
+        projectile.GetComponent<Projectile>().playerStatus = playerStatus;
 
         yield return new WaitForSeconds(attackCoolTime);
         enableAttack = true;
@@ -206,25 +206,5 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         gameObject.SetActive(false);
-    }
-
-    // 공격의 크리티컬 여부 확인.
-    public float CheckCritical()
-    {
-        float damage = playerStatus.TotalDamage;
-        float criticalPercnet = playerStatus.CriticalPercent;
-        float criticalDamage = playerStatus.CriticalDamage;
-
-        float randomValue = Random.Range(0f, 100f);
-
-        if (randomValue < criticalPercnet)
-        {
-            Debug.Log("크리티컬!");
-            return damage * (1 + criticalDamage * 0.01f);
-        }
-        else
-        {
-            return damage;
-        }
     }
 }
