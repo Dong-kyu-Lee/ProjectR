@@ -1,29 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class BlessBuff : Buff
 {
-    private float[] healAmount = { 1.0f, 2.0f, 3.0f };    //Æ½(0.1ÃÊ)´ç Ã¼·Â È¸º¹ ·®
+    private float[] healAmount = { 1.0f, 2.0f, 3.0f };    //í‹±(0.1ì´ˆ)ë‹¹ ì²´ë ¥ íšŒë³µ ëŸ‰
 
     public BlessBuff(float duration, GameObject target) : base(duration, target) { }
 
-    //´ë»ó¿¡°Ô µµÆ®ÈúÀ» Á¦°øÇÏ´Â ¸Ş¼­µå. ÇØ´ç ¹öÇÁ´Â ApplyBuffEffect()¸¦ ´ë½ÅÇØ ±â´ÉÇÔ
-    public override void DoActionOnActivate(float tickDuration = 1.0f)
-    {
-        PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
-        playerStatus.Hp += healAmount[currentBuffLevel];
-        Debug.Log($"ÇÃ·¹ÀÌ¾î Ã¼·Â : {playerStatus.Hp}");
-        CurrentDuration -= tickDuration;
-    }
-
-    //´ë»ó¿¡°Ô Æ¯Á¤ ½ºÅÈ Áõ°¡·®À» Àû¿ë½ÃÅ°´Â ¸Ş¼­µå. ÇÏ´Â ÀÏ ¾øÀ½.
+    //ëŒ€ìƒì—ê²Œ íŠ¹ì • ìŠ¤íƒ¯ ì¦ê°€ëŸ‰ì„ ì ìš©ì‹œí‚¤ëŠ” ë©”ì„œë“œ. í•˜ëŠ” ì¼ ì—†ìŒ.
     public override void ApplyBuffEffect()
     {
+        Debug.Log("ì¶•ë³µ ë²„í”„ ì ìš©");
+        Status targetStatus = targetObject.GetComponent<Status>();
+        targetStatus.Hp += healAmount[currentBuffLevel];
+        Debug.Log($"í”Œë ˆì´ì–´ ì²´ë ¥ : {targetStatus.Hp}");
     }
 
-    //´ë»ó¿¡°Ô Àû¿ëµÈ ½ºÅÈ Áõ°¡·®À» ÇØÁ¦ ¸Ş¼­µå. ÇÏ´Â ÀÏ ¾øÀ½.
+    //ëŒ€ìƒì—ê²Œ ë„íŠ¸íì„ ì œê³µí•˜ëŠ” ë©”ì„œë“œ. í•´ë‹¹ ë²„í”„ëŠ” ApplyBuffEffect()ë¥¼ ëŒ€ì‹ í•´ ê¸°ëŠ¥í•¨
+    public override void DoActionOnActivate(float tickDuration = 1.0f)
+    {
+        ApplyBuffEffect();
+        base.DoActionOnActivate(tickDuration);
+    }
+
+    //ëŒ€ìƒì—ê²Œ ì ìš©ëœ ìŠ¤íƒ¯ ì¦ê°€ëŸ‰ì„ í•´ì œ ë©”ì„œë“œ. í•˜ëŠ” ì¼ ì—†ìŒ.
     public override void RemoveBuffEffect()
     {
+        Debug.Log("ì¶•ë³µ ë²„í”„ í•´ì œ");
     }
 }

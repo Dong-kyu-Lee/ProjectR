@@ -7,21 +7,29 @@ public class LevelUp : MonoBehaviour
 {
     [SerializeField] private PlayerStatus playerStatus;
     [SerializeField] private UpgradeStatus upgradeStatus;
+    [SerializeField] private UpgradeSystem upgradeSystem;
     [SerializeField] private StatusValueText statusValueText;
 
-    // ¿ä±¸ °æÇèÄ¡ ex) ·¹º§ 1 -> ·¹º§ 2 ¿ä±¸ °æÇèÄ¡ = requiredExp[1].
+    // ìš”êµ¬ ê²½í—˜ì¹˜ ex) ë ˆë²¨ 1 -> ë ˆë²¨ 2 ìš”êµ¬ ê²½í—˜ì¹˜ = requiredExp[1].
     public static readonly int[] requiredExp;
 
+    private void Start()
+    {
+        //playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        //upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+    }
+
+    // í…ŒìŠ¤íŠ¸ìš©.
     private void Update()
     {
         Debug.Log($"Level {playerStatus.Level}: {playerStatus.Exp} / {requiredExp[(int)playerStatus.Level]}");
     }
 
-    // °æÇèÄ¡ Åë Á¤ÀÇ.
+    // ê²½í—˜ì¹˜ í†µ ì •ì˜.
     static LevelUp()
     {
-        int maxLevel = 50; // ÃÖ´ë ·¹º§.
-        double coefficient = 20; // °è¼ö.
+        int maxLevel = 50; // ìµœëŒ€ ë ˆë²¨.
+        double coefficient = 20; // ê³„ìˆ˜.
         requiredExp = new int[maxLevel + 1];
 
         for (int i = 1; i <= maxLevel; i++)
@@ -31,7 +39,7 @@ public class LevelUp : MonoBehaviour
         }
     }
 
-    // °æÇèÄ¡ Áõ°¡.
+    // ê²½í—˜ì¹˜ ì¦ê°€.
     public void IncreaseExp(float value)
     {
         playerStatus.Exp += value;
@@ -41,13 +49,14 @@ public class LevelUp : MonoBehaviour
         }
     }
 
-    // ·¹º§ ¾÷.
+    // ë ˆë²¨ ì—….
     public void UpLevel()
     {
         playerStatus.Level++;
         upgradeStatus.SkillPoint++;
 
         playerStatus.Damage += 1;
+        playerStatus.MaxHp += 5;
         playerStatus.Hp += 5;
 
         playerStatus.Exp -= requiredExp[(int)playerStatus.Level - 1];
@@ -60,12 +69,12 @@ public class LevelUp : MonoBehaviour
         statusValueText.SetupValueText(upgradeStatus);
     }
 
-    // ·¹º§ ÃÊ±âÈ­.
+    // ë ˆë²¨ ì´ˆê¸°í™”.
     public void ResetLevel()
     {
-        upgradeStatus.ResetStat();
+        upgradeSystem.ResetStat();
         playerStatus.Damage -= playerStatus.Level - 1;
-        playerStatus.Hp -= (playerStatus.Level - 1) * 5;
+        playerStatus.MaxHp -= (playerStatus.Level - 1) * 5;
         playerStatus.Level = 1;
         playerStatus.Exp = 0;
     }
