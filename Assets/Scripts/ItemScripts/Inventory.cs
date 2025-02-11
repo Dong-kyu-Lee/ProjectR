@@ -66,7 +66,6 @@ public class Inventory : MonoBehaviour
         {
             quickSlot.ActivateItemEffect(playerStatus);
             QuickSlotItemAmount--;
-            Debug.Log(quickSlotItemAmount);
 
             if (quickSlotItemAmount <= 0)
             {
@@ -105,11 +104,11 @@ public class Inventory : MonoBehaviour
 
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-      /*if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우
+        if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우. 아이템 디버그용임.
         {
             LoadToQuickSlot(item, amount);
             return true;
-        }*/
+        }
 
         return AddItemsToInventory(item, amount);
     }
