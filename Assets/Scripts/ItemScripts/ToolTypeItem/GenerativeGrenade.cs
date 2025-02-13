@@ -9,7 +9,11 @@ public class GenerativeGrenade : Grenade
 
     protected override void Explode()
     {
-        Instantiate(generatedPrefab, gameObject.transform.position, Quaternion.identity);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f);
+        if (hit)
+        {
+            Instantiate(generatedPrefab, hit.point, Quaternion.identity);
+        }
         Destroy(gameObject);
     }
 }

@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConsumableGrenade : MonoBehaviour
+[CreateAssetMenu(fileName = "New Grenade Item Data", menuName = "Scriptable Object/Consumable Grenade Item Data", order = 1)]
+public class ConsumableGrenade : ConsumableItemData
 {
-    // Start is called before the first frame update
-    void Start()
+    //수류탄projectile 프리펩
+    [SerializeField]
+    private GameObject grenadePrefab;  //다이너마이트 Projectile Prefab
+
+    public override void ActivateItemEffect(PlayerStatus player)
     {
-        
+        ThrowGrenade(player.transform);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ThrowGrenade(Transform playerTf)
     {
-        
+        GameObject obj = Instantiate(grenadePrefab, playerTf.position, Quaternion.identity);
+        obj.GetComponent<Rigidbody2D>().AddForce(new Vector2(playerTf.forward.x, 1.0f) * 0.5f, ForceMode2D.Impulse);
     }
 }
