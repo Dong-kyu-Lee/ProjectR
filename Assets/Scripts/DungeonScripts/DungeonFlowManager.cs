@@ -78,6 +78,7 @@ public class DungeonFlowManager : MonoBehaviour
         }
         // 던전 생성
         dungeonCreator.CreateFixedRoomDungeon(out playerSpawnPosition, out finishSpotPosition);
+        // dungeonCreator.CreateRandomRoomDungeon();
         // 테스트 플레이어 생성
         GameManager.Instance.PlacePlayerObject(playerSpawnPosition);
         // 도착 위치 생성
