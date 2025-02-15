@@ -10,12 +10,14 @@ public class PlayerStatus : Status
     private float additionalDamage;
     private float additionalDamageReduction;
     private float additionalAttackSpeed;
+    private float additionalMoveSpeed;
     private float criticalPercent;
     private float criticalDamage;
     private float priceAdditional;
     private float totalDamage;
     private float totalDamageReduction;
     private float totalAttackSpeed;
+    private float totalMoveSpeed;
     private float ignoreDamageReduction;
 
     public float Level { get { return level; } set { level = value; } }
@@ -25,7 +27,9 @@ public class PlayerStatus : Status
     public float TotalDamage { get { return totalDamage; } }
     public float TotalDamageReduction { get { return totalDamageReduction; } }
     public float TotalAttackSpeed { get { return totalAttackSpeed; } }
+    public float TotalMoveSpeed { get { return totalMoveSpeed; } }
     public float IgnoreDamageReduction { get { return ignoreDamageReduction; } set { ignoreDamageReduction = value; } }
+    public float Gold;
 
     public float Exp
     {
@@ -80,6 +84,16 @@ public class PlayerStatus : Status
         }
     }
 
+    public float AdditionalMoveSpeed
+    {
+        get { return additionalMoveSpeed; }
+        set
+        {
+            additionalMoveSpeed = value;
+            totalMoveSpeed = MoveSpeed + (MoveSpeed * additionalMoveSpeed);
+        }
+    }
+
     void Awake()
     {
         MaxHp = 100f;
@@ -88,6 +102,7 @@ public class PlayerStatus : Status
         DamageReduction = 0;
         AttackSpeed = 0.7f;
         MoveSpeed = 3f;
+        Gold = 100f;
 
         level = 1f;
         exp = 0;
@@ -95,7 +110,7 @@ public class PlayerStatus : Status
         AdditionalDamage = 0;
         AdditionalDamageReduction = 0;
         AdditionalAttackSpeed = 0;
-        totalAttackSpeed = 0.7f;
+        AdditionalMoveSpeed = 0;
         criticalPercent = 0;
         priceAdditional = 0;
         ignoreDamageReduction = 0;

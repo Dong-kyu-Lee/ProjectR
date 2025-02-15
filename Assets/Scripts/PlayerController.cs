@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
     // 플레이어 좌우 이동 속도 지정
     void PlayerMove()
     {
-        moveVector.x = Input.GetAxis("Horizontal") * moveSpeed * moveFactor * dashFactor * Time.deltaTime;
+        moveVector.x = Input.GetAxis("Horizontal") * playerStatus.MoveSpeed * moveFactor * dashFactor * Time.deltaTime;
         moveVector.y = playerRigidBody.velocity.y;
         playerRigidBody.velocity = moveVector;
     }

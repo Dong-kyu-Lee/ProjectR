@@ -6,16 +6,22 @@ public class CalcDamage : MonoBehaviour
 {
     private Dictionary<string, float> skillCooldowns = new Dictionary<string, float>();
 
+    public PlayerStatus playerStatus;
+    private PlayerBuffManager playerBuffManager;
+
     public bool forceEffect4;
     public bool forceEffect13;
 
+    public bool criticalEffect4;
     public bool criticalEffect7;
     public bool criticalEffect10;
     public bool criticalEffect13;
     public bool criticalEffect16;
 
     public bool dexterityEffect4;
+    public bool dexterityEffect7;
     public bool dexterityEffect10;
+    public bool dexterityEffect13;
     public bool dexterityEffect16;
     public int dexterityEffect16_Stack;
 
@@ -50,10 +56,32 @@ public class CalcDamage : MonoBehaviour
         {
             Destroy(gameObject); // 중복된 CalcDamage 제거
         }
+
+        GameObject player = GameObject.FindWithTag("Player");
+        playerStatus = player.GetComponent<PlayerStatus>();
+        playerBuffManager = player.GetComponent<PlayerBuffManager>();
+    }
+
+    // 적 타격시 발동하는 추가 효과.
+    public void AdditionalEffect(GameObject enemy)
+    {
+        DexterityEffect4_TrueDamage(enemy);
+        StackDexterityEffect16(enemy);
+
+        if (dexterityEffect7) playerBuffManager.ActivateBuff(BuffType.Dexterity7, 8.0f); // 재주 7레벨 버프.
+        if (dexterityEffect13) playerBuffManager.ActivateBuff(BuffType.Dexterity13, 8.0f); // 재주 13레벨 버프.
+    }
+
+    public void ResetBuff()
+    {
+        if (!criticalEffect4) playerBuffManager.DeActivateBuff(BuffType.Critical4);
+        if (!criticalEffect7) playerBuffManager.DeActivateBuff(BuffType.Critical7);
+        if (!dexterityEffect7) playerBuffManager.DeActivateBuff(BuffType.Dexterity7);
+        if (!dexterityEffect13) playerBuffManager.DeActivateBuff(BuffType.Dexterity13);
     }
 
     // 추가 공격.
-    public void CheckAddtionalDamage(PlayerStatus playerStatus, GameObject enemy)
+    public void CheckAddtionalDamage(GameObject enemy)
     {
         float damage = playerStatus.TotalDamage;
         float ignoreDamageReduction = playerStatus.IgnoreDamageReduction;
@@ -64,19 +92,17 @@ public class CalcDamage : MonoBehaviour
             if (forceEffect13)
             {
                 damage = 5 * damage;
-                damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
+                damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
                 enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
-                DexterityEffect4_TrueDamage(playerStatus, enemy);
-                StackDexterityEffect16(playerStatus, enemy);
+                AdditionalEffect(enemy);
                 StartCoroutine(Cooldown("ForceEffect4", 4f));
             }
             else
             {
                 damage = 2 * damage;
-                damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
+                damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
                 enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
-                DexterityEffect4_TrueDamage(playerStatus, enemy);
-                StackDexterityEffect16(playerStatus, enemy);
+                AdditionalEffect(enemy);
                 StartCoroutine(Cooldown("ForceEffect4", 5f));
             }
         }
@@ -85,26 +111,27 @@ public class CalcDamage : MonoBehaviour
         if (dexterityEffect10 && !IsOnCooldown("DexterityEffect10"))
         {
             damage = 0.2f * damage;
-            damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
+            damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
             enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
-            DexterityEffect4_TrueDamage(playerStatus, enemy);
-            StackDexterityEffect16(playerStatus, enemy);
+            AdditionalEffect(enemy);
             StartCoroutine(Cooldown("DexterityEffect10", 0.5f));
         }
     }
 
     // 재주 4레벨.
-    public void DexterityEffect4_TrueDamage(PlayerStatus playerStatus, GameObject enemy)
+    public void DexterityEffect4_TrueDamage(GameObject enemy)
     {
         if (dexterityEffect4)
         {
-            enemy.GetComponent<Status>().TakeTrueDamage(3);
-            StackDexterityEffect16(playerStatus, enemy);
+            float damage = playerStatus.TotalDamage;
+            damage = 5 + 0.1f * damage;
+            enemy.GetComponent<Status>().TakeTrueDamage(damage);
+            StackDexterityEffect16(enemy);
         }
     }
 
     // 재주 16레벨 스택 계산.
-    public void StackDexterityEffect16(PlayerStatus playerStatus, GameObject enemy)
+    public void StackDexterityEffect16(GameObject enemy)
     {
         float damage = playerStatus.TotalDamage;
         float criticalPercnet = playerStatus.CriticalPercent;
@@ -118,9 +145,10 @@ public class CalcDamage : MonoBehaviour
             if (dexterityEffect16_Stack >= 15)
             {
                 dexterityEffect16_Stack -= 15;
-                damage = CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
+                damage = 2 * damage;
+                damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
                 enemy.GetComponent<Status>().TakeTrueDamage(damage);
-                DexterityEffect4_TrueDamage(playerStatus, enemy);
+                AdditionalEffect(enemy);
             }
         }
     }
@@ -146,17 +174,24 @@ public class CalcDamage : MonoBehaviour
     }
 
     // 공격의 크리티컬 여부 확인.
-    public float CheckCritical(PlayerStatus playerStatus, float damage, ref float ignoreDamageReduction, ref bool isCritical)
+    public float CheckCritical(float damage, ref float ignoreDamageReduction, ref bool isCritical)
     {
         float criticalPercent = playerStatus.CriticalPercent;
         float criticalDamage = playerStatus.CriticalDamage;
+        bool IncCritical = false;
 
         // 치명 7레벨.
         if (criticalEffect7 && !IsOnCooldown("CriticalEffect7"))
         {
-            // 크리티컬 증가 버프 추가해야 함.
-            Debug.Log("크리티컬 증가");
+            IncCritical = true;
+            playerBuffManager.ActivateBuff(BuffType.Critical7, 1.0f); // 치명 7레벨 버프.
             StartCoroutine(Cooldown("CriticalEffect7", 20f));
+        }
+
+        if (IncCritical)
+        {
+            criticalPercent += 1f;
+            IncCritical = false;
         }
 
         // 치명 16레벨.
@@ -172,10 +207,11 @@ public class CalcDamage : MonoBehaviour
 
         if (randomValue < criticalPercent)
         {
-            Debug.Log("크리티컬!");
             isCritical = true;
             if (criticalEffect13)
                 ignoreDamageReduction = 1 - (1 - playerStatus.IgnoreDamageReduction) * (1 - 0.5f);
+            if (criticalEffect4) 
+                playerBuffManager.ActivateBuff(BuffType.Critical4, 5.0f); // 치명 4레벨 버프.
             if (criticalEffect10)
             {
                 return 1.2f * damage * (1 + criticalDamage);

@@ -14,7 +14,7 @@ TagManager:
   - UI
   - Player
   - Projectile
-  - 
+  - PassableTile
   - 
   - 
   - 
@@ -39,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Tile
+    uniqueID: 2721003943
+    locked: 0
   - name: ItemTextBoxLayer
     uniqueID: 3531864731
     locked: 0

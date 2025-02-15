@@ -1,5 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,14 +17,11 @@ public class CharacterInfo : MonoBehaviour
 
     List<GameObject> statusObjList = new List<GameObject>();
 
-    void Start()
+    private void Awake()
     {
-        
-    }
-
-    void Update()
-    {
-        
+        Init();
+        SetStatus();
+        DisableUI();
     }
 
     private void OnEnable()
@@ -44,7 +46,9 @@ public class CharacterInfo : MonoBehaviour
     // 세팅 전 초기화
     void Init()
     {
+        Debug.Log("Init");
         statusObjList.Clear();
+        transform.GetComponentInChildren<InventoryUI>().Init();
     }
 
     // 스테이터스 세팅

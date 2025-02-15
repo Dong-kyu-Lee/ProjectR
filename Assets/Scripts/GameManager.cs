@@ -22,10 +22,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public GameObject playerPrefab;
     private GameObject currentPlayer;
     public GameObject CurrentPlayer { get => currentPlayer; }
     public GameObject cameraObject;
+
+    public bool isCreateEnemies;
 
     private void Awake()
     {
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
 
         if(currentPlayer == null)
         {
-            currentPlayer = Instantiate(playerPrefab, new Vector3(0, 0, 0), transform.rotation);
+            currentPlayer = FindObjectOfType<PlayerController>().gameObject;
             DontDestroyOnLoad(currentPlayer);
             // 플레이어 프리팹 내 카메라를 받아오도록 변경.
             cameraObject = currentPlayer.GetComponent<PlayerController>().playerCamera.gameObject;
