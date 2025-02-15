@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3467001499215622790}
   - component: {fileID: 3467001499215622789}
   m_Layer: 0
-  m_Name: GeneratedPoisonArea
+  m_Name: GeneratedBloodArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.58255017, g: 0.4669811, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.29401848, b: 0.25, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -127,4 +127,4 @@ MonoBehaviour:
   size: {x: 10, y: 0.5}
   maxTimeToDelete: 15
   maxTimeToDebuff: 5
-  buffType: 15
+  buffType: 20

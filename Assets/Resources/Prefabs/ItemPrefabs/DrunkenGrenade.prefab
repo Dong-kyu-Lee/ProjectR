@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5581914922138794031}
   - component: {fileID: 5943152427675063549}
   m_Layer: 0
-  m_Name: FrozenGrenade 1
+  m_Name: DrunkenGrenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.48627448, g: 0.6098808, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9938757, b: 0.48627448, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -138,4 +138,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToExplode: 5
   explosionRadius: 5
-  generatedPrefab: {fileID: 3467001499215622791, guid: 33268bea09bfb4d46b0e7946ae96f2ef, type: 3}
+  generatedPrefab: {fileID: 3467001499215622791, guid: ae51630eedcf4f44389d3e0a470dbc31, type: 3}
