@@ -5,15 +5,17 @@ using UnityEngine;
 public class RandomBox : MonoBehaviour
 {
     [SerializeField]
-    private BasicItemData[] normalBox;
+    private DropableItem dropableItem;
     [SerializeField]
-    private BasicItemData[] rareBox;
+    private List<BasicItemData> normalBox;
     [SerializeField]
-    private BasicItemData[] epicBox;
+    private List<BasicItemData> rareBox;
     [SerializeField]
-    private BasicItemData[] uniqueBox;
+    private List<BasicItemData> epicBox;
     [SerializeField]
-    private BasicItemData[] legendaryBox;
+    private List<BasicItemData> uniqueBox;
+    [SerializeField]
+    private List<BasicItemData> legendaryBox;
 
     void Start()
     {
@@ -48,7 +50,7 @@ public class RandomBox : MonoBehaviour
             DropItem(legendaryBox);
         }
     }
-    public void DropItem(BasicItemData[] itemList)
+    public void DropItem(List<BasicItemData> itemList)
     {
         int[] checkOverlap = new int[4];
         for (int i = 0; i < 4; i++)

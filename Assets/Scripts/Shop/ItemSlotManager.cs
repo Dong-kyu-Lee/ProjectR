@@ -13,7 +13,7 @@ public class ItemSlotManager : MonoBehaviour
     [SerializeField]
     private BasicItemData[] item;
     [SerializeField]
-    private BasicItemData[] sellList;
+    private DropableItem dropableItem;
     [SerializeField]
     private BasicItemData noneItem;
     [SerializeField]
@@ -23,6 +23,7 @@ public class ItemSlotManager : MonoBehaviour
     [SerializeField]
     private PlayerStatus playerStatus;
     bool isOverlap;
+
     private void Awake()
     {
         SellingItem();
@@ -37,7 +38,7 @@ public class ItemSlotManager : MonoBehaviour
                 do
                 {
                     isOverlap = false;
-                    int randomItem = Random.Range(0, sellList.Length);
+                    int randomItem = Random.Range(0, dropableItem.dropableItem.Count);
                     for (int j = 0; j < i; j++)
                     {
                         if (randomItem == checkOverlap[j])
@@ -48,7 +49,7 @@ public class ItemSlotManager : MonoBehaviour
                     }
                     if (!isOverlap)
                     {
-                        item[i] = sellList[randomItem];
+                        item[i] = dropableItem.dropableItem[randomItem];
                         itemImage[i].sprite = item[i].ItemSprite;
                         itemExplain[i].sellingItem = item[i];
                         checkOverlap[i] = randomItem;
@@ -78,6 +79,7 @@ public class ItemSlotManager : MonoBehaviour
         {
             playerStatus.Gold -= item.ItemPrice;
             inventory.AddItem(item);
+            dropableItem.removeItem(item);
             EmptySlot(item);
         }
         else
