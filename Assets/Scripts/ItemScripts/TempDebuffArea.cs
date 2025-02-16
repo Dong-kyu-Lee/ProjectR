@@ -61,7 +61,7 @@ public class TempDebuffArea : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         debuffCounters.Remove(collision.gameObject);
-        if(debuffCounters.Count == 0) 
+        if(debuffCounters.Count == 0 && checkCounterCoroutine != null) 
         {
             StopCoroutine(checkCounterCoroutine);
             checkCounterCoroutine = null;
