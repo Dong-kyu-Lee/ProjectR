@@ -17,14 +17,6 @@ public class UpgradeSystem : MonoBehaviour
         //upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
     }
 
-
-    // 테스트용.
-    private void FixedUpdate()
-    {
-        Debug.Log("Damage : " + playerStatus.Damage);
-        Debug.Log("Hp : " + playerStatus.Hp);
-    }
-
     // 스킬 포인트 사용, 업그레이드 스테이터스 증가.
     public void IncreaseStat(string statName)
     {
@@ -38,20 +30,23 @@ public class UpgradeSystem : MonoBehaviour
         {
             case "force":
                 upgradeStatus.Force++;
-                playerStatus.Damage += 1;
+                playerStatus.Damage += 2;
                 CheckUnlock("force", upgradeStatus.Force);
                 break;
             case "indurance":
+                playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance * 0.01f;
                 upgradeStatus.Indurance++;
+                playerStatus.AdditionalDamageReduction += upgradeStatus.Indurance * 0.01f;
                 CheckUnlock("indurance", upgradeStatus.Indurance);
                 break;
             case "critical":
                 upgradeStatus.Critical++;
-                playerStatus.CriticalPercent += 2;
+                playerStatus.CriticalPercent += 0.02f;
                 CheckUnlock("critical", upgradeStatus.Critical);
                 break;
             case "dexterity":
                 upgradeStatus.Dexterity++;
+                playerStatus.AdditionalAttackSpeed += 0.02f;
                 CheckUnlock("dexterity", upgradeStatus.Dexterity);
                 break;
             case "mystery":
@@ -70,8 +65,11 @@ public class UpgradeSystem : MonoBehaviour
     // 스테이터스 초기화.
     public void ResetStat()
     {
-        playerStatus.Damage -= upgradeStatus.Force;
-        playerStatus.CriticalPercent -= upgradeStatus.Critical * 2;
+        playerStatus.Damage -= upgradeStatus.Force * 2;
+        playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance;
+        playerStatus.CriticalPercent -= upgradeStatus.Critical * 0.02f;
+        playerStatus.AdditionalAttackSpeed -= upgradeStatus.Dexterity * 0.02f;
+
         upgradeStatus.Force = upgradeStatus.Indurance = upgradeStatus.Critical = upgradeStatus.Dexterity = upgradeStatus.Mystery = 0;
         upgradeStatus.SkillPoint = 0;
         CheckUnlock("force", upgradeStatus.Force);

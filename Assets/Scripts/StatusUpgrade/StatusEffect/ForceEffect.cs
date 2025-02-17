@@ -6,8 +6,6 @@ public class ForceEffect : MonoBehaviour
 {
     private StatusEffectTooltip[] statusEffectTooltip = new StatusEffectTooltip[6];
 
-    private bool canForceEffect4 = false;
-
     private void Awake()
     {
         statusEffectTooltip[0] = GameObject.Find("ForceEffect1").GetComponent<StatusEffectTooltip>();

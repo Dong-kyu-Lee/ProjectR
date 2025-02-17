@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
         playerStatus = gameObject.GetComponent<PlayerStatus>();
         moveSpeed = playerStatus.MoveSpeed;
-        attackCoolTime = playerStatus.TotalAttackSpeed;
     }
 
     void Update()
@@ -190,7 +189,7 @@ public class PlayerController : MonoBehaviour
         projectile.GetComponent<Projectile>().Velocity = direction;
         projectile.GetComponent<Projectile>().playerStatus = playerStatus;
 
-        yield return new WaitForSeconds(attackCoolTime);
+        yield return new WaitForSeconds(1 / playerStatus.TotalAttackSpeed);
         enableAttack = true;
     }
 
