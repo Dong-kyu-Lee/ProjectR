@@ -1,61 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-
+using TMPro;
 public class Reroll : MonoBehaviour
 {
-    Collider2D rerollCollider;
-
     [SerializeField]
     ItemSlotManager itemSlotManager;
     [SerializeField]
-    TextMeshPro rerollCoast;
+    TextMeshPro rerollCoastTxt;
+    private int rerollCoast;
     private int rerollCount;
 
-    public int RerollCount {  get { return rerollCount; } set { rerollCount = value; } }  
+    public bool inRoll = false;
+    private bool canReroll;
+    [SerializeField]
+    private PlayerStatus playerStatus;
 
     private void Awake()
     {
-        rerollCollider = GetComponent<Collider2D>();
         rerollCount = 0;
+        rerollCoast = 50;
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            itemSlotManager.SellingItem();
-            rerollCount++;
-            if (rerollCoast.text != "200G")
-            {
-                rerollCoast.text = ((rerollCount+1) * 50).ToString()+"G";
-            }
+            if (rerollCoast <= playerStatus.Gold)
+                canReroll = true;
             else
+                canReroll = false;
+            
+            if (canReroll && inRoll)
             {
-
+                RerollItem();
+            }
+            else if (!canReroll && inRoll)
+            {
+                Debug.Log("ëˆì´ ë¶€ì¡±í•©ë‹ˆë‹¤.");
             }
         }
     }
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    if (Input.GetKeyDown(KeyCode.E))
-    //    {
-    //        if (collision.name == "Player")
-    //        {
-    //            //µ· Â÷°¨ÇÏ°í 
-    //            itemSlotManager.SellingItem();
-    //            rerollCount++;
-    //            if (rerollCoast.text != "200G")
-    //            {
-    //                rerollCoast.text = (rerollCount * 50).ToString();
-
-    //            }
-    //            else
-    //            {
-    //                //ÃÖ´ë ¸®·Ñ°ñµå 200G?
-    //            }
-    //        }
-    //    }
-    //}
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            inRoll = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            inRoll = false;
+        }
+    }
+    private void RerollItem()
+    {
+        playerStatus.Gold -= rerollCoast;
+        itemSlotManager.SellingItem();
+        rerollCount++;
+        if (rerollCoast != 200)
+        {
+            rerollCoastTxt.text = ((rerollCount + 1) * 50).ToString() + "G";
+            rerollCoast += 50;
+        }
+        else
+        {
+            rerollCoastTxt.text = "200G";
+            rerollCoast = 200;
+        }
+    }
 }

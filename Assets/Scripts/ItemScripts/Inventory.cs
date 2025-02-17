@@ -1,50 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    //¼Ò¸ğÇ° °ü·Ã Ä­
+    //ì¸ë²¤í† ë¦¬ ê´€ë ¨
+    [SerializeField]
+    private int maxInventorySlot = 10;
+    [SerializeField]
+    private PlayerStatus playerStatus;
+    [SerializeField]
+    private Dictionary<BasicItemData, int> inventory;  //ì¸ë²¤í† ë¦¬ ë”•ì…”ë„ˆë¦¬<ì•„ì´í…œì •ë³´, ê°¯ìˆ˜>
+
+    //ì†Œëª¨í’ˆ ê´€ë ¨ ì¹¸
     private ConsumableItemData quickSlot = null;
     private int quickSlotItemAmount = 0;
-    [SerializeField]
-    private Dictionary<BasicItemData, int> inventory;  //ÀÎº¥Åä¸® µñ¼Å³Ê¸®<¾ÆÀÌÅÛÁ¤º¸, °¹¼ö>
-    
-    //Àåºñ °ü·Ã Ä­
-    [SerializeField]
-    private EquipmentItemData EquipmentItemSlot;
-    [SerializeField] 
-    public int maxSlotSize = 6;
-    private PlayerStatus playerStatus;
-    
+
+    //ì¥ë¹„ ê´€ë ¨ ì¹¸
+    //[SerializeField] private EquipmentItemData EquipmentItemSlot;
+    [SerializeField] private int maxEquipSlot = 6;
+    [SerializeField] private EquipmentItemData[] equipmentItemSlot;
+
+    [SerializeField] private EquipmentItemData dummyItemData;
+    [SerializeField] private InventoryUI inventoryUI;
+
     public int QuickSlotItemAmount
-    { 
+    {
         get { return quickSlotItemAmount; }
-        set {
+        set
+        {
             quickSlotItemAmount = value;
             if (quickSlotItemAmount < 0) quickSlotItemAmount = 0;
         }
     }
     public ConsumableItemData QuickSlot { get { return quickSlot; } }
     public int QuickSlotAmount { get { return quickSlotItemAmount; } }
-    public Dictionary<BasicItemData, int> InventoryList { get { return inventory; } }
-    public int MaxSlotSize { get { return maxSlotSize; } }
+    public Dictionary<BasicItemData, int> InventoryDict { get { return inventory; } }
+    public int MaxInventorySlot { get { return maxInventorySlot; } }
+    public int MaxEquipSlot { get { return maxEquipSlot; } }
+    public EquipmentItemData[] EquipmentItemSlot { get { return equipmentItemSlot; } }
 
     private void Awake()
     {
         inventory = new Dictionary<BasicItemData, int>();
         playerStatus = GetComponentInParent<PlayerStatus>();
+        equipmentItemSlot = new EquipmentItemData[maxEquipSlot];
+        for (int i = 0; i < maxEquipSlot; i++)
+        {
+            equipmentItemSlot[i] = dummyItemData;
+        }
     }
 
-    //Äü½½·Ô¿¡ ÀÖ´Â ¾ÆÀÌÅÛÀ» »ç¿ëÇÏ´Â ¸Ş¼­µå
+    private void OnDestroy()
+    {
+        //equipmentItemSlot.Free();
+    }
+
+    //í€µìŠ¬ë¡¯ì— ìˆëŠ” ì•„ì´í…œì„ ì‚¬ìš©í•˜ëŠ” ë©”ì„œë“œ
     public void UseQuickSlotItem()
     {
-        if(quickSlot)
+        if (quickSlot)
         {
             quickSlot.ActivateItemEffect(playerStatus);
             QuickSlotItemAmount--;
-            Debug.Log(quickSlotItemAmount);
 
             if (quickSlotItemAmount <= 0)
             {
@@ -54,100 +75,131 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Debug.Log("·ÎµåµÈ ¾ÆÀÌÅÛÀÌ ¾ø½À´Ï´Ù.");
+            Debug.Log("ë¡œë“œëœ ì•„ì´í…œì´ ì—†ìŠµë‹ˆë‹¤.");
         }
     }
 
-    //¾ÆÀÌÅÛÀ» Äü½½·Ô¿¡ ·ÎµåÇÏ´Â ¸Ş¼­µå
+    //ì•„ì´í…œì„ í€µìŠ¬ë¡¯ì— ë¡œë“œí•˜ëŠ” ë©”ì„œë“œ
     public void LoadToQuickSlot(BasicItemData item, int amount = 1)
     {
         quickSlot = item as ConsumableItemData;
         quickSlotItemAmount += amount;
     }
 
-    //¾ÆÀÌÅÛÀ» ÀÎº¥Åä¸®¿¡ Ãß°¡ÇÏ´Â ¸Ş¼­µå 
+    //ì•„ì´í…œì„ ì¸ë²¤í† ë¦¬ì— ì¶”ê°€í•˜ëŠ” ë©”ì„œë“œ 
     public bool AddItem(BasicItemData item, int amount = 1)
     {
-        switch(item.ItemType)
+        switch (item.ItemType)
         {
             case ItemType.CONSUMABLE:
                 return AddConsumableItem(item as ConsumableItemData, amount);
             case ItemType.EQUIPMENT:
-                Debug.Log("Àåºñ Ãß°¡ ÇÔ¼ö ½ÇÇà");
+                Debug.Log("ì¥ë¹„ ì¶”ê°€ í•¨ìˆ˜ ì‹¤í–‰");
                 return AddEquipmentItem(item as EquipmentItemData);
             default:
-                Debug.Log("¾ÆÀÌÅÛÀÌ ¾î¶°ÇÑ Å¬·¡½º Å¸ÀÔÀÌ¶ûµµ ¸ÅÄªµÇÁö ¾ÊÀ½");
+                Debug.Log("ì•„ì´í…œì´ ì–´ë– í•œ í´ë˜ìŠ¤ íƒ€ì…ì´ë‘ë„ ë§¤ì¹­ë˜ì§€ ì•ŠìŒ");
                 return false;
         }
     }
 
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        if (!quickSlot || quickSlot == item) //Äü½½·Ô¿¡ ¾ÆÀÌÅÛÀÌ ¾ø°Å³ª °°Àº ¾ÆÀÌÅÛÀÌ ·ÎµåµÈ °æ¿ì
+        if (!quickSlot || quickSlot == item) //í€µìŠ¬ë¡¯ì— ì•„ì´í…œì´ ì—†ê±°ë‚˜ ê°™ì€ ì•„ì´í…œì´ ë¡œë“œëœ ê²½ìš°. ì•„ì´í…œ ë””ë²„ê·¸ìš©ì„.
         {
             LoadToQuickSlot(item, amount);
             return true;
         }
 
-        if (inventory.ContainsKey(item))   //ÀÎº¥Åä¸®¿¡ ÀÖ´Â °æ¿ì
-        {
-            inventory[item] += amount;
-            return true;
-        }
-        else
-        {
-            if (inventory.Count <= maxSlotSize)
-            {
-                inventory.Add(item, amount);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        return AddItemsToInventory(item, amount);
     }
 
-    //ÀÎº¥Åä¸®¿¡ Àåºñ¸¦ Ãß°¡ÇÏ´Â ÇÔ¼ö
+    //ì¥ë¹„ë¥¼ ë¹„ì–´ìˆëŠ” ê³µê°„(ì¥ë¹„ì¹¸, ì¸ë²¤í† ë¦¬)ì— ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜
     private bool AddEquipmentItem(EquipmentItemData item)
     {
-        if(EquipmentItemSlot == null)
+        for(int i = 0; i < equipmentItemSlot.Length; i++)
         {
-            LoadEquipmentItem(item);
-            return true;
-
-        }
-        else
-        {
-            if (inventory.ContainsKey(item))
+            if (equipmentItemSlot[i].ItemType == ItemType.DUMMY)
             {
-                Debug.Log("ÀÌ¹Ì ÀÎº¥Åä¸®¿¡ Á¸ÀçÇÏ´Â ¾ÆÀÌÅÛÀÔ´Ï´Ù.");
-                return false;
-            }
-            else {
-                inventory.Add(item, 1);
+                LoadEquipmentItem(item, i);
                 return true;
             }
         }
+
+        return AddItemsToInventory(item, 1);
     }
 
-    //Àåºñ ÀåÂøÄ­¿¡ Àåºñ¸¦ Ãß°¡ÇÏ´Â ¸Ş¼­µå
-    private void LoadEquipmentItem(EquipmentItemData item)
+    //ëŒ€ìƒ ì¥ë¹„ ì¥ì°©ì¹¸ì— ì¥ë¹„ë¥¼ ì¶”ê°€í•˜ëŠ” ë©”ì„œë“œ
+    private void LoadEquipmentItem(EquipmentItemData item, int idx = 0)
     {
-        EquipmentItemSlot = item;
-        Debug.Log("Àåºñ ÀåÂøÇÔ");
-        EquipmentItemSlot.EquipItem(playerStatus);
+        equipmentItemSlot[idx] = item;
+        equipmentItemSlot[idx].EquipItem(playerStatus);
+        Debug.Log("ì¥ë¹„ ì¥ì°©í•¨");
+        inventoryUI.SetEquippedItemSlotData(idx, item);
     }
 
-    public void UnloadEquipmentItem()
+    //ëŒ€ìƒ ì¥ë¹„ ì¥ì°©ì¹¸ì— ì¥ë¹„ë¥¼ ì œê±°í•˜ëŠ” ë©”ì„œë“œ
+    public void UnloadEquipmentItem(int idx = 0)
     {
-        if(EquipmentItemSlot != null)
+        equipmentItemSlot[idx].UnEquipItem(playerStatus);
+        AddItemsToInventory(equipmentItemSlot[idx], 1);
+        equipmentItemSlot[idx] = dummyItemData;
+        Debug.Log("ì¥ë¹„ í•´ì œí•¨");
+        inventoryUI.SetEquippedItemSlotData(idx, equipmentItemSlot[idx]);
+    }
+
+    //ì¸ë²¤í† ë¦¬ì— ìˆëŠ” ì¥ë¹„ì™€ ì¥ì°©ì¹¸ì˜ ì¥ë¹„ë¥¼ ì„œë¡œ êµì²´í•˜ëŠ” í•¨ìˆ˜
+    public void SwapEquippedItemWithInventory(int equippedSlotIdx, EquipmentItemData inventoryItemData)
+    {
+        if(inventoryItemData.ItemType != ItemType.DUMMY)
         {
-            EquipmentItemSlot.UnEquipItem(playerStatus);
-            AddEquipmentItem(EquipmentItemSlot);
-            Debug.Log("Àåºñ ÇØÁ¦ÇÔ");
-            EquipmentItemSlot = null;
+            inventory.Remove(inventoryItemData);
         }
+        UnloadEquipmentItem(equippedSlotIdx);
+        LoadEquipmentItem(inventoryItemData, equippedSlotIdx);
+    }
 
+    //ì¥ë¹„ ì¥ì°©ì¹¸ì˜ ì•„ì´í…œ ìŠ¬ë¡¯ë¼ë¦¬ êµì²´í•˜ëŠ” í•¨ìˆ˜
+    public void SwapEquipmentItemSlots(int idx1, int idx2)
+    {
+        EquipmentItemData temp = equipmentItemSlot[idx1];
+        equipmentItemSlot[idx1] = equipmentItemSlot[idx2];
+        equipmentItemSlot[idx2] = temp;
+
+        inventoryUI.SetEquippedItemSlotData(idx1, equipmentItemSlot[idx1]);
+        inventoryUI.SetEquippedItemSlotData(idx2, equipmentItemSlot[idx2]);
+    }
+
+    //ëŒ€ìƒ ì•„ì´í…œì„ ì¸ë²¤í† ë¦¬ì— ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜
+    private bool AddItemsToInventory(BasicItemData item, int amount)
+    {
+        bool isSuccess = false;
+        if (inventory.ContainsKey(item))   //ì¸ë²¤í† ë¦¬ì— ìˆëŠ” ê²½ìš°
+        {
+            if (inventory[item] + amount <= item.MaxAmount)
+            {
+                inventory[item] += amount;
+                isSuccess = true;
+            }
+        }
+        else if (inventory.Count <= maxInventorySlot)
+        {
+            inventory.Add(item, amount);
+            isSuccess = true;
+        }
+/*
+        if (isSuccess)
+        {
+            inventoryUI.SetAllInventorySlotItemDatas();
+        }*/
+
+        return isSuccess;
+    }
+
+    public void GetMyInventoryStatus()  //ë””ë²„ê¹…ìš© ì¸ë²¤í† ë¦¬ í™•ì¸ í•¨ìˆ˜
+    {
+        foreach (var i in inventory)
+        {
+            Debug.Log("ì•„ì´í…œ ì´ë¦„ : " + i.Key.ItemName + " ì•„ì´í…œ ìˆ˜ëŸ‰ : " + i.Value);
+        }
     }
 }

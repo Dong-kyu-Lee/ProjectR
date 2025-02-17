@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: DmgReductIncItem
   m_EditorClassIdentifier: 
   itemName: Damage Reduction Buff Item
-  itemDescription: Increases Damage Reduction for 10 Seconds.
+  itemDescription: Provide Damage Reduction  Increasement Buff for 10 Seconds.
   itemID: 3002
   itemSprite: {fileID: 21300000, guid: 3458c119c69e9bc4f9647599c2901dee, type: 3}
+  maxAmount: 99
+  itemType: 0
+  itemPrice: 0
+  itemExplain: 
   buffType: 1
   buffDuration: 10

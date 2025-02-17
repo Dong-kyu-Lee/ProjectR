@@ -5,10 +5,13 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public Rigidbody2D projectileRigidbody;
+    public PlayerStatus playerStatus;
+    public float damage;
+    public float ignoreDamageReduction;
 
     Vector2 velocity;
 
-    // πﬂªÁ º”µµ «¡∑Œ∆€∆º
+    // Î∞úÏÇ¨ ÏÜçÎèÑ ÌîÑÎ°úÌçºÌã∞
     public Vector2 Velocity
     {
         get
@@ -25,5 +28,22 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         Destroy(gameObject, 2f);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        float damage = playerStatus.TotalDamage;
+        float ignoreDamageReduction = playerStatus.IgnoreDamageReduction;
+        bool isCritical = false;
+
+        if (collision.transform.tag == "Enemy")
+        {
+            damage = CalcDamage.Instance.CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
+            collision.gameObject.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
+            CalcDamage.Instance.DexterityEffect4_TrueDamage(playerStatus, collision.gameObject);
+            CalcDamage.Instance.CheckAddtionalDamage(playerStatus, collision.gameObject);
+            CalcDamage.Instance.StackDexterityEffect16(playerStatus, collision.gameObject);
+        }
+        gameObject.SetActive(false);
     }
 }
