@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1aa694fd8a8c904dbfd86d002785a58, type: 3}
-  m_Name: DmgReductIncItem
+  m_Name: CritDmgIncBuffItem
   m_EditorClassIdentifier: 
-  itemName: Damage Reduction Buff Item
-  itemDescription: Provide Damage Reduction  Increasement Buff for 10 Seconds.
-  itemID: 3002
-  itemSprite: {fileID: 21300000, guid: 3458c119c69e9bc4f9647599c2901dee, type: 3}
+  itemName: CriticalDamage Increase Buff Item
+  itemDescription: Provide Critical Damage Increase Buff for 10secs
+  itemID: 0
+  itemSprite: {fileID: 21300000, guid: ed130aac49764ad4f9d35454c297b75a, type: 3}
   maxAmount: 99
   itemType: 0
   itemPrice: 0
   itemExplain: 
-  buffType: 1
+  buffType: 4
   buffDuration: 10

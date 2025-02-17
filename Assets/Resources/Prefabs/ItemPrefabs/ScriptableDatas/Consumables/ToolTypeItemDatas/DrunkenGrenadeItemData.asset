@@ -9,16 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1aa694fd8a8c904dbfd86d002785a58, type: 3}
-  m_Name: DmgReductIncItem
+  m_Script: {fileID: 11500000, guid: c5a65d074f5313943a5ce3ab765cab5c, type: 3}
+  m_Name: DrunkenGrenadeItemData
   m_EditorClassIdentifier: 
-  itemName: Damage Reduction Buff Item
-  itemDescription: Provide Damage Reduction  Increasement Buff for 10 Seconds.
-  itemID: 3002
-  itemSprite: {fileID: 21300000, guid: 3458c119c69e9bc4f9647599c2901dee, type: 3}
+  itemName: Bleed Granade Item
+  itemDescription: Generate Alcohol Field When Explode. It explodes after 5secs.
+  itemID: 0
+  itemSprite: {fileID: 21300000, guid: 2b4752bce841cc74bb73820ce5212d34, type: 3}
   maxAmount: 99
   itemType: 0
   itemPrice: 0
   itemExplain: 
-  buffType: 1
-  buffDuration: 10
+  grenadePrefab: {fileID: 0}
