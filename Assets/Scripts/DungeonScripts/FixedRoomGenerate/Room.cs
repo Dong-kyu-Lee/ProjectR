@@ -6,7 +6,10 @@ using UnityEngine.Tilemaps;
 
 public class Room : MonoBehaviour
 {
+    public Tilemap backgroundTilemap;
     public Tilemap groundTilemap;
+    public Tilemap floatingTilemap;
+    public Tilemap decorationTilemap;
     public GameObject gateTilemap;
 
     public List<Transform> enemySpawnPoint = new List<Transform>();
@@ -15,9 +18,7 @@ public class Room : MonoBehaviour
     public Transform playerSpawnPosition;
     public Transform finishSpotPosition;
 
-    [SerializeField]
     private Vector3 bottomLeftCorner;
-    [SerializeField]
     private Vector3 topRightCorner;
 
     public Vector3 BottomLeftCorner { get => bottomLeftCorner; }
@@ -28,20 +29,6 @@ public class Room : MonoBehaviour
     public bool isDownOpenable;
     public bool isRightOpenable;
     public bool isLeftOpenable;
-
-    [Header("Corner Tiles")]
-    // Åë·Î °¡ÀåÀÚ¸® ºÎºĞÀÇ ÀÚ¿¬½º·´Áö ¾ÊÀº ÀÏÀÚ Å¸ÀÏÀ» ÄÚ³Ê Å¸ÀÏ·Î ¹Ù²Ù±â À§ÇÑ Å¸ÀÏ µ¥ÀÌÅÍ
-    // ÃßÈÄ Å¸ÀÏ ¿¡¼Â °ü¸® Å¬·¡½º¸¦ ¸¸µé°í ±× Å¬·¡½º¿¡¼­ Å¸ÀÏ Á¤º¸¸¦ °¡Á®¿Àµµ·Ï ¹Ù²Ü °Í.
-    [SerializeField] private TileBase rightDownCornerTile;
-    [SerializeField] private TileBase leftDownCornerTile;
-    [SerializeField] private TileBase rightUpCornerTile;
-    [SerializeField] private TileBase leftUpCornerTile;
-
-    [Header("Side Tiles")]
-    [SerializeField] private TileBase leftSideTile;
-    [SerializeField] private TileBase rightSideTile;
-    [SerializeField] private TileBase upSideTile;
-    [SerializeField] private TileBase downSideTile;
 
     void OnEnable()
     {
@@ -57,86 +44,10 @@ public class Room : MonoBehaviour
         finishSpotPosition.gameObject.SetActive(false);
     }
 
-    // Åë·Î°¡ µÇ¾î¾ß ÇÒ °÷ÀÇ º® Å¸ÀÏÀ» Áö¿ì´Â ÇÔ¼ö
-    public void OpenGateTile(bool[] openedGateArray)
-    {
-        if(openedGateArray[0] == true) // À§
-        {
-            groundTilemap.SetTile(new Vector3Int(8, 19, 0), null);
-            groundTilemap.SetTile(new Vector3Int(9, 19, 0), null);
-            groundTilemap.SetTile(new Vector3Int(10, 19, 0), null);
-            groundTilemap.SetTile(new Vector3Int(11, 19, 0), null);
-
-            // Åë·Î °¡ÀåÀÚ¸® ¸¶°¨Ã³¸®
-            // Åë·Î °¡ÀåÀÚ¸® Å¸ÀÏ°ú Á¢ÇÑ ¶¥ Å¸ÀÏÀÌ ¾ø´Ù¸é "¤¡"ÀÚ Å¸ÀÏ ¹èÄ¡
-            if(groundTilemap.GetTile(new Vector3Int(7, 18, 0)) == null)
-                groundTilemap.SetTile(new Vector3Int(7, 19, 0), rightDownCornerTile);
-            // Á¢ÇÑ ¶¥ Å¸ÀÏÀÌ ÀÖ´Ù¸é ±×¿Í ¿¬°áµÇµµ·Ï "¤Ñ"ÀÚ Å¸ÀÏ ¹èÄ¡
-            else groundTilemap.SetTile(new Vector3Int(7, 19, 0), rightSideTile);
-
-            if (groundTilemap.GetTile(new Vector3Int(12, 18, 0)) == null)
-                groundTilemap.SetTile(new Vector3Int(12, 19, 0), leftDownCornerTile);
-            else groundTilemap.SetTile(new Vector3Int(12, 19, 0), leftSideTile);
-        }
-        if (openedGateArray[1] == true) // ¿À¸¥ÂÊ
-        {
-            groundTilemap.SetTile(new Vector3Int(19, 8, 0), null);
-            groundTilemap.SetTile(new Vector3Int(19, 9, 0), null);
-            groundTilemap.SetTile(new Vector3Int(19, 10, 0), null);
-            groundTilemap.SetTile(new Vector3Int(19, 11, 0), null);
-
-            if(groundTilemap.GetTile(new Vector3Int(18, 7, 0)) == null)
-                groundTilemap.SetTile(new Vector3Int(19, 7, 0), leftUpCornerTile);                
-            else groundTilemap.SetTile(new Vector3Int(19, 7, 0), upSideTile);
-
-            if (groundTilemap.GetTile(new Vector3Int(18, 12, 0)) == null)
-                groundTilemap.SetTile(new Vector3Int(19, 12, 0), leftDownCornerTile);
-            else groundTilemap.SetTile(new Vector3Int(19, 12, 0), downSideTile);
-        }
-        if (openedGateArray[2] == true) // ¾Æ·¡
-        {
-            groundTilemap.SetTile(new Vector3Int(8, 0, 0), null);
-            groundTilemap.SetTile(new Vector3Int(9, 0, 0), null);
-            groundTilemap.SetTile(new Vector3Int(10, 0, 0), null);
-            groundTilemap.SetTile(new Vector3Int(11, 0, 0), null);
-
-            if (groundTilemap.GetTile(new Vector3Int(7, 1, 0)) == null)
-                groundTilemap.SetTile(new Vector3Int(7, 0, 0), rightUpCornerTile);
-            else groundTilemap.SetTile(new Vector3Int(7, 0, 0), rightSideTile);
-
-            if (groundTilemap.GetTile(new Vector3Int(12, 1, 0)) == null)
-                groundTilemap.SetTile(new Vector3Int(12, 0, 0), leftUpCornerTile);
-            else groundTilemap.SetTile(new Vector3Int(12, 0, 0), leftSideTile);
-        }
-        if (openedGateArray[3] == true) // ¿ŞÂÊ
-        {
-            groundTilemap.SetTile(new Vector3Int(0, 8, 0), null);
-            groundTilemap.SetTile(new Vector3Int(0, 9, 0), null);
-            groundTilemap.SetTile(new Vector3Int(0, 10, 0), null);
-            groundTilemap.SetTile(new Vector3Int(0, 11, 0), null);
-
-            if(groundTilemap.GetTile(new Vector3Int(1, 7, 0)) == null)
-                groundTilemap.SetTile(new Vector3Int(0, 7, 0), rightUpCornerTile);
-            else groundTilemap.SetTile(new Vector3Int(0, 7, 0), upSideTile);
-            
-            if(groundTilemap.GetTile(new Vector3Int(1, 12, 0)) == null)
-                groundTilemap.SetTile(new Vector3Int(0, 12, 0), rightDownCornerTile);
-            else groundTilemap.SetTile(new Vector3Int(0, 12, 0), downSideTile);
-        }
-
-        gateTilemap.SetActive(false);
-    }
-
-    // ÇØ´ç ¹æÀÇ °æ°è°ªÀ» ¿ŞÂÊ ¾Æ·¡ ÁÂÇ¥¿Í ¿À¸¥ÂÊ À§ ÁÂÇ¥·Î ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    // í•´ë‹¹ ë°©ì˜ ê²½ê³„ê°’ì„ ì™¼ìª½ ì•„ë˜ ì¢Œí‘œì™€ ì˜¤ë¥¸ìª½ ìœ„ ì¢Œí‘œë¡œ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     public void SetRoomBoundary(Vector3 bottomLeftCorner, Vector3 topRightCorner)
     {
         this.bottomLeftCorner = bottomLeftCorner;
         this.topRightCorner = topRightCorner;
     }
-
-    // µµÂø ÁöÁ¡À» È°¼ºÈ­ÇÏ´Â ÇÔ¼ö
-    /*public void ActiveFinishSpot()
-    {
-        finishSpotPosition.gameObject.SetActive(true);
-    }*/
 }
