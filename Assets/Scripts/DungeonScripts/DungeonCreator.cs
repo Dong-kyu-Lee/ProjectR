@@ -35,7 +35,7 @@ public class DungeonCreator : MonoBehaviour
         DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
     }
     
-    // 선택된 던전 조각들을 Instantiate하는 함수
+    // 던전 구조를 생성하고, 구조에 맞는 방 프리팹을 찾아 배치하는 함수
     public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
         DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(dungeonRow, dungeonColumn);
@@ -53,6 +53,7 @@ public class DungeonCreator : MonoBehaviour
 
             Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
             DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
+            // RoomOnGame 인스턴스 생성
 
             if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
             else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;

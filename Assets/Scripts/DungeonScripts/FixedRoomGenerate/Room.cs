@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-
+// 방 프리팹 하나의 정보를 나타내는 데이터 클래스
 public class Room : MonoBehaviour
 {
     public Tilemap backgroundTilemap;
@@ -29,25 +29,4 @@ public class Room : MonoBehaviour
     public bool isDownOpenable;
     public bool isRightOpenable;
     public bool isLeftOpenable;
-
-    void OnEnable()
-    {
-        if(playerSpawnPosition == null)
-        {
-            Debug.LogError($"Player Spawn Position is null");
-        }
-        if(finishSpotPosition == null)
-        {
-            Debug.LogError("Finish Spot Position is null");
-        }
-        playerSpawnPosition.gameObject.SetActive(false);
-        finishSpotPosition.gameObject.SetActive(false);
-    }
-
-    // 해당 방의 경계값을 왼쪽 아래 좌표와 오른쪽 위 좌표로 설정하는 함수
-    public void SetRoomBoundary(Vector3 bottomLeftCorner, Vector3 topRightCorner)
-    {
-        this.bottomLeftCorner = bottomLeftCorner;
-        this.topRightCorner = topRightCorner;
-    }
 }
