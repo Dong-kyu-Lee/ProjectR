@@ -40,13 +40,9 @@ public class DungeonCreator : MonoBehaviour
     {
         DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(dungeonRow, dungeonColumn);
         var roomNodes = dungeonStructure.GetDungeonStructure();
-        /*FixedRoomDungeonGenerator dungeonGenerator = new FixedRoomDungeonGenerator(dungeonRow, dungeonColumn);
-        var listOfRoomNodes = dungeonGenerator.CreateRoomNodes();*/
 
         playerSpawnPosition = new Vector3();
         finishSpotPosition = new Vector3();
-
-
 
         // 조건에 맞는 방들을 랜덤으로 선택해 생성
         for(int i = 0; i < roomNodes.Count; ++i)
