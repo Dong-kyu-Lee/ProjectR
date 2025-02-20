@@ -21,60 +21,63 @@ public class RandomBox : MonoBehaviour
     {
         BoxGrade();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void BoxGrade()
     {
-        if (this.gameObject.tag == "normal")
+        int boxGrade = Random.Range(0, 5);
+        if (boxGrade==0)
         {
+            this.gameObject.tag = "normal";
             DropItem(normalBox);
         }
-        if (this.gameObject.tag == "rare")
+        else if (boxGrade == 1)
         {
+            this.gameObject.tag = "rare";
             DropItem(rareBox);
         }
-        if (this.gameObject.tag == "epic")
+        else if (boxGrade == 2)
         {
+            this.gameObject.tag = "epic";
             DropItem(epicBox);
         }
-        if (this.gameObject.tag == "unique")
+        else if (boxGrade == 3)
         {
+            this.gameObject.tag = "unique";
             DropItem(uniqueBox);
         }
-        if (this.gameObject.tag == "legendary")
+        else if (boxGrade == 4)
         {
+            this.gameObject.tag = "legendary";
             DropItem(legendaryBox);
         }
     }
     public void DropItem(List<BasicItemData> itemList)
     {
-        int[] checkOverlap = new int[4];
+        int dropNum = Random.Range(4, 5);
+        bool isOverlap = false;
+        int[] checkOverlap = new int[dropNum];
+        BasicItemData[] dropItem = new BasicItemData[dropNum];
         for (int i = 0; i < 4; i++)
         {
-            //do
-            //{
-            //    isOverlap = false;
-            //    int randomItem = Random.Range(0, itemList.Length);
-            //    for (int j = 0; j < i; j++)
-            //    {
-            //        if (randomItem == checkOverlap[j])
-            //        {
-            //            isOverlap = true;
-            //            break;
-            //        }
-            //    }
-            //    if (!isOverlap)
-            //    {
-            //        item[i] = itemList[randomItem];
-            //        itemImage[i].sprite = item[i].ItemSprite;
-            //        itemExplain[i].sellingItem = item[i];
-            //        checkOverlap[i] = randomItem;
-            //    }
-            //} while (isOverlap);
+            do
+            {
+                isOverlap = false;
+                int randomItem = Random.Range(0, itemList.Count);
+                for (int j = 0; j < i; j++)
+                {
+                    if (randomItem == checkOverlap[j])
+                    {
+                        isOverlap = true;
+                        break;
+                    }
+                }
+                if (!isOverlap)
+                {
+                    //dropItem[i] = itemList[randomItem];
+                    //itemImage[i].sprite = dropItem[i].ItemSprite;
+                    //itemExplain[i].sellingItem = dropItem[i];
+                    //checkOverlap[i] = randomItem;
+                }
+            } while (isOverlap);
         }
     }
 }

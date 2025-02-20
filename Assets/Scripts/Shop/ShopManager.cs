@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemSlotManager : MonoBehaviour
+public class ShopManager : MonoBehaviour
 {
     [SerializeField]
     private SpriteRenderer[] itemImage;

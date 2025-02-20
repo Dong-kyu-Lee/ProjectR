@@ -18,7 +18,7 @@ public class ItemExplain : MonoBehaviour
     [SerializeField]
     public BasicItemData sellingItem;  //매대의 아이템 
     [SerializeField]
-    ItemSlotManager itemSlotManager;
+    ShopManager shopManager;
 
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class ItemExplain : MonoBehaviour
         {
             if (itemExplainUI.activeSelf)
             {
-                itemSlotManager.BuyItem(sellingItem);
+                shopManager.BuyItem(sellingItem);
                 itemExplainUI.SetActive(false);
             }
         }
