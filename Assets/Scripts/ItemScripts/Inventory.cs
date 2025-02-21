@@ -186,11 +186,11 @@ public class Inventory : MonoBehaviour
             inventory.Add(item, amount);
             isSuccess = true;
         }
-/*
+
         if (isSuccess)
         {
             inventoryUI.SetAllInventorySlotItemDatas();
-        }*/
+        }
 
         return isSuccess;
     }

@@ -108,12 +108,12 @@ public class InventoryUI : MonoBehaviour
     //인벤토리에 있는 모든 아이템 데이터를 인벤토리 슬롯 UI에 삽입하는 함수
     public void SetAllInventorySlotItemDatas()
     {
+        if(playerInventory.InventoryDict.Count == 0) return;
         int row = 0;
         int col = 0;
 
         foreach (var item in playerInventory.InventoryDict)
         {
-            Debug.Log($"{row} , {col}");
             SetInventorySlotData(item.Key, row, col);
             if (col > inventorySlotParentObj[row].transform.childCount)
             {
