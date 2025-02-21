@@ -28,18 +28,22 @@ public class InduranceEffect : MonoBehaviour
     {
         statusEffectTooltip[1].defaultColor = Color.yellow;
         statusEffectTooltip[1].image.color = Color.yellow;
+        CalcReceiveDamage.Instance.induranceEffect4 = true;
     }
 
     public void EnableInduranceEffect7()
     {
         statusEffectTooltip[2].defaultColor = Color.yellow;
         statusEffectTooltip[2].image.color = Color.yellow;
+        CalcReceiveDamage.Instance.induranceEffect7 = true;
     }
 
     public void EnableInduranceEffect10()
     {
         statusEffectTooltip[3].defaultColor = Color.yellow;
         statusEffectTooltip[3].image.color = Color.yellow;
+        CalcReceiveDamage.Instance.induranceEffect10 = true;
+        CalcReceiveDamage.Instance.InduranceEffect10_IncreaseDamage();
     }
 
     public void EnableInduranceEffect13()
@@ -65,18 +69,22 @@ public class InduranceEffect : MonoBehaviour
     {
         statusEffectTooltip[1].defaultColor = Color.white;
         statusEffectTooltip[1].image.color = Color.white;
+        CalcReceiveDamage.Instance.induranceEffect4 = false;
     }
 
     public void DisableInduranceEffect7()
     {
         statusEffectTooltip[2].defaultColor = Color.white;
         statusEffectTooltip[2].image.color = Color.white;
+        CalcReceiveDamage.Instance.induranceEffect7 = false;
     }
 
     public void DisableInduranceEffect10()
     {
         statusEffectTooltip[3].defaultColor = Color.white;
         statusEffectTooltip[3].image.color = Color.white;
+        CalcReceiveDamage.Instance.induranceEffect10 = false;
+        CalcReceiveDamage.Instance.InduranceEffect10_IncreaseDamage();
     }
 
     public void DisableInduranceEffect13()

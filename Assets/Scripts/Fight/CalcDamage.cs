@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CalcDamage : MonoBehaviour
 {
     private Dictionary<string, float> skillCooldowns = new Dictionary<string, float>();
 
-    public PlayerStatus playerStatus;
+    private PlayerStatus playerStatus;
     private PlayerBuffManager playerBuffManager;
 
     public bool fightState;
@@ -197,7 +196,7 @@ public class CalcDamage : MonoBehaviour
     }
 
     // 쿨타임 계산.
-    private IEnumerator Cooldown(string skillName, float cooldown)
+    public IEnumerator Cooldown(string skillName, float cooldown)
     {
         skillCooldowns[skillName] = cooldown;
 

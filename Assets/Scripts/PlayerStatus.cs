@@ -50,6 +50,16 @@ public class PlayerStatus : Status
         }
     }
 
+    public override float DamageReduction
+    {
+        get { return base.DamageReduction; }
+        set
+        {
+            base.DamageReduction = value;
+            CalcReceiveDamage.Instance.InduranceEffect10_IncreaseDamage(); // 인내 10레벨.
+        }
+    }
+
     public float AdditionalDamage
     {
         get { return additionalDamage; }
@@ -71,6 +81,7 @@ public class PlayerStatus : Status
             else
                 DamageReduction = 1 - (1 - DamageReduction) / (1 + additionalDamageReduction);
             additionalDamageReduction = 0f;
+            CalcReceiveDamage.Instance.InduranceEffect10_IncreaseDamage(); // 인내 10레벨.
         }
     }
 
@@ -123,7 +134,7 @@ public class PlayerStatus : Status
 
     void Update()
     {
-        Debug.Log("Damage : " + Damage);
+        Debug.Log("Damage : " + Damage + "+" + (Damage * AdditionalDamage) + "=" + TotalDamage);
         Debug.Log("Hp : " + MaxHp + " / " + Hp);
     }
 
