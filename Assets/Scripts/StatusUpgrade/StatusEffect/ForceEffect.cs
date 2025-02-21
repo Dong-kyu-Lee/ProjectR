@@ -30,11 +30,11 @@ public class ForceEffect : MonoBehaviour
         CalcDamage.Instance.forceEffect4 = true;
     }
 
-    public void EnableForceEffect7(PlayerStatus playerStatus)
+    public void EnableForceEffect7()
     {
         statusEffectTooltip[2].defaultColor = Color.yellow;
         statusEffectTooltip[2].image.color = Color.yellow;
-        playerStatus.Damage += 15;
+        CalcDamage.Instance.forceEffect7 = true;
     }
 
     public void EnableForceEffect10(PlayerStatus playerStatus)
@@ -51,11 +51,11 @@ public class ForceEffect : MonoBehaviour
         CalcDamage.Instance.forceEffect13 = true;
     }
 
-    public void EnableForceEffect16(PlayerStatus playerStatus)
+    public void EnableForceEffect16()
     {
         statusEffectTooltip[5].defaultColor = Color.yellow;
         statusEffectTooltip[5].image.color = Color.yellow;
-        playerStatus.Damage += 30;
+        CalcDamage.Instance.forceEffect16 = true;
     }
 
     public void DisableForceEffect1(PlayerStatus playerStatus)
@@ -72,11 +72,12 @@ public class ForceEffect : MonoBehaviour
         CalcDamage.Instance.forceEffect4 = false;
     }
 
-    public void DisableForceEffect7(PlayerStatus playerStatus)
+    public void DisableForceEffect7()
     {
         statusEffectTooltip[2].defaultColor = Color.white;
         statusEffectTooltip[2].image.color = Color.white;
-        playerStatus.Damage -= 15;
+        CalcDamage.Instance.forceEffect7 = false;
+        CalcDamage.Instance.ResetBuff();
     }
 
     public void DisableForceEffect10(PlayerStatus playerStatus)
@@ -93,10 +94,11 @@ public class ForceEffect : MonoBehaviour
         CalcDamage.Instance.forceEffect13 = false;
     }
 
-    public void DisableForceEffect16(PlayerStatus playerStatus)
+    public void DisableForceEffect16()
     {
         statusEffectTooltip[5].defaultColor = Color.white;
         statusEffectTooltip[5].image.color = Color.white;
-        playerStatus.Damage -= 30;
+        CalcDamage.Instance.forceEffect16 = false;
+        CalcDamage.Instance.ResetBuff();
     }
 }

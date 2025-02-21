@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CalcDamage : MonoBehaviour
@@ -9,8 +10,12 @@ public class CalcDamage : MonoBehaviour
     public PlayerStatus playerStatus;
     private PlayerBuffManager playerBuffManager;
 
+    public bool fightState;
+
     public bool forceEffect4;
+    public bool forceEffect7;
     public bool forceEffect13;
+    public bool forceEffect16;
 
     public bool criticalEffect4;
     public bool criticalEffect7;
@@ -62,6 +67,12 @@ public class CalcDamage : MonoBehaviour
         playerBuffManager = player.GetComponent<PlayerBuffManager>();
     }
 
+    // 적 처치 시 획득하는 버프.
+    public void KillEnemyBuff()
+    {
+        if (forceEffect7) playerBuffManager.ActivateBuff(BuffType.Force7, 20.0f);
+    }
+
     // 적 타격시 발동하는 추가 효과.
     public void AdditionalEffect(GameObject enemy)
     {
@@ -72,12 +83,44 @@ public class CalcDamage : MonoBehaviour
         if (dexterityEffect13) playerBuffManager.ActivateBuff(BuffType.Dexterity13, 8.0f); // 재주 13레벨 버프.
     }
 
+    // 비활성화된 효과 관련 버프 리셋.
     public void ResetBuff()
     {
+        if (!forceEffect7) playerBuffManager.DeActivateBuff(BuffType.Force7);
+        if (!forceEffect16) playerBuffManager.DeActivateBuff(BuffType.Force16);
         if (!criticalEffect4) playerBuffManager.DeActivateBuff(BuffType.Critical4);
         if (!criticalEffect7) playerBuffManager.DeActivateBuff(BuffType.Critical7);
         if (!dexterityEffect7) playerBuffManager.DeActivateBuff(BuffType.Dexterity7);
         if (!dexterityEffect13) playerBuffManager.DeActivateBuff(BuffType.Dexterity13);
+    }
+
+    // 전투 중 상태 확인(임시).
+    public void CheckFightState()
+    {
+        if (!fightState)
+        {
+            StartCoroutine(FightState(10f));
+        }
+        else
+        {
+            StopCoroutine(FightState(10f));
+            StartCoroutine(FightState(10f));
+        }
+    }
+
+    // 전투 상태(임시).
+    IEnumerator FightState(float time)
+    {
+        float fightStateTime = time;
+        fightState = true;
+        if (forceEffect16) playerBuffManager.ActivateBuff(BuffType.Force16, 10.0f);
+        while (fightStateTime > 0)
+        {
+            fightStateTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        fightState = false;
     }
 
     // 추가 공격.
@@ -187,7 +230,6 @@ public class CalcDamage : MonoBehaviour
             playerBuffManager.ActivateBuff(BuffType.Critical7, 1.0f); // 치명 7레벨 버프.
             StartCoroutine(Cooldown("CriticalEffect7", 20f));
         }
-
         if (IncCritical)
         {
             criticalPercent += 1f;
@@ -208,11 +250,11 @@ public class CalcDamage : MonoBehaviour
         if (randomValue < criticalPercent)
         {
             isCritical = true;
-            if (criticalEffect13)
+            if (criticalEffect13) // 치명 13레벨.
                 ignoreDamageReduction = 1 - (1 - playerStatus.IgnoreDamageReduction) * (1 - 0.5f);
-            if (criticalEffect4) 
-                playerBuffManager.ActivateBuff(BuffType.Critical4, 5.0f); // 치명 4레벨 버프.
-            if (criticalEffect10)
+            if (criticalEffect4) // 치명 4레벨.
+                playerBuffManager.ActivateBuff(BuffType.Critical4, 5.0f);
+            if (criticalEffect10) // 치명 10레벨.
             {
                 return 1.2f * damage * (1 + criticalDamage);
             }

@@ -42,6 +42,7 @@ public class Projectile : MonoBehaviour
             collision.gameObject.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
             CalcDamage.Instance.CheckAddtionalDamage(collision.gameObject);
             CalcDamage.Instance.AdditionalEffect(collision.gameObject);
+            CalcDamage.Instance.CheckFightState();
         }
         gameObject.SetActive(false);
     }

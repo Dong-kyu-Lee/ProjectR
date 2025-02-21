@@ -32,6 +32,8 @@ public class BuffFactory
         buffConstructors[(int)BuffType.IronBody] = (duration, targetObject) => new IronBodyBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Reflection] = (duration, targetObject) => new ReflectionBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Invincible] = (duration, targetObject) => new InvincibleBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Force7] = (duration, targetObject) => new Force7Buff(duration, targetObject);
+        buffConstructors[(int)BuffType.Force16] = (duration, targetObject) => new Force16Buff(duration, targetObject);
         buffConstructors[(int)BuffType.Critical4] = (duration, targetObject) => new Critical4Buff(duration, targetObject);
         buffConstructors[(int)BuffType.Critical7] = (duration, targetObject) => new Critical7Buff(duration, targetObject);
         buffConstructors[(int)BuffType.Dexterity7] = (duration, targetObject) => new Dexterity7Buff(duration, targetObject);

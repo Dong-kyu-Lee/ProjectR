@@ -109,6 +109,7 @@ public class Enemy : MonoBehaviour
 
     public void Dead()
     {
+        CalcDamage.Instance.KillEnemyBuff();
         StartCoroutine(DeadCoroutine());
     }
 

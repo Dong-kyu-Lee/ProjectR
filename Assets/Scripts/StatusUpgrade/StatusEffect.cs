@@ -32,10 +32,10 @@ public class StatusEffect : MonoBehaviour
                 {
                     case 1: forceEffect.EnableForceEffect1(playerStatus); break;
                     case 4: forceEffect.EnableForceEffect4(); break;
-                    case 7: forceEffect.EnableForceEffect7(playerStatus); break;
+                    case 7: forceEffect.EnableForceEffect7(); break;
                     case 10: forceEffect.EnableForceEffect10(playerStatus); break;
                     case 13: forceEffect.EnableForceEffect13(); break;
-                    case 16: forceEffect.EnableForceEffect16(playerStatus); break;
+                    case 16: forceEffect.EnableForceEffect16(); break;
                     default:
                         Debug.Log("올바르지 않는 스텟포인트");
                         return;
@@ -113,10 +113,10 @@ public class StatusEffect : MonoBehaviour
                 {
                     case 1: forceEffect.DisableForceEffect1(playerStatus); break;
                     case 4: forceEffect.DisableForceEffect4(); break;
-                    case 7: forceEffect.DisableForceEffect7(playerStatus); break;
+                    case 7: forceEffect.DisableForceEffect7(); break;
                     case 10: forceEffect.DisableForceEffect10(playerStatus); break;
                     case 13: forceEffect.DisableForceEffect13(); break;
-                    case 16: forceEffect.DisableForceEffect16(playerStatus); break;
+                    case 16: forceEffect.DisableForceEffect16(); break;
                     default:
                         Debug.Log("올바르지 않는 스텟포인트");
                         return;
