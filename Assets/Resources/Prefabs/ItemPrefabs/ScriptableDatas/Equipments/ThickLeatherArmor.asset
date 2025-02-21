@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f2b4866843a9b64981a46f3af828bf8, type: 3}
+  m_Name: ThickLeatherArmor
+  m_EditorClassIdentifier: 
+  itemName: Thick Leather Armor
+  itemDescription: It is armor made of thick leather. It increases Damage Reduction
+    by 10% and decreases movement speed by 5%.
+  itemID: 0
+  itemSprite: {fileID: 21300000, guid: 7fb36f6ced3d248f4be1de9a076d50bd, type: 3}
+  maxAmount: 99
+  itemType: 1
+  itemPrice: 0
+  itemExplain: 
+  additionalDmgReduction: 0.1
+  additionalMoveSpeed: 5

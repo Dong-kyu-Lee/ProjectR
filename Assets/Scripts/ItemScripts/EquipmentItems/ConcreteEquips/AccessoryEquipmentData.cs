@@ -11,6 +11,10 @@ public class AccessoryEquipmentData : EquipmentItemData
     private float additionalMoveSpeed = 0.0f;
     [SerializeField]
     private float additionalPriceAdd = 0.0f;
+    [SerializeField]
+    private float additionalDamage = 0.0f;
+    [SerializeField]
+    private float additionalDamageReduction = 0.0f;
 
 
     public override void EquipItem(PlayerStatus player)
@@ -18,6 +22,8 @@ public class AccessoryEquipmentData : EquipmentItemData
         player.AdditionalAttackSpeed += additionalAttackSpeed;
         player.MoveSpeed += additionalMoveSpeed;
         player.PriceAdditional += additionalPriceAdd;
+        player.AdditionalDamage += additionalDamage;
+        player.AdditionalDamageReduction += additionalDamageReduction;
     }
 
     public override void UnEquipItem(PlayerStatus player)
@@ -25,5 +31,7 @@ public class AccessoryEquipmentData : EquipmentItemData
         player.AdditionalAttackSpeed -= additionalAttackSpeed;
         player.MoveSpeed -= additionalMoveSpeed;
         player.PriceAdditional -= additionalPriceAdd;
+        player.AdditionalDamage -= additionalDamage;
+        player.AdditionalDamageReduction -= additionalDamageReduction;
     }
 }
