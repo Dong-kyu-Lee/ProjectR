@@ -11,9 +11,10 @@ public class StatusEffect : MonoBehaviour
     private DexterityEffect dexterityEffect;
     private MysteryEffect mysteryEffect;
 
-    // ÄÄÆ÷³ÍÆ® ÇÒ´ç.
+    // ì»´í¬ë„ŒíŠ¸ í• ë‹¹.
     private void Start()
     {
+        //playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         forceEffect = GetComponent<ForceEffect>();
         induranceEffect = GetComponent<InduranceEffect>();
         criticalEffect = GetComponent<CriticalEffect>();
@@ -21,7 +22,7 @@ public class StatusEffect : MonoBehaviour
         mysteryEffect = GetComponent<MysteryEffect>();
     }
 
-    // Æ¯¼ö È¿°ú È°¼ºÈ­.
+    // íŠ¹ìˆ˜ íš¨ê³¼ í™œì„±í™”.
     public void EnableEffect(string statName, int point)
     {
         switch (statName)
@@ -30,27 +31,27 @@ public class StatusEffect : MonoBehaviour
                 switch (point)
                 {
                     case 1: forceEffect.EnableForceEffect1(playerStatus); break;
-                    case 4: forceEffect.EnableForceEffect4(playerStatus); break;
+                    case 4: forceEffect.EnableForceEffect4(); break;
                     case 7: forceEffect.EnableForceEffect7(playerStatus); break;
                     case 10: forceEffect.EnableForceEffect10(playerStatus); break;
-                    case 13: forceEffect.EnableForceEffect13(playerStatus); break;
+                    case 13: forceEffect.EnableForceEffect13(); break;
                     case 16: forceEffect.EnableForceEffect16(playerStatus); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
             case "indurance":
                 switch (point)
                 {
-                    case 1: induranceEffect.EnableInduranceEffect1(); break;
+                    case 1: induranceEffect.EnableInduranceEffect1(playerStatus); break;
                     case 4: induranceEffect.EnableInduranceEffect4(); break;
                     case 7: induranceEffect.EnableInduranceEffect7(); break;
                     case 10: induranceEffect.EnableInduranceEffect10(); break;
                     case 13: induranceEffect.EnableInduranceEffect13(); break;
                     case 16: induranceEffect.EnableInduranceEffect16(); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
@@ -64,21 +65,21 @@ public class StatusEffect : MonoBehaviour
                     case 13: criticalEffect.EnableCriticalEffect13(); break;
                     case 16: criticalEffect.EnableCriticalEffect16(); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
             case "dexterity":
                 switch (point)
                 {
-                    case 1: dexterityEffect.EnableDexterityEffect1(); break;
+                    case 1: dexterityEffect.EnableDexterityEffect1(playerStatus); break;
                     case 4: dexterityEffect.EnableDexterityEffect4(); break;
                     case 7: dexterityEffect.EnableDexterityEffect7(); break;
                     case 10: dexterityEffect.EnableDexterityEffect10(); break;
                     case 13: dexterityEffect.EnableDexterityEffect13(); break;
                     case 16: dexterityEffect.EnableDexterityEffect16(); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
@@ -92,17 +93,17 @@ public class StatusEffect : MonoBehaviour
                     case 13: mysteryEffect.EnableMysteryEffect13(); break;
                     case 16: mysteryEffect.EnableMysteryEffect16(); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
             default:
-                Debug.Log("Àß¸øµÈ ½ºÅ×ÀÌÅÍ½º ÀÌ¸§");
+                Debug.Log("ì˜ëª»ëœ ìŠ¤í…Œì´í„°ìŠ¤ ì´ë¦„");
                 return;
         }
     }
 
-    // Æ¯¼ö È¿°ú ºñÈ°¼ºÈ­.
+    // íŠ¹ìˆ˜ íš¨ê³¼ ë¹„í™œì„±í™”.
     public void DisableEffect(string statName, int point)
     {
         switch (statName)
@@ -111,27 +112,27 @@ public class StatusEffect : MonoBehaviour
                 switch (point)
                 {
                     case 1: forceEffect.DisableForceEffect1(playerStatus); break;
-                    case 4: forceEffect.DisableForceEffect4(playerStatus); break;
+                    case 4: forceEffect.DisableForceEffect4(); break;
                     case 7: forceEffect.DisableForceEffect7(playerStatus); break;
                     case 10: forceEffect.DisableForceEffect10(playerStatus); break;
-                    case 13: forceEffect.DisableForceEffect13(playerStatus); break;
+                    case 13: forceEffect.DisableForceEffect13(); break;
                     case 16: forceEffect.DisableForceEffect16(playerStatus); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
             case "indurance":
                 switch (point)
                 {
-                    case 1: induranceEffect.DisableInduranceEffect1(); break;
+                    case 1: induranceEffect.DisableInduranceEffect1(playerStatus); break;
                     case 4: induranceEffect.DisableInduranceEffect4(); break;
                     case 7: induranceEffect.DisableInduranceEffect7(); break;
                     case 10: induranceEffect.DisableInduranceEffect10(); break;
                     case 13: induranceEffect.DisableInduranceEffect13(); break;
                     case 16: induranceEffect.DisableInduranceEffect16(); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
@@ -145,21 +146,21 @@ public class StatusEffect : MonoBehaviour
                     case 13: criticalEffect.DisableCriticalEffect13(); break;
                     case 16: criticalEffect.DisableCriticalEffect16(); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
             case "dexterity":
                 switch (point)
                 {
-                    case 1: dexterityEffect.DisableDexterityEffect1(); break;
+                    case 1: dexterityEffect.DisableDexterityEffect1(playerStatus); break;
                     case 4: dexterityEffect.DisableDexterityEffect4(); break;
                     case 7: dexterityEffect.DisableDexterityEffect7(); break;
                     case 10: dexterityEffect.DisableDexterityEffect10(); break;
                     case 13: dexterityEffect.DisableDexterityEffect13(); break;
                     case 16: dexterityEffect.DisableDexterityEffect16(); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
@@ -173,12 +174,12 @@ public class StatusEffect : MonoBehaviour
                     case 13: mysteryEffect.DisableMysteryEffect13(); break;
                     case 16: mysteryEffect.DisableMysteryEffect16(); break;
                     default:
-                        Debug.Log("¿Ã¹Ù¸£Áö ¾Ê´Â ½ºÅİÆ÷ÀÎÆ®");
+                        Debug.Log("ì˜¬ë°”ë¥´ì§€ ì•ŠëŠ” ìŠ¤í…Ÿí¬ì¸íŠ¸");
                         return;
                 }
                 break;
             default:
-                Debug.Log("Àß¸øµÈ ½ºÅ×ÀÌÅÍ½º ÀÌ¸§");
+                Debug.Log("ì˜ëª»ëœ ìŠ¤í…Œì´í„°ìŠ¤ ì´ë¦„");
                 return;
         }
     }

@@ -25,6 +25,11 @@ public class BasicItemData : ScriptableObject
     protected int maxAmount = 99;   //한번의 최대 보유량
     [SerializeField]
     protected ItemType itemType;    //아이템 타입
+    [SerializeField]
+    protected int itemPrice;
+    [SerializeField]
+    protected string itemExplain;
+
 
     public string ItemName { get { return itemName; } }
     public string ItemDescription { get { return itemDescription; } }
@@ -32,4 +37,6 @@ public class BasicItemData : ScriptableObject
     public Sprite ItemSprite { get { return itemSprite; } }
     public int MaxAmount { get { return maxAmount; } }
     public ItemType ItemType { get { return itemType; } }
+    public int ItemPrice { get { return itemPrice; } }
+    public string ItemExplain { get { return itemExplain; } }
 }

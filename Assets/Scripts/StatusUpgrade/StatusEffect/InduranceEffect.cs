@@ -16,10 +16,12 @@ public class InduranceEffect : MonoBehaviour
         statusEffectTooltip[5] = GameObject.Find("InduranceEffect16").GetComponent<StatusEffectTooltip>();
     }
 
-    public void EnableInduranceEffect1()
+    public void EnableInduranceEffect1(PlayerStatus playerStatus)
     {
         statusEffectTooltip[0].defaultColor = Color.yellow;
         statusEffectTooltip[0].image.color = Color.yellow;
+        playerStatus.MaxHp += 20;
+        playerStatus.Hp += 20;
     }
 
     public void EnableInduranceEffect4()
@@ -52,10 +54,11 @@ public class InduranceEffect : MonoBehaviour
         statusEffectTooltip[5].image.color = Color.yellow;
     }
 
-    public void DisableInduranceEffect1()
+    public void DisableInduranceEffect1(PlayerStatus playerStatus)
     {
         statusEffectTooltip[0].defaultColor = Color.white;
         statusEffectTooltip[0].image.color = Color.white;
+        playerStatus.MaxHp -= 20;
     }
 
     public void DisableInduranceEffect4()

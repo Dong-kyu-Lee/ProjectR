@@ -24,13 +24,13 @@ public class DungeonCreator : MonoBehaviour
         DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
     }
     
-    // ¼±ÅÃµÈ ´øÀü Á¶°¢µéÀ» InstantiateÇÏ´Â ÇÔ¼ö
+    // ì„ íƒëœ ë˜ì „ ì¡°ê°ë“¤ì„ Instantiateí•˜ëŠ” í•¨ìˆ˜
     public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
         FixedRoomDungeonGenerator dungeonGenerator = new FixedRoomDungeonGenerator(dungeonRow, dungeonColumn);
         var listOfRoomNodes = dungeonGenerator.CreateRoomNodes();
 
-        // Á¶°Ç¿¡ ¸Â´Â ¹æµéÀ» ·£´ıÀ¸·Î ¼±ÅÃÇØ »ı¼º
+        // ì¡°ê±´ì— ë§ëŠ” ë°©ë“¤ì„ ëœë¤ìœ¼ë¡œ ì„ íƒí•´ ìƒì„±
         foreach( RoomNode roomNode in listOfRoomNodes)
         {
             Vector3 generatePosition = new Vector3(20 * roomNode.RoomPosition.x, 20 * roomNode.RoomPosition.y, 0);
@@ -39,16 +39,16 @@ public class DungeonCreator : MonoBehaviour
 
             generatedRooms.Add(Instantiate(usableRooms[Random.Range(0, usableRooms.Count)], generatePosition,
                 transform.rotation, grid.transform));
-            // ¹æÀÇ Åë·Î¸¦ ¸¸µå´Â ÀÛ¾÷
+            // ë°©ì˜ í†µë¡œë¥¼ ë§Œë“œëŠ” ì‘ì—…
             generatedRooms[generatedRooms.Count - 1].GetComponent<Room>().OpenGateTile(roomNode.OpenNeededGate);
-            // ÇØ´ç ¹æÀÇ °æ°è°ªÀ» ÀúÀå
+            // í•´ë‹¹ ë°©ì˜ ê²½ê³„ê°’ì„ ì €ì¥
             generatedRooms[generatedRooms.Count - 1].GetComponent<Room>().
                 SetRoomBoundary(generatePosition, generatePosition + new Vector3(20, 20, 0));
         }
 
-        // ½ºÅ×ÀÌÁöÀÇ ÇÃ·¹ÀÌ¾î ½ºÆù ÁöÁ¡À» °áÁ¤
+        // ìŠ¤í…Œì´ì§€ì˜ í”Œë ˆì´ì–´ ìŠ¤í° ì§€ì ì„ ê²°ì •
         playerSpawnPosition = generatedRooms[0].GetComponent<Room>().playerSpawnPosition.position;
-        // ½ºÅ×ÀÌÁöÀÇ Å¬¸®¾î ÁöÁ¡ °áÁ¤ ÈÄ È°¼ºÈ­
+        // ìŠ¤í…Œì´ì§€ì˜ í´ë¦¬ì–´ ì§€ì  ê²°ì • í›„ í™œì„±í™”
         finishSpotPosition = generatedRooms[Random.Range(1, generatedRooms.Count)].GetComponent<Room>().finishSpotPosition.position;
     }
 

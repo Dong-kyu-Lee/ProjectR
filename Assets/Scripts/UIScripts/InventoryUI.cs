@@ -16,7 +16,6 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private GameObject[] inventorySlotParentObj;
     
-
     //플레이어 인벤토리
     [SerializeField]
     private Inventory playerInventory;
@@ -24,36 +23,14 @@ public class InventoryUI : MonoBehaviour
     private void Awake()
     {
         Init();
-        UpdateAllEquippedItemSlotImages();
-        UpdateAllInventorySlotImages();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        /*if (Input.GetKeyDown(KeyCode.R))
-        {
-            //장비 해제
-            SetAllInventorySlotItemDatas();
-            UpdateAllEquippedItemSlotImages();
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            //장비 칸끼리 교체
-            //UpdateAllEquippedItemSlotImages();
-            UpdateEquippedItemSlotImage(0);
-            UpdateEquippedItemSlotImage(4);
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            //1번 인벤토리 슬룻을 1번 장비칸으로 옮기기
-            playerInventory.SwapEquippedItemWithInventory(0, inventorySlotParentObj[0].transform.GetChild(0).GetComponent<ItemSlotUI>().NowItemData as EquipmentItemData);
-            UpdateAllEquippedItemSlotImages();
-            UpdateInventorySlotImages(0, 0);    //row, col
-        }*/
+        SetAllInventorySlotItemDatas();
+        UpdateAllEquippedItemSlotImages();
     }
-    
+
     public void Init()
     {
         if (equipSlotImgs == null) GenerateEquippedItemSlot();
@@ -112,18 +89,18 @@ public class InventoryUI : MonoBehaviour
     {
         int row = 0;
         int col = 0;
-
         foreach (var item in playerInventory.InventoryDict)
         {
             UpdateInventorySlotImages(row, col);
-            if (col > inventorySlotParentObj[row].transform.childCount)
+            if (col < inventorySlotParentObj[row].transform.childCount)
             {
-                col = 0;
-                row++;
+                col++;
             }
             else
             {
-                col++;
+                col = 0;
+                row++;
+
             }
         }
     }
@@ -131,6 +108,7 @@ public class InventoryUI : MonoBehaviour
     //인벤토리에 있는 모든 아이템 데이터를 인벤토리 슬롯 UI에 삽입하는 함수
     public void SetAllInventorySlotItemDatas()
     {
+        if(playerInventory.InventoryDict.Count == 0) return;
         int row = 0;
         int col = 0;
 
