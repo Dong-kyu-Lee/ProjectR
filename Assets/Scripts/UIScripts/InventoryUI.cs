@@ -20,20 +20,17 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private Inventory playerInventory;
 
-    private void Awake()
-    {
-        Init();
-    }
-
     private void OnEnable()
     {
-        SetAllInventorySlotItemDatas();
         UpdateAllEquippedItemSlotImages();
+        UpdateAllInventorySlotImages();
     }
 
+    //시작 전 초기화 함수
     public void Init()
     {
-        if (equipSlotImgs == null) GenerateEquippedItemSlot();
+        GenerateEquippedItemSlot();
+        InitiateAllItemsSlots();
     }
 
     //장비칸 UI를 생성하는 함수(LazyInstantiation)
@@ -74,14 +71,14 @@ public class InventoryUI : MonoBehaviour
     //해당 인벤토리 슬롯 데이터 반영 함수
     public void SetInventorySlotData(BasicItemData itemData, int slotRowIdx, int slotColIdx)
     {
-        inventorySlotParentObj[slotRowIdx].transform.GetChild(slotColIdx).GetComponent<ItemSlotUI>().SetItemData(itemData);
+        inventorySlotParentObj[slotColIdx].transform.GetChild(slotRowIdx).GetComponent<ItemSlotUI>().SetItemData(itemData);
         //inventorySlotParentObj[slotRowIdx].transform.GetChild(slotColIdx).GetComponent<Image>().sprite = targetSprite.ItemSprite;
     }
 
     //특정 인벤토리칸 이미지 업데이트 함수
     public void UpdateInventorySlotImages(int slotRowIdx, int slotColIdx)
     {
-        inventorySlotParentObj[slotRowIdx].transform.GetChild(slotColIdx).GetComponent<ItemSlotUI>().UpdateItemSprite();
+        inventorySlotParentObj[slotColIdx].transform.GetChild(slotRowIdx).GetComponent<ItemSlotUI>().UpdateItemSprite();
     }
 
     //모든 인벤토리 슬롯 이미지 업데이트 함수
@@ -92,15 +89,14 @@ public class InventoryUI : MonoBehaviour
         foreach (var item in playerInventory.InventoryDict)
         {
             UpdateInventorySlotImages(row, col);
-            if (col < inventorySlotParentObj[row].transform.childCount)
+            if (row < inventorySlotParentObj[col].transform.childCount)
             {
-                col++;
+                row++;
             }
             else
             {
-                col = 0;
-                row++;
-
+                row = 0;
+                col++;
             }
         }
     }
@@ -108,23 +104,34 @@ public class InventoryUI : MonoBehaviour
     //인벤토리에 있는 모든 아이템 데이터를 인벤토리 슬롯 UI에 삽입하는 함수
     public void SetAllInventorySlotItemDatas()
     {
-        if(playerInventory.InventoryDict.Count == 0) return;
         int row = 0;
         int col = 0;
 
         foreach (var item in playerInventory.InventoryDict)
         {
             SetInventorySlotData(item.Key, row, col);
-            if (col > inventorySlotParentObj[row].transform.childCount)
+            if (row < inventorySlotParentObj[col].transform.childCount)
             {
-                col = 0;
                 row++;
             }
             else
             {
+                row = 0;
                 col++;
             }
         }
     }
 
+    //시작 전 인벤토리 & 장비의 모든 슬롯 초기화 함수
+    public void InitiateAllItemsSlots()
+    {
+        for(int i = 0; i< equipSlotImgs.Count; i++)
+        {
+            equipSlotImgs[i].Init();
+        }
+        for (int i = 0; i < inventorySlotParentObj[0].transform.childCount; i++)
+        {
+            inventorySlotParentObj[0].transform.GetChild(i).GetComponent<ItemSlotUI>().Init();
+        }
+    }
 }
