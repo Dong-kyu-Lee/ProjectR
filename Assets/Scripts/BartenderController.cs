@@ -39,6 +39,7 @@ public class BartenderController : MonoBehaviour
     bool enableUI;
     bool isPause;
     bool isAttaking;
+    bool isDead;
 
     void Start()
     {
@@ -48,6 +49,7 @@ public class BartenderController : MonoBehaviour
         enableAttack = true;
         enableUI = true;
         isAttaking = false;
+        isDead = false;
         dashFactor = 1.0f;
         dashTime = 0.2f;
         dashCoolTime = 1.0f;
@@ -62,7 +64,7 @@ public class BartenderController : MonoBehaviour
 
     void Update()
     {
-        if (!isPause)
+        if (!isPause && !isDead)
         {
             if (Input.GetKeyDown(KeyCode.Space) && enableJump)
             {
@@ -92,7 +94,7 @@ public class BartenderController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isPause)
+        if (!isPause && !isDead)
         {
             PlayerMove();
             JumpCheck();
@@ -230,6 +232,7 @@ public class BartenderController : MonoBehaviour
         }
 
         GameObject projectile = Instantiate(projectilePref, spawnPosition, Quaternion.identity);
+        projectile.GetComponent<Projectile>().playerStatus = playerStatus;
         projectile.GetComponent<Projectile>().Velocity = direction;
         projectile.GetComponent<Projectile>().damage = playerStatus.Damage;
 
@@ -247,6 +250,8 @@ public class BartenderController : MonoBehaviour
 
     IEnumerator DeadCoroutine()
     {
+        isDead = true;
+        playerRigidBody.velocity = Vector2.zero;
         playerAnimator.SetTrigger("Die");
 
         yield return new WaitForSeconds(1.5f);
