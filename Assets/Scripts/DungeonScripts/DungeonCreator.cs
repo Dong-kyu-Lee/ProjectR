@@ -2,16 +2,32 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class DungeonCreator : MonoBehaviour
 {
+    [Header("Fixed Room Setting")]
     public int dungeonRow;
     public int dungeonColumn;
+    [Header("Random Room Setting")]
+    public int roomCount;
+    public int jumpHeight, dashWidth;
+    public int roomWidthMin, roomHeightMin;
+    public int roomWidthMax, roomHeightMax;
+    public int floatingTileWidthMin, floatingTileWidthMax;
+
+    [Header("For Random Dungeon Test")]
+    public Tilemap tilemap;
+    public TileBase floatingTile;
+    public TileBase boundTile;
+
+    [Header("Needed Objects")]
     public GameObject grid;
     public RoomContainer roomContainer;
-
     public List<GameObject> generatedRooms = new List<GameObject>();
+
+    private List<GameObject> currentFloatingTiles = new List<GameObject>();
 
     void Start()
     {

@@ -56,6 +56,7 @@ public class LevelUp : MonoBehaviour
         upgradeStatus.SkillPoint++;
 
         playerStatus.Damage += 1;
+        playerStatus.MaxHp += 5;
         playerStatus.Hp += 5;
 
         playerStatus.Exp -= requiredExp[(int)playerStatus.Level - 1];
@@ -73,7 +74,7 @@ public class LevelUp : MonoBehaviour
     {
         upgradeSystem.ResetStat();
         playerStatus.Damage -= playerStatus.Level - 1;
-        playerStatus.Hp -= (playerStatus.Level - 1) * 5;
+        playerStatus.MaxHp -= (playerStatus.Level - 1) * 5;
         playerStatus.Level = 1;
         playerStatus.Exp = 0;
     }

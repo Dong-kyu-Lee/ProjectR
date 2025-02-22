@@ -40,7 +40,8 @@ public class HitBox : MonoBehaviour
             if (!isHit)
             {
                 isHit = true;
-                collision.gameObject.GetComponent<Status>().TakeDamage(damage, 0);
+                // collision.gameObject.GetComponent<Status>().TakeDamage(damage, 0);
+                collision.gameObject.GetComponent<Status>().TakeDamage(damage, 0, false);
             }
         }
         gameObject.SetActive(false);

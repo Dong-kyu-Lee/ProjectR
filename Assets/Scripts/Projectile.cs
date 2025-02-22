@@ -34,11 +34,12 @@ public class Projectile : MonoBehaviour
     {
         float damage = playerStatus.TotalDamage;
         float ignoreDamageReduction = playerStatus.IgnoreDamageReduction;
+        bool isCritical = false;
 
         if (collision.transform.tag == "Enemy")
         {
-            damage = CalcDamage.Instance.CheckCritical(playerStatus, damage, ref ignoreDamageReduction);
-            collision.gameObject.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction);
+            damage = CalcDamage.Instance.CheckCritical(playerStatus, damage, ref ignoreDamageReduction, ref isCritical);
+            collision.gameObject.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
             CalcDamage.Instance.DexterityEffect4_TrueDamage(playerStatus, collision.gameObject);
             CalcDamage.Instance.CheckAddtionalDamage(playerStatus, collision.gameObject);
             CalcDamage.Instance.StackDexterityEffect16(playerStatus, collision.gameObject);
