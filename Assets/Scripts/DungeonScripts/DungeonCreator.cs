@@ -12,7 +12,6 @@ public class DungeonCreator : MonoBehaviour
     public int dungeonColumn;
 
     [Header("Needed Objects")]
-    public GameObject grid;
     public RoomContainer roomContainer;
     public List<GameObject> generatedRooms = new List<GameObject>();
     [SerializeField]
@@ -23,6 +22,12 @@ public class DungeonCreator : MonoBehaviour
     private Tilemap floatingTilemap;
     [SerializeField]
     private Tilemap decorationTilemap;
+    [SerializeField]
+    private Grid grid;
+
+    [SerializeField]
+    private GameObject gatePrefab;
+    private Dictionary<Vector3, GameObject> gateDic = new Dictionary<Vector3, GameObject>();
 
     void Start()
     {
@@ -35,7 +40,7 @@ public class DungeonCreator : MonoBehaviour
         DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
     }
     
-    // 던전 구조를 생성하고, 구조에 맞는 방 프리팹을 찾아 배치하는 함수
+    // 던전과 관련 요소를 씬에 생성하는 함수
     public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
         DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(dungeonRow, dungeonColumn);
@@ -50,13 +55,33 @@ public class DungeonCreator : MonoBehaviour
             Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
 
             var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
-
             Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
             DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
-            // RoomOnGame 인스턴스 생성
+            // 문 오브젝트 생성
+            UpdateGates(generatePosition, roomNodes[i].OpenNeededGate);
+            // 해당 방의 몬스터 관리 클래스 갱신
+            gateDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
+            // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
+            DungeonFlowManager.Instance.AddRoomInGame(gateDic[generatePosition].GetComponent<RoomInGame>());
 
             if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
             else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
+        }
+    }
+
+    // 문 오브젝트를 생성하고 갱신하는 함수
+    private void UpdateGates(Vector3 doorPosition, bool[] openNeededGate)
+    {
+        // 2스테이지 시작의 경우
+        if (gateDic.Count == dungeonColumn * dungeonRow)
+        {
+            gateDic[doorPosition].GetComponent<RoomInGame>().ResetRoomState();
+            gateDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
+        }
+        else
+        {
+            gateDic.Add(doorPosition, Instantiate(gatePrefab, doorPosition, transform.rotation, grid.transform));
+            gateDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
         }
     }
 

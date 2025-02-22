@@ -11,18 +11,13 @@ public class Room : MonoBehaviour
     public Tilemap floatingTilemap;
     public Tilemap decorationTilemap;
     public GameObject gateTilemap;
+    public GameObject enemyTilemap;
 
     public List<Transform> enemySpawnPoint = new List<Transform>();
     public List<GameObject> interactableObjPoint = new List<GameObject>();
 
     public Transform playerSpawnPosition;
     public Transform finishSpotPosition;
-
-    private Vector3 bottomLeftCorner;
-    private Vector3 topRightCorner;
-
-    public Vector3 BottomLeftCorner { get => bottomLeftCorner; }
-    public Vector3 TopRightcorner { get => topRightCorner; }
 
     [Header("Gate")]
     public bool isUpOpenable;
