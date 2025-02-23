@@ -43,13 +43,13 @@ public class EnemyInRoom : MonoBehaviour
         if (firstWaveEnemy != null)
         {
             firstWaveEnemyList.Add(Instantiate(firstWaveEnemy, generatePosition, transform.rotation, transform));
-            firstWaveEnemyList[firstWaveEnemyList.Count - 1].GetComponent<TempMonsterScript>().onDeath += EnemyDied;
+            firstWaveEnemyList[firstWaveEnemyList.Count - 1].GetComponent<Enemy>().onDeath += EnemyDied;
             firstWaveEnemy.SetActive(false);
         }
         if (secondWaveEnemy != null)
         {
             secondWaveEnemyList.Add(Instantiate(secondWaveEnemy, generatePosition, transform.rotation, transform));
-            secondWaveEnemyList[secondWaveEnemyList.Count - 1].GetComponent<TempMonsterScript>().onDeath += EnemyDied;
+            secondWaveEnemyList[secondWaveEnemyList.Count - 1].GetComponent<Enemy>().onDeath += EnemyDied;
             secondWaveEnemy.SetActive(false);
         }
     }
@@ -74,7 +74,7 @@ public class EnemyInRoom : MonoBehaviour
     }
 
     int firstIdx, secondIdx;
-    private void EnemyDied(TempMonsterScript monster)
+    private void EnemyDied(Enemy monster)
     {
         if(firstWaveEnemyList.Contains(monster.gameObject))
         {

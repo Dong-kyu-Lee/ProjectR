@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,6 +44,8 @@ public class Enemy : MonoBehaviour
     public float Speed { get { return speed; } }
     public Rigidbody2D Rigidbody { get { return enemyRigidbody; } }
     public Animator EnemyAnimator { get { return enemyAnimator; } }
+
+    public event Action<Enemy> onDeath;
 
     protected virtual void Awake()
     {
@@ -111,6 +114,7 @@ public class Enemy : MonoBehaviour
     {
         CalcDamage.Instance.KillEnemyBuff();
         StartCoroutine(DeadCoroutine());
+        onDeath?.Invoke(this);
     }
 
     protected IEnumerator DeadCoroutine()

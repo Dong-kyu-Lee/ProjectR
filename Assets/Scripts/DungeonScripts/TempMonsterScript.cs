@@ -5,11 +5,9 @@ using UnityEngine;
 
 public class TempMonsterScript : MonoBehaviour
 {
-    public event Action<TempMonsterScript> onDeath;
     
     public void Die()
     {
-        onDeath?.Invoke(this);
         gameObject.SetActive(false);
     }
 }
