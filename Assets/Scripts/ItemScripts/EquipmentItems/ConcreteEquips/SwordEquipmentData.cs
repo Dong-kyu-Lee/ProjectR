@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewSwordEquipment", menuName = "Scriptable Object/Sword Equipments Item Data", order = 1)]
+[CreateAssetMenu(fileName = "New SwordEquipment", menuName = "Scriptable Object/Sword Equipments Item Data", order = 1)]
 public class SwordEquipmentData : EquipmentItemData
 {
     [SerializeField]
-    private float additionalDamage = 10.0f;
+    private float additionalAttackDamage = 10.0f;   //Ï∂îÍ∞Ä Í≥µÍ≤©Î†•
+    [SerializeField]
+    private float additionalAttackSpeed = 0.0f;     //Ï∂îÍ∞Ä Í≥µÍ≤©ÏÜçÎèÑ
 
     public override void EquipItem(PlayerStatus playerStatus)
     {
-        playerStatus.AdditionalDamage += additionalDamage;
-        //Debug.Log($"æ∆¿Ã≈€ ¿Â¬¯«‘ : {playerStatus.AdditionalDamage}");
-
+        playerStatus.AdditionalDamage += additionalAttackDamage;
+        playerStatus.AdditionalAttackSpeed += additionalAttackSpeed;
     }
 
     public override void UnEquipItem(PlayerStatus playerStatus)
     {
-        playerStatus.AdditionalDamage -= additionalDamage;
-        //Debug.Log($"æ∆¿Ã≈€ ¿Â¬¯ «ÿ¡¶«‘ : {playerStatus.AdditionalDamage}");
+        playerStatus.AdditionalDamage -= additionalAttackDamage;
+        playerStatus.AttackSpeed -= additionalAttackSpeed;
     }
 }

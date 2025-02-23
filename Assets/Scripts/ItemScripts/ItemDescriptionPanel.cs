@@ -6,9 +6,9 @@ using UnityEngine;
 public class ItemDescriptionPanel : MonoBehaviour
 {
     [SerializeField]
-    private TMP_Text itemName;   //¾ÆÀÌÅÛ ÀÌ¸§
+    private TMP_Text itemName;   //ì•„ì´í…œ ì´ë¦„
     [SerializeField]
-    private TMP_Text itemDescription;    //¾ÆÀÌÅÛ ¼³¸í
+    private TMP_Text itemDescription;    //ì•„ì´í…œ ì„¤ëª…
 
     public string ItemName { get => itemName.text; set => itemName.text = value; }
     public string ItemDescription { get => itemDescription.text; set => itemDescription.text = value; }
