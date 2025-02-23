@@ -123,59 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &272398435
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 272398437}
-  - component: {fileID: 272398436}
-  m_Layer: 0
-  m_Name: DropableItem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &272398436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272398435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d52339640d226b14798d87a91cc43502, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropableItem:
-  - {fileID: 11400000, guid: a198298e41a4beb4b9fa5ac990e77926, type: 2}
-  - {fileID: 11400000, guid: 221340dc2488f53419dd38d3d6d12dcc, type: 2}
-  - {fileID: 11400000, guid: 817da487348fd554c9038acbaca289d2, type: 2}
-  - {fileID: 11400000, guid: a974736850b476e439173802aa390fc2, type: 2}
-  - {fileID: 11400000, guid: b6e33601a122a1c409ad51207de0d78d, type: 2}
-  - {fileID: 11400000, guid: 61fab7698c37d5e438cb87bc8df420a4, type: 2}
-  - {fileID: 11400000, guid: c2b2ab1fa982aee4f941f96d0aebac13, type: 2}
-  - {fileID: 11400000, guid: 2d539133788794e4b9533059f9bc5987, type: 2}
---- !u!4 &272398437
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272398435}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.928705, y: -2.0556116, z: 0.06842808}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1614112566
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,6 +632,7 @@ GameObject:
   - component: {fileID: 2133447466}
   - component: {fileID: 2133447465}
   - component: {fileID: 2133447464}
+  - component: {fileID: 2133447471}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -857,3 +805,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2133447471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133447463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc8de8434fee7b40850ad9818ca3ec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxInventorySlot: 10
+  playerStatus: {fileID: 0}
+  maxEquipSlot: 6
+  equipmentItemSlot: []
+  dummyItemData: {fileID: 0}
+  inventoryUI: {fileID: 0}

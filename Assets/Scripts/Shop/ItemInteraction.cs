@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class ItemInteraction : MonoBehaviour
 {
-    [SerializeField]
-    Inventory inventory;
+    public Inventory inventory;
     private ShopManager shopManager;
     private void Awake()
     {
+        inventory = FindObjectOfType<Inventory>();
         string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "ShopScene")
         {
@@ -18,7 +18,7 @@ public class ItemInteraction : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             var itemExplain = GetComponent<ItemExplain>();
             if (itemExplain && itemExplain.IsActive())
@@ -29,7 +29,7 @@ public class ItemInteraction : MonoBehaviour
                     shopManager.BuyItem(itemExplain.item);
                     itemExplain.HideUI();
                 }
-                else if (currentScene == "DungeonScene")
+                else
                 {
                     inventory.AddItem(itemExplain.item);
                     itemExplain.HideUI();
