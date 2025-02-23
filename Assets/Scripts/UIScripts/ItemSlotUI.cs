@@ -8,16 +8,16 @@ public class ItemSlotUI : MonoBehaviour
 {
     [SerializeField] private BasicItemData dummyItemData;   //더미 아이템 데이터(= Null ItemData)
     [SerializeField] private BasicItemData nowItemData; //현재 아이템 데이터
-    private Image itemSlotImage;
+    [SerializeField] private Image itemSlotImage;
     public Image ItemSlotImage { get; set; }
     public BasicItemData NowItemData { get; set; }
 
-    private void Awake()
+    public void Init()
     {
         nowItemData = dummyItemData;
         itemSlotImage = GetComponent<Image>();
         itemSlotImage.sprite = nowItemData.ItemSprite;
-    }
+    }    
 
     //자신의 아이템 데이터를 설정하는 메서드
     public void SetItemData(BasicItemData itemData) 

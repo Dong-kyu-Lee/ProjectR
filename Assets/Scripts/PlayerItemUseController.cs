@@ -36,6 +36,10 @@ public class PlayerItemUseController : MonoBehaviour
             myInventory.SwapEquipmentItemSlots(equippedSlotIndex1, equippedSlotIndex2);
         }
 
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            myInventory.LoadEquipmentItem(equippedSlotIndex1,inventorySlotIndex);
+        }
     }
 
     //아이템을 인벤토리에 추가하는 메서드
