@@ -226,8 +226,10 @@ public class BartenderController : MonoBehaviour
         }
 
         GameObject projectile = Instantiate(projectilePref, spawnPosition, Quaternion.identity);
-        projectile.GetComponent<Projectile>().Velocity = direction;
-        projectile.GetComponent<Projectile>().playerStatus = playerStatus;
+        Projectile projectileCompo = projectile.GetComponent<Projectile>();
+        projectileCompo.Velocity = direction;
+        projectileCompo.playerStatus = playerStatus;
+        projectileCompo.player = gameObject;
 
         yield return new WaitForSeconds(attackCoolTimeA);
         isAttaking = false;

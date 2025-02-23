@@ -60,6 +60,21 @@ public class PlayerStatus : Status
         }
     }
 
+    public override float Hp
+    {
+        get { return base.Hp; }
+        set
+        {
+            base.Hp = value;
+            if (base.Hp <= 0f)
+            {
+                base.Hp = 0f;
+                Dead();
+            }
+            CalcReceiveDamage.Instance.InduranceEffect13_IncreaseDamageReduction();
+        }
+    }
+
     public float AdditionalDamage
     {
         get { return additionalDamage; }

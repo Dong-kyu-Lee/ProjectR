@@ -10,7 +10,7 @@ public class StatusValueText : MonoBehaviour
     public Text criticalText;
     public Text dexterityText;
     public Text mysteryText;
-    public Text skillpointText;
+    public Text statpointText;
 
     // 스테이터스 값 표시.
     public void SetupValueText(UpgradeStatus upgradeStatus)
@@ -20,6 +20,6 @@ public class StatusValueText : MonoBehaviour
         criticalText.text = "" + upgradeStatus.Critical;
         dexterityText.text = "" + upgradeStatus.Dexterity;
         mysteryText.text = "" + upgradeStatus.Mystery;
-        skillpointText.text = "스킬포인트 : " + upgradeStatus.SkillPoint;
+        statpointText.text = "스탯포인트 : " + upgradeStatus.StatPoint;
     }
 }

@@ -13011,7 +13011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1756479987
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13057,7 +13057,7 @@ MonoBehaviour:
   criticalText: {fileID: 977121231}
   dexterityText: {fileID: 663380525}
   mysteryText: {fileID: 574006147}
-  skillpointText: {fileID: 1514910226}
+  statpointText: {fileID: 1514910226}
 --- !u!114 &1756479990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13111,7 +13111,6 @@ MonoBehaviour:
   playerStatus: {fileID: 5563253932450391278}
   upgradeStatus: {fileID: 7845136054473113838}
   statusEffect: {fileID: 1760105104}
-  statusValueText: {fileID: 1756479988}
 --- !u!1 &1760105097
 GameObject:
   m_ObjectHideFlags: 0

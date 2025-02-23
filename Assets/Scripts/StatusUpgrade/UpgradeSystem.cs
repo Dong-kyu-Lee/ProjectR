@@ -9,18 +9,19 @@ public class UpgradeSystem : MonoBehaviour
     [SerializeField] private PlayerStatus playerStatus;
     [SerializeField] private UpgradeStatus upgradeStatus;
     [SerializeField] private StatusEffect statusEffect;
-    public StatusValueText statusValueText;
+    private StatusValueText statusValueText;
 
-    private void Start()
+    private void Awake()
     {
         //playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         //upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        statusValueText = gameObject.GetComponent<StatusValueText>();
     }
 
     // 스킬 포인트 사용, 업그레이드 스테이터스 증가.
     public void IncreaseStat(string statName)
     {
-        if (upgradeStatus.SkillPoint <= 0)
+        if (upgradeStatus.StatPoint <= 0)
         {
             Debug.Log("스킬포인트가 없습니다.");
             return;
@@ -58,7 +59,7 @@ public class UpgradeSystem : MonoBehaviour
                 return;
         }
 
-        upgradeStatus.SkillPoint--;
+        upgradeStatus.StatPoint--;
         statusValueText.SetupValueText(upgradeStatus);
     }
 
@@ -71,7 +72,7 @@ public class UpgradeSystem : MonoBehaviour
         playerStatus.AdditionalAttackSpeed -= upgradeStatus.Dexterity * 0.02f;
 
         upgradeStatus.Force = upgradeStatus.Indurance = upgradeStatus.Critical = upgradeStatus.Dexterity = upgradeStatus.Mystery = 0;
-        upgradeStatus.SkillPoint = 0;
+        upgradeStatus.StatPoint = 0;
         CheckUnlock("force", upgradeStatus.Force);
         CheckUnlock("indurance", upgradeStatus.Indurance);
         CheckUnlock("critical", upgradeStatus.Critical);

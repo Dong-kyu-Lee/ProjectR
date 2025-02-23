@@ -8,10 +8,13 @@ public class CalcReceiveDamage : MonoBehaviour
     private PlayerStatus playerStatus;
 
     public float induranceEffect10_IncreaseDamage;
+    public float induranceEffect13_Reduction = 0f;
 
     public bool induranceEffect4;
     public bool induranceEffect7;
     public bool induranceEffect10;
+    public bool induranceEffect13;
+    public bool induranceEffect16;
 
     private static CalcReceiveDamage instance;
 
@@ -129,6 +132,28 @@ public class CalcReceiveDamage : MonoBehaviour
         {
             playerStatus.AdditionalDamage -= induranceEffect10_IncreaseDamage;
             induranceEffect10_IncreaseDamage = 0;
+        }
+    }
+
+    // 인내 13레벨 피해량 감소 증가.
+    public void InduranceEffect13_IncreaseDamageReduction()
+    {
+        if (induranceEffect13)
+        {
+            float hpRatio = playerStatus.Hp / playerStatus.MaxHp;
+            playerStatus.AdditionalDamageReduction -= induranceEffect13_Reduction;
+
+            if (hpRatio < 0.3f) induranceEffect13_Reduction = 0.3f;
+            else if (hpRatio < 0.5f) induranceEffect13_Reduction = 0.2f;
+            else if (hpRatio < 0.7f) induranceEffect13_Reduction = 0.1f;
+            else induranceEffect13_Reduction = 0f;
+
+            playerStatus.AdditionalDamageReduction += induranceEffect13_Reduction;
+        }
+        else
+        {
+            playerStatus.AdditionalDamageReduction -= induranceEffect13_Reduction;
+            induranceEffect13_Reduction = 0f;
         }
     }
 }

@@ -31,8 +31,8 @@ public class UpgradeOnClick : MonoBehaviour
     // 스탯포인트 증가 온클릭.
     public void IncreaseSPOnClick()
     {
-        upgradeStatus.SkillPoint += 10;
-        statusValueText.skillpointText.text = "스킬포인트 : " + upgradeStatus.SkillPoint;
+        upgradeStatus.StatPoint += 10;
+        statusValueText.statpointText.text = "스탯포인트 : " + upgradeStatus.StatPoint;
     }
 
     public void ResetLevelOnClick()

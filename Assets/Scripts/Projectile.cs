@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     public Rigidbody2D projectileRigidbody;
     public PlayerStatus playerStatus;
+    public GameObject player;
     public float damage;
     public float ignoreDamageReduction;
 
@@ -39,7 +40,7 @@ public class Projectile : MonoBehaviour
         if (collision.transform.tag == "Enemy")
         {
             damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
-            collision.gameObject.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
+            collision.gameObject.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
             CalcDamage.Instance.CheckAddtionalDamage(collision.gameObject);
             CalcDamage.Instance.AdditionalEffect(collision.gameObject);
             CalcDamage.Instance.CheckFightState();

@@ -8,6 +8,7 @@ public class CalcDamage : MonoBehaviour
 
     private PlayerStatus playerStatus;
     private PlayerBuffManager playerBuffManager;
+    private GameObject player;
 
     public bool fightState;
 
@@ -61,7 +62,7 @@ public class CalcDamage : MonoBehaviour
             Destroy(gameObject); // 중복된 CalcDamage 제거
         }
 
-        GameObject player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player");
         playerStatus = player.GetComponent<PlayerStatus>();
         playerBuffManager = player.GetComponent<PlayerBuffManager>();
     }
@@ -135,7 +136,7 @@ public class CalcDamage : MonoBehaviour
             {
                 damage = 5 * damage;
                 damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
-                enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
+                enemy.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
                 AdditionalEffect(enemy);
                 StartCoroutine(Cooldown("ForceEffect4", 4f));
             }
@@ -143,7 +144,7 @@ public class CalcDamage : MonoBehaviour
             {
                 damage = 2 * damage;
                 damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
-                enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
+                enemy.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
                 AdditionalEffect(enemy);
                 StartCoroutine(Cooldown("ForceEffect4", 5f));
             }
@@ -154,7 +155,7 @@ public class CalcDamage : MonoBehaviour
         {
             damage = 0.2f * damage;
             damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
-            enemy.GetComponent<Status>().TakeDamage(damage, ignoreDamageReduction, isCritical);
+            enemy.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
             AdditionalEffect(enemy);
             StartCoroutine(Cooldown("DexterityEffect10", 0.5f));
         }

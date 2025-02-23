@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerObj;
 
 public class InduranceEffect : MonoBehaviour
 {
@@ -50,12 +51,15 @@ public class InduranceEffect : MonoBehaviour
     {
         statusEffectTooltip[4].defaultColor = Color.yellow;
         statusEffectTooltip[4].image.color = Color.yellow;
+        CalcReceiveDamage.Instance.induranceEffect13 = true;
+        CalcReceiveDamage.Instance.InduranceEffect13_IncreaseDamageReduction();
     }
 
     public void EnableInduranceEffect16()
     {
         statusEffectTooltip[5].defaultColor = Color.yellow;
         statusEffectTooltip[5].image.color = Color.yellow;
+        CalcReceiveDamage.Instance.induranceEffect16 = true;
     }
 
     public void DisableInduranceEffect1(PlayerStatus playerStatus)
@@ -91,11 +95,14 @@ public class InduranceEffect : MonoBehaviour
     {
         statusEffectTooltip[4].defaultColor = Color.white;
         statusEffectTooltip[4].image.color = Color.white;
+        CalcReceiveDamage.Instance.induranceEffect13 = false;
+        CalcReceiveDamage.Instance.InduranceEffect13_IncreaseDamageReduction();
     }
 
     public void DisableInduranceEffect16()
     {
         statusEffectTooltip[5].defaultColor = Color.white;
         statusEffectTooltip[5].image.color = Color.white;
+        CalcReceiveDamage.Instance.induranceEffect16 = false;
     }
 }
