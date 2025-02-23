@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection.Emit;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
@@ -28,6 +24,7 @@ public class ShopManager : MonoBehaviour
     {
         SellingItem();
     }
+
     public void SellingItem()
     {
         int[] checkOverlap = new int[4];
@@ -51,12 +48,12 @@ public class ShopManager : MonoBehaviour
                     {
                         item[i] = dropableItem.dropableItem[randomItem];
                         itemImage[i].sprite = item[i].ItemSprite;
-                        itemExplain[i].sellingItem = item[i];
+                        itemExplain[i].item = item[i];
                         checkOverlap[i] = randomItem;
                     }
                 } while (isOverlap);
             }
-            else if(item[i]==noneItem) 
+            else if (item[i] == noneItem)
             {
                 continue;
             }
@@ -64,15 +61,17 @@ public class ShopManager : MonoBehaviour
     }
     public void EmptySlot(BasicItemData itemB)
     {
-        for (int i = 0; i < item.Length; i++) {
+        for (int i = 0; i < item.Length; i++)
+        {
             if (item[i] == itemB)
             {
-                item[i]=noneItem;
+                item[i] = noneItem;
                 itemImage[i].sprite = null;
-                itemExplain[i].sellingItem = noneItem;
+                itemExplain[i].item = noneItem;
             }
         }
     }
+
     public void BuyItem(BasicItemData item)
     {
         if (item.ItemPrice <= playerStatus.Gold)
@@ -84,5 +83,5 @@ public class ShopManager : MonoBehaviour
         }
         else
             Debug.Log("골드가 부족합니다.");
-    } 
+    }
 }

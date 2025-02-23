@@ -16,30 +16,25 @@ public class ItemExplain : MonoBehaviour
     [SerializeField]
     TextMeshPro itemName;   //아이템 이름
     [SerializeField]
-    public BasicItemData sellingItem;  //매대의 아이템 
-    [SerializeField]
-    ShopManager shopManager;
+    public BasicItemData item;  //아이템
 
     private void Awake()
     {
         itemExplainUI.SetActive(false);
     }
-    private void Update()
+    public bool IsActive()
     {
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            if (itemExplainUI.activeSelf)
-            {
-                shopManager.BuyItem(sellingItem);
-                itemExplainUI.SetActive(false);
-            }
-        }
+        return itemExplainUI.activeSelf;
+    }
+    public void HideUI()
+    {
+        itemExplainUI.SetActive(false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            if (sellingItem.ItemName != "None")
+            if (item.ItemName != "None")
             {
                 ChangeInfo();
                 itemExplainUI.SetActive(true);
@@ -53,11 +48,12 @@ public class ItemExplain : MonoBehaviour
             itemExplainUI.SetActive(false);
         }
     }
+
     private void ChangeInfo()
     {
-        itemPriceTxt.text = sellingItem.ItemPrice.ToString();
-        itemEffectTxt.text = sellingItem.ItemDescription;
-        itemExTxt.text = sellingItem.ItemExplain;
-        itemName.text = sellingItem.ItemName;
+        itemPriceTxt.text = item.ItemPrice.ToString();
+        itemEffectTxt.text = item.ItemDescription;
+        itemExTxt.text = item.ItemExplain;
+        itemName.text = item.ItemName;
     }
 }
