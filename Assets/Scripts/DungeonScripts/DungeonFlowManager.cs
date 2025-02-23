@@ -14,7 +14,9 @@ public class DungeonFlowManager : MonoBehaviour
 {
     private static DungeonFlowManager instance;
     private static DungeonFlowState currentState;
-
+    private GameObject currentFinishSpot;
+    private List<RoomInGame> roomList = new List<RoomInGame>();
+    
     [SerializeField]
     private DungeonCreator dungeonCreator;
     public DungeonCreator DungeonCreator 
@@ -31,14 +33,12 @@ public class DungeonFlowManager : MonoBehaviour
     }
 
     public GameObject finishSpotPrefab;
-    private GameObject currentFinishSpot;
     public Vector3 playerSpawnPosition = new Vector3();
     public Vector3 finishSpotPosition = new Vector3();
 
+    public DungeonFlowState GetCurrentDungeonFlow { get => currentState; }
     // DungeonCreator가 던전 생성 준비를 마쳤으니 던전 생성을 요청할 때 호출하는 Action
     public Action onDungeonCreatorReady;
-
-    public DungeonFlowState GetCurrentDungeonFlow { get => currentState; }
 
     public static DungeonFlowManager Instance
     {
@@ -78,17 +78,11 @@ public class DungeonFlowManager : MonoBehaviour
         }
         // 던전 생성
         dungeonCreator.CreateFixedRoomDungeon(out playerSpawnPosition, out finishSpotPosition);
-        // dungeonCreator.CreateRandomRoomDungeon();
         // 테스트 플레이어 생성
         GameManager.Instance.PlacePlayerObject(playerSpawnPosition);
         // 도착 위치 생성
         currentFinishSpot = Instantiate(finishSpotPrefab, finishSpotPosition, transform.rotation);
         Debug.Log("Finish Spot 생성됨. 닫힌 상태");
-        // 적 생성
-        if (GameManager.Instance.isCreateEnemies == true)
-            dungeonCreator.gameObject.GetComponent<EnemySpawnManager>().GenerateEnemies();
-        else
-            OpenFinishSpot();
     }
 
     private void ResetDungeon()
@@ -153,13 +147,48 @@ public class DungeonFlowManager : MonoBehaviour
             currentState++;
     }
 
+    // 플레이어가 죽었을 때, 던전 진행도를 초기화하기 위한 함수
     public void ResetDungeonFlow()
     {
         currentState = DungeonFlowState.Lobby;
     }
 
+    // roomList에 생성된 방을 추가하는 함수
+    public void AddRoomInGame(RoomInGame currentRoom)
+    {
+        if(currentRoom == null)
+        {
+            Debug.LogError("추가할 방이 없음");
+            return;
+        }
+        roomList.Add(currentRoom);
+    }
+
+    // currentRoom을 클리어하여 다음으로 넘어갈 방의 문을 여는 함수
+    public void OpenNextRoom(RoomInGame currentRoom)
+    {
+        int index = roomList.IndexOf(currentRoom);
+        if(index != -1)
+        {
+            if (index != roomList.Count - 1) roomList[index + 1].gate.OpenGate();
+            roomList.Remove(currentRoom);
+        }
+        else
+        {
+            Debug.LogError("잘못된 방 데이터 요청");
+        }
+
+        // 모든 방을 클리어한 경우
+        if(roomList.Count == 0)
+        {
+            OpenFinishSpot();
+        }
+    }
+
+    // 스테이지 클리어 시, 다음 스테이지 이동 통로를 활성화하는 함수
     public void OpenFinishSpot()
     {
+        Debug.Log("포탈 열림");
         currentFinishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
     }
 }

@@ -11,36 +11,18 @@ public enum OpenedGate
 public class RoomNode
 {
     private Vector2Int roomPosition;
-    private Vector2Int parentRoomPosition;
-    private List<Vector2Int> childrenRoomPositions;
-    // À§, ¿À¸¥ÂÊ, ¾Æ·¡, ¿ŞÂÊ (½Ã°è¹æÇâ)
-    private bool[] openNeededGate = { false, false, false, false };
+    private bool[] openNeededGate = { false, false, false, false }; // ìœ„, ì˜¤ë¥¸ìª½, ì•„ë˜, ì™¼ìª½ (ì‹œê³„ë°©í–¥)
 
     public bool[] OpenNeededGate { get => openNeededGate; }
     public Vector2Int RoomPosition { get => roomPosition; set => roomPosition = value; }
-    public Vector2Int ParentRoomPosition { 
-        get => parentRoomPosition;
-        set
-        {
-            CalculateWhichGateNeedOpen(value);
-            parentRoomPosition = value;
-        }
-    }
 
     public RoomNode(Vector2Int roomPosition)
     {
         this.roomPosition = roomPosition;
-        childrenRoomPositions = new List<Vector2Int>();
     }
 
-    public void AddChildrenRoomPosition(Vector2Int roomPosition)
-    {
-        childrenRoomPositions.Add(roomPosition);
-        CalculateWhichGateNeedOpen(roomPosition);
-    }
-
-    // ÇöÀç ³ëµåÀÇ À§Ä¡¿Í posÀ§Ä¡¸¦ ºñ±³ÇØ 4°³ÀÇ Åë·Î Áß ¾î¶² °÷À» ¿­¾î¾ß ÇÒ Áö °áÁ¤ÇÏ´Â ÇÔ¼ö
-    private void CalculateWhichGateNeedOpen(Vector2Int pos)
+    // í˜„ì¬ ë…¸ë“œì˜ ìœ„ì¹˜ì™€ posìœ„ì¹˜ë¥¼ ë¹„êµí•´ 4ê°œì˜ í†µë¡œ ì¤‘ ì–´ë–¤ ê³³ì„ ì—´ì–´ì•¼ í•  ì§€ ê²°ì •í•˜ëŠ” í•¨ìˆ˜
+    public void CalculateWhichGateNeedOpen(Vector2Int pos)
     {
         if (roomPosition + new Vector2Int(0, 1) == pos) openNeededGate[0] = true;
         else if (roomPosition + new Vector2Int(1, 0) == pos) openNeededGate[1] = true;

@@ -10,24 +10,24 @@ public class DungeonCreator : MonoBehaviour
     [Header("Fixed Room Setting")]
     public int dungeonRow;
     public int dungeonColumn;
-    [Header("Random Room Setting")]
-    public int roomCount;
-    public int jumpHeight, dashWidth;
-    public int roomWidthMin, roomHeightMin;
-    public int roomWidthMax, roomHeightMax;
-    public int floatingTileWidthMin, floatingTileWidthMax;
-
-    [Header("For Random Dungeon Test")]
-    public Tilemap tilemap;
-    public TileBase floatingTile;
-    public TileBase boundTile;
 
     [Header("Needed Objects")]
-    public GameObject grid;
     public RoomContainer roomContainer;
     public List<GameObject> generatedRooms = new List<GameObject>();
+    [SerializeField]
+    private Tilemap backgroundTilemap;
+    [SerializeField]
+    private Tilemap groundTilemap;
+    [SerializeField]
+    private Tilemap floatingTilemap;
+    [SerializeField]
+    private Tilemap decorationTilemap;
+    [SerializeField]
+    private Grid grid;
 
-    private List<GameObject> currentFloatingTiles = new List<GameObject>();
+    [SerializeField]
+    private GameObject gatePrefab;
+    private Dictionary<Vector3, GameObject> gateDic = new Dictionary<Vector3, GameObject>();
 
     void Start()
     {
@@ -40,32 +40,124 @@ public class DungeonCreator : MonoBehaviour
         DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
     }
     
-    // 선택된 던전 조각들을 Instantiate하는 함수
+    // 던전과 관련 요소를 씬에 생성하는 함수
     public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
-        FixedRoomDungeonGenerator dungeonGenerator = new FixedRoomDungeonGenerator(dungeonRow, dungeonColumn);
-        var listOfRoomNodes = dungeonGenerator.CreateRoomNodes();
+        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(dungeonRow, dungeonColumn);
+        var roomNodes = dungeonStructure.GetDungeonStructure();
+
+        playerSpawnPosition = new Vector3();
+        finishSpotPosition = new Vector3();
 
         // 조건에 맞는 방들을 랜덤으로 선택해 생성
-        foreach( RoomNode roomNode in listOfRoomNodes)
+        for(int i = 0; i < roomNodes.Count; ++i)
         {
-            Vector3 generatePosition = new Vector3(20 * roomNode.RoomPosition.x, 20 * roomNode.RoomPosition.y, 0);
+            Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
 
-            var usableRooms = roomContainer.GetRooms(roomNode.OpenNeededGate);
+            var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
+            Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
+            DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
+            // 문 오브젝트 생성
+            UpdateGates(generatePosition, roomNodes[i].OpenNeededGate);
+            // 해당 방의 몬스터 관리 클래스 갱신
+            gateDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
+            // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
+            DungeonFlowManager.Instance.AddRoomInGame(gateDic[generatePosition].GetComponent<RoomInGame>());
 
-            generatedRooms.Add(Instantiate(usableRooms[Random.Range(0, usableRooms.Count)], generatePosition,
-                transform.rotation, grid.transform));
-            // 방의 통로를 만드는 작업
-            generatedRooms[generatedRooms.Count - 1].GetComponent<Room>().OpenGateTile(roomNode.OpenNeededGate);
-            // 해당 방의 경계값을 저장
-            generatedRooms[generatedRooms.Count - 1].GetComponent<Room>().
-                SetRoomBoundary(generatePosition, generatePosition + new Vector3(20, 20, 0));
+            if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
+            else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
+        }
+    }
+
+    // 문 오브젝트를 생성하고 갱신하는 함수
+    private void UpdateGates(Vector3 doorPosition, bool[] openNeededGate)
+    {
+        // 2스테이지 시작의 경우
+        if (gateDic.Count == dungeonColumn * dungeonRow)
+        {
+            gateDic[doorPosition].GetComponent<RoomInGame>().ResetRoomState();
+            gateDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
+        }
+        else
+        {
+            gateDic.Add(doorPosition, Instantiate(gatePrefab, doorPosition, transform.rotation, grid.transform));
+            gateDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
+        }
+    }
+
+    // 던전 방 프리팹을 타일맵에 그리는 함수
+    private void DrawRoom(Vector3Int roomPosition, Room room, bool[] openNeededGate)
+    {
+        // Background Tilemap 그리기
+        Tilemap bTilemap = room.backgroundTilemap;
+        for(int i = 0; i < bTilemap.size.y; ++i)
+        {
+            for(int j = 0; j < bTilemap.size.x; ++j)
+            {
+                backgroundTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
+                    bTilemap.GetTile(new Vector3Int(j, i, 0)));
+            }
+        }
+        // Ground Tilemap 그리기
+        Tilemap gTilemap = room.groundTilemap;
+        for (int i = 0; i < gTilemap.size.y; ++i)
+        {
+            for (int j = 0; j < gTilemap.size.x; ++j)
+            {
+                groundTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
+                    gTilemap.GetTile(new Vector3Int(j, i, 0)));
+            }
+        }
+        // Floating Tilemap 그리기
+        Tilemap fTilemap = room.floatingTilemap;
+        for (int i = 0; i < fTilemap.size.y; ++i)
+        {
+            for (int j = 0; j < fTilemap.size.x; ++j)
+            {
+                floatingTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
+                    fTilemap.GetTile(new Vector3Int(j, i, 0)));
+            }
+        }
+        // Decoration Tilemap 그리기
+        Tilemap dTilemap = room.decorationTilemap;
+        for (int i = 0; i < dTilemap.size.y; ++i)
+        {
+            for (int j = 0; j < dTilemap.size.x; ++j)
+            {
+                decorationTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
+                    dTilemap.GetTile(new Vector3Int(j, i, 0)));
+            }
         }
 
-        // 스테이지의 플레이어 스폰 지점을 결정
-        playerSpawnPosition = generatedRooms[0].GetComponent<Room>().playerSpawnPosition.position;
-        // 스테이지의 클리어 지점 결정 후 활성화
-        finishSpotPosition = generatedRooms[Random.Range(1, generatedRooms.Count)].GetComponent<Room>().finishSpotPosition.position;
+        // 통로 열기
+        if (openNeededGate[0] == true) // 위
+        {
+            for (int i = 0; i < 8; ++i)
+            {
+                groundTilemap.SetTile(roomPosition + new Vector3Int(16 + i, 39, 0), null);
+            }
+        }
+        if (openNeededGate[1] == true) // 오른쪽
+        {
+            for (int i = 0; i < 8; ++i)
+            {
+                groundTilemap.SetTile(roomPosition + new Vector3Int(39, 16 + i, 0), null);
+            }
+        }
+        if (openNeededGate[2] == true) // 아래
+        {
+            for (int i = 0; i < 8; ++i)
+            {
+                groundTilemap.SetTile(roomPosition + new Vector3Int(16 + i, 0, 0), null);
+            }
+        }
+        if (openNeededGate[3] == true) // 왼쪽
+        {
+            for (int i = 0; i < 8; ++i)
+            {
+                groundTilemap.SetTile(roomPosition + new Vector3Int(0, 16 + i, 0), null);
+            }
+        }
     }
 
     public void RemoveAllRooms()
