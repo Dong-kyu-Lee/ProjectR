@@ -34,6 +34,17 @@ public class RandomBox : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         BoxGrade();
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (!isOpen)
+            {
+                DropItem();
+                isOpen = true;
+            }
+        }
+    }
 
     private void BoxGrade()
     {
@@ -83,18 +94,6 @@ public class RandomBox : MonoBehaviour
             {
                 itemExplain.item = randomItem;
                 itemExplain.ChangeInfo(); // 아이템 정보를 업데이트합니다.
-            }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            if (!isOpen)
-            {
-                DropItem();
-                isOpen = true;
             }
         }
     }
