@@ -27,6 +27,7 @@ public class ItemInteraction : MonoBehaviour
                 if (currentScene == "ShopScene")
                 {
                     shopManager.BuyItem(itemExplain.item);
+                    itemExplain.HideUI();
                 }
                 else if (currentScene == "DungeonScene")
                 {

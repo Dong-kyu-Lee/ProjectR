@@ -77,9 +77,10 @@ public class ShopManager : MonoBehaviour
         if (item.ItemPrice <= playerStatus.Gold)
         {
             playerStatus.Gold -= item.ItemPrice;
-            inventory.AddItem(item);
-            dropableItem.removeItem(item);
             EmptySlot(item);
+            inventory.AddItem(item);
+            Debug.Log(item.ItemName);
+            dropableItem.removeItem(item);
         }
         else
             Debug.Log("골드가 부족합니다.");
