@@ -155,6 +155,9 @@ public class PlayerStatus : Status
 
     protected override void Dead()
     {
-        gameObject.GetComponent<PlayerController>().Dead();
+        //gameObject.GetComponent<PlayerController>().Dead();
+
+        gameObject.GetComponent<BartenderController>().Dead();
+
     }
 }

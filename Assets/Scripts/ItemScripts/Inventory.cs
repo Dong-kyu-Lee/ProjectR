@@ -1,5 +1,7 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -20,7 +22,6 @@ public class Inventory : MonoBehaviour
     private int quickSlotItemAmount = 0;
 
     //장비 관련 칸
-    //[SerializeField] private EquipmentItemData EquipmentItemSlot;
     [SerializeField] private int maxEquipSlot = 6;
     [SerializeField] private EquipmentItemData[] equipmentItemSlot;
 
@@ -66,7 +67,6 @@ public class Inventory : MonoBehaviour
         {
             quickSlot.ActivateItemEffect(playerStatus);
             QuickSlotItemAmount--;
-            Debug.Log(quickSlotItemAmount);
 
             if (quickSlotItemAmount <= 0)
             {
@@ -105,7 +105,7 @@ public class Inventory : MonoBehaviour
 
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우
+        if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우. 아이템 디버그용임.
         {
             LoadToQuickSlot(item, amount);
             return true;
@@ -138,9 +138,20 @@ public class Inventory : MonoBehaviour
         inventoryUI.SetEquippedItemSlotData(idx, item);
     }
 
+    //인벤토리에서 장비를 장착칸에 추가하는 메서드. UI로 상호작용하는 기능(장비장착 등)이 개발되면 메서드 삭제 예정
+    public void LoadEquipmentItem(int inventorySlotIdx, int equipSlotIdx)
+    {
+        EquipmentItemData targetItem = inventory.ElementAt(inventorySlotIdx).Key as EquipmentItemData;
+        if (targetItem.ItemType != ItemType.EQUIPMENT) return;
+        LoadEquipmentItem(targetItem, equipSlotIdx);
+        inventoryUI.SetInventorySlotData(dummyItemData, 0, inventorySlotIdx);
+        inventory.Remove(targetItem);
+    }
+
     //대상 장비 장착칸에 장비를 제거하는 메서드
     public void UnloadEquipmentItem(int idx = 0)
     {
+        if (equipmentItemSlot[idx].ItemType == ItemType.DUMMY) return;
         equipmentItemSlot[idx].UnEquipItem(playerStatus);
         AddItemsToInventory(equipmentItemSlot[idx], 1);
         equipmentItemSlot[idx] = dummyItemData;
@@ -188,10 +199,7 @@ public class Inventory : MonoBehaviour
             isSuccess = true;
         }
 
-        if (isSuccess)
-        {
-            inventoryUI.SetAllInventorySlotItemDatas();
-        }
+        if (isSuccess) inventoryUI.SetAllInventorySlotItemDatas();
 
         return isSuccess;
     }

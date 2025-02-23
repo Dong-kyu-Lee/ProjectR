@@ -21,6 +21,7 @@ public class CharacterInfo : MonoBehaviour
     {
         Init();
         SetStatus();
+        transform.GetComponentInChildren<InventoryUI>().Init();
         DisableUI();
     }
 

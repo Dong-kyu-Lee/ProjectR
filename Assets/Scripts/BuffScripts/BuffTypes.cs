@@ -15,6 +15,7 @@ public enum BuffType
     IronBody,                   //강철 몸 버프
     Reflection,                 //반사 버프
     Invincible,                  //무적 버프
+
     Force7,                     //무력 7레벨 버프
     Force16,                    //무력 16레벨 버프
     Critical4,                  //치명 4레벨 버프

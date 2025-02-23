@@ -23,9 +23,9 @@ public class PlayerItemUseController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))    //퀵슬롯에 등록된 아이템 사용
         {
-            //myInventory.UseQuickSlotItem();
+            myInventory.UseQuickSlotItem();
         }
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             myInventory.UnloadEquipmentItem(equippedSlotIndex1);
         }
@@ -34,6 +34,11 @@ public class PlayerItemUseController : MonoBehaviour
         {
             //myInventory.SwapEquipmentItemSlots(0, 4);
             myInventory.SwapEquipmentItemSlots(equippedSlotIndex1, equippedSlotIndex2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            myInventory.LoadEquipmentItem(equippedSlotIndex1, inventorySlotIndex);
         }
     }
 

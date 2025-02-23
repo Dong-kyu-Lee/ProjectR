@@ -5,7 +5,7 @@ using TMPro;
 public class Reroll : MonoBehaviour
 {
     [SerializeField]
-    ItemSlotManager itemSlotManager;
+    ShopManager itemSlotManager;
     [SerializeField]
     TextMeshPro rerollCoastTxt;
     private int rerollCoast;
