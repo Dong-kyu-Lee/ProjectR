@@ -10,10 +10,14 @@ public class HitBox : MonoBehaviour
     [SerializeField]
     private float damage;
 
+    private GameObject enemy;
+
     bool isHit;
+
 
     private void Awake()
     {
+        enemy = gameObject.transform.parent.gameObject;
         damage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
     }
 
@@ -41,7 +45,7 @@ public class HitBox : MonoBehaviour
             {
                 isHit = true;
                 // collision.gameObject.GetComponent<Status>().TakeDamage(damage, 0);
-                collision.gameObject.GetComponent<Status>().TakeDamage(damage, 0, false);
+                collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
             }
         }
         gameObject.SetActive(false);

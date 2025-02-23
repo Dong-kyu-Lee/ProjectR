@@ -53,7 +53,7 @@ public class LevelUp : MonoBehaviour
     public void UpLevel()
     {
         playerStatus.Level++;
-        upgradeStatus.SkillPoint++;
+        upgradeStatus.StatPoint++;
 
         playerStatus.Damage += 1;
         playerStatus.MaxHp += 5;

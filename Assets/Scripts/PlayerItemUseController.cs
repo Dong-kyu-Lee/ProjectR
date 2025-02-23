@@ -25,7 +25,7 @@ public class PlayerItemUseController : MonoBehaviour
         {
             myInventory.UseQuickSlotItem();
         }
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             myInventory.UnloadEquipmentItem(equippedSlotIndex1);
         }
@@ -38,7 +38,7 @@ public class PlayerItemUseController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.V))
         {
-            myInventory.LoadEquipmentItem(equippedSlotIndex1,inventorySlotIndex);
+            myInventory.LoadEquipmentItem(equippedSlotIndex1, inventorySlotIndex);
         }
     }
 

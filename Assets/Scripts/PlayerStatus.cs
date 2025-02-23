@@ -10,12 +10,14 @@ public class PlayerStatus : Status
     private float additionalDamage;
     private float additionalDamageReduction;
     private float additionalAttackSpeed;
+    private float additionalMoveSpeed;
     private float criticalPercent;
     private float criticalDamage;
     private float priceAdditional;
     private float totalDamage;
     private float totalDamageReduction;
     private float totalAttackSpeed;
+    private float totalMoveSpeed;
     private float ignoreDamageReduction;
 
     public float Level { get { return level; } set { level = value; } }
@@ -25,6 +27,7 @@ public class PlayerStatus : Status
     public float TotalDamage { get { return totalDamage; } }
     public float TotalDamageReduction { get { return totalDamageReduction; } }
     public float TotalAttackSpeed { get { return totalAttackSpeed; } }
+    public float TotalMoveSpeed { get { return totalMoveSpeed; } }
     public float IgnoreDamageReduction { get { return ignoreDamageReduction; } set { ignoreDamageReduction = value; } }
     public float Gold;
 
@@ -44,6 +47,31 @@ public class PlayerStatus : Status
         {
             base.Damage = value;
             totalDamage = base.Damage + (base.Damage * additionalDamage);
+        }
+    }
+
+    public override float DamageReduction
+    {
+        get { return base.DamageReduction; }
+        set
+        {
+            base.DamageReduction = value;
+            CalcReceiveDamage.Instance.InduranceEffect10_IncreaseDamage(); // 인내 10레벨.
+        }
+    }
+
+    public override float Hp
+    {
+        get { return base.Hp; }
+        set
+        {
+            base.Hp = value;
+            if (base.Hp <= 0f)
+            {
+                base.Hp = 0f;
+                Dead();
+            }
+            CalcReceiveDamage.Instance.InduranceEffect13_IncreaseDamageReduction();
         }
     }
 
@@ -68,6 +96,7 @@ public class PlayerStatus : Status
             else
                 DamageReduction = 1 - (1 - DamageReduction) / (1 + additionalDamageReduction);
             additionalDamageReduction = 0f;
+            CalcReceiveDamage.Instance.InduranceEffect10_IncreaseDamage(); // 인내 10레벨.
         }
     }
 
@@ -78,6 +107,16 @@ public class PlayerStatus : Status
         {
             additionalAttackSpeed = value;
             totalAttackSpeed = AttackSpeed + (AttackSpeed * additionalAttackSpeed);
+        }
+    }
+
+    public float AdditionalMoveSpeed
+    {
+        get { return additionalMoveSpeed; }
+        set
+        {
+            additionalMoveSpeed = value;
+            totalMoveSpeed = MoveSpeed + (MoveSpeed * additionalMoveSpeed);
         }
     }
 
@@ -97,7 +136,7 @@ public class PlayerStatus : Status
         AdditionalDamage = 0;
         AdditionalDamageReduction = 0;
         AdditionalAttackSpeed = 0;
-        totalAttackSpeed = 0.7f;
+        AdditionalMoveSpeed = 0;
         criticalPercent = 0;
         priceAdditional = 0;
         ignoreDamageReduction = 0;
@@ -110,7 +149,7 @@ public class PlayerStatus : Status
 
     void Update()
     {
-        Debug.Log("Damage : " + Damage);
+        Debug.Log("Damage : " + Damage + "+" + (Damage * AdditionalDamage) + "=" + TotalDamage);
         Debug.Log("Hp : " + MaxHp + " / " + Hp);
     }
 

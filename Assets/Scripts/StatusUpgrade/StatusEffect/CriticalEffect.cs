@@ -27,6 +27,7 @@ public class CriticalEffect : MonoBehaviour
     {
         statusEffectTooltip[1].defaultColor = Color.yellow;
         statusEffectTooltip[1].image.color = Color.yellow;
+        CalcDamage.Instance.criticalEffect4 = true;
     }
 
     public void EnableCriticalEffect7()
@@ -68,6 +69,8 @@ public class CriticalEffect : MonoBehaviour
     {
         statusEffectTooltip[1].defaultColor = Color.white;
         statusEffectTooltip[1].image.color = Color.white;
+        CalcDamage.Instance.criticalEffect4 = false;
+        CalcDamage.Instance.ResetBuff();
     }
 
     public void DisableCriticalEffect7()
@@ -75,6 +78,7 @@ public class CriticalEffect : MonoBehaviour
         statusEffectTooltip[2].defaultColor = Color.white;
         statusEffectTooltip[2].image.color = Color.white;
         CalcDamage.Instance.criticalEffect7 = false;
+        CalcDamage.Instance.ResetBuff();
     }
 
     public void DisableCriticalEffect10()

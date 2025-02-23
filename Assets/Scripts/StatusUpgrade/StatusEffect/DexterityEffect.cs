@@ -35,6 +35,7 @@ public class DexterityEffect : MonoBehaviour
     {
         statusEffectTooltip[2].defaultColor = Color.yellow;
         statusEffectTooltip[2].image.color = Color.yellow;
+        CalcDamage.Instance.dexterityEffect7 = true;
     }
 
     public void EnableDexterityEffect10()
@@ -48,6 +49,7 @@ public class DexterityEffect : MonoBehaviour
     {
         statusEffectTooltip[4].defaultColor = Color.yellow;
         statusEffectTooltip[4].image.color = Color.yellow;
+        CalcDamage.Instance.dexterityEffect13 = true;
     }
 
     public void EnableDexterityEffect16()
@@ -75,6 +77,9 @@ public class DexterityEffect : MonoBehaviour
     {
         statusEffectTooltip[2].defaultColor = Color.white;
         statusEffectTooltip[2].image.color = Color.white;
+        CalcDamage.Instance.dexterityEffect7 = false;
+        CalcDamage.Instance.ResetBuff();
+
     }
 
     public void DisableDexterityEffect10()
@@ -88,6 +93,8 @@ public class DexterityEffect : MonoBehaviour
     {
         statusEffectTooltip[4].defaultColor = Color.white;
         statusEffectTooltip[4].image.color = Color.white;
+        CalcDamage.Instance.dexterityEffect13 = false;
+        CalcDamage.Instance.ResetBuff();
     }
 
     public void DisableDexterityEffect16()

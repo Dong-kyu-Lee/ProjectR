@@ -15,7 +15,7 @@ public class InventoryUI : MonoBehaviour
     //인벤토리 UI 관련 변수
     [SerializeField]
     private GameObject[] inventorySlotParentObj;
-    
+
     //플레이어 인벤토리
     [SerializeField]
     private Inventory playerInventory;
@@ -125,7 +125,7 @@ public class InventoryUI : MonoBehaviour
     //시작 전 인벤토리 & 장비의 모든 슬롯 초기화 함수
     public void InitiateAllItemsSlots()
     {
-        for(int i = 0; i< equipSlotImgs.Count; i++)
+        for (int i = 0; i < equipSlotImgs.Count; i++)
         {
             equipSlotImgs[i].Init();
         }

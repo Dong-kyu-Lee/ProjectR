@@ -41,6 +41,12 @@ public class BuffFactory
         buffConstructors[(int)BuffType.Stun] = (duration, targetObject) => new StunDeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.StoneCurse] = (duration, targetObject) => new StoneCurseDeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Confusion] = (duration, targetObject) => new ConfusionDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Force7] = (duration, targetObject) => new Force7Buff(duration, targetObject);
+        buffConstructors[(int)BuffType.Force16] = (duration, targetObject) => new Force16Buff(duration, targetObject);
+        buffConstructors[(int)BuffType.Critical4] = (duration, targetObject) => new Critical4Buff(duration, targetObject);
+        buffConstructors[(int)BuffType.Critical7] = (duration, targetObject) => new Critical7Buff(duration, targetObject);
+        buffConstructors[(int)BuffType.Dexterity7] = (duration, targetObject) => new Dexterity7Buff(duration, targetObject);
+        buffConstructors[(int)BuffType.Dexterity13] = (duration, targetObject) => new Dexterity13Buff(duration, targetObject);
     }
 
     public Buff GenerateBuff(BuffType type, float duration = 0.0f)
@@ -50,7 +56,7 @@ public class BuffFactory
             throw new Exception("Invalid Buff Type : " + type.ToString());
         }
         return buffConstructors[(int)type](duration, targetObject);
-        
+
         /* 버프 생성 메서드를 델리게이트와 람다 써서 했긴 했는데 혹시 오류날까봐 구버전 코드를 주석처리함.
         Buff buff = constructorList[(int)type](duration, targetObject);
         switch (type) 

@@ -20,15 +20,12 @@ public class BartenderController : MonoBehaviour
     public LayerMask groundLayer;
     public Transform groundCheck;
 
-
-    float moveSpeed;
     public float jumpPower;
     public float moveFactor;
     public float dashFactor;
     public float dashTime;
     public float dashCoolTime;
     public float attackCoolTimeA;
-    public float attackCoolTimeB;
     public float projectielSpawnOffset;
     float minDistance = 0.5f;
     float groundCheckRadius = 0.2f;
@@ -57,9 +54,7 @@ public class BartenderController : MonoBehaviour
         projectielSpawnOffset = 1f;
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
         playerStatus = gameObject.GetComponent<PlayerStatus>();
-        moveSpeed = playerStatus.MoveSpeed;
         attackCoolTimeA = 0.5f;
-        attackCoolTimeB = playerStatus.TotalAttackSpeed - attackCoolTimeA;
     }
 
     void Update()
@@ -113,7 +108,7 @@ public class BartenderController : MonoBehaviour
     // 플레이어 좌우 이동 속도 지정
     void PlayerMove()
     {
-        moveVector.x = Input.GetAxis("Horizontal") * moveSpeed * moveFactor * dashFactor * Time.deltaTime;
+        moveVector.x = Input.GetAxis("Horizontal") * playerStatus.TotalMoveSpeed * moveFactor * dashFactor * Time.deltaTime;
         moveVector.y = playerRigidBody.velocity.y;
         playerRigidBody.velocity = moveVector;
         if (playerRigidBody.velocity.x != 0f)
@@ -232,14 +227,15 @@ public class BartenderController : MonoBehaviour
         }
 
         GameObject projectile = Instantiate(projectilePref, spawnPosition, Quaternion.identity);
-        projectile.GetComponent<Projectile>().playerStatus = playerStatus;
-        projectile.GetComponent<Projectile>().Velocity = direction;
-        projectile.GetComponent<Projectile>().damage = playerStatus.Damage;
+        Projectile projectileCompo = projectile.GetComponent<Projectile>();
+        projectileCompo.Velocity = direction;
+        projectileCompo.playerStatus = playerStatus;
+        projectileCompo.player = gameObject;
 
         yield return new WaitForSeconds(attackCoolTimeA);
         isAttaking = false;
 
-        yield return new WaitForSeconds(attackCoolTimeB);
+        yield return new WaitForSeconds(1 / playerStatus.TotalAttackSpeed - attackCoolTimeA);
         enableAttack = true;
     }
 
@@ -257,25 +253,5 @@ public class BartenderController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         gameObject.SetActive(false);
-    }
-
-    // 공격의 크리티컬 여부 확인.
-    public float CheckCritical()
-    {
-        float damage = playerStatus.TotalDamage;
-        float criticalPercnet = playerStatus.CriticalPercent;
-        float criticalDamage = playerStatus.CriticalDamage;
-
-        float randomValue = Random.Range(0f, 100f);
-
-        if (randomValue < criticalPercnet)
-        {
-            Debug.Log("크리티컬!");
-            return damage * (1 + criticalDamage * 0.01f);
-        }
-        else
-        {
-            return damage;
-        }
     }
 }

@@ -16,6 +16,13 @@ public enum BuffType
     Reflection,                 //반사 버프
     Invincible,                  //무적 버프
 
+    Force7,                     //무력 7레벨 버프
+    Force16,                    //무력 16레벨 버프
+    Critical4,                  //치명 4레벨 버프
+    Critical7,                  //치명 7레벨 버프
+    Dexterity7,                 //재주 7레벨 버프
+    Dexterity13,                //재주 13레벨 버프
+
     Poision,                     //독 디버프
     Slow,                        //둔화 디버프
     Freeze,                      //빙결 디버프
