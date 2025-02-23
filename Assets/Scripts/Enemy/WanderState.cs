@@ -16,6 +16,7 @@ public class WanderState : IState
 
     public void Enter()
     {
+        enemy.EnemyAnimator.SetBool("isMove", true);
         movePos = Random.Range(enemy.LeftEdge.position.x, enemy.RightEdge.position.x);
         direction = (movePos > enemy.transform.position.x) ? Vector2.right : Vector2.left;
     }
@@ -32,6 +33,7 @@ public class WanderState : IState
 
     public void Exit()
     {
+        enemy.EnemyAnimator.SetBool("isMove", false);
         enemy.Rigidbody.velocity = Vector2.zero;
         direction = Vector2.zero;
     }
