@@ -8,6 +8,8 @@ public class ItemExplain : MonoBehaviour
     [SerializeField]
     GameObject itemExplainUI;
     [SerializeField]
+    SpriteRenderer spriteRenderer;
+    [SerializeField]
     TextMeshPro itemExTxt;      //부연설명
     [SerializeField]
     TextMeshPro itemEffectTxt;  //효과
@@ -49,8 +51,9 @@ public class ItemExplain : MonoBehaviour
         }
     }
 
-    private void ChangeInfo()
+    public void ChangeInfo()
     {
+        spriteRenderer.sprite = item.ItemSprite;
         itemPriceTxt.text = item.ItemPrice.ToString();
         itemEffectTxt.text = item.ItemDescription;
         itemExTxt.text = item.ItemExplain;

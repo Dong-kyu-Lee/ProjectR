@@ -5,8 +5,6 @@ using UnityEngine;
 public class RandomBox : MonoBehaviour
 {
     [SerializeField]
-    private DropableItem dropableItem;
-    [SerializeField]
     private List<BasicItemData> normalBox;
     [SerializeField]
     private List<BasicItemData> rareBox;
@@ -16,68 +14,116 @@ public class RandomBox : MonoBehaviour
     private List<BasicItemData> uniqueBox;
     [SerializeField]
     private List<BasicItemData> legendaryBox;
+    [SerializeField]
+    private GameObject dropItemPrefab; // 드랍할 아이템 프리펩
+    [SerializeField]
+    private Transform dropParent; // 아이템이 드랍될 위치의 부모 오브젝트
+    [SerializeField]
+    private int minDropCount = 3; // 최소 드랍 아이템 개수
+    [SerializeField]
+    private int maxDropCount = 4; // 최대 드랍 아이템 개수
+    [SerializeField]
+    private float itemSpacing = 1.0f; // 아이템 사이의 간격
+    private bool isOpen = false;
+
+
+    private SpriteRenderer spriteRenderer; // 스프라이트 렌더러
 
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         BoxGrade();
     }
+
     private void BoxGrade()
     {
         int boxGrade = Random.Range(0, 5);
-        if (boxGrade==0)
+        switch (boxGrade)
         {
-            this.gameObject.tag = "normal";
-            DropItem(normalBox);
-        }
-        else if (boxGrade == 1)
-        {
-            this.gameObject.tag = "rare";
-            DropItem(rareBox);
-        }
-        else if (boxGrade == 2)
-        {
-            this.gameObject.tag = "epic";
-            DropItem(epicBox);
-        }
-        else if (boxGrade == 3)
-        {
-            this.gameObject.tag = "unique";
-            DropItem(uniqueBox);
-        }
-        else if (boxGrade == 4)
-        {
-            this.gameObject.tag = "legendary";
-            DropItem(legendaryBox);
+            case 0:
+                spriteRenderer.color = Color.gray; // Normal
+                break;
+            case 1:
+                spriteRenderer.color = Color.blue; // Rare
+                break;
+            case 2:
+                spriteRenderer.color = Color.magenta; // Epic
+                break;
+            case 3:
+                spriteRenderer.color = Color.yellow; // Unique
+                break;
+            case 4:
+                spriteRenderer.color = Color.red; // Legendary
+                break;
         }
     }
-    public void DropItem(List<BasicItemData> itemList)
+
+    public void DropItem()
     {
-        int dropNum = Random.Range(4, 5);
-        bool isOverlap = false;
-        int[] checkOverlap = new int[dropNum];
-        BasicItemData[] dropItem = new BasicItemData[dropNum];
-        for (int i = 0; i < 4; i++)
+        List<BasicItemData> itemList = GetItemListByColor();
+        int dropNum = Mathf.Min(Random.Range(minDropCount, maxDropCount + 1), itemList.Count); // 드랍 개수를 아이템 리스트 크기와 비교하여 설정
+        HashSet<int> selectedIndices = new HashSet<int>();
+
+        for (int i = 0; i < dropNum; i++)
         {
+            int randomIndex;
             do
             {
-                isOverlap = false;
-                int randomItem = Random.Range(0, itemList.Count);
-                for (int j = 0; j < i; j++)
-                {
-                    if (randomItem == checkOverlap[j])
-                    {
-                        isOverlap = true;
-                        break;
-                    }
-                }
-                if (!isOverlap)
-                {
-                    //dropItem[i] = itemList[randomItem];
-                    //itemImage[i].sprite = dropItem[i].ItemSprite;
-                    //itemExplain[i].sellingItem = dropItem[i];
-                    //checkOverlap[i] = randomItem;
-                }
-            } while (isOverlap);
+                randomIndex = Random.Range(0, itemList.Count);
+            } while (selectedIndices.Contains(randomIndex));
+
+            selectedIndices.Add(randomIndex);
+            BasicItemData randomItem = itemList[randomIndex];
+
+            // 아이템 드랍
+            Vector3 dropPosition = transform.position + new Vector3((i - (dropNum - 1) / 2f) * itemSpacing, 0, 0);
+            GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, dropParent);
+            ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
+            if (itemExplain)
+            {
+                itemExplain.item = randomItem;
+                itemExplain.ChangeInfo(); // 아이템 정보를 업데이트합니다.
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (!isOpen)
+            {
+                DropItem();
+                isOpen = true;
+            }
+        }
+    }
+
+    private List<BasicItemData> GetItemListByColor()
+    {
+        if (spriteRenderer.color == Color.gray)
+        {
+            return normalBox;
+        }
+        else if (spriteRenderer.color == Color.blue)
+        {
+            return rareBox;
+        }
+        else if (spriteRenderer.color == Color.magenta)
+        {
+            return epicBox;
+        }
+        else if (spriteRenderer.color == Color.yellow)
+        {
+            return uniqueBox;
+        }
+        else if (spriteRenderer.color == Color.red)
+        {
+            return legendaryBox;
+        }
+        else
+        {
+            return normalBox;
         }
     }
 }
