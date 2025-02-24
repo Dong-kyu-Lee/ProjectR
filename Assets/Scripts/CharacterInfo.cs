@@ -49,7 +49,6 @@ public class CharacterInfo : MonoBehaviour
     {
         Debug.Log("Init");
         statusObjList.Clear();
-        transform.GetComponentInChildren<InventoryUI>().Init();
     }
 
     // 스테이터스 세팅

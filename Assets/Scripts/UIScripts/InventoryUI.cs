@@ -22,8 +22,8 @@ public class InventoryUI : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateAllEquippedItemSlotImages();
-        UpdateAllInventorySlotImages();
+        if (equipSlotImgs != null) UpdateAllEquippedItemSlotImages();
+        if (playerInventory.InventoryDict != null) UpdateAllInventorySlotImages();
     }
 
     //시작 전 초기화 함수
