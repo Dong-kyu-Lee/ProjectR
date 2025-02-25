@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,15 +17,31 @@ public class InventoryUI : MonoBehaviour
     //인벤토리 UI 관련 변수
     [SerializeField]
     private GameObject[] inventorySlotParentObj;
+    [SerializeField] private ItemSlotUI[] inventorySlotImgs;
 
     //플레이어 인벤토리
     [SerializeField]
     private Inventory playerInventory;
 
+    //임시변수
+    public int inventoryIndex01 = 0;
+    public int inventoryIndex02 = 1;
+
     private void OnEnable()
     {
         if (equipSlotImgs != null) UpdateAllEquippedItemSlotImages();
         if (playerInventory.InventoryDict != null) UpdateAllInventorySlotImages();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            BasicItemData temp = inventorySlotImgs[inventoryIndex01].NowItemData;
+            inventorySlotImgs[inventoryIndex01].SetItemData(inventorySlotImgs[inventoryIndex02].NowItemData);
+            inventorySlotImgs[inventoryIndex02].SetItemData(temp);
+
+        }
     }
 
     //시작 전 초기화 함수
@@ -129,9 +147,11 @@ public class InventoryUI : MonoBehaviour
         {
             equipSlotImgs[i].Init();
         }
-        for (int i = 0; i < inventorySlotParentObj[0].transform.childCount; i++)
+
+        inventorySlotImgs = inventorySlotParentObj[0].transform.GetComponentsInChildren<ItemSlotUI>();
+        foreach(var invSlotImg in inventorySlotImgs)
         {
-            inventorySlotParentObj[0].transform.GetChild(i).GetComponent<ItemSlotUI>().Init();
-        }
+            invSlotImg.Init();
+        }        
     }
 }

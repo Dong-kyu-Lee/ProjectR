@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +7,10 @@ public class ItemSlotUI : MonoBehaviour
     [SerializeField] private BasicItemData nowItemData; //현재 아이템 데이터
     [SerializeField] private Image itemSlotImage;
     public Image ItemSlotImage { get; set; }
-    public BasicItemData NowItemData { get; set; }
+    public BasicItemData NowItemData {
+        get => nowItemData;
+        set => nowItemData = value; 
+    }
 
     public void Init()
     {
