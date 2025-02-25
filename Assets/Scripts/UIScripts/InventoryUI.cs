@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -18,12 +19,13 @@ public class InventoryUI : MonoBehaviour
     [SerializeField]
     private GameObject[] inventorySlotParentObj;
     [SerializeField] private ItemSlotUI[] inventorySlotImgs;
+    public ItemSlotUI[] InventorySlotImgs { get { return inventorySlotImgs; } }
 
     //플레이어 인벤토리
     [SerializeField]
     private Inventory playerInventory;
 
-    //임시변수
+    //인벤토리 칸 끼리의 교체 구현을 위한 임시변수
     public int inventoryIndex01 = 0;
     public int inventoryIndex02 = 1;
 
@@ -87,10 +89,21 @@ public class InventoryUI : MonoBehaviour
     }
 
     //해당 인벤토리 슬롯 데이터 반영 함수
+    public void SetInventorySlotData(BasicItemData itemData)
+    {
+        for (int i = 0; i < inventorySlotImgs.Length; i++)
+        {
+            if (inventorySlotImgs[i].NowItemData.ItemType == ItemType.DUMMY)
+            {
+                inventorySlotImgs[i].SetItemData(itemData);
+                return;
+            }
+        }
+    }
+
     public void SetInventorySlotData(BasicItemData itemData, int slotRowIdx, int slotColIdx)
     {
         inventorySlotParentObj[slotColIdx].transform.GetChild(slotRowIdx).GetComponent<ItemSlotUI>().SetItemData(itemData);
-        //inventorySlotParentObj[slotRowIdx].transform.GetChild(slotColIdx).GetComponent<Image>().sprite = targetSprite.ItemSprite;
     }
 
     //특정 인벤토리칸 이미지 업데이트 함수
@@ -152,6 +165,11 @@ public class InventoryUI : MonoBehaviour
         foreach(var invSlotImg in inventorySlotImgs)
         {
             invSlotImg.Init();
-        }        
+        }
+    }
+
+    public void DeleteInventorySlotUIData(int slotRowIdx, int slotColIdx)
+    {
+        inventorySlotParentObj[slotColIdx].transform.GetChild(slotRowIdx).GetComponent<ItemSlotUI>().DeleteItemData();
     }
 }

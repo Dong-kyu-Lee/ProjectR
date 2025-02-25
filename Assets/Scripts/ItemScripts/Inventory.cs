@@ -141,10 +141,12 @@ public class Inventory : MonoBehaviour
     //인벤토리에서 장비를 장착칸에 추가하는 메서드. UI로 상호작용하는 기능(장비장착 등)이 개발되면 메서드 삭제 예정
     public void LoadEquipmentItem(int inventorySlotIdx, int equipSlotIdx)
     {
-        EquipmentItemData targetItem = inventory.ElementAt(inventorySlotIdx).Key as EquipmentItemData;
-        if (targetItem.ItemType != ItemType.EQUIPMENT) return;
+        //EquipmentItemData targetItem = inventory.ElementAt(inventorySlotIdx).Key as EquipmentItemData;
+        EquipmentItemData targetItem = inventoryUI.InventorySlotImgs[inventorySlotIdx].NowItemData as EquipmentItemData;
+        if (targetItem == null || targetItem.ItemType != ItemType.EQUIPMENT) return;
         LoadEquipmentItem(targetItem, equipSlotIdx);
-        inventoryUI.SetInventorySlotData(dummyItemData, 0, inventorySlotIdx);
+        //inventoryUI.SetInventorySlotData(dummyItemData, 0, inventorySlotIdx);
+        inventoryUI.DeleteInventorySlotUIData(inventorySlotIdx, 0);
         inventory.Remove(targetItem);
     }
 
@@ -199,16 +201,8 @@ public class Inventory : MonoBehaviour
             isSuccess = true;
         }
 
-        if (isSuccess) inventoryUI.SetAllInventorySlotItemDatas();
+        if (isSuccess) inventoryUI.SetInventorySlotData(item);
 
         return isSuccess;
-    }
-
-    public void GetMyInventoryStatus()  //디버깅용 인벤토리 확인 함수
-    {
-        foreach (var i in inventory)
-        {
-            Debug.Log("아이템 이름 : " + i.Key.ItemName + " 아이템 수량 : " + i.Value);
-        }
     }
 }
