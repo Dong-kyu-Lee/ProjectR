@@ -1,6 +1,8 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,10 +12,12 @@ public class PlayerItemUseController : MonoBehaviour
     private Inventory myInventory;
     public Inventory MyInventory { get { return myInventory; } }
 
-    //디버그용 변수들
-    public int equippedSlotIndex1 = 0;
-    public int equippedSlotIndex2 = 4;
-    public int inventorySlotIndex = 0;
+    [SerializeField]
+    private InventoryUI myInventoryUI;
+    public InventoryUI MyInventoryUI { get { return myInventoryUI; } set { myInventoryUI = value; } }
+
+    [SerializeField]
+    private float itemTakeRange = 1.0f;  //아이템을 줍는 범위
 
     private void Awake()
     {
@@ -25,26 +29,24 @@ public class PlayerItemUseController : MonoBehaviour
         {
             myInventory.UseQuickSlotItem();
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            myInventory.UnloadEquipmentItem(equippedSlotIndex1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            //myInventory.SwapEquipmentItemSlots(0, 4);
-            myInventory.SwapEquipmentItemSlots(equippedSlotIndex1, equippedSlotIndex2);
-        }
-
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            myInventory.LoadEquipmentItem(equippedSlotIndex1, inventorySlotIndex);
+            TryTakeNearItem();
         }
     }
 
-    //아이템을 인벤토리에 추가하는 메서드
-    public bool AddItem(BasicItemData item, int amount)
+    //필드의 아이템을 획득하는 함수
+    public void TryTakeNearItem()
     {
-        return myInventory.AddItem(item, amount);
+        RaycastHit2D itemHit = Physics2D.CircleCast(transform.position, itemTakeRange, Vector2.zero, 0, LayerMask.GetMask("Item"));
+        if (itemHit)
+        {
+            FieldItem fieldItem = itemHit.collider.GetComponent<FieldItem>();
+            if (myInventory.AddItem(fieldItem.MyItemData, fieldItem.Amount))
+            {
+                myInventoryUI.SetItemToUI(fieldItem.MyItemData, fieldItem.Amount);
+                Destroy(itemHit.transform.gameObject);
+            }
+        }
     }
 }
