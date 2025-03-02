@@ -25,8 +25,9 @@ public class Inventory : MonoBehaviour
     [SerializeField] private int maxEquipSlot = 6;
     [SerializeField] private EquipmentItemData[] equipmentItemSlot;
 
-    [SerializeField] private EquipmentItemData dummyItemData;
-    [SerializeField] private InventoryUI inventoryUI;
+    //그 외
+    [SerializeField] private EquipmentItemData dummyItemData; //더미데이터
+    [SerializeField] private InventoryUI myInventoryUI;
 
     public int QuickSlotItemAmount
     {
@@ -43,6 +44,7 @@ public class Inventory : MonoBehaviour
     public int MaxInventorySlot { get { return maxInventorySlot; } }
     public int MaxEquipSlot { get { return maxEquipSlot; } }
     public EquipmentItemData[] EquipmentItemSlot { get { return equipmentItemSlot; } }
+    public InventoryUI MyInventoryUI { get { return myInventoryUI; } set { myInventoryUI = value; } }
 
     private void Awake()
     {
@@ -55,12 +57,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        //equipmentItemSlot.Free();
-    }
-
-    //퀵슬롯에 있는 아이템을 사용하는 메서드
+    //퀵슬롯에 있는 아이템을 사용하는 메서드. 디버그용
     public void UseQuickSlotItem()
     {
         if (quickSlot)
@@ -95,7 +92,6 @@ public class Inventory : MonoBehaviour
             case ItemType.CONSUMABLE:
                 return AddConsumableItem(item as ConsumableItemData, amount);
             case ItemType.EQUIPMENT:
-                Debug.Log("장비 추가 함수 실행");
                 return AddEquipmentItem(item as EquipmentItemData);
             default:
                 Debug.Log("아이템이 어떠한 클래스 타입이랑도 매칭되지 않음");
@@ -105,69 +101,57 @@ public class Inventory : MonoBehaviour
 
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우. 아이템 디버그용임.
+        /*if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우. 아이템 디버그용임.
         {
             LoadToQuickSlot(item, amount);
             return true;
-        }
+        }*/
 
-        return AddItemsToInventory(item, amount);
+        return AddItemsToInventoryWithUiUpdate(item, amount);
     }
 
     //장비를 비어있는 공간(장비칸, 인벤토리)에 추가하는 함수
     private bool AddEquipmentItem(EquipmentItemData item)
     {
-        for(int i = 0; i < equipmentItemSlot.Length; i++)
+        for (int i = 0; i < equipmentItemSlot.Length; i++)
         {
             if (equipmentItemSlot[i].ItemType == ItemType.DUMMY)
             {
                 LoadEquipmentItem(item, i);
+                MyInventoryUI.SetItemToUI(item, 1);
                 return true;
             }
         }
 
-        return AddItemsToInventory(item, 1);
+        return AddItemsToInventoryWithUiUpdate(item, 1);
     }
 
     //대상 장비 장착칸에 장비를 추가하는 메서드
-    private void LoadEquipmentItem(EquipmentItemData item, int idx = 0)
+    public void LoadEquipmentItem(EquipmentItemData item, int idx = 0)
     {
         equipmentItemSlot[idx] = item;
         equipmentItemSlot[idx].EquipItem(playerStatus);
-        Debug.Log("장비 장착함");
-        inventoryUI.SetEquippedItemSlotData(idx, item);
     }
 
-    //인벤토리에서 장비를 장착칸에 추가하는 메서드. UI로 상호작용하는 기능(장비장착 등)이 개발되면 메서드 삭제 예정
-    public void LoadEquipmentItem(int inventorySlotIdx, int equipSlotIdx)
+    public void LoadEquipmentItemFromInventory(EquipmentItemData equipData, int equipSlotIdx)
     {
-        EquipmentItemData targetItem = inventory.ElementAt(inventorySlotIdx).Key as EquipmentItemData;
-        if (targetItem.ItemType != ItemType.EQUIPMENT) return;
-        LoadEquipmentItem(targetItem, equipSlotIdx);
-        inventoryUI.SetInventorySlotData(dummyItemData, 0, inventorySlotIdx);
-        inventory.Remove(targetItem);
+        LoadEquipmentItem(equipData, equipSlotIdx);
+        inventory.Remove(equipData);
     }
 
     //대상 장비 장착칸에 장비를 제거하는 메서드
     public void UnloadEquipmentItem(int idx = 0)
     {
-        if (equipmentItemSlot[idx].ItemType == ItemType.DUMMY) return;
         equipmentItemSlot[idx].UnEquipItem(playerStatus);
         AddItemsToInventory(equipmentItemSlot[idx], 1);
         equipmentItemSlot[idx] = dummyItemData;
-        Debug.Log("장비 해제함");
-        inventoryUI.SetEquippedItemSlotData(idx, equipmentItemSlot[idx]);
     }
 
     //인벤토리에 있는 장비와 장착칸의 장비를 서로 교체하는 함수
     public void SwapEquippedItemWithInventory(int equippedSlotIdx, EquipmentItemData inventoryItemData)
     {
-        if(inventoryItemData.ItemType != ItemType.DUMMY)
-        {
-            inventory.Remove(inventoryItemData);
-        }
         UnloadEquipmentItem(equippedSlotIdx);
-        LoadEquipmentItem(inventoryItemData, equippedSlotIdx);
+        LoadEquipmentItemFromInventory(inventoryItemData, equippedSlotIdx);
     }
 
     //장비 장착칸의 아이템 슬롯끼리 교체하는 함수
@@ -176,39 +160,63 @@ public class Inventory : MonoBehaviour
         EquipmentItemData temp = equipmentItemSlot[idx1];
         equipmentItemSlot[idx1] = equipmentItemSlot[idx2];
         equipmentItemSlot[idx2] = temp;
-
-        inventoryUI.SetEquippedItemSlotData(idx1, equipmentItemSlot[idx1]);
-        inventoryUI.SetEquippedItemSlotData(idx2, equipmentItemSlot[idx2]);
     }
 
     //대상 아이템을 인벤토리에 추가하는 함수
-    private bool AddItemsToInventory(BasicItemData item, int amount)
+    private bool AddItemsToInventoryWithUiUpdate(BasicItemData item, int amount)
     {
-        bool isSuccess = false;
+
         if (inventory.ContainsKey(item))   //인벤토리에 있는 경우
         {
             if (inventory[item] + amount <= item.MaxAmount)
             {
                 inventory[item] += amount;
-                isSuccess = true;
+                myInventoryUI.UpdateItemSlotAmount(item, amount);
+                return true;
+            }
+            else
+            {
+                Debug.Log("아이템이 최대 갯수를 초과했습니다!");
+                return false;
             }
         }
-        else if (inventory.Count <= maxInventorySlot)
+        else if (inventory.Count < maxInventorySlot)
         {
             inventory.Add(item, amount);
-            isSuccess = true;
+            myInventoryUI.SetInventorySlotData(item, amount);
+            return true;
         }
-
-        if (isSuccess) inventoryUI.SetAllInventorySlotItemDatas();
-
-        return isSuccess;
+        else
+        {
+            Debug.Log("인벤토리에 빈 공간이 없습니다!");
+            return false;
+        }
     }
 
-    public void GetMyInventoryStatus()  //디버깅용 인벤토리 확인 함수
+    private bool AddItemsToInventory(BasicItemData item, int amount)
     {
-        foreach (var i in inventory)
+        if (inventory.ContainsKey(item))   //인벤토리에 있는 경우
         {
-            Debug.Log("아이템 이름 : " + i.Key.ItemName + " 아이템 수량 : " + i.Value);
+            if (inventory[item] + amount <= item.MaxAmount)
+            {
+                inventory[item] += amount;
+                return true;
+            }
+            else
+            {
+                Debug.Log("아이템이 최대 갯수를 초과했습니다!");
+                return false;
+            }
+        }
+        else if (inventory.Count < maxInventorySlot)
+        {
+            inventory.Add(item, amount);
+            return true;
+        }
+        else
+        {
+            Debug.Log("인벤토리에 빈 공간이 없습니다!");
+            return false;
         }
     }
 }
