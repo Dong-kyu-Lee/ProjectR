@@ -24,28 +24,45 @@ public class RandomBox : MonoBehaviour
     private int maxDropCount = 4; // 최대 드랍 아이템 개수
     [SerializeField]
     private float itemSpacing = 1.0f; // 아이템 사이의 간격
-    private bool isOpen = false;
+    private bool isOpen;
+    private bool canOpen;
 
-
-    private SpriteRenderer spriteRenderer; // 스프라이트 렌더러
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         BoxGrade();
+        isOpen = false;
+        canOpen = false;
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!isOpen)
+            if (!isOpen&&canOpen)
             {
                 DropItem();
                 isOpen = true;
             }
         }
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            Debug.Log(collision.name);
+            canOpen = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            Debug.Log(collision.name + "나감");
+            canOpen = false;
+        }
+    }
     private void BoxGrade()
     {
         int boxGrade = Random.Range(0, 5);
@@ -97,7 +114,6 @@ public class RandomBox : MonoBehaviour
             }
         }
     }
-
     private List<BasicItemData> GetItemListByColor()
     {
         if (spriteRenderer.color == Color.gray)
