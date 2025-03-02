@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -33,22 +34,22 @@ public class InventoryUI : MonoBehaviour
 
     private void OnEnable()
     {
-        if (equipSlotImgs != null) UpdateAllEquippedItemSlotImages();
-        if (playerInventory.InventoryDict != null) UpdateAllInventorySlotImages();
+        //if (equipSlotImgs != null) UpdateAllEquippedItemSlotImages();
+        //if (playerInventory.InventoryDict != null) UpdateAllInventorySlotImages();
     }
 
     //시작 전 초기화 함수
     public void Init()
     {
-        PlayerItemUseController player = FindObjectOfType<PlayerItemUseController>();
-        playerInventory = player.MyInventory;
-        player.MyInventoryUI = this;
+        playerInventory = FindObjectOfType<Inventory>();
+        playerInventory.MyInventoryUI = this;
+
         GenerateEquippedItemSlot();
         InitiateAllItemsSlots();
     }
 
     //장비칸 UI를 생성하는 함수(LazyInstantiation)
-    public void GenerateEquippedItemSlot()
+    private void GenerateEquippedItemSlot()
     {
         equipSlotImgs = new List<EquipmentSlotUI>();
         for (int i = 0; i < playerInventory.MaxEquipSlot; i++)
@@ -62,12 +63,12 @@ public class InventoryUI : MonoBehaviour
     }
 
     //획득한 아이템을 UI에 반영하는 함수
-    public void SetItemToUI(BasicItemData item, int amound)
+    public void SetItemToUI(BasicItemData item, int amount)
     {
         switch (item.ItemType)
         {
             case ItemType.CONSUMABLE:
-                SetInventorySlotData(item);
+                SetInventorySlotData(item, amount);
                 break;
             case ItemType.EQUIPMENT:
                 SetEquippedItemSlotData(item as EquipmentItemData);
@@ -87,16 +88,17 @@ public class InventoryUI : MonoBehaviour
                 return;
             }
         }
+        SetInventorySlotData(itemData, 1);
     }
 
     //특정 장비칸(slotIdx)의 이미지 갱신 함수
-    public void UpdateEquippedItemSlotImage(int slotIdx)
+    private void UpdateEquippedItemSlotImage(int slotIdx)
     {
         equipSlotImgs[slotIdx].SetItemData(playerInventory.EquipmentItemSlot[slotIdx]);
     }
 
     //모든 장비칸 이미지 업데이트 함수
-    public void UpdateAllEquippedItemSlotImages()
+    private void UpdateAllEquippedItemSlotImages()
     {
         for (int i = 0; i < equipSlotImgs.Count; i++)
         {
@@ -104,8 +106,8 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    //해당 인벤토리 슬롯 데이터 반영 함수
-    public void SetInventorySlotData(BasicItemData itemData)
+    //아이템의 데이터를 비어있는 인벤토리 슬롯에 삽압하는 함수
+    public void SetInventorySlotData(BasicItemData itemData, int amount) //amount는 추후에 사용 예정
     {
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
@@ -117,8 +119,21 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    //인벤토리 슬롯에 있는 아이템의 갯수를 업데이트 하는 함수
+    public void UpdateItemSlotAmount(BasicItemData itemData, int amount)
+    {
+        for (int i = 0; i < inventorySlotImgs.Length; i++)
+        {
+            if (inventorySlotImgs[i].NowItemData == itemData)
+            {
+                Debug.Log("아이템 갯수 UI에 반영");
+                return;
+            }
+        }
+    }
+
     //특정 인벤토리칸 이미지 업데이트 함수
-    public void UpdateInventorySlotImages(int slotRowIdx, int slotColIdx)
+    private void UpdateInventorySlotImages(int slotRowIdx, int slotColIdx)
     {
         inventorySlotParentObj[slotColIdx].transform.GetChild(slotRowIdx).GetComponent<ItemSlotUI>().UpdateItemSprite();
     }
@@ -145,7 +160,7 @@ public class InventoryUI : MonoBehaviour
 
 
     //시작 전 인벤토리 & 장비의 모든 슬롯 초기화 함수
-    public void InitiateAllItemsSlots()
+    private void InitiateAllItemsSlots()
     {
         previewSlotUI.Init(gameObject, -1);
         for (int i = 0; i < equipSlotImgs.Count; i++)

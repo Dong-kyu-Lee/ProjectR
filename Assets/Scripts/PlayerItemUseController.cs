@@ -13,10 +13,6 @@ public class PlayerItemUseController : MonoBehaviour
     public Inventory MyInventory { get { return myInventory; } }
 
     [SerializeField]
-    private InventoryUI myInventoryUI;
-    public InventoryUI MyInventoryUI { get { return myInventoryUI; } set { myInventoryUI = value; } }
-
-    [SerializeField]
     private float itemTakeRange = 1.0f;  //아이템을 줍는 범위
 
     private void Awake()
@@ -42,9 +38,9 @@ public class PlayerItemUseController : MonoBehaviour
         if (itemHit)
         {
             FieldItem fieldItem = itemHit.collider.GetComponent<FieldItem>();
+            
             if (myInventory.AddItem(fieldItem.MyItemData, fieldItem.Amount))
             {
-                myInventoryUI.SetItemToUI(fieldItem.MyItemData, fieldItem.Amount);
                 Destroy(itemHit.transform.gameObject);
             }
         }

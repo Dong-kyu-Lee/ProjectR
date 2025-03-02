@@ -16,7 +16,7 @@ public class EquipmentSlotUI : ItemSlotUI
                 parentUI.PlayerInventory.SwapEquipmentItemSlots(slotIndex, (draggedSlot as EquipmentSlotUI).slotIndex);
                 SwapItemData(draggedSlot);
             }
-            else//draggedSLot is InventorySlotUI
+            else //draggedSLot is InventorySlotUI
             {
                 if (nowItemData.ItemType == ItemType.EQUIPMENT)
                 {
