@@ -13,6 +13,7 @@ public class EnemyAIController : MonoBehaviour
     public DeadState deadState;
 
     public bool isChasing = false;
+    public bool isDead;
 
     public void Initialize(Enemy enemy)
     {
@@ -23,6 +24,7 @@ public class EnemyAIController : MonoBehaviour
         this.deadState = new DeadState(enemy);
 
         isChasing = false;
+        isDead = false;
 
         CurrentState = idleState;
         idleState.Enter();
@@ -30,9 +32,12 @@ public class EnemyAIController : MonoBehaviour
 
     public void TransitionTo(IState nextState)
     {
-        CurrentState.Exit();
-        CurrentState = nextState;
-        nextState.Enter();
+        if (!isDead)
+        {
+            CurrentState.Exit();
+            CurrentState = nextState;
+            nextState.Enter();
+        }
     }
 
     void Start()
