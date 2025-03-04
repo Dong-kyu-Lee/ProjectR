@@ -16,6 +16,7 @@ public class DeadState : IState
     {
         enemy.EnemyAnimator.SetTrigger("Die");
         enemy.Dead();
+        enemy.StateMachine.isDead = true;
     }
 
     public void Update(float delta)

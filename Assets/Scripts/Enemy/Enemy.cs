@@ -89,8 +89,11 @@ public class Enemy : MonoBehaviour
 
     public void StartAttack()
     {
-        StateMachine.TransitionTo(StateMachine.attackState);
-        Attack();
+        if (!StateMachine.isDead)
+        {
+            StateMachine.TransitionTo(StateMachine.attackState);
+            Attack();
+        }
     }
 
     protected virtual void Attack()
