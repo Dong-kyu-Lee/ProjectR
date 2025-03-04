@@ -41,7 +41,8 @@ public class InventoryUI : MonoBehaviour
     //시작 전 초기화 함수
     public void Init()
     {
-        playerInventory = FindObjectOfType<Inventory>();
+        //playerInventory = FindObjectOfType<Inventory>();
+        playerInventory = GameManager.Instance.CurrentPlayer.transform.GetChild(0).GetComponent<Inventory>();
         playerInventory.MyInventoryUI = this;
 
         GenerateEquippedItemSlot();
