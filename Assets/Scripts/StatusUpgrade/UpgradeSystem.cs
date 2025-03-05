@@ -6,15 +6,15 @@ public class UpgradeSystem : MonoBehaviour
 {
     private HashSet<string> unlockedEffects = new HashSet<string>();  // 중복 실행 방지용.
 
-    [SerializeField] private PlayerStatus playerStatus;
-    [SerializeField] private UpgradeStatus upgradeStatus;
+    private PlayerStatus playerStatus;
+    private UpgradeStatus upgradeStatus;
     [SerializeField] private StatusEffect statusEffect;
     private StatusValueText statusValueText;
 
     private void Awake()
     {
-        //playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        //upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
         statusValueText = gameObject.GetComponent<StatusValueText>();
     }
 
@@ -100,5 +100,11 @@ public class UpgradeSystem : MonoBehaviour
                 unlockedEffects.Remove($"{statName}_{point}");
             }
         }
+    }
+
+    // 스탯 증가 온클릭.
+    public void IncreaseStatOnClick(string statName)
+    {
+        IncreaseStat(statName);
     }
 }
