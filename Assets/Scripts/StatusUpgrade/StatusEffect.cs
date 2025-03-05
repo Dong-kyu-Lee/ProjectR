@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StatusEffect : MonoBehaviour
 {
-    [SerializeField] private PlayerStatus playerStatus;
+    private PlayerStatus playerStatus;
     private ForceEffect forceEffect;
     private InduranceEffect induranceEffect;
     private CriticalEffect criticalEffect;
@@ -14,7 +14,7 @@ public class StatusEffect : MonoBehaviour
     // 컴포넌트 할당.
     private void Start()
     {
-        //playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         forceEffect = GetComponent<ForceEffect>();
         induranceEffect = GetComponent<InduranceEffect>();
         criticalEffect = GetComponent<CriticalEffect>();

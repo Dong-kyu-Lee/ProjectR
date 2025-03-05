@@ -2,24 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static PlayerObj;
+
 
 public class UpgradeOnClick : MonoBehaviour
 {
-    [SerializeField] private UpgradeSystem upgradeSystem;
-    [SerializeField] private UpgradeStatus upgradeStatus;
-    [SerializeField] private StatusValueText statusValueText;
-    [SerializeField] private LevelUp levelup;
+    private StatusValueText statusValueText;
+    private UpgradeStatus upgradeStatus;
+    private LevelUp levelup;
 
     private void Start()
     {
-        //upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
-    }
-    
-    // 스탯 증가 온클릭.
-    public void IncreaseStatOnClick(string statName)
-    {
-        upgradeSystem.IncreaseStat(statName);
+        statusValueText = transform.GetComponentInChildren<StatusValueText>();
+        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        levelup = gameObject.GetComponent<LevelUp>();
     }
 
     // 경험치 증가 온클릭.

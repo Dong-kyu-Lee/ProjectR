@@ -5,18 +5,20 @@ using UnityEngine;
 
 public class LevelUp : MonoBehaviour
 {
-    [SerializeField] private PlayerStatus playerStatus;
-    [SerializeField] private UpgradeStatus upgradeStatus;
-    [SerializeField] private UpgradeSystem upgradeSystem;
-    [SerializeField] private StatusValueText statusValueText;
+    private PlayerStatus playerStatus;
+    private UpgradeStatus upgradeStatus;
+    private UpgradeSystem upgradeSystem;
+    private StatusValueText statusValueText;
 
     // 요구 경험치 ex) 레벨 1 -> 레벨 2 요구 경험치 = requiredExp[1].
     public static readonly int[] requiredExp;
 
     private void Start()
     {
-        //playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        //upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        upgradeSystem = transform.GetComponentInChildren<UpgradeSystem>();
+        statusValueText = transform.GetComponentInChildren<StatusValueText>();
     }
 
     // 테스트용.
