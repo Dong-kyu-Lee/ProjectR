@@ -26,7 +26,7 @@ public class EquipmentSlotUI : ItemSlotUI
                 else //nowItemData.ItemType == ItemType.Dummy
                 {
                     parentUI.PlayerInventory.LoadEquipmentItemFromInventory(draggedSlot.NowItemData as EquipmentItemData, slotIndex);
-                    SetItemData(draggedSlot.NowItemData);
+                    SetItemData(draggedSlot.NowItemData,draggedSlot.ItemCount);
                     draggedSlot.DeleteItemData();
                 }
             }

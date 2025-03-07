@@ -11,26 +11,31 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [SerializeField] protected Image itemSlotImage;
     [SerializeField] protected InventoryUI parentUI;
     protected int slotIndex;
+    protected int itemCount = 0;
+    [SerializeField] protected Text itemCountText;
     public Image ItemSlotImage { get; set; }
     public BasicItemData NowItemData {
         get => nowItemData;
         set => nowItemData = value; 
     }
     public int SlotIndex { get => slotIndex; set => slotIndex = value; }
+    public int ItemCount { get => itemCount; }
 
     public void Init(GameObject parent, int indexNumber)
     {
         parentUI = parent.GetComponent<InventoryUI>();
         nowItemData = dummyItemData;
-        itemSlotImage = GetComponent<Image>();
+        itemSlotImage = transform.GetChild(0).GetComponent<Image>();
         itemSlotImage.sprite = nowItemData.ItemSprite;
         slotIndex = indexNumber;
-    }    
+        itemCountText = transform.GetChild(1).GetComponent<Text>();
+    }
 
     //자신의 아이템 데이터를 설정하는 메서드
-    public void SetItemData(BasicItemData itemData) 
+    public void SetItemData(BasicItemData itemData, int amount) 
     {
         nowItemData = itemData;
+        itemCount = amount;
         UpdateItemSprite();
     }
 
@@ -38,6 +43,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void UpdateItemSprite()
     {
         itemSlotImage.sprite = nowItemData.ItemSprite;
+        itemCountText.text = itemCount > 1 ? itemCount.ToString() : "";
     }
 
     //더미 아이템 데이터로 설정하고 자신의 슬롯의 아이템 이미지를 초기화하는 메서드
@@ -51,8 +57,9 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         if(targetSlot == null) return;
         BasicItemData temp = nowItemData;
-        SetItemData(targetSlot.nowItemData);
-        targetSlot.SetItemData(temp);
+        int tempItemCount = itemCount;
+        SetItemData(targetSlot.nowItemData,targetSlot.itemCount);
+        targetSlot.SetItemData(temp, tempItemCount);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -60,7 +67,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         if(nowItemData.ItemType == ItemType.DUMMY) return;
 
         parentUI.PreviewSlotUI.gameObject.SetActive(true);
-        parentUI.PreviewSlotUI.SetItemData(nowItemData);
+        parentUI.PreviewSlotUI.SetItemData(nowItemData, itemCount);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -81,7 +88,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             else if(nowItemData.ItemType == ItemType.DUMMY)
             {
                 parentUI.PlayerInventory.UnloadEquipmentItem((targetSlotUI as EquipmentSlotUI).SlotIndex);
-                SetItemData(targetSlotUI.NowItemData);
+                SetItemData(targetSlotUI.NowItemData,targetSlotUI.itemCount);
                 targetSlotUI.DeleteItemData();
             }
         }

@@ -85,7 +85,7 @@ public class InventoryUI : MonoBehaviour
         {
             if (equipSlotImgs[i].NowItemData.ItemType == ItemType.DUMMY)
             {
-                equipSlotImgs[i].SetItemData(itemData);
+                equipSlotImgs[i].SetItemData(itemData, 1);
                 return;
             }
         }
@@ -95,7 +95,7 @@ public class InventoryUI : MonoBehaviour
     //특정 장비칸(slotIdx)의 이미지 갱신 함수
     private void UpdateEquippedItemSlotImage(int slotIdx)
     {
-        equipSlotImgs[slotIdx].SetItemData(playerInventory.EquipmentItemSlot[slotIdx]);
+        equipSlotImgs[slotIdx].SetItemData(playerInventory.EquipmentItemSlot[slotIdx], 1);
     }
 
     //모든 장비칸 이미지 업데이트 함수
@@ -114,7 +114,7 @@ public class InventoryUI : MonoBehaviour
         {
             if (inventorySlotImgs[i].NowItemData.ItemType == ItemType.DUMMY)
             {
-                inventorySlotImgs[i].SetItemData(itemData);
+                inventorySlotImgs[i].SetItemData(itemData, amount);
                 return;
             }
         }
@@ -127,6 +127,7 @@ public class InventoryUI : MonoBehaviour
         {
             if (inventorySlotImgs[i].NowItemData == itemData)
             {
+                inventorySlotImgs[i].SetItemData(itemData, amount);
                 Debug.Log("아이템 갯수 UI에 반영");
                 return;
             }

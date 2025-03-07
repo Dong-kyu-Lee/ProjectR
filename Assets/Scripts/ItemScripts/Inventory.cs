@@ -171,7 +171,7 @@ public class Inventory : MonoBehaviour
             if (inventory[item] + amount <= item.MaxAmount)
             {
                 inventory[item] += amount;
-                myInventoryUI.UpdateItemSlotAmount(item, amount);
+                myInventoryUI.UpdateItemSlotAmount(item, inventory[item]);
                 return true;
             }
             else
