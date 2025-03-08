@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour
     private PlayerStatus playerStatus;
     [SerializeField]
     private Dictionary<BasicItemData, int> inventory;  //인벤토리 딕셔너리<아이템정보, 갯수>
-
+    
     //소모품 관련 칸
     private ConsumableItemData quickSlot = null;
     private int quickSlotItemAmount = 0;
@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour
         inventory = new Dictionary<BasicItemData, int>();
         playerStatus = GetComponentInParent<PlayerStatus>();
         equipmentItemSlot = new EquipmentItemData[maxEquipSlot];
-        for (int i = 0; i < maxEquipSlot; i++)
+        for (int i = 0; i < equipmentItemSlot.Length; i++)
         {
             equipmentItemSlot[i] = dummyItemData;
         }
@@ -190,7 +190,7 @@ public class Inventory : MonoBehaviour
         equipmentItemSlot[idx2] = temp;
     }
 
-    //대상 아이템을 인벤토리에 추가하는 함수
+    //대상 아이템을 인벤토리에 추가하고 UI를 업데이트 하는 함수. 아이템을 처음 획득했을때 사용
     private bool AddItemsToInventoryWithUiUpdate(BasicItemData item, int amount)
     {
         if (inventory.ContainsKey(item))   //인벤토리에 있는 경우

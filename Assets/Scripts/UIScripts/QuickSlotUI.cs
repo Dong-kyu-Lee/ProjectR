@@ -7,8 +7,9 @@ public class QuickSlotUI : ItemSlotUI
 {
     public override void OnDrop(PointerEventData eventData)
     {
+        if (eventData.pointerDrag == gameObject) return;
         ItemSlotUI draggedSlot = eventData.pointerDrag.GetComponent<ItemSlotUI>();
-
+        
         if (draggedSlot.NowItemData.ItemType == ItemType.CONSUMABLE)
         {
             switch (NowItemData.ItemType)

@@ -86,6 +86,8 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public virtual void OnDrop(PointerEventData eventData)
     {
         ItemSlotUI targetSlotUI = eventData.pointerDrag.GetComponent<ItemSlotUI>();
+        if (targetSlotUI.NowItemData.ItemType == ItemType.DUMMY) return;
+
         if (targetSlotUI is EquipmentSlotUI)
         {
             switch (nowItemData.ItemType)
@@ -103,9 +105,20 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
         else if (targetSlotUI is QuickSlotUI) //(인벤토리 <- 퀵슬롯) 퀵슬롯 언로드
         {
-            SetItemData(targetSlotUI.NowItemData, targetSlotUI.ItemCount);
-            targetSlotUI.DeleteItemData();
-            parentUI.PlayerInventory.UnLoadQuickSlotItem();
+            switch(nowItemData.ItemType)
+            {
+                case ItemType.CONSUMABLE:
+                    parentUI.PlayerInventory.SwapQuickSlotWithInventory(NowItemData);
+                    SwapItemData(targetSlotUI);
+                    break;
+                case ItemType.EQUIPMENT:
+                    break;
+                case ItemType.DUMMY:
+                    SetItemData(targetSlotUI.NowItemData, targetSlotUI.ItemCount);
+                    targetSlotUI.DeleteItemData();
+                    parentUI.PlayerInventory.UnLoadQuickSlotItem();
+                    break;
+            }
         }
         else //targetSlotUI is ItemSlotUI 
         {
