@@ -75,6 +75,7 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    //획득한 장비 아이템을 장비칸에 삽입하는 함수
     private void SetEquippedItemSlotData(EquipmentItemData itemData)
     {
         for (int i = 0; i < equipSlotImgs.Length; i++) 
@@ -115,11 +116,13 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    //퀵슬롯UI에 아이템을 삽입하는 함수
     public void SetQuickSLotItemData(BasicItemData itemData, int amount)
     {
         quickSlotImg.SetItemData(itemData, amount);
     }
 
+    //해당 아이템이 들어있는 인벤토리 슬롯 UI의 데이터를 삭제하는 함수. 아무도 사용 안하면 삭제 예정
     public bool DeleteInventoryItemData(BasicItemData targetData)
     {
         for(int i = 0; i < inventorySlotImgs.Length; i++)
