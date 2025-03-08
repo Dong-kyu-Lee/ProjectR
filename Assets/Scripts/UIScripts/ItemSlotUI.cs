@@ -19,7 +19,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         set => nowItemData = value; 
     }
     public int SlotIndex { get => slotIndex; set => slotIndex = value; }
-    public int ItemCount { get => itemCount; }
+    public int ItemCount { get => itemCount; set => itemCount = value; }
 
     public void Init(GameObject parent, int indexNumber)
     {
@@ -36,21 +36,29 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         nowItemData = itemData;
         itemCount = amount;
-        UpdateItemSprite();
+        UpdateItemSpriteAndAmountText();
     }
 
-    //자신의 슬롯의 아이템 이미지를 업데이트하는 메서드
-    public void UpdateItemSprite()
+    public void SetItemAmountData(int amount)
+    {
+        itemCount = amount;
+        UpdateItemSpriteAndAmountText();
+    }
+
+    //자신의 슬롯의 아이템 이미지와 개수 텍스트를 업데이트하는 메서드
+    public void UpdateItemSpriteAndAmountText()
     {
         itemSlotImage.sprite = nowItemData.ItemSprite;
         itemCountText.text = itemCount > 1 ? itemCount.ToString() : "";
     }
 
+
     //더미 아이템 데이터로 설정하고 자신의 슬롯의 아이템 이미지를 초기화하는 메서드
     public void DeleteItemData()
     {
         nowItemData = dummyItemData;
-        UpdateItemSprite();
+        itemCount = 0;
+        UpdateItemSpriteAndAmountText();
     }
 
     public void SwapItemData(ItemSlotUI targetSlot)
@@ -92,7 +100,13 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                 targetSlotUI.DeleteItemData();
             }
         }
-        else
+        else if (targetSlotUI is QuickSlotUI) //인벤토리 <- 퀵슬롯
+        {
+            SetItemData(targetSlotUI.NowItemData, targetSlotUI.ItemCount);
+            targetSlotUI.DeleteItemData();
+            parentUI.PlayerInventory.UnLoadQuickSlotItem();
+        }
+        else //targetSlotUI is ItemSlotUI
         {
             SwapItemData(targetSlotUI);
         }

@@ -23,6 +23,11 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private ItemSlotUI[] inventorySlotImgs;
     public ItemSlotUI[] InventorySlotImgs { get { return inventorySlotImgs; } }
 
+    //퀵슬롯 UI 관련 변수
+    [SerializeField]
+    private ItemSlotUI quickSlotImg;
+    public ItemSlotUI QuickSlotImg { get { return quickSlotImg; } }
+
     //인벤토리, 장비창 UI 공용 변수
     [SerializeField] private ItemSlotUI previewSlotUI;
     public ItemSlotUI PreviewSlotUI { get { return previewSlotUI; } }
@@ -137,7 +142,7 @@ public class InventoryUI : MonoBehaviour
     //특정 인벤토리칸 이미지 업데이트 함수
     private void UpdateInventorySlotImages(int slotRowIdx, int slotColIdx)
     {
-        inventorySlotParentObj[slotColIdx].transform.GetChild(slotRowIdx).GetComponent<ItemSlotUI>().UpdateItemSprite();
+        inventorySlotParentObj[slotColIdx].transform.GetChild(slotRowIdx).GetComponent<ItemSlotUI>().UpdateItemSpriteAndAmountText();
     }
 
     //모든 인벤토리 슬롯 이미지 업데이트 함수
@@ -174,6 +179,12 @@ public class InventoryUI : MonoBehaviour
         for(int i = 0; i< inventorySlotImgs.Length; i++)
         {
             inventorySlotImgs[i].Init(gameObject, i);
-        }        
+        }
+        QuickSlotImg.Init(gameObject, -1);
+    }
+
+    public void SetQuickSLotItemData(BasicItemData itemData, int amount)
+    {
+        quickSlotImg.SetItemData(itemData, amount);
     }
 }
