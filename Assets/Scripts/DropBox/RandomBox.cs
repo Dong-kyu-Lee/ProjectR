@@ -87,13 +87,13 @@ public class RandomBox : MonoBehaviour
             BasicItemData randomItem = itemList[randomIndex];
 
             // 아이템 드랍
-            Vector3 dropPosition = new Vector3(transform.position.x + (i - (dropNum - 1) / 2f) * itemSpacing, dropParent.position.y - 0.5f, transform.position.z);
+            Vector3 dropPosition = transform.position + new Vector3((i - (dropNum - 1) / 2f) * itemSpacing, 0, 0);
             GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, dropParent);
             ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
             if (itemExplain)
             {
                 itemExplain.item = randomItem;
-                itemExplain.ChangeInfo();
+                itemExplain.ChangeInfo(); // 아이템 정보를 업데이트합니다.
             }
         }
     }
