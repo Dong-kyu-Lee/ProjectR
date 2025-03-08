@@ -88,27 +88,28 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         ItemSlotUI targetSlotUI = eventData.pointerDrag.GetComponent<ItemSlotUI>();
         if (targetSlotUI is EquipmentSlotUI)
         {
-            if (nowItemData.ItemType == ItemType.EQUIPMENT)
+            switch (nowItemData.ItemType)
             {
-                SwapItemData(targetSlotUI);
-                parentUI.PlayerInventory.SwapEquippedItemWithInventory(targetSlotUI.SlotIndex, nowItemData as EquipmentItemData);
-            }
-            else if(nowItemData.ItemType == ItemType.DUMMY)
-            {
-                parentUI.PlayerInventory.UnloadEquipmentItem((targetSlotUI as EquipmentSlotUI).SlotIndex);
-                SetItemData(targetSlotUI.NowItemData,targetSlotUI.itemCount);
-                targetSlotUI.DeleteItemData();
+                case ItemType.EQUIPMENT: //(인벤토리 <-> 장비) 장비 스왑
+                    SwapItemData(targetSlotUI);
+                    parentUI.PlayerInventory.SwapEquippedItemWithInventory(targetSlotUI.SlotIndex, nowItemData as EquipmentItemData);
+                    break;
+                case ItemType.DUMMY: //(장비 -> 인벤토리) 장비 언로드
+                    parentUI.PlayerInventory.UnloadEquipmentItem((targetSlotUI as EquipmentSlotUI).SlotIndex);
+                    SetItemData(targetSlotUI.NowItemData, targetSlotUI.itemCount);
+                    targetSlotUI.DeleteItemData();
+                    break;
             }
         }
-        else if (targetSlotUI is QuickSlotUI) //인벤토리 <- 퀵슬롯
+        else if (targetSlotUI is QuickSlotUI) //(인벤토리 <- 퀵슬롯) 퀵슬롯 언로드
         {
             SetItemData(targetSlotUI.NowItemData, targetSlotUI.ItemCount);
             targetSlotUI.DeleteItemData();
             parentUI.PlayerInventory.UnLoadQuickSlotItem();
         }
-        else //targetSlotUI is ItemSlotUI
+        else //targetSlotUI is ItemSlotUI 
         {
-            SwapItemData(targetSlotUI);
+            SwapItemData(targetSlotUI); //인벤토리칸 끼리 스왑
         }
     }
 

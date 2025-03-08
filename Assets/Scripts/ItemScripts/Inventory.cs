@@ -87,22 +87,23 @@ public class Inventory : MonoBehaviour
         myInventoryUI.SetQuickSLotItemData(quickSlot, quickSlotItemAmount);
     }
 
-    public void UnLoadQuickSlotItem()
-    {
-        AddItemsToInventory(QuickSlot, QuickSlotAmount);
-        quickSlot = null;
-        quickSlotItemAmount = 0;
-        myInventoryUI.QuickSlotImg.DeleteItemData();
-    }
-
+    //인벤토리에 있는 아이템을 퀵슬롯에 로드하는 메서드
     public void LoadToQuickSlotFromInventory(BasicItemData item)
     {
         quickSlot = item as ConsumableItemData;
         quickSlotItemAmount = inventory[item];
         inventory.Remove(item);
-        myInventoryUI.SetQuickSLotItemData(quickSlot, quickSlotItemAmount);
     }
 
+    //퀵슬롯에 있는 아이템을 인벤토리로 옮기는 메서드
+    public void UnLoadQuickSlotItem()
+    {
+        AddItemsToInventory(QuickSlot, QuickSlotAmount);
+        quickSlot = null;
+        quickSlotItemAmount = 0;
+    }
+
+    //인벤토리와 퀵슬롯의 아이템을 서로 교체하는 메서드
     public void SwapQuickSlotWithInventory(BasicItemData inventoryItem)
     {
         BasicItemData temp = quickSlot;
@@ -166,7 +167,7 @@ public class Inventory : MonoBehaviour
         inventory.Remove(equipData);
     }
 
-    //대상 장비 장착칸에 장비를 제거하는 메서드
+    //대상 장비 장착칸에 장비를 인벤토리로 옮기는 메서드
     public void UnloadEquipmentItem(int idx = 0)
     {
         equipmentItemSlot[idx].UnEquipItem(playerStatus);
