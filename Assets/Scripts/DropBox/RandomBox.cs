@@ -24,13 +24,15 @@ public class RandomBox : MonoBehaviour
     private int maxDropCount = 4; // 최대 드랍 아이템 개수
     [SerializeField]
     private float itemSpacing = 1.0f; // 아이템 사이의 간격
-    private bool isOpen = false;
-
+    private bool isOpen;
+    private bool canOpen;
 
     private SpriteRenderer spriteRenderer; // 스프라이트 렌더러
 
     void Start()
     {
+        isOpen = false;
+        canOpen = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         BoxGrade();
     }
@@ -38,11 +40,25 @@ public class RandomBox : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!isOpen)
+            if (!isOpen&&canOpen)
             {
                 DropItem();
                 isOpen = true;
             }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            canOpen = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            canOpen = false;
         }
     }
 
@@ -87,13 +103,13 @@ public class RandomBox : MonoBehaviour
             BasicItemData randomItem = itemList[randomIndex];
 
             // 아이템 드랍
-            Vector3 dropPosition = transform.position + new Vector3((i - (dropNum - 1) / 2f) * itemSpacing, 0, 0);
+            Vector3 dropPosition = new Vector3(transform.position.x + (i - (dropNum - 1) / 2f) * itemSpacing, dropParent.position.y - 0.5f, transform.position.z);
             GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, dropParent);
             ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
             if (itemExplain)
             {
                 itemExplain.item = randomItem;
-                itemExplain.ChangeInfo(); // 아이템 정보를 업데이트합니다.
+                itemExplain.ChangeInfo(); // 아이템 정보
             }
         }
     }
