@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerObj;
 
 [CreateAssetMenu(fileName = "New Grenade Item Data", menuName = "Scriptable Object/Consumable Grenade Item Data", order = 1)]
 public class ConsumableGrenade : ConsumableItemData
