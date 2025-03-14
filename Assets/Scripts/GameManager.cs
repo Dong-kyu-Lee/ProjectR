@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // 이 게임 매니저 클래스는 플레이어 오브젝트 생성 및 관리만을 위해 임시로 구현되었습니다.
-    // 추후 게임 매니저의 역할을 변경할 수도 있습니다.
-
     private static GameManager instance;
     public static GameManager Instance
     {
