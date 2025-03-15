@@ -12,6 +12,7 @@ public class StartSceneManager : MonoBehaviour
 
     void Update()
     {
+        // 배경 오브젝트 움직임
         if(background.transform.position.x <= -24)
         {
             background.transform.position = new Vector3(0, 0, 0);
@@ -30,10 +31,9 @@ public class StartSceneManager : MonoBehaviour
         }
     }
 
+    // 게임 시작 화면에서 Start 버튼에 의해 호출되는 이벤트 함수
     public void StartGame()
     {
-        GameObject gameManagerObject = new GameObject("GameManager");
-        GameManager gameManager = gameManagerObject.AddComponent<GameManager>();
         SceneManager.LoadScene("LobbyScene");
     }
 }
