@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SlowDeBuff : Buff
 {
-    private float[] moveSpeedDecGap = { 30.0f };    //이동속도 감소 30%
-    private float speedDecAmount = 0.0f;            //실질적 이동속도 감소량
+    private float[] moveSpeedDecGap = { 30.0f };    //이동속도 감소량. 슬로우 디버프에 레벨이 더 생기면 여기에 값을 추가
+    private float speedDecAmount = 0.0f;            //실질적으로 감소된 이동속도의 양
     public SlowDeBuff(float duration, GameObject target) : base(duration, target) 
     {
         maxBuffLevel = 1;   //단일치 버프
@@ -21,6 +21,6 @@ public class SlowDeBuff : Buff
     public override void RemoveBuffEffect()
     {
         PlayerStatus temp = targetObject.GetComponent<PlayerStatus>();
-        temp.MoveSpeed += speedDecAmount;
+        temp.MoveSpeed += speedDecAmount;   
     }
 }

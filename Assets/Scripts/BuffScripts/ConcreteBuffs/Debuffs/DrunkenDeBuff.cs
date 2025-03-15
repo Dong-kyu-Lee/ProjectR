@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DrunkenDeBuff : Buff
 {
-    private float[] moveSpeedDecGap = { 0.1f, 0.2f, 0.2f };
-    private float[] attackSpeedDecGap = { 10.0f, 10.0f, 30.0f };
+    private float[] moveSpeedDecGap = { 0.1f, 0.2f, 0.2f };         //이동속도 감소량의 간격
+    private float[] attackSpeedDecGap = { 10.0f, 10.0f, 30.0f };    //공격속도 감소량의 간격
 
     public DrunkenDeBuff(float duration, GameObject target) : base(duration, target)
     {

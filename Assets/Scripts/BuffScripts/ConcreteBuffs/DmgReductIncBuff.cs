@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DmgReductIncBuff : Buff
 {
-    private float[] DmgReductIncGap = { 0.1f, 0.1f, 0.1f };  //피해감소량 증가량
+    private float[] DmgReductIncGap = { 0.1f, 0.1f, 0.1f };  //피해감소량 증가량 간격
 
     public DmgReductIncBuff(float duration, GameObject target) : base(duration, target){}
 
@@ -15,7 +15,7 @@ public class DmgReductIncBuff : Buff
         playerStatus.AdditionalDamageReduction += DmgReductIncGap[currentBuffLevel];
     }
 
-    //적용된 버프를 해제하는 함수. 각 스탯마다 누적된 값을 계산해 감소하는 식
+    //적용된 버프를 해제하는 함수. currentBuffLevel까지 해당하는 간격 값을 합산한 후 감소하는 식
     public override void RemoveBuffEffect()
     {
         PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
