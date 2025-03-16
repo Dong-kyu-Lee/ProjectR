@@ -147,12 +147,6 @@ public class PlayerStatus : Status
 
     }
 
-    void Update()
-    {
-        Debug.Log("Damage : " + Damage + "+" + (Damage * AdditionalDamage) + "=" + TotalDamage);
-        Debug.Log("Hp : " + MaxHp + " / " + Hp);
-    }
-
     protected override void Dead()
     {
         //gameObject.GetComponent<PlayerController>().Dead();
