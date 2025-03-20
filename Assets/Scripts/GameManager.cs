@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private GameObject upgradeUI;
+
     private void Awake()
     {
         // 싱글톤 초기화
@@ -48,5 +52,26 @@ public class GameManager : MonoBehaviour
     public void PlacePlayerObject(Vector3 position)
     {
         playerObject.transform.position = position;
+    }
+
+    public void MoveScene(string sceneName)
+    {
+        if (SceneManager.GetActiveScene().name == "LobbyScene")
+        {
+            if (sceneName == "DungeonGenerate")
+            {
+                // 업그레이드UI & 인벤토리 UI 생성
+                upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
+                Debug.Log("WTF");
+                DontDestroyOnLoad(upgradeUI);
+            }
+            else if (sceneName == "StartScene")
+            {
+                // 업그레이드UI & 인벤토리 UI 제거
+
+                // 플레이어 오브젝트 제거
+            }
+        }
+        SceneManager.LoadScene(sceneName);
     }
 }
