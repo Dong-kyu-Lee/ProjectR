@@ -24,16 +24,29 @@ public class CharacterSelect : MonoBehaviour
 
     public void SelectCharacter(CharacterType type, Vector3 spawnPosition)
     {
+        // 마네킹 비활성화
+        for (int i = 0; i < mannequins.Length; i++)
+        {
+            if(mannequins[i].characterType == type)
+            {
+                mannequins[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                mannequins[i].gameObject.SetActive(true);
+            }
+        }
+
         // 이전 캐릭터 삭제
         if (currentPlayer != null) Destroy(currentPlayer);
         // 선택한 캐릭터 생성
         switch (type)
         {
             case CharacterType.Bartender:
-                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Player1_2 Variant"), spawnPosition, transform.rotation);
+                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Player1_2"), spawnPosition, transform.rotation);
                 break;
             case CharacterType.Blacksmith:
-                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Player1_2 Variant"), spawnPosition, transform.rotation);
+                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Player1_2"), spawnPosition, transform.rotation);
                 break;
         }
         GameManager.Instance.CurrentPlayer = currentPlayer;
