@@ -46,11 +46,6 @@ public class ObjectPoolManager : MonoBehaviour
         );
     }
 
-    private void FixedUpdate()
-    {
-        Debug.Log(activeDamageTexts);
-    }
-
     private void OnEnable()
     {
         SceneManager.sceneUnloaded += OnSceneUnloaded;
