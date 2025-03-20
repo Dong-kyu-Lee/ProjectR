@@ -12,7 +12,7 @@ public class UpgradeOnClick : MonoBehaviour
 
     private void Start()
     {
-        statusValueText = transform.GetComponentInChildren<StatusValueText>();
+        statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
         upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
         levelup = gameObject.GetComponent<LevelUp>();
     }

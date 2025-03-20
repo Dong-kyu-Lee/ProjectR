@@ -8,12 +8,12 @@ public class ForceEffect : MonoBehaviour
 
     private void Awake()
     {
-        statusEffectTooltip[0] = GameObject.Find("ForceEffect1").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[1] = GameObject.Find("ForceEffect4").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[2] = GameObject.Find("ForceEffect7").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[3] = GameObject.Find("ForceEffect10").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[4] = GameObject.Find("ForceEffect13").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[5] = GameObject.Find("ForceEffect16").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[0] = transform.Find("ForceEffect/ForceEffect1").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[1] = transform.Find("ForceEffect/ForceEffect4").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[2] = transform.Find("ForceEffect/ForceEffect7").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[3] = transform.Find("ForceEffect/ForceEffect10").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[4] = transform.Find("ForceEffect/ForceEffect13").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[5] = transform.Find("ForceEffect/ForceEffect16").GetComponent<StatusEffectTooltip>();
     }
 
     public void EnableForceEffect1(PlayerStatus playerStatus)

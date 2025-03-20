@@ -8,12 +8,12 @@ public class MysteryEffect : MonoBehaviour
 
     private void Awake()
     {
-        statusEffectTooltip[0] = GameObject.Find("MysteryEffect1").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[1] = GameObject.Find("MysteryEffect4").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[2] = GameObject.Find("MysteryEffect7").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[3] = GameObject.Find("MysteryEffect10").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[4] = GameObject.Find("MysteryEffect13").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[5] = GameObject.Find("MysteryEffect16").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[0] = transform.Find("MysteryEffect/MysteryEffect1").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[1] = transform.Find("MysteryEffect/MysteryEffect4").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[2] = transform.Find("MysteryEffect/MysteryEffect7").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[3] = transform.Find("MysteryEffect/MysteryEffect10").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[4] = transform.Find("MysteryEffect/MysteryEffect13").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[5] = transform.Find("MysteryEffect/MysteryEffect16").GetComponent<StatusEffectTooltip>();
     }
 
     public void EnableMysteryEffect1()
