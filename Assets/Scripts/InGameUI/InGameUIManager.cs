@@ -28,17 +28,26 @@ public class InGameUIManager : MonoBehaviour
             stopUI.SetActive(false);
         }
     }
-    private void ContinueButton()
+    public void ContinueButton()
     {
         stopUI.SetActive(false);
     }
-    private void ToLobby()
+    public void FirstToLobby()
+    {
+        checkUI.SetActive(true);
+    }
+    public void ToLobby()
     {
         stopUI.SetActive(false);
-
+        checkUI.SetActive(false);
+        SceneManager.LoadScene("Lobby + UpgradeScene");
     }
-    private void ExitButton()
+    public void ExitButton()
     {
         Application.Quit();
+    }
+    public void CancelButton()
+    {
+        checkUI.SetActive(false);
     }
 }
