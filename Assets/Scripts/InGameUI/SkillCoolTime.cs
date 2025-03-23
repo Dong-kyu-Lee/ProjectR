@@ -1,60 +1,48 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillCoolTime : MonoBehaviour
 {
     [SerializeField]
-    private GameObject hideImg;
-    private float hideImgFill;
+    public GameObject hideImg;
+
     private bool canUseSkill = true;
     private float coolTime = 5f;
-    private float starTime = 0f;
+    private float currentTime = 0f;
 
+    private Image imageComponent;
 
     private void Start()
     {
-        hideImgFill = hideImg.GetComponent<Image>().fillAmount;
+        imageComponent = hideImg.GetComponent<Image>();
         hideImg.SetActive(false);
     }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)&&canUseSkill)
+        if (Input.GetKeyDown(KeyCode.Q) && canUseSkill)
         {
             canUseSkill = false;
-            StartCoroutine("SkillTimeChk");
-            StartCoolTime();
+            currentTime = coolTime;
+            hideImg.SetActive(true);
+            imageComponent.fillAmount = 1f;
+
+            StartCoroutine(SkillCooldownRoutine());
         }
     }
 
-    public void StartCoolTime()
+    IEnumerator SkillCooldownRoutine()
     {
-        hideImg.SetActive(true);
-        canUseSkill=false;
-    }
-
-    IEnumerator SkillTimeChk()
-    {
-        yield return null;
-
-        if (starTime > 0)
+        while (currentTime > 0)
         {
-            starTime -= Time.deltaTime;
+            currentTime -= Time.deltaTime;
+            imageComponent.fillAmount = currentTime / coolTime;
 
-            if (starTime < 0)
-            {
-                starTime = 0;
-                hideImg.SetActive(false);
-                starTime = coolTime;
-                canUseSkill = true;
-            }
-            float time = starTime / coolTime;
-            hideImgFill = time;
-
+            yield return null;
         }
-
+        imageComponent.fillAmount = 0f;
+        hideImg.SetActive(false);
+        canUseSkill = true;
     }
-
-
 }
