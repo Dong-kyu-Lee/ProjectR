@@ -7,6 +7,7 @@ public class Mannequin : MonoBehaviour
     bool isPlayerNear = false;
     public CharacterType characterType;
     public CharacterSelect characterSelect;
+    public string characterName;
 
     void Start()
     {
@@ -30,6 +31,7 @@ public class Mannequin : MonoBehaviour
         {
             isPlayerNear = true;
             // 'E' 키 활성화
+            CharacterSelectUI.Instance.SetText($"Press 'E' to select <color=yellow>{characterName}</color>");
             Debug.Log("Press 'E' to select character");
         }
     }
@@ -39,6 +41,8 @@ public class Mannequin : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isPlayerNear = false;
+            // 'E' 키 비활성화
+            CharacterSelectUI.Instance.HideText();
         }
     }
 }
