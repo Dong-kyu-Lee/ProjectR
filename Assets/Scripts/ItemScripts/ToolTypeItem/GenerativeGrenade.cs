@@ -12,7 +12,7 @@ public class GenerativeGrenade : Grenade
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f);
         if (hit)
         {
-            Instantiate(generatedPrefab, hit.point, Quaternion.identity);
+            Instantiate(generatedPrefab, hit.point, Quaternion.identity);   //장판 생성
         }
         Destroy(gameObject);
     }
