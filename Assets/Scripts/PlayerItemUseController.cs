@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerItemUseController : MonoBehaviour
 {
     [SerializeField]
-    private Inventory myInventory;
+    private Inventory myInventory;  //플레이어의 인벤토리
     public Inventory MyInventory { get { return myInventory; } }
 
     [SerializeField]
@@ -25,7 +25,7 @@ public class PlayerItemUseController : MonoBehaviour
         {
             myInventory.UseQuickSlotItem();
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))    //아이템 획득
         {
             TryTakeNearItem();
         }
@@ -39,7 +39,7 @@ public class PlayerItemUseController : MonoBehaviour
         {
             FieldItem fieldItem = itemHit.collider.GetComponent<FieldItem>();
             
-            if (myInventory.AddItem(fieldItem.MyItemData, fieldItem.Amount))
+            if (myInventory.AddItem(fieldItem.MyItemData, fieldItem.Amount))    //아이템 획득 로직이 성공하면 필드 아이템 오브젝트 제거
             {
                 Destroy(itemHit.transform.gameObject);
             }

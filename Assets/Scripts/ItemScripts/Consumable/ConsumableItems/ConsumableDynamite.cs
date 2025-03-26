@@ -4,22 +4,24 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ConsumableWeaponItem_Data", menuName = "Scriptable Object/Consumable Weapon Item Data", order = 1)]
+//[CreateAssetMenu(fileName = "ConsumableWeaponItem_Data", menuName = "Scriptable Object/Consumable Weapon Item Data", order = 1)]
 public class ConsumableDynamite : ConsumableItemData
 {
-    //´ÙÀÌ³Ê¸¶ÀÌÆ® ¾ÆÀÌÅÛ Data
+    //í•´ë‹¹ í´ë˜ìŠ¤ëŠ” ì‚¬ìš©í•˜ì§€ ì•ŠëŠ”ê±¸ ê¶Œì¥í•©ë‹ˆë‹¤. ëŒ€ì‹  ConsumableGrenadeë¥¼ ì‚¬ìš©í•˜ì„¸ìš”.
+
+    //ë‹¤ì´ë„ˆë§ˆì´íŠ¸ ì•„ì´í…œ Data
     [SerializeField]
-    private GameObject dynamitePrefab;  //´ÙÀÌ³Ê¸¶ÀÌÆ® Projectile Prefab
+    private GameObject dynamitePrefab;  //ë‹¤ì´ë„ˆë§ˆì´íŠ¸ Projectile Prefab
 
     public override void ActivateItemEffect(PlayerStatus player)
     {
         ThrowBomb(player.transform);
     }
 
-    //´ÙÀÌ³Ê¸¶ÀÌÆ® ProjectileÀ» »ı¼ºÇÏ´Â ¸Ş¼­µå
+    //ë‹¤ì´ë„ˆë§ˆì´íŠ¸ Projectileì„ ìƒì„±í•˜ëŠ” ë©”ì„œë“œ
     private void ThrowBomb(Transform playerTf)
     {
         Instantiate(dynamitePrefab, playerTf.position, Quaternion.identity);
-        Debug.Log("ÆøÅº ÅõÃ´");
+        Debug.Log("í­íƒ„ íˆ¬ì²™");
     }
 }
