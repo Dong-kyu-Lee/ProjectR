@@ -8,12 +8,12 @@ public class CriticalEffect : MonoBehaviour
 
     private void Awake()
     {
-        statusEffectTooltip[0] = GameObject.Find("CriticalEffect1").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[1] = GameObject.Find("CriticalEffect4").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[2] = GameObject.Find("CriticalEffect7").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[3] = GameObject.Find("CriticalEffect10").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[4] = GameObject.Find("CriticalEffect13").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[5] = GameObject.Find("CriticalEffect16").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[0] = transform.Find("CriticalEffect/CriticalEffect1").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[1] = transform.Find("CriticalEffect/CriticalEffect4").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[2] = transform.Find("CriticalEffect/CriticalEffect7").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[3] = transform.Find("CriticalEffect/CriticalEffect10").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[4] = transform.Find("CriticalEffect/CriticalEffect13").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[5] = transform.Find("CriticalEffect/CriticalEffect16").GetComponent<StatusEffectTooltip>();
     }
 
     public void EnableCriticalEffect1(PlayerStatus playerStatus)

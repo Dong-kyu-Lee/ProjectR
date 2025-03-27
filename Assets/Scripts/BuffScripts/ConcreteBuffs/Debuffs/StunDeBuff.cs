@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class StunDeBuff : Buff
 {
-    private float prevMoveSpeed = 0.0f;
-    private float prevJumpPower = 0.0f;
+    //StoneCurse, Sleep 디버프와 마찬가지로 canMove 같은 변수를 추가하여 움직임을 막는 게 더 효율적일 것 같음.
+
+    private float prevMoveSpeed = 0.0f;     //Stun 전 플레이어가 가지고 있던 이동속도 양
+    private float prevJumpPower = 0.0f;     //Stun 전 플레이어가 가지고 있던 점프력 양
 
     public StunDeBuff(float duration, GameObject target) : base(duration, target)
     { 
@@ -21,7 +23,6 @@ public class StunDeBuff : Buff
         PlayerController targetController = targetObject.GetComponent<PlayerController>();
         prevJumpPower += targetController.jumpPower;
         targetController.jumpPower = 0.0f;
-        Debug.Log("기절 디버프 활성화");
     }
 
     public override void DoActionOnActivate(float tickDuration = 1)
@@ -37,6 +38,5 @@ public class StunDeBuff : Buff
 
         PlayerController targetController = targetObject.GetComponent<PlayerController>();
         targetController.jumpPower += prevJumpPower;
-        Debug.Log("기절 디버프 비활성화");
     }
 }

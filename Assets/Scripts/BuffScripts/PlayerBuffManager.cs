@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerBuffManager : MonoBehaviour
@@ -19,15 +17,7 @@ public class PlayerBuffManager : MonoBehaviour
         nextEffectTime = new WaitForSeconds(1.0f);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            ActivateBuff(BuffType.Confusion, 3.0f);
-        }
-    }
-
-    //BuffType에 해당하는 버프를 생성하고 활성화 시키는 메서드
+    //BuffType에 해당하는 버프를 동적으로 생성하고 활성화 시키는 메서드
     public void ActivateBuff(BuffType type, float totalDuration = 10.0f)
     {
         if (isBuffActive(type))
@@ -46,11 +36,6 @@ public class PlayerBuffManager : MonoBehaviour
         {
             Debug.Log("버프 생성 실패 : " + e.Message);
         }
-/*        if (buff == null) {
-            Debug.Log("버프 생성 실패");
-            return;
-        }
-*/
     }
 
     //활성중인 버프 레벨을 1단계 올리는 메서드
@@ -72,14 +57,11 @@ public class PlayerBuffManager : MonoBehaviour
         {
             activeBuffDict[type].DoActionOnActivate(deltaNextEffectTime);
             yield return nextEffectTime;
-            /*activeBuffDict[type].DoActionOnActivate(Time.deltaTime);
-             * yeild return new WaitForSeconds(Time.deltaTime);
-             */
         }
         DeActivateBuff(type);
     }
 
-    //Type에 해당하는 버프를 해제하는 메서드
+    //type에 해당하는 버프를 해제하는 메서드
     public void DeActivateBuff(BuffType type)
     {
         if(activeBuffDict.ContainsKey(type))
@@ -94,7 +76,7 @@ public class PlayerBuffManager : MonoBehaviour
         Debug.Log("버프 해제 완료" + type.ToString());
     }
 
-    //활성화 된 모든 버프 해제 메서드
+    //활성화 된 모든 버프를 해제하는 메서드
     public void DeActivateBuffsAll()
     {
         if (activeBuffDict.Count == 0) return;
