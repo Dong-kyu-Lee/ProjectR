@@ -61,6 +61,7 @@ public class DungeonCreator : MonoBehaviour
             UpdateGates(generatePosition, roomNodes[i].OpenNeededGate);
             // 해당 방의 몬스터 관리 클래스 갱신
             gateDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
+            // gateDic[generatePosition].GetComponent<RoomInGame>()
             // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
             DungeonFlowManager.Instance.AddRoomInGame(gateDic[generatePosition].GetComponent<RoomInGame>());
 

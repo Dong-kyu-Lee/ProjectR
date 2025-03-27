@@ -13,6 +13,7 @@ public class RoomInGame : MonoBehaviour
 
     public RoomState GetRoomState { get => roomState; }
     public Gate gate;
+    public GameObject lane;
     public EnemyInRoom enemyInRoom;
 
     public Action onFirstWaveEnd;
@@ -59,11 +60,18 @@ public class RoomInGame : MonoBehaviour
         gate.OpenGate();
         // 다음 방 문 열기
         DungeonFlowManager.Instance.OpenNextRoom(this);
+        lane.SetActive(true);
+    }
+
+    public void SetLane(Vector3 generatePosition)
+    {
+
     }
 
     public void ResetRoomState()
     {
         isFirstWaveEnded = false;
+        lane.SetActive(false);
         roomState = RoomState.Default;
     }
 }
