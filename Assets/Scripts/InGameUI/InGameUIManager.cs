@@ -26,12 +26,13 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField]
     GameObject checkUI;
     [SerializeField]
-    GameObject buffUI;
+    GameObject[] buffUI;
     [SerializeField]
-    GameObject debuffUI;
+    GameObject[] debuffUI;
     [SerializeField]
     Text goldText;
     PlayerStatus playerStatus;
+    PlayerBuffManager playerBuffManager;
     [SerializeField]
     Slider HpBarSlider;
     [SerializeField]
@@ -40,14 +41,15 @@ public class InGameUIManager : MonoBehaviour
 
     private void Awake()
     {
-        buffUI.SetActive(false);
-        debuffUI.SetActive(false);
+        //buffUI.SetActive(false);
+        //debuffUI.SetActive(false);
         checkUI.SetActive(false);
         stopUI.SetActive(false);
         GameObject playerObject = GameObject.FindWithTag("Player");
         if (playerObject != null)
         {
             playerStatus = playerObject.GetComponent<PlayerStatus>();
+            playerBuffManager = playerObject.GetComponent<PlayerBuffManager>();
         }
         isOpen = false;
         hpTxt.text = playerStatus.Hp.ToString()+"/"+playerStatus.MaxHp.ToString();
@@ -85,7 +87,7 @@ public class InGameUIManager : MonoBehaviour
     }
     private void BuffUI()
     {
-
+        
     }
     private void DebuffUI()
     {
