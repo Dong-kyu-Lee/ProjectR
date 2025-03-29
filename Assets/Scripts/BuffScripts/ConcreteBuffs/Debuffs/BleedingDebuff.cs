@@ -15,6 +15,7 @@ public class BleedingDebuff : Buff
     {
         Debug.Log("출혈 디버프 활성화");
         Status targetStatus = targetObject.GetComponent<Status>();
+        CalcReceiveDamage.Instance.TakeTrueDamageQueue(bleedingDmg[currentBuffLevel], targetStatus.gameObject);
         targetStatus.Hp -= bleedingDmg[currentBuffLevel];
         Debug.Log($"출혈 후 플레이어 체력 : {targetStatus.Hp}");
     }

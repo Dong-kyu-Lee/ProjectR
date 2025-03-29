@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     protected float speed = 3f;
 
+    public EnemyStatus EnemyStatus { get { return enemyStatus; } }
     public EnemyAIController StateMachine { get { return enemyController; } }
     public BoxCollider2D AttackRangeCol { get { return attackRangeCol; } }
     public BoxCollider2D ChaseRangeCol { get { return chaseRangeCol; } }

@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     public Rigidbody2D projectileRigidbody;
     public PlayerStatus playerStatus;
+    public BartenderAbility bartenderAbility;
     public GameObject player;
     public float damage;
     public float ignoreDamageReduction;
@@ -41,6 +42,7 @@ public class Projectile : MonoBehaviour
         {
             damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
             collision.gameObject.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
+            bartenderAbility.Bartender_AttackDebuff(collision.gameObject);
             CalcDamage.Instance.CheckAddtionalDamage(collision.gameObject);
             CalcDamage.Instance.AdditionalEffect(collision.gameObject);
             CalcDamage.Instance.CheckFightState();

@@ -68,7 +68,7 @@ public class PlayerBuffManager : MonoBehaviour
         activeBuffDict[type].ApplyBuffEffect();
         Debug.Log("버프 활성화 : " + type.ToString());
 
-        while (activeBuffDict[type].CurrentDuration > 0.0f)
+        while (activeBuffDict.ContainsKey(type) && activeBuffDict[type].CurrentDuration > 0.0f)
         {
             activeBuffDict[type].DoActionOnActivate(deltaNextEffectTime);
             yield return nextEffectTime;

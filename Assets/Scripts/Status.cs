@@ -9,7 +9,11 @@ public class Status : MonoBehaviour
     private float damage;
     private float damageReduction;
     private float attackSpeed;
+    private float additionalAttackSpeed;
+    private float totalAttackSpeed;
     private float moveSpeed;
+    private float additionalMoveSpeed;
+    private float totalMoveSpeed;
 
     public float MaxHp
     {
@@ -39,7 +43,28 @@ public class Status : MonoBehaviour
     public virtual float Damage { get { return damage; } set { damage = value; } }
     public virtual float DamageReduction { get { return damageReduction; } set { damageReduction = value; } }
     public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
+    public float AdditionalAttackSpeed
+    {
+        get { return additionalAttackSpeed; }
+        set
+        {
+            additionalAttackSpeed = value;
+            totalAttackSpeed = AttackSpeed + (AttackSpeed * additionalAttackSpeed);
+        }
+    }
+    public float TotalAttackSpeed { get { return totalAttackSpeed; } }
+
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
+    public float AdditionalMoveSpeed
+    {
+        get { return additionalMoveSpeed; }
+        set
+        {
+            additionalMoveSpeed = value;
+            totalMoveSpeed = MoveSpeed + (MoveSpeed * additionalMoveSpeed);
+        }
+    }
+    public float TotalMoveSpeed { get { return totalMoveSpeed; } }
 
     void Start()
     {

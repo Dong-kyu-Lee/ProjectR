@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +17,7 @@ public class EnemyStatus : Status
         DamageReduction = enemyData.DamageReduction;
         AttackSpeed = enemyData.AttackSpeed;
         MoveSpeed = enemyData.MoveSpeed;
+        AdditionalMoveSpeed = 0;
     }
 
     void Start()

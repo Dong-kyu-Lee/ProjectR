@@ -4,42 +4,31 @@ using UnityEngine;
 
 public class DrunkenDeBuff : Buff
 {
-    private float[] moveSpeedDecGap = { 0.1f, 0.2f, 0.2f };
-    private float[] attackSpeedDecGap = { 10.0f, 10.0f, 30.0f };
+    private float prevMoveSpeed = 0.0f;
 
     public DrunkenDeBuff(float duration, GameObject target) : base(duration, target)
     {
-        maxBuffLevel = 3;
+        maxBuffLevel = 1;
     }
 
     public override void ApplyBuffEffect()
     {
-        if (currentBuffLevel < maxBuffLevel - 1)
-        {
-            Status targetStatus = targetObject.GetComponent<Status>();
-            targetStatus.MoveSpeed -= moveSpeedDecGap[currentBuffLevel];
-            targetStatus.AttackSpeed -= attackSpeedDecGap[currentBuffLevel];
-        }
-        else
-        {
-            ActivateSleepBuff();
-        }
+        Status targetStatus = targetObject.GetComponent<Status>();
+        prevMoveSpeed += targetStatus.MoveSpeed;
+        targetStatus.MoveSpeed = 0.0f;
         Debug.Log("만취 디버프 부여");
     }
 
-    //스택이 3스택 이상 쌓일 경우 슬립 디버프로 전환시키는 메서드
-    private void ActivateSleepBuff()
+    public override void DoActionOnActivate(float tickDuration = 1)
     {
-        PlayerBuffManager targetBuffManager = targetObject.GetComponent<PlayerBuffManager>();
-        targetBuffManager.ActivateBuff(BuffType.Sleep, 10.0f);
-
+        ApplyBuffEffect();
+        base.DoActionOnActivate(tickDuration);
     }
 
     public override void RemoveBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        targetStatus.MoveSpeed += GetCurrentSumOfArray(moveSpeedDecGap);
-        targetStatus.AttackSpeed += GetCurrentSumOfArray(attackSpeedDecGap);
+        targetStatus.MoveSpeed += prevMoveSpeed;
         Debug.Log("만취 디버프 해제");
     }
 }

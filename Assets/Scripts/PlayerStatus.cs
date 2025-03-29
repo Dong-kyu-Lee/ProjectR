@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using static PlayerObj;
 
 public class PlayerStatus : Status
@@ -9,15 +10,11 @@ public class PlayerStatus : Status
     private float exp;
     private float additionalDamage;
     private float additionalDamageReduction;
-    private float additionalAttackSpeed;
-    private float additionalMoveSpeed;
     private float criticalPercent;
     private float criticalDamage;
     private float priceAdditional;
     private float totalDamage;
     private float totalDamageReduction;
-    private float totalAttackSpeed;
-    private float totalMoveSpeed;
     private float ignoreDamageReduction;
 
     public float Level { get { return level; } set { level = value; } }
@@ -26,8 +23,6 @@ public class PlayerStatus : Status
     public float PriceAdditional { get { return priceAdditional; } set { priceAdditional = value; } }
     public float TotalDamage { get { return totalDamage; } }
     public float TotalDamageReduction { get { return totalDamageReduction; } }
-    public float TotalAttackSpeed { get { return totalAttackSpeed; } }
-    public float TotalMoveSpeed { get { return totalMoveSpeed; } }
     public float IgnoreDamageReduction { get { return ignoreDamageReduction; } set { ignoreDamageReduction = value; } }
     public float Gold;
 
@@ -85,39 +80,35 @@ public class PlayerStatus : Status
         }
     }
 
+    private List<float> damageReductions = new List<float>();
+
     public float AdditionalDamageReduction
     {
         get { return additionalDamageReduction; }
         set
         {
             additionalDamageReduction = value;
-            if (additionalDamageReduction >= 0)
-                DamageReduction = 1 - (1 - DamageReduction) * (1 - additionalDamageReduction);
-            else
-                DamageReduction = 1 - (1 - DamageReduction) / (1 + additionalDamageReduction);
-            additionalDamageReduction = 0f;
-            CalcReceiveDamage.Instance.InduranceEffect10_IncreaseDamage(); // 인내 10레벨.
+            if (additionalDamageReduction > 0f) AddDamageReduction(additionalDamageReduction);
+            else if (additionalDamageReduction < 0f) RemoveDamageReduction(additionalDamageReduction);
+            else { }
+            additionalDamageReduction = 0;
         }
     }
-
-    public float AdditionalAttackSpeed
+    // 새로운 피해 감소 요소 추가
+    private void AddDamageReduction(float reduction)
     {
-        get { return additionalAttackSpeed; }
-        set
-        {
-            additionalAttackSpeed = value;
-            totalAttackSpeed = AttackSpeed + (AttackSpeed * additionalAttackSpeed);
-        }
+        damageReductions.Add(reduction);
+        DamageReduction = 1 - damageReductions.Aggregate(1f, (accumulator, reduction) => accumulator * (1 - reduction));
     }
 
-    public float AdditionalMoveSpeed
+    // 특정 피해 감소 요소 제거
+    private void RemoveDamageReduction(float reduction)
     {
-        get { return additionalMoveSpeed; }
-        set
+        if (!damageReductions.Remove(-reduction))
         {
-            additionalMoveSpeed = value;
-            totalMoveSpeed = MoveSpeed + (MoveSpeed * additionalMoveSpeed);
+            damageReductions.Add(reduction);
         }
+        DamageReduction = 1 - damageReductions.Aggregate(1f, (accumulator, reduction) => accumulator * (1 - reduction));
     }
 
     void Awake()
@@ -132,11 +123,11 @@ public class PlayerStatus : Status
 
         level = 1f;
         exp = 0;
-        criticalDamage = 0.5f;
-        AdditionalDamage = 0;
         AdditionalDamageReduction = 0;
         AdditionalAttackSpeed = 0;
         AdditionalMoveSpeed = 0;
+        criticalDamage = 0.5f;
+        AdditionalDamage = 0;
         criticalPercent = 0;
         priceAdditional = 0;
         ignoreDamageReduction = 0;
