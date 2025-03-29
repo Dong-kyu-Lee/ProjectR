@@ -17,30 +17,30 @@ public class BuffFactory
     private void GenerateBuffConstructorList()
     {
         //BuffType 열거형 순서에 맞게 델리게이트 생성자들을 추가할 것.
-        buffConstructors[(int)BuffType.AttackDamageIncrease] = (duration, targetObject) => new AtkDmgIncBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.DamageReductionIncrease] = (duration, targetObject) => new DmgReductIncBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Bless] = (duration, targetObject) => new BlessBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Raging] = (duration, targetObject) => new RagingBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.CritDamageIncrease] = (duration, targetObject) => new CritDmgIncBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.CritPercentIncrease] = (duration, targetObject) => new CritPercentIncBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.PriceAdditionalIncrease] = (duration, targetObject) => new PriceAdditionalIncBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.AttackSpeedIncrease] = (duration, targetObject) => new AttackSpeedIncBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.MoveSpeedIncrease] = (duration, targetObject) => new MoveSpeedIncBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.ExtremeSpeed] = (duration, targetObject) => new ExtremeSpeedBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.EagleEye] = (duration, targetObject) => new EagleEyeBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.BulkUp] = (duration, targetObject) => new BulkUpBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.IronBody] = (duration, targetObject) => new IronBodyBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Reflection] = (duration, targetObject) => new ReflectionBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Invincible] = (duration, targetObject) => new InvincibleBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Poision] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Slow] = (duration, targetObject) => new SlowDeBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Freeze] = (duration, targetObject) => new FreezeDeBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Sleep] = (duration, targetObject) => new SleepDeBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Drunken] = (duration, targetObject) => new DrunkenDeBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Bleeding] = (duration, targetObject) => new BleedingDebuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Stun] = (duration, targetObject) => new StunDeBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.StoneCurse] = (duration, targetObject) => new StoneCurseDeBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Confusion] = (duration, targetObject) => new ConfusionDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.AttackDamageIncrease] = (duration, targetObject) => new AtkDmgIncBuff(duration, targetObject);               //뎀증
+        buffConstructors[(int)BuffType.DamageReductionIncrease] = (duration, targetObject) => new DmgReductIncBuff(duration, targetObject);         //뎀감
+        buffConstructors[(int)BuffType.Bless] = (duration, targetObject) => new BlessBuff(duration, targetObject);                                  //축복
+        buffConstructors[(int)BuffType.Raging] = (duration, targetObject) => new RagingBuff(duration, targetObject);                                //광분
+        buffConstructors[(int)BuffType.CritDamageIncrease] = (duration, targetObject) => new CritDmgIncBuff(duration, targetObject);                //크뎀
+        buffConstructors[(int)BuffType.CritPercentIncrease] = (duration, targetObject) => new CritPercentIncBuff(duration, targetObject);           //크확
+        buffConstructors[(int)BuffType.PriceAdditionalIncrease] = (duration, targetObject) => new PriceAdditionalIncBuff(duration, targetObject);   //메획
+        buffConstructors[(int)BuffType.AttackSpeedIncrease] = (duration, targetObject) => new AttackSpeedIncBuff(duration, targetObject);           //공속
+        buffConstructors[(int)BuffType.MoveSpeedIncrease] = (duration, targetObject) => new MoveSpeedIncBuff(duration, targetObject);               //이속
+        buffConstructors[(int)BuffType.ExtremeSpeed] = (duration, targetObject) => new ExtremeSpeedBuff(duration, targetObject);                    //
+        buffConstructors[(int)BuffType.EagleEye] = (duration, targetObject) => new EagleEyeBuff(duration, targetObject);                            //매의 눈(복합 버프
+        buffConstructors[(int)BuffType.BulkUp] = (duration, targetObject) => new BulkUpBuff(duration, targetObject);                                //벌크업(복합 버프
+        buffConstructors[(int)BuffType.IronBody] = (duration, targetObject) => new IronBodyBuff(duration, targetObject);                            //우직함
+        buffConstructors[(int)BuffType.Reflection] = (duration, targetObject) => new ReflectionBuff(duration, targetObject);                        //반사
+        buffConstructors[(int)BuffType.Invincible] = (duration, targetObject) => new InvincibleBuff(duration, targetObject);                        //무적
+        buffConstructors[(int)BuffType.Poision] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);                             //중독
+        buffConstructors[(int)BuffType.Slow] = (duration, targetObject) => new SlowDeBuff(duration, targetObject);                                  //슬로유
+        buffConstructors[(int)BuffType.Freeze] = (duration, targetObject) => new FreezeDeBuff(duration, targetObject);                              //빙결
+        buffConstructors[(int)BuffType.Sleep] = (duration, targetObject) => new SleepDeBuff(duration, targetObject);                                //수면
+        buffConstructors[(int)BuffType.Drunken] = (duration, targetObject) => new DrunkenDeBuff(duration, targetObject);                            //만취
+        buffConstructors[(int)BuffType.Bleeding] = (duration, targetObject) => new BleedingDebuff(duration, targetObject);                          //출혈
+        buffConstructors[(int)BuffType.Stun] = (duration, targetObject) => new StunDeBuff(duration, targetObject);                                  //스턴
+        buffConstructors[(int)BuffType.StoneCurse] = (duration, targetObject) => new StoneCurseDeBuff(duration, targetObject);                      //석화
+        buffConstructors[(int)BuffType.Confusion] = (duration, targetObject) => new ConfusionDeBuff(duration, targetObject);                        //혼란
         buffConstructors[(int)BuffType.Force7] = (duration, targetObject) => new Force7Buff(duration, targetObject);
         buffConstructors[(int)BuffType.Force16] = (duration, targetObject) => new Force16Buff(duration, targetObject);
         buffConstructors[(int)BuffType.Critical4] = (duration, targetObject) => new Critical4Buff(duration, targetObject);
