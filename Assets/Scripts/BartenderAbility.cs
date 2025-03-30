@@ -5,19 +5,60 @@ using UnityEngine;
 public class BartenderAbility : MonoBehaviour
 {
     private PlayerBuffManager enemyBuffManager;
-    public int Bartender_Bottle = 10;
+    private Queue<string> Bartender_Bottles = new Queue<string>();
+    private string[] bottleElements = { "Poison", "Burn", "Freeze" };
 
-    public void Bartender_AttackDebuff(GameObject enemy)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && !CalcDamage.Instance.IsOnCooldown("BartenderAbility"))
+        {
+            AddBartenderBottle(10);
+            StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", 20f));
+        }
+    }
+
+    public void BartenderAttackDebuff(GameObject enemy)
     {
         enemyBuffManager = enemy.GetComponent<PlayerBuffManager>();
         enemyBuffManager.ActivateBuff(BuffType.Buzzed, 10.0f);
     }
 
-    public void CheckBartenderAbility()
+    public void AddBartenderBottle(int count)
     {
-        if (Bartender_Bottle > 0)
+        for (int i = 0; i < count; i++)
         {
-            Bartender_Bottle--;
+            string randomBottle = bottleElements[Random.Range(0, bottleElements.Length)];
+            Bartender_Bottles.Enqueue(randomBottle);
+            Debug.Log("병 추가 : " + randomBottle);
+        }
+    }
+
+    public string UseBartenderBottle()
+    {
+        if (Bartender_Bottles.Count > 0)
+        {
+            string bottle = Bartender_Bottles.Dequeue();
+            Debug.Log("사용한 병 : " + bottle);
+            return bottle;
+        }
+        return "";
+    }
+
+    public void CheckBartenderAbility(string bottle)
+    {
+        switch (bottle)
+        {
+            case "Poison":
+                enemyBuffManager.ActivateBuff(BuffType.Poison, 10.0f);
+                break;
+            case "Burn":
+                enemyBuffManager.ActivateBuff(BuffType.Burn, 5.0f);
+                break;
+            case "Freeze":
+                enemyBuffManager.ActivateBuff(BuffType.Freeze, 8.0f);
+                break;
+            case "":
+                break;
         }
     }
 }

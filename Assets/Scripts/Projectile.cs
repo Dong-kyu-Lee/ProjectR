@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
     public GameObject player;
     public float damage;
     public float ignoreDamageReduction;
+    public string bottle;
 
     Vector2 velocity;
 
@@ -42,7 +43,8 @@ public class Projectile : MonoBehaviour
         {
             damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
             collision.gameObject.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
-            bartenderAbility.Bartender_AttackDebuff(collision.gameObject);
+            bartenderAbility.BartenderAttackDebuff(collision.gameObject);
+            bartenderAbility.CheckBartenderAbility(bottle);
             CalcDamage.Instance.CheckAddtionalDamage(collision.gameObject);
             CalcDamage.Instance.AdditionalEffect(collision.gameObject);
             CalcDamage.Instance.CheckFightState();

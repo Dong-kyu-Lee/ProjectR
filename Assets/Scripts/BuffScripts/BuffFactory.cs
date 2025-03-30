@@ -32,9 +32,10 @@ public class BuffFactory
         buffConstructors[(int)BuffType.IronBody] = (duration, targetObject) => new IronBodyBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Reflection] = (duration, targetObject) => new ReflectionBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Invincible] = (duration, targetObject) => new InvincibleBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Poision] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);
-        buffConstructors[(int)BuffType.Slow] = (duration, targetObject) => new SlowDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Poison] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Burn] = (duration, targetObject) => new BurnDeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Freeze] = (duration, targetObject) => new FreezeDeBuff(duration, targetObject);
+        buffConstructors[(int)BuffType.Slow] = (duration, targetObject) => new SlowDeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Sleep] = (duration, targetObject) => new SleepDeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Buzzed] = (duration, targetObject) => new BuzzedDeBuff(duration, targetObject);
         buffConstructors[(int)BuffType.Drunken] = (duration, targetObject) => new DrunkenDeBuff(duration, targetObject);

@@ -23,9 +23,10 @@ public enum BuffType
     Dexterity7,                 //재주 7레벨 버프
     Dexterity13,                //재주 13레벨 버프
 
-    Poision,                     //독 디버프
-    Slow,                        //둔화 디버프
+    Poison,                      //독 디버프
+    Burn,                        //화상 디버프
     Freeze,                      //빙결 디버프
+    Slow,                        //둔화 디버프
     Sleep,                       //수면 디버프
     Buzzed,                      //취기 디버프
     Drunken,                     //만취 디버프

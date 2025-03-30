@@ -234,6 +234,7 @@ public class BartenderController : MonoBehaviour
         projectileCompo.playerStatus = playerStatus;
         projectileCompo.player = gameObject;
         projectileCompo.bartenderAbility = bartenderAbility;
+        projectileCompo.bottle = bartenderAbility.UseBartenderBottle();
 
         yield return new WaitForSeconds(attackCoolTimeA);
         isAttaking = false;
