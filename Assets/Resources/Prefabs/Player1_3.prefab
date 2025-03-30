@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 2886936181360919197}
   - component: {fileID: 3426121558151251605}
   - component: {fileID: 6984055018331077393}
-  - component: {fileID: 7491559009817046287}
+  - component: {fileID: 1340250420869573708}
   m_Layer: 6
   m_Name: Player1_3
   m_TagString: Player
@@ -360,6 +360,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 23
   groundCheck: {fileID: 1440969402445902639}
+  ability: {fileID: 0}
   jumpPower: 1200
   moveFactor: 0
   dashFactor: 0
@@ -367,7 +368,7 @@ MonoBehaviour:
   dashCoolTime: 0
   attackCoolTimeA: 0
   projectielSpawnOffset: 0
---- !u!114 &7491559009817046287
+--- !u!114 &1340250420869573708
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -376,27 +377,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5991675828630517409}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d9c1668d2898674188fe5dab00d40e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 27a37c422ae9d7d47955a859f51df986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnEnableCharacterInfoUI:
-    m_PersistentCalls:
-      m_Calls: []
-  projectilePref: {fileID: 2127986129719347135, guid: 70293c34aa4921a4e80e8083c11e4c9a, type: 3}
-  rendererObject: {fileID: 7663576975768946401}
-  playerCamera: {fileID: 3991872296796565435}
-  playerAnimator: {fileID: 4669721966189678149}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 23
-  groundCheck: {fileID: 1440969402445902639}
-  jumpPower: 1200
-  moveFactor: 0
-  dashFactor: 0
-  dashTime: 0
-  dashCoolTime: 0
-  attackCoolTimeA: 0
-  projectielSpawnOffset: 0
 --- !u!1 &7663576975768946401
 GameObject:
   m_ObjectHideFlags: 0

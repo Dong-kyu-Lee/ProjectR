@@ -19,6 +19,7 @@ public class BlacksmithController : MonoBehaviour
     public Animator playerAnimator;
     public LayerMask groundLayer;
     public Transform groundCheck;
+    public BlacksmithAbility ability;
 
     public float jumpPower;
     public float moveFactor;
@@ -82,6 +83,11 @@ public class BlacksmithController : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && enableAttack)
             {
                 StartCoroutine(Attack());
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                CharacterAbility();
             }
         }
 
@@ -243,5 +249,11 @@ public class BlacksmithController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         gameObject.SetActive(false);
+    }
+
+    // 고유능력
+    void CharacterAbility()
+    {
+        ability.Activate();
     }
 }
