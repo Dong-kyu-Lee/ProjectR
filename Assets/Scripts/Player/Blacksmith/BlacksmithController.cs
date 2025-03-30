@@ -82,7 +82,7 @@ public class BlacksmithController : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && enableAttack)
             {
-                StartCoroutine(Attack());
+                //StartCoroutine(Attack());
             }
 
             if (Input.GetKeyDown(KeyCode.Q))
