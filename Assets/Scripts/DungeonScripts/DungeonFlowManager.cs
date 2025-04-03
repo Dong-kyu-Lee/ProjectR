@@ -170,7 +170,7 @@ public class DungeonFlowManager : MonoBehaviour
         int index = roomList.IndexOf(currentRoom);
         if(index != -1)
         {
-            if (index != roomList.Count - 1) roomList[index + 1].gate.OpenGate();
+            if (index != roomList.Count - 1) roomList[index + 1].gate.OpenGate(false);
             roomList.Remove(currentRoom);
         }
         else

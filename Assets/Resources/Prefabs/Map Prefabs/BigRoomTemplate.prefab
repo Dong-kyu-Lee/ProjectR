@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 2829931260051335812}
   - component: {fileID: 2829931260051335815}
   m_Layer: 0
-  m_Name: LanePosition
+  m_Name: WarpPosition
   m_TagString: Lane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -883,7 +883,7 @@ MonoBehaviour:
   interactableObjPoint: []
   playerSpawnPosition: {fileID: 811224058916861686}
   finishSpotPosition: {fileID: 2186993961508497041}
-  lanePosition: {fileID: 2829931260051335812}
+  warpPosition: {fileID: 2829931260051335812}
   isUpOpenable: 1
   isDownOpenable: 1
   isRightOpenable: 1

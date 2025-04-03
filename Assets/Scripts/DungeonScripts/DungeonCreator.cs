@@ -52,62 +52,59 @@ public class DungeonCreator : MonoBehaviour
         playerSpawnPosition = new Vector3();
         finishSpotPosition = new Vector3();
 
-        // 방 노드에 대응하는 방 프리펩 정보 리스트 생성 & 방 생성
+        // 랜덤으로 방 프리팹을 선택해 방과 그 구성요소 생성
         for(int i = 0; i < roomNodes.Count; ++i)
         {
             Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
             var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
             Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
             DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
+            // 문 그리기
+            UpdateRoomInGame(generatePosition, roomNodes[i].OpenNeededGate);
+            roomInGameDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
 
             roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));
-        }
-
-        // 방 노드에 대응하는 방 프리펩 정보 리스트를 통해 방 타일을 생성
-        for (int i = 0; i < roomTupleList.Count; ++i)
-        {
-            
-        }
-
-        // 조건에 맞는 방들을 랜덤으로 선택해 생성
-        for (int i = 0; i < roomNodes.Count; ++i)
-        {
-            Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
-
-            var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
-            
-            // RoomInGame 오브젝트 생성 (Instantiate된 방에 대한 오브젝트 관리)
-            // UpdateRoomInGame(generatePosition, currentRoom.warpPosition.position + generatePosition, roomNodes[i].OpenNeededGate);
-            // 해당 방의 몬스터 관리 클래스 갱신
-            // roomInGameDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
 
             // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
             DungeonFlowManager.Instance.AddRoomInGame(roomInGameDic[generatePosition].GetComponent<RoomInGame>());
 
-            // if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
-            // else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
         }
 
-        // 워프 생성
-        for (int i = 0; i < warpTupleList.Count; ++i)
-        {
-            
-        }
+        UpdateWarpPosition();
     }
 
     // 문 오브젝트를 생성하고 갱신하는 함수
-    private void UpdateRoomInGame(Vector3 doorPosition, Vector3 warpPosition, bool[] openNeededGate)
+    private void UpdateRoomInGame(Vector3 doorPosition, bool[] openNeededGate)
     {
         // 2스테이지 시작의 경우
         if (roomInGameDic.Count == dungeonColumn * dungeonRow)
         {
             roomInGameDic[doorPosition].GetComponent<RoomInGame>().ResetRoomState();
-            roomInGameDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate, warpPosition);
+            roomInGameDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
         }
         else
         {
             roomInGameDic.Add(doorPosition, Instantiate(roomInGamePrefab, doorPosition, transform.rotation, grid.transform));
-            roomInGameDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate, warpPosition);
+            roomInGameDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
+        }
+    }
+
+    // 워프가 생성되어야 할 방을 선정하고 해당 방의 RoomInGame 을 수정
+    private void UpdateWarpPosition()
+    {
+        for (int i = 0; i < roomTupleList.Count - 1; ++i)
+        {
+            Vector2Int currentNodePosition = roomTupleList[i].Item1.RoomPosition;
+            Vector2Int nextNodePosition = roomTupleList[i + 1].Item1.RoomPosition;
+            if (currentNodePosition.y != nextNodePosition.y)
+            {
+                Vector3 roomPosition = new Vector3Int(40 * currentNodePosition.x, 40 * currentNodePosition.y, 0);
+                Vector3 nextRoomPosition = new Vector3Int(40 * nextNodePosition.x, 40 * nextNodePosition.y, 0);
+
+                Vector3 warpPosition = roomPosition + roomTupleList[i].Item2.warpPosition.position;
+                Vector3 playerWarpPosition = nextRoomPosition + roomTupleList[i + 1].Item2.playerSpawnPosition.position;
+                roomInGameDic[roomPosition].GetComponent<Gate>().CreateWarpObject(warpPosition, playerWarpPosition);
+            }
         }
     }
 

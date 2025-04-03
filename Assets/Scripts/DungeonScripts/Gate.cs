@@ -8,13 +8,18 @@ public class Gate : MonoBehaviour
     // 위, 오른쪽, 아래, 왼쪽 순서
     public GameObject[] gateObjects;
     public GameObject warpObject;
-    public Warp currentWarp;
+    public GameObject currentWarp;
+    public bool isWarp = false; // 워프가 있는 방인지 확인하는 변수
     public bool[] gateToUse = { false, false, false, false }; // 사용할 방향의 문을 선택
 
     // 문 오브젝트를 활성화 혹은 비활성화하는 함수
-    // 방 생성 시, 필요한 문, 통로를 설정
-    public void SetUsableDoors(bool[] openNeedGate, Vector3 lanePosition)
+    // 방 생성 시, 필요한 문, 워프 설정
+    public void SetUsableDoors(bool[] openNeedGate)
     {
+        // 워프 관련 설정 초기화
+        isWarp = false;
+        if (currentWarp != null) currentWarp.SetActive(false);
+
         for (int i = 0; i < openNeedGate.Length; ++i)
         {
             if (openNeedGate[i] == true)
@@ -30,14 +35,38 @@ public class Gate : MonoBehaviour
         }
     }
 
-    // 임시 문 프리팹을 활성화하여 문 열림을 구현
-    public void OpenGate()
+    // warpPosition : 워프가 생성될 월드좌표, playerWarpPosition : 플레이어가 워프될 좌표
+    public void CreateWarpObject(Vector3 warpPosition, Vector3 playerWarpPosition)
     {
-        for(int i = 0; i < gateObjects.Length; ++i)
+        isWarp = true; // 워프가 있는 방임을 설정
+        if (currentWarp == null)
         {
-            if(gateObjects[i].activeInHierarchy && gateToUse[i])
+            currentWarp = Instantiate(warpObject, warpPosition, Quaternion.identity);
+        }
+        else
+        {
+            currentWarp.transform.position = warpPosition;
+        }
+        currentWarp.GetComponent<Warp>().SetWarpPosition(playerWarpPosition);
+        currentWarp.SetActive(false);
+    }
+
+    // 임시 문 프리팹을 활성화하여 문 열림을 구현
+    public void OpenGate(bool isRoomCleared)
+    {
+        for (int i = 0; i < gateObjects.Length; ++i)
+        {
+            if (gateObjects[i].activeInHierarchy && gateToUse[i])
             {
                 gateObjects[i].SetActive(false);
+            }
+        }
+        if (isRoomCleared) // 방을 클리어한 경우: 워프가 같이 열림
+        {
+            if (isWarp)
+            {
+                currentWarp.SetActive(true);
+                return;
             }
         }
     }

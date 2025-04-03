@@ -5,15 +5,15 @@ using UnityEngine;
 // 던전의 방과 방 사이를 연결하는 워프를 나타내는 클래스
 public class Warp : MonoBehaviour
 {
-    private Vector3 warpPosition;
+    private Vector3 warpPoint;
     void Start()
     {
         
     }
 
     // 워프 될 곳의 위치를 설정하는 함수
-    public void SetWarpPosition(Vector3 newWarpPosition)
+    public void SetWarpPosition(Vector3 playerWarpPosition)
     {
-        warpPosition = newWarpPosition;
+        warpPoint = playerWarpPosition;
     }
 }

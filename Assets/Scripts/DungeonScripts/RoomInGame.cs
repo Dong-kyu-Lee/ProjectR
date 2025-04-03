@@ -56,7 +56,7 @@ public class RoomInGame : MonoBehaviour
         // 방 상태 변경
         roomState = RoomState.Clear;
         // 현재 방 문 열기
-        gate.OpenGate();
+        gate.OpenGate(true);
         // 다음 방 문 열기
         DungeonFlowManager.Instance.OpenNextRoom(this);
     }
