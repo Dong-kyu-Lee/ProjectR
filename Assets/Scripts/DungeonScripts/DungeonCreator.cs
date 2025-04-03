@@ -26,8 +26,11 @@ public class DungeonCreator : MonoBehaviour
     private Grid grid;
 
     [SerializeField]
-    private GameObject gatePrefab;
-    private Dictionary<Vector3, GameObject> gateDic = new Dictionary<Vector3, GameObject>();
+    private GameObject roomInGamePrefab;
+    private Dictionary<Vector3, GameObject> roomInGameDic = new Dictionary<Vector3, GameObject>();
+    // 워프 생성을 위한 각 방의 위치, 방 정보 튜플 리스트
+    private List<Tuple<Vector3, Room>> warpTupleList = new List<Tuple<Vector3, Room>>();
+    private List<Tuple<RoomNode, Room>> roomTupleList = new List<Tuple<RoomNode, Room>>();
 
     void Start()
     {
@@ -49,40 +52,62 @@ public class DungeonCreator : MonoBehaviour
         playerSpawnPosition = new Vector3();
         finishSpotPosition = new Vector3();
 
-        // 조건에 맞는 방들을 랜덤으로 선택해 생성
+        // 방 노드에 대응하는 방 프리펩 정보 리스트 생성 & 방 생성
         for(int i = 0; i < roomNodes.Count; ++i)
+        {
+            Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
+            var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
+            Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
+            DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
+
+            roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));
+        }
+
+        // 방 노드에 대응하는 방 프리펩 정보 리스트를 통해 방 타일을 생성
+        for (int i = 0; i < roomTupleList.Count; ++i)
+        {
+            
+        }
+
+        // 조건에 맞는 방들을 랜덤으로 선택해 생성
+        for (int i = 0; i < roomNodes.Count; ++i)
         {
             Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
 
             var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
-            Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
-            DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
-            // 문 오브젝트 생성
-            UpdateGates(generatePosition, roomNodes[i].OpenNeededGate);
+            
+            // RoomInGame 오브젝트 생성 (Instantiate된 방에 대한 오브젝트 관리)
+            // UpdateRoomInGame(generatePosition, currentRoom.warpPosition.position + generatePosition, roomNodes[i].OpenNeededGate);
             // 해당 방의 몬스터 관리 클래스 갱신
-            gateDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
-            // gateDic[generatePosition].GetComponent<RoomInGame>()
-            // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
-            DungeonFlowManager.Instance.AddRoomInGame(gateDic[generatePosition].GetComponent<RoomInGame>());
+            // roomInGameDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
 
-            if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
-            else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
+            // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
+            DungeonFlowManager.Instance.AddRoomInGame(roomInGameDic[generatePosition].GetComponent<RoomInGame>());
+
+            // if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
+            // else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
+        }
+
+        // 워프 생성
+        for (int i = 0; i < warpTupleList.Count; ++i)
+        {
+            
         }
     }
 
     // 문 오브젝트를 생성하고 갱신하는 함수
-    private void UpdateGates(Vector3 doorPosition, bool[] openNeededGate)
+    private void UpdateRoomInGame(Vector3 doorPosition, Vector3 warpPosition, bool[] openNeededGate)
     {
         // 2스테이지 시작의 경우
-        if (gateDic.Count == dungeonColumn * dungeonRow)
+        if (roomInGameDic.Count == dungeonColumn * dungeonRow)
         {
-            gateDic[doorPosition].GetComponent<RoomInGame>().ResetRoomState();
-            gateDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
+            roomInGameDic[doorPosition].GetComponent<RoomInGame>().ResetRoomState();
+            roomInGameDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate, warpPosition);
         }
         else
         {
-            gateDic.Add(doorPosition, Instantiate(gatePrefab, doorPosition, transform.rotation, grid.transform));
-            gateDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
+            roomInGameDic.Add(doorPosition, Instantiate(roomInGamePrefab, doorPosition, transform.rotation, grid.transform));
+            roomInGameDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate, warpPosition);
         }
     }
 

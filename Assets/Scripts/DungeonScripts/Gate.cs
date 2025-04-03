@@ -7,12 +7,15 @@ public class Gate : MonoBehaviour
 {
     // 위, 오른쪽, 아래, 왼쪽 순서
     public GameObject[] gateObjects;
+    public GameObject warpObject;
+    public Warp currentWarp;
     public bool[] gateToUse = { false, false, false, false }; // 사용할 방향의 문을 선택
 
     // 문 오브젝트를 활성화 혹은 비활성화하는 함수
-    public void SetUsableDoors(bool[] openNeedGate)
+    // 방 생성 시, 필요한 문, 통로를 설정
+    public void SetUsableDoors(bool[] openNeedGate, Vector3 lanePosition)
     {
-        for(int i = 0; i < openNeedGate.Length; ++i)
+        for (int i = 0; i < openNeedGate.Length; ++i)
         {
             if (openNeedGate[i] == true)
             {
