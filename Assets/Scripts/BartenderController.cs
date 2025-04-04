@@ -73,12 +73,6 @@ public class BartenderController : MonoBehaviour
                     StartCoroutine(Dash());
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                EnableCharacterUI();
-            }
-
             if (Input.GetMouseButtonDown(0) && enableAttack)
             {
                 StartCoroutine(Attack());
@@ -155,18 +149,6 @@ public class BartenderController : MonoBehaviour
         // 플레이어 아래에 발판 오브젝트가 오버랩되는지 확인
         enableJump = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
-
-    // 캐릭터 정보 UI 활성화
-    void EnableCharacterUI()
-    {
-        if (enableUI)
-        {
-            isPause = true;
-            enableUI = false;
-            OnEnableCharacterInfoUI.Invoke();
-        }
-    }
-
     // 캐릭터 정보 UI 비활성화
     public void DisableCharacterUI()
     {

@@ -25,6 +25,13 @@ public class CharacterInfo : MonoBehaviour
         DontDestroyOnLoad(transform.parent);
         DisableUI();
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            ToggleInventoryUI();
+        }
+    }
 
     private void OnEnable()
     {
@@ -44,6 +51,37 @@ public class CharacterInfo : MonoBehaviour
         Time.timeScale = 1f;
         gameObject.SetActive(false);
     }
+
+    public void ToggleInventoryUI()
+    {
+        BartenderController controller = GameManager.Instance.CurrentPlayer.GetComponent<BartenderController>();
+        bool hasInventoryEvent = controller != null &&
+            controller.OnEnableCharacterInfoUI != null &&
+            controller.OnEnableCharacterInfoUI.GetPersistentEventCount() > 0;
+
+        if (!hasInventoryEvent)
+        {
+            Debug.Log("인벤토리 UI 이벤트가 없음");
+            return;
+        }
+
+        if (gameObject.activeSelf)
+        {
+            DisableUI();
+            if (controller != null)
+            {
+                controller.DisableCharacterUI();
+            }
+        }
+        else { 
+            EnableUI();
+            if (controller != null && hasInventoryEvent)
+            {
+                controller.OnEnableCharacterInfoUI.Invoke();
+            }
+        }
+    }
+
 
     // 세팅 전 초기화
     void Init()
