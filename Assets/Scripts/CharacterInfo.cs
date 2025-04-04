@@ -50,13 +50,36 @@ public class CharacterInfo : MonoBehaviour
     {
         Debug.Log("Init");
         statusObjList.Clear();
+        if (playerStatus == null)
+        {
+            // GameManager에서 현재 플레이어 오브젝트를 가져와 PlayerStatus 컴포넌트 할당
+            if (GameManager.Instance.CurrentPlayer != null)
+            {
+                playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+                if (playerStatus == null)
+                {
+                    Debug.Log("없음");
+                }
+            }
+        }
+
     }
 
     // 스테이터스 세팅
     void SetStatus()
     {
-        characterName.GetComponent<Text>().text = "바텐더";
+        if (playerStatus == null)
+        {
+            if (GameManager.Instance.CurrentPlayer != null)
+            {
+                playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+                if (playerStatus == null)
+                    Debug.Log("없음");
+            }
+        }
 
+        characterName.GetComponent<Text>().text = "바텐더";
+        
         for (int i = 0; i <= 8; i++)
         {
             GameObject statusObj = Instantiate(statusTextPref);

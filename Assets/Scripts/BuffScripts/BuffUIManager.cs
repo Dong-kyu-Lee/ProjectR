@@ -6,19 +6,12 @@ using UnityEngine.UI;
 public class BuffUIManager : MonoBehaviour
 {
     [SerializeField]
-    private PlayerBuffManager playerBuffManager;
+    private BuffManager playerBuffManager;
     [SerializeField]
     private GameObject buffIconPrefab;
     [SerializeField]
     private Transform buffPanel;
-    [SerializeField]
-    private Image buffPanelBackground;
     private Dictionary<BuffType, GameObject> activeBuffIcons = new Dictionary<BuffType, GameObject>();
-
-    [SerializeField]
-    private float iconWidth = 100f;
-    [SerializeField]
-    private float iconSpacing = 5f;
 
     private void Start()
     {
@@ -26,13 +19,11 @@ public class BuffUIManager : MonoBehaviour
         {
             GameObject player = GameObject.FindWithTag("Player");
             if (player != null)
-                playerBuffManager = player.GetComponent<PlayerBuffManager>();
+                playerBuffManager = player.GetComponent<BuffManager>();
         }
 
         if (buffPanel == null)
             Debug.LogError("BuffPanel이 할당되지 않았습니다.");
-        if (buffPanelBackground == null)
-            Debug.LogError("BuffPanelBackground가 할당되지 않았습니다.");
     }
 
     private void Update()
@@ -55,7 +46,6 @@ public class BuffUIManager : MonoBehaviour
                 Debug.LogError("PlayerBuffManager가 null 입니다.");
             }
         }
-
         UpdateBuffUI();
     }
 
@@ -103,19 +93,6 @@ public class BuffUIManager : MonoBehaviour
         foreach (BuffType key in iconsToRemove)
         {
             activeBuffIcons.Remove(key);
-        }
-
-        // 3. 버프 아이콘의 수에 맞춰 배경 이미지의 크기를 조정
-        int buffCount = activeBuffIcons.Count;
-        float newBackgroundWidth = 0;
-        if (buffCount > 0)
-        {
-            newBackgroundWidth = buffCount * iconWidth + (buffCount - 1) * iconSpacing;
-        }
-        RectTransform bgRect = buffPanelBackground.GetComponent<RectTransform>();
-        if (bgRect != null)
-        {
-            bgRect.sizeDelta = new Vector2(newBackgroundWidth, bgRect.sizeDelta.y);
         }
     }
 }

@@ -30,7 +30,7 @@ public class DrunkenDeBuff : Buff
     //스택이 3스택 이상 쌓일 경우 슬립 디버프로 전환시키는 메서드
     private void ActivateSleepBuff()
     {
-        PlayerBuffManager targetBuffManager = targetObject.GetComponent<PlayerBuffManager>();
+        BuffManager targetBuffManager = targetObject.GetComponent<BuffManager>();
         targetBuffManager.ActivateBuff(BuffType.Sleep, 10.0f);
 
     }

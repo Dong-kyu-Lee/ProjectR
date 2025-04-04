@@ -132,6 +132,8 @@ MonoBehaviour:
   playerStatus: {fileID: 0}
   maxEquipSlot: 6
   equipmentItemSlot: []
+  dummyItemData: {fileID: 0}
+  myInventoryUI: {fileID: 0}
 --- !u!1 &5965097530767993371
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +178,6 @@ GameObject:
   - component: {fileID: 3318100734323259118}
   - component: {fileID: 719262563829245598}
   - component: {fileID: 8295723942867970973}
-  - component: {fileID: 6413651582113277921}
   - component: {fileID: 2886936181360919197}
   - component: {fileID: 3426121558151251605}
   - component: {fileID: 7491559009817046287}
@@ -255,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c0e2870d8a50d418730fc683e57008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Gold: 0
 --- !u!114 &8295723942867970973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,18 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myInventory: {fileID: 6613199010117736787}
---- !u!114 &6413651582113277921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5991675828630517409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beb850f9f87cb7e4ea782edefb8e8963, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  itemTakeRange: 1
 --- !u!61 &2886936181360919197
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -360,7 +351,7 @@ MonoBehaviour:
   dashFactor: 0
   dashTime: 0
   dashCoolTime: 0
-  attackCoolTime: 0
+  attackCoolTimeA: 0
   projectielSpawnOffset: 0
 --- !u!1 &7663576975768946401
 GameObject:

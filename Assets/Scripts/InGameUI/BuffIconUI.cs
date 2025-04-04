@@ -17,9 +17,6 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
     private Image iconImage; //버프 이미지
     [SerializeField] 
     private Image cooldownOverlay;
-    // 버프 레벨을 표시할 텍스트
-    [SerializeField] 
-    private Text buffLevelText;
 
     
     [SerializeField] private List<BuffSpriteEntry> buffSpriteEntries = new List<BuffSpriteEntry>();
@@ -43,6 +40,7 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
     public void Initialize(Buff newBuffData)
     {
         buffData = newBuffData;
+        cooldownOverlay.sprite = iconImage.sprite;
         UpdateUI();
     }
 
@@ -60,10 +58,6 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
             {
                 cooldownOverlay.fillAmount = buffData.CurrentDuration / buffData.MaxDuration;
             }
-            if (buffLevelText != null)
-            {
-                buffLevelText.text = (buffData.CurrentBuffLevel + 1).ToString();
-            }
             if (iconImage != null)
             {
                 BuffType type = GetBuffTypeFromBuffData(buffData);
@@ -76,7 +70,6 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
     }
     private BuffType GetBuffTypeFromBuffData(Buff buff)
     {
-        
         return (BuffType)System.Enum.Parse(typeof(BuffType), buff.GetType().Name);
     }
     public void OnPointerClick(PointerEventData eventData)

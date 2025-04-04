@@ -32,7 +32,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField]
     Text goldText;
     PlayerStatus playerStatus;
-    PlayerBuffManager playerBuffManager;
+    BuffManager playerBuffManager;
     [SerializeField]
     Slider HpBarSlider;
     [SerializeField]
@@ -49,7 +49,7 @@ public class InGameUIManager : MonoBehaviour
         if (playerObject != null)
         {
             playerStatus = playerObject.GetComponent<PlayerStatus>();
-            playerBuffManager = playerObject.GetComponent<PlayerBuffManager>();
+            playerBuffManager = playerObject.GetComponent<BuffManager>();
         }
         isOpen = false;
         hpTxt.text = playerStatus.Hp.ToString()+"/"+playerStatus.MaxHp.ToString();

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBuffManager : MonoBehaviour
+public class BuffManager : MonoBehaviour
 {
     private Dictionary<BuffType, Buff> activeBuffDict = new Dictionary<BuffType, Buff>();   //현재 적용되고 있는 버프 딕셔너리
     private BuffFactory buffFactory;            //버프 생성을 위한 팩토리 클래스
