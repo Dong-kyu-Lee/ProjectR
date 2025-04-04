@@ -64,9 +64,9 @@ public class GameManager : MonoBehaviour
             {
                 // 업그레이드UI & 인벤토리 UI 생성
                 upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
-                inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
+                // inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
                 DontDestroyOnLoad(upgradeUI);
-                DontDestroyOnLoad(inventoryUI);
+                // DontDestroyOnLoad(inventoryUI);
             }
             else if (sceneName == "StartScene")
             {

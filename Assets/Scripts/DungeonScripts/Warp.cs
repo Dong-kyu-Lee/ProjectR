@@ -16,4 +16,14 @@ public class Warp : MonoBehaviour
     {
         warpPoint = playerWarpPosition;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            // 플레이어가 워프에 닿았을 때, 플레이어를 워프 위치로 이동
+            GameManager.Instance.CurrentPlayer.transform.position = warpPoint;
+            gameObject.SetActive(false);
+        }
+    }
 }

@@ -68,6 +68,8 @@ public class DungeonCreator : MonoBehaviour
             // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
             DungeonFlowManager.Instance.AddRoomInGame(roomInGameDic[generatePosition].GetComponent<RoomInGame>());
 
+            if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
+            else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
         }
 
         UpdateWarpPosition();
