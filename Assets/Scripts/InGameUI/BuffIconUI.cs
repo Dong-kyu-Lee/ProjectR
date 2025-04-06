@@ -1,86 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-[System.Serializable]
-public struct BuffSpriteEntry
-{
-    public BuffType buffType;
-    public Sprite sprite;
-}
-
 public class BuffIconUI : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] 
-    private Image iconImage; //버프 이미지
-    [SerializeField] 
+    [SerializeField]
+    private Image iconImage;
+    [SerializeField]
+    private Text buffNameText;
+    [SerializeField]
+    private Text descriptionText;
+    [SerializeField]
     private Image cooldownOverlay;
+    [SerializeField]
+    private Text buffLevelText;
 
-    
-    [SerializeField] private List<BuffSpriteEntry> buffSpriteEntries = new List<BuffSpriteEntry>();
-    // 내부적으로 매핑된 딕셔너리
-    private Dictionary<BuffType, Sprite> buffSpriteDictionary = new Dictionary<BuffType, Sprite>();
+    private BuffInfo buffInfo; // 데이터 에셋
+    private Buff buffData;     // 실제 적용되고 있는 버프 로직
 
-    // 현재 적용된 버프 데이터를 저장
-    private Buff buffData;
-
-    private void Awake()
+    // 초기화함수: BuffInfo와 Buff 데이터를 함께 받아 UI를 설정합니다.
+    public void Initialize(BuffInfo info, Buff data)
     {
-        foreach (BuffSpriteEntry entry in buffSpriteEntries)
-        {
-            if (!buffSpriteDictionary.ContainsKey(entry.buffType))
-            {
-                buffSpriteDictionary.Add(entry.buffType, entry.sprite);
-            }
-        }
-    }
-
-    public void Initialize(Buff newBuffData)
-    {
-        buffData = newBuffData;
-        cooldownOverlay.sprite = iconImage.sprite;
+        buffInfo = info;
+        buffData = data;
         UpdateUI();
     }
 
-    public void UpdateData(Buff newBuffData)
+    // 업데이트 함수: 시간 변화 등에 따라 UI 갱신 
+    public void UpdateUI()
     {
-        buffData = newBuffData;
-        UpdateUI();
+        if (iconImage != null)
+            iconImage.sprite = buffInfo.buffIcon;
+        if (buffNameText != null)
+            buffNameText.text = buffInfo.buffName;
+        if (descriptionText != null)
+            descriptionText.text = buffInfo.description;
+        if (cooldownOverlay != null && buffData.MaxDuration > 0)
+            cooldownOverlay.fillAmount = buffData.CurrentDuration / buffData.MaxDuration;
+        if (buffLevelText != null)
+            buffLevelText.text = "Lv " + (buffData.CurrentBuffLevel + 1).ToString();
     }
 
-    private void UpdateUI()
-    {
-        if (buffData != null)
-        {
-            if (cooldownOverlay != null && buffData.MaxDuration > 0f)
-            {
-                cooldownOverlay.fillAmount = buffData.CurrentDuration / buffData.MaxDuration;
-            }
-            if (iconImage != null)
-            {
-                BuffType type = GetBuffTypeFromBuffData(buffData);
-                if (buffSpriteDictionary.ContainsKey(type))
-                {
-                    iconImage.sprite = buffSpriteDictionary[type];
-                }
-            }
-        }
-    }
-    private BuffType GetBuffTypeFromBuffData(Buff buff)
-    {
-        return (BuffType)System.Enum.Parse(typeof(BuffType), buff.GetType().Name);
-    }
     public void OnPointerClick(PointerEventData eventData)
     {
-        ShowBuffDetail();
-    }
-
-    private void ShowBuffDetail()
-    {
-        Debug.Log("버프 상세 정보: " + buffData.GetType().Name +
-                  "\n지속시간: " + buffData.CurrentDuration + " / " + buffData.MaxDuration +
-                  "\n레벨: " + (buffData.CurrentBuffLevel + 1));
+        // 아이콘 클릭 시 상세 정보, 팝업, 툴팁 등 추가 처리 가능
+        Debug.Log("버프 상세 정보: " + buffInfo.description);
     }
 }

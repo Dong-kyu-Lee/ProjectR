@@ -1,98 +1,55 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BuffUIManager : MonoBehaviour
 {
-    [SerializeField]
-    private BuffManager playerBuffManager;
-    [SerializeField]
-    private GameObject buffIconPrefab;
+    // 버프 정보를 관리할 딕셔너리 (버프 타입 → BuffInfo)
+    private Dictionary<BuffType, BuffInfo> buffInfoMapping;
+
+    // 버프 아이콘 프리팹 또는 UI 컨테이너 등 (미리 설정)
     [SerializeField]
     private Transform buffPanel;
-    private Dictionary<BuffType, GameObject> activeBuffIcons = new Dictionary<BuffType, GameObject>();
+    [SerializeField]
+    private GameObject buffIconPrefab;
 
-    private void Start()
+    void Awake()
     {
-        if (playerBuffManager == null)
+        // Resources 폴더 내의 모든 BuffInfo 에셋을 로드해서 딕셔너리 구축
+        BuffInfo[] infos = Resources.LoadAll<BuffInfo>("BuffInfo");
+        buffInfoMapping = new Dictionary<BuffType, BuffInfo>();
+        foreach (BuffInfo info in infos)
         {
-            GameObject player = GameObject.FindWithTag("Player");
-            if (player != null)
-                playerBuffManager = player.GetComponent<BuffManager>();
-        }
-
-        if (buffPanel == null)
-            Debug.LogError("BuffPanel이 할당되지 않았습니다.");
-    }
-
-    private void Update()
-    {// 테스트용 코드
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            // BuffType 열거형의 모든 값을 가져와서 랜덤하게 선택
-            BuffType[] buffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
-            int randomIndex = Random.Range(0, buffTypes.Length);
-            BuffType randomBuff = buffTypes[randomIndex];
-            Debug.Log("적용할 랜덤 버프/디버프: " + randomBuff);
-
-            if (playerBuffManager != null)
+            if (!buffInfoMapping.ContainsKey(info.buffType))
             {
-                // 기본 지속시간 10초로 ActivateBuff 호출
-                playerBuffManager.ActivateBuff(randomBuff, 10f);
-            }
-            else
-            {
-                Debug.LogError("PlayerBuffManager가 null 입니다.");
+                buffInfoMapping.Add(info.buffType, info);
             }
         }
-        UpdateBuffUI();
     }
 
-    private void UpdateBuffUI()
+    // 예시: 활성 버프를 기반으로 UI 아이콘 생성 및 업데이트
+    public void UpdateBuffUI(Dictionary<BuffType, Buff> activeBuffs)
     {
-        // 1. PlayerBuffManager의 활성 버프 정보에 따라 아이콘 생성 또는 업데이트
-        foreach (var buffEntry in playerBuffManager.ActiveBuffDict)
+        // 활성화된 버프 데이터(activeBuffs)는 기존 Buff 시스템에서 관리하는 딕셔너리
+        foreach (var kvp in activeBuffs)
         {
-            BuffType buffType = buffEntry.Key;
-            Buff buffData = buffEntry.Value;
-
-            if (!activeBuffIcons.ContainsKey(buffType))
+            BuffType type = kvp.Key;
+            Buff buffData = kvp.Value;
+            if (buffInfoMapping.TryGetValue(type, out BuffInfo info))
             {
-                // 새 버프 아이콘을 생성하여 buffPanel 아래에 배치
-                GameObject newIcon = Instantiate(buffIconPrefab, buffPanel);
-                BuffIconUI iconUI = newIcon.GetComponent<BuffIconUI>();
-                if (iconUI != null)
-                {
-                    iconUI.Initialize(buffData);
-                }
-                activeBuffIcons.Add(buffType, newIcon);
-            }
-            else
-            {
-                // 이미 존재하는 아이콘이면 데이터만 갱신
-                GameObject iconObj = activeBuffIcons[buffType];
+                // info.buffIcon, info.buffName, info.description 등 사용
+                // 예시: 새로운 아이콘 프리팹 생성 및 설정
+                GameObject iconObj = Instantiate(buffIconPrefab, buffPanel);
                 BuffIconUI iconUI = iconObj.GetComponent<BuffIconUI>();
                 if (iconUI != null)
                 {
-                    iconUI.UpdateData(buffData);
+                    iconUI.Initialize(info, buffData);
                 }
             }
-        }
-
-        // 2. 만약 PlayerBuffManager에서 해제된 버프가 있다면, 해당 아이콘을 제거
-        List<BuffType> iconsToRemove = new List<BuffType>();
-        foreach (var iconPair in activeBuffIcons)
-        {
-            if (!playerBuffManager.ActiveBuffDict.ContainsKey(iconPair.Key))
+            else
             {
-                Destroy(iconPair.Value);
-                iconsToRemove.Add(iconPair.Key);
+                Debug.LogWarning("등록된 BuffInfo가 없습니다. BuffType : " + type.ToString());
             }
-        }
-        foreach (BuffType key in iconsToRemove)
-        {
-            activeBuffIcons.Remove(key);
         }
     }
 }

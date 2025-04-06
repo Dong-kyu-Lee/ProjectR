@@ -10,4 +10,6 @@ public class BuffInfo : ScriptableObject
     public string buffName;      // 버프 이름
     [TextArea]
     public string description;   // 버프 설명
+
+    public bool isDebuff;
 }
