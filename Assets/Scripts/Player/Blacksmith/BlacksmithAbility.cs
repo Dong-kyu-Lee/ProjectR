@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BlacksmithAbility : MonoBehaviour, IAbility
 {
@@ -12,6 +13,10 @@ public class BlacksmithAbility : MonoBehaviour, IAbility
     [SerializeField]
     BlacksmithWeaponData[] weaponDataList;
 
+    public bool IsActivated { get { return isActivated; } }
+
+    public UnityEvent onAbilityUpdated;
+
     public void Activate()
     {
         if (!isActivated)
@@ -19,6 +24,7 @@ public class BlacksmithAbility : MonoBehaviour, IAbility
             isActivated = true;
             curWeaponData = weaponDataList[1];
             Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
+            onAbilityUpdated.Invoke();   
         }
         else
         {
@@ -31,6 +37,7 @@ public class BlacksmithAbility : MonoBehaviour, IAbility
         isActivated = false;
         curWeaponData = weaponDataList[0];
         Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
+        onAbilityUpdated.Invoke();
     }
 
     // Start is called before the first frame update
