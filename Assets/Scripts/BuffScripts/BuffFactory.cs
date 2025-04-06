@@ -32,7 +32,7 @@ public class BuffFactory
         buffConstructors[(int)BuffType.IronBody] = (duration, targetObject) => new IronBodyBuff(duration, targetObject);                            //우직함
         buffConstructors[(int)BuffType.Reflection] = (duration, targetObject) => new ReflectionBuff(duration, targetObject);                        //반사
         buffConstructors[(int)BuffType.Invincible] = (duration, targetObject) => new InvincibleBuff(duration, targetObject);                        //무적
-        buffConstructors[(int)BuffType.Poision] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);                             //중독
+        buffConstructors[(int)BuffType.Poison] = (duration, targetObject) => new PoisonDeBuff(duration, targetObject);                             //중독
         buffConstructors[(int)BuffType.Slow] = (duration, targetObject) => new SlowDeBuff(duration, targetObject);                                  //슬로유
         buffConstructors[(int)BuffType.Freeze] = (duration, targetObject) => new FreezeDeBuff(duration, targetObject);                              //빙결
         buffConstructors[(int)BuffType.Sleep] = (duration, targetObject) => new SleepDeBuff(duration, targetObject);                                //수면
