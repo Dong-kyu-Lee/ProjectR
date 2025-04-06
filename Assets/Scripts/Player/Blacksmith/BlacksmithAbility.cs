@@ -8,12 +8,16 @@ public class BlacksmithAbility : MonoBehaviour, IAbility
     bool isActivated;
 
     [SerializeField]
+    int enchantLevel;
+
+    [SerializeField]
     BlacksmithWeaponData curWeaponData;
 
     [SerializeField]
     BlacksmithWeaponData[] weaponDataList;
 
     public bool IsActivated { get { return isActivated; } }
+    public int EnchantLevel { get { return enchantLevel; } }
 
     public UnityEvent onAbilityUpdated;
 
@@ -26,25 +30,32 @@ public class BlacksmithAbility : MonoBehaviour, IAbility
             Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
             onAbilityUpdated.Invoke();   
         }
-        else
-        {
-            Deactivate();
-        }
     }
 
     public void Deactivate()
     {
-        isActivated = false;
+        Initialize();
         curWeaponData = weaponDataList[0];
         Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
+        onAbilityUpdated.Invoke();
+    }
+
+    public void EnchantWeapon()
+    {
+        float prob = Random.Range(0f, 1f);
+        if (prob > 0.5f)
+        {
+            Debug.Log(prob);
+            Debug.Log("성공");
+            ++enchantLevel;
+        }
         onAbilityUpdated.Invoke();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        isActivated = false;
-
+        Initialize();
         Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
     }
 
@@ -52,5 +63,11 @@ public class BlacksmithAbility : MonoBehaviour, IAbility
     void Update()
     {
         
+    }
+
+    void Initialize()
+    {
+        isActivated = false;
+        enchantLevel = 0;
     }
 }

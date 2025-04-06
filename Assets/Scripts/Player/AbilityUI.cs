@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AbilityInfo : MonoBehaviour
+public class AbilityUI : MonoBehaviour
 {
     [SerializeField]
     BlacksmithAbility blacksmithAbility;
@@ -33,6 +33,7 @@ public class AbilityInfo : MonoBehaviour
         if (blacksmithAbility.IsActivated)
         {
             activateText.text = "활성화 상태 : on";
+            enchantButton.GetComponentInChildren<Text>().text = "강화(+" + blacksmithAbility.EnchantLevel + ")";
             enchantButton.gameObject.SetActive(true);
             destroyButton.gameObject.SetActive(true);
         }
@@ -42,5 +43,15 @@ public class AbilityInfo : MonoBehaviour
             enchantButton.gameObject.SetActive(false);
             destroyButton.gameObject.SetActive(false);
         }
+    }
+
+    public void EnchantWeapon()
+    {
+        blacksmithAbility.EnchantWeapon();
+    }
+
+    public void DestroyWeapon()
+    {
+        blacksmithAbility.Deactivate();
     }
 }
