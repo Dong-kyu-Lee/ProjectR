@@ -24,13 +24,6 @@ public class DungeonFlowManager : MonoBehaviour
         get => dungeonCreator; 
         set { if (dungeonCreator == null) dungeonCreator = value; }
     }
-    [SerializeField]
-    private EnemySpawnManager enemySpawnManager;
-    public EnemySpawnManager EnemySpawnManager
-    {
-        get => enemySpawnManager;
-        set { if (enemySpawnManager == null) enemySpawnManager = value; }
-    }
 
     public GameObject finishSpotPrefab;
     public Vector3 playerSpawnPosition = new Vector3();

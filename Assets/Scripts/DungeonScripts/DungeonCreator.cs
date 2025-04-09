@@ -13,7 +13,6 @@ public class DungeonCreator : MonoBehaviour
 
     [Header("Needed Objects")]
     public RoomContainer roomContainer;
-    public List<GameObject> generatedRooms = new List<GameObject>();
     [SerializeField]
     private Tilemap backgroundTilemap;
     [SerializeField]
@@ -28,8 +27,6 @@ public class DungeonCreator : MonoBehaviour
     [SerializeField]
     private GameObject roomInGamePrefab;
     private Dictionary<Vector3, GameObject> roomInGameDic = new Dictionary<Vector3, GameObject>();
-    // 워프 생성을 위한 각 방의 위치, 방 정보 튜플 리스트
-    private List<Tuple<Vector3, Room>> warpTupleList = new List<Tuple<Vector3, Room>>();
     private List<Tuple<RoomNode, Room>> roomTupleList = new List<Tuple<RoomNode, Room>>();
 
     void Start()
@@ -187,10 +184,15 @@ public class DungeonCreator : MonoBehaviour
 
     public void RemoveAllRooms()
     {
-        for(int i = 0; i < generatedRooms.Count; ++i)
+        backgroundTilemap.ClearAllTiles();
+        groundTilemap.ClearAllTiles();
+        floatingTilemap.ClearAllTiles();
+        decorationTilemap.ClearAllTiles();
+
+        foreach (var room in roomInGameDic)
         {
-            Destroy(generatedRooms[i]);
+            Destroy(room.Value);
         }
-        generatedRooms.Clear();
+        roomInGameDic.Clear();
     }
 }
