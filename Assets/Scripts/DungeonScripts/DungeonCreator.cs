@@ -43,7 +43,7 @@ public class DungeonCreator : MonoBehaviour
     // 던전과 관련 요소를 씬에 생성하는 함수
     public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
-        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(dungeonRow, dungeonColumn);
+        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(dungeonRow * dungeonColumn);
         var roomNodes = dungeonStructure.GetDungeonStructure();
 
         playerSpawnPosition = new Vector3();
@@ -53,8 +53,9 @@ public class DungeonCreator : MonoBehaviour
         for(int i = 0; i < roomNodes.Count; ++i)
         {
             Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
-            var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
-            Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
+            // var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
+            // Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
+            Room currentRoom = roomContainer.rooms[Random.Range(0, roomContainer.rooms.Count)].GetComponent<Room>();
             DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
             // 문 그리기
             UpdateRoomInGame(generatePosition, roomNodes[i].OpenNeededGate);
@@ -152,13 +153,13 @@ public class DungeonCreator : MonoBehaviour
         }
 
         // 통로 열기
-        if (openNeededGate[0] == true) // 위
+        /*if (openNeededGate[0] == true) // 위
         {
             for (int i = 0; i < 8; ++i)
             {
                 groundTilemap.SetTile(roomPosition + new Vector3Int(16 + i, 39, 0), null);
             }
-        }
+        }*/
         if (openNeededGate[1] == true) // 오른쪽
         {
             for (int i = 0; i < 8; ++i)
@@ -166,13 +167,13 @@ public class DungeonCreator : MonoBehaviour
                 groundTilemap.SetTile(roomPosition + new Vector3Int(39, 16 + i, 0), null);
             }
         }
-        if (openNeededGate[2] == true) // 아래
+        /*if (openNeededGate[2] == true) // 아래
         {
             for (int i = 0; i < 8; ++i)
             {
                 groundTilemap.SetTile(roomPosition + new Vector3Int(16 + i, 0, 0), null);
             }
-        }
+        }*/
         if (openNeededGate[3] == true) // 왼쪽
         {
             for (int i = 0; i < 8; ++i)
@@ -194,5 +195,6 @@ public class DungeonCreator : MonoBehaviour
             Destroy(room.Value);
         }
         roomInGameDic.Clear();
+        roomTupleList.Clear();
     }
 }

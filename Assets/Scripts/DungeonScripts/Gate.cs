@@ -20,19 +20,17 @@ public class Gate : MonoBehaviour
         isWarp = false;
         if (currentWarp != null) currentWarp.SetActive(false);
 
-        for (int i = 0; i < openNeedGate.Length; ++i)
-        {
-            if (openNeedGate[i] == true)
-            {
-                gateToUse[i] = true;
-                gateObjects[i].SetActive(true);
-            }
-            else
-            {
-                gateToUse[i] = false;
-                gateObjects[i].SetActive(false);
-            }
-        }
+        // 위, 아래 문 사용 안 함.
+        gateToUse[0] = false;
+        gateToUse[2] = false;
+        gateObjects[0].SetActive(false);
+        gateObjects[2].SetActive(false);
+
+        // 오른쪽, 왼쪽 문 사용 여부 설정
+        gateToUse[1] = openNeedGate[1];
+        gateObjects[1].SetActive(openNeedGate[1]);
+        gateToUse[3] = openNeedGate[3];
+        gateObjects[3].SetActive(openNeedGate[3]);
     }
 
     // warpPosition : 워프가 생성될 월드좌표, playerWarpPosition : 플레이어가 워프될 좌표
