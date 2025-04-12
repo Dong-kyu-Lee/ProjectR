@@ -858,6 +858,7 @@ Transform:
   - {fileID: 811224058916861686}
   - {fileID: 2186993961508497041}
   - {fileID: 2829931260051335812}
+  - {fileID: 1549121678469151420}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -880,7 +881,7 @@ MonoBehaviour:
   gateTilemap: {fileID: 8795139862173169322}
   enemyTilemap: {fileID: 2025986612644125225}
   enemySpawnPoint: []
-  interactableObjPoint: []
+  dynamicElements: {fileID: 7488353423214938666}
   playerSpawnPosition: {fileID: 811224058916861686}
   finishSpotPosition: {fileID: 2186993961508497041}
   warpPosition: {fileID: 2829931260051335812}
@@ -2186,6 +2187,37 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!1 &7488353423214938666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1549121678469151420}
+  m_Layer: 0
+  m_Name: DynamicElements
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1549121678469151420
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7488353423214938666}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6163864638947270046}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7924213033967475878
 GameObject:
   m_ObjectHideFlags: 0

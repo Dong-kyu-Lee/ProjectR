@@ -14,6 +14,7 @@ public class RoomInGame : MonoBehaviour
     public RoomState GetRoomState { get => roomState; }
     public Gate gate;
     public EnemyInRoom enemyInRoom;
+    public List<GameObject> dynamicElements;
 
     public Action onFirstWaveEnd;
     public Action onSecondWaveEnd;
@@ -22,6 +23,15 @@ public class RoomInGame : MonoBehaviour
     {
         onFirstWaveEnd += FirstWaveEnd;
         onSecondWaveEnd += SecondWaveEnd;
+        dynamicElements = new List<GameObject>();
+    }
+
+    private void OnDestroy()
+    {
+        for(int i = 0; i < dynamicElements.Count; ++i)
+        {
+            Destroy(dynamicElements[i]);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -65,5 +75,15 @@ public class RoomInGame : MonoBehaviour
     {
         isFirstWaveEnded = false;
         roomState = RoomState.Default;
+    }
+
+    internal void SetDynamicElements(GameObject dynamicElements)
+    {
+        for(int i = 0; i < dynamicElements.transform.childCount; ++i)
+        {
+            GameObject element = Instantiate(dynamicElements.transform.GetChild(i).gameObject, 
+                transform.position + dynamicElements.transform.GetChild(i).localPosition, Quaternion.identity, transform);
+            this.dynamicElements.Add(element);
+        }
     }
 }

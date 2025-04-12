@@ -14,7 +14,7 @@ public class Room : MonoBehaviour
     public GameObject enemyTilemap;
 
     public List<Transform> enemySpawnPoint = new List<Transform>();
-    public List<GameObject> interactableObjPoint = new List<GameObject>();
+    public GameObject dynamicElements;
 
     public Transform playerSpawnPosition;
     public Transform finishSpotPosition;

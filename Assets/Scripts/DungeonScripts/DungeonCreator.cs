@@ -57,12 +57,13 @@ public class DungeonCreator : MonoBehaviour
             // Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
             Room currentRoom = roomContainer.rooms[Random.Range(0, roomContainer.rooms.Count)].GetComponent<Room>();
             DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
+            roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));
+
             // 문 그리기
             UpdateRoomInGame(generatePosition, roomNodes[i].OpenNeededGate);
             roomInGameDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
-
-            roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));
-
+            // 맵의 동적 요소들 생성(ex. 움직이는 발판 등)
+            roomInGameDic[generatePosition].GetComponent<RoomInGame>().SetDynamicElements(currentRoom.dynamicElements);
             // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
             DungeonFlowManager.Instance.AddRoomInGame(roomInGameDic[generatePosition].GetComponent<RoomInGame>());
 

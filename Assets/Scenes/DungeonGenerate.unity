@@ -1503,7 +1503,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1780063517
 Transform:
@@ -1533,7 +1533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dungeonRow: 2
-  dungeonColumn: 3
+  dungeonColumn: 2
   roomContainer: {fileID: 1780063519}
   backgroundTilemap: {fileID: 82772821}
   groundTilemap: {fileID: 911974148}
@@ -1554,7 +1554,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rooms:
-  - {fileID: 7915582734982918056, guid: 7e8ef2d8c073e1d4cbfe7a141ae491e7, type: 3}
   - {fileID: 3531850332450289258, guid: 03b285d41ee19a64aabdabca746751f9, type: 3}
   - {fileID: 4972015523166909312, guid: 35b02ffabd0edaf4bb959acdf8273ada, type: 3}
   - {fileID: 8464257247955686885, guid: c94a3865172df5e4a9f2f1af86cba378, type: 3}
