@@ -24,7 +24,6 @@ public class BuffFactory : MonoBehaviour
     // key: BuffType (열거형) value: 함수로, 매개변수(지속시간, 적용할 대상 GameObject)를 받아서 Buff 객체를 반환
     private Dictionary<BuffType, Func<float, GameObject, Buff>> buffConstructors;
 
-
     private void Awake()
     {
         if (instance == null)
@@ -41,7 +40,7 @@ public class BuffFactory : MonoBehaviour
 
     private void InitializeBuffConstructors()
     {
-        // 새로운 딕셔너리를 생성합니다.
+        // 새로운 딕셔너리를 생성
         buffConstructors = new Dictionary<BuffType, Func<float, GameObject, Buff>>();
        
         buffConstructors.Add(BuffType.AttackDamageIncrease, (duration, target) =>
@@ -146,7 +145,6 @@ public class BuffFactory : MonoBehaviour
     }
 
     // 지정된 버프 타입에 따라 새로운 Buff 객체를 생성하는 메서드
-
     public Buff CreateBuff(BuffType type, float duration, GameObject target)
     {
         if (buffConstructors.TryGetValue(type, out Func<float, GameObject, Buff> constructor))
