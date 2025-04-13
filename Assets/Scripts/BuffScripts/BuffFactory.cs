@@ -112,7 +112,7 @@ public class BuffFactory : MonoBehaviour
         {
             return new ConfusionDeBuff(duration, target);
         });
-        buffConstructors.Add(BuffType.Drunken, (duration, target) =>
+        buffConstructors.Add(BuffType.Drunken, (duration, target, manager) =>
         {
             return new DrunkenDeBuff(duration, target);
         });
@@ -145,6 +145,7 @@ public class BuffFactory : MonoBehaviour
     }
 
     // 지정된 버프 타입에 따라 새로운 Buff 객체를 생성하는 메서드
+
     public Buff CreateBuff(BuffType type, float duration, GameObject target)
     {
         if (buffConstructors.TryGetValue(type, out Func<float, GameObject, Buff> constructor))

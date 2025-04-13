@@ -4,7 +4,21 @@ using UnityEngine;
 
 public class BuffManager : MonoBehaviour
 {
-    
+    private static BuffManager instance;
+
+    public static BuffManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                GameObject buffManager = new GameObject("BuffManager");
+                instance = buffManager.AddComponent<BuffManager>();
+                DontDestroyOnLoad(buffManager);
+            }
+            return instance;
+        }
+    }
     // 활성화된 버프들을 BuffType을 키로 하여 저장.
     private Dictionary<BuffType, Buff> activeBuffs = new Dictionary<BuffType, Buff>();
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerObj;
 
 public class FreezeDeBuff : Buff
 {
@@ -16,15 +17,19 @@ public class FreezeDeBuff : Buff
     {
         if(currentBuffLevel == 0)
         {
-            Status targetStatus = targetObject.GetComponent<Status>();
-            speedDecAmount = targetStatus.MoveSpeed * moveSpeedDec;
-            targetStatus.MoveSpeed -= speedDecAmount;
+            PlayerStatus playerStatus = GetPlayerStatus();
+            if (playerStatus == null)
+                return;
+            speedDecAmount = playerStatus.MoveSpeed * moveSpeedDec;
+            playerStatus.MoveSpeed -= speedDecAmount;
             Debug.Log("빙결 디버프 : 이동속도 감소");
         }
         else if(currentBuffLevel == 4)
         {   //5번째 스택일 때 데미지 적용
-            Status targetStatus = targetObject.GetComponent<Status>();
-            targetStatus.Hp -= targetStatus.Hp * 0.3f;
+            PlayerStatus playerStatus = GetPlayerStatus();
+            if (playerStatus == null)
+                return;
+            playerStatus.Hp -= playerStatus.Hp * 0.3f;
             currentBuffLevel--;
             Debug.Log("빙결 디버프 : 데미지 적용");
         }
@@ -37,6 +42,9 @@ public class FreezeDeBuff : Buff
     public override void RemoveBuffEffect()
     {
         //버프가 해제되면 실질적으로 감소한 양만큼만 롤백시킴
-        targetObject.GetComponent<Status>().MoveSpeed += speedDecAmount;
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+        playerStatus.MoveSpeed += speedDecAmount;
     }
 }

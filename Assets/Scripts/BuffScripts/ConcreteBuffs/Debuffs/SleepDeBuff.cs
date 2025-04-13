@@ -17,11 +17,13 @@ public class SleepDeBuff : Buff
 
     public override void ApplyBuffEffect()
     {
-        Status status = targetObject.GetComponent<Status>();
-        prevMoveSpeed += status.MoveSpeed;
-        status.MoveSpeed = 0.0f;
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+        prevMoveSpeed += playerStatus.MoveSpeed;
+        playerStatus.MoveSpeed = 0.0f;
 
-        PlayerController targetController = targetObject.GetComponent<PlayerController>();
+        PlayerController targetController = GameManager.Instance.CurrentPlayer.GetComponent<PlayerController>();
         prevJumpPower += targetController.jumpPower;
         targetController.jumpPower = 0.0f;
     }
@@ -34,10 +36,11 @@ public class SleepDeBuff : Buff
 
     public override void RemoveBuffEffect()
     {
-        Status status = targetObject.GetComponent<Status>();
-        status.MoveSpeed += prevMoveSpeed;      //이동속도 되돌리기
-
-        PlayerController targetController = targetObject.GetComponent<PlayerController>();
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return; ;
+        playerStatus.MoveSpeed += prevMoveSpeed;      //이동속도 되돌리기
+        PlayerController targetController = GameManager.Instance.CurrentPlayer.GetComponent<PlayerController>();
         targetController.jumpPower += prevJumpPower;    //점프력 되돌리기
     }
 }

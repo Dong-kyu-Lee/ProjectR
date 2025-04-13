@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public abstract class Buff
-{
+{          
     protected float maxDuration = 10.0f;            //최대 버프 지속시간
     protected float currentDuration = 0.0f;         //현재 버프 지속시간
     protected float buffEffectTick = 1.0f;          //다음 버프 효과 적용시간 까지의 간격

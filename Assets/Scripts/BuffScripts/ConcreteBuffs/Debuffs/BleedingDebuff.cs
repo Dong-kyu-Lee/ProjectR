@@ -8,15 +8,18 @@ public class BleedingDebuff : Buff
 
     public BleedingDebuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Bleeding;
         maxBuffLevel = 5;
     }
 
     public override void ApplyBuffEffect()
     {
-        Debug.Log("출혈 디버프 활성화");
-        Status targetStatus = targetObject.GetComponent<Status>();
-        targetStatus.Hp -= bleedingDmg[currentBuffLevel];
-        Debug.Log($"출혈 후 플레이어 체력 : {targetStatus.Hp}");
+        Debug.Log("출혈 디버프 활성화"); 
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+        playerStatus.Hp -= bleedingDmg[currentBuffLevel];
+        Debug.Log($"출혈 후 플레이어 체력 : {playerStatus.Hp}");
     }
 
     public override void DoActionOnActivate(float tickDuration = 1)

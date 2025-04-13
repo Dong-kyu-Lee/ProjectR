@@ -10,9 +10,11 @@ public class PoisonDeBuff : Buff
 
     public override void ApplyBuffEffect()
     {
-        Status targetStatus = targetObject.GetComponent<Status>();
-        targetStatus.Hp -= poisonDmg[currentBuffLevel];
-        Debug.Log($"플레이어 체력 : {targetStatus.Hp}");
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+        playerStatus.Hp -= poisonDmg[currentBuffLevel];
+        Debug.Log($"플레이어 체력 : {playerStatus.Hp}");
     }
 
     public override void DoActionOnActivate(float tickDuration = 1)

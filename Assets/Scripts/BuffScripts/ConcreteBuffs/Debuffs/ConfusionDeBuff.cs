@@ -6,6 +6,7 @@ public class ConfusionDeBuff : Buff
 {
     public ConfusionDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Confusion;
         maxBuffLevel = 1;
     }
 
@@ -16,7 +17,7 @@ public class ConfusionDeBuff : Buff
 
     public override void DoActionOnActivate(float tickDuration = 1)
     {
-        PlayerController playerController = targetObject.GetComponent<PlayerController>();
+        PlayerController playerController = GameManager.Instance.CurrentPlayer.GetComponent<PlayerController>();
         playerController.moveFactor *= Random.Range(0, 100) < 50 ? 1.0f : -1.0f;
 
         base.DoActionOnActivate(tickDuration);
@@ -24,7 +25,7 @@ public class ConfusionDeBuff : Buff
 
     public override void RemoveBuffEffect()
     {
-        PlayerController playerController = targetObject.GetComponent<PlayerController>();
+        PlayerController playerController = GameManager.Instance.CurrentPlayer.GetComponent<PlayerController>();
         playerController.moveFactor *= (playerController.moveFactor > 0) ? 1.0f : -1.0f;
     }
 }
