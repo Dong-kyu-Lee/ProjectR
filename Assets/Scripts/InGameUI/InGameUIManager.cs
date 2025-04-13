@@ -66,8 +66,6 @@ public class InGameUIManager : MonoBehaviour
             stopUI.SetActive(false);
         }
     }
-
-
     private void CheckHp() //*HP 갱신
     {
         if (HpBarSlider != null)
@@ -93,8 +91,6 @@ public class InGameUIManager : MonoBehaviour
     {
 
     }
-
-
     public void ContinueButton()
     {
         stopUI.SetActive(false);

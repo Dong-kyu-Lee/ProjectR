@@ -18,7 +18,6 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
     private BuffInfo buffInfo; // 데이터 에셋
     private Buff buffData;     // 실제 적용되고 있는 버프 로직
 
-    // 초기화함수: BuffInfo와 Buff 데이터를 함께 받아 UI를 설정합니다.
     public void Initialize(BuffInfo info, Buff data)
     {
         buffInfo = info;
@@ -26,7 +25,6 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
         UpdateUI();
     }
 
-    // 업데이트 함수: 시간 변화 등에 따라 UI 갱신 
     public void UpdateUI()
     {
         if (iconImage != null)

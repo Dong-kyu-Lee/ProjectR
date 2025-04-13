@@ -4,94 +4,55 @@ using UnityEngine;
 
 public class BuffManager : MonoBehaviour
 {
-    private Dictionary<BuffType, Buff> activeBuffDict = new Dictionary<BuffType, Buff>();   //현재 적용되고 있는 버프 딕셔너리
-    private BuffFactory buffFactory;            //버프 생성을 위한 팩토리 클래스
-    private WaitForSeconds nextEffectTime;      //버프 효과 적용 주기를 위한 WaitForSeconds. 동적 생성으로 인한 가비지 줄이기용.
-    private float deltaNextEffectTime = 1.0f;   //버프 효과 적용 주기(즉, 틱 간격)
+    // 활성화된 버프들을 BuffType을 키로 하여 저장.
+    private Dictionary<BuffType, Buff> activeBuffs = new Dictionary<BuffType, Buff>();
 
-    public Dictionary<BuffType, Buff> ActiveBuffDict { get => activeBuffDict; }
-
-    private void Start()
+    public Buff GenerateBuff(BuffType type, float duration, GameObject target)
     {
-        buffFactory = new BuffFactory(gameObject);
-        nextEffectTime = new WaitForSeconds(1.0f);
+        return BuffFactory.Instance.CreateBuff(type, duration, target);
     }
 
-    //BuffType에 해당하는 버프를 동적으로 생성하고 활성화 시키는 메서드
-    public void ActivateBuff(BuffType type, float totalDuration = 10.0f)
+    public void ActivateBuff(BuffType type, float duration)
     {
-        if (isBuffActive(type))
+        if (activeBuffs.ContainsKey(type))
         {
-            activeBuffDict[type].BuffOverlap(totalDuration);
-            return;
-        }
-
-        try
-        {
-            Buff buff = buffFactory.GenerateBuff(type, totalDuration);
-            activeBuffDict.Add(type, buff);
-            StartCoroutine(StartBuffEffect(type));
-        }
-        catch(System.Exception e)
-        {
-            Debug.Log("버프 생성 실패 : " + e.Message);
-        }
-    }
-
-    //활성중인 버프 레벨을 1단계 올리는 메서드
-    public void ActiveBuffLevelUpOnce(BuffType type)
-    {
-        if (isBuffActive(type))
-        {
-            activeBuffDict[type].BuffOverlap(0.0f);
-        }
-    }
-
-    //버프 효과 처리 코루틴
-    public IEnumerator StartBuffEffect(BuffType type)
-    {
-        activeBuffDict[type].ApplyBuffEffect();
-        Debug.Log("버프 활성화 : " + type.ToString());
-
-        while (activeBuffDict[type].CurrentDuration > 0.0f)
-        {
-            activeBuffDict[type].DoActionOnActivate(deltaNextEffectTime);
-            yield return nextEffectTime;
-        }
-        DeActivateBuff(type);
-    }
-
-    //type에 해당하는 버프를 해제하는 메서드
-    public void DeActivateBuff(BuffType type)
-    {
-        if(activeBuffDict.ContainsKey(type))
-        {
-            activeBuffDict[type].RemoveBuffEffect();
-            activeBuffDict.Remove(type);
+            // 이미 같은 타입의 버프가 존재하면 지속시간을 갱신
+            Buff existingBuff = activeBuffs[type];
+            existingBuff.CurrentDuration = existingBuff.MaxDuration;
+            Debug.Log($"버프 [{type}] 이미 존재하므로 지속시간 갱신: {existingBuff.CurrentDuration}");
         }
         else
         {
-            Debug.Log("제거할 버프가 없습니다.");
+            Buff newBuff = GenerateBuff(type, duration, gameObject);
+            activeBuffs.Add(type, newBuff);
+            StartCoroutine(StartBuffEffect(newBuff));
         }
-        Debug.Log("버프 해제 완료" + type.ToString());
     }
 
-    //활성화 된 모든 버프를 해제하는 메서드
-    public void DeActivateBuffsAll()
+    private IEnumerator StartBuffEffect(Buff buff)
     {
-        if (activeBuffDict.Count == 0) return;
-
-        foreach(Buff target in activeBuffDict.Values)
+        while (buff.CurrentDuration > 0)
         {
-            target.RemoveBuffEffect();
+            buff.DoActionOnActivate(1.0f);
+            yield return new WaitForSeconds(1.0f);
         }
-        StopAllCoroutines();
-        activeBuffDict.Clear();
+        buff.RemoveBuffEffect();
+  
+        BuffType type = GetBuffTypeFromBuff(buff);
+        if (activeBuffs.ContainsKey(type))
+        {
+            activeBuffs.Remove(type);
+        }
     }
 
-    //해당 버프가 활성화 되있는지 확인하는 함수
-    public bool isBuffActive(BuffType type)
+    private BuffType GetBuffTypeFromBuff(Buff buff)
     {
-        return activeBuffDict.ContainsKey(type);
+        return (BuffType)System.Enum.Parse(typeof(BuffType), buff.GetType().Name);
     }
+
+    public List<Buff> GetActiveBuffs()
+    {
+        return new List<Buff>(activeBuffs.Values);
+    }
+
 }

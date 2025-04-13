@@ -1296,6 +1296,7 @@ GameObject:
   - component: {fileID: 604966403}
   - component: {fileID: 604966404}
   - component: {fileID: 604966405}
+  - component: {fileID: 604966406}
   m_Layer: 5
   m_Name: BuffManager
   m_TagString: Untagged
@@ -1335,9 +1336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443b312b354ba8c4e83b4bbf04058e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBuffManager: {fileID: 0}
-  buffIconPrefab: {fileID: 5592364504719645186, guid: 611424635191bff419a52635e48b3fe7, type: 3}
   buffPanel: {fileID: 406917088}
+  buffIconPrefab: {fileID: 5592364504719645186, guid: 611424635191bff419a52635e48b3fe7, type: 3}
 --- !u!114 &604966405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1350,6 +1350,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb850f9f87cb7e4ea782edefb8e8963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &604966406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604966402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a895ce9b0b969b47affe22d9d171dc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconImage: {fileID: 0}
+  buffNameText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  cooldownOverlay: {fileID: 0}
+  buffLevelText: {fileID: 0}
 --- !u!1 &655464799
 GameObject:
   m_ObjectHideFlags: 0
