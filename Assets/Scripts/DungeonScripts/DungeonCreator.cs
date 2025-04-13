@@ -10,6 +10,7 @@ public class DungeonCreator : MonoBehaviour
     [Header("Fixed Room Setting")]
     public int dungeonRow;
     public int dungeonColumn;
+    public int dungeonBoxCount;
 
     [Header("Needed Objects")]
     public RoomContainer roomContainer;
@@ -49,8 +50,11 @@ public class DungeonCreator : MonoBehaviour
         playerSpawnPosition = new Vector3();
         finishSpotPosition = new Vector3();
 
+        // 상자를 생성할 방 인덱스를 정하는 함수
+        List<int> roomIndexForBoxes = GetRandomNumbers(roomNodes.Count, dungeonBoxCount);
+
         // 랜덤으로 방 프리팹을 선택해 방과 그 구성요소 생성
-        for(int i = 0; i < roomNodes.Count; ++i)
+        for (int i = 0; i < roomNodes.Count; ++i)
         {
             Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
             // var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
@@ -64,6 +68,11 @@ public class DungeonCreator : MonoBehaviour
             roomInGameDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
             // 맵의 동적 요소들 생성(ex. 움직이는 발판 등)
             roomInGameDic[generatePosition].GetComponent<RoomInGame>().SetDynamicElements(currentRoom.dynamicElements);
+            // 상자 생성
+            if(roomIndexForBoxes.Contains(i))
+            {
+                roomInGameDic[generatePosition].GetComponent<RoomInGame>().SetBoxObject(currentRoom.boxObject);
+            }
             // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
             DungeonFlowManager.Instance.AddRoomInGame(roomInGameDic[generatePosition].GetComponent<RoomInGame>());
 
@@ -107,6 +116,34 @@ public class DungeonCreator : MonoBehaviour
                 roomInGameDic[roomPosition].GetComponent<Gate>().CreateWarpObject(warpPosition, playerWarpPosition);
             }
         }
+    }
+
+    private List<int> GetRandomNumbers(int roomCount, int boxCount)
+    {
+        // 예외 처리: M이 N보다 크면 안 됨
+        if (boxCount > roomCount)
+        {
+            Debug.LogError("M은 N보다 클 수 없습니다.");
+            return null;
+        }
+
+        // 전체 숫자 리스트 생성 (0부터 N까지)
+        List<int> numbers = new List<int>();
+        for (int i = 0; i <= roomCount; i++)
+        {
+            numbers.Add(i);
+        }
+
+        // 랜덤으로 M개의 숫자를 선택
+        List<int> randomNumbers = new List<int>();
+        for (int i = 0; i < boxCount; i++)
+        {
+            int randomIndex = Random.Range(0, numbers.Count); // 랜덤 인덱스 선택
+            randomNumbers.Add(numbers[randomIndex]);          // 랜덤 숫자 추가
+            numbers.RemoveAt(randomIndex);                    // 중복 방지를 위해 제거
+        }
+
+        return randomNumbers;
     }
 
     // 던전 방 프리팹을 타일맵에 그리는 함수

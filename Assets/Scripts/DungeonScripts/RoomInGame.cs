@@ -15,6 +15,7 @@ public class RoomInGame : MonoBehaviour
     public Gate gate;
     public EnemyInRoom enemyInRoom;
     public List<GameObject> dynamicElements;
+    public GameObject boxObject;
 
     public Action onFirstWaveEnd;
     public Action onSecondWaveEnd;
@@ -31,6 +32,10 @@ public class RoomInGame : MonoBehaviour
         for(int i = 0; i < dynamicElements.Count; ++i)
         {
             Destroy(dynamicElements[i]);
+        }
+        if(boxObject != null)
+        {
+            Destroy(boxObject);
         }
     }
 
@@ -85,5 +90,10 @@ public class RoomInGame : MonoBehaviour
                 transform.position + dynamicElements.transform.GetChild(i).localPosition, Quaternion.identity, transform);
             this.dynamicElements.Add(element);
         }
+    }
+
+    internal void SetBoxObject(GameObject boxObject)
+    {
+        this.boxObject = Instantiate(boxObject, transform.position + boxObject.transform.localPosition, Quaternion.identity, transform);
     }
 }
