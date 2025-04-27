@@ -105,7 +105,7 @@ public class DungeonFlowManager : MonoBehaviour
         {
             case DungeonFlowState.Lobby:
                 {
-                    SceneManager.LoadScene("DungeonGenerate");
+                    GameManager.Instance.MoveScene("DungeonGenerate");
                     Debug.Log("Stage1 was Generated");
                     break;
                 }

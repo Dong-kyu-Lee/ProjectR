@@ -21,12 +21,6 @@ public class LevelUp : MonoBehaviour
         statusValueText = transform.GetComponentInChildren<StatusValueText>();
     }
 
-    // 테스트용.
-    private void Update()
-    {
-        Debug.Log($"Level {playerStatus.Level}: {playerStatus.Exp} / {requiredExp[(int)playerStatus.Level]}");
-    }
-
     // 경험치 통 정의.
     static LevelUp()
     {

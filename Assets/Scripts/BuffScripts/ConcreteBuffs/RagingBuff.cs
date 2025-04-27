@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class RagingBuff : Buff
 {
-    private float[] atkDmgIncGap = { 10.0f, 20.0f, 20.0f };     //공격력 증가량
-    private float[] critDmgIncGap = { 10.0f, 20.0f, 20.0f };    //크리티컬 데미지 증가량
-    private float[] critPerIncGap = { 10.0f, 20.0f, 30.0f };       //크리티컬 확률 증가량
-    private float[] dmgReductDecGap = { 10.0f, 20.0f, 20.0f };     //피해 감소량 감소량
+    private float[] atkDmgIncGap = { 10.0f, 20.0f, 20.0f };     //공격력 증가량 간격
+    private float[] critDmgIncGap = { 10.0f, 20.0f, 20.0f };    //크리티컬 데미지 증가량 간격
+    private float[] critPerIncGap = { 10.0f, 20.0f, 30.0f };       //크리티컬 확률 증가량 간격
+    private float[] dmgReductDecGap = { 10.0f, 20.0f, 20.0f };     //피해 감소량 감소량 간격
 
     public RagingBuff(float duration, GameObject target) : base(duration, target) { }
 

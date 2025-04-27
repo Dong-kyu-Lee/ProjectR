@@ -18,12 +18,12 @@ public class EquipmentSlotUI : ItemSlotUI
             }
             else //draggedSLot is InventorySlotUI
             {
-                if (nowItemData.ItemType == ItemType.EQUIPMENT) // 장비 <-> 인벤토리) 장비 스왑
+                if (nowItemData.ItemType == ItemType.EQUIPMENT) // (장비 <-> 인벤토리) => 장비칸 스왑
                 {
                     parentUI.PlayerInventory.SwapEquippedItemWithInventory(slotIndex, draggedSlot.NowItemData as EquipmentItemData);
                     SwapItemData(draggedSlot);
                 }
-                else //nowItemData.ItemType == ItemType.Dummy // 장비칸 <- 인벤토리) 장비 로드
+                else //nowItemData.ItemType == ItemType.Dummy // (장비칸 <- 인벤토리) => 장비 로드
                 {
                     parentUI.PlayerInventory.LoadEquipmentItemFromInventory(draggedSlot.NowItemData as EquipmentItemData, slotIndex);
                     SetItemData(draggedSlot.NowItemData,draggedSlot.ItemCount);

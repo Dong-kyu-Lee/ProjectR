@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class FreezeDeBuff : Buff
 {
-    private float moveSpeedDec = 0.5f;
-    private float speedDecAmount = 0.0f;
+    private float moveSpeedDec = 0.5f;      //이동속도 감소시킬 양
+    private float speedDecAmount = 0.0f;    //이동속도 실질적으로 감소한 양을 기록하는 변수
 
     public FreezeDeBuff(float duration, GameObject target) : base(duration, target) 
     {
@@ -36,6 +36,7 @@ public class FreezeDeBuff : Buff
 
     public override void RemoveBuffEffect()
     {
+        //버프가 해제되면 실질적으로 감소한 양만큼만 롤백시킴
         targetObject.GetComponent<Status>().MoveSpeed += speedDecAmount;
     }
 }
