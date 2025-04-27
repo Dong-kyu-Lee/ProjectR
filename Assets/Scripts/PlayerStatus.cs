@@ -146,7 +146,7 @@ public class PlayerStatus : Status
     {
 
     }
-
+    
     protected override void Dead()
     {
         //gameObject.GetComponent<PlayerController>().Dead();
