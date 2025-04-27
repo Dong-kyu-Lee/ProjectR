@@ -35,6 +35,11 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("Projectile"))
+        {
+            return;
+        }
+
         float damage = playerStatus.TotalDamage;
         float ignoreDamageReduction = playerStatus.IgnoreDamageReduction;
         bool isCritical = false;
