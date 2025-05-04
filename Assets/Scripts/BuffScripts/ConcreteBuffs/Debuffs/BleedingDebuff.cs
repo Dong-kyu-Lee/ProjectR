@@ -19,6 +19,7 @@ public class BleedingDebuff : Buff
         if (playerStatus == null)
             return;
         playerStatus.Hp -= bleedingDmg[currentBuffLevel];
+        InGameUIManager.Instance.CheckHp();
         Debug.Log($"출혈 후 플레이어 체력 : {playerStatus.Hp}");
     }
 

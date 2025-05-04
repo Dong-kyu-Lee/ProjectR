@@ -32,8 +32,15 @@ public class DrunkenDeBuff : Buff
     }
     private void ActivateSleepBuff()
     {
-        BuffManager.Instance.ActivateBuff(BuffType.Sleep, 10.0f);
-        Debug.Log("Sleep 디버프가 활성화되었습니다.");
+        if (BuffManager.Instance != null)
+        {
+            BuffManager.Instance.ActivateBuff(BuffType.Sleep, 10.0f);
+            Debug.Log("Sleep 디버프가 활성화되었습니다.");
+        }
+        else
+        {
+            Debug.LogWarning("BuffManager가 null입니다.");
+        }
     }
 
     public override void RemoveBuffEffect()

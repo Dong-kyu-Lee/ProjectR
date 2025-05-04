@@ -15,6 +15,7 @@ public class PoisonDeBuff : Buff
             return;
         playerStatus.Hp -= poisonDmg[currentBuffLevel];
         Debug.Log($"플레이어 체력 : {playerStatus.Hp}");
+        InGameUIManager.Instance.CheckHp();
     }
 
     public override void DoActionOnActivate(float tickDuration = 1)

@@ -66,7 +66,7 @@ public class InGameUIManager : MonoBehaviour
             stopUI.SetActive(false);
         }
     }
-    private void CheckHp() //*HP 갱신
+    public void CheckHp() //*HP 갱신
     {
         if (HpBarSlider != null)
             hpTxt.text = playerStatus.Hp.ToString()+"/"+playerStatus.MaxHp.ToString();

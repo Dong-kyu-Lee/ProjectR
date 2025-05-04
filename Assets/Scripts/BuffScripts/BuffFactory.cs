@@ -112,7 +112,7 @@ public class BuffFactory : MonoBehaviour
         {
             return new ConfusionDeBuff(duration, target);
         });
-        buffConstructors.Add(BuffType.Drunken, (duration, target, manager) =>
+        buffConstructors.Add(BuffType.Drunken, (duration, target) =>
         {
             return new DrunkenDeBuff(duration, target);
         });

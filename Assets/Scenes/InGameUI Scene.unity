@@ -1297,6 +1297,8 @@ GameObject:
   - component: {fileID: 604966404}
   - component: {fileID: 604966405}
   - component: {fileID: 604966406}
+  - component: {fileID: 604966407}
+  - component: {fileID: 604966408}
   m_Layer: 5
   m_Name: BuffManager
   m_TagString: Untagged
@@ -1311,17 +1313,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604966402}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1810312933}
-  m_RootOrder: 8
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 409.5, y: 256}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &604966404
@@ -1337,6 +1339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buffPanel: {fileID: 406917088}
+  debuffPanel: {fileID: 2117813159}
   buffIconPrefab: {fileID: 5592364504719645186, guid: 611424635191bff419a52635e48b3fe7, type: 3}
 --- !u!114 &604966405
 MonoBehaviour:
@@ -1367,6 +1370,31 @@ MonoBehaviour:
   descriptionText: {fileID: 0}
   cooldownOverlay: {fileID: 0}
   buffLevelText: {fileID: 0}
+--- !u!114 &604966407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604966402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 854b778b0eb4d484ea0be28852fdfac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &604966408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604966402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd0af1fea7427a547923bc9aac73f93a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffDuration: 1
 --- !u!1 &655464799
 GameObject:
   m_ObjectHideFlags: 0
@@ -2986,7 +3014,6 @@ RectTransform:
   - {fileID: 655464800}
   - {fileID: 2090569386}
   - {fileID: 244560859}
-  - {fileID: 604966403}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
