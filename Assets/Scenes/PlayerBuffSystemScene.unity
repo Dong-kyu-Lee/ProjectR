@@ -209,7 +209,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -572,6 +572,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &63483074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -663,6 +666,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &64020002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -982,6 +988,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &197615317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1764,6 +1773,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &445957925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2871,6 +2883,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &722742127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3701,6 +3716,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &890686412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4423,6 +4441,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1057907958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5725,13 +5746,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipSlotParentObj: {fileID: 1322772161}
-  itemSlotPref: {fileID: 6373677376400454785, guid: c20c21aff7ce2fe40854fb78e472a492, type: 3}
-  inventorySlotParentObj:
-  - {fileID: 774973495}
-  - {fileID: 889600702}
-  - {fileID: 421950020}
-  - {fileID: 948873639}
-  - {fileID: 1264925396}
+  equipSlotImgs: []
+  inventorySlotParentObj: {fileID: 0}
+  inventorySlotImgs: []
+  quickSlotImg: {fileID: 0}
+  previewSlotUI: {fileID: 0}
   playerInventory: {fileID: 2070760611}
 --- !u!1 &1458637043
 GameObject:
@@ -5786,6 +5805,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1458637046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7272,7 +7294,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7596,6 +7618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c0e2870d8a50d418730fc683e57008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Gold: 0
 --- !u!114 &1965849022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7621,9 +7644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myInventory: {fileID: 2070760611}
-  equippedSlotIndex1: 0
-  equippedSlotIndex2: 4
-  inventorySlotIndex: 0
+  itemTakeRange: 1
 --- !u!251 &1965849024
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -7700,7 +7721,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8013,6 +8034,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &2045088295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8104,6 +8128,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &2058245694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8176,7 +8203,7 @@ MonoBehaviour:
   maxEquipSlot: 6
   equipmentItemSlot: []
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
-  inventoryUI: {fileID: 1457237835}
+  myInventoryUI: {fileID: 0}
 --- !u!4 &2070760612
 Transform:
   m_ObjectHideFlags: 0
@@ -8323,6 +8350,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
+  itemSlotImage: {fileID: 0}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &2121875587
 MonoBehaviour:
   m_ObjectHideFlags: 0

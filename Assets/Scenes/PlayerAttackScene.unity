@@ -185,7 +185,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -260,14 +260,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1ed47a87ffa8ab4d828212b53a9af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnEnableCharacterInfoUI:
+    m_PersistentCalls:
+      m_Calls: []
   projectilePref: {fileID: 2127986129719347135, guid: 9545418416f37464b95a11a2de2a92e8, type: 3}
   playerCamera: {fileID: 1281468549}
-  moveSpeed: 3000
+  playerAnimator: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundCheck: {fileID: 0}
   jumpPower: 900
+  moveFactor: 0
   dashFactor: 0
   dashTime: 0
   dashCoolTime: 0
   attackCoolTime: 0
+  projectielSpawnOffset: 0
 --- !u!251 &209952084
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -373,7 +382,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -542,7 +551,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -701,7 +710,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

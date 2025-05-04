@@ -964,7 +964,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1613,6 +1613,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 341392330}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &341392330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2716,6 +2718,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 504528934}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &504528934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3098,6 +3102,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 547381409}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &547381409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3270,6 +3276,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 562861123}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &562861123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4388,7 +4396,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dungeonCreator: {fileID: 0}
-  enemySpawnManager: {fileID: 0}
   finishSpotPrefab: {fileID: 2223033067248664399, guid: 32e8c290480fc8a4eb50f14dc357e605, type: 3}
   playerSpawnPosition: {x: 0, y: 0, z: 0}
   finishSpotPosition: {x: 0, y: 0, z: 0}
@@ -4662,6 +4669,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 739969497}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &739969497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5289,6 +5298,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 856142717}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &856142717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5747,6 +5758,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 949044520}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &949044520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6478,7 +6491,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 5991675829416638229}
-  isCreateEnemies: 0
+  upgradeUI: {fileID: 0}
+  inventoryUI: {fileID: 0}
 --- !u!4 &1258365073
 Transform:
   m_ObjectHideFlags: 0
@@ -8050,6 +8064,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1626917818}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1626917818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8538,6 +8554,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1707857654}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1707857654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8783,13 +8801,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipSlotParentObj: {fileID: 496920226}
-  itemSlotPref: {fileID: 6373677376400454785, guid: c20c21aff7ce2fe40854fb78e472a492, type: 3}
-  inventorySlotParentObj:
-  - {fileID: 716828465}
-  - {fileID: 669374866}
-  - {fileID: 1543174694}
-  - {fileID: 334937123}
-  - {fileID: 38624153}
+  equipSlotImgs: []
+  inventorySlotParentObj: {fileID: 0}
+  inventorySlotImgs: []
+  quickSlotImg: {fileID: 0}
+  previewSlotUI: {fileID: 0}
   playerInventory: {fileID: 0}
 --- !u!1 &1733478213
 GameObject:
@@ -8923,6 +8939,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1741309252}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1741309252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9304,6 +9322,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1852451174}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1852451174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9439,7 +9459,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10075,7 +10095,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10637,7 +10657,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10991,7 +11011,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11100,7 +11120,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11235,7 +11255,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11864,7 +11884,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17691,7 +17711,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

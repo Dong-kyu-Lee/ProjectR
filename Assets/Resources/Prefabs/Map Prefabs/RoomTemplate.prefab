@@ -49,7 +49,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 6
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -822,10 +822,10 @@ Tilemap:
   - m_RefCount: 76
     m_Data: {fileID: 11400000, guid: aec1facff96d8974a989609cdcbf8787, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: -449985423, guid: d8700e92c0fce3047a4b35b97eae01c8, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: -449985423, guid: d8700e92c0fce3047a4b35b97eae01c8, type: 3}
   - m_RefCount: 36
     m_Data: {fileID: -487973403, guid: d8700e92c0fce3047a4b35b97eae01c8, type: 3}
   - m_RefCount: 1
@@ -902,7 +902,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -921,7 +921,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -2
+  m_SortingLayer: -5
   m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -1291,7 +1291,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1310,7 +1310,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -2
+  m_SortingLayer: -5
   m_SortingOrder: 4
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -5435,7 +5435,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5454,7 +5454,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -2
+  m_SortingLayer: -5
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -5587,7 +5587,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5606,7 +5606,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -2
+  m_SortingLayer: -5
   m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -5668,7 +5668,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6177,7 +6177,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6196,7 +6196,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -2
+  m_SortingLayer: -5
   m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -6393,25 +6393,20 @@ MonoBehaviour:
   floatingTilemap: {fileID: 6892781839914054303}
   decorationTilemap: {fileID: 4755759031056463437}
   gateTilemap: {fileID: 3923708335340424428}
+  enemyTilemap: {fileID: 0}
   enemySpawnPoint:
   - {fileID: 4824485425852595456}
   - {fileID: 4317295027717912022}
   - {fileID: 4628450010345465118}
-  interactableObjPoint: []
+  dynamicElements: {fileID: 0}
+  boxObject: {fileID: 0}
   playerSpawnPosition: {fileID: 5133920033272777904}
   finishSpotPosition: {fileID: 5919015796211866839}
+  warpPosition: {fileID: 0}
   isUpOpenable: 1
   isDownOpenable: 1
   isRightOpenable: 1
   isLeftOpenable: 1
-  rightDownCornerTile: {fileID: 11400000, guid: a0359d0a040a3ff45b225779976ea041, type: 2}
-  leftDownCornerTile: {fileID: 11400000, guid: 16d8fd39293426d46aae609737199cb6, type: 2}
-  rightUpCornerTile: {fileID: 11400000, guid: 05b907c30bcfbe047bd3cb43896b3ea3, type: 2}
-  leftUpCornerTile: {fileID: 11400000, guid: 72930b8b8dbdee24f9ca1735f2a86dd1, type: 2}
-  leftSideTile: {fileID: 11400000, guid: 8e8c7504f8f8faf41bfe6138446ca524, type: 2}
-  rightSideTile: {fileID: 11400000, guid: 39f91ed10f5fb3149b0bf1cc9fdfac1e, type: 2}
-  upSideTile: {fileID: 11400000, guid: 7865f3b8198680f44b5a273b4adade25, type: 2}
-  downSideTile: {fileID: 11400000, guid: 7829f290b0dec064495c4ebeb39b8d93, type: 2}
 --- !u!1001 &4145951909841168709
 PrefabInstance:
   m_ObjectHideFlags: 0
