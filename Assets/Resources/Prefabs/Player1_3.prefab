@@ -380,6 +380,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a37c422ae9d7d47955a859f51df986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enchantLevel: 0
+  curWeaponData: {fileID: 0}
+  weaponDataList: []
+  onAbilityUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7663576975768946401
 GameObject:
   m_ObjectHideFlags: 0

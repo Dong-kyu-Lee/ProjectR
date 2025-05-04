@@ -30,6 +30,7 @@ public class BartenderController : MonoBehaviour
     float minDistance = 0.5f;
     float groundCheckRadius = 0.2f;
 
+    [SerializeField]
     bool enableJump;
     bool enableDash;
     bool enableAttack;
@@ -37,6 +38,7 @@ public class BartenderController : MonoBehaviour
     bool isPause;
     bool isAttaking;
     bool isDead;
+    bool isGround;
 
     void Start()
     {
@@ -47,6 +49,7 @@ public class BartenderController : MonoBehaviour
         enableUI = true;
         isAttaking = false;
         isDead = false;
+        isGround = true;
         dashFactor = 1.0f;
         dashTime = 0.2f;
         dashCoolTime = 1.0f;
@@ -145,8 +148,10 @@ public class BartenderController : MonoBehaviour
         if (enableJump)
         {
             enableJump = false;
+            isGround = false;
             playerRigidBody.AddForce(new Vector2(0f, jumpPower));
             playerAnimator.SetTrigger("jump");
+            playerAnimator.SetBool("isGround", isGround);
         }
     }
 
@@ -154,6 +159,18 @@ public class BartenderController : MonoBehaviour
     {
         // 플레이어 아래에 발판 오브젝트가 오버랩되는지 확인
         enableJump = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        if (enableJump)
+        {
+            isGround = true;
+            playerAnimator.SetBool("isGround", isGround);
+        }
+        else
+        {
+            isGround = false;
+
+            playerAnimator.SetBool("isGround", isGround);
+        }
     }
 
     // 캐릭터 정보 UI 활성화
