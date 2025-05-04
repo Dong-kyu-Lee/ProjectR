@@ -76,12 +76,6 @@ public class BartenderController : MonoBehaviour
                     StartCoroutine(Dash());
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                EnableCharacterUI();
-            }
-
             if (Input.GetMouseButtonDown(0) && enableAttack)
             {
                 StartCoroutine(Attack());
@@ -172,18 +166,6 @@ public class BartenderController : MonoBehaviour
             playerAnimator.SetBool("isGround", isGround);
         }
     }
-
-    // 캐릭터 정보 UI 활성화
-    void EnableCharacterUI()
-    {
-        if (enableUI)
-        {
-            isPause = true;
-            enableUI = false;
-            OnEnableCharacterInfoUI.Invoke();
-        }
-    }
-
     // 캐릭터 정보 UI 비활성화
     public void DisableCharacterUI()
     {

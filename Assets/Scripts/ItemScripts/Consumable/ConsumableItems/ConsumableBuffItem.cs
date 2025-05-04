@@ -13,6 +13,6 @@ public class ConsumableBuffItem : ConsumableItemData
     //아이템을 사용했을 경우 플레이어에게 버프를 부여하는 메서드
     public override void ActivateItemEffect(PlayerStatus player)
     {
-        player.GetComponent<PlayerBuffManager>().ActivateBuff(buffType, buffDuration);
+        player.GetComponent<BuffManager>().ActivateBuff(buffType, buffDuration);
     }
 }

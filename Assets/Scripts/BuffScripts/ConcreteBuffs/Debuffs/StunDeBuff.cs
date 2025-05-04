@@ -16,11 +16,13 @@ public class StunDeBuff : Buff
 
     public override void ApplyBuffEffect()
     {
-        Status targetStatus = targetObject.GetComponent<Status>();
-        prevMoveSpeed += targetStatus.MoveSpeed;
-        targetStatus.MoveSpeed = 0.0f;
-        
-        PlayerController targetController = targetObject.GetComponent<PlayerController>();
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+        prevMoveSpeed += playerStatus.MoveSpeed;
+        playerStatus.MoveSpeed = 0.0f;
+
+        PlayerController targetController = GameManager.Instance.CurrentPlayer.GetComponent<PlayerController>();
         prevJumpPower += targetController.jumpPower;
         targetController.jumpPower = 0.0f;
     }
@@ -33,10 +35,12 @@ public class StunDeBuff : Buff
 
     public override void RemoveBuffEffect()
     {
-        Status targetStatus = targetObject.GetComponent<Status>();
-        targetStatus.MoveSpeed += prevMoveSpeed;
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+        playerStatus.MoveSpeed += prevMoveSpeed;
 
-        PlayerController targetController = targetObject.GetComponent<PlayerController>();
+        PlayerController targetController = GameManager.Instance.CurrentPlayer.GetComponent<PlayerController>();
         targetController.jumpPower += prevJumpPower;
     }
 }

@@ -9,6 +9,7 @@ public class DrunkenDeBuff : Buff
 
     public DrunkenDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Drunken;
         maxBuffLevel = 3;
     }
 
@@ -16,9 +17,12 @@ public class DrunkenDeBuff : Buff
     {
         if (currentBuffLevel < maxBuffLevel - 1)
         {
-            Status targetStatus = targetObject.GetComponent<Status>();
-            targetStatus.MoveSpeed -= moveSpeedDecGap[currentBuffLevel];
-            targetStatus.AttackSpeed -= attackSpeedDecGap[currentBuffLevel];
+            Debug.Log("출혈 디버프 활성화"); 
+            PlayerStatus playerStatus = GetPlayerStatus();
+            if (playerStatus == null)
+                return;
+            playerStatus.MoveSpeed -= moveSpeedDecGap[currentBuffLevel];
+            playerStatus.AttackSpeed -= attackSpeedDecGap[currentBuffLevel];
         }
         else
         {
@@ -26,20 +30,26 @@ public class DrunkenDeBuff : Buff
         }
         Debug.Log("만취 디버프 부여");
     }
-
-    //스택이 3스택 이상 쌓일 경우 슬립 디버프로 전환시키는 메서드
     private void ActivateSleepBuff()
     {
-        PlayerBuffManager targetBuffManager = targetObject.GetComponent<PlayerBuffManager>();
-        targetBuffManager.ActivateBuff(BuffType.Sleep, 10.0f);
-
+        if (BuffManager.Instance != null)
+        {
+            BuffManager.Instance.ActivateBuff(BuffType.Sleep, 10.0f);
+            Debug.Log("Sleep 디버프가 활성화되었습니다.");
+        }
+        else
+        {
+            Debug.LogWarning("BuffManager가 null입니다.");
+        }
     }
 
     public override void RemoveBuffEffect()
     {
-        Status targetStatus = targetObject.GetComponent<Status>();
-        targetStatus.MoveSpeed += GetCurrentSumOfArray(moveSpeedDecGap);
-        targetStatus.AttackSpeed += GetCurrentSumOfArray(attackSpeedDecGap);
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+        playerStatus.MoveSpeed += GetCurrentSumOfArray(moveSpeedDecGap);
+        playerStatus.AttackSpeed += GetCurrentSumOfArray(attackSpeedDecGap);
         Debug.Log("만취 디버프 해제");
     }
 }
