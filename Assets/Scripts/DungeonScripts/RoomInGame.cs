@@ -14,6 +14,8 @@ public class RoomInGame : MonoBehaviour
     public RoomState GetRoomState { get => roomState; }
     public Gate gate;
     public EnemyInRoom enemyInRoom;
+    public List<GameObject> dynamicElements;
+    public GameObject boxObject;
 
     public Action onFirstWaveEnd;
     public Action onSecondWaveEnd;
@@ -22,6 +24,19 @@ public class RoomInGame : MonoBehaviour
     {
         onFirstWaveEnd += FirstWaveEnd;
         onSecondWaveEnd += SecondWaveEnd;
+        dynamicElements = new List<GameObject>();
+    }
+
+    private void OnDestroy()
+    {
+        for(int i = 0; i < dynamicElements.Count; ++i)
+        {
+            Destroy(dynamicElements[i]);
+        }
+        if(boxObject != null)
+        {
+            Destroy(boxObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -56,7 +71,7 @@ public class RoomInGame : MonoBehaviour
         // 방 상태 변경
         roomState = RoomState.Clear;
         // 현재 방 문 열기
-        gate.OpenGate();
+        gate.OpenGate(true);
         // 다음 방 문 열기
         DungeonFlowManager.Instance.OpenNextRoom(this);
     }
@@ -65,5 +80,20 @@ public class RoomInGame : MonoBehaviour
     {
         isFirstWaveEnded = false;
         roomState = RoomState.Default;
+    }
+
+    internal void SetDynamicElements(GameObject dynamicElements)
+    {
+        for(int i = 0; i < dynamicElements.transform.childCount; ++i)
+        {
+            GameObject element = Instantiate(dynamicElements.transform.GetChild(i).gameObject, 
+                transform.position + dynamicElements.transform.GetChild(i).localPosition, Quaternion.identity, transform);
+            this.dynamicElements.Add(element);
+        }
+    }
+
+    internal void SetBoxObject(GameObject boxObject)
+    {
+        this.boxObject = Instantiate(boxObject, transform.position + boxObject.transform.localPosition, Quaternion.identity, transform);
     }
 }

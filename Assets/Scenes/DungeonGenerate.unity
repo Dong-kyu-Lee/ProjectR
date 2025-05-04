@@ -194,8 +194,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1573963353
+  m_SortingLayer: -5
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -583,9 +583,9 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -1573963353
+  m_SortingLayer: -5
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -805,8 +805,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1573963353
+  m_SortingLayer: -5
   m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -1156,9 +1156,9 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: -1573963353
+  m_SortingLayer: -5
+  m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -1503,7 +1503,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1780063517
 Transform:
@@ -1533,15 +1533,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dungeonRow: 2
-  dungeonColumn: 3
+  dungeonColumn: 2
+  dungeonBoxCount: 2
   roomContainer: {fileID: 1780063519}
-  generatedRooms: []
   backgroundTilemap: {fileID: 82772821}
   groundTilemap: {fileID: 911974148}
   floatingTilemap: {fileID: 909417548}
   decorationTilemap: {fileID: 1013678457}
   grid: {fileID: 1559088507}
-  gatePrefab: {fileID: 3687891841336006632, guid: 0f2bfa28db6b2934dbe4128ebeadb0ba, type: 3}
+  roomInGamePrefab: {fileID: 3687891841336006632, guid: 0f2bfa28db6b2934dbe4128ebeadb0ba, type: 3}
 --- !u!114 &1780063519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1555,7 +1555,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rooms:
-  - {fileID: 7915582734982918056, guid: 7e8ef2d8c073e1d4cbfe7a141ae491e7, type: 3}
   - {fileID: 3531850332450289258, guid: 03b285d41ee19a64aabdabca746751f9, type: 3}
   - {fileID: 4972015523166909312, guid: 35b02ffabd0edaf4bb959acdf8273ada, type: 3}
   - {fileID: 8464257247955686885, guid: c94a3865172df5e4a9f2f1af86cba378, type: 3}
