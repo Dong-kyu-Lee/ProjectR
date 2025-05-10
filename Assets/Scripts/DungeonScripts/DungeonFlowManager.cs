@@ -15,8 +15,7 @@ public class DungeonFlowManager : MonoBehaviour
     private static DungeonFlowManager instance;
     private static DungeonFlowState currentState;
     private GameObject currentFinishSpot;
-    private List<RoomInGame> roomList = new List<RoomInGame>();
-    
+
     [SerializeField]
     private DungeonCreator dungeonCreator;
     public DungeonCreator DungeonCreator 
@@ -28,6 +27,8 @@ public class DungeonFlowManager : MonoBehaviour
     public GameObject finishSpotPrefab;
     public Vector3 playerSpawnPosition = new Vector3();
     public Vector3 finishSpotPosition = new Vector3();
+    public List<RoomInGame> roomList = new List<RoomInGame>();
+    private int currentRoomIndex = -1; // 현재 방 인덱스
 
     public DungeonFlowState GetCurrentDungeonFlow { get => currentState; }
     // DungeonCreator가 던전 생성 준비를 마쳤으니 던전 생성을 요청할 때 호출하는 Action
@@ -161,10 +162,10 @@ public class DungeonFlowManager : MonoBehaviour
     public void OpenNextRoom(RoomInGame currentRoom)
     {
         int index = roomList.IndexOf(currentRoom);
-        if(index != -1)
+        if (index != -1)
         {
             if (index != roomList.Count - 1) roomList[index + 1].gate.OpenGate(false);
-            roomList.Remove(currentRoom);
+            currentRoomIndex = index;
         }
         else
         {
@@ -172,11 +173,13 @@ public class DungeonFlowManager : MonoBehaviour
         }
 
         // 모든 방을 클리어한 경우
-        if(roomList.Count == 0)
+        if (currentRoomIndex == roomList.Count - 1)
         {
+            roomList.Clear();
             OpenFinishSpot();
         }
     }
+
 
     // 스테이지 클리어 시, 다음 스테이지 이동 통로를 활성화하는 함수
     public void OpenFinishSpot()
