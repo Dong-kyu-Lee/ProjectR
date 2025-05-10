@@ -13,12 +13,23 @@ public class CharacterInfo : MonoBehaviour
     public GameObject characterName;
     public GameObject statusTextPref;
     public GameObject statusParentObj;
+    public GameObject characterInfo;
     public PlayerStatus playerStatus;
 
     List<GameObject> statusObjList = new List<GameObject>();
 
     private void Awake()
     {
+        Transform childTransform = transform.Find("CharacterInfo");
+        if (childTransform != null)
+        {
+            characterInfo = childTransform.gameObject;
+        }
+        else
+        {
+            Debug.LogError("CharacterInfo 자식 오브젝트를 찾을 수 없습니다!");
+        }
+
         Init();
         SetStatus();
         transform.GetComponentInChildren<InventoryUI>().Init();
@@ -42,14 +53,14 @@ public class CharacterInfo : MonoBehaviour
     // UI 활성화
     public void EnableUI()
     {
-        gameObject.SetActive(true);
+        characterInfo.SetActive(true);
     }
 
     // UI 비활성화
     public void DisableUI()
     {
         Time.timeScale = 1f;
-        gameObject.SetActive(false);
+        characterInfo.SetActive(false);
     }
 
     public void ToggleInventoryUI()
