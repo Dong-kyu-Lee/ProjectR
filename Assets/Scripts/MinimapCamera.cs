@@ -12,7 +12,23 @@ public class MinimapCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector3 newPosition = GameManager.Instance.CurrentPlayer.transform.position;
-        transform.position = newPosition + Vector3.back*7.0f;
+        Vector3 playerPosition = GameManager.Instance.CurrentPlayer.transform.position;
+        var roomInfos = DungeonFlowManager.Instance.roomList;
+        for(int i = 0; i < roomInfos.Count; ++i)
+        {
+            if (roomInfos[i].GetRoomState != RoomState.Default)
+            {
+                Vector3 roomPosition = roomInfos[i].transform.position;
+                float distanceX = playerPosition.x - roomPosition.x;
+                float distanceY = playerPosition.y - roomPosition.y;
+                if (distanceX <= 40 && distanceX >= 0 && distanceY <= 40 && distanceY >= 0)
+                {
+                    // 플레이어가 해당 방에 위치해있다는 뜻
+                    // 해당 방의 가운데에 미니맵 카메라를 위치시킴
+                    transform.position = new Vector3(roomPosition.x + 19.5f, roomPosition.y + 19.5f, transform.position.z);
+                    break;
+                }
+            }
+        }
     }
 }

@@ -85,6 +85,7 @@ public class DungeonFlowManager : MonoBehaviour
 
     private void ResetDungeon()
     {
+        roomList.Clear();
         if (dungeonCreator != null)
         {
             dungeonCreator.RemoveAllRooms();
@@ -179,7 +180,6 @@ public class DungeonFlowManager : MonoBehaviour
         // 모든 방을 클리어한 경우
         if (currentRoomIndex == roomList.Count - 1)
         {
-            roomList.Clear();
             OpenFinishSpot();
         }
     }
