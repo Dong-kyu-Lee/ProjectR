@@ -669,8 +669,8 @@ MonoBehaviour:
   abilityText: {fileID: 165620520}
   abilityPriceText: {fileID: 955438709}
   abilityIndex: 3
-  abilityDesc: "\uB9CC\uCDE8 \uC0C1\uD0DC\uC758 \uC801\uC5D0\uAC8C \uAC00\uD558\uB294
-    \uD53C\uD574\uB7C9\uC774 \uC99D\uAC00\uD55C\uB2E4."
+  abilityDesc: "\uC801\uC744 \uB9CC\uCDE8 \uC0C1\uD0DC\uC5D0 \uBE60\uC9C0\uAC8C \uD558\uBA74
+    \uD070 \uB514\uBC84\uD504 \uD53C\uD574\uB97C \uC900\uB2E4."
   abilityPrice: 300
   image: {fileID: 0}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
@@ -978,7 +978,8 @@ MonoBehaviour:
   abilityIndex: 2
   abilityDesc: "\uC220\uBCD1 \uD22C\uCC99\uC774 \uB3C4\uCC29 \uC9C0\uC810\uC5D0 \uD3ED\uBC1C
     \uB370\uBBF8\uC9C0\uB97C \uC900\uB2E4. \uD574\uB2F9 \uACF5\uACA9\uC5D0\uB294
-    \uC220 \uC81C\uC870\uC758 \uC801\uC911 \uC2DC \uD6A8\uACFC\uAC00 \uC801\uC6A9\uB41C\uB2E4."
+    \uC220 \uC81C\uC870\uC758 \uC801\uC911 \uC2DC \uD6A8\uACFC\uAC00 \uCD94\uAC00\uB85C
+    \uC801\uC6A9\uB41C\uB2E4."
   abilityPrice: 400
   image: {fileID: 0}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
@@ -1090,7 +1091,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1899,8 +1900,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 341392330}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &341392330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3004,8 +3003,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 504528934}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &504528934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3388,8 +3385,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 547381409}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &547381409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3562,8 +3557,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 562861123}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &562861123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4746,6 +4739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dungeonCreator: {fileID: 0}
+  enemySpawnManager: {fileID: 0}
   finishSpotPrefab: {fileID: 2223033067248664399, guid: 32e8c290480fc8a4eb50f14dc357e605, type: 3}
   playerSpawnPosition: {x: 0, y: 0, z: 0}
   finishSpotPosition: {x: 0, y: 0, z: 0}
@@ -4973,8 +4967,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 739969497}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &739969497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5602,8 +5594,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 856142717}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &856142717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6109,8 +6099,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 949044520}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &949044520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6910,8 +6898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 5991675829416638229}
-  upgradeUI: {fileID: 0}
-  inventoryUI: {fileID: 0}
+  isCreateEnemies: 0
 --- !u!4 &1258365073
 Transform:
   m_ObjectHideFlags: 0
@@ -7366,7 +7353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1424434524
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8498,8 +8485,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1626917818}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &1626917818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8988,8 +8973,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1707857654}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &1707857654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9235,11 +9218,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipSlotParentObj: {fileID: 496920226}
-  equipSlotImgs: []
-  inventorySlotParentObj: {fileID: 0}
-  inventorySlotImgs: []
-  quickSlotImg: {fileID: 0}
-  previewSlotUI: {fileID: 0}
+  itemSlotPref: {fileID: 6373677376400454785, guid: c20c21aff7ce2fe40854fb78e472a492, type: 3}
+  inventorySlotParentObj:
+  - {fileID: 716828465}
+  - {fileID: 669374866}
+  - {fileID: 1543174694}
+  - {fileID: 334937123}
+  - {fileID: 38624153}
   playerInventory: {fileID: 0}
 --- !u!1 &1733478213
 GameObject:
@@ -9373,8 +9358,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1741309252}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &1741309252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9836,8 +9819,6 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1852451174}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
 --- !u!114 &1852451174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9973,7 +9954,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10620,7 +10601,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11301,7 +11282,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11705,7 +11686,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11829,7 +11810,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12064,7 +12045,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12693,7 +12674,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18520,7 +18501,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

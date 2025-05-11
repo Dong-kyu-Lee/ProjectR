@@ -10,6 +10,7 @@ public class FreezeDeBuff : Buff
 
     public FreezeDeBuff(float duration, GameObject target) : base(duration, target) 
     {
+        this.BuffType = BuffType.Freeze;
         maxDuration = 8;
         maxBuffLevel = 1;
     }

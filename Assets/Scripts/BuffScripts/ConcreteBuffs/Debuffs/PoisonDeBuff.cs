@@ -8,6 +8,7 @@ public class PoisonDeBuff : Buff
 
     public PoisonDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Poison;
         maxDuration = 10;
     }
 
@@ -16,7 +17,6 @@ public class PoisonDeBuff : Buff
         Status targetStatus = targetObject.GetComponent<Status>();
         CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * poisonDmg[currentBuffLevel], targetStatus.gameObject);
         targetStatus.Hp -= targetStatus.MaxHp * poisonDmg[currentBuffLevel];
-        InGameUIManager.Instance.CheckHp();
     }
 
     public override void DoActionOnActivate(float tickDuration = 1)

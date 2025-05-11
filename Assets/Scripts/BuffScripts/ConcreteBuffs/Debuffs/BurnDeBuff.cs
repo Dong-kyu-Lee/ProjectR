@@ -9,6 +9,7 @@ public class BurnDeBuff : Buff
 
     public BurnDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Burn;
         maxDuration = 5;
         maxBuffLevel = 1;
     }
