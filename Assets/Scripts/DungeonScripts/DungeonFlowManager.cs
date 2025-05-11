@@ -33,6 +33,7 @@ public class DungeonFlowManager : MonoBehaviour
     public DungeonFlowState GetCurrentDungeonFlow { get => currentState; }
     // DungeonCreator가 던전 생성 준비를 마쳤으니 던전 생성을 요청할 때 호출하는 Action
     public Action onDungeonCreatorReady;
+    public Action onDungeonReset; // 던전 갱신이 완료되었을 때 호출하는 Action
 
     public static DungeonFlowManager Instance
     {
@@ -77,6 +78,9 @@ public class DungeonFlowManager : MonoBehaviour
         // 도착 위치 생성
         currentFinishSpot = Instantiate(finishSpotPrefab, finishSpotPosition, transform.rotation);
         Debug.Log("Finish Spot 생성됨. 닫힌 상태");
+
+        // 던전 갱신 완료 이벤트 호출
+        onDungeonReset?.Invoke();
     }
 
     private void ResetDungeon()

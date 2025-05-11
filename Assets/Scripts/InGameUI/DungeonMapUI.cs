@@ -14,9 +14,16 @@ public class DungeonMapUI : MonoBehaviour
     public GameObject roomImagePrefab; // 방 UI 이미지 프리팹
     public List<GameObject> roomList = new List<GameObject>(); // 캔버스에 표시된 방 이미지들의 리스트
 
-    void Start()
+    private void Start()
     {
-        
+        Debug.Log("DungeonMapUI Start");
+        DrawDungeonMap();
+        DungeonFlowManager.Instance.onDungeonReset += RemoveRoomImages;
+    }
+
+    private void OnDestroy()
+    {
+        DungeonFlowManager.Instance.onDungeonReset -= RemoveRoomImages;
     }
 
     void Update()
@@ -40,8 +47,9 @@ public class DungeonMapUI : MonoBehaviour
     }
 
     // 방들의 배치를 Canvas에 그리드 형태로 표시하는 메서드
-    public void DrawDungeonMap()
+    private void DrawDungeonMap()
     {
+        Debug.Log("DrawDungeonMap");
         var roomInfos = DungeonFlowManager.Instance.roomList;
         Vector2 bottomLeft = new Vector2(1000f, 1000f); // 가장 왼쪽 아래 방
         Vector2 topRight = new Vector2(-1000f, -1000f); // 가장 오른쪽 위 방
@@ -75,5 +83,17 @@ public class DungeonMapUI : MonoBehaviour
             uiRoomPos -= middle;
             roomList[i].GetComponent<RectTransform>().anchoredPosition = uiRoomPos;
         }
+    }
+
+    // 던전이 갱신되었을 때 방 UI 이미지들을 제거하는 메서드
+    private void RemoveRoomImages()
+    {
+        Debug.Log("RemoveRoomImages");
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            Destroy(roomList[i]);
+        }
+        roomList.Clear();
+        DrawDungeonMap();
     }
 }
