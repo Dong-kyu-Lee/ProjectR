@@ -14,10 +14,12 @@ public class Room : MonoBehaviour
     public GameObject enemyTilemap;
 
     public List<Transform> enemySpawnPoint = new List<Transform>();
-    public List<GameObject> interactableObjPoint = new List<GameObject>();
+    public GameObject dynamicElements;
+    public GameObject boxObject;
 
     public Transform playerSpawnPosition;
     public Transform finishSpotPosition;
+    public Transform warpPosition;
 
     [Header("Gate")]
     public bool isUpOpenable;

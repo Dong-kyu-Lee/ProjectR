@@ -10,10 +10,10 @@ public class DungeonCreator : MonoBehaviour
     [Header("Fixed Room Setting")]
     public int dungeonRow;
     public int dungeonColumn;
+    public int dungeonBoxCount;
 
     [Header("Needed Objects")]
     public RoomContainer roomContainer;
-    public List<GameObject> generatedRooms = new List<GameObject>();
     [SerializeField]
     private Tilemap backgroundTilemap;
     [SerializeField]
@@ -26,8 +26,9 @@ public class DungeonCreator : MonoBehaviour
     private Grid grid;
 
     [SerializeField]
-    private GameObject gatePrefab;
-    private Dictionary<Vector3, GameObject> gateDic = new Dictionary<Vector3, GameObject>();
+    private GameObject roomInGamePrefab;
+    private Dictionary<Vector3, GameObject> roomInGameDic = new Dictionary<Vector3, GameObject>();
+    private List<Tuple<RoomNode, Room>> roomTupleList = new List<Tuple<RoomNode, Room>>();
 
     void Start()
     {
@@ -43,46 +44,106 @@ public class DungeonCreator : MonoBehaviour
     // 던전과 관련 요소를 씬에 생성하는 함수
     public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
-        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(dungeonRow, dungeonColumn);
+        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(dungeonRow * dungeonColumn);
         var roomNodes = dungeonStructure.GetDungeonStructure();
 
         playerSpawnPosition = new Vector3();
         finishSpotPosition = new Vector3();
 
-        // 조건에 맞는 방들을 랜덤으로 선택해 생성
-        for(int i = 0; i < roomNodes.Count; ++i)
+        // 상자를 생성할 방 인덱스를 정하는 함수
+        List<int> roomIndexForBoxes = GetRandomNumbers(roomNodes.Count, dungeonBoxCount);
+
+        // 랜덤으로 방 프리팹을 선택해 방과 그 구성요소 생성
+        for (int i = 0; i < roomNodes.Count; ++i)
         {
             Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
-
-            var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
-            Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
+            // var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
+            // Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
+            Room currentRoom = roomContainer.rooms[Random.Range(0, roomContainer.rooms.Count)].GetComponent<Room>();
             DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
-            // 문 오브젝트 생성
-            UpdateGates(generatePosition, roomNodes[i].OpenNeededGate);
-            // 해당 방의 몬스터 관리 클래스 갱신
-            gateDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
+            roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));
+
+            // 문 그리기
+            UpdateRoomInGame(generatePosition, roomNodes[i].OpenNeededGate);
+            roomInGameDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
+            // 맵의 동적 요소들 생성(ex. 움직이는 발판 등)
+            roomInGameDic[generatePosition].GetComponent<RoomInGame>().SetDynamicElements(currentRoom.dynamicElements);
+            // 상자 생성
+            if(roomIndexForBoxes.Contains(i))
+            {
+                roomInGameDic[generatePosition].GetComponent<RoomInGame>().SetBoxObject(currentRoom.boxObject);
+            }
             // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
-            DungeonFlowManager.Instance.AddRoomInGame(gateDic[generatePosition].GetComponent<RoomInGame>());
+            DungeonFlowManager.Instance.AddRoomInGame(roomInGameDic[generatePosition].GetComponent<RoomInGame>());
 
             if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
             else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
         }
+
+        UpdateWarpPosition();
     }
 
     // 문 오브젝트를 생성하고 갱신하는 함수
-    private void UpdateGates(Vector3 doorPosition, bool[] openNeededGate)
+    private void UpdateRoomInGame(Vector3 doorPosition, bool[] openNeededGate)
     {
         // 2스테이지 시작의 경우
-        if (gateDic.Count == dungeonColumn * dungeonRow)
+        if (roomInGameDic.Count == dungeonColumn * dungeonRow)
         {
-            gateDic[doorPosition].GetComponent<RoomInGame>().ResetRoomState();
-            gateDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
+            roomInGameDic[doorPosition].GetComponent<RoomInGame>().ResetRoomState();
+            roomInGameDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
         }
         else
         {
-            gateDic.Add(doorPosition, Instantiate(gatePrefab, doorPosition, transform.rotation, grid.transform));
-            gateDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
+            roomInGameDic.Add(doorPosition, Instantiate(roomInGamePrefab, doorPosition, transform.rotation, grid.transform));
+            roomInGameDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
         }
+    }
+
+    // 워프가 생성되어야 할 방을 선정하고 해당 방의 RoomInGame 을 수정
+    private void UpdateWarpPosition()
+    {
+        for (int i = 0; i < roomTupleList.Count - 1; ++i)
+        {
+            Vector2Int currentNodePosition = roomTupleList[i].Item1.RoomPosition;
+            Vector2Int nextNodePosition = roomTupleList[i + 1].Item1.RoomPosition;
+            if (currentNodePosition.y != nextNodePosition.y)
+            {
+                Vector3 roomPosition = new Vector3Int(40 * currentNodePosition.x, 40 * currentNodePosition.y, 0);
+                Vector3 nextRoomPosition = new Vector3Int(40 * nextNodePosition.x, 40 * nextNodePosition.y, 0);
+
+                Vector3 warpPosition = roomPosition + roomTupleList[i].Item2.warpPosition.position;
+                Vector3 playerWarpPosition = nextRoomPosition + roomTupleList[i + 1].Item2.playerSpawnPosition.position;
+                roomInGameDic[roomPosition].GetComponent<Gate>().CreateWarpObject(warpPosition, playerWarpPosition);
+            }
+        }
+    }
+
+    private List<int> GetRandomNumbers(int roomCount, int boxCount)
+    {
+        // 예외 처리: M이 N보다 크면 안 됨
+        if (boxCount > roomCount)
+        {
+            Debug.LogError("M은 N보다 클 수 없습니다.");
+            return null;
+        }
+
+        // 전체 숫자 리스트 생성 (0부터 N까지)
+        List<int> numbers = new List<int>();
+        for (int i = 0; i <= roomCount; i++)
+        {
+            numbers.Add(i);
+        }
+
+        // 랜덤으로 M개의 숫자를 선택
+        List<int> randomNumbers = new List<int>();
+        for (int i = 0; i < boxCount; i++)
+        {
+            int randomIndex = Random.Range(0, numbers.Count); // 랜덤 인덱스 선택
+            randomNumbers.Add(numbers[randomIndex]);          // 랜덤 숫자 추가
+            numbers.RemoveAt(randomIndex);                    // 중복 방지를 위해 제거
+        }
+
+        return randomNumbers;
     }
 
     // 던전 방 프리팹을 타일맵에 그리는 함수
@@ -130,13 +191,13 @@ public class DungeonCreator : MonoBehaviour
         }
 
         // 통로 열기
-        if (openNeededGate[0] == true) // 위
+        /*if (openNeededGate[0] == true) // 위
         {
             for (int i = 0; i < 8; ++i)
             {
                 groundTilemap.SetTile(roomPosition + new Vector3Int(16 + i, 39, 0), null);
             }
-        }
+        }*/
         if (openNeededGate[1] == true) // 오른쪽
         {
             for (int i = 0; i < 8; ++i)
@@ -144,13 +205,13 @@ public class DungeonCreator : MonoBehaviour
                 groundTilemap.SetTile(roomPosition + new Vector3Int(39, 16 + i, 0), null);
             }
         }
-        if (openNeededGate[2] == true) // 아래
+        /*if (openNeededGate[2] == true) // 아래
         {
             for (int i = 0; i < 8; ++i)
             {
                 groundTilemap.SetTile(roomPosition + new Vector3Int(16 + i, 0, 0), null);
             }
-        }
+        }*/
         if (openNeededGate[3] == true) // 왼쪽
         {
             for (int i = 0; i < 8; ++i)
@@ -162,10 +223,16 @@ public class DungeonCreator : MonoBehaviour
 
     public void RemoveAllRooms()
     {
-        for(int i = 0; i < generatedRooms.Count; ++i)
+        backgroundTilemap.ClearAllTiles();
+        groundTilemap.ClearAllTiles();
+        floatingTilemap.ClearAllTiles();
+        decorationTilemap.ClearAllTiles();
+
+        foreach (var room in roomInGameDic)
         {
-            Destroy(generatedRooms[i]);
+            Destroy(room.Value);
         }
-        generatedRooms.Clear();
+        roomInGameDic.Clear();
+        roomTupleList.Clear();
     }
 }

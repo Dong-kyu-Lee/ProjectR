@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class AttackSpeedIncBuff : Buff
 {
-    private float[] attackSpeedIncGap = { 0.1f, 0.2f, 0.5f };
+    private float[] attackSpeedIncGap = { 0.1f, 0.2f, 0.5f }; //공격속도 증가량 간격
 
     public AttackSpeedIncBuff(float duration, GameObject target) : base(duration, target)
     {
-
+        this.BuffType = BuffType.AttackSpeedIncrease;
     }
 
+    //대상에게 버프를 적용하는 함수. 스탯이 누적되며 증가하는 식
     public override void ApplyBuffEffect()
     {
-        targetObject.GetComponent<PlayerStatus>().AdditionalAttackSpeed += attackSpeedIncGap[currentBuffLevel];
-        Debug.Log("공격 속도 증가" + attackSpeedIncGap[currentBuffLevel] + " 적용됨");
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+
+        playerStatus.AdditionalAttackSpeed += attackSpeedIncGap[currentBuffLevel];
     }
 
+
+    //적용된 버프를 해제하는 함수. currentBuffLevel까지에 해당하는 간격 값을 합산한 후 감소하는 식
     public override void RemoveBuffEffect()
     {
-        targetObject.GetComponent<PlayerStatus>().AdditionalAttackSpeed -= GetCurrentSumOfArray(attackSpeedIncGap);
-        Debug.Log("공격 속도 증가" + GetCurrentSumOfArray(attackSpeedIncGap) + " 복구됨");
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+
+        playerStatus.AdditionalAttackSpeed -= attackSpeedIncGap[currentBuffLevel];
     }
 }

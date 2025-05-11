@@ -50,7 +50,7 @@ public class TempDebuffArea : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !debuffCounters.ContainsKey(collision.gameObject))
         {
             debuffCounters.Add(collision.gameObject, 0.0f);
         }

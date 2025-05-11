@@ -24,13 +24,6 @@ public class DungeonFlowManager : MonoBehaviour
         get => dungeonCreator; 
         set { if (dungeonCreator == null) dungeonCreator = value; }
     }
-    [SerializeField]
-    private EnemySpawnManager enemySpawnManager;
-    public EnemySpawnManager EnemySpawnManager
-    {
-        get => enemySpawnManager;
-        set { if (enemySpawnManager == null) enemySpawnManager = value; }
-    }
 
     public GameObject finishSpotPrefab;
     public Vector3 playerSpawnPosition = new Vector3();
@@ -105,7 +98,7 @@ public class DungeonFlowManager : MonoBehaviour
         {
             case DungeonFlowState.Lobby:
                 {
-                    SceneManager.LoadScene("DungeonGenerate");
+                    GameManager.Instance.MoveScene("DungeonGenerate");
                     Debug.Log("Stage1 was Generated");
                     break;
                 }
@@ -170,7 +163,7 @@ public class DungeonFlowManager : MonoBehaviour
         int index = roomList.IndexOf(currentRoom);
         if(index != -1)
         {
-            if (index != roomList.Count - 1) roomList[index + 1].gate.OpenGate();
+            if (index != roomList.Count - 1) roomList[index + 1].gate.OpenGate(false);
             roomList.Remove(currentRoom);
         }
         else

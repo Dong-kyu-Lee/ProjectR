@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class CritDmgIncBuff : Buff
 {
-    private float[] critDmgIncGap = { 10.0f, 20.0f, 20.0f };  //크리티컬 데미지 증가량
+    private float[] critDmgIncGap = { 10.0f, 20.0f, 20.0f };  //크리티컬 데미지 증가량 간격
     
-    public CritDmgIncBuff(float duration , GameObject targetObj) : base(duration, targetObj) { }
-    public override void ApplyBuffEffect()
-    {
-        targetObject.GetComponent<PlayerStatus>().CriticalDamage += critDmgIncGap[currentBuffLevel];
-        Debug.Log("크리티컬 데미지 증가" + critDmgIncGap[currentBuffLevel] + " 적용됨");
+    public CritDmgIncBuff(float duration , GameObject targetObj) : base(duration, targetObj) {
+        this.BuffType = BuffType.CritDamageIncrease;
     }
 
+    //대상에게 버프를 적용하는 함수. 스탯이 누적되며 증가하는 식
+    public override void ApplyBuffEffect()
+    {
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+        playerStatus.CriticalDamage+= critDmgIncGap[currentBuffLevel];
+    }
+
+    //적용된 버프를 해제하는 함수. currentBuffLevel까지 해당하는 간격 값을 합산한 후 감소하는 식
     public override void RemoveBuffEffect()
     {
-        targetObject.GetComponent<PlayerStatus>().CriticalDamage -= GetCurrentSumOfArray(critDmgIncGap);
-        Debug.Log("크리티컬 데미지 증가" + GetCurrentSumOfArray(critDmgIncGap) + " 복구됨");
+        PlayerStatus playerStatus = GetPlayerStatus();
+        if (playerStatus == null)
+            return;
+        playerStatus.CriticalDamage -= critDmgIncGap[currentBuffLevel];
     }
 }

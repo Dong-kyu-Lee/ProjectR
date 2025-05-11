@@ -428,9 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myInventory: {fileID: 1793263860}
-  equippedSlotIndex1: 0
-  equippedSlotIndex2: 4
-  inventorySlotIndex: 0
+  itemTakeRange: 1
 --- !u!251 &42339545
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -507,7 +505,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -669,6 +667,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 66273963}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &66273963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1139,6 +1139,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 219728113}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &219728113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2338,6 +2340,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 516214288}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &516214288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3515,6 +3519,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 886959328}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &886959328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3607,6 +3613,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 904040223}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &904040223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4222,6 +4230,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1065298089}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1065298089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4615,13 +4625,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipSlotParentObj: {fileID: 1819189858}
-  itemSlotPref: {fileID: 6373677376400454785, guid: c20c21aff7ce2fe40854fb78e472a492, type: 3}
-  inventorySlotParentObj:
-  - {fileID: 1662761051}
-  - {fileID: 1042381992}
-  - {fileID: 1635302055}
-  - {fileID: 2069636947}
-  - {fileID: 1684398613}
+  equipSlotImgs: []
+  inventorySlotParentObj: {fileID: 0}
+  inventorySlotImgs: []
+  quickSlotImg: {fileID: 0}
+  previewSlotUI: {fileID: 0}
   playerInventory: {fileID: 1793263860}
 --- !u!1 &1108107387
 GameObject:
@@ -5351,6 +5359,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1223144835}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1223144835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6235,7 +6245,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6412,6 +6422,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1477699190}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1477699190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7223,7 +7235,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7780,7 +7792,7 @@ MonoBehaviour:
   maxEquipSlot: 6
   equipmentItemSlot: []
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
-  inventoryUI: {fileID: 1103007838}
+  myInventoryUI: {fileID: 0}
 --- !u!4 &1793263861
 Transform:
   m_ObjectHideFlags: 0
@@ -7850,6 +7862,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1803173210}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1803173210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8127,6 +8141,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1843528542}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1843528542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8480,6 +8496,8 @@ MonoBehaviour:
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   nowItemData: {fileID: 0}
   itemSlotImage: {fileID: 1921374128}
+  parentUI: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1921374128
 MonoBehaviour:
   m_ObjectHideFlags: 0
