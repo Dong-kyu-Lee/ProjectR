@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DungeonMapUI : MonoBehaviour
 {
@@ -11,8 +12,7 @@ public class DungeonMapUI : MonoBehaviour
 
     public GameObject mapParent; // 방 UI 이미지들이 배치될 부모 오브젝트
     public GameObject roomImagePrefab; // 방 UI 이미지 프리팹
-    // 캔버스에 표시된 방 이미지들의 리스트
-    public List<GameObject> roomList = new List<GameObject>();
+    public List<GameObject> roomList = new List<GameObject>(); // 캔버스에 표시된 방 이미지들의 리스트
 
     void Start()
     {
@@ -21,7 +21,22 @@ public class DungeonMapUI : MonoBehaviour
 
     void Update()
     {
-        
+        var roomInfos = DungeonFlowManager.Instance.roomList;
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            switch(roomInfos[i].GetRoomState)
+            {
+                case RoomState.Default:
+                    roomList[i].GetComponent<Image>().color = Color.white;
+                    break;
+                case RoomState.Start:
+                    roomList[i].GetComponent<Image>().color = Color.yellow;
+                    break;
+                case RoomState.Cleared:
+                    roomList[i].GetComponent<Image>().color = Color.gray;
+                    break;
+            }
+        }
     }
 
     // 방들의 배치를 Canvas에 그리드 형태로 표시하는 메서드
@@ -51,10 +66,9 @@ public class DungeonMapUI : MonoBehaviour
             bottomLeft = Vector2.Min(bottomLeft, uiRoomPos);
             topRight = Vector2.Max(topRight, uiRoomPos);
         }
-        Debug.Log($"bottomLeft: {bottomLeft}, topRight: {topRight}");
+
         // 방 UI 이미지를 map parent 가운데로 배치
         Vector2 middle = (bottomLeft + topRight) / 2;
-        Debug.Log($"middle: {middle}");
         for (int i = 0; i < roomList.Count; i++)
         {
             Vector2 uiRoomPos = roomList[i].GetComponent<RectTransform>().anchoredPosition;
