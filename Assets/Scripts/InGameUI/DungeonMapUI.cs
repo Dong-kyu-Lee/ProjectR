@@ -9,9 +9,11 @@ public class DungeonMapUI : MonoBehaviour
     private int roomImageSize = 100; // 방 이미지의 크기
     [SerializeField]
     private int gap = 10; // 방 이미지 간의 간격
+    private bool isBigMinimapActive = false; // 큰 미니맵 활성화 여부
 
     public GameObject mapParent; // 방 UI 이미지들이 배치될 부모 오브젝트
     public GameObject roomImagePrefab; // 방 UI 이미지 프리팹
+    public GameObject bigMinimap;
     public List<GameObject> roomList = new List<GameObject>(); // 캔버스에 표시된 방 이미지들의 리스트
 
     private void Start()
@@ -95,5 +97,21 @@ public class DungeonMapUI : MonoBehaviour
         }
         roomList.Clear();
         DrawDungeonMap();
+    }
+
+    public void SwitchBigminimapAndFullmap()
+    {
+        if(isBigMinimapActive)
+        {
+            // 큰 미니맵을 비활성화
+            isBigMinimapActive = false;
+            bigMinimap.SetActive(false);
+        }
+        else
+        {
+            // 큰 미니맵을 활성화
+            isBigMinimapActive = true;
+            bigMinimap.SetActive(true);
+        }
     }
 }
