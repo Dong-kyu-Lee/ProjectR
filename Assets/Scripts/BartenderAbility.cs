@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BartenderAbility : MonoBehaviour
 {
-    private PlayerBuffManager enemyBuffManager;
+    private BuffManager enemyBuffManager;
     private Queue<string> Bartender_Bottles = new Queue<string>();
     private string[] bottleElements = { "Poison", "Burn", "Freeze" };
 
@@ -12,14 +12,16 @@ public class BartenderAbility : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) && !CalcDamage.Instance.IsOnCooldown("BartenderAbility"))
         {
-            AddBartenderBottle(10);
-            StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", 20f));
+            if (AbilityManager.Instance.bartenderAbility5) AddBartenderBottle(20);
+            else AddBartenderBottle(10);
+            if (AbilityManager.Instance.bartenderAbility6) StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", 12f));
+            else StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", 20f));
         }
     }
 
     public void BartenderAttackDebuff(GameObject enemy)
     {
-        enemyBuffManager = enemy.GetComponent<PlayerBuffManager>();
+        enemyBuffManager = enemy.GetComponent<BuffManager>();
         enemyBuffManager.ActivateBuff(BuffType.Buzzed, 10.0f);
     }
 

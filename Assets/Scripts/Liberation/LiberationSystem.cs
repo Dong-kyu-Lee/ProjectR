@@ -9,7 +9,7 @@ public class LiberationSystem : MonoBehaviour
 {
     private HashSet<string> unlockedEffects = new HashSet<string>(); // 중복 실행 방지용.
 
-    private float crystal;
+    private float steadite;
     [SerializeField] private Text currentCrystalText;
 
     public string characterName;
@@ -20,16 +20,16 @@ public class LiberationSystem : MonoBehaviour
     {
         liberationDesc = GetComponentsInChildren<LiberationDesc>();
         characterName = "bartender";
-        Crystal = 1000;
-        currentCrystalText.text = crystal.ToString();
+        Steadite = 1000;
+        currentCrystalText.text = steadite.ToString();
     }
 
-    public float Crystal
+    public float Steadite
     {
-        get { return crystal; }
+        get { return steadite; }
         set
         {
-            crystal = value;
+            steadite = value;
         }
     }
 
@@ -39,14 +39,14 @@ public class LiberationSystem : MonoBehaviour
         {
             Debug.Log("이미 활성화된 능력입니다.");
         }
-        else if (Crystal < liberationDesc[currentAbility - 1].abilityPrice)
+        else if (Steadite < liberationDesc[currentAbility - 1].abilityPrice)
         {
-            Debug.Log("능력을 해방하기 위한 크리스탈이 부족합니다.");
+            Debug.Log("능력을 해방하기 위한 단석이 부족합니다.");
         }
         else
         {
-            Crystal -= liberationDesc[currentAbility - 1].abilityPrice;
-            currentCrystalText.text = crystal.ToString();
+            Steadite -= liberationDesc[currentAbility - 1].abilityPrice;
+            currentCrystalText.text = Steadite.ToString();
             if (!unlockedEffects.Contains($"{characterName}_{currentAbility}"))
             {
                 EnableLiberationEffect(characterName, currentAbility);
@@ -76,12 +76,12 @@ public class LiberationSystem : MonoBehaviour
             case "bartender":
                 switch (point)
                 {
-                    case 1: break;
-                    case 2: break;
-                    case 3: break;
-                    case 4: break;
-                    case 5: break;
-                    case 6: break;
+                    case 1: AbilityManager.Instance.bartenderAbility1 = true; break;
+                    case 2: AbilityManager.Instance.bartenderAbility2 = true; break;
+                    case 3: AbilityManager.Instance.bartenderAbility3 = true; break;
+                    case 4: AbilityManager.Instance.bartenderAbility4 = true; break;
+                    case 5: AbilityManager.Instance.bartenderAbility5 = true; break;
+                    case 6: AbilityManager.Instance.bartenderAbility6 = true; break;
                     default:
                         Debug.Log("올바르지 않는 숫자");
                         return;
@@ -101,12 +101,12 @@ public class LiberationSystem : MonoBehaviour
             case "bartender":
                 switch (point)
                 {
-                    case 1: break;
-                    case 2: break;
-                    case 3: break;
-                    case 4: break;
-                    case 5: break;
-                    case 6: break;
+                    case 1: AbilityManager.Instance.bartenderAbility1 = false; break;
+                    case 2: AbilityManager.Instance.bartenderAbility2 = false; break;
+                    case 3: AbilityManager.Instance.bartenderAbility3 = false; break;
+                    case 4: AbilityManager.Instance.bartenderAbility4 = false; break;
+                    case 5: AbilityManager.Instance.bartenderAbility5 = false; break;
+                    case 6: AbilityManager.Instance.bartenderAbility6 = false; break;
                     default:
                         Debug.Log("올바르지 않는 숫자");
                         return;

@@ -81,7 +81,7 @@ public class TempDebuffArea : MonoBehaviour
                 }
                 else
                 {
-                    key.GetComponent<PlayerBuffManager>().ActivateBuff(buffType, maxTimeToDebuff);
+                    key.GetComponent<BuffManager>().ActivateBuff(buffType, maxTimeToDebuff);
                     debuffCounters[key] = 0.0f;
                 }
             }

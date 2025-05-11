@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BuzzedDeBuff : Buff
 {
-    private float[] moveSpeedDecGap = { 0.05f, 0.1f, 0.15f, 0.2f, 0.2f };
+    private float moveSpeedDecGap = 0.02f;
 
     public BuzzedDeBuff(float duration, GameObject target) : base(duration, target)
     {
-        maxBuffLevel = 5;
+        maxBuffLevel = 10;
     }
 
     public override void ApplyBuffEffect()
@@ -16,7 +16,7 @@ public class BuzzedDeBuff : Buff
         if (currentBuffLevel < maxBuffLevel - 1)
         {
             Status targetStatus = targetObject.GetComponent<Status>();
-            targetStatus.AdditionalMoveSpeed -= moveSpeedDecGap[currentBuffLevel];
+            targetStatus.AdditionalMoveSpeed -= moveSpeedDecGap;
         }
         else
         {
@@ -27,7 +27,7 @@ public class BuzzedDeBuff : Buff
     //스택이 5스택 이상 쌓일 경우 만취 디버프로 전환
     private void ActivateDrunkenBuff()
     {
-        PlayerBuffManager targetBuffManager = targetObject.GetComponent<PlayerBuffManager>();
+        BuffManager targetBuffManager = targetObject.GetComponent<BuffManager>();
         targetBuffManager.ActivateBuff(BuffType.Drunken, 2.0f);
         targetBuffManager.DeActivateBuff(BuffType.Buzzed);
     }
@@ -35,7 +35,7 @@ public class BuzzedDeBuff : Buff
     public override void RemoveBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        targetStatus.AdditionalMoveSpeed += GetCurrentSumOfArray(moveSpeedDecGap);
+        targetStatus.AdditionalMoveSpeed += moveSpeedDecGap * (currentBuffLevel + 1);
         Debug.Log("취기 디버프 해제");
     }
 }

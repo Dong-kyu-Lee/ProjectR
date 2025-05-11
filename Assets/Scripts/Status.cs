@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Status : MonoBehaviour
@@ -53,7 +54,7 @@ public class Status : MonoBehaviour
         }
     }
     public float TotalAttackSpeed { get { return totalAttackSpeed; } }
-
+    
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
     public float AdditionalMoveSpeed
     {
@@ -61,7 +62,14 @@ public class Status : MonoBehaviour
         set
         {
             additionalMoveSpeed = value;
-            totalMoveSpeed = MoveSpeed + (MoveSpeed * additionalMoveSpeed);
+            if (additionalMoveSpeed < -1f)
+            {
+                totalMoveSpeed = MoveSpeed + (MoveSpeed * -1);
+            }
+            else
+            {
+                totalMoveSpeed = MoveSpeed + (MoveSpeed * additionalMoveSpeed);
+            }
         }
     }
     public float TotalMoveSpeed { get { return totalMoveSpeed; } }
@@ -73,7 +81,7 @@ public class Status : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     // 피해를 입힘. 

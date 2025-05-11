@@ -14,7 +14,7 @@ public class PoisonDeBuff : Buff
     public override void ApplyBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        CalcReceiveDamage.Instance.TakeTrueDamageQueue(targetStatus.MaxHp * poisonDmg[currentBuffLevel], targetStatus.gameObject);
+        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * poisonDmg[currentBuffLevel], targetStatus.gameObject);
         targetStatus.Hp -= targetStatus.MaxHp * poisonDmg[currentBuffLevel];
     }
 

@@ -12,6 +12,6 @@ public class ConsumableBuffItem : ConsumableItemData
 
     public override void ActivateItemEffect(PlayerStatus player)
     {
-        player.GetComponent<PlayerBuffManager>().ActivateBuff(buffType, buffDuration);
+        player.GetComponent<BuffManager>().ActivateBuff(buffType, buffDuration);
     }
 }

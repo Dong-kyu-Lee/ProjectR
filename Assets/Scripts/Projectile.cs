@@ -11,6 +11,10 @@ public class Projectile : MonoBehaviour
     public float damage;
     public float ignoreDamageReduction;
     public string bottle;
+    private bool hasExploded = false;
+
+    public GameObject explosionPrefab;
+    public float explosionRadius = 5f;
 
     Vector2 velocity;
 
@@ -35,14 +39,44 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Projectile"))
-        {
-            return;
-        }
+        if (hasExploded) return;
+        hasExploded = true;
 
         float damage = playerStatus.TotalDamage;
         float ignoreDamageReduction = playerStatus.IgnoreDamageReduction;
         bool isCritical = false;
+
+        if (AbilityManager.Instance.bartenderAbility2)
+        {
+            Vector3 hitPoint = transform.position;
+
+            Instantiate(explosionPrefab, hitPoint, Quaternion.identity);
+
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(hitPoint, explosionRadius);
+
+            HashSet<GameObject> processedEnemies = new HashSet<GameObject>();
+
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider.CompareTag("Enemy"))
+                {
+                    GameObject enemyObject = hitCollider.gameObject;
+
+                    EnemyStatus enemy = hitCollider.GetComponent<EnemyStatus>();
+                    if (enemy != null && !processedEnemies.Contains(enemyObject))
+                    {
+                        processedEnemies.Add(enemyObject);
+                        damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical) / 2;
+                        enemy.gameObject.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
+                        bartenderAbility.BartenderAttackDebuff(enemyObject);
+                        bartenderAbility.CheckBartenderAbility(bottle);
+                        CalcDamage.Instance.CheckAddtionalDamage(enemyObject);
+                        CalcDamage.Instance.AdditionalEffect(enemyObject);
+                        CalcDamage.Instance.CheckFightState();
+                    }
+                }
+            }
+        }
 
         if (collision.transform.tag == "Enemy")
         {

@@ -17,14 +17,14 @@ public class FreezeDeBuff : Buff
     {
         Status targetStatus = targetObject.GetComponent<Status>();
         targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
-        CalcReceiveDamage.Instance.TakeTrueDamageQueue(targetStatus.MaxHp * freezeBustDmg, targetStatus.gameObject);
+        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * freezeBustDmg, targetStatus.gameObject);
         targetStatus.Hp -= targetStatus.MaxHp * freezeBustDmg;
     }
 
     public override void RenewBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        CalcReceiveDamage.Instance.TakeTrueDamageQueue(targetStatus.MaxHp * freezeBustDmg, targetStatus.gameObject);
+        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * freezeBustDmg, targetStatus.gameObject);
         targetStatus.Hp -= targetStatus.MaxHp * freezeBustDmg;
     }
 
