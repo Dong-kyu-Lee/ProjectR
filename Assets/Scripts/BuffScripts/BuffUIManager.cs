@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BuffUIManager : MonoBehaviour
 {
     [SerializeField]
-    private BuffManager playerBuffManager;
+    private BuffManager buffManager;
     [SerializeField]
     private GameObject buffIconPrefab;
     [SerializeField]
@@ -15,11 +15,11 @@ public class BuffUIManager : MonoBehaviour
 
     private void Start()
     {
-        if (playerBuffManager == null)
+        if (buffManager == null)
         {
             GameObject player = GameObject.FindWithTag("Player");
             if (player != null)
-                playerBuffManager = player.GetComponent<BuffManager>();
+                buffManager = player.GetComponent<BuffManager>();
         }
 
         if (buffPanel == null)
@@ -36,14 +36,14 @@ public class BuffUIManager : MonoBehaviour
             BuffType randomBuff = buffTypes[randomIndex];
             Debug.Log("적용할 랜덤 버프/디버프: " + randomBuff);
 
-            if (playerBuffManager != null)
+            if (buffManager != null)
             {
                 // 기본 지속시간 10초로 ActivateBuff 호출
-                playerBuffManager.ActivateBuff(randomBuff, 10f);
+                buffManager.ActivateBuff(randomBuff, 10f);
             }
             else
             {
-                Debug.LogError("PlayerBuffManager가 null 입니다.");
+                Debug.LogError("BuffManager가 null 입니다.");
             }
         }
         UpdateBuffUI();
@@ -51,8 +51,8 @@ public class BuffUIManager : MonoBehaviour
 
     private void UpdateBuffUI()
     {
-        // 1. PlayerBuffManager의 활성 버프 정보에 따라 아이콘 생성 또는 업데이트
-        foreach (var buffEntry in playerBuffManager.ActiveBuffDict)
+        // 1. BuffManager의 활성 버프 정보에 따라 아이콘 생성 또는 업데이트
+        foreach (var buffEntry in buffManager.ActiveBuffDict)
         {
             BuffType buffType = buffEntry.Key;
             Buff buffData = buffEntry.Value;
@@ -84,7 +84,7 @@ public class BuffUIManager : MonoBehaviour
         List<BuffType> iconsToRemove = new List<BuffType>();
         foreach (var iconPair in activeBuffIcons)
         {
-            if (!playerBuffManager.ActiveBuffDict.ContainsKey(iconPair.Key))
+            if (!buffManager.ActiveBuffDict.ContainsKey(iconPair.Key))
             {
                 Destroy(iconPair.Value);
                 iconsToRemove.Add(iconPair.Key);

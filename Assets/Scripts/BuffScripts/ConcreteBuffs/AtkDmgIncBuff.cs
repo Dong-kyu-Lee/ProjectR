@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class AtkDmgIncBuff : Buff
 {
+    public override BuffType BuffType => BuffType.AttackDamageIncrease; 
     private float[] atkDmgIncGap = { 10.0f, 20.0f, 20.0f };  //공격력 증가량 간격
     
     public AtkDmgIncBuff(float duration, GameObject targetObject) : base(duration, targetObject) {}

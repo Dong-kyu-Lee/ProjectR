@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class BlessBuff : Buff
 {
+    public override BuffType BuffType => BuffType.Bless;
     private float[] healAmount = { 1.0f, 2.0f, 3.0f };    //틱당 체력 회복 량
 
     public BlessBuff(float duration, GameObject target) : base(duration, target) { }

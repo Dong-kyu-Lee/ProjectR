@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Force16Buff : Buff
 {
+    public override BuffType BuffType => BuffType.Force16;
     private float atkDmgPerInc = 0.05f;     //피해량% 증가량
 
     public Force16Buff(float duration, GameObject target) : base(duration, target)

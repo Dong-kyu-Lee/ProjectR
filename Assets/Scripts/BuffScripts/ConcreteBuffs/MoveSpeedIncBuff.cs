@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveSpeedIncBuff : Buff
 {
+    public override BuffType BuffType => BuffType.MoveSpeedIncrease;  
     private float[] moveSpeedIncGap = { 10.0f, 40.0f, 50.0f };  //이동속도 증가량 간격
     public MoveSpeedIncBuff(float duration, GameObject target) : base(duration, target) { }
 

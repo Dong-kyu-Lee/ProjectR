@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CritDmgIncBuff : Buff
 {
+    public override BuffType BuffType => BuffType.CritDamageIncrease;
     private float[] critDmgIncGap = { 10.0f, 20.0f, 20.0f };  //크리티컬 데미지 증가량 간격
     
     public CritDmgIncBuff(float duration , GameObject targetObj) : base(duration, targetObj) { }

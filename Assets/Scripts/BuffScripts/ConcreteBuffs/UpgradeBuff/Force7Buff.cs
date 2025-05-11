@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Force7Buff : Buff
 {
+    public override BuffType BuffType => BuffType.Force7;
     private float atkDmgInc = 20f;     //피해량 증가량
 
     public Force7Buff(float duration, GameObject target) : base(duration, target)

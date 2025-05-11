@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class RagingBuff : Buff
 {
+    public override BuffType BuffType => BuffType.Raging; 
     private float[] atkDmgIncGap = { 10.0f, 20.0f, 20.0f };     //공격력 증가량 간격
     private float[] critDmgIncGap = { 10.0f, 20.0f, 20.0f };    //크리티컬 데미지 증가량 간격
     private float[] critPerIncGap = { 10.0f, 20.0f, 30.0f };       //크리티컬 확률 증가량 간격

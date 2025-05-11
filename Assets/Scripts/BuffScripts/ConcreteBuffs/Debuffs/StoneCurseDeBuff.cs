@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StoneCurseDeBuff : Buff
 {
+    public override BuffType BuffType => BuffType.StoneCurse;
     //Sleep 디버프와 마찬가지로 canMove 같은 변수를 추가하여 움직임을 막는 게 더 효율적일 것 같음.
 
     private float prevMoveSpeed = 0.0f;     //석화 전 플레이어가 가지고 있던 이동속도 양

@@ -12,6 +12,7 @@ public abstract class Buff
     protected int currentBuffLevel = 0;     //현재 버프 레벨 (0 ~ maxBuffLevel - 1 의 값을 가짐)
     protected int maxBuffLevel = 3;         //최대 버프 레벨
 
+    public abstract BuffType BuffType { get; }
 
     public float MaxDuration { 
         get { return maxDuration; }

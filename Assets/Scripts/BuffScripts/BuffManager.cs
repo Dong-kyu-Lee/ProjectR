@@ -7,13 +7,14 @@ public class BuffManager : MonoBehaviour
     private Dictionary<BuffType, Buff> activeBuffDict = new Dictionary<BuffType, Buff>();   //현재 적용되고 있는 버프 딕셔너리
     private BuffFactory buffFactory;            //버프 생성을 위한 팩토리 클래스
     private WaitForSeconds nextEffectTime;      //버프 효과 적용 주기를 위한 WaitForSeconds. 동적 생성으로 인한 가비지 줄이기용.
-    private float deltaNextEffectTime = 1.0f;   //버프 효과 적용 주기(즉, 틱 간격)
+    private float deltaNextEffectTime = 1.0f;   //버프 효과 적용 주기(틱 간격)
 
     public Dictionary<BuffType, Buff> ActiveBuffDict { get => activeBuffDict; }
 
     private void Start()
     {
-        buffFactory = new BuffFactory(gameObject);
+        GameObject player = GameManager.Instance.CurrentPlayer;
+        buffFactory = new BuffFactory(player);
         nextEffectTime = new WaitForSeconds(1.0f);
     }
 

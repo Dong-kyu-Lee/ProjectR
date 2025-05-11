@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EagleEyeBuff : Buff
 {
+    public override BuffType BuffType => BuffType.EagleEye;
     private float[] critPercentIncGap = { 0.2f, 0.3f, 0.5f };   //크리티컬 확률 증가량 간격
     private float[] critDamageIncGap = { 0.5f, 1.0f, 1.5f };   //크리티컬 데미지 증가량 간격
 

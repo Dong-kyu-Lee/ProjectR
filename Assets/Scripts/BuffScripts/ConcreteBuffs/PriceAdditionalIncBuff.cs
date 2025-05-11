@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PriceAdditionalIncBuff : Buff
 {
+    public override BuffType BuffType => BuffType.PriceAdditionalIncrease;
     private float[] priceAdditionalGap = { 10.0f, 20.0f, 50.0f };   //재화획득량 증가량 간격
 
     public PriceAdditionalIncBuff(float duration, GameObject target) : base(duration, target){}

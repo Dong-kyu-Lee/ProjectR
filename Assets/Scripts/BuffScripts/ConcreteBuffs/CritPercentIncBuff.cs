@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CritPercentIncBuff : Buff
 {
+    public override BuffType BuffType => BuffType.CritPercentIncrease;
     private float[] critPercentIncGap = { 0.1f, 0.2f, 0.3f };  //크리티컬 확률 증가량
 
     public CritPercentIncBuff(float duration, GameObject targetObj) : base(duration, targetObj) { }

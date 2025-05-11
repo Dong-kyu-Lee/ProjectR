@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ReflectionBuff : Buff
 {
+    public override BuffType BuffType => BuffType.Reflection;
     //해당 버프는 미구현된 상태입니다. : https://github.com/Dong-kyu-Lee/ProjectR/issues/51
     public ReflectionBuff(float totalDuration, GameObject target) : base(totalDuration, target) { }
     public override void ApplyBuffEffect()

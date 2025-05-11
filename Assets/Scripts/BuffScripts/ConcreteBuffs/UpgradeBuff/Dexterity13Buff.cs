@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Dexterity13Buff : Buff
 {
+    public override BuffType BuffType => BuffType.Dexterity13;
     private float atkSpeedIncGap = 0.02f;     //공격속도 증가량
     
     public Dexterity13Buff(float duration, GameObject target) : base(duration, target)

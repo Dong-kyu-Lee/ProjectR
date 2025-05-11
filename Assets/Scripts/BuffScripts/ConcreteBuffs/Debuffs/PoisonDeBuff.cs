@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PoisonDeBuff : Buff
 {
+    public override BuffType BuffType => BuffType.Poision;
     private float[] poisonDmg = { 1.0f, 2.0f, 5.0f }; // 레벨별 틱당 독 데미지
 
     public PoisonDeBuff(float duration, GameObject target) : base(duration, target) { }

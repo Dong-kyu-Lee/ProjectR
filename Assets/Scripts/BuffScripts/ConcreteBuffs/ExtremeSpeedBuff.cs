@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ExtremeSpeedBuff : Buff
 {
+    public override BuffType BuffType => BuffType.ExtremeSpeed;
     private float[] attackSpeedIncGap = { 10.0f, 20.0f, 30.0f };    //공격속도 증가량 간격
     private float[] moveSpeedIncGap = { 10.0f, 20.0f, 30.0f };      //이동속도 증가량 간격
 

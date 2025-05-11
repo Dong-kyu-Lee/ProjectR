@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Critical4Buff : Buff
 {
+    public override BuffType BuffType => BuffType.Critical4;
     private float moveSpeedInc = 0.3f;     //이동 속도 증가량
 
     public Critical4Buff(float duration, GameObject target) : base(duration, target)

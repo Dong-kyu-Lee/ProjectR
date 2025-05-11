@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FreezeDeBuff : Buff
 {
+    public override BuffType BuffType => BuffType.Freeze;
+
     private float moveSpeedDec = 0.5f;      //이동속도 감소시킬 양
     private float speedDecAmount = 0.0f;    //이동속도 실질적으로 감소한 양을 기록하는 변수
 
