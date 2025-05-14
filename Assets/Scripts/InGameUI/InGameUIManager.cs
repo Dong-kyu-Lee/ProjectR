@@ -41,20 +41,29 @@ public class InGameUIManager : MonoBehaviour
 
     private void Awake()
     {
-        //buffUI.SetActive(false);
-        //debuffUI.SetActive(false);
         checkUI.SetActive(false);
         stopUI.SetActive(false);
+
         GameObject playerObject = GameObject.FindWithTag("Player");
         if (playerObject != null)
         {
             playerStatus = playerObject.GetComponent<PlayerStatus>();
             playerBuffManager = playerObject.GetComponent<BuffManager>();
         }
+
         isOpen = false;
-        hpTxt.text = playerStatus.Hp.ToString()+"/"+playerStatus.MaxHp.ToString();
-        goldText.text = playerStatus.Gold.ToString();
+
+        if (playerStatus != null)
+        {
+            hpTxt.text = playerStatus.Hp.ToString() + "/" + playerStatus.MaxHp.ToString();
+            goldText.text = playerStatus.Gold.ToString();
+        }
+        else
+        {
+            Debug.LogWarning("InGameUIManager: PlayerStatus를 찾을 수 없습니다.");
+        }
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)&& isOpen == false)
@@ -68,12 +77,19 @@ public class InGameUIManager : MonoBehaviour
     }
 
 
-    private void CheckHp() //*HP 갱신
+    public void CheckHp()
     {
+        if (playerStatus == null)
+        {
+            Debug.LogWarning("CheckHp() 실패: playerStatus가 null입니다.");
+            return;
+        }
+
         if (HpBarSlider != null)
-            hpTxt.text = playerStatus.Hp.ToString()+"/"+playerStatus.MaxHp.ToString();
-            HpBarSlider.value = playerStatus.Hp /playerStatus.MaxHp ;
+            hpTxt.text = playerStatus.Hp.ToString() + "/" + playerStatus.MaxHp.ToString();
+        HpBarSlider.value = playerStatus.Hp / playerStatus.MaxHp;
     }
+
     private void Damage(float damage)
     {
         if (playerStatus.MaxHp == 0 || playerStatus.Hp <= 0) //* 이미 체력 0이하면 패스

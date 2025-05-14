@@ -1335,7 +1335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443b312b354ba8c4e83b4bbf04058e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBuffManager: {fileID: 0}
+  buffManager: {fileID: 604966405}
   buffIconPrefab: {fileID: 5592364504719645186, guid: 611424635191bff419a52635e48b3fe7, type: 3}
   buffPanel: {fileID: 406917088}
 --- !u!114 &604966405
@@ -3245,6 +3245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6413651582113277921, guid: b8c94127d4cc2044b9336f56091e09cc, type: 3}
+    - {fileID: 3426121558151251605, guid: b8c94127d4cc2044b9336f56091e09cc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b8c94127d4cc2044b9336f56091e09cc, type: 3}
 --- !u!1 &1956068471 stripped
 GameObject:

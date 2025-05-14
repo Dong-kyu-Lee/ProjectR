@@ -13,21 +13,17 @@ public class CharacterInfo : MonoBehaviour
     public GameObject characterName;
     public GameObject statusTextPref;
     public GameObject statusParentObj;
+    [SerializeField]
     public GameObject characterInfo;
     public PlayerStatus playerStatus;
 
     List<GameObject> statusObjList = new List<GameObject>();
-
+    
     private void Awake()
     {
-        Transform childTransform = transform.Find("CharacterInfo");
-        if (childTransform != null)
+        if (characterInfo == null)
         {
-            characterInfo = childTransform.gameObject;
-        }
-        else
-        {
-            Debug.LogError("CharacterInfo 자식 오브젝트를 찾을 수 없습니다!");
+            Debug.LogWarning("CharacterInfo 오브젝트가 Inspector에 할당되지 않았습니다!");
         }
 
         Init();

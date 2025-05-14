@@ -18,8 +18,23 @@ public class DrunkenDeBuff : Buff
         if (currentBuffLevel < maxBuffLevel - 1)
         {
             Status targetStatus = targetObject.GetComponent<Status>();
-            targetStatus.MoveSpeed -= moveSpeedDecGap[currentBuffLevel];
-            targetStatus.AttackSpeed -= attackSpeedDecGap[currentBuffLevel];
+            if (targetStatus != null)
+            {
+                targetStatus.MoveSpeed -= moveSpeedDecGap[currentBuffLevel];
+                targetStatus.AttackSpeed -= attackSpeedDecGap[currentBuffLevel];
+            }
+            else
+            {
+                BuffManager targetBuffManager = targetObject.GetComponent<BuffManager>();
+                if (targetBuffManager != null)
+                {
+                    targetBuffManager.ActivateBuff(BuffType.Sleep, 10.0f);
+                }
+                else
+                {
+                    Debug.LogWarning("DrunkenDeBuff: BuffManager 컴포넌트가 없습니다.");
+                }
+            }
         }
         else
         {
@@ -39,8 +54,16 @@ public class DrunkenDeBuff : Buff
     public override void RemoveBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        targetStatus.MoveSpeed += GetCurrentSumOfArray(moveSpeedDecGap);
-        targetStatus.AttackSpeed += GetCurrentSumOfArray(attackSpeedDecGap);
+        if (targetStatus != null)
+        {
+            targetStatus.MoveSpeed += GetCurrentSumOfArray(moveSpeedDecGap);
+            targetStatus.AttackSpeed += GetCurrentSumOfArray(attackSpeedDecGap);
+        }
+        else
+        {
+            Debug.LogWarning("DrunkenDeBuff: Status 컴포넌트가 없습니다 (Remove).");
+        }
+
         Debug.Log("만취 디버프 해제");
     }
 }

@@ -13,9 +13,29 @@ public class BuffManager : MonoBehaviour
 
     private void Start()
     {
-        GameObject player = GameManager.Instance.CurrentPlayer;
-        buffFactory = new BuffFactory(player);
+        buffFactory = new BuffFactory(GameManager.Instance.CurrentPlayer);
         nextEffectTime = new WaitForSeconds(1.0f);
+    }
+    private void Update()
+    {
+        List<BuffType> buffsToRemove = new List<BuffType>();
+
+        foreach (var kvp in ActiveBuffDict)
+        {
+            Buff buff = kvp.Value;
+            buff.DoActionOnActivate(Time.deltaTime);
+
+            if (buff.CurrentDuration <= 0f)
+            {
+                buff.RemoveBuffEffect();
+                buffsToRemove.Add(kvp.Key);
+            }
+        }
+
+        foreach (var buffType in buffsToRemove)
+        {
+            ActiveBuffDict.Remove(buffType);
+        }
     }
 
     //BuffType에 해당하는 버프를 동적으로 생성하고 활성화 시키는 메서드

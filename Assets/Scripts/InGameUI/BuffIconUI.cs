@@ -58,9 +58,10 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
             {
                 cooldownOverlay.fillAmount = buffData.CurrentDuration / buffData.MaxDuration;
             }
+
             if (iconImage != null)
             {
-                BuffType type = GetBuffTypeFromBuffData(buffData);
+                BuffType type = buffData.BuffType;
                 if (buffSpriteDictionary.ContainsKey(type))
                 {
                     iconImage.sprite = buffSpriteDictionary[type];
@@ -70,8 +71,9 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
     }
     private BuffType GetBuffTypeFromBuffData(Buff buff)
     {
-        return (BuffType)System.Enum.Parse(typeof(BuffType), buff.GetType().Name);
+        return buff.BuffType;
     }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         ShowBuffDetail();

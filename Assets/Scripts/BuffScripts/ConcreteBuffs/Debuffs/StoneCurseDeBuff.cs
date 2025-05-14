@@ -5,10 +5,9 @@ using UnityEngine;
 public class StoneCurseDeBuff : Buff
 {
     public override BuffType BuffType => BuffType.StoneCurse;
-    //Sleep 디버프와 마찬가지로 canMove 같은 변수를 추가하여 움직임을 막는 게 더 효율적일 것 같음.
 
-    private float prevMoveSpeed = 0.0f;     //석화 전 플레이어가 가지고 있던 이동속도 양
-    private float prevJumpPower = 0.0f;     //석화 전 플레이어가 가지고 있던 점프력 양
+    private float prevMoveSpeed = 0.0f;
+    private float prevJumpPower = 0.0f;
 
     public StoneCurseDeBuff(float duration, GameObject target) : base(duration, target)
     {
@@ -18,14 +17,26 @@ public class StoneCurseDeBuff : Buff
     public override void ApplyBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        prevMoveSpeed += targetStatus.MoveSpeed;
-        targetStatus.MoveSpeed = 0.0f;
-
+        if (targetStatus != null)
+        {
+            prevMoveSpeed = targetStatus.MoveSpeed;
+            targetStatus.MoveSpeed = 0.0f;
+        }
+        else
+        {
+            Debug.LogWarning("StoneCurseDeBuff: Status 컴포넌트가 없습니다.");
+        }
         PlayerController targetController = targetObject.GetComponent<PlayerController>();
-        prevJumpPower += targetController.jumpPower;
-        targetController.jumpPower = 0.0f;
+        if (targetController != null)
+        {
+            prevJumpPower = targetController.jumpPower;
+            targetController.jumpPower = 0.0f;
+        }
+        else
+        {
+            Debug.LogWarning("StoneCurseDeBuff: PlayerController 컴포넌트가 없습니다.");
+        }
     }
-
     public override void DoActionOnActivate(float tickDuration = 1)
     {
         ApplyBuffEffect();
@@ -35,9 +46,15 @@ public class StoneCurseDeBuff : Buff
     public override void RemoveBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        targetStatus.MoveSpeed += prevMoveSpeed;    //감소시킨 양만큼 이동속도 되돌리기
+        if (targetStatus != null)
+        {
+            targetStatus.MoveSpeed = prevMoveSpeed;
+        }
 
         PlayerController targetController = targetObject.GetComponent<PlayerController>();
-        targetController.jumpPower += prevJumpPower;    //감소시킨 양만큼 점프력 되돌리기
+        if (targetController != null)
+        {
+            targetController.jumpPower = prevJumpPower;
+        }
     }
 }
