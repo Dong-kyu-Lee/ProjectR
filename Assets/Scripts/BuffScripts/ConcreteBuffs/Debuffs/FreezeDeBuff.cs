@@ -1,55 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerObj;
 
 public class FreezeDeBuff : Buff
 {
-    public override BuffType BuffType => BuffType.Freeze;
+    private float freezeBustDmg = 0.05f;
+    private float moveSpeedDec = 0.5f;
 
-    private float moveSpeedDec = 0.5f;      //이동속도 감소 비율
-    private float speedDecAmount = 0.0f;    //감소된 이동속도 저장
-
-    public FreezeDeBuff(float duration, GameObject target) : base(duration, target)
+    public FreezeDeBuff(float duration, GameObject target) : base(duration, target) 
     {
-        maxBuffLevel = 5;
+        this.BuffType = BuffType.Freeze;
+        maxDuration = 8;
+        maxBuffLevel = 1;
     }
 
     public override void ApplyBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        if (targetStatus == null)
-        {
-            Debug.LogWarning("FreezeDeBuff: Status 컴포넌트를 찾을 수 없습니다.");
-            return;
-        }
-
-        if (currentBuffLevel == 0)
-        {
-            speedDecAmount = targetStatus.MoveSpeed * moveSpeedDec;
-            targetStatus.MoveSpeed -= speedDecAmount;
-            Debug.Log("빙결 디버프 : 이동속도 감소");
-        }
-        else if (currentBuffLevel == 4)
-        {
-            targetStatus.Hp -= targetStatus.Hp * 0.3f;
-            currentBuffLevel--;
-            Debug.Log("빙결 디버프 : 데미지 적용");
-        }
-        else
-        {
-            Debug.Log("빙결 디버프 : 스택 증가 " + currentBuffLevel);
-        }
+        targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
+        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * freezeBustDmg, targetStatus.gameObject);
+        targetStatus.Hp -= targetStatus.MaxHp * freezeBustDmg;
     }
-    public override void RemoveBuffEffect()
+
+    public override void RenewBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        if (targetStatus != null)
-        {
-            targetStatus.MoveSpeed += speedDecAmount;
-        }
-        else
-        {
-            Debug.LogWarning("FreezeDeBuff: Status 컴포넌트를 찾을 수 없습니다 (Remove).");
-        }
+        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * freezeBustDmg, targetStatus.gameObject);
+        targetStatus.Hp -= targetStatus.MaxHp * freezeBustDmg;
+    }
+
+    public override void RemoveBuffEffect()
+    {
+        targetObject.GetComponent<Status>().AdditionalMoveSpeed += moveSpeedDec;
     }
 }

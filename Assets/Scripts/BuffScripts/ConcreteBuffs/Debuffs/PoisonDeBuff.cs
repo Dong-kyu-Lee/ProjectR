@@ -4,38 +4,28 @@ using UnityEngine;
 
 public class PoisonDeBuff : Buff
 {
-    public override BuffType BuffType => BuffType.Poision;
-    private float[] poisonDmg = { 1.0f, 2.0f, 5.0f }; // 레벨별 틱당 데미지
+    private float[] poisonDmg = { 0.01f, 0.02f, 0.03f }; // 레벨별 틱당 독 데미지
 
-    private float tickTimer = 0f; // 틱 타이머
-
-    public PoisonDeBuff(float duration, GameObject target) : base(duration, target) { }
+    public PoisonDeBuff(float duration, GameObject target) : base(duration, target)
+    {
+        this.BuffType = BuffType.Poison;
+        maxDuration = 10;
+    }
 
     public override void ApplyBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        if (targetStatus == null) return;
-
-        targetStatus.Hp -= poisonDmg[currentBuffLevel];
-        Debug.Log($"[Poison] HP 감소: -{poisonDmg[currentBuffLevel]}, 현재 HP: {targetStatus.Hp}");
-
-        if (InGameUIManager.Instance != null)
-            InGameUIManager.Instance.CheckHp();
+        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * poisonDmg[currentBuffLevel], targetStatus.gameObject);
+        targetStatus.Hp -= targetStatus.MaxHp * poisonDmg[currentBuffLevel];
     }
-    public override void DoActionOnActivate(float deltaTime)
+
+    public override void DoActionOnActivate(float tickDuration = 1)
     {
-        tickTimer += deltaTime;
-
-        if (tickTimer >= 1f) // 1초마다 데미지 적용
-        {
-            ApplyBuffEffect();
-            tickTimer = 0f; // 타이머 리셋
-        }
-
-        base.DoActionOnActivate(deltaTime); // 지속시간 감소 처리
+        base.DoActionOnActivate(tickDuration);
+        ApplyBuffEffect();
     }
+
     public override void RemoveBuffEffect()
     {
-        Debug.Log("Poison 디버프 해제");
     }
 }

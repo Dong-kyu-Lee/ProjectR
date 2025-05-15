@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,11 +12,13 @@ public class EnemyStatus : Status
     void Awake()
     {
         // 스테이터스 데이터 동기화. 추후 scriptableObject 접근으로 변경 예정.
-        Hp = enemyData.Hp;
+        MaxHp = enemyData.Hp;
+        Hp = MaxHp;
         Damage = enemyData.Damage;
         DamageReduction = enemyData.DamageReduction;
         AttackSpeed = enemyData.AttackSpeed;
         MoveSpeed = enemyData.MoveSpeed;
+        AdditionalMoveSpeed = 0;
     }
 
     void Start()
@@ -26,7 +28,7 @@ public class EnemyStatus : Status
 
     void Update()
     {
-        
+        Debug.Log(AdditionalMoveSpeed);
     }
 
     protected override void Dead()

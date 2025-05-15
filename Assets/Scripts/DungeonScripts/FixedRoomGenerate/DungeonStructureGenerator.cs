@@ -6,20 +6,19 @@ using Random = UnityEngine.Random;
 
 public class DungeonStructureGenerator
 {
-    private int dungeonRow;
-    private int dungeonColumn;
+    private int roomCount;
 
     private List<Tuple<int, int>> path;
-    private bool[,] visited; // 각 방 위치를 방문했는지에 대한 bool값
+    private HashSet<Tuple<int, int>> visitedSet; // 방문한 방의 위치를 저장하는 Set
     private readonly short[] dx = { 1, -1, 0, 0 };
     private readonly short[] dy = { 0, 0, 1, -1 };
 
-    public DungeonStructureGenerator(int dungeonRow, int dungeonColumn)
+    public DungeonStructureGenerator(int roomCount)
     {
-        this.dungeonRow = dungeonRow;
-        this.dungeonColumn = dungeonColumn;
-        this.visited = new bool[dungeonRow, dungeonColumn]; // [y,x]
+        this.roomCount = roomCount;
+        this.visitedSet = new HashSet<Tuple<int, int>>();
         this.path = new List<Tuple<int, int>>();
+        this.roomCount = roomCount;
     }
 
     // 생성한 경로를 통해 방의 위치와 열려야 할 문 데이터를 가진 RoomNode 클래스로 바꿔 리턴한다.
@@ -46,24 +45,9 @@ public class DungeonStructureGenerator
     // 해밀턴 경로 알고리즘을 활용해 방들의 경로를 생성한다.
     private List<Tuple<int,int>> FindPath()
     {
-        int r = Random.Range(0, dungeonRow);
-        int c = Random.Range(0, dungeonColumn);
-        if(DFS(r, c))
+        if(DFS(0,0))
         {
             return path;
-        }
-        else
-        {
-            for (int i = 0; i < dungeonRow; ++i)
-            {
-                for (int j = 0; j < dungeonColumn; ++j)
-                {
-                    if (DFS(i, j))
-                    {
-                        return path;
-                    }
-                }
-            }
         }
         
         return null; // 해밀턴 경로가 존재하지 않는 경우
@@ -72,21 +56,25 @@ public class DungeonStructureGenerator
     // 주어진 시작점부터 경로를 탐색하고 탐색한 노드가 유효하면 path에 저장
     private bool DFS(int i, int j)
     {
-        visited[i, j] = true;
+        visitedSet.Add(new Tuple<int, int>(i, j));
         path.Add(new Tuple<int, int>(i, j));
 
-        if (path.Count == dungeonRow * dungeonColumn)
+        if (path.Count == roomCount)
         {
             return true;
         }
+        
+        // random 값은 0~3까지의 랜덤한 정수를 가지는데, 각각의 가중치는 다음과 같다.
+        // 0 : 20%, 1 : 30%, 2 : 20%, 3 : 30%
+        int[] weightedValues = { 0, 1, 1, 3, 3, 0, 2, 2, 1, 3 };
+        int random = weightedValues[Random.Range(0, weightedValues.Length)];
 
-        int random = Random.Range(0, 4);
         for (int k = 0; k < 4; ++k)
         {
             int ni = i + dy[(k + random) % 4];
             int nj = j + dx[(k + random) % 4];
 
-            if (IsValid(ni, nj) && !visited[ni, nj])
+            if (!visitedSet.Contains(new Tuple<int, int>(ni, nj)))
             {
                 if (DFS(ni, nj))
                 {
@@ -95,13 +83,8 @@ public class DungeonStructureGenerator
             }
         }
 
-        visited[i, j] = false;
+        visitedSet.Remove(new Tuple<int, int>(i, j));
         path.RemoveAt(path.Count - 1);
         return false;
-    }
-
-    private bool IsValid(int i, int j)
-    {
-        return i >= 0 && i < dungeonRow && j >= 0 && j < dungeonColumn;
     }
 }

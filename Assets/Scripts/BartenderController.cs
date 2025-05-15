@@ -10,6 +10,7 @@ public class BartenderController : MonoBehaviour
     Vector2 moveVector = new Vector2(0f, 0f);
 
     PlayerStatus playerStatus;
+    BartenderAbility bartenderAbility;
 
     public UnityEvent OnEnableCharacterInfoUI;
 
@@ -30,6 +31,7 @@ public class BartenderController : MonoBehaviour
     float minDistance = 0.5f;
     float groundCheckRadius = 0.2f;
 
+    [SerializeField]
     bool enableJump;
     bool enableDash;
     bool enableAttack;
@@ -37,6 +39,7 @@ public class BartenderController : MonoBehaviour
     bool isPause;
     bool isAttaking;
     bool isDead;
+    bool isGround;
 
     void Start()
     {
@@ -47,6 +50,7 @@ public class BartenderController : MonoBehaviour
         enableUI = true;
         isAttaking = false;
         isDead = false;
+        isGround = true;
         dashFactor = 1.0f;
         dashTime = 0.2f;
         dashCoolTime = 1.0f;
@@ -54,6 +58,7 @@ public class BartenderController : MonoBehaviour
         projectielSpawnOffset = 1f;
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
         playerStatus = gameObject.GetComponent<PlayerStatus>();
+        bartenderAbility = gameObject.GetComponent<BartenderAbility>();
         attackCoolTimeA = 0.5f;
     }
 
@@ -139,8 +144,10 @@ public class BartenderController : MonoBehaviour
         if (enableJump)
         {
             enableJump = false;
+            isGround = false;
             playerRigidBody.AddForce(new Vector2(0f, jumpPower));
             playerAnimator.SetTrigger("jump");
+            playerAnimator.SetBool("isGround", isGround);
         }
     }
 
@@ -148,6 +155,18 @@ public class BartenderController : MonoBehaviour
     {
         // 플레이어 아래에 발판 오브젝트가 오버랩되는지 확인
         enableJump = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        if (enableJump)
+        {
+            isGround = true;
+            playerAnimator.SetBool("isGround", isGround);
+        }
+        else
+        {
+            isGround = false;
+
+            playerAnimator.SetBool("isGround", isGround);
+        }
     }
     // 캐릭터 정보 UI 비활성화
     public void DisableCharacterUI()
@@ -213,6 +232,23 @@ public class BartenderController : MonoBehaviour
         projectileCompo.Velocity = direction;
         projectileCompo.playerStatus = playerStatus;
         projectileCompo.player = gameObject;
+        projectileCompo.bartenderAbility = bartenderAbility;
+        projectileCompo.bottle = bartenderAbility.UseBartenderBottle();
+
+        if (AbilityManager.Instance.bartenderAbility1)
+        {
+            GameObject projectile2 = Instantiate(projectilePref, spawnPosition, Quaternion.identity);
+            Projectile projectile2Compo = projectile2.GetComponent<Projectile>();
+
+            Vector3 offsetDirection = direction + Vector3.up * 0.2f;
+            offsetDirection.Normalize();
+
+            projectile2Compo.Velocity = (Vector2)offsetDirection;
+            projectile2Compo.playerStatus = playerStatus;
+            projectile2Compo.player = gameObject;
+            projectile2Compo.bartenderAbility = bartenderAbility;
+            projectile2Compo.bottle = bartenderAbility.UseBartenderBottle();
+        }
 
         yield return new WaitForSeconds(attackCoolTimeA);
         isAttaking = false;

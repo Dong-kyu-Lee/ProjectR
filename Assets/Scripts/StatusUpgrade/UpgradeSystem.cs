@@ -11,11 +11,11 @@ public class UpgradeSystem : MonoBehaviour
     [SerializeField] private StatusEffect statusEffect;
     private StatusValueText statusValueText;
 
-    private void Awake()
+    private void Start()
     {
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
-        statusValueText = gameObject.GetComponent<StatusValueText>();
+        statusValueText = transform.GetComponent<StatusValueText>();
     }
 
     // 스킬 포인트 사용, 업그레이드 스테이터스 증가.
@@ -67,7 +67,7 @@ public class UpgradeSystem : MonoBehaviour
     public void ResetStat()
     {
         playerStatus.Damage -= upgradeStatus.Force * 2;
-        playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance;
+        playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance * 0.01f;
         playerStatus.CriticalPercent -= upgradeStatus.Critical * 0.02f;
         playerStatus.AdditionalAttackSpeed -= upgradeStatus.Dexterity * 0.02f;
 

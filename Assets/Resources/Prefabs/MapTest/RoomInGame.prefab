@@ -76,6 +76,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gate: {fileID: 6922307634515825265}
   enemyInRoom: {fileID: 242603307861175618}
+  dynamicElements: []
+  boxObject: {fileID: 0}
 --- !u!114 &6922307634515825265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,6 +95,9 @@ MonoBehaviour:
   - {fileID: 8030020588964230368}
   - {fileID: 7071236025198879656}
   - {fileID: 4661779256778446703}
+  warpObject: {fileID: 1196581599583069401, guid: cbdae5af249739449a47b1b8d22d68f8, type: 3}
+  currentWarp: {fileID: 0}
+  isWarp: 0
   gateToUse: 00000000
 --- !u!114 &242603307861175618
 MonoBehaviour:
@@ -106,8 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488d9ec2e4921c944bd1edc916bb9496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstWaveEnemy: {fileID: 7009474343721471534, guid: 0da4f48c0d3c4884ba4e3f7059602025, type: 3}
-  secondWaveEnemy: {fileID: 7009474343721471534, guid: 0da4f48c0d3c4884ba4e3f7059602025, type: 3}
+  firstWaveEnemy: {fileID: 6071877652221025503, guid: 0da4f48c0d3c4884ba4e3f7059602025, type: 3}
+  secondWaveEnemy: {fileID: 6071877652221025503, guid: 0da4f48c0d3c4884ba4e3f7059602025, type: 3}
   firstWaveEnemyList: []
   secondWaveEnemyList: []
 --- !u!1 &4251901442633290813
@@ -229,7 +234,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

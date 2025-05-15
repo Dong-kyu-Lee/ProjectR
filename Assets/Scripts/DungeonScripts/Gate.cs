@@ -7,34 +7,64 @@ public class Gate : MonoBehaviour
 {
     // 위, 오른쪽, 아래, 왼쪽 순서
     public GameObject[] gateObjects;
+    public GameObject warpObject;
+    public GameObject currentWarp;
+    public bool isWarp = false; // 워프가 있는 방인지 확인하는 변수
     public bool[] gateToUse = { false, false, false, false }; // 사용할 방향의 문을 선택
 
     // 문 오브젝트를 활성화 혹은 비활성화하는 함수
+    // 방 생성 시, 필요한 문, 워프 설정
     public void SetUsableDoors(bool[] openNeedGate)
     {
-        for(int i = 0; i < openNeedGate.Length; ++i)
+        // 워프 관련 설정 초기화
+        isWarp = false;
+        if (currentWarp != null) currentWarp.SetActive(false);
+
+        // 위, 아래 문 사용 안 함.
+        gateToUse[0] = false;
+        gateToUse[2] = false;
+        gateObjects[0].SetActive(false);
+        gateObjects[2].SetActive(false);
+
+        // 오른쪽, 왼쪽 문 사용 여부 설정
+        gateToUse[1] = openNeedGate[1];
+        gateObjects[1].SetActive(openNeedGate[1]);
+        gateToUse[3] = openNeedGate[3];
+        gateObjects[3].SetActive(openNeedGate[3]);
+    }
+
+    // warpPosition : 워프가 생성될 월드좌표, playerWarpPosition : 플레이어가 워프될 좌표
+    public void CreateWarpObject(Vector3 warpPosition, Vector3 playerWarpPosition)
+    {
+        isWarp = true; // 워프가 있는 방임을 설정
+        if (currentWarp == null)
         {
-            if (openNeedGate[i] == true)
-            {
-                gateToUse[i] = true;
-                gateObjects[i].SetActive(true);
-            }
-            else
-            {
-                gateToUse[i] = false;
-                gateObjects[i].SetActive(false);
-            }
+            currentWarp = Instantiate(warpObject, warpPosition, Quaternion.identity);
         }
+        else
+        {
+            currentWarp.transform.position = warpPosition;
+        }
+        currentWarp.GetComponent<Warp>().SetWarpPosition(playerWarpPosition);
+        currentWarp.SetActive(false);
     }
 
     // 임시 문 프리팹을 활성화하여 문 열림을 구현
-    public void OpenGate()
+    public void OpenGate(bool isRoomCleared)
     {
-        for(int i = 0; i < gateObjects.Length; ++i)
+        for (int i = 0; i < gateObjects.Length; ++i)
         {
-            if(gateObjects[i].activeInHierarchy && gateToUse[i])
+            if (gateObjects[i].activeInHierarchy && gateToUse[i])
             {
                 gateObjects[i].SetActive(false);
+            }
+        }
+        if (isRoomCleared) // 방을 클리어한 경우: 워프가 같이 열림
+        {
+            if (isWarp)
+            {
+                currentWarp.SetActive(true);
+                return;
             }
         }
     }

@@ -7,21 +7,43 @@ using Unity.VisualScripting;
 
 public class LiberationDesc : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [SerializeField] private LiberationSystem liberationSystem;
     [SerializeField] private Text abilityText;
+    [SerializeField] private Text abilityPriceText;
+    [SerializeField] private int abilityIndex;
     [SerializeField] private string abilityDesc;
+    public int abilityPrice;
+    public Image image;
+    public Color defaultColor;
 
-    // 마우스가 들어오면 툴팁 표시.
-    public void OnPointerEnter(PointerEventData eventData)
+    void Start()
     {
-        if (abilityText != null)
-        {
-            abilityText.text = abilityDesc;
-        }
+        defaultColor = new Color(28f / 255f, 32f / 255f, 36f / 255f);
+        image = GetComponent<Image>();
+        liberationSystem = transform.parent.GetComponent<LiberationSystem>();
     }
 
-    // 마우스가 나가면 툴팁 숨김.
+    // 마우스가 들어오면 설명 표시.
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        liberationSystem.currentAbility = abilityIndex;
+        image.color = Color.grey;
+        if (abilityText != null) abilityText.text = abilityDesc;
+        if (abilityPriceText != null) abilityPriceText.text = abilityPrice.ToString() + " 필요";
+    }
+
+    // 마우스가 나가면 설명 숨김.
     public void OnPointerExit(PointerEventData eventData)
     {
+        ResetDescState();
+    }
 
+    // 설명 초기화.
+    private void ResetDescState()
+    {
+        liberationSystem.currentAbility = 0;
+        image.color = defaultColor;
+        if (abilityText != null) abilityText.text = "";
+        if (abilityPriceText != null) abilityPriceText.text = "";
     }
 }
