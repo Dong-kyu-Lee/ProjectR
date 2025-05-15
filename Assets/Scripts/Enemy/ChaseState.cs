@@ -26,7 +26,7 @@ public class ChaseState : IState
         if (enemy.PlayerTransform != null)
         {
             enemy.Rigidbody.velocity = (enemy.PlayerTransform.position.x > enemy.transform.position.x) ? Vector2.right : Vector2.left;
-            enemy.Rigidbody.velocity *= enemy.Speed;
+            enemy.Rigidbody.velocity *= enemy.EnemyStatus.TotalMoveSpeed;
         }
     }
 

@@ -38,7 +38,7 @@ public class BuffManager : MonoBehaviour
         }
         else
         {
-            Buff newBuff = GenerateBuff(type, duration, GameManager.Instance.CurrentPlayer);
+            Buff newBuff = GenerateBuff(type, duration, gameObject);
             activeBuffs.Add(type, newBuff);
             StartCoroutine(StartBuffEffect(newBuff));
             Debug.Log($"버프[{type}]적용");

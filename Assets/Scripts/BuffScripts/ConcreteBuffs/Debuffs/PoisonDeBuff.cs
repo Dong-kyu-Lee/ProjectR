@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class PoisonDeBuff : Buff
 {
-    private float[] poisonDmg = { 1.0f, 2.0f, 5.0f }; // 레벨별 틱당 독 데미지
+    private float[] poisonDmg = { 0.01f, 0.02f, 0.03f }; // 레벨별 틱당 독 데미지
 
-    public PoisonDeBuff(float duration, GameObject target) : base(duration, target) { }
+    public PoisonDeBuff(float duration, GameObject target) : base(duration, target)
+    {
+        this.BuffType = BuffType.Poison;
+        maxDuration = 10;
+    }
 
     public override void ApplyBuffEffect()
     {
-        PlayerStatus playerStatus = GetPlayerStatus();
-        if (playerStatus == null)
-            return;
-        playerStatus.Hp -= poisonDmg[currentBuffLevel];
-        Debug.Log($"플레이어 체력 : {playerStatus.Hp}");
-        InGameUIManager.Instance.CheckHp();
+        Status targetStatus = targetObject.GetComponent<Status>();
+        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * poisonDmg[currentBuffLevel], targetStatus.gameObject);
+        targetStatus.Hp -= targetStatus.MaxHp * poisonDmg[currentBuffLevel];
     }
 
     public override void DoActionOnActivate(float tickDuration = 1)
     {
-        ApplyBuffEffect();
         base.DoActionOnActivate(tickDuration);
+        ApplyBuffEffect();
     }
 
     public override void RemoveBuffEffect()
     {
-        Debug.Log("독 디버프 비활성화");
     }
 }

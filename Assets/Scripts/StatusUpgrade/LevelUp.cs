@@ -17,8 +17,8 @@ public class LevelUp : MonoBehaviour
     {
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
-        upgradeSystem = transform.GetComponentInChildren<UpgradeSystem>();
-        statusValueText = transform.GetComponentInChildren<StatusValueText>();
+        upgradeSystem = transform.GetComponentInChildren<UpgradeSystem>(true);
+        statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
     }
 
     // 경험치 통 정의.

@@ -56,6 +56,9 @@ public abstract class Buff
     //버프가 활성화 될때 해야할 일을 지정하는 메서드
     public abstract void ApplyBuffEffect();
 
+    //버프가 갱신 될 때 해야할 일을 지정하는 메서드
+    public virtual void RenewBuffEffect() { }
+
     //버프가 비활성화 될 때 해야할 일을 지정하는 메서드
     public abstract void RemoveBuffEffect();
 
@@ -67,6 +70,7 @@ public abstract class Buff
             currentBuffLevel++;
             ApplyBuffEffect();
         }
+        else RenewBuffEffect();
         CurrentDuration += duration;
     }
 
