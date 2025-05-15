@@ -13,11 +13,12 @@ public class BuffUIManager : MonoBehaviour
     private Transform buffPanel;
     private Dictionary<BuffType, GameObject> activeBuffIcons = new Dictionary<BuffType, GameObject>();
 
+
     private void Start()
     {
         if (buffManager == null)
         {
-            GameObject player = GameObject.FindWithTag("Player");
+            GameObject player = GameManager.Instance.CurrentPlayer;
             if (player != null)
                 buffManager = player.GetComponent<BuffManager>();
         }

@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class SlowDeBuff : Buff
 {
-    public override BuffType BuffType => BuffType.Slow;
-
     private float[] moveSpeedDecGap = { 30.0f };
     private float speedDecAmount = 0.0f;
 
     public SlowDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Slow;
         maxBuffLevel = 1;
     }
     public override void ApplyBuffEffect()

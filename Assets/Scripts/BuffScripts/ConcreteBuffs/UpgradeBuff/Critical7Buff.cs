@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Critical7Buff : Buff
 {
-    public override BuffType BuffType => BuffType.Critical7;
     private float critPerInc = 1f;     //크리티컬 확률 증가량
 
     public Critical7Buff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Critical7;
         maxBuffLevel = 1;
         maxDuration = 1.0f;
     }

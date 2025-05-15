@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class SleepDeBuff : Buff
 {
-    public override BuffType BuffType => BuffType.Sleep;
-
     private float prevMoveSpeed = 0.0f;
     private float prevJumpPower = 0.0f;
 
     public SleepDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Sleep;
         maxBuffLevel = 1;
     }
 

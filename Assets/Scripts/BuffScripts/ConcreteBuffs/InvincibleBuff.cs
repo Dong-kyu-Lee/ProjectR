@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InvincibleBuff : Buff
 {
-    public override BuffType BuffType => BuffType.Invincible;
     private float prevDamageReduction = 0.0f;   //이전 데미지 리덕션 값
     public InvincibleBuff(float totalDuration, GameObject target) : base(totalDuration, target) {
         this.BuffType = BuffType.Invincible;

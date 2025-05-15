@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class StoneCurseDeBuff : Buff
 {
-    public override BuffType BuffType => BuffType.StoneCurse;
-
     private float prevMoveSpeed = 0.0f;
     private float prevJumpPower = 0.0f;
 
     public StoneCurseDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.StoneCurse;
         maxBuffLevel = 1;
     }
 

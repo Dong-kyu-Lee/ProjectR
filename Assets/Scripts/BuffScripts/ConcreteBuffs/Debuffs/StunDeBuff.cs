@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class StunDeBuff : Buff
 {
-    public override BuffType BuffType => BuffType.Stun;
-
     private float prevMoveSpeed = 0.0f;
     private float prevJumpPower = 0.0f;
 
     public StunDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Stun;
         maxBuffLevel = 1;
     }
     public override void ApplyBuffEffect()

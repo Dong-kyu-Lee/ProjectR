@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class ConfusionDeBuff : Buff
 {
-    public override BuffType BuffType => BuffType.Confusion;
-
     public ConfusionDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Confusion;
         maxBuffLevel = 1;
     }
 

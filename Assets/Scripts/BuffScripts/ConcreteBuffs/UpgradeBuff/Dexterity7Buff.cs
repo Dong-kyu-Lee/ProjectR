@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Dexterity7Buff : Buff
 {
-    public override BuffType BuffType => BuffType.Dexterity7;
     private float atkDmgIncGap = 1f;     //피해량 증가량
 
     public Dexterity7Buff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Dexterity7;
         maxBuffLevel = 50;
         maxDuration = 8.0f;
     }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BulkUpBuff : Buff
 {
-    public override BuffType BuffType => BuffType.BulkUp;
     private float[] attackDamageIncGap = { 10.0f, 20.0f, 30.0f }; //공격력 증가량 간격
     private float[] damageReduceIncGap = { 0.1f, 0.1f, 0.1f };    //데미지 감소량 간격
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class IronBodyBuff : Buff
 {
-    public override BuffType BuffType => BuffType.IronBody;  
     private float[] damageReduceGap = { 10.0f, 20.0f, 20.0f };  //피해감소량 증가량 간격
     private float[] attackSpeedDecGap = { 10.0f, 20.0f, 30.0f };  //공격속도 감소량 증가량 간격
     private float[] moveSpeedDecGap = { 2.0f, 3.0f, 5.0f };  //이동속도 감소량 증가량 간격

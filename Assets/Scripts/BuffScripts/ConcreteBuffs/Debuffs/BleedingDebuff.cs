@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class BleedingDebuff : Buff
 {
-    public override BuffType BuffType => BuffType.Bleeding;
-
     private float[] bleedingDmg = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f }; // 레벨별 틱당 출혈 데미지
     private float tickTimer = 0f; // 틱 타이머
 
     public BleedingDebuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Bleeding;
         maxBuffLevel = 5;
     }
 

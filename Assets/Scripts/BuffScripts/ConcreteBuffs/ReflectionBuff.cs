@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class ReflectionBuff : Buff
 {
-    public override BuffType BuffType => BuffType.Reflection;
     //해당 버프는 미구현된 상태입니다. : https://github.com/Dong-kyu-Lee/ProjectR/issues/51
-    public ReflectionBuff(float totalDuration, GameObject target) : base(totalDuration, target) { }
+    public ReflectionBuff(float totalDuration, GameObject target) : base(totalDuration, target) { 
+        this.BuffType = BuffType.Reflection;
+    }
     public override void ApplyBuffEffect()
     {
         Debug.Log("반사 버프 활성화");

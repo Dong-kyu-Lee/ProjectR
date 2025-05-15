@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DmgReductIncBuff : Buff
 {
-    public override BuffType BuffType => BuffType.DamageReductionIncrease;
     private float[] DmgReductIncGap = { 0.1f, 0.1f, 0.1f };  //피해감소량 증가량 간격
 
     public DmgReductIncBuff(float duration, GameObject target) : base(duration, target){

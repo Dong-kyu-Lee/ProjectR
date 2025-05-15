@@ -12,13 +12,28 @@ public abstract class Buff
     protected int currentBuffLevel = 0;     //현재 버프 레벨 (0 ~ maxBuffLevel - 1 의 값을 가짐)
     protected int maxBuffLevel = 3;         //최대 버프 레벨
 
-    public abstract BuffType BuffType { get; }
-
-    public float MaxDuration { 
-        get { return maxDuration; }
+    protected PlayerStatus GetPlayerStatus()
+    {
+        if (targetObject == null)
+        {
+            Debug.LogWarning($"{this.GetType().Name}: targetObject is null.");
+            return null;
+        }
+        PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
+        if (playerStatus == null)
+        {
+            Debug.LogWarning($"{this.GetType().Name}: targetObject에 PlayerStatus 컴포넌트가 없습니다.");
+        }
+        return playerStatus;
     }
 
-    public float CurrentDuration { 
+    public BuffType BuffType { get; protected set; }
+    public float MaxDuration
+    {
+        get { return maxDuration; }
+    }
+    public float CurrentDuration
+    {
         get { return currentDuration; }
         set
         {
@@ -26,12 +41,12 @@ public abstract class Buff
         }
     }
     public int CurrentBuffLevel
-    { 
-        get { return currentBuffLevel; } 
-        set 
+    {
+        get { return currentBuffLevel; }
+        set
         {
             currentBuffLevel = (value < 0) ? 0 : value;
-        } 
+        }
     }
 
     public Buff(float duration, GameObject target)
@@ -42,6 +57,9 @@ public abstract class Buff
 
     //버프가 활성화 될때 해야할 일을 지정하는 메서드
     public abstract void ApplyBuffEffect();
+
+    //버프가 갱신 될 때 해야할 일을 지정하는 메서드
+    public virtual void RenewBuffEffect() { }
 
     //버프가 비활성화 될 때 해야할 일을 지정하는 메서드
     public abstract void RemoveBuffEffect();
@@ -54,11 +72,12 @@ public abstract class Buff
             currentBuffLevel++;
             ApplyBuffEffect();
         }
+        else RenewBuffEffect();
         CurrentDuration += duration;
     }
 
     //버프가 지속되는 동안 해야할 일을 정의하는 메서드
-    public virtual void DoActionOnActivate(float tickDuration = 1.0f) 
+    public virtual void DoActionOnActivate(float tickDuration = 1.0f)
     {
         CurrentDuration -= tickDuration;
         //버프 적용 주기가 1.0초인 버프가 0.2초 남았는데도 로직에 의해 효과를 한번 더 받는 경우를 고려해야할 필요가 있음.
