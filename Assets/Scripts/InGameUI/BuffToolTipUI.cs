@@ -11,7 +11,10 @@ public class BuffToolTipUI : MonoBehaviour
     private Text buffDescriptionText;
 
     private bool isVisible = false;
-
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
     private void Update()
     {
         if (isVisible && Input.GetKeyDown(KeyCode.Escape))
@@ -21,11 +24,13 @@ public class BuffToolTipUI : MonoBehaviour
     }
     public void ShowTooltip(BuffType type, Sprite sprite)
     {
+        gameObject.SetActive(true);
         buffNameText.text = type.ToString();
         buffDescriptionText.text = GetBuffDescription(type);
         buffImage.sprite = sprite;
 
         gameObject.SetActive(true);
+        isVisible = true;
     }
     private string GetBuffDescription(BuffType buffType)
     {

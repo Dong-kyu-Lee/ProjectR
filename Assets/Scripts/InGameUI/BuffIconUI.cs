@@ -24,9 +24,11 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
 
     private Dictionary<BuffType, Sprite> buffSpriteDictionary = new Dictionary<BuffType, Sprite>();
     private Buff buffData;
+    private BuffToolTipUI tooltip;
 
     private float buffStartTime;
     private float buffDuration;
+
     private void Awake()
     {
         foreach (BuffSpriteEntry entry in buffSpriteEntries)
@@ -87,15 +89,19 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        BuffToolTipUI tooltip = FindObjectOfType<BuffToolTipUI>();
         if (tooltip != null)
         {
-            ShowBuffDetail();//디버깅용 코드 -> 추후 제거 예정
+            if (!tooltip.gameObject.activeSelf)
+                tooltip.gameObject.SetActive(true);
+            ShowBuffDetail();// 디버깅용 코드 -> 추후 제거 예정
             tooltip.ShowTooltip(buffData.BuffType, iconImage.sprite);
         }
     }
 
-
+    public void SetTooltipReference(BuffToolTipUI tooltipUI)
+    {
+        tooltip = tooltipUI;
+    }
 
     private void ShowBuffDetail() // 디버깅용 코드 -> 추후 제거 예정
     {

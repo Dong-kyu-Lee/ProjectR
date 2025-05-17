@@ -11,6 +11,8 @@ public class BuffUIManager : MonoBehaviour
     private GameObject buffIconPrefab;
     [SerializeField]
     private Transform buffPanel;
+    [SerializeField] 
+    private BuffToolTipUI tooltipUI;
     private Dictionary<BuffType, GameObject> activeBuffIcons = new Dictionary<BuffType, GameObject>();
 
 
@@ -66,6 +68,8 @@ public class BuffUIManager : MonoBehaviour
                 if (iconUI != null)
                 {
                     iconUI.Initialize(buffData);
+                    iconUI.SetTooltipReference(tooltipUI);
+
                 }
                 activeBuffIcons.Add(buffType, newIcon);
             }
