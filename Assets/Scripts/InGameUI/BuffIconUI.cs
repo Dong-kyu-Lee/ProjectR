@@ -87,9 +87,17 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ShowBuffDetail();
+        BuffToolTipUI tooltip = FindObjectOfType<BuffToolTipUI>();
+        if (tooltip != null)
+        {
+            ShowBuffDetail();//디버깅용 코드 -> 추후 제거 예정
+            tooltip.ShowTooltip(buffData.BuffType, iconImage.sprite);
+        }
     }
-    private void ShowBuffDetail()
+
+
+
+    private void ShowBuffDetail() // 디버깅용 코드 -> 추후 제거 예정
     {
         if (buffData == null) return;
 
