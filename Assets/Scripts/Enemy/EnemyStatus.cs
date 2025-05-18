@@ -26,14 +26,10 @@ public class EnemyStatus : Status
         
     }
 
-    void Update()
-    {
-        Debug.Log(AdditionalMoveSpeed);
-    }
-
     protected override void Dead()
     {
         EnemyAIController enemyAIController = GetComponent<Enemy>().StateMachine;
+        LevelUp.Instance.IncreaseExp(enemyData.ExpValue);
         enemyAIController.TransitionTo(enemyAIController.deadState);
     }
 }
