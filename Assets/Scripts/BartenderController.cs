@@ -252,6 +252,12 @@ public class BartenderController : MonoBehaviour
 
         yield return new WaitForSeconds(attackCoolTimeA);
         isAttaking = false;
+        Debug.Log(isAttaking);
+
+        if (playerRigidBody.velocity.x != 0f)
+        {
+            Flip(); // 이동 중이었다면 방향 갱신
+        }
 
         yield return new WaitForSeconds(1 / playerStatus.TotalAttackSpeed - attackCoolTimeA);
         enableAttack = true;

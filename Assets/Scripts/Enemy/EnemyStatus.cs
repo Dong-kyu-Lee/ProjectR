@@ -28,7 +28,7 @@ public class EnemyStatus : Status
 
     void Update()
     {
-        Debug.Log(AdditionalMoveSpeed);
+        // Debug.Log(AdditionalMoveSpeed);
     }
 
     protected override void Dead()
