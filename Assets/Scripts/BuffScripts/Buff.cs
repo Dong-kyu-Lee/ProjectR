@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public abstract class Buff
-{          
+{
     protected float maxDuration = 10.0f;            //최대 버프 지속시간
     protected float currentDuration = 0.0f;         //현재 버프 지속시간
     protected float buffEffectTick = 1.0f;          //다음 버프 효과 적용시간 까지의 간격
@@ -28,10 +28,12 @@ public abstract class Buff
     }
 
     public BuffType BuffType { get; protected set; }
-    public float MaxDuration { 
+    public float MaxDuration
+    {
         get { return maxDuration; }
     }
-    public float CurrentDuration { 
+    public float CurrentDuration
+    {
         get { return currentDuration; }
         set
         {
@@ -39,12 +41,12 @@ public abstract class Buff
         }
     }
     public int CurrentBuffLevel
-    { 
-        get { return currentBuffLevel; } 
-        set 
+    {
+        get { return currentBuffLevel; }
+        set
         {
             currentBuffLevel = (value < 0) ? 0 : value;
-        } 
+        }
     }
 
     public Buff(float duration, GameObject target)
@@ -75,7 +77,7 @@ public abstract class Buff
     }
 
     //버프가 지속되는 동안 해야할 일을 정의하는 메서드
-    public virtual void DoActionOnActivate(float tickDuration = 1.0f) 
+    public virtual void DoActionOnActivate(float tickDuration = 1.0f)
     {
         CurrentDuration -= tickDuration;
         //버프 적용 주기가 1.0초인 버프가 0.2초 남았는데도 로직에 의해 효과를 한번 더 받는 경우를 고려해야할 필요가 있음.

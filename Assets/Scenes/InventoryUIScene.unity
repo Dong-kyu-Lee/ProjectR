@@ -543,7 +543,7 @@ PrefabInstance:
     - target: {fileID: 7491559009817046287, guid: ad5bd745d1ba857479ae99fbd0d09912, type: 3}
       propertyPath: OnEnableCharacterInfoUI.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1996570821}
+      objectReference: {fileID: 0}
     - target: {fileID: 7491559009817046287, guid: ad5bd745d1ba857479ae99fbd0d09912, type: 3}
       propertyPath: OnEnableCharacterInfoUI.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -962,7 +962,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1309,7 +1309,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2056,7 +2056,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2195,7 +2195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObject: {fileID: 375983577}
   upgradeUI: {fileID: 0}
-  inventoryUI: {fileID: 0}
 --- !u!4 &1801260613
 Transform:
   m_ObjectHideFlags: 0
@@ -2414,17 +2413,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8d9499f4430cbd4a9579bd2ca861530, type: 3}
---- !u!114 &1996570821 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2133990160562727484, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
-  m_PrefabInstance: {fileID: 2133990161418316537}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb58138452e58847ac83346c201492d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2094137449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2570,10 +2558,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 375983576}
-    - target: {fileID: 2133990160562727484, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
-      propertyPath: playerStatus
-      value: 
-      objectReference: {fileID: 375983574}
     - target: {fileID: 2133990160728746082, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
       propertyPath: m_Name
       value: Canvas(QuickSlot)
@@ -2660,18 +2644,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2133990160728746086, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2133990161447415994, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2133990161447415994, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2133990161447415994, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
-      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2133990161476975609, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}

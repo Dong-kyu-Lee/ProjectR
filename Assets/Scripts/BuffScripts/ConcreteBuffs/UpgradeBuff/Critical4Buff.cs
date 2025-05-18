@@ -6,6 +6,7 @@ public class Critical4Buff : Buff
 
     public Critical4Buff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Critical4;
         maxBuffLevel = 1;
         maxDuration = 5.0f;
     }

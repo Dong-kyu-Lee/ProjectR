@@ -21,6 +21,7 @@ public class BuffManager : MonoBehaviour
     }
     // 활성화된 버프들을 BuffType을 키로 하여 저장.
     private Dictionary<BuffType, Buff> activeBuffs = new Dictionary<BuffType, Buff>();
+    public Dictionary<BuffType, Buff> ActiveBuffDict => activeBuffs;
 
     public Buff GenerateBuff(BuffType type, float duration, GameObject target)
     {
