@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BleedingDebuff : Buff
 {
-    private float[] bleedingDmg = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f};    //레벨별 틱당 출혈 데미지
+    private float[] bleedingDmg = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f }; // 레벨별 틱당 출혈 데미지
+    private float tickTimer = 0f; // 틱 타이머
 
     public BleedingDebuff(float duration, GameObject target) : base(duration, target)
     {
@@ -14,19 +15,27 @@ public class BleedingDebuff : Buff
 
     public override void ApplyBuffEffect()
     {
-        Debug.Log("출혈 디버프 활성화"); 
-        PlayerStatus playerStatus = GetPlayerStatus();
-        if (playerStatus == null)
-            return;
-        playerStatus.Hp -= bleedingDmg[currentBuffLevel];
-        InGameUIManager.Instance.CheckHp();
-        Debug.Log($"출혈 후 플레이어 체력 : {playerStatus.Hp}");
+        Status targetStatus = targetObject.GetComponent<Status>();
+        if (targetStatus == null) return;
+
+        targetStatus.Hp -= bleedingDmg[currentBuffLevel];
+        Debug.Log($"[Bleeding] HP 감소: -{bleedingDmg[currentBuffLevel]}, 현재 HP: {targetStatus.Hp}");
+
+        if (InGameUIManager.Instance != null)
+            InGameUIManager.Instance.CheckHp();
     }
 
-    public override void DoActionOnActivate(float tickDuration = 1)
+    public override void DoActionOnActivate(float deltaTime)
     {
-        ApplyBuffEffect();
-        base.DoActionOnActivate(tickDuration);
+        tickTimer += deltaTime;
+
+        if (tickTimer >= 1f)
+        {
+            ApplyBuffEffect();
+            tickTimer = 0f;
+        }
+
+        base.DoActionOnActivate(deltaTime); // 지속시간 감소
     }
 
     public override void RemoveBuffEffect()

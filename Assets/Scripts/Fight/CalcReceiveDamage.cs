@@ -96,6 +96,25 @@ public class CalcReceiveDamage : MonoBehaviour
         }
     }
 
+    // 디버프 피해를 입힐 때 데미지를 큐에 삽입.
+    public void TakeDebuffDamageQueue(float damage, GameObject target)
+    {
+        if (!damageQueue.ContainsKey(target))
+        {
+            damageQueue[target] = new Queue<float>();
+            damageTypeQueue[target] = new Queue<int>();
+            isProcessing[target] = false;
+        }
+
+        damageQueue[target].Enqueue(damage); // 데미지를 큐에 삽입.
+        damageTypeQueue[target].Enqueue(3); // 디버프 피해 데미지 타입을 큐에 삽입.
+
+        if (!isProcessing[target])
+        {
+            StartCoroutine(ProcessDamageQueue(target));
+        }
+    }
+
     // 일정 시간 간격으로 큐에서 데미지 출력.
     private IEnumerator ProcessDamageQueue(GameObject gameObject)
     {
@@ -111,6 +130,7 @@ public class CalcReceiveDamage : MonoBehaviour
             if (damageType == 0) damageTextObj.GetComponent<DamageText>().damageText.color = Color.white;
             else if (damageType == 1) damageTextObj.GetComponent<DamageText>().damageText.color = Color.red;
             else if (damageType == 2) damageTextObj.GetComponent<DamageText>().damageText.color = Color.yellow;
+            else if (damageType == 3) damageTextObj.GetComponent<DamageText>().damageText.color = Color.blue;
             damageTextObj.GetComponent<DamageText>().SetText(damage.ToString());
 
             yield return new WaitForSeconds(damageInterval);

@@ -6,6 +6,7 @@ public class Dexterity13Buff : Buff
     
     public Dexterity13Buff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Dexterity13;
         maxBuffLevel = 50;
         maxDuration = 8.0f;
     }

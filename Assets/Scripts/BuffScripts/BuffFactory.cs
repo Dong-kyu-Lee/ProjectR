@@ -112,9 +112,17 @@ public class BuffFactory : MonoBehaviour
         {
             return new ConfusionDeBuff(duration, target);
         });
+        buffConstructors.Add(BuffType.Buzzed, (duration, target) =>
+        {
+            return new BuzzedDeBuff(duration, target);
+        });
         buffConstructors.Add(BuffType.Drunken, (duration, target) =>
         {
             return new DrunkenDeBuff(duration, target);
+        });
+        buffConstructors.Add(BuffType.Burn, (duration, target) =>
+        {
+            return new BurnDeBuff(duration, target);
         });
         buffConstructors.Add(BuffType.Freeze, (duration, target) =>
         {
@@ -140,6 +148,7 @@ public class BuffFactory : MonoBehaviour
         {
             return new StunDeBuff(duration, target);
         });
+
 
         Debug.Log("BuffFactory: 모든 버프 생성 함수 초기화 완료.");
     }

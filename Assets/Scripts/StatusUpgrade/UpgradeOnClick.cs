@@ -14,7 +14,7 @@ public class UpgradeOnClick : MonoBehaviour
     {
         statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
         upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
-        levelup = gameObject.GetComponent<LevelUp>();
+        levelup = transform.GetComponent<LevelUp>();
     }
 
     // 경험치 증가 온클릭.

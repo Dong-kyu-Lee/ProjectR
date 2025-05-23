@@ -14,7 +14,7 @@ public enum BuffType
     BulkUp,                     //벌크 업 버프
     IronBody,                   //강철 몸 버프
     Reflection,                 //반사 버프
-    Invincible,                  //무적 버프
+    Invincible,                 //무적 버프
 
     Force7,                     //무력 7레벨 버프
     Force16,                    //무력 16레벨 버프
@@ -24,9 +24,11 @@ public enum BuffType
     Dexterity13,                //재주 13레벨 버프
 
     Poison,                      //독 디버프
-    Slow,                        //둔화 디버프
+    Burn,                        //화상 디버프
     Freeze,                      //빙결 디버프
+    Slow,                        //둔화 디버프
     Sleep,                       //수면 디버프
+    Buzzed,                      //취기 디버프
     Drunken,                     //만취 디버프
     Bleeding,                    //출혈 디버프
     Stun,                         //기절 디버프

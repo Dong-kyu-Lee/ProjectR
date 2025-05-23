@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 6593811979532327234}
   - component: {fileID: 6593811979532327236}
   - component: {fileID: 6593811979532327237}
-  - component: {fileID: 7604478190633631056}
+  - component: {fileID: 8273623950146971325}
   m_Layer: 5
   m_Name: BuffToolTip
   m_TagString: Untagged
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7604478190633631056
+--- !u!114 &8273623950146971325
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -245,13 +245,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6593811979532327235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a895ce9b0b969b47affe22d9d171dc8, type: 3}
+  m_Script: {fileID: 11500000, guid: f104982bf58352f45aec06c4bea98685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffToolTip: {fileID: 6593811979532327235}
   buffImage: {fileID: 6593811978150250222}
-  buffName: {fileID: 6593811978161895004}
-  buffDescription: {fileID: 6593811979942924647}
+  buffNameText: {fileID: 6593811978161895004}
+  buffDescriptionText: {fileID: 6593811979942924647}
 --- !u!1 &6593811979942924645
 GameObject:
   m_ObjectHideFlags: 0

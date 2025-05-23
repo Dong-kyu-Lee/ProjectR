@@ -13,12 +13,19 @@ public class CharacterInfo : MonoBehaviour
     public GameObject characterName;
     public GameObject statusTextPref;
     public GameObject statusParentObj;
+    [SerializeField]
+    public GameObject characterInfo;
     public PlayerStatus playerStatus;
 
     List<GameObject> statusObjList = new List<GameObject>();
-
+    
     private void Awake()
     {
+        if (characterInfo == null)
+        {
+            Debug.LogWarning("CharacterInfo 오브젝트가 Inspector에 할당되지 않았습니다!");
+        }
+
         Init();
         SetStatus();
         transform.GetComponentInChildren<InventoryUI>().Init();
@@ -42,14 +49,14 @@ public class CharacterInfo : MonoBehaviour
     // UI 활성화
     public void EnableUI()
     {
-        gameObject.SetActive(true);
+        characterInfo.SetActive(true);
     }
 
     // UI 비활성화
     public void DisableUI()
     {
         Time.timeScale = 1f;
-        gameObject.SetActive(false);
+        characterInfo.SetActive(false);
     }
 
     public void ToggleInventoryUI()

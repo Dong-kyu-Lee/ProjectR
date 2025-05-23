@@ -13,12 +13,27 @@ public class LevelUp : MonoBehaviour
     // 요구 경험치 ex) 레벨 1 -> 레벨 2 요구 경험치 = requiredExp[1].
     public static readonly int[] requiredExp;
 
+    public static LevelUp Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); // 중복 생성 방지
+            return;
+        }
+    }
+
     private void Start()
     {
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
-        upgradeSystem = transform.GetComponentInChildren<UpgradeSystem>();
-        statusValueText = transform.GetComponentInChildren<StatusValueText>();
+        upgradeSystem = transform.GetComponentInChildren<UpgradeSystem>(true);
+        statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
     }
 
     // 경험치 통 정의.

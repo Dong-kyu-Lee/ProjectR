@@ -10,6 +10,7 @@ public class BartenderController : MonoBehaviour
     Vector2 moveVector = new Vector2(0f, 0f);
 
     PlayerStatus playerStatus;
+    BartenderAbility bartenderAbility;
 
     public UnityEvent OnEnableCharacterInfoUI;
 
@@ -57,6 +58,7 @@ public class BartenderController : MonoBehaviour
         projectielSpawnOffset = 1f;
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
         playerStatus = gameObject.GetComponent<PlayerStatus>();
+        bartenderAbility = gameObject.GetComponent<BartenderAbility>();
         attackCoolTimeA = 0.5f;
     }
 
@@ -230,6 +232,23 @@ public class BartenderController : MonoBehaviour
         projectileCompo.Velocity = direction;
         projectileCompo.playerStatus = playerStatus;
         projectileCompo.player = gameObject;
+        projectileCompo.bartenderAbility = bartenderAbility;
+        projectileCompo.bottle = bartenderAbility.UseBartenderBottle();
+
+        if (AbilityManager.Instance.bartenderAbility1)
+        {
+            GameObject projectile2 = Instantiate(projectilePref, spawnPosition, Quaternion.identity);
+            Projectile projectile2Compo = projectile2.GetComponent<Projectile>();
+
+            Vector3 offsetDirection = direction + Vector3.up * 0.2f;
+            offsetDirection.Normalize();
+
+            projectile2Compo.Velocity = (Vector2)offsetDirection;
+            projectile2Compo.playerStatus = playerStatus;
+            projectile2Compo.player = gameObject;
+            projectile2Compo.bartenderAbility = bartenderAbility;
+            projectile2Compo.bottle = bartenderAbility.UseBartenderBottle();
+        }
 
         yield return new WaitForSeconds(attackCoolTimeA);
         isAttaking = false;
