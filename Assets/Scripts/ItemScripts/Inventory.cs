@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public static event Action<BasicItemData, int> OnItemAdded;
+
     //인벤토리 관련
     [SerializeField]
     private int maxInventorySlot = 10;                  //최대 인벤토리 칸 갯수
@@ -126,19 +129,32 @@ public class Inventory : MonoBehaviour
                 Debug.Log("아이템이 어떠한 클래스 타입이랑도 매칭되지 않음");
                 return false;
         }
+
     }
 
     //획득한 소모품 아이템 데이터를 퀵슬롯 or 인벤토리에 추가하는 메서드
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        if (!quickSlot || quickSlot == item) //퀵슬롯에 아이템이 없거나 같은 아이템이 로드된 경우.
+        //퀵슬롯에 아이템이 없거나 같은 아이템일 때 처리
+        if (!quickSlot || quickSlot == item)
         {
             LoadToQuickSlot(item, amount);
+
+            OnItemAdded?.Invoke(item, QuickSlotItemAmount);
+
             return true;
         }
 
-        return AddItemsToInventoryWithUiUpdate(item, amount);
+        // 인벤토리에 추가
+        bool result = AddItemsToInventoryWithUiUpdate(item, amount);
+
+        //아이템 추가 성공 시 이벤트 호출
+        if (result)
+            OnItemAdded?.Invoke(item, amount);
+
+        return result;
     }
+
 
     //획득한 장비를 비어있는 공간(장비칸 or 인벤토리)에 추가하는 함수
     private bool AddEquipmentItem(EquipmentItemData item)

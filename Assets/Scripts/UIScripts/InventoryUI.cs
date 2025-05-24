@@ -31,14 +31,18 @@ public class InventoryUI : MonoBehaviour
         playerInventory.MyInventoryUI = this;
 
         InitiateAllItemsSlots();
-    }
 
+        Inventory.OnItemAdded += HandleItemAdded;
+    }
+    private void HandleItemAdded(BasicItemData item, int amount)
+    {
+        SetItemToUI(item, amount);
+    }
     //인벤토리 & 장비의 모든 슬롯 초기화 함수
     private void InitiateAllItemsSlots()
     {
         //미리보기 슬롯 초기화. -1은 해당 UI의 index가 의미 없음을 나타냄.
         previewSlotUI.Init(gameObject, -1);
-
         //장비칸 슬롯 초기화
         equipSlotImgs = equipSlotParentObj.transform.GetComponentsInChildren<EquipmentSlotUI>();
         for (int i = 0; i < equipSlotImgs.Length; i++)
@@ -46,15 +50,15 @@ public class InventoryUI : MonoBehaviour
             equipSlotImgs[i].Init(gameObject, i);
         }
 
-        //인벤토리 슬롯 초기화
         inventorySlotImgs = inventorySlotParentObj.transform.GetComponentsInChildren<ItemSlotUI>();
+
+        //인벤토리 슬롯 초기화
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
             inventorySlotImgs[i].Init(gameObject, i);
         }
-
         //퀵슬롯 초기화. -1은 해당 UI의 index가 의미 없음을 나타냄.
-        QuickSlotImg.Init(gameObject, -1);      
+        QuickSlotImg.Init(gameObject, -1);
     }
 
     //획득한 아이템을 UI에 반영하는 함수.
@@ -87,7 +91,6 @@ public class InventoryUI : MonoBehaviour
 
         SetInventorySlotData(itemData, 1);
     }
-
     //아이템의 데이터를 비어있는 인벤토리 슬롯 UI에 삽압하는 함수
     public void SetInventorySlotData(BasicItemData itemData, int amount)
     {
@@ -119,5 +122,9 @@ public class InventoryUI : MonoBehaviour
     public void SetQuickSLotItemData(BasicItemData itemData, int amount)
     {
         quickSlotImg.SetItemData(itemData, amount);
+    }
+    private void OnDestroy()
+    {
+        Inventory.OnItemAdded -= HandleItemAdded;
     }
 }

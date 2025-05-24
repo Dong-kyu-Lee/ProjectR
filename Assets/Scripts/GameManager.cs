@@ -12,9 +12,13 @@ public class GameManager : MonoBehaviour
         {
             if (instance == null)
             {
-                GameObject gameManagerObject = new GameObject("GameManager");
-                instance = gameManagerObject.AddComponent<GameManager>();
-                DontDestroyOnLoad(gameManagerObject);
+                instance = FindObjectOfType<GameManager>();
+                if (instance == null)
+                {
+                    GameObject go = new GameObject("GameManager");
+                    instance = go.AddComponent<GameManager>();
+                    DontDestroyOnLoad(go);
+                }
             }
             return instance;
         }
