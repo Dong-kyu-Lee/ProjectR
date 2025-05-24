@@ -8,8 +8,7 @@ using Random = UnityEngine.Random;
 public class DungeonCreator : MonoBehaviour
 {
     [Header("Fixed Room Setting")]
-    public int dungeonRow;
-    public int dungeonColumn;
+    public int numberOfRooms;
     public int dungeonBoxCount;
 
     [Header("Needed Objects")]
@@ -44,7 +43,7 @@ public class DungeonCreator : MonoBehaviour
     // 던전과 관련 요소를 씬에 생성하는 함수
     public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
-        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(dungeonRow * dungeonColumn);
+        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(numberOfRooms);
         var roomNodes = dungeonStructure.GetDungeonStructure();
 
         playerSpawnPosition = new Vector3();
@@ -87,7 +86,7 @@ public class DungeonCreator : MonoBehaviour
     private void UpdateRoomInGame(Vector3 doorPosition, bool[] openNeededGate)
     {
         // 2스테이지 시작의 경우
-        if (roomInGameDic.Count == dungeonColumn * dungeonRow)
+        if (roomInGameDic.Count == numberOfRooms)
         {
             roomInGameDic[doorPosition].GetComponent<RoomInGame>().ResetRoomState();
             roomInGameDic[doorPosition].GetComponent<Gate>().SetUsableDoors(openNeededGate);
@@ -191,13 +190,6 @@ public class DungeonCreator : MonoBehaviour
         }
 
         // 통로 열기
-        /*if (openNeededGate[0] == true) // 위
-        {
-            for (int i = 0; i < 8; ++i)
-            {
-                groundTilemap.SetTile(roomPosition + new Vector3Int(16 + i, 39, 0), null);
-            }
-        }*/
         if (openNeededGate[1] == true) // 오른쪽
         {
             for (int i = 0; i < 8; ++i)
@@ -205,13 +197,6 @@ public class DungeonCreator : MonoBehaviour
                 groundTilemap.SetTile(roomPosition + new Vector3Int(39, 16 + i, 0), null);
             }
         }
-        /*if (openNeededGate[2] == true) // 아래
-        {
-            for (int i = 0; i < 8; ++i)
-            {
-                groundTilemap.SetTile(roomPosition + new Vector3Int(16 + i, 0, 0), null);
-            }
-        }*/
         if (openNeededGate[3] == true) // 왼쪽
         {
             for (int i = 0; i < 8; ++i)
