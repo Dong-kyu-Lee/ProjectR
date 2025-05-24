@@ -35,7 +35,7 @@ public class ProjectileV2 : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, 2f); // 수명 제한
+        Destroy(gameObject, 1f); // 수명 제한
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

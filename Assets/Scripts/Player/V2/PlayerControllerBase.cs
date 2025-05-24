@@ -12,8 +12,11 @@ public interface IAbilityV2
 public abstract class PlayerControllerBase : MonoBehaviour
 {
     protected Rigidbody2D playerRigidBody;
+    [SerializeField]
     protected Animator playerAnimator;
+    [SerializeField]
     protected Camera playerCamera;
+    [SerializeField]
     protected GameObject rendererObject;
     protected PlayerStatus playerStatus;
     protected IAbilityV2 characterAbility; // 고유 능력 위임 객체
@@ -36,11 +39,11 @@ public abstract class PlayerControllerBase : MonoBehaviour
     protected bool isAttaking = false;
     protected bool isPause = false;
     protected bool isDead = false;
+    protected bool isGround = false;
 
     protected virtual void Start()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
-        playerAnimator = GetComponent<Animator>();
         playerStatus = GetComponent<PlayerStatus>();
         characterAbility = GetComponent<IAbilityV2>();
     }
@@ -101,6 +104,10 @@ public abstract class PlayerControllerBase : MonoBehaviour
     protected void JumpCheck()
     {
         enableJump = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        isGround = enableJump;
+
+        playerAnimator.SetBool("isGround", isGround);
     }
 
     // 대시 처리
