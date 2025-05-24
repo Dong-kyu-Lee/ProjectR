@@ -13,9 +13,9 @@ public class InGameUIManager : MonoBehaviour
         {
             if (instance == null)
             {
-                GameObject InGameUIManagerObject = new GameObject("InGameUIManager");
-                instance = InGameUIManagerObject.AddComponent<InGameUIManager>();
-                DontDestroyOnLoad(InGameUIManagerObject);
+                instance = FindObjectOfType<InGameUIManager>();
+                if (instance == null)
+                    Debug.LogError("InGameUIManager가 씬에 존재하지 않습니다.");
             }
             return instance;
         }
@@ -26,33 +26,47 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField]
     private GameObject checkUI;
     [SerializeField]
-    private GameObject[] buffUI;
-    [SerializeField]
     private Text goldText;
-    private PlayerStatus playerStatus;
-    private BuffManager playerBuffManager;
     [SerializeField]
     private Slider HpBarSlider;
     [SerializeField]
     private Text hpTxt;
     [SerializeField]
     private BuffToolTipUI tooltipUI;
+    [SerializeField]
+    private Image PlayerHead;
+
+
+    private PlayerStatus playerStatus;
 
     private void Awake()
     {
-        //buffUI.SetActive(false);
-        //debuffUI.SetActive(false);
         checkUI.SetActive(false);
         stopUI.SetActive(false);
-        GameObject playerObject = GameObject.FindWithTag("Player");
-        if (playerObject != null)
-        {
-            playerStatus = playerObject.GetComponent<PlayerStatus>();
-            playerBuffManager = playerObject.GetComponent<BuffManager>();
-        }
-        hpTxt.text = playerStatus.Hp.ToString()+"/"+playerStatus.MaxHp.ToString();
-        goldText.text = playerStatus.Gold.ToString();
     }
+    private void Start()
+    {
+        StartCoroutine(InitPlayerStatus());
+    }
+
+    private IEnumerator InitPlayerStatus()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.CurrentPlayer != null);
+
+        GameObject playerObject = GameManager.Instance.CurrentPlayer;
+        playerStatus = playerObject.GetComponent<PlayerStatus>();
+
+        if (playerStatus == null)
+        {
+            Debug.LogWarning("PlayerStatus 컴포넌트를 찾을 수 없습니다.");
+            yield break;
+        }
+
+        UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
+        CheckGold();
+    }
+
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -67,20 +81,39 @@ public class InGameUIManager : MonoBehaviour
             stopUI.SetActive(!isActive);
         }
     }
-
-
-    public void CheckHp() //*HP 갱신
+    public void UpdateHpSmooth(float targetHp, float maxHp)
     {
-        if (HpBarSlider != null)
-            hpTxt.text = playerStatus.Hp.ToString()+"/"+playerStatus.MaxHp.ToString();
-            HpBarSlider.value = playerStatus.Hp /playerStatus.MaxHp ;
+        StartCoroutine(SmoothHpBar(targetHp, maxHp));
+    }
+
+    IEnumerator SmoothHpBar(float targetHp, float maxHp)
+    {
+        float duration = 0.2f;
+        float elapsed = 0f;
+        float startValue = HpBarSlider.value;
+        float targetValue = targetHp / maxHp;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            HpBarSlider.value = Mathf.Lerp(startValue, targetValue, elapsed / duration);
+            yield return null;
+        }
+
+        HpBarSlider.value = targetValue;
+    }
+
+
+    public void CheckGold()
+    {
+        goldText.text = playerStatus.Gold.ToString();
     }
     private void Damage(float damage)
     {
         if (playerStatus.MaxHp == 0 || playerStatus.Hp <= 0) //* 이미 체력 0이하면 패스
             return;
         playerStatus.Hp -= damage;
-        CheckHp(); //* 체력 갱신
+        UpdateHpSmooth(playerStatus.Hp,playerStatus.MaxHp); //* 체력 갱신
         if (playerStatus.Hp <= 0)
         {
             //사망

@@ -21,8 +21,15 @@ public class BleedingDebuff : Buff
         targetStatus.Hp -= bleedingDmg[currentBuffLevel];
         Debug.Log($"[Bleeding] HP 감소: -{bleedingDmg[currentBuffLevel]}, 현재 HP: {targetStatus.Hp}");
 
-        if (InGameUIManager.Instance != null)
-            InGameUIManager.Instance.CheckHp();
+        if (InGameUIManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
+        {
+            PlayerStatus status = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+            if (status != null)
+            {
+                InGameUIManager.Instance.UpdateHpSmooth(status.Hp, status.MaxHp);
+            }
+        }
+
     }
 
     public override void DoActionOnActivate(float deltaTime)
