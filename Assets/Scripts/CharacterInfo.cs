@@ -16,6 +16,7 @@ public class CharacterInfo : MonoBehaviour
     [SerializeField]
     public GameObject characterInfo;
     public PlayerStatus playerStatus;
+    public Button closeButton;
 
     List<GameObject> statusObjList = new List<GameObject>();
     
@@ -29,7 +30,8 @@ public class CharacterInfo : MonoBehaviour
         Init();
         SetStatus();
         transform.GetComponentInChildren<InventoryUI>().Init();
-        DontDestroyOnLoad(transform.parent);
+        closeButton.onClick.AddListener(DisableUI);
+        DontDestroyOnLoad(gameObject);
         DisableUI();
     }
     private void Update()
@@ -66,13 +68,13 @@ public class CharacterInfo : MonoBehaviour
             controller.OnEnableCharacterInfoUI != null &&
             controller.OnEnableCharacterInfoUI.GetPersistentEventCount() > 0;
 
-        if (!hasInventoryEvent)
+        /*if (!hasInventoryEvent)
         {
             Debug.Log("인벤토리 UI 이벤트가 없음");
             return;
-        }
+        }*/
 
-        if (gameObject.activeSelf)
+        if (characterInfo.activeSelf)
         {
             DisableUI();
             if (controller != null)
@@ -107,7 +109,6 @@ public class CharacterInfo : MonoBehaviour
                 }
             }
         }
-
     }
 
     // 스테이터스 세팅
