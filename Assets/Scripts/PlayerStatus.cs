@@ -142,7 +142,18 @@ public class PlayerStatus : Status
     {
         //gameObject.GetComponent<PlayerController>().Dead();
 
-        gameObject.GetComponent<BartenderController>().Dead();
+        // 리팩토링으로 인해 작성된 분기문. V2 완전 이관 후 편집 필요
+        BartenderController bartenderController = gameObject.GetComponent<BartenderController>();
+
+        if (bartenderController == null)
+        {
+            gameObject.GetComponent<PlayerControllerBase>().Dead();
+        }
+        else
+        {
+            bartenderController.Dead();
+        }
+
 
     }
 }

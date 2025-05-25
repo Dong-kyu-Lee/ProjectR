@@ -2,33 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Blacksmith Weapon Data", menuName = "Scriptable Object/Blacksmith Weapon Data", order = 1)]
+public enum WeaponStyle
+{
+    OneHanded,
+    TwoHanded
+}
 
+[CreateAssetMenu(fileName = "Blacksmith Weapon Data", menuName = "Scriptable Object/Blacksmith Weapon Data", order = 1)]
 public class BlacksmithWeaponData : ScriptableObject
 {
-    [SerializeField]
-    string weaponName;
+    [SerializeField] private string weaponName;
+    [SerializeField] private int weaponType;
+    [SerializeField] private int rank;
+    [SerializeField] private int enchantLevel;
+    [SerializeField] private Sprite weaponSprite;
 
-    [SerializeField]
-    int weaponType;
+    [SerializeField] private float additionalDamage;
+    [SerializeField] private float additionalAttackSpeed;
 
-    [SerializeField]
-    int rank;
+    [SerializeField] private WeaponStyle weaponStyle;
+    [SerializeField] private RuntimeAnimatorController animatorOverride;
 
-    [SerializeField]
-    int enchantLevel;
+    public string WeaponName => weaponName;
+    public int WeaponType => weaponType;
+    public int Rank { get => rank; set => rank = value; }
+    public int EnchantLevel { get => enchantLevel; set => enchantLevel = value; }
 
-    [SerializeField]
-    Sprite weaponSprite;
+    public float AdditionalDamage => additionalDamage;
+    public float AdditionalAttackSpeed => additionalAttackSpeed;
 
-    [SerializeField]
-    float addtionalDamage;
+    public Sprite WeaponSprite => weaponSprite;
 
-    [SerializeField]
-    float addtionalAttackSpeed;
+    public WeaponStyle WeaponStyle => weaponStyle;
+    public RuntimeAnimatorController AnimatorOverride => animatorOverride;
 
-    public string WeaponName { get { return weaponName; } }
-    public int WeaponType { get { return weaponType; } }
-    public int Rank { get { return rank; } set { rank = value; } }
-    public int EnchantLevel { get { return enchantLevel; } set { enchantLevel = value; } }
+    public float GetEffectiveDamage()
+    {
+        return additionalDamage + enchantLevel * 0.1f;
+    }
+
+    public float GetEffectiveAttackSpeed()
+    {
+        return additionalAttackSpeed + enchantLevel * 0.02f;
+    }
 }
