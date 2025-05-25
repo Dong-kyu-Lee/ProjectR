@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SleepDeBuff : Buff
 {
-    private float prevMoveSpeed = 0.0f;
+    private float moveSpeedDec = 10.0f;
     private float prevJumpPower = 0.0f;
 
     public SleepDeBuff(float duration, GameObject target) : base(duration, target)
@@ -15,45 +15,42 @@ public class SleepDeBuff : Buff
 
     public override void ApplyBuffEffect()
     {
-        Status status = targetObject.GetComponent<Status>();
-        if (status != null)
-        {
-            prevMoveSpeed = status.MoveSpeed;
-            status.MoveSpeed = 0.0f;
-        }
-        else
-        {
-            Debug.LogWarning("SleepDeBuff: Status 컴포넌트를 찾을 수 없습니다.");
-        }
+        Status targetStatus = targetObject.GetComponent<Status>();
+        if (targetStatus == null) return;
 
-        PlayerController controller = targetObject.GetComponent<PlayerController>();
-        if (controller != null)
+        targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
+
+        if (targetStatus.gameObject.CompareTag("Player"))
         {
-            prevJumpPower = controller.jumpPower;
-            controller.jumpPower = 0.0f;
-        }
-        else
-        {
-            Debug.LogWarning("SleepDeBuff: PlayerController 컴포넌트를 찾을 수 없습니다.");
+            PlayerController controller = targetObject.GetComponent<PlayerController>();
+            if (controller != null)
+            {
+                prevJumpPower = controller.jumpPower;
+                controller.jumpPower = 0.0f;
+            }
         }
     }
+
     public override void DoActionOnActivate(float tickDuration = 1)
     {
         ApplyBuffEffect();
         base.DoActionOnActivate(tickDuration);
     }
+
     public override void RemoveBuffEffect()
     {
-        Status status = targetObject.GetComponent<Status>();
-        if (status != null)
-        {
-            status.MoveSpeed = prevMoveSpeed;
-        }
+        Status targetStatus = targetObject.GetComponent<Status>();
+        if (targetStatus == null) return;
 
-        PlayerController controller = targetObject.GetComponent<PlayerController>();
-        if (controller != null)
+        targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
+
+        if (targetStatus.gameObject.CompareTag("Player"))
         {
-            controller.jumpPower = prevJumpPower;
+            PlayerController controller = targetObject.GetComponent<PlayerController>();
+            if (controller != null)
+            {
+                controller.jumpPower = prevJumpPower;
+            }
         }
     }
 }

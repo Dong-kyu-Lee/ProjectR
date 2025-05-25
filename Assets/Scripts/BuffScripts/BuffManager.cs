@@ -4,21 +4,6 @@ using UnityEngine;
 
 public class BuffManager : MonoBehaviour
 {
-    private static BuffManager instance;
-
-    public static BuffManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                GameObject buffManager = new GameObject("BuffManager");
-                instance = buffManager.AddComponent<BuffManager>();
-                DontDestroyOnLoad(buffManager);
-            }
-            return instance;
-        }
-    }
     // 활성화된 버프들을 BuffType을 키로 하여 저장.
     private Dictionary<BuffType, Buff> activeBuffs = new Dictionary<BuffType, Buff>();
     public Dictionary<BuffType, Buff> ActiveBuffDict => activeBuffs;
@@ -32,17 +17,25 @@ public class BuffManager : MonoBehaviour
     {
         if (activeBuffs.ContainsKey(type))
         {
-            // 이미 같은 타입의 버프가 존재하면 지속시간을 갱신
-            Buff existingBuff = activeBuffs[type];
-            existingBuff.CurrentDuration = existingBuff.MaxDuration;
+            activeBuffs[type].BuffOverlap(duration);
             Debug.Log("지속시간 갱신");
         }
         else
         {
             Buff newBuff = GenerateBuff(type, duration, gameObject);
             activeBuffs.Add(type, newBuff);
+            newBuff.ApplyBuffEffect();
             StartCoroutine(StartBuffEffect(newBuff));
             Debug.Log($"버프[{type}]적용");
+        }
+    }
+
+    //활성중인 버프 레벨을 1단계 올리는 메서드
+    public void ActiveBuffLevelUpOnce(BuffType type)
+    {
+        if (activeBuffs.ContainsKey(type))
+        {
+            activeBuffs[type].BuffOverlap(0.0f);
         }
     }
 

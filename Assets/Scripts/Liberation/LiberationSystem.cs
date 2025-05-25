@@ -20,7 +20,7 @@ public class LiberationSystem : MonoBehaviour
     {
         liberationDesc = GetComponentsInChildren<LiberationDesc>();
         characterName = "bartender";
-        Steadite = 1000;
+        Steadite = 3000;
         currentCrystalText.text = steadite.ToString();
     }
 

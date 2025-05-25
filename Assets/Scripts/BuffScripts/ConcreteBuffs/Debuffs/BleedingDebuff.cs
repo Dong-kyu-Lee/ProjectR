@@ -18,8 +18,7 @@ public class BleedingDebuff : Buff
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
 
-        targetStatus.Hp -= bleedingDmg[currentBuffLevel];
-        Debug.Log($"[Bleeding] HP 감소: -{bleedingDmg[currentBuffLevel]}, 현재 HP: {targetStatus.Hp}");
+        CalcReceiveDamage.Instance.TakeDebuffDamage(bleedingDmg[currentBuffLevel], targetStatus);
 
         if (InGameUIManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
         {
@@ -47,6 +46,5 @@ public class BleedingDebuff : Buff
 
     public override void RemoveBuffEffect()
     {
-        Debug.Log("출혈 디버프 비활성화");
     }
 }

@@ -17,22 +17,25 @@ public class BurnDeBuff : Buff
     public override void ApplyBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * fireBustDmg, targetStatus.gameObject);
-        targetStatus.Hp -= targetStatus.MaxHp * fireBustDmg;
+        if (targetStatus == null) return;
+
+        CalcReceiveDamage.Instance.TakeDebuffDamage(targetStatus.MaxHp * fireBustDmg, targetStatus);
     }
 
     public override void RenewBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * fireBustDmg, targetStatus.gameObject);
-        targetStatus.Hp -= targetStatus.MaxHp * fireBustDmg;
+        if (targetStatus == null) return;
+
+        CalcReceiveDamage.Instance.TakeDebuffDamage(targetStatus.MaxHp * fireBustDmg, targetStatus);
     }
 
     private void TickDamage()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(targetStatus.MaxHp * fireTickDmg, targetStatus.gameObject);
-        targetStatus.Hp -= targetStatus.MaxHp * fireTickDmg;
+        if (targetStatus == null) return;
+
+        CalcReceiveDamage.Instance.TakeDebuffDamage(targetStatus.MaxHp * fireTickDmg, targetStatus);
     }
 
     public override void DoActionOnActivate(float tickDuration = 1)

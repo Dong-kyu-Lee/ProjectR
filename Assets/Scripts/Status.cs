@@ -16,6 +16,8 @@ public class Status : MonoBehaviour
     private float additionalMoveSpeed;
     private float totalMoveSpeed;
 
+    private bool invincible;
+
     public float MaxHp
     {
         get { return maxHp; }
@@ -78,6 +80,8 @@ public class Status : MonoBehaviour
     }
     public float TotalMoveSpeed { get { return totalMoveSpeed; } }
 
+    public bool Invincible { get { return invincible; } set { invincible = value; } }
+
     void Start()
     {
         
@@ -92,6 +96,7 @@ public class Status : MonoBehaviour
     public void TakeDamage(GameObject attacker, float damage, float ignoreDamageReduction, bool isCritical)
     {
         float receiveDamage = (1 - damageReduction * (1 - ignoreDamageReduction)) * damage;
+        if (invincible) receiveDamage = 0;
 
         if (gameObject.CompareTag("Player"))
         {
@@ -124,8 +129,8 @@ public class Status : MonoBehaviour
     // 고정 피해를 입힘.
     public void TakeTrueDamage(float damage)
     {
+        if (invincible) damage = 0;
         CalcReceiveDamage.Instance.TakeTrueDamageQueue(damage, gameObject);
-
         Hp -= damage;
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulkUpBuff : Buff
 {
-    private float[] attackDamageIncGap = { 10.0f, 20.0f, 30.0f }; //공격력 증가량 간격
+    private float[] attackDamageIncGap = { 0.1f, 0.2f, 0.3f }; //공격력 증가량 간격
     private float[] damageReduceIncGap = { 0.1f, 0.1f, 0.1f };    //데미지 감소량 간격
 
     public BulkUpBuff(float duration, GameObject target) : base(duration, target){
@@ -14,20 +14,20 @@ public class BulkUpBuff : Buff
     //대상에게 버프를 적용하는 함수. 스탯이 누적되며 증가하는 식
     public override void ApplyBuffEffect()
     {
-        PlayerStatus playerStatus = GetPlayerStatus();
-        if (playerStatus == null)
-            return;
-        playerStatus.AdditionalDamage += attackDamageIncGap[currentBuffLevel];
-        playerStatus.AdditionalDamageReduction += damageReduceIncGap[currentBuffLevel];
+        PlayerStatus targetStatus = targetObject.GetComponent<PlayerStatus>();
+        if (targetStatus == null) return;
+
+        targetStatus.AdditionalDamage += attackDamageIncGap[currentBuffLevel];
+        targetStatus.AdditionalDamageReduction += damageReduceIncGap[currentBuffLevel];
     }
 
     //적용된 버프를 해제하는 함수. currentBuffLevel까지 해당하는 간격 값을 합산한 후 감소하는 식
     public override void RemoveBuffEffect()
     {
-        PlayerStatus playerStatus = GetPlayerStatus();
-        if (playerStatus == null)
-            return;
-        playerStatus.AdditionalDamage -= GetCurrentSumOfArray(attackDamageIncGap);
-        playerStatus.AdditionalDamageReduction -= GetCurrentSumOfArray(damageReduceIncGap);
+        PlayerStatus targetStatus = targetObject.GetComponent<PlayerStatus>();
+        if (targetStatus == null) return;
+
+        targetStatus.AdditionalDamage -= GetCurrentSumOfArray(attackDamageIncGap);
+        targetStatus.AdditionalDamageReduction -= GetCurrentSumOfArray(damageReduceIncGap);
     }
 }

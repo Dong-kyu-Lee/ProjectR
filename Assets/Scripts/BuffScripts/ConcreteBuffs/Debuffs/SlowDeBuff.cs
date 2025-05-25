@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class SlowDeBuff : Buff
 {
-    private float[] moveSpeedDecGap = { 30.0f };
-    private float speedDecAmount = 0.0f;
+    private float moveSpeedDec = 0.3f;
 
     public SlowDeBuff(float duration, GameObject target) : base(duration, target)
     {
@@ -14,27 +13,16 @@ public class SlowDeBuff : Buff
     }
     public override void ApplyBuffEffect()
     {
-        PlayerStatus temp = targetObject.GetComponent<PlayerStatus>();
-        if (temp != null)
-        {
-            float decPercent = currentBuffLevel < moveSpeedDecGap.Length
-                ? moveSpeedDecGap[currentBuffLevel]
-                : moveSpeedDecGap[moveSpeedDecGap.Length - 1];
+        Status targetStatus = targetObject.GetComponent<Status>();
+        if (targetStatus == null) return;
 
-            speedDecAmount = temp.MoveSpeed * decPercent * 0.01f;
-            temp.MoveSpeed -= speedDecAmount;
-        }
-        else
-        {
-            Debug.LogWarning("SlowDeBuff: PlayerStatus 컴포넌트를 찾을 수 없습니다.");
-        }
+        targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
     }
     public override void RemoveBuffEffect()
     {
-        PlayerStatus temp = targetObject.GetComponent<PlayerStatus>();
-        if (temp != null)
-        {
-            temp.MoveSpeed += speedDecAmount;
-        }
+        Status targetStatus = targetObject.GetComponent<Status>();
+        if (targetStatus == null) return;
+
+        targetStatus.AdditionalMoveSpeed += moveSpeedDec;
     }
 }
