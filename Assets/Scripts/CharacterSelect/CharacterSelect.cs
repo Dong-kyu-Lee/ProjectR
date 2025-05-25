@@ -43,10 +43,10 @@ public class CharacterSelect : MonoBehaviour
         switch (type)
         {
             case CharacterType.Bartender:
-                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Player1_2 Variant"), spawnPosition, transform.rotation);
+                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Bartender2_1"), spawnPosition, transform.rotation);
                 break;
             case CharacterType.Blacksmith:
-                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Player1_2 Variant"), spawnPosition, transform.rotation);
+                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Blacksmith2_1"), spawnPosition, transform.rotation);
                 break;
         }
         GameManager.Instance.CurrentPlayer = currentPlayer;

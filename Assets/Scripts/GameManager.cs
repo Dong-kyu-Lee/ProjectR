@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     private GameObject upgradeUI;
     [SerializeField]
     private GameObject inventoryUI;
+    [SerializeField]
+    private GameObject inGameUI;
 
     private void Awake()
     {
@@ -69,14 +71,17 @@ public class GameManager : MonoBehaviour
                 // 업그레이드UI & 인벤토리 UI 생성
                 upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
                 inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
+                inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvas"));
                 DontDestroyOnLoad(upgradeUI);
                 DontDestroyOnLoad(inventoryUI);
+                DontDestroyOnLoad(inGameUI);
             }
             else if (sceneName == "StartScene")
             {
                 // 업그레이드UI & 인벤토리 UI 제거
                 Destroy(upgradeUI);
                 Destroy(inventoryUI);
+                Destroy(inGameUI);
                 // 플레이어 오브젝트 제거
                 Destroy(playerObject);
             }

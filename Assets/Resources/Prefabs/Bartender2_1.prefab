@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 3426121558151251605}
   - component: {fileID: 55382213323432495}
   - component: {fileID: 6319458508595157233}
+  - component: {fileID: 3492517143969350190}
   m_Layer: 6
   m_Name: Bartender2_1
   m_TagString: Player
@@ -389,7 +390,7 @@ MonoBehaviour:
   groundCheck: {fileID: 1440969402445902639}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 23
+    m_Bits: 4375
   jumpPower: 1200
   moveFactor: 100
   dashFactor: 1
@@ -408,6 +409,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15ae19801b1828242b36c599240234cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3492517143969350190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5991675828630517409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d4eebf266f2c10478ed65ec285773c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7663576975768946401
