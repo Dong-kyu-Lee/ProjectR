@@ -91,23 +91,27 @@ public class InGameUIManager : MonoBehaviour
         float duration = 0.2f;
         float elapsed = 0f;
         float startValue = HpBarSlider.value;
-        float targetValue = targetHp / maxHp;
+        float targetValue = (float)targetHp / maxHp;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            HpBarSlider.value = Mathf.Lerp(startValue, targetValue, elapsed / duration);
+            float currentValue = Mathf.Lerp(startValue, targetValue, elapsed / duration);
+            HpBarSlider.value = currentValue;
+            hpTxt.text = $"{(int)(currentValue * maxHp)}/{(int)maxHp}";
             yield return null;
         }
 
         HpBarSlider.value = targetValue;
+        hpTxt.text = $"{(int)targetHp}/{(int)maxHp}";
     }
-
 
     public void CheckGold()
     {
-        goldText.text = playerStatus.Gold.ToString();
+        if (playerStatus != null)
+            goldText.text = playerStatus.Gold.ToString();
     }
+
     private void Damage(float damage)
     {
         if (playerStatus.MaxHp == 0 || playerStatus.Hp <= 0) //* 이미 체력 0이하면 패스
