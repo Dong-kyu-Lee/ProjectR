@@ -37,6 +37,10 @@ public class Status : MonoBehaviour
                 hp = 0f;
                 Dead();
             }
+            if (CompareTag("Player") && InGameUIManager.Instance != null)
+            {
+                InGameUIManager.Instance.UpdateHpSmooth(Hp,MaxHp);
+            }
             CalcReceiveDamage.Instance.InduranceEffect13_IncreaseDamageReduction();
         }
     }

@@ -108,6 +108,10 @@ public class CharacterInfo : MonoBehaviour
                     Debug.Log("없음");
                 }
             }
+            else
+            {
+                Debug.LogWarning("GameManager의 CurrentPlayer가 null입니다.");
+            }
         }
     }
 

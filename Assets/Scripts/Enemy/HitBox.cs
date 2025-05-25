@@ -1,19 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
     [SerializeField]
     private BoxCollider2D hitBoxCol;
-
     [SerializeField]
     private float damage;
 
     private GameObject enemy;
 
     bool isHit;
-
 
     private void Awake()
     {

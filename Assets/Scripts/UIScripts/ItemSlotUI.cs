@@ -20,24 +20,33 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     }
     public int SlotIndex { get => slotIndex; set => slotIndex = value; }
     public int ItemCount { get => itemCount; set => itemCount = value; }
-
-    //자신의 슬롯의 초기화 함수.
+    
+    private bool isInitialized = false;
+    //자신의 슬롯의 초기화 함수
     public void Init(GameObject parent, int indexNumber)
     {
         parentUI = parent.GetComponent<InventoryUI>();
         nowItemData = dummyItemData;
-        itemSlotImage = transform.GetChild(0).GetComponent<Image>();    //현재 아이템의 이미지 오브젝트
+
+        itemSlotImage = transform.GetChild(0).GetComponent<Image>();
+        itemCountText = transform.GetChild(1).GetComponent<Text>();
+
         itemSlotImage.sprite = nowItemData.ItemSprite;
         slotIndex = indexNumber;
-        itemCountText = transform.GetChild(1).GetComponent<Text>();     //현재 아이템의 갯수 텍스트
-    }
 
+        isInitialized = true;
+    }
     //자신의 아이템 데이터를 삽입하고 이미지와 갯수 텍스트를 설정 하는 메서드
-    public void SetItemData(BasicItemData itemData, int amount) 
+    public void SetItemData(BasicItemData itemData, int amount = 1)
     {
         nowItemData = itemData;
         itemCount = amount;
-        UpdateItemSpriteAndAmountText();
+
+        if (itemSlotImage != null)
+            itemSlotImage.sprite = nowItemData.ItemSprite;
+
+        if (itemCountText != null)
+            itemCountText.text = itemCount > 1 ? itemCount.ToString() : "";
     }
 
     //아이템의 갯수 텍스트만 설정하는 메서드
