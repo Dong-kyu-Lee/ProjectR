@@ -36,8 +36,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField]
     private Image PlayerHead;
 
-
-    private PlayerStatus playerStatus;
+    public PlayerStatus playerStatus;
 
     private void Awake()
     {
@@ -53,17 +52,14 @@ public class InGameUIManager : MonoBehaviour
     {
         yield return new WaitUntil(() => GameManager.Instance.CurrentPlayer != null);
 
-        GameObject playerObject = GameManager.Instance.CurrentPlayer;
-        playerStatus = playerObject.GetComponent<PlayerStatus>();
-
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         if (playerStatus == null)
         {
             Debug.LogWarning("PlayerStatus 컴포넌트를 찾을 수 없습니다.");
             yield break;
         }
-
-        UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
         CheckGold();
+        UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
     }
 
 
@@ -105,12 +101,14 @@ public class InGameUIManager : MonoBehaviour
         HpBarSlider.value = targetValue;
         hpTxt.text = $"{(int)targetHp}/{(int)maxHp}";
     }
-
     public void CheckGold()
     {
-        if (playerStatus != null)
+        if (playerStatus != null && goldText != null)
+        {
             goldText.text = playerStatus.Gold.ToString();
+        }
     }
+
 
     private void Damage(float damage)
     {
