@@ -147,7 +147,7 @@ public class PlayerStatus : Status
 
         if (bartenderController == null)
         {
-            gameObject.GetComponent<BartenderControllerV2>().Dead();
+            gameObject.GetComponent<PlayerControllerBase>().Dead();
         }
         else
         {

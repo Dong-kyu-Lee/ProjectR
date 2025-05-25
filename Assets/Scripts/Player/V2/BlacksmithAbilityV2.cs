@@ -3,46 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-// 대장장이 캐릭터 고유 능력 (장비 제작 및 강화)
 public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 {
     private bool isActivated;
 
-    [SerializeField]
-    private int enchantLevel;
+    [SerializeField] private int enchantLevel;
+    [SerializeField] private BlacksmithWeaponData curWeaponData;
+    [SerializeField] private BlacksmithWeaponData[] weaponDataList;
+    [SerializeField] private Animator playerAnimator;
 
-    [SerializeField]
-    private BlacksmithWeaponData curWeaponData;
+    private PlayerStatus playerStatus;
 
-    [SerializeField]
-    private BlacksmithWeaponData[] weaponDataList;
+    private float lastAppliedDamage = 0f;
+    private float lastAppliedAttackSpeed = 0f;
 
     public bool IsActivated => isActivated;
     public int EnchantLevel => enchantLevel;
 
     public UnityEvent onAbilityUpdated;
 
-    private List<float> enchantSuccessRates = new List<float> {
-        1.0f, 0.95f, 0.9f, 0.85f, 0.8f, 0.75f, 0.7f, 0.65f, 0.6f, 0.5f
+    private List<float> enchantSuccessRates = new()
+    {
+        1.0f, 0.95f, 0.9f,0.85f, 0.8f, 0.75f, 0.7f, 0.65f, 0.6f, 0.5f
     };
 
-    private Dictionary<int, float> gradeMultipliers = new Dictionary<int, float> {
-        {1, 1.0f}, {2, 0.9f}, {3, 0.8f}, {4, 0.7f}
+    private Dictionary<int, float> gradeMultipliers = new()
+    {
+        { 1, 1.0f }, { 2, 0.9f }, { 3, 0.8f }, { 4, 0.7f }
     };
 
-    private Dictionary<int, float> gradeUpgradeChances = new Dictionary<int, float> {
-        {1, 0.8f}, {2, 0.6f}, {3, 0.4f}
+    private Dictionary<int, float> gradeUpgradeChances = new()
+    {
+        { 1, 0.8f }, { 2, 0.6f }, { 3, 0.4f }
     };
 
     private const float destroyChance = 0.05f;
 
-    // 고유 능력 발동: 무기 초기화
+    void Awake()
+    {
+        playerStatus = GetComponent<PlayerStatus>();
+    }
+
     public void Activate()
     {
         if (!isActivated)
         {
             isActivated = true;
-            curWeaponData = weaponDataList[1];
+            int idx = Random.Range(1, 3);
+            curWeaponData = weaponDataList[idx];
+            ApplyWeaponBonus();
+            ApplyWeaponAnimator();
             Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
             onAbilityUpdated.Invoke();
         }
@@ -50,8 +60,9 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     public void Deactivate()
     {
+        RemoveWeaponBonus();
+        curWeaponData = null;
         Initialize();
-        curWeaponData = weaponDataList[0];
         Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
         onAbilityUpdated.Invoke();
     }
@@ -67,16 +78,15 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         float baseProb = GetSuccessRate(enchantLevel);
         float gradeMultiplier = GetGradeMultiplier(curWeaponData.Rank);
         float finalSuccessRate = baseProb * gradeMultiplier;
-
         float prob = Random.Range(0f, 1f);
+
         Debug.Log($"[강화 시도] 등급: {GetGradeName(curWeaponData.Rank)}, 단계: {enchantLevel}, 확률: {finalSuccessRate * 100f}% → {prob}");
 
         if (prob <= finalSuccessRate)
         {
             Debug.Log("강화 성공!");
             ++enchantLevel;
-            if (enchantLevel >= 9)
-                Debug.Log("9강 달성! 장비 성장 가능!");
+            RefreshWeaponBonus(); // 강화 수치 반영
         }
         else
         {
@@ -94,9 +104,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             return;
         }
 
-        float chance = gradeUpgradeChances.ContainsKey(curWeaponData.Rank)
-            ? gradeUpgradeChances[curWeaponData.Rank] : 0f;
-
+        float chance = gradeUpgradeChances.TryGetValue(curWeaponData.Rank, out var ch) ? ch : 0f;
         float roll = Random.Range(0f, 1f);
         Debug.Log($"[성장 시도] 등급: {GetGradeName(curWeaponData.Rank)}, 확률: {chance * 100f}% → {roll}");
 
@@ -104,6 +112,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         {
             ++curWeaponData.Rank;
             enchantLevel = 0;
+            RefreshWeaponBonus(); // 성장 반영
             Debug.Log($"장비 성장 완료! 새로운 등급: {GetGradeName(curWeaponData.Rank)}");
         }
         else
@@ -127,7 +136,32 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         {
             Debug.Log("장비는 살아남았지만 강화 수치는 초기화됨");
             enchantLevel = 0;
+            RefreshWeaponBonus();
         }
+    }
+
+    void RefreshWeaponBonus()
+    {
+        RemoveWeaponBonus();
+        ApplyWeaponBonus();
+    }
+
+    void ApplyWeaponBonus()
+    {
+        playerStatus.AdditionalDamage += curWeaponData.AdditionalDamage;
+        playerStatus.AdditionalAttackSpeed += curWeaponData.AdditionalAttackSpeed;
+
+        lastAppliedDamage = curWeaponData.AdditionalDamage;
+        lastAppliedAttackSpeed = curWeaponData.AdditionalAttackSpeed;
+    }
+
+    void RemoveWeaponBonus()
+    {
+        playerStatus.AdditionalDamage -= lastAppliedDamage;
+        playerStatus.AdditionalAttackSpeed -= lastAppliedAttackSpeed;
+
+        lastAppliedDamage = 0f;
+        lastAppliedAttackSpeed = 0f;
     }
 
     void Start()
@@ -138,8 +172,14 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     void Initialize()
     {
-        isActivated = false;
-        enchantLevel = 0;
+        if (curWeaponData == null)
+        {
+            enchantLevel = 0;
+            isActivated = false;
+            curWeaponData = weaponDataList[0];
+            ApplyWeaponAnimator();
+        }
+
     }
 
     float GetSuccessRate(int level)
@@ -149,7 +189,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     float GetGradeMultiplier(int rank)
     {
-        return gradeMultipliers.TryGetValue(rank, out float multiplier) ? multiplier : 1.0f;
+        return gradeMultipliers.TryGetValue(rank, out var mult) ? mult : 1.0f;
     }
 
     string GetGradeName(int rank)
@@ -162,5 +202,13 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             4 => "S",
             _ => "Unknown"
         };
+    }
+
+    void ApplyWeaponAnimator()
+    {
+        if (curWeaponData.AnimatorOverride != null)
+        {
+            playerAnimator.runtimeAnimatorController = curWeaponData.AnimatorOverride;
+        }
     }
 }

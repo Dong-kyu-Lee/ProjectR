@@ -97,7 +97,6 @@ public abstract class PlayerControllerBase : MonoBehaviour
     {
         enableJump = false;
         playerRigidBody.AddForce(new Vector2(0f, jumpPower));
-        playerAnimator.SetTrigger("jump");
     }
 
     // 지면 감지

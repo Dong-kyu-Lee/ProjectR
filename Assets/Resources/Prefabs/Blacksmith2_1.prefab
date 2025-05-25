@@ -168,6 +168,37 @@ MonoBehaviour:
   equipmentItemSlot: []
   dummyItemData: {fileID: 0}
   myInventoryUI: {fileID: 0}
+--- !u!1 &3771677880208089936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3981629379849105235}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3981629379849105235
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771677880208089936}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.1, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2711782163986027066}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5965097530767993371
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +271,7 @@ Transform:
   - {fileID: 1606278214930236917}
   - {fileID: 1440969402445902639}
   - {fileID: 6717205000760990653}
+  - {fileID: 3981629379849105235}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -278,7 +310,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.08}
-  m_Size: {x: 0.8, y: 1.5}
+  m_Size: {x: 0.8, y: 1.75}
   m_Direction: 0
 --- !u!114 &719262563829245598
 MonoBehaviour:
@@ -385,7 +417,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enchantLevel: 0
   curWeaponData: {fileID: 0}
-  weaponDataList: []
+  weaponDataList:
+  - {fileID: 11400000, guid: 1eeacc15ee406ad44904de2999deafab, type: 2}
+  - {fileID: 11400000, guid: cfc4d288d3f3b5340acce1576a265ee6, type: 2}
+  - {fileID: 11400000, guid: f686f38266e02e048a9520c8268947d2, type: 2}
+  playerAnimator: {fileID: 4669721966189678149}
   onAbilityUpdated:
     m_PersistentCalls:
       m_Calls: []
@@ -415,6 +451,8 @@ MonoBehaviour:
   dashCoolTime: 1
   attackCoolTimeA: 0.5
   projectileSpawnOffset: 1
+  attackPoint: {fileID: 3981629379849105235}
+  attackRange: 2
 --- !u!1 &7663576975768946401
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,12 +527,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 2129105112, guid: 3344899dc685e464f8f676bd0d5319a1, type: 3}
+  m_Sprite: {fileID: 237323604, guid: 3344899dc685e464f8f676bd0d5319a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.63, y: 1.53}
+  m_Size: {x: 0.63, y: 1.65}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -510,7 +548,7 @@ Animator:
   m_GameObject: {fileID: 7663576975768946401}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e80ae12dd92cd69458733e5e7124bebe, type: 2}
+  m_Controller: {fileID: 9100000, guid: 705e55feb442dd14589803e3f3c6f618, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
