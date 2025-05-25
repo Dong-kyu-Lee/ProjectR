@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MoveSpeedIncBuff : Buff
 {
-    private float[] moveSpeedIncGap = { 10.0f, 40.0f, 50.0f };  //이동속도 증가량 간격
+    private float[] moveSpeedIncGap = { 0.1f, 0.4f, 0.5f };  //이동속도 증가량 간격
+
     public MoveSpeedIncBuff(float duration, GameObject target) : base(duration, target) {
         this.BuffType = BuffType.MoveSpeedIncrease;
     }
@@ -12,18 +13,18 @@ public class MoveSpeedIncBuff : Buff
     //대상에게 버프를 적용하는 함수. 스탯이 누적되며 증가하는 식
     public override void ApplyBuffEffect()
     {
-        PlayerStatus playerStatus = GetPlayerStatus();
-        if (playerStatus == null)
-            return;
-        playerStatus.MoveSpeed += moveSpeedIncGap[currentBuffLevel];
+        Status targetStatus = targetObject.GetComponent<Status>();
+        if (targetStatus == null) return;
+
+        targetStatus.AdditionalMoveSpeed += moveSpeedIncGap[currentBuffLevel];
     }
 
     //적용된 버프를 해제하는 함수. currentBuffLevel까지 해당하는 간격 값을 합산한 후 증감하는 식
     public override void RemoveBuffEffect()
     {
-        PlayerStatus playerStatus = GetPlayerStatus();
-        if (playerStatus == null)
-            return;
-        playerStatus.MoveSpeed -= GetCurrentSumOfArray(moveSpeedIncGap);
+        Status targetStatus = targetObject.GetComponent<Status>();
+        if (targetStatus == null) return;
+
+        targetStatus.AdditionalMoveSpeed -= GetCurrentSumOfArray(moveSpeedIncGap);
     }
 }

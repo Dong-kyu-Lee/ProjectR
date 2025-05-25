@@ -46,6 +46,21 @@ public class BartenderControllerV2 : PlayerControllerBase
         projComp.bartenderAbility = bartenderAbility;
         projComp.bottle = bartenderAbility.UseBartenderBottle();
 
+        if (AbilityManager.Instance.bartenderAbility1)
+        {
+            GameObject projectile2 = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+            var proj2Comp = projectile2.GetComponent<ProjectileV2>();
+
+            Vector3 offsetDirection = direction + Vector3.up * 0.2f;
+            offsetDirection.Normalize();
+
+            proj2Comp.Velocity = (Vector2)offsetDirection;
+            proj2Comp.playerStatus = playerStatus;
+            proj2Comp.player = gameObject;
+            proj2Comp.bartenderAbility = bartenderAbility;
+            proj2Comp.bottle = bartenderAbility.UseBartenderBottle();
+        }
+
         yield return new WaitForSeconds(attackCoolTimeA);
         isAttaking = false;
         yield return new WaitForSeconds(1f / playerStatus.TotalAttackSpeed - attackCoolTimeA);

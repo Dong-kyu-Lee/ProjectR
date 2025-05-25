@@ -86,12 +86,12 @@ public class CalcDamage : MonoBehaviour
     // 비활성화된 효과 관련 버프 리셋.
     public void ResetBuff()
     {
-        //if (!forceEffect7) playerBuffManager.DeActivateBuff(BuffType.Force7);
-        //if (!forceEffect16) playerBuffManager.DeActivateBuff(BuffType.Force16);
-        //if (!criticalEffect4) playerBuffManager.DeActivateBuff(BuffType.Critical4);
-        //if (!criticalEffect7) playerBuffManager.DeActivateBuff(BuffType.Critical7);
-        //if (!dexterityEffect7) playerBuffManager.DeActivateBuff(BuffType.Dexterity7);
-        //if (!dexterityEffect13) playerBuffManager.DeActivateBuff(BuffType.Dexterity13);
+        if (!forceEffect7) playerBuffManager.DeactivateBuff(BuffType.Force7);
+        if (!forceEffect16) playerBuffManager.DeactivateBuff(BuffType.Force16);
+        if (!criticalEffect4) playerBuffManager.DeactivateBuff(BuffType.Critical4);
+        if (!criticalEffect7) playerBuffManager.DeactivateBuff(BuffType.Critical7);
+        if (!dexterityEffect7) playerBuffManager.DeactivateBuff(BuffType.Dexterity7);
+        if (!dexterityEffect13) playerBuffManager.DeactivateBuff(BuffType.Dexterity13);
     }
 
     // 전투 중 상태 확인(임시).

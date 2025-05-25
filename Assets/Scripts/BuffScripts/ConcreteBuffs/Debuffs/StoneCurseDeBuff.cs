@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StoneCurseDeBuff : Buff
 {
-    private float prevMoveSpeed = 0.0f;
+    private float moveSpeedDec = 10.0f;
     private float prevJumpPower = 0.0f;
 
     public StoneCurseDeBuff(float duration, GameObject target) : base(duration, target)
@@ -16,24 +16,18 @@ public class StoneCurseDeBuff : Buff
     public override void ApplyBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        if (targetStatus != null)
+        if (targetStatus == null) return;
+
+        targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
+
+        if (targetStatus.gameObject.CompareTag("Player"))
         {
-            prevMoveSpeed = targetStatus.MoveSpeed;
-            targetStatus.MoveSpeed = 0.0f;
-        }
-        else
-        {
-            Debug.LogWarning("StoneCurseDeBuff: Status 컴포넌트가 없습니다.");
-        }
-        PlayerController targetController = targetObject.GetComponent<PlayerController>();
-        if (targetController != null)
-        {
-            prevJumpPower = targetController.jumpPower;
-            targetController.jumpPower = 0.0f;
-        }
-        else
-        {
-            Debug.LogWarning("StoneCurseDeBuff: PlayerController 컴포넌트가 없습니다.");
+            PlayerController controller = targetObject.GetComponent<PlayerController>();
+            if (controller != null)
+            {
+                prevJumpPower = controller.jumpPower;
+                controller.jumpPower = 0.0f;
+            }
         }
     }
     public override void DoActionOnActivate(float tickDuration = 1)
@@ -45,15 +39,17 @@ public class StoneCurseDeBuff : Buff
     public override void RemoveBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        if (targetStatus != null)
-        {
-            targetStatus.MoveSpeed = prevMoveSpeed;
-        }
+        if (targetStatus == null) return;
 
-        PlayerController targetController = targetObject.GetComponent<PlayerController>();
-        if (targetController != null)
+        targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
+
+        if (targetStatus.gameObject.CompareTag("Player"))
         {
-            targetController.jumpPower = prevJumpPower;
+            PlayerController controller = targetObject.GetComponent<PlayerController>();
+            if (controller != null)
+            {
+                controller.jumpPower = prevJumpPower;
+            }
         }
     }
 }

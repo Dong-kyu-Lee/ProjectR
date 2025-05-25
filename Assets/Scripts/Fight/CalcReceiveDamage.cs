@@ -95,6 +95,13 @@ public class CalcReceiveDamage : MonoBehaviour
             StartCoroutine(ProcessDamageQueue(target));
         }
     }
+    // 디버프 피해를 입힘.
+    public void TakeDebuffDamage(float damage, Status targetStatus)
+    {
+        if (playerStatus.Invincible) damage = 0;
+        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(damage, targetStatus.gameObject);
+        targetStatus.Hp -= damage;
+    }
 
     // 디버프 피해를 입힐 때 데미지를 큐에 삽입.
     public void TakeDebuffDamageQueue(float damage, GameObject target)
@@ -126,12 +133,14 @@ public class CalcReceiveDamage : MonoBehaviour
             float damageType = damageTypeQueue[gameObject].Dequeue();
 
             GameObject damageTextObj = ObjectPoolManager.Instance.GetDamageText();
+            DamageText damageTextComp = damageTextObj.GetComponent<DamageText>();
             damageTextObj.transform.position = gameObject.transform.position;
-            if (damageType == 0) damageTextObj.GetComponent<DamageText>().damageText.color = Color.white;
-            else if (damageType == 1) damageTextObj.GetComponent<DamageText>().damageText.color = Color.red;
-            else if (damageType == 2) damageTextObj.GetComponent<DamageText>().damageText.color = Color.yellow;
-            else if (damageType == 3) damageTextObj.GetComponent<DamageText>().damageText.color = Color.blue;
-            damageTextObj.GetComponent<DamageText>().SetText(damage.ToString());
+            if (damageType == 0) damageTextComp.damageText.color = Color.white;
+            else if (damageType == 1) damageTextComp.damageText.color = Color.red;
+            else if (damageType == 2) damageTextComp.damageText.color = Color.yellow;
+            else if (damageType == 3) damageTextComp.damageText.color = Color.blue;
+            if (damage == 0) damageTextComp.SetText("Guard");
+            else damageTextComp.SetText(damage.ToString());
 
             yield return new WaitForSeconds(damageInterval);
         }

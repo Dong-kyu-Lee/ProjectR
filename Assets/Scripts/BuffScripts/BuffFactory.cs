@@ -148,6 +148,30 @@ public class BuffFactory : MonoBehaviour
         {
             return new StunDeBuff(duration, target);
         });
+        buffConstructors.Add(BuffType.Force7, (duration, target) =>
+        {
+            return new Force7Buff(duration, target);
+        });
+        buffConstructors.Add(BuffType.Force16, (duration, target) =>
+        {
+            return new Force16Buff(duration, target);
+        });
+        buffConstructors.Add(BuffType.Dexterity7, (duration, target) =>
+        {
+            return new Dexterity7Buff(duration, target);
+        });
+        buffConstructors.Add(BuffType.Dexterity13, (duration, target) =>
+        {
+            return new Dexterity13Buff(duration, target);
+        });
+        buffConstructors.Add(BuffType.Critical4, (duration, target) =>
+        {
+            return new Critical4Buff(duration, target);
+        });
+        buffConstructors.Add(BuffType.Critical7, (duration, target) =>
+        {
+            return new Critical7Buff(duration, target);
+        });
 
 
         Debug.Log("BuffFactory: 모든 버프 생성 함수 초기화 완료.");
