@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class AbilityUI : MonoBehaviour
 {
     [SerializeField]
-    BlacksmithAbility blacksmithAbility;
+    BlacksmithAbilityV2 blacksmithAbility;
 
     [SerializeField]
     Text activateText;

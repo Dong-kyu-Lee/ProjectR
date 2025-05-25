@@ -28,10 +28,21 @@ public class BlacksmithWeaponData : ScriptableObject
     public int Rank { get => rank; set => rank = value; }
     public int EnchantLevel { get => enchantLevel; set => enchantLevel = value; }
 
-    public Sprite WeaponSprite => weaponSprite;
     public float AdditionalDamage => additionalDamage;
     public float AdditionalAttackSpeed => additionalAttackSpeed;
 
+    public Sprite WeaponSprite => weaponSprite;
+
     public WeaponStyle WeaponStyle => weaponStyle;
     public RuntimeAnimatorController AnimatorOverride => animatorOverride;
+
+    public float GetEffectiveDamage()
+    {
+        return additionalDamage + enchantLevel * 0.1f;
+    }
+
+    public float GetEffectiveAttackSpeed()
+    {
+        return additionalAttackSpeed + enchantLevel * 0.02f;
+    }
 }

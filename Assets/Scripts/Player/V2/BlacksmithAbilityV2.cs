@@ -51,6 +51,9 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             isActivated = true;
             int idx = Random.Range(1, 3);
             curWeaponData = weaponDataList[idx];
+            curWeaponData.Rank = 1;
+            curWeaponData.EnchantLevel = 0;
+            enchantLevel = 0;
             ApplyWeaponBonus();
             ApplyWeaponAnimator();
             Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
@@ -61,7 +64,6 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     public void Deactivate()
     {
         RemoveWeaponBonus();
-        curWeaponData = null;
         Initialize();
         Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
         onAbilityUpdated.Invoke();
@@ -86,6 +88,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         {
             Debug.Log("강화 성공!");
             ++enchantLevel;
+            ++curWeaponData.EnchantLevel;
             RefreshWeaponBonus(); // 강화 수치 반영
         }
         else
@@ -112,6 +115,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         {
             ++curWeaponData.Rank;
             enchantLevel = 0;
+            curWeaponData.EnchantLevel = 0;
             RefreshWeaponBonus(); // 성장 반영
             Debug.Log($"장비 성장 완료! 새로운 등급: {GetGradeName(curWeaponData.Rank)}");
         }
@@ -135,6 +139,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         else
         {
             Debug.Log("장비는 살아남았지만 강화 수치는 초기화됨");
+            curWeaponData.EnchantLevel = 0;
             enchantLevel = 0;
             RefreshWeaponBonus();
         }
@@ -144,16 +149,24 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     {
         RemoveWeaponBonus();
         ApplyWeaponBonus();
+
+        Debug.Log("추가 데미지 수치 : " + playerStatus.Damage);
+        Debug.Log("총 데미지 수치 : " + playerStatus.TotalDamage);
     }
 
+    // 현재 공격속도는 가산되지 않도록 처리
     void ApplyWeaponBonus()
     {
-        playerStatus.AdditionalDamage += curWeaponData.AdditionalDamage;
-        playerStatus.AdditionalAttackSpeed += curWeaponData.AdditionalAttackSpeed;
+        float bonusDamage = curWeaponData.GetEffectiveDamage();
+        float bonusAttackSpeed = curWeaponData.GetEffectiveAttackSpeed();
 
-        lastAppliedDamage = curWeaponData.AdditionalDamage;
-        lastAppliedAttackSpeed = curWeaponData.AdditionalAttackSpeed;
+        playerStatus.AdditionalDamage += bonusDamage;
+        playerStatus.AdditionalAttackSpeed += bonusAttackSpeed;
+
+        lastAppliedDamage = bonusDamage;
+        lastAppliedAttackSpeed = bonusAttackSpeed;
     }
+
 
     void RemoveWeaponBonus()
     {
@@ -172,10 +185,19 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     void Initialize()
     {
+        isActivated = false;
+
+        if (curWeaponData != null)
+        {
+            curWeaponData.Rank = 1;
+            curWeaponData.EnchantLevel = 0;
+            curWeaponData = weaponDataList[0];
+            ApplyWeaponAnimator(); 
+        }
+
         if (curWeaponData == null)
         {
             enchantLevel = 0;
-            isActivated = false;
             curWeaponData = weaponDataList[0];
             ApplyWeaponAnimator();
         }

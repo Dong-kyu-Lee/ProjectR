@@ -3283,7 +3283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d10cfa59b88a27499feac403edd8332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blacksmithAbility: {fileID: 0}
+  blacksmithAbility: {fileID: 1387826935}
   activateText: {fileID: 1988550122}
   enchantButton: {fileID: 663449169}
   destroyButton: {fileID: 636398778}
@@ -5729,6 +5729,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1366450000}
   m_CullTransparentMesh: 1
+--- !u!114 &1387826935 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1067828335753958515, guid: 4c2f61c695d6dbb4d960836d5953e299, type: 3}
+  m_PrefabInstance: {fileID: 1574200654}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d981da66a78f04a98d13d0075998ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1429028546
 GameObject:
   m_ObjectHideFlags: 0
