@@ -6,6 +6,7 @@ public class Force16Buff : Buff
 
     public Force16Buff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Force16;
         maxBuffLevel = 8;
         maxDuration = 10.0f;
     }

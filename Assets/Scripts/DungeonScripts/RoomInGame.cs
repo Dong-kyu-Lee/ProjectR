@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum RoomState { Default, Start, Clear };
+public enum RoomState { Default, Start, Cleared };
 
 // 생성된 방에 대한 조작을 관리하는 클래스
 public class RoomInGame : MonoBehaviour
@@ -69,7 +69,7 @@ public class RoomInGame : MonoBehaviour
     private void SecondWaveEnd()
     {
         // 방 상태 변경
-        roomState = RoomState.Clear;
+        roomState = RoomState.Cleared;
         // 현재 방 문 열기
         gate.OpenGate(true);
         // 다음 방 문 열기

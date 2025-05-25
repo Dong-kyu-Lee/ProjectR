@@ -13,16 +13,25 @@ public class CharacterInfo : MonoBehaviour
     public GameObject characterName;
     public GameObject statusTextPref;
     public GameObject statusParentObj;
+    [SerializeField]
+    public GameObject characterInfo;
     public PlayerStatus playerStatus;
+    public Button closeButton;
 
     List<GameObject> statusObjList = new List<GameObject>();
-
+    
     private void Awake()
     {
+        if (characterInfo == null)
+        {
+            Debug.LogWarning("CharacterInfo 오브젝트가 Inspector에 할당되지 않았습니다!");
+        }
+
         Init();
         SetStatus();
         transform.GetComponentInChildren<InventoryUI>().Init();
-        DontDestroyOnLoad(transform.parent);
+        closeButton.onClick.AddListener(DisableUI);
+        DontDestroyOnLoad(gameObject);
         DisableUI();
     }
     private void Update()
@@ -42,14 +51,14 @@ public class CharacterInfo : MonoBehaviour
     // UI 활성화
     public void EnableUI()
     {
-        gameObject.SetActive(true);
+        characterInfo.SetActive(true);
     }
 
     // UI 비활성화
     public void DisableUI()
     {
         Time.timeScale = 1f;
-        gameObject.SetActive(false);
+        characterInfo.SetActive(false);
     }
 
     public void ToggleInventoryUI()
@@ -59,13 +68,13 @@ public class CharacterInfo : MonoBehaviour
             controller.OnEnableCharacterInfoUI != null &&
             controller.OnEnableCharacterInfoUI.GetPersistentEventCount() > 0;
 
-        if (!hasInventoryEvent)
+        /*if (!hasInventoryEvent)
         {
             Debug.Log("인벤토리 UI 이벤트가 없음");
             return;
-        }
+        }*/
 
-        if (gameObject.activeSelf)
+        if (characterInfo.activeSelf)
         {
             DisableUI();
             if (controller != null)
@@ -100,7 +109,6 @@ public class CharacterInfo : MonoBehaviour
                 }
             }
         }
-
     }
 
     // 스테이터스 세팅

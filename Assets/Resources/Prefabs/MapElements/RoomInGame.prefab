@@ -111,10 +111,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488d9ec2e4921c944bd1edc916bb9496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemySpawnDelay: 1.5
   firstWaveEnemy: {fileID: 6071877652221025503, guid: 0da4f48c0d3c4884ba4e3f7059602025, type: 3}
   secondWaveEnemy: {fileID: 6071877652221025503, guid: 0da4f48c0d3c4884ba4e3f7059602025, type: 3}
+  EnemySpawnEffect: {fileID: 6444855310815686498, guid: 5346b2733f669f84e99bd91fd51e5a50, type: 3}
   firstWaveEnemyList: []
   secondWaveEnemyList: []
+  enemySpawnEffectList: []
 --- !u!1 &4251901442633290813
 GameObject:
   m_ObjectHideFlags: 0

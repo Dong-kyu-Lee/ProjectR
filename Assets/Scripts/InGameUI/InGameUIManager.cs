@@ -22,22 +22,21 @@ public class InGameUIManager : MonoBehaviour
     }
 
     [SerializeField]
-    GameObject stopUI;
+    private GameObject stopUI;
     [SerializeField]
-    GameObject checkUI;
+    private GameObject checkUI;
     [SerializeField]
-    GameObject[] buffUI;
+    private GameObject[] buffUI;
     [SerializeField]
-    GameObject[] debuffUI;
+    private Text goldText;
+    private PlayerStatus playerStatus;
+    private BuffManager playerBuffManager;
     [SerializeField]
-    Text goldText;
-    PlayerStatus playerStatus;
-    BuffManager playerBuffManager;
+    private Slider HpBarSlider;
     [SerializeField]
-    Slider HpBarSlider;
+    private Text hpTxt;
     [SerializeField]
-    Text hpTxt;
-    private bool isOpen;
+    private BuffToolTipUI tooltipUI;
 
     private void Awake()
     {
@@ -51,21 +50,25 @@ public class InGameUIManager : MonoBehaviour
             playerStatus = playerObject.GetComponent<PlayerStatus>();
             playerBuffManager = playerObject.GetComponent<BuffManager>();
         }
-        isOpen = false;
         hpTxt.text = playerStatus.Hp.ToString()+"/"+playerStatus.MaxHp.ToString();
         goldText.text = playerStatus.Gold.ToString();
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)&& isOpen == false)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            stopUI.SetActive(true);
-        }
-        else if(Input.GetKeyDown(KeyCode.Escape)&&isOpen == true)
-        {
-            stopUI.SetActive(false);
+            if (tooltipUI != null && tooltipUI.IsVisible())
+            {
+                tooltipUI.Hide();
+                return;
+            }
+
+            bool isActive = stopUI.activeSelf;
+            stopUI.SetActive(!isActive);
         }
     }
+
+
     public void CheckHp() //*HP 갱신
     {
         if (HpBarSlider != null)
@@ -82,14 +85,6 @@ public class InGameUIManager : MonoBehaviour
         {
             //사망
         }
-    }
-    private void BuffUI()
-    {
-        
-    }
-    private void DebuffUI()
-    {
-
     }
     public void ContinueButton()
     {

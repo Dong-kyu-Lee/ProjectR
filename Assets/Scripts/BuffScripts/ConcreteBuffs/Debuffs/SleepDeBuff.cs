@@ -4,43 +4,56 @@ using UnityEngine;
 
 public class SleepDeBuff : Buff
 {
-    //그냥 타겟에 canMove 같은 변수를 추가하여 움직임을 막는 게 더 효율적일 것 같음.
-
-    private float prevMoveSpeed = 0.0f;     //Sleep 전 플레이어가 가지고 있던 이동속도 양
-    private float prevJumpPower = 0.0f;     //Sleep 전 플레이어가 가지고 있던 점프력 양
-    
+    private float prevMoveSpeed = 0.0f;
+    private float prevJumpPower = 0.0f;
 
     public SleepDeBuff(float duration, GameObject target) : base(duration, target)
     {
+        this.BuffType = BuffType.Sleep;
         maxBuffLevel = 1;
     }
 
     public override void ApplyBuffEffect()
     {
-        PlayerStatus playerStatus = GetPlayerStatus();
-        if (playerStatus == null)
-            return;
-        prevMoveSpeed += playerStatus.MoveSpeed;
-        playerStatus.MoveSpeed = 0.0f;
+        Status status = targetObject.GetComponent<Status>();
+        if (status != null)
+        {
+            prevMoveSpeed = status.MoveSpeed;
+            status.MoveSpeed = 0.0f;
+        }
+        else
+        {
+            Debug.LogWarning("SleepDeBuff: Status 컴포넌트를 찾을 수 없습니다.");
+        }
 
-        PlayerController targetController = GameManager.Instance.CurrentPlayer.GetComponent<PlayerController>();
-        prevJumpPower += targetController.jumpPower;
-        targetController.jumpPower = 0.0f;
+        PlayerController controller = targetObject.GetComponent<PlayerController>();
+        if (controller != null)
+        {
+            prevJumpPower = controller.jumpPower;
+            controller.jumpPower = 0.0f;
+        }
+        else
+        {
+            Debug.LogWarning("SleepDeBuff: PlayerController 컴포넌트를 찾을 수 없습니다.");
+        }
     }
-
     public override void DoActionOnActivate(float tickDuration = 1)
     {
         ApplyBuffEffect();
         base.DoActionOnActivate(tickDuration);
     }
-
     public override void RemoveBuffEffect()
     {
-        PlayerStatus playerStatus = GetPlayerStatus();
-        if (playerStatus == null)
-            return; ;
-        playerStatus.MoveSpeed += prevMoveSpeed;      //이동속도 되돌리기
-        PlayerController targetController = GameManager.Instance.CurrentPlayer.GetComponent<PlayerController>();
-        targetController.jumpPower += prevJumpPower;    //점프력 되돌리기
+        Status status = targetObject.GetComponent<Status>();
+        if (status != null)
+        {
+            status.MoveSpeed = prevMoveSpeed;
+        }
+
+        PlayerController controller = targetObject.GetComponent<PlayerController>();
+        if (controller != null)
+        {
+            controller.jumpPower = prevJumpPower;
+        }
     }
 }

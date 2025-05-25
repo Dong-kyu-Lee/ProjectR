@@ -21,6 +21,8 @@ public class EnemyData : ScriptableObject
     private float attackRange;
     [SerializeField]
     private float sightRange;
+    [SerializeField]
+    private float expValue;
 
     public string Name { get { return name; } }
     public float Hp { get { return hp; } }
@@ -30,4 +32,5 @@ public class EnemyData : ScriptableObject
     public float MoveSpeed { get { return moveSpeed; } }
     public float AttackRange { get { return attackRange; } }
     public float SightRange { get { return sightRange; } }
+    public float ExpValue { get { return expValue; } }
 }

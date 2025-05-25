@@ -66,8 +66,8 @@ public class Projectile : MonoBehaviour
                     if (enemy != null && !processedEnemies.Contains(enemyObject))
                     {
                         processedEnemies.Add(enemyObject);
-                        damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical) / 2;
-                        enemy.gameObject.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
+                        float thisdamage = CalcDamage.Instance.CheckCritical(damage / 2, ref ignoreDamageReduction, ref isCritical);
+                        enemy.gameObject.GetComponent<Status>().TakeDamage(player, thisdamage, ignoreDamageReduction, isCritical);
                         bartenderAbility.BartenderAttackDebuff(enemyObject);
                         bartenderAbility.CheckBartenderAbility(bottle);
                         CalcDamage.Instance.CheckAddtionalDamage(enemyObject);
@@ -80,8 +80,8 @@ public class Projectile : MonoBehaviour
 
         if (collision.transform.tag == "Enemy")
         {
-            damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
-            collision.gameObject.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
+            float thisdamage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
+            collision.gameObject.GetComponent<Status>().TakeDamage(player, thisdamage, ignoreDamageReduction, isCritical);
             bartenderAbility.BartenderAttackDebuff(collision.gameObject);
             bartenderAbility.CheckBartenderAbility(bottle);
             CalcDamage.Instance.CheckAddtionalDamage(collision.gameObject);
