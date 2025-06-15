@@ -9,6 +9,8 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
     private Queue<string> bartenderBottles = new Queue<string>();
     private string[] bottleElements = { "Poison", "Burn", "Freeze" };
 
+    public string[] BottleElements => bottleElements;
+
     // 능력 발동 처리 (Q키는 컨트롤러에서 처리하고 이 메서드를 호출함)
     public void Activate()
     {
@@ -65,4 +67,23 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
         enemyBuffManager = enemy.GetComponent<BuffManager>();
         enemyBuffManager.ActivateBuff(BuffType.Buzzed, 10.0f);
     }
+
+    public Dictionary<string, int> GetBottleCounts()
+    {
+        Dictionary<string, int> counts = new();
+
+        foreach (var element in bottleElements)
+        {
+            counts[element] = 0;
+        }
+
+        foreach (var bottle in bartenderBottles)
+        {
+            if (counts.ContainsKey(bottle))
+                counts[bottle]++;
+        }
+
+        return counts;
+    }
+
 }
