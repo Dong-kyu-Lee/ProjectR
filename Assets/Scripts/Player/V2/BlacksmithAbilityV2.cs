@@ -22,6 +22,8 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     public UnityEvent onAbilityUpdated;
 
+    public BlacksmithWeaponData CurWeaponData => curWeaponData;
+
     private List<float> enchantSuccessRates = new()
     {
         1.0f, 0.95f, 0.9f,0.85f, 0.8f, 0.75f, 0.7f, 0.65f, 0.6f, 0.5f
