@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 public class BlacksmithAbilityUI : AbilityUIBase
 {
-    [SerializeField] private Text weaponText;
+    [SerializeField] private Text weaponNameText;
+    [SerializeField] private Text enchantLevelText;
+    [SerializeField] private Text rankText;
+    [SerializeField] private Image weaponImage;
+
     [SerializeField] private Button enchantButton;
     [SerializeField] private Button destroyButton;
 
@@ -26,18 +30,24 @@ public class BlacksmithAbilityUI : AbilityUIBase
     {
         if (blacksmithAbility == null) return;
 
+        var weaponData = blacksmithAbility.CurWeaponData;
+
+        weaponNameText.text = weaponData.WeaponName;
+        weaponImage.sprite = weaponData.WeaponSprite;
 
         if (blacksmithAbility.IsActivated)
         {
-            weaponText.text = blacksmithAbility.CurWeaponData.name;
-            enchantButton.GetComponentInChildren<Text>().text = "강화(+" + blacksmithAbility.EnchantLevel + ")";
+            enchantLevelText.text = $"+{blacksmithAbility.EnchantLevel}";
+            rankText.text = GetGradeName(weaponData.Rank);
+
             enchantButton.gameObject.SetActive(true);
-            destroyButton.GetComponentInChildren<Text>().text = "폐기";
             destroyButton.gameObject.SetActive(true);
         }
         else
         {
-            weaponText.text = "현재 제작 무기 없음";
+            enchantLevelText.text = "-";
+            rankText.text = "-";
+
             enchantButton.gameObject.SetActive(false);
             destroyButton.gameObject.SetActive(false);
         }
@@ -51,5 +61,17 @@ public class BlacksmithAbilityUI : AbilityUIBase
     public void DestroyWeapon()
     {
         blacksmithAbility?.Deactivate();
+    }
+
+    private string GetGradeName(int rank)
+    {
+        return rank switch
+        {
+            1 => "C",
+            2 => "B",
+            3 => "A",
+            4 => "S",
+            _ => "-"
+        };
     }
 }
