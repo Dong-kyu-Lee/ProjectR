@@ -5,29 +5,33 @@ using UnityEngine.UI;
 
 public class BartenderAbilityUI : AbilityUIBase
 {
-    [SerializeField] private Text[] bottleCountTexts;
+    [SerializeField] private Text bottleCountText;
+    [SerializeField] private Text bottleNameText;
+    [SerializeField] private Image bottleImage;
 
     private BartenderAbilityV2 bartenderAbility;
 
     public override void BindAbility(IAbilityV2 ability)
     {
         bartenderAbility = ability as BartenderAbilityV2;
-        UpdateUI();
+
+        if (bartenderAbility != null)
+        {
+            bartenderAbility.onAbilityUpdated.AddListener(UpdateUI);
+            UpdateUI();
+        }
     }
 
     public override void UpdateUI()
     {
-        if (bartenderAbility == null || bottleCountTexts == null) return;
+        if (bartenderAbility == null) return;
 
-        var counts = bartenderAbility.GetBottleCounts();
-        var types = bartenderAbility.BottleElements;
+        int counts = bartenderAbility.GetBottleCounts();
+        string bottleName = bartenderAbility.GetFrontBottleName();
 
-        for (int i = 0; i < types.Length && i < bottleCountTexts.Length; i++)
-        {
-            string type = types[i];
-            int count = counts.ContainsKey(type) ? counts[type] : 0;
-            bottleCountTexts[i].text = $"{type}: {count}";
-        }
+        // 표시할 병이 없는 경우
+        bottleNameText.text = bottleName;
+        bottleCountText.text = counts.ToString();
     }
 
     public void AddBottles()

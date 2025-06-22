@@ -35,6 +35,9 @@ public class InGameUIManager : MonoBehaviour
     private BuffToolTipUI tooltipUI;
     [SerializeField]
     private Image PlayerHead;
+    [SerializeField]
+    private CharacterUIManager CharacterUI;
+    
 
     public PlayerStatus playerStatus;
 
@@ -58,6 +61,9 @@ public class InGameUIManager : MonoBehaviour
             Debug.LogWarning("PlayerStatus 컴포넌트를 찾을 수 없습니다.");
             yield break;
         }
+
+        CharacterUI?.InitUIForCurrentPlayer();
+
         CheckGold();
         UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
     }
