@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public UnityEvent OnPlayerCharacterChanged = new UnityEvent();
+
     [SerializeField]
     private GameObject playerObject;
     public GameObject CurrentPlayer { 
@@ -32,6 +35,8 @@ public class GameManager : MonoBehaviour
         {
             playerObject = value;
             DontDestroyOnLoad(playerObject);
+
+            OnPlayerCharacterChanged?.Invoke();
         }
     }
 
@@ -41,6 +46,7 @@ public class GameManager : MonoBehaviour
     private GameObject inventoryUI;
     [SerializeField]
     private GameObject inGameUI;
+
 
     private void Awake()
     {
@@ -54,6 +60,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject); // 중복된 GameManager 제거
         }
+
+        // 고유능력 UI 테스트
+        // inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
     }
 
     // 플레이어 오브젝트를 지정된 시작 지점(position)에 배치하는 함수
@@ -71,7 +80,7 @@ public class GameManager : MonoBehaviour
                 // 업그레이드UI & 인벤토리 UI 생성
                 upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
                 inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
-                inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvas"));
+                inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
                 DontDestroyOnLoad(upgradeUI);
                 DontDestroyOnLoad(inventoryUI);
                 DontDestroyOnLoad(inGameUI);

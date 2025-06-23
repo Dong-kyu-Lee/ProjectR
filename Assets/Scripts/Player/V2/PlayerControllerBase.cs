@@ -143,4 +143,9 @@ public abstract class PlayerControllerBase : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
     }
+
+    public IAbilityV2 GetCharacterAbility()
+    {
+        return characterAbility;
+    }
 }
