@@ -38,6 +38,12 @@ public class DungeonCreator : MonoBehaviour
         }
         DungeonFlowManager.Instance.DungeonCreator = this;
         DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
+
+        if(DungeonTestHelper.Instance != null)
+        {
+            numberOfRooms = DungeonTestHelper.Instance.numberOfRooms;
+            dungeonBoxCount = DungeonTestHelper.Instance.dungeonBoxCount;
+        }
     }
     
     // 던전과 관련 요소를 씬에 생성하는 함수

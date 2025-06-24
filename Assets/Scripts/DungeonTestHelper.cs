@@ -22,11 +22,7 @@ public class DungeonTestHelper : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<DungeonTestHelper>();
-                if (instance == null)
-                {
-                    Debug.LogError("DungeonTestHelper instance not found in the scene. Please add it to the scene.");
-                }
+                Debug.LogError("DungeonTestHelper instance not found in the scene. Please add it to the scene.");
             }
             return instance;
         }
