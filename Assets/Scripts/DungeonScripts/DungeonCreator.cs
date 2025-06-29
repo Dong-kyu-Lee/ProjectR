@@ -38,6 +38,12 @@ public class DungeonCreator : MonoBehaviour
         }
         DungeonFlowManager.Instance.DungeonCreator = this;
         DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
+
+        if(DungeonTestHelper.Instance != null)
+        {
+            numberOfRooms = DungeonTestHelper.Instance.numberOfRooms;
+            dungeonBoxCount = DungeonTestHelper.Instance.dungeonBoxCount;
+        }
     }
     
     // 던전과 관련 요소를 씬에 생성하는 함수
@@ -56,9 +62,19 @@ public class DungeonCreator : MonoBehaviour
         for (int i = 0; i < roomNodes.Count; ++i)
         {
             Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
-            // var usableRooms = roomContainer.GetRooms(roomNodes[i].OpenNeededGate);
-            // Room currentRoom = usableRooms[Random.Range(0, usableRooms.Count)].GetComponent<Room>();
-            Room currentRoom = roomContainer.rooms[Random.Range(0, roomContainer.rooms.Count)].GetComponent<Room>();
+
+            Room currentRoom;
+
+            if(DungeonTestHelper.Instance.testRoomPrefabs.Count != 0)
+            {
+                // 테스트용 방 프리팹이 있다면 해당 방 프리팹을 사용
+                currentRoom = DungeonTestHelper.Instance.testRoomPrefabs[Random.Range(0, DungeonTestHelper.Instance.testRoomPrefabs.Count)].GetComponent<Room>();
+            }
+            else
+            {
+                // 일반적인 경우, RoomContainer에 있는 방 프리팹을 사용
+                currentRoom = roomContainer.rooms[Random.Range(0, roomContainer.rooms.Count)].GetComponent<Room>();
+            }
             DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
             roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));
 

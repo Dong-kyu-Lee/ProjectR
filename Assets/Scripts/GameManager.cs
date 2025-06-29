@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     private GameObject inventoryUI;
     [SerializeField]
     private GameObject inGameUI;
+    [SerializeField]
+    private GameObject testUI; // 테스트용 UI
 
 
     private void Awake()
@@ -84,6 +86,12 @@ public class GameManager : MonoBehaviour
                 DontDestroyOnLoad(upgradeUI);
                 DontDestroyOnLoad(inventoryUI);
                 DontDestroyOnLoad(inGameUI);
+
+                if (testUI != null)
+                {
+                    testUI = Instantiate(DungeonTestHelper.Instance.testUI);
+                    DontDestroyOnLoad(testUI);
+                }
             }
             else if (sceneName == "StartScene")
             {
@@ -93,6 +101,9 @@ public class GameManager : MonoBehaviour
                 Destroy(inGameUI);
                 // 플레이어 오브젝트 제거
                 Destroy(playerObject);
+
+                // 테스트용 UI 제거
+                if(testUI != null) Destroy(testUI);
             }
         }
         SceneManager.LoadScene(sceneName);
