@@ -2,30 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrunkenDeBuff : Buff
+public class CurseDeBuff : Buff
 {
-    private float DrunkenBustDmg = 20f;
     private float moveSpeedDec = 10.0f;
+    private float curseBustPerDmg = 0.05f;
 
-    public DrunkenDeBuff(float duration, GameObject target) : base(duration, target)
+    public CurseDeBuff(float duration, GameObject target) : base(duration, target)
     {
-        this.BuffType = BuffType.Drunken;
-        maxBuffLevel = 1;
+        this.BuffType = BuffType.Curse;
+        maxDuration = 15f;
+        maxBuffLevel = 5;
     }
 
     public override void ApplyBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
-        
+
         targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
-        if (AbilityManager.Instance.bartenderAbility3) CalcReceiveDamage.Instance.TakeDebuffDamage(DrunkenBustDmg, targetStatus, false);
+        if (CalcDamage.Instance.curseEffect16) targetStatus.TakeTrueDamage(curseBustPerDmg * targetStatus.MaxHp);
     }
 
     public override void RenewBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        if (AbilityManager.Instance.bartenderAbility3) CalcReceiveDamage.Instance.TakeDebuffDamage(DrunkenBustDmg, targetStatus, false);
+        if (CalcDamage.Instance.curseEffect16) targetStatus.TakeTrueDamage(curseBustPerDmg * targetStatus.MaxHp);
     }
 
     public override void RemoveBuffEffect()

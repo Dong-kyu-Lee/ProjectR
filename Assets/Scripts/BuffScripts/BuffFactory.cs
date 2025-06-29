@@ -148,6 +148,10 @@ public class BuffFactory : MonoBehaviour
         {
             return new StunDeBuff(duration, target);
         });
+        buffConstructors.Add(BuffType.Curse, (duration, target) =>
+        {
+            return new CurseDeBuff(duration, target);
+        });
         buffConstructors.Add(BuffType.Force7, (duration, target) =>
         {
             return new Force7Buff(duration, target);

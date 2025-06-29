@@ -16,6 +16,7 @@ public class PlayerStatus : Status
     private float totalDamage;
     private float totalDamageReduction;
     private float ignoreDamageReduction;
+    private float debuffDamage;
 
     public float Level { get { return level; } set { level = value; } }
     public float CriticalPercent { get { return criticalPercent; } set { criticalPercent = value; } }
@@ -24,6 +25,7 @@ public class PlayerStatus : Status
     public float TotalDamage { get { return totalDamage; } }
     public float TotalDamageReduction { get { return totalDamageReduction; } }
     public float IgnoreDamageReduction { get { return ignoreDamageReduction; } set { ignoreDamageReduction = value; } }
+    public float DebuffDamage { get { return debuffDamage; } set { debuffDamage = value; } }
     public float Gold;
 
     public float Exp

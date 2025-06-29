@@ -30,6 +30,10 @@ public class CalcDamage : MonoBehaviour
     public bool dexterityEffect16;
     public int dexterityEffect16_Stack;
 
+    public bool curseEffect1;
+    public bool curseEffect7;
+    public bool curseEffect16;
+
     public bool isCritical;
 
     private static CalcDamage instance;

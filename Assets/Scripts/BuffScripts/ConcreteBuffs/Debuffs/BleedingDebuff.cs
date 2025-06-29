@@ -18,7 +18,7 @@ public class BleedingDebuff : Buff
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
 
-        CalcReceiveDamage.Instance.TakeDebuffDamage(bleedingDmg[currentBuffLevel], targetStatus);
+        CalcReceiveDamage.Instance.TakeDebuffDamage(bleedingDmg[currentBuffLevel], targetStatus, true);
 
         if (InGameUIManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
         {

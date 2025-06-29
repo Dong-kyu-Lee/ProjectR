@@ -34,4 +34,5 @@ public enum BuffType
     Stun,                         //기절 디버프
     StoneCurse,                   //석화 디버프
     Confusion,                    //혼란 디버프
+    Curse,                        //저주 디버프
 }

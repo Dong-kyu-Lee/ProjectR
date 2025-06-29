@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class CalcReceiveDamage : MonoBehaviour
@@ -95,12 +96,34 @@ public class CalcReceiveDamage : MonoBehaviour
             StartCoroutine(ProcessDamageQueue(target));
         }
     }
+
     // 디버프 피해를 입힘.
-    public void TakeDebuffDamage(float damage, Status targetStatus)
+    public void TakeDebuffDamage(float damage, Status targetStatus, bool percentdmg)
     {
-        if (playerStatus.Invincible) damage = 0;
-        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(damage, targetStatus.gameObject);
-        targetStatus.Hp -= damage;
+        if (targetStatus.Invincible) damage = 0;
+        float receiveDamage;
+        if (targetStatus.CompareTag("Player"))
+        {
+            if (percentdmg) receiveDamage = (1 - targetStatus.DamageReduction) * damage * targetStatus.MaxHp;
+            else receiveDamage = (1 - targetStatus.DamageReduction) * damage;
+        }
+        else
+        {
+            if (percentdmg) receiveDamage = (1 - targetStatus.DamageReduction) * damage * targetStatus.MaxHp;
+            else receiveDamage = (1 - targetStatus.DamageReduction) * damage * playerStatus.Level * (1 + playerStatus.DebuffDamage);
+
+            if (CalcDamage.Instance.curseEffect1)
+            {
+                if (!CalcDamage.Instance.IsOnCooldown("CurseEffect1"))
+                {
+                    BuffManager enemyBuffManager = targetStatus.GetComponent<BuffManager>();
+                    enemyBuffManager.ActivateBuff(BuffType.Curse, 15.0f);
+                    StartCoroutine(CalcDamage.Instance.Cooldown("CurseEffect1", 2f));
+                }
+            }
+        }
+        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(receiveDamage, targetStatus.gameObject);
+        targetStatus.Hp -= receiveDamage;
     }
 
     // 디버프 피해를 입힐 때 데미지를 큐에 삽입.
