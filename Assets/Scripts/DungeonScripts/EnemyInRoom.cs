@@ -18,6 +18,9 @@ public class EnemyInRoom : MonoBehaviour
     public List<GameObject> secondWaveEnemyList = new List<GameObject>();
     public List<GameObject> enemySpawnEffectList = new List<GameObject>();
 
+    public List<EnemySpawner> firstEnemySpawnerList = new List<EnemySpawner>();
+    public List<EnemySpawner> secondEnemySpawnerList = new List<EnemySpawner>();
+
     private void Start()
     {
 
@@ -36,10 +39,11 @@ public class EnemyInRoom : MonoBehaviour
         secondWaveEnemyList.Clear();
         enemySpawnEffectList.Clear();
 
-        var enemySpawnPositions = room.enemyTilemap.GetComponentsInChildren<Transform>();
-        for(int i = 1; i < enemySpawnPositions.Length; ++i)
+        var enemySpawnPositions = room.enemyTilemap.GetComponentsInChildren<EnemySpawner>();
+        for(int i = 0; i < enemySpawnPositions.Length; ++i)
         {
-            InitEnemySpawner(generatePosition + enemySpawnPositions[i].position);
+            Vector3 spawnerPosition = enemySpawnPositions[i].transform.position;
+            InitEnemySpawner(generatePosition + spawnerPosition);
         }
     }
 
@@ -117,12 +121,12 @@ public class EnemyInRoom : MonoBehaviour
         // 각 웨이브의 적을 전부 처치했을 때 실행되는 조건문
         if (firstIdx >= firstWaveEnemyList.Count)
         {
-            GetComponent<RoomInGame>().onFirstWaveEnd?.Invoke();
+            GetComponent<RoomInstance>().onFirstWaveEnd?.Invoke();
             firstIdx = 0;
         }
         if (secondIdx >= secondWaveEnemyList.Count)
         {
-            GetComponent<RoomInGame>().onSecondWaveEnd?.Invoke();
+            GetComponent<RoomInstance>().onSecondWaveEnd?.Invoke();
             secondIdx = 0;
         }
     }
