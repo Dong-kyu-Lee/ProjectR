@@ -1,12 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3965769807955976233
+--- !u!1001 &3268702954623090678
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2449468010808055053, guid: 9613631fc802fb741a93551540bf00d4, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449468010808055053, guid: 9613631fc802fb741a93551540bf00d4, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449468010808055053, guid: 9613631fc802fb741a93551540bf00d4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3260529182925472828, guid: 9613631fc802fb741a93551540bf00d4, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -51,17 +63,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3842903198805543405, guid: 9613631fc802fb741a93551540bf00d4, type: 3}
-      propertyPath: enemyData
-      value: 
-      objectReference: {fileID: 11400000, guid: bf27fc68e61bb554bb62f60a42203115, type: 2}
     - target: {fileID: 7154700476304014582, guid: 9613631fc802fb741a93551540bf00d4, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy1_1 Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 7154700476304014582, guid: 9613631fc802fb741a93551540bf00d4, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9613631fc802fb741a93551540bf00d4, type: 3}
