@@ -62,9 +62,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject); // 중복된 GameManager 제거
         }
-
-        // 고유능력 UI 테스트
-        // inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
     }
 
     // 플레이어 오브젝트를 지정된 시작 지점(position)에 배치하는 함수
@@ -79,7 +76,7 @@ public class GameManager : MonoBehaviour
         {
             if (sceneName == "DungeonGenerate")
             {
-                // 업그레이드UI & 인벤토리 UI 생성
+                // 던전에서 사용되는 UI 생성
                 upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
                 inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
                 inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
@@ -107,5 +104,23 @@ public class GameManager : MonoBehaviour
             }
         }
         SceneManager.LoadScene(sceneName);
+    }
+
+    // 테스트 씬에서 작동할 던전 씬 UI 생성 함수
+    public void InGameUIGenerateForSceneTest()
+    {
+        // 던전에서 사용되는 UI 생성
+        upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
+        inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
+        inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
+        DontDestroyOnLoad(upgradeUI);
+        DontDestroyOnLoad(inventoryUI);
+        DontDestroyOnLoad(inGameUI);
+
+        if (testUI != null)
+        {
+            testUI = Instantiate(DungeonTestHelper.Instance.testUI);
+            DontDestroyOnLoad(testUI);
+        }
     }
 }

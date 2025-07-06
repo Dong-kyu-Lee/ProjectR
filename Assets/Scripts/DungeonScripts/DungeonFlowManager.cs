@@ -27,7 +27,7 @@ public class DungeonFlowManager : MonoBehaviour
     public GameObject finishSpotPrefab;
     public Vector3 playerSpawnPosition = new Vector3();
     public Vector3 finishSpotPosition = new Vector3();
-    public List<RoomInGame> roomList = new List<RoomInGame>();
+    public List<RoomInstance> roomList = new List<RoomInstance>();
     private int currentRoomIndex = -1; // 현재 방 인덱스
 
     public DungeonFlowState GetCurrentDungeonFlow { get => currentState; }
@@ -153,7 +153,7 @@ public class DungeonFlowManager : MonoBehaviour
     }
 
     // roomList에 생성된 방을 추가하는 함수
-    public void AddRoomInGame(RoomInGame currentRoom)
+    public void AddRoomInstance(RoomInstance currentRoom)
     {
         if(currentRoom == null)
         {
@@ -164,7 +164,7 @@ public class DungeonFlowManager : MonoBehaviour
     }
 
     // currentRoom을 클리어하여 다음으로 넘어갈 방의 문을 여는 함수
-    public void OpenNextRoom(RoomInGame currentRoom)
+    public void OpenNextRoom(RoomInstance currentRoom)
     {
         int index = roomList.IndexOf(currentRoom);
         if (index != -1)

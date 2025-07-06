@@ -6,7 +6,7 @@ using UnityEngine;
 public enum RoomState { Default, Start, Cleared };
 
 // 생성된 방에 대한 조작을 관리하는 클래스
-public class RoomInGame : MonoBehaviour
+public class RoomInstance : MonoBehaviour
 {
     private RoomState roomState = RoomState.Default;
     private bool isFirstWaveEnded = false;
@@ -82,7 +82,7 @@ public class RoomInGame : MonoBehaviour
         roomState = RoomState.Default;
     }
 
-    internal void SetDynamicElements(GameObject dynamicElements)
+    public void SetDynamicElements(GameObject dynamicElements)
     {
         for(int i = 0; i < dynamicElements.transform.childCount; ++i)
         {
@@ -92,7 +92,7 @@ public class RoomInGame : MonoBehaviour
         }
     }
 
-    internal void SetBoxObject(GameObject boxObject)
+    public void SetBoxObject(GameObject boxObject)
     {
         this.boxObject = Instantiate(boxObject, transform.position + boxObject.transform.localPosition, Quaternion.identity, transform);
     }

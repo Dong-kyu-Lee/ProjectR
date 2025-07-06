@@ -34,6 +34,11 @@ public class StartSceneManager : MonoBehaviour
     // 게임 시작 화면에서 Start 버튼에 의해 호출되는 이벤트 함수
     public void StartGame()
     {
-        SceneManager.LoadScene("LobbyScene");
+        if (string.IsNullOrEmpty(DungeonTestHelper.Instance.testSceneName))
+            SceneManager.LoadScene("LobbyScene");
+        else
+        {
+            DungeonTestHelper.Instance.LoadTestScene();
+        }
     }
 }
