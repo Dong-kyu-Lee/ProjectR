@@ -7,6 +7,7 @@ public class BuzzedDeBuff : Buff
     public BuzzedDeBuff(float duration, GameObject target) : base(duration, target)
     {
         this.BuffType = BuffType.Buzzed;
+        maxDuration = 5;
         maxBuffLevel = 10;
     }
 
@@ -22,7 +23,7 @@ public class BuzzedDeBuff : Buff
     private void ActivateDrunkenBuff()
     {
         BuffManager targetBuffManager = targetObject.GetComponent<BuffManager>();
-        targetBuffManager.ActivateBuff(BuffType.Drunken, 2.0f);
+        targetBuffManager.ActivateBuff(BuffType.Drunken);
         targetBuffManager.DeactivateBuff(BuffType.Buzzed);
     }
 

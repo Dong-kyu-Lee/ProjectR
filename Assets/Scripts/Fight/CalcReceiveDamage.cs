@@ -97,7 +97,7 @@ public class CalcReceiveDamage : MonoBehaviour
         }
     }
 
-    // 디버프 피해를 입힘.
+    // 디버프 피해를 받음.
     public void TakeDebuffDamage(float damage, Status targetStatus, bool percentdmg)
     {
         if (targetStatus.Invincible) damage = 0;
@@ -106,18 +106,20 @@ public class CalcReceiveDamage : MonoBehaviour
         {
             if (percentdmg) receiveDamage = (1 - targetStatus.DamageReduction) * damage * targetStatus.MaxHp;
             else receiveDamage = (1 - targetStatus.DamageReduction) * damage;
+            receiveDamage *= (1 + targetStatus.DamageTaken);
         }
         else
         {
             if (percentdmg) receiveDamage = (1 - targetStatus.DamageReduction) * damage * targetStatus.MaxHp;
             else receiveDamage = (1 - targetStatus.DamageReduction) * damage * playerStatus.Level * (1 + playerStatus.DebuffDamage);
+            receiveDamage *= (1 + targetStatus.DamageTaken);
 
-            if (CalcDamage.Instance.curseEffect1)
+            if (CalcDamage.Instance.curseEffect4)
             {
                 if (!CalcDamage.Instance.IsOnCooldown("CurseEffect1"))
                 {
                     BuffManager enemyBuffManager = targetStatus.GetComponent<BuffManager>();
-                    enemyBuffManager.ActivateBuff(BuffType.Curse, 15.0f);
+                    enemyBuffManager.ActivateBuff(BuffType.Curse);
                     StartCoroutine(CalcDamage.Instance.Cooldown("CurseEffect1", 2f));
                 }
             }

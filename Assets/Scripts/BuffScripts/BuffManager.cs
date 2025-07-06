@@ -12,9 +12,29 @@ public class BuffManager : MonoBehaviour
     {
         return BuffFactory.Instance.CreateBuff(type, duration, target);
     }
+    
+    // 버프 활성화 (최대 지속시간)
+    public void ActivateBuff(BuffType type)
+    {
+        if (activeBuffs.ContainsKey(type))
+        {
+            activeBuffs[type].BuffOverlap(activeBuffs[type].MaxDuration);
+            Debug.Log("지속시간 갱신");
+        }
+        else
+        {
+            Buff newBuff = GenerateBuff(type, 100, gameObject);
+            activeBuffs.Add(type, newBuff);
+            newBuff.ApplyBuffEffect();
+            StartCoroutine(StartBuffEffect(newBuff));
+            Debug.Log($"버프[{type}]적용");
+        }
+    }
 
+    // 버프 활성화 (지속시간 설정)
     public void ActivateBuff(BuffType type, float duration)
     {
+        duration *= (1 + CalcDamage.Instance.additionalDebuffTime);
         if (activeBuffs.ContainsKey(type))
         {
             activeBuffs[type].BuffOverlap(duration);

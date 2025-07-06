@@ -10,6 +10,7 @@ public class DrunkenDeBuff : Buff
     public DrunkenDeBuff(float duration, GameObject target) : base(duration, target)
     {
         this.BuffType = BuffType.Drunken;
+        maxDuration = 2;
         maxBuffLevel = 1;
     }
 

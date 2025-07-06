@@ -30,9 +30,13 @@ public class CalcDamage : MonoBehaviour
     public bool dexterityEffect16;
     public int dexterityEffect16_Stack;
 
-    public bool curseEffect1;
-    public bool curseEffect7;
+    public bool curseEffect4;
+    public bool curseEffect10;
+    public bool curseEffect13;
     public bool curseEffect16;
+
+    public float additionalDebuffTime = 0f;
+    public float curseEffect10_IncreaseDebuffDamage;
 
     public bool isCritical;
 
@@ -69,6 +73,7 @@ public class CalcDamage : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerStatus = player.GetComponent<PlayerStatus>();
         playerBuffManager = player.GetComponent<BuffManager>();
+        additionalDebuffTime = 0;
     }
 
     // 적 처치 시 획득하는 버프.
@@ -271,6 +276,21 @@ public class CalcDamage : MonoBehaviour
         {
             isCritical = false;
             return damage;
+        }
+    }
+
+    // 저주 10레벨 디버프 피해량 증가.
+    public void CurseEffect10_IncreaseDebuffDamage()
+    {
+        if (curseEffect10)
+        {
+            playerStatus.DebuffDamage += playerStatus.TotalDamage * 0.005f - curseEffect10_IncreaseDebuffDamage;
+            curseEffect10_IncreaseDebuffDamage = playerStatus.TotalDamage * 0.005f;
+        }
+        else
+        {
+            playerStatus.DebuffDamage -= curseEffect10_IncreaseDebuffDamage;
+            curseEffect10_IncreaseDebuffDamage = 0;
         }
     }
 }

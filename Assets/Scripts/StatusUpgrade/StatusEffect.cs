@@ -96,7 +96,7 @@ public class StatusEffect : MonoBehaviour
             case "curse":
                 switch (point)
                 {
-                    case 1: curseEffect.EnableCurseEffect1(); break;
+                    case 1: curseEffect.EnableCurseEffect1(playerStatus); break;
                     case 4: curseEffect.EnableCurseEffect4(); break;
                     case 7: curseEffect.EnableCurseEffect7(); break;
                     case 10: curseEffect.EnableCurseEffect10(); break;
@@ -191,7 +191,7 @@ public class StatusEffect : MonoBehaviour
             case "curse":
                 switch (point)
                 {
-                    case 1: curseEffect.DisableCurseEffect1(); break;
+                    case 1: curseEffect.DisableCurseEffect1(playerStatus); break;
                     case 4: curseEffect.DisableCurseEffect4(); break;
                     case 7: curseEffect.DisableCurseEffect7(); break;
                     case 10: curseEffect.DisableCurseEffect10(); break;

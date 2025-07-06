@@ -44,6 +44,7 @@ public class PlayerStatus : Status
         {
             base.Damage = value;
             totalDamage = base.Damage + (base.Damage * additionalDamage);
+            CalcDamage.Instance.CurseEffect10_IncreaseDebuffDamage(); // 저주 10레벨.
         }
     }
 
@@ -79,6 +80,7 @@ public class PlayerStatus : Status
         {
             additionalDamage = value;
             totalDamage = Damage + (Damage * additionalDamage);
+            CalcDamage.Instance.CurseEffect10_IncreaseDebuffDamage(); // 저주 10레벨.
         }
     }
 
@@ -139,7 +141,7 @@ public class PlayerStatus : Status
     {
 
     }
-    
+
     protected override void Dead()
     {
         //gameObject.GetComponent<PlayerController>().Dead();

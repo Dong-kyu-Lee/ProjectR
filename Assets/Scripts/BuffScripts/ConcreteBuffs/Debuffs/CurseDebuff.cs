@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class CurseDeBuff : Buff
 {
-    private float moveSpeedDec = 10.0f;
+    private float damageTakenInc = 0.03f;
     private float curseBustPerDmg = 0.05f;
 
     public CurseDeBuff(float duration, GameObject target) : base(duration, target)
     {
         this.BuffType = BuffType.Curse;
-        maxDuration = 15f;
+        maxDuration = 10;
         maxBuffLevel = 5;
+        if (CalcDamage.Instance.curseEffect13) damageTakenInc = 0.08f;
     }
 
     public override void ApplyBuffEffect()
@@ -19,7 +20,7 @@ public class CurseDeBuff : Buff
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
 
-        targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
+        targetStatus.DamageTaken += damageTakenInc;
         if (CalcDamage.Instance.curseEffect16) targetStatus.TakeTrueDamage(curseBustPerDmg * targetStatus.MaxHp);
     }
 
@@ -34,6 +35,6 @@ public class CurseDeBuff : Buff
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
 
-        targetStatus.AdditionalMoveSpeed += moveSpeedDec;
+        targetStatus.DamageTaken -= damageTakenInc * (currentBuffLevel + 1);
     }
 }

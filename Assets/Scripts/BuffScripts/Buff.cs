@@ -15,7 +15,7 @@ public abstract class Buff
     public BuffType BuffType { get; protected set; }
     public float MaxDuration
     {
-        get { return maxDuration; }
+        get { return maxDuration * (1 + CalcDamage.Instance.additionalDebuffTime); }
     }
     public float CurrentDuration
     {
