@@ -51,6 +51,8 @@ public class Enemy : MonoBehaviour
 
     public event Action<Enemy> onDeath;
 
+    public bool IsEdgeDetected { get; private set; }
+
     protected virtual void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
@@ -113,7 +115,12 @@ public class Enemy : MonoBehaviour
 
         if (!isGroundAhead)
         {
-            OnEdgeDetected.Invoke();
+            IsEdgeDetected = true;
+            OnEdgeDetected?.Invoke();
+        }
+        else
+        {
+            IsEdgeDetected = false;
         }
     }
 
