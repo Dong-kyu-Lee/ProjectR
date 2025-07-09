@@ -4,16 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum DungeonFlowState
-{
-    Lobby, Stage1, Stage2, MiddleBoss, Stage3, Stage4, FinalBoss
-}
-
 // 던전 스테이지 진행을 관리하는 클래스
 public class DungeonFlowManager : MonoBehaviour
 {
     private static DungeonFlowManager instance;
-    private static DungeonFlowState currentState;
+    private static StageFlow currentState;
     private GameObject currentFinishSpot;
 
     [SerializeField]
@@ -30,7 +25,7 @@ public class DungeonFlowManager : MonoBehaviour
     public List<RoomInstance> roomList = new List<RoomInstance>();
     private int currentRoomIndex = -1; // 현재 방 인덱스
 
-    public DungeonFlowState GetCurrentDungeonFlow { get => currentState; }
+    public StageFlow GetCurrentDungeonFlow { get => currentState; }
     // DungeonCreator가 던전 생성 준비를 마쳤으니 던전 생성을 요청할 때 호출하는 Action
     public Action onDungeonCreatorReady;
     public Action onDungeonReset; // 던전 갱신이 완료되었을 때 호출하는 Action
@@ -58,7 +53,7 @@ public class DungeonFlowManager : MonoBehaviour
             return;
         }
         instance = this;
-        currentState = DungeonFlowState.Lobby;
+        currentState = StageFlow.Lobby;
         onDungeonCreatorReady += CreateStage;
         DontDestroyOnLoad(gameObject);
     }
@@ -102,54 +97,54 @@ public class DungeonFlowManager : MonoBehaviour
     {
         switch(currentState)
         {
-            case DungeonFlowState.Lobby:
+            case StageFlow.Lobby:
                 {
                     GameManager.Instance.MoveScene("DungeonGenerate");
                     Debug.Log("Stage1 was Generated");
                     break;
                 }
-            case DungeonFlowState.Stage1:
+            case StageFlow.Stage1:
                 {
                     ResetDungeon();
                     CreateStage();
                     Debug.Log("Stage2 was Generated");
                     break;
                 }
-            case DungeonFlowState.Stage2:
+            case StageFlow.Stage2:
                 {
                     ResetDungeon();
                     // 중간보스 방 프리펩 생성
                     Debug.Log("Middle Boss Room was Generated");
                     break;
                 }
-            case DungeonFlowState.MiddleBoss:
-            case DungeonFlowState.Stage3:
+            case StageFlow.MiddleBoss:
+            case StageFlow.Stage3:
                 {
                     ResetDungeon();
                     CreateStage();
                     break;
                 }
-            case DungeonFlowState.Stage4:
+            case StageFlow.Stage4:
                 {
                     // 스테이지 보스 씬으로 이동
                     Debug.Log("Final Boss Room is Generated");
                     break;
                 }
-            case DungeonFlowState.FinalBoss:
+            case StageFlow.FinalBoss:
                 {
                     // 일반 던전 생성 씬 이동
                     // 최종 스테이지일 경우 엔딩 씬으로 이동
                     break;
                 }
         }
-        if (currentState != DungeonFlowState.FinalBoss)
+        if (currentState != StageFlow.FinalBoss)
             currentState++;
     }
 
     // 플레이어가 죽었을 때, 던전 진행도를 초기화하기 위한 함수
     public void ResetDungeonFlow()
     {
-        currentState = DungeonFlowState.Lobby;
+        currentState = StageFlow.Lobby;
     }
 
     // roomList에 생성된 방을 추가하는 함수
