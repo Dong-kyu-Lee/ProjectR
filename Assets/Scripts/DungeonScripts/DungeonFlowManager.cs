@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Events;
@@ -35,7 +36,7 @@ public class DungeonFlowManager : MonoBehaviour
 
     // DungeonCreator가 던전 생성 준비를 마쳤으니 던전 생성을 요청할 때 호출하는 Action
     // public Action onDungeonCreatorReady;
-    public UnityEvent onDungeonReset; // 던전 갱신이 완료되었을 때 호출하는 Action
+    
 
     public static DungeonFlowManager Instance
     {
@@ -61,11 +62,15 @@ public class DungeonFlowManager : MonoBehaviour
         }
         instance = this;
         stages = new Queue<GameObject>();
-        stageDataList = new List<StageData>();
         SceneManager.sceneLoaded += SceneChanged;
         DontDestroyOnLoad(gameObject);
         if(finishSpotPrefab == null) {
             finishSpotPrefab = Resources.Load<GameObject>("Prefabs/MapElements/FinishSpot");
+        }
+        if(stageDataList.Count == 0)
+        {
+            StageData[] stageDataArray = Resources.LoadAll<StageData>("Prefabs/Map Prefabs");
+            stageDataList = new List<StageData>(stageDataArray);
         }
     }
 
@@ -96,11 +101,14 @@ public class DungeonFlowManager : MonoBehaviour
             stage.SetActive(false); // 초기에는 비활성화
             Stage stageComponent = stage.AddComponent<Stage>();
             int stageDataIdx = UnityEngine.Random.Range(0, stageDataList.Count);
-            // stageComponent.stageData = stageDataList[stageDataIdx];
+            stageComponent.stageData = stageDataList[stageDataIdx];
             stages.Enqueue(stage);
-
-            //stageDataList.RemoveAt(stageDataIdx); // 중복 방지
+            stageDataList.RemoveAt(stageDataIdx); // 중복 방지
         }
+
+        // 첫 스테이지 오브젝트 활성화
+        if (stages.Count > 0) stages.Peek().SetActive(true);
+        else Debug.LogError("No stages available to activate");
     }
 
     public Stage GetCurrentStage()

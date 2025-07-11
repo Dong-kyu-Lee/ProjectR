@@ -20,12 +20,12 @@ public class DungeonMapUI : MonoBehaviour
     {
         Debug.Log("DungeonMapUI Start");
         DrawDungeonMap();
-        DungeonFlowManager.Instance.onDungeonReset.AddListener(RemoveRoomImages);
+        DungeonFlowManager.Instance.GetCurrentStage().onDungeonReset.AddListener(RemoveRoomImages);
     }
 
     private void OnDestroy()
     {
-        DungeonFlowManager.Instance.onDungeonReset.RemoveListener(RemoveRoomImages);
+        DungeonFlowManager.Instance.GetCurrentStage().onDungeonReset.RemoveListener(RemoveRoomImages);
     }
 
     void Update()

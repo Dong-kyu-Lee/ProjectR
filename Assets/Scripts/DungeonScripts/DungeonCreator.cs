@@ -46,7 +46,7 @@ public class DungeonCreator : MonoBehaviour
     }
     
     // 던전과 관련 요소를 씬에 생성하는 함수
-    public void CreateDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
+    public void CreateDungeon(StageData stageData, out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
         DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(numberOfRooms);
         var roomNodes = dungeonStructure.GetDungeonStructure();
@@ -61,9 +61,7 @@ public class DungeonCreator : MonoBehaviour
         for (int i = 0; i < roomNodes.Count; ++i)
         {
             Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
-
             Room currentRoom;
-
             if(DungeonTestHelper.Instance.testRoomPrefabs.Count != 0)
             {
                 // 테스트용 방 프리팹이 있다면 해당 방 프리팹을 사용
@@ -72,7 +70,7 @@ public class DungeonCreator : MonoBehaviour
             else
             {
                 // 일반적인 경우, RoomContainer에 있는 방 프리팹을 사용
-                currentRoom = roomContainer.rooms[Random.Range(0, roomContainer.rooms.Count)].GetComponent<Room>();
+                currentRoom = stageData.roomPrefabs[Random.Range(0, stageData.roomPrefabs.Count)].GetComponent<Room>();
             }
             DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
             roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));

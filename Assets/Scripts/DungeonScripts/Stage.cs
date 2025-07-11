@@ -1,29 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum StageFlow
 {
-    Lobby, Stage1, Stage2, MiddleBoss, Stage3, Stage4, FinalBoss
+    Lobby, Normal1, Normal2, MiddleBoss, Normal3, Store, FinalBoss
 }
 
 public class Stage : MonoBehaviour
 {
     public StageData stageData;
-    private List<RoomInstance> rooms;
-    private StageFlow currentState;
+    private StageFlow currentArea;
 
     // 일반 던전 관리 변수
+    private int currentRoomIndex = -1; // 현재 방 인덱스
+    private GameObject currentFinishSpot; // 현재 일반 던전의 클리어 위치
+    public UnityEvent onDungeonReset; // 던전 갱신이 완료되었을 때 호출하는 이벤트
+    public UnityEvent onStageClear; // 스테이지 클리어 시 호출하는 이벤트
     public Vector3 playerSpawnPosition = new Vector3();
     public Vector3 finishSpotPosition = new Vector3();
-    private GameObject currentFinishSpot;
     public List<RoomInstance> roomList = new List<RoomInstance>();
-    private int currentRoomIndex = -1; // 현재 방 인덱스
 
     void Start()
     {
-        currentState = StageFlow.Lobby;
+        currentArea = StageFlow.Lobby;
         Debug.Log($"{gameObject.name} Start");
+        LoadNextDungeon();
     }
 
     void Update()
@@ -31,51 +34,48 @@ public class Stage : MonoBehaviour
         
     }
 
-    // 다음 던전을 로드하는 함수
+    // 다음 던전 구역을 로드하는 함수
     public void LoadNextDungeon()
     {
-        switch (currentState)
+        switch (currentArea)
         {
             case StageFlow.Lobby:
                 // 일반 던전 생성
+                CreateDungeon();
                 break;
-            case StageFlow.Stage1:
+            case StageFlow.Normal1:
+                RemoveDungeon();
+                CreateDungeon();
                 break;
-            case StageFlow.Stage2:
+            case StageFlow.Normal2:
                 break;
             case StageFlow.MiddleBoss:
                 break;
-            case StageFlow.Stage3:
+            case StageFlow.Normal3:
                 break;
-            case StageFlow.Stage4:
+            case StageFlow.Store:
                 break;
             case StageFlow.FinalBoss:
                 break;
         }
-        if (currentState != StageFlow.FinalBoss)
-            currentState++;
+        if (currentArea != StageFlow.FinalBoss)
+            currentArea++;
     }
 
     private void CreateDungeon()
     {
-        /*if (dungeonCreator == null)
-        {
-            dungeonCreator = FindObjectOfType<DungeonCreator>();
-            if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
-        }
         // 던전 생성
-        dungeonCreator.CreateDungeon(out playerSpawnPosition, out finishSpotPosition);
+        DungeonFlowManager.Instance.DungeonCreator.CreateDungeon(stageData, out playerSpawnPosition, out finishSpotPosition);
         // 테스트 플레이어 생성
         GameManager.Instance.PlacePlayerObject(playerSpawnPosition);
         // 도착 위치 생성
-        currentFinishSpot = Instantiate(finishSpotPrefab, finishSpotPosition, transform.rotation);
+        currentFinishSpot = Instantiate(DungeonFlowManager.Instance.finishSpotPrefab, finishSpotPosition, transform.rotation);
         Debug.Log("Finish Spot 생성됨. 닫힌 상태");
-
         // 던전 갱신 완료 이벤트 호출
-        onDungeonReset?.Invoke();*/
+        onDungeonReset?.Invoke();
     }
 
-    private void ResetDungeon()
+    private void RemoveDungeon()
     {
         roomList.Clear();
         DungeonFlowManager.Instance.DungeonCreator.RemoveAllRooms();
