@@ -20,17 +20,17 @@ public class DungeonMapUI : MonoBehaviour
     {
         Debug.Log("DungeonMapUI Start");
         DrawDungeonMap();
-        DungeonFlowManager.Instance.onDungeonReset += RemoveRoomImages;
+        DungeonFlowManager.Instance.onDungeonReset.AddListener(RemoveRoomImages);
     }
 
     private void OnDestroy()
     {
-        DungeonFlowManager.Instance.onDungeonReset -= RemoveRoomImages;
+        DungeonFlowManager.Instance.onDungeonReset.RemoveListener(RemoveRoomImages);
     }
 
     void Update()
     {
-        var roomInfos = DungeonFlowManager.Instance.roomList;
+        var roomInfos = DungeonFlowManager.Instance.GetCurrentStage().roomList;
         for (int i = 0; i < roomList.Count; i++)
         {
             switch(roomInfos[i].GetRoomState)
@@ -52,7 +52,7 @@ public class DungeonMapUI : MonoBehaviour
     private void DrawDungeonMap()
     {
         Debug.Log("DrawDungeonMap");
-        var roomInfos = DungeonFlowManager.Instance.roomList;
+        var roomInfos = DungeonFlowManager.Instance.GetCurrentStage().roomList;
         Vector2 bottomLeft = new Vector2(1000f, 1000f); // 가장 왼쪽 아래 방
         Vector2 topRight = new Vector2(-1000f, -1000f); // 가장 오른쪽 위 방
 

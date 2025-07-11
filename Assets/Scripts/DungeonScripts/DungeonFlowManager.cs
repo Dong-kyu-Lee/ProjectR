@@ -1,34 +1,41 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 // 던전 스테이지 진행을 관리하는 클래스
 public class DungeonFlowManager : MonoBehaviour
 {
-    private static DungeonFlowManager instance;
-    private static StageFlow currentState;
-    private GameObject currentFinishSpot;
-
+    // 신
+    public List<StageData> stageDataList;   // 스테이지 데이터 리스트
+    public Queue<GameObject> stages;         // 스테이지 리스트
+    public int stageCount = 3;              // 스테이지 개수
     [SerializeField]
     private DungeonCreator dungeonCreator;
-    public DungeonCreator DungeonCreator 
-    { 
-        get => dungeonCreator; 
-        set { if (dungeonCreator == null) dungeonCreator = value; }
+    public DungeonCreator DungeonCreator
+    {
+        get
+        {
+            if (dungeonCreator == null)
+            {
+                dungeonCreator = FindObjectOfType<DungeonCreator>();
+                if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
+            }
+            return dungeonCreator;
+        }
     }
 
-    public GameObject finishSpotPrefab;
-    public Vector3 playerSpawnPosition = new Vector3();
-    public Vector3 finishSpotPosition = new Vector3();
-    public List<RoomInstance> roomList = new List<RoomInstance>();
-    private int currentRoomIndex = -1; // 현재 방 인덱스
+    // 구
+    private static DungeonFlowManager instance;
 
-    public StageFlow GetCurrentDungeonFlow { get => currentState; }
+    public GameObject finishSpotPrefab;
+
     // DungeonCreator가 던전 생성 준비를 마쳤으니 던전 생성을 요청할 때 호출하는 Action
-    public Action onDungeonCreatorReady;
-    public Action onDungeonReset; // 던전 갱신이 완료되었을 때 호출하는 Action
+    // public Action onDungeonCreatorReady;
+    public UnityEvent onDungeonReset; // 던전 갱신이 완료되었을 때 호출하는 Action
 
     public static DungeonFlowManager Instance
     {
@@ -53,138 +60,71 @@ public class DungeonFlowManager : MonoBehaviour
             return;
         }
         instance = this;
-        currentState = StageFlow.Lobby;
-        onDungeonCreatorReady += CreateStage;
+        stages = new Queue<GameObject>();
+        stageDataList = new List<StageData>();
+        SceneManager.sceneLoaded += SceneChanged;
         DontDestroyOnLoad(gameObject);
+        if(finishSpotPrefab == null) {
+            finishSpotPrefab = Resources.Load<GameObject>("Prefabs/MapElements/FinishSpot");
+        }
+    }
+
+    // 씬이 변경되었을 때, 각 씬에서 DFM이 처리해야 할 작업을 정의하는 함수 (Start 함수와 유사)
+    private void SceneChanged(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    {
+        switch (scene.name)
+        {
+            case "DungeonGenerate":
+                Debug.Log("DungeonGenerate Scene Loaded");
+                if (dungeonCreator == null)
+                {
+                    dungeonCreator = FindObjectOfType<DungeonCreator>();
+                    if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
+                }
+                CreateStage();
+                break;
+        }
     }
 
     // 스테이지(던전맵, 플레이어 스폰) 생성
     private void CreateStage()
     {
-        if (dungeonCreator == null)
+        for(int i = 1; i <= stageCount; ++i)
         {
-            dungeonCreator = FindObjectOfType<DungeonCreator>();
-            if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
-        }
-        // 던전 생성
-        dungeonCreator.CreateFixedRoomDungeon(out playerSpawnPosition, out finishSpotPosition);
-        // 테스트 플레이어 생성
-        GameManager.Instance.PlacePlayerObject(playerSpawnPosition);
-        // 도착 위치 생성
-        currentFinishSpot = Instantiate(finishSpotPrefab, finishSpotPosition, transform.rotation);
-        Debug.Log("Finish Spot 생성됨. 닫힌 상태");
+            GameObject stage = new GameObject($"Stage{i}");
+            stage.transform.parent = this.transform;
+            stage.SetActive(false); // 초기에는 비활성화
+            Stage stageComponent = stage.AddComponent<Stage>();
+            int stageDataIdx = UnityEngine.Random.Range(0, stageDataList.Count);
+            // stageComponent.stageData = stageDataList[stageDataIdx];
+            stages.Enqueue(stage);
 
-        // 던전 갱신 완료 이벤트 호출
-        onDungeonReset?.Invoke();
-    }
-
-    private void ResetDungeon()
-    {
-        roomList.Clear();
-        if (dungeonCreator != null)
-        {
-            dungeonCreator.RemoveAllRooms();
-        }
-        else
-        {
-            dungeonCreator = FindObjectOfType<DungeonCreator>();
-            dungeonCreator.RemoveAllRooms();
+            //stageDataList.RemoveAt(stageDataIdx); // 중복 방지
         }
     }
 
-    // 현재 스테이지를 기준으로 다음 차례의 스테이지를 정한다.
-    public void LoadNextDungeon()
+    public Stage GetCurrentStage()
     {
-        switch(currentState)
+        if (stages.Count == 0)
         {
-            case StageFlow.Lobby:
-                {
-                    GameManager.Instance.MoveScene("DungeonGenerate");
-                    Debug.Log("Stage1 was Generated");
-                    break;
-                }
-            case StageFlow.Stage1:
-                {
-                    ResetDungeon();
-                    CreateStage();
-                    Debug.Log("Stage2 was Generated");
-                    break;
-                }
-            case StageFlow.Stage2:
-                {
-                    ResetDungeon();
-                    // 중간보스 방 프리펩 생성
-                    Debug.Log("Middle Boss Room was Generated");
-                    break;
-                }
-            case StageFlow.MiddleBoss:
-            case StageFlow.Stage3:
-                {
-                    ResetDungeon();
-                    CreateStage();
-                    break;
-                }
-            case StageFlow.Stage4:
-                {
-                    // 스테이지 보스 씬으로 이동
-                    Debug.Log("Final Boss Room is Generated");
-                    break;
-                }
-            case StageFlow.FinalBoss:
-                {
-                    // 일반 던전 생성 씬 이동
-                    // 최종 스테이지일 경우 엔딩 씬으로 이동
-                    break;
-                }
+            Debug.LogError("No stages available");
+            return null;
         }
-        if (currentState != StageFlow.FinalBoss)
-            currentState++;
+        return stages.Peek().GetComponent<Stage>();
     }
 
-    // 플레이어가 죽었을 때, 던전 진행도를 초기화하기 위한 함수
-    public void ResetDungeonFlow()
+    private void OnDestroy()
     {
-        currentState = StageFlow.Lobby;
-    }
-
-    // roomList에 생성된 방을 추가하는 함수
-    public void AddRoomInstance(RoomInstance currentRoom)
-    {
-        if(currentRoom == null)
+        if (instance == this)
         {
-            Debug.LogError("추가할 방이 없음");
-            return;
+            instance = null;
+            SceneManager.sceneLoaded -= (scene, mode) =>
+            {
+                if (scene.name == "DungeonGenerate")
+                {
+                    dungeonCreator = null;
+                }
+            };
         }
-        roomList.Add(currentRoom);
-    }
-
-    // currentRoom을 클리어하여 다음으로 넘어갈 방의 문을 여는 함수
-    public void OpenNextRoom(RoomInstance currentRoom)
-    {
-        int index = roomList.IndexOf(currentRoom);
-        if (index != -1)
-        {
-            if (index != roomList.Count - 1) roomList[index + 1].gate.OpenGate(false);
-            currentRoomIndex = index;
-        }
-        else
-        {
-            Debug.LogError("잘못된 방 데이터 요청");
-        }
-
-        // 모든 방을 클리어한 경우
-        if (currentRoomIndex == roomList.Count - 1)
-        {
-            OpenFinishSpot();
-        }
-    }
-
-
-    // 스테이지 클리어 시, 다음 스테이지 이동 통로를 활성화하는 함수
-    public void OpenFinishSpot()
-    {
-        Debug.Log("포탈 열림");
-        currentFinishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
     }
 }
-

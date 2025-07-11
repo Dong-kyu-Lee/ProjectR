@@ -29,15 +29,14 @@ public class DungeonCreator : MonoBehaviour
     private Dictionary<Vector3, GameObject> roomInstanceDic = new Dictionary<Vector3, GameObject>();
     private List<Tuple<RoomNode, Room>> roomTupleList = new List<Tuple<RoomNode, Room>>();
 
-    void Start()
+    void Awake()
     {
         if (roomContainer == null)
         {
             gameObject.AddComponent<RoomContainer>();
             roomContainer = GetComponent<RoomContainer>();
         }
-        DungeonFlowManager.Instance.DungeonCreator = this;
-        DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
+        // DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
 
         if(DungeonTestHelper.Instance != null)
         {
@@ -47,7 +46,7 @@ public class DungeonCreator : MonoBehaviour
     }
     
     // 던전과 관련 요소를 씬에 생성하는 함수
-    public void CreateFixedRoomDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
+    public void CreateDungeon(out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
         DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(numberOfRooms);
         var roomNodes = dungeonStructure.GetDungeonStructure();
@@ -88,7 +87,7 @@ public class DungeonCreator : MonoBehaviour
                 roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetBoxObject(currentRoom.boxObject);
             }
             // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
-            DungeonFlowManager.Instance.AddRoomInstance(roomInstanceDic[generatePosition].GetComponent<RoomInstance>());
+            DungeonFlowManager.Instance.GetCurrentStage().AddRoomInstance(roomInstanceDic[generatePosition].GetComponent<RoomInstance>());
 
             if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
             else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
@@ -97,7 +96,7 @@ public class DungeonCreator : MonoBehaviour
         UpdateWarpPosition();
     }
 
-    // 문 오브젝트를 생성하고 갱신하는 함수
+    // 방 오브젝트를 생성하는 함수
     private void CreateRoomInstance(Vector3 doorPosition, bool[] openNeededGate)
     {
         roomInstanceDic.Add(doorPosition, Instantiate(roomInstancePrefab, doorPosition, transform.rotation, grid.transform));

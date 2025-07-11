@@ -13,7 +13,7 @@ public class MinimapCamera : MonoBehaviour
     void LateUpdate()
     {
         Vector3 playerPosition = GameManager.Instance.CurrentPlayer.transform.position;
-        var roomInfos = DungeonFlowManager.Instance.roomList;
+        var roomInfos = DungeonFlowManager.Instance.GetCurrentStage().roomList;
         for(int i = 0; i < roomInfos.Count; ++i)
         {
             if (roomInfos[i].GetRoomState != RoomState.Default)
