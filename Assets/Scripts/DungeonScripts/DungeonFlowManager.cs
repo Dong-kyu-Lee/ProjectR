@@ -111,6 +111,12 @@ public class DungeonFlowManager : MonoBehaviour
         else Debug.LogError("No stages available to activate");
     }
 
+    // 각 스테이지 순서에 따라 정해진 스테이지 데이터를 선택하는 함수
+    private void SelectStageData(Stage stage, int stageNum)
+    {
+        // TODO: 스테이지 데이터 선택 로직 구현
+    }
+
     public Stage GetCurrentStage()
     {
         if (stages.Count == 0)
