@@ -30,9 +30,6 @@ public class BasicItemData : ScriptableObject
     [SerializeField]
     protected string itemExplain;
 
-    [SerializeField]
-    private GameObject itemPrefab;  // 드롭될 아이템
-    public GameObject ItemPrefab => itemPrefab;
 
     public string ItemName { get { return itemName; } }
     public string ItemDescription { get { return itemDescription; } }

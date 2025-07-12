@@ -104,27 +104,16 @@ public class RandomBox : MonoBehaviour
 
             // 아이템 드랍
             Vector3 dropPosition = new Vector3(transform.position.x + (i - (dropNum - 1) / 2f) * itemSpacing, dropParent.position.y - 0.5f, transform.position.z);
-            // 1. 사용할 프리팹 결정
-            GameObject prefabToSpawn = randomItem.ItemPrefab != null ? randomItem.ItemPrefab : dropItemPrefab;
-
-            // 2. 드롭 위치에 인스턴스 생성
-            GameObject droppedItem = Instantiate(prefabToSpawn, dropPosition, Quaternion.identity, dropParent);
-
-            // 3. 드롭된 오브젝트가 FieldItem을 가지고 있다면, 아이템 데이터 주입
-            FieldItem fieldItem = droppedItem.GetComponent<FieldItem>();
-            if (fieldItem != null)
-            {
-                fieldItem.SetItem(randomItem);
-            }
+            GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, dropParent);
             ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
-            if (itemExplain != null)
+            if (itemExplain)
             {
                 itemExplain.item = randomItem;
-                itemExplain.ChangeInfo();
-            }
-            itemExplain.ChangeInfo(); // 아이템 정보
+                itemExplain.ChangeInfo(); // 아이템 정보
             }
         }
+    }
+
     private List<BasicItemData> GetItemListByColor()
     {
         if (spriteRenderer.color == Color.gray)

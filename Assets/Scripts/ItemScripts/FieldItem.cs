@@ -53,11 +53,4 @@ public class FieldItem : MonoBehaviour
         itemDescriptionPanel.ItemName = myItemData.ItemName;
         itemDescriptionPanel.ItemDescription = myItemData.ItemDescription;
     }
-    public void SetItem(BasicItemData itemData)
-    {
-        myItemData = itemData;
-        GetComponent<SpriteRenderer>().sprite = myItemData.ItemSprite;
-        InitItemDescriptionPanel();
-    }
-
 }
