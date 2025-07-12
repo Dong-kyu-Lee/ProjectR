@@ -851,6 +851,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 355827559372064361, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
+      propertyPath: statusEffectDesc
+      value: " '\uC800\uC8FC' \uB514\uBC84\uD504\uC758 \uBC1B\uB294 \uD53C\uD574\uB7C9
+        \uC99D\uAC00\uAC00 \uC2A4\uD0DD \uB2F9 10% (\uCD5C\uB300 50%)\uB85C \uC99D\uAC00\uD55C\uB2E4. "
+      objectReference: {fileID: 0}
+    - target: {fileID: 554345788304284794, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
+      propertyPath: statusEffectDesc
+      value: "\uC9C0\uC18D \uB514\uBC84\uD504 \uD53C\uD574\uC758 \uC801\uC6A9 \uC8FC\uAE30\uB97C
+        \uC808\uBC18\uC73C\uB85C \uAC10\uC18C\uC2DC\uD0A8\uB2E4."
+      objectReference: {fileID: 0}
     - target: {fileID: 1726736997644396434, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -861,6 +871,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1726736997644396434, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626813836252213061, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626813836252213061, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626813836252213061, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4656230874468605393, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
@@ -1050,6 +1072,10 @@ PrefabInstance:
     - target: {fileID: 5564778216176399433, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993866320104497617, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
+      propertyPath: m_ScrollSensitivity
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e156e296b82dc1419c5ab47ec75479e, type: 3}
@@ -5023,7 +5049,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 100
+          m_IntArgument: 10000
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

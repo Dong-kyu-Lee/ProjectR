@@ -75,15 +75,23 @@ public class BuffManager : MonoBehaviour
     }
     private IEnumerator StartBuffEffect(Buff buff)
     {
+        BuffType type = GetBuffTypeFromBuff(buff);
         // 매 1초마다 버프 효과를 적용하고 지속시간을 감소시킵니다.
         while (buff.CurrentDuration > 0)
         {
-            buff.DoActionOnActivate(1.0f);
-            yield return new WaitForSeconds(1.0f);
+            if (buff.TargetObject() == "Enemy" && CalcDamage.Instance.curseEffect16 && (type == BuffType.Burn || type == BuffType.Poison))
+            {
+                buff.DoActionOnActivate(0.5f);
+                yield return new WaitForSeconds(0.5f);
+            }
+            else
+            {
+                buff.DoActionOnActivate(1.0f);
+                yield return new WaitForSeconds(1.0f);
+            }
         }
         buff.RemoveBuffEffect();
 
-        BuffType type = GetBuffTypeFromBuff(buff);
         if (activeBuffs.ContainsKey(type))
         {
             activeBuffs.Remove(type);

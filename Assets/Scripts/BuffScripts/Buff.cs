@@ -15,7 +15,11 @@ public abstract class Buff
     public BuffType BuffType { get; protected set; }
     public float MaxDuration
     {
-        get { return maxDuration * (1 + CalcDamage.Instance.additionalDebuffTime); }
+        get
+        {
+            if (targetObject.CompareTag("Player")) return maxDuration;
+            else return maxDuration * (1 + CalcDamage.Instance.additionalDebuffTime);
+        }
     }
     public float CurrentDuration
     {
@@ -82,5 +86,11 @@ public abstract class Buff
             sum += array[i];
         }
         return sum;
+    }
+
+    public string TargetObject()
+    {
+        if (targetObject.CompareTag("Player")) return "Player";
+        else return "Enemy";
     }
 }

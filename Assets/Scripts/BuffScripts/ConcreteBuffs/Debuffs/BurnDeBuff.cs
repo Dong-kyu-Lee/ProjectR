@@ -38,9 +38,8 @@ public class BurnDeBuff : Buff
         CalcReceiveDamage.Instance.TakeDebuffDamage(fireTickDmg, targetStatus, false);
     }
 
-    public override void DoActionOnActivate(float tickDuration = 1)
+    public override void DoActionOnActivate(float tickDuration)
     {
-        base.DoActionOnActivate(tickDuration);
         TickDamage();
     }
 
