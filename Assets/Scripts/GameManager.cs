@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public UnityEvent OnPlayerCharacterChanged = new UnityEvent();
+
     [SerializeField]
     private GameObject playerObject;
     public GameObject CurrentPlayer { 
@@ -32,6 +35,8 @@ public class GameManager : MonoBehaviour
         {
             playerObject = value;
             DontDestroyOnLoad(playerObject);
+
+            OnPlayerCharacterChanged?.Invoke();
         }
     }
 
@@ -41,6 +46,9 @@ public class GameManager : MonoBehaviour
     private GameObject inventoryUI;
     [SerializeField]
     private GameObject inGameUI;
+    [SerializeField]
+    private GameObject testUI; // 테스트용 UI
+
 
     private void Awake()
     {
@@ -68,13 +76,19 @@ public class GameManager : MonoBehaviour
         {
             if (sceneName == "DungeonGenerate")
             {
-                // 업그레이드UI & 인벤토리 UI 생성
+                // 던전에서 사용되는 UI 생성
                 upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
                 inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
-                inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvas"));
+                inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
                 DontDestroyOnLoad(upgradeUI);
                 DontDestroyOnLoad(inventoryUI);
                 DontDestroyOnLoad(inGameUI);
+
+                if (testUI != null)
+                {
+                    testUI = Instantiate(DungeonTestHelper.Instance.testUI);
+                    DontDestroyOnLoad(testUI);
+                }
             }
             else if (sceneName == "StartScene")
             {
@@ -84,8 +98,29 @@ public class GameManager : MonoBehaviour
                 Destroy(inGameUI);
                 // 플레이어 오브젝트 제거
                 Destroy(playerObject);
+
+                // 테스트용 UI 제거
+                if(testUI != null) Destroy(testUI);
             }
         }
         SceneManager.LoadScene(sceneName);
+    }
+
+    // 테스트 씬에서 작동할 던전 씬 UI 생성 함수
+    public void InGameUIGenerateForSceneTest()
+    {
+        // 던전에서 사용되는 UI 생성
+        upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
+        inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
+        inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
+        DontDestroyOnLoad(upgradeUI);
+        DontDestroyOnLoad(inventoryUI);
+        DontDestroyOnLoad(inGameUI);
+
+        if (testUI != null)
+        {
+            testUI = Instantiate(DungeonTestHelper.Instance.testUI);
+            DontDestroyOnLoad(testUI);
+        }
     }
 }

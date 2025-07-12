@@ -9,11 +9,20 @@ public class RoomContainer : MonoBehaviour
 
 
     // 열려야 할 통로에 대응할 수 있는 방들을 리스트로 가져오는 함수
-    public List<GameObject> GetRooms(bool[] openNeededGate)
+    public List<GameObject> GetRooms()
     {
         List<GameObject> listToReturn = new List<GameObject>();
 
-        foreach (var room in rooms)
+        List<GameObject> roomsToCreate;
+
+        if (DungeonTestHelper.Instance.testRoomPrefabs.Count != 0)
+            roomsToCreate = new List<GameObject>(DungeonTestHelper.Instance.testRoomPrefabs);
+        else
+        {
+            roomsToCreate = new List<GameObject>(rooms);
+        }
+
+        foreach (var room in roomsToCreate)
         {
             Room currentRoom = room.GetComponent<Room>();
 
@@ -22,10 +31,10 @@ public class RoomContainer : MonoBehaviour
                 currentRoom.isDownOpenable, currentRoom.isLeftOpenable };
 
             // 열려야 할 통로를 해당 방이 열 수 없다면 방을 건너뜀
-            if ((openNeededGate[0] && !currentGateOfRoom[0]) ||
+            /*if ((openNeededGate[0] && !currentGateOfRoom[0]) ||
                 (openNeededGate[1] && !currentGateOfRoom[1]) ||
                 (openNeededGate[2] && !currentGateOfRoom[2]) ||
-                (openNeededGate[3] && !currentGateOfRoom[3])) continue;
+                (openNeededGate[3] && !currentGateOfRoom[3])) continue;*/
 
             listToReturn.Add(room);
         }

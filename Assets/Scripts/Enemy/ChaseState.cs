@@ -13,6 +13,7 @@ public class ChaseState : IState
 
     public void Enter()
     {
+        enemy.OnEdgeDetected += StopAtEdge;
         enemy.StateMachine.isChasing = true;
     }
 
@@ -23,15 +24,26 @@ public class ChaseState : IState
 
     public void FixedUpdate()
     {
-        if (enemy.PlayerTransform != null)
+        if (enemy.PlayerTransform != null && !enemy.IsEdgeDetected)
         {
-            enemy.Rigidbody.velocity = (enemy.PlayerTransform.position.x > enemy.transform.position.x) ? Vector2.right : Vector2.left;
-            enemy.Rigidbody.velocity *= enemy.EnemyStatus.TotalMoveSpeed;
+            Vector2 chaseDirection = (enemy.PlayerTransform.position.x > enemy.transform.position.x) ? Vector2.right : Vector2.left;
+            enemy.Rigidbody.velocity = new Vector2(chaseDirection.x * enemy.Speed, enemy.Rigidbody.velocity.y);
+        }
+        else
+        {
+            enemy.Rigidbody.velocity = Vector2.zero;
         }
     }
 
     public void Exit()
     {
+        enemy.OnEdgeDetected -= StopAtEdge;
+        enemy.Rigidbody.velocity = Vector2.zero;
+    }
+
+    private void StopAtEdge()
+    {
+        // 플랫폼 끝에 도달했을 때 정지
         enemy.Rigidbody.velocity = Vector2.zero;
     }
 }

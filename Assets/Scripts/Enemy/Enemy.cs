@@ -24,29 +24,34 @@ public class Enemy : MonoBehaviour
     protected Transform playerTransform;
 
     [SerializeField]
-    protected Transform leftEdge;
-
-    [SerializeField]
-    protected Transform rightEdge;
-
-    [SerializeField]
     protected Rigidbody2D enemyRigidbody;
 
     [SerializeField]
     protected float speed = 3f;
 
+    [SerializeField]
+    private Transform groundCheckPoint;
+
+    [SerializeField]
+    private float groundCheckDistance = 1f;
+
+    [SerializeField]
+    private LayerMask groundLayer;
+
+    public event Action OnEdgeDetected;
+
     public EnemyStatus EnemyStatus { get { return enemyStatus; } }
     public EnemyAIController StateMachine { get { return enemyController; } }
     public BoxCollider2D AttackRangeCol { get { return attackRangeCol; } }
     public BoxCollider2D ChaseRangeCol { get { return chaseRangeCol; } }
-    public Transform LeftEdge { get { return leftEdge; } }
-    public Transform RightEdge { get { return rightEdge; } }
     public Transform PlayerTransform { get { return playerTransform; } }
     public float Speed { get { return speed; } }
     public Rigidbody2D Rigidbody { get { return enemyRigidbody; } }
     public Animator EnemyAnimator { get { return enemyAnimator; } }
 
     public event Action<Enemy> onDeath;
+
+    public bool IsEdgeDetected { get; private set; }
 
     protected virtual void Awake()
     {
@@ -66,7 +71,7 @@ public class Enemy : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         FlipX();
-        CheckEdge();
+        CheckPlatformEdge();
     }
 
     protected void FlipX()
@@ -102,15 +107,20 @@ public class Enemy : MonoBehaviour
 
     }
 
-    protected void CheckEdge()
+    protected void CheckPlatformEdge()
     {
-        if (transform.position.x >= RightEdge.transform.position.x)
+        bool isGroundAhead = Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckDistance, groundLayer);
+
+        Debug.DrawRay(groundCheckPoint.position, Vector2.down * groundCheckDistance, isGroundAhead ? Color.green : Color.red);
+
+        if (!isGroundAhead)
         {
-            transform.position = new Vector3(RightEdge.transform.position.x, transform.position.y, transform.position.z);
+            IsEdgeDetected = true;
+            OnEdgeDetected?.Invoke();
         }
-        else if(transform.position.x <= LeftEdge.transform.position.x)
+        else
         {
-            transform.position = new Vector3(LeftEdge.transform.position.x, transform.position.y, transform.position.z);
+            IsEdgeDetected = false;
         }
     }
 

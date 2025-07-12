@@ -11,12 +11,11 @@ public class MeleeEnemy : Enemy
     {
         base.Awake();
         AttackRangeCol.size = new Vector2(enemyStatus.EnemyStatusData.AttackRange, AttackRangeCol.size.y);
-        StateMachine.Initialize(this);
     }
 
     void Start()
     {
-
+        StateMachine.Initialize(this);
     }
 
     void Update()
