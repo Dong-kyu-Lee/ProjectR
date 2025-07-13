@@ -6,11 +6,11 @@ public class EnemyAIController : MonoBehaviour
 {
     public IState CurrentState { get; private set; }
 
-    public IdleState idleState;
-    public WanderState wanderState;
-    public ChaseState chaseState;
-    public AttackState attackState;
-    public DeadState deadState;
+    public IState idleState;
+    public IState wanderState;
+    public IState chaseState;
+    public IState attackState;
+    public IState deadState;
 
     public bool isChasing = false;
     public bool isDead;
@@ -20,8 +20,16 @@ public class EnemyAIController : MonoBehaviour
         this.idleState = new IdleState(enemy);
         this.wanderState = new WanderState(enemy);
         this.chaseState = new ChaseState(enemy);
-        this.attackState = new AttackState(enemy);
         this.deadState = new DeadState(enemy);
+
+        if (enemy is RangedEnemy rangedEnemy)
+        {
+            this.attackState = new RangedAttackState(rangedEnemy);
+        }
+        else
+        {
+            this.attackState = new MeleeAttackState(enemy);
+        }
 
         isChasing = false;
         isDead = false;
