@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DamagePotion : Potion
+[CreateAssetMenu(fileName = "New DamagePotion", menuName = "Item/Potion/Damage")]
+public class DamagePotion : PotionItemData
 {
-    [SerializeField] 
-    private float dmgIncreasePercent = 10;  //ÇÇÇØ·® Áõ°¡·®(ÆÛ¼¾Æ®)
-    public float DmgIncreasePercent { get { return dmgIncreasePercent; } }
+    [SerializeField] private float damageIncreasePercent = 10f;
+    public float DamageIncreasePercent => damageIncreasePercent;
 
-    //ÇÇÇØ·® Áõ°¡ È¿°ú ¹ß»ı
-    public override void DoEffect(PlayerStatus playerStatus)
+    private void OnEnable()
     {
-        float forDebug = playerStatus.AdditionalDamage; //µğ¹ö±ë¿ë
-        playerStatus.AdditionalDamage +=  dmgIncreasePercent;
-        Debug.Log($"ÇÇÇØ·® {dmgIncreasePercent}% Áõ°¡ÇÔ : {forDebug} -> {playerStatus.Damage}");
-        Destroy(gameObject);
+        kind = ConsumableKind.POTION;
+        potionType = PotionType.DamageIncrease;
+    }
+
+    public override void ActivateItemEffect(PlayerStatus playerStatus)
+    {
+        float before = playerStatus.AdditionalDamage;
+        playerStatus.AdditionalDamage += damageIncreasePercent / 100f;
+        Debug.Log($"[DamagePotion] ì¶”ê°€ í”¼í•´ëŸ‰ {damageIncreasePercent}% ì¦ê°€: {before} â†’ {playerStatus.AdditionalDamage}");
     }
 }

@@ -9,14 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b0a08188b349a478371e925216cbb3, type: 3}
-  m_Name: CriticalDamagePotion
+  m_Script: {fileID: 11500000, guid: fefa12ebb44811d40a844582beca0a4f, type: 3}
+  m_Name: New CriticalPercentPotion
   m_EditorClassIdentifier: 
-  itemName: CriticalDamagePotion
-  itemDescription: Increases Critical Damage by n%.
+  itemName: CriticalPercentPotion
+  itemDescription: Increases Critical Percent by n%.
   itemID: 7
-  itemSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  itemSprite: {fileID: -547772800, guid: 49ab927187f6f3c48910bb6c60042943, type: 3}
   maxAmount: 99
   itemType: 0
   itemPrice: 53
   itemExplain: Nuclear Damage!
+  kind: 0
+  potionType: 3
+  effectValue: 0
+  criticalIncreasePercent: 10

@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 3534875091225980759}
   - component: {fileID: 3534875091225980758}
   - component: {fileID: 3534875091225980757}
-  - component: {fileID: 3534875091225980756}
+  - component: {fileID: 5759103027031167146}
   m_Layer: 0
   m_Name: AttackSpeedPotion
-  m_TagString: Untagged
+  m_TagString: Potion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.5003146, g: 0.43867922, b: 1, a: 1}
+  m_Sprite: {fileID: 1134285563, guid: 49ab927187f6f3c48910bb6c60042943, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -104,7 +104,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 5, y: 5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -113,7 +113,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3534875091225980756
+--- !u!114 &5759103027031167146
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,13 +122,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3534875091225980747}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5b1b3d80703fe04084dc2dcd9847522, type: 3}
+  m_Script: {fileID: 11500000, guid: 84e9eca4f476af54a8d7046efc985ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicItemData: {fileID: 11400000, guid: 221340dc2488f53419dd38d3d6d12dcc, type: 2}
-  type: 5
-  itemDescriptionPanel: {fileID: 4310763351837241137}
-  attackSpeedIncreasement: 10
+  myItemData: {fileID: 11400000, guid: 9aa67da372c921249972ee94114aa02f, type: 2}
+  amount: 1
 --- !u!1001 &1490003531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,17 +184,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dfe235a83463ca4f8f67c45010f46cd, type: 3}
---- !u!114 &4310763351837241137 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4310763350373452154, guid: 0dfe235a83463ca4f8f67c45010f46cd, type: 3}
-  m_PrefabInstance: {fileID: 1490003531}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cee844a65addbc34080f0ec99aa25586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &4310763351837241139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4310763350373452152, guid: 0dfe235a83463ca4f8f67c45010f46cd, type: 3}
