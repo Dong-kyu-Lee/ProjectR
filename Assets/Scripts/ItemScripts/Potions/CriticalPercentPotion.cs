@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CriticalPercentPotion : Potion
+[CreateAssetMenu(fileName = "New CriticalPercentPotion", menuName = "Item/Potion/CriticalPercent")]
+public class CriticalPercentPotion : PotionItemData
 {
-    [SerializeField]
-    private float criticalIncreasePercent= 0;    //Å©¸®Æ¼ÄÃ Áõ°¡·®(ÆÛ¼¾Æ®)
-    public float CriticalIncreasePercent { get { return criticalIncreasePercent; } }
+    [SerializeField] private float criticalIncreasePercent = 10f;
+    public float CriticalIncreasePercent => criticalIncreasePercent;
 
-    //Å©¸®Æ¼ÄÃ Áõ°¡ È¿°ú ¹ß»ı
-    public override void DoEffect(PlayerStatus playerStatus)
+    private void OnEnable()
     {
-        float forDebug = playerStatus.CriticalPercent;  //µğ¹ö±ë¿ë
+        kind = ConsumableKind.POTION;
+        potionType = PotionType.CriticalPercentIncrease;
+    }
+
+    public override void ActivateItemEffect(PlayerStatus playerStatus)
+    {
+        float before = playerStatus.CriticalPercent;
         playerStatus.CriticalPercent += criticalIncreasePercent;
-        Debug.Log($"Å©¸®Æ¼ÄÃ Áõ°¡ÇÔ : {forDebug} -> {playerStatus.CriticalPercent}");
-        Destroy(gameObject);
+        Debug.Log($"[CriticalPercentPotion] í¬ë¦¬í‹°ì»¬ í™•ë¥  {criticalIncreasePercent}% ì¦ê°€: {before} â†’ {playerStatus.CriticalPercent}");
     }
 }

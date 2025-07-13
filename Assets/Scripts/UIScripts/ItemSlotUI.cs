@@ -1,3 +1,5 @@
+using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -13,6 +15,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     protected int slotIndex;                                    //자신의 슬롯의 순서를 나타내는 인덱스
     protected int itemCount = 0;                                //현재 슬롯의 아이템의 갯수
     [SerializeField] protected Text itemCountText;              //아이템 갯수를 표시할 텍스트
+
     public Image ItemSlotImage { get; set; }
     public BasicItemData NowItemData {
         get => nowItemData;
@@ -22,23 +25,31 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public int ItemCount { get => itemCount; set => itemCount = value; }
     
     private bool isInitialized = false;
+    public bool IsInitialized => isInitialized;
     //자신의 슬롯의 초기화 함수
     public void Init(GameObject parent, int indexNumber)
     {
         parentUI = parent.GetComponent<InventoryUI>();
         nowItemData = dummyItemData;
 
-        itemSlotImage = transform.GetChild(0).GetComponent<Image>();
-        itemCountText = transform.GetChild(1).GetComponent<Text>();
+        itemSlotImage = transform
+            .GetComponentsInChildren<Image>(true)
+            .FirstOrDefault(img => img.gameObject.name == "ItemImg");
+
+        itemCountText = transform
+            .GetComponentsInChildren<Text>(true)
+            .FirstOrDefault(txt => txt.gameObject.name == "ItemCountText");
 
         itemSlotImage.sprite = nowItemData.ItemSprite;
         slotIndex = indexNumber;
 
         isInitialized = true;
     }
+
     //자신의 아이템 데이터를 삽입하고 이미지와 갯수 텍스트를 설정 하는 메서드
     public void SetItemData(BasicItemData itemData, int amount = 1)
     {
+        Debug.Log(itemData.ItemName);
         nowItemData = itemData;
         itemCount = amount;
 

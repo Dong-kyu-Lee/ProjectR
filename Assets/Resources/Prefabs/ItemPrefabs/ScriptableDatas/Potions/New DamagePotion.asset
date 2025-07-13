@@ -9,14 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b0a08188b349a478371e925216cbb3, type: 3}
-  m_Name: DamageIncreasementPotion
+  m_Script: {fileID: 11500000, guid: 3368790a8887f7d4390db80a70f37d63, type: 3}
+  m_Name: New DamagePotion
   m_EditorClassIdentifier: 
   itemName: DamagePotion
   itemDescription: Increases Damage by n%.
   itemID: 3
-  itemSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  itemSprite: {fileID: -2038815019, guid: 49ab927187f6f3c48910bb6c60042943, type: 3}
   maxAmount: 99
   itemType: 0
   itemPrice: 58
   itemExplain: Harder!
+  kind: 0
+  potionType: 1
+  effectValue: 0
+  damageIncreasePercent: 10
