@@ -94,6 +94,9 @@ public class DungeonFlowManager : MonoBehaviour
     // 스테이지(던전맵, 플레이어 스폰) 생성
     private void CreateStage()
     {
+        if (stages.Count > 0)
+            return;
+
         for(int i = 1; i <= stageCount; ++i)
         {
             GameObject stage = new GameObject($"Stage{i}");

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public enum StageFlow
 {
@@ -51,9 +52,7 @@ public class Stage : MonoBehaviour
                 GameManager.Instance.MoveScene(SceneKey.MiddleBoss, "TempMiddleBoss");
                 break;
             case StageFlow.MiddleBoss:
-                GameManager.Instance.MoveScene(SceneKey.Normal, "DungeonGenerate");
-                RemoveDungeon();
-                CreateDungeon();
+                MoveToDungeonAndCreate();
                 break;
             case StageFlow.Normal3:
                 GameManager.Instance.MoveScene(SceneKey.Shop, "ShopScene");
@@ -68,12 +67,6 @@ public class Stage : MonoBehaviour
         if (currentArea != StageFlow.FinalBoss)
             currentArea++;
     }
-
-    // 던전 씬이 로드될 때까지 기다렸다가 다음 코드를 실행하는 코루틴
-    /*IEnumerator CreateDungeonCoroutine()
-    {
-        yield return new WaitUntil(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name=="DungeonGenerate")
-    }    */
 
     private void CreateDungeon()
     {
@@ -131,5 +124,21 @@ public class Stage : MonoBehaviour
     {
         Debug.Log("포탈 열림");
         currentFinishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
+    }
+
+    private void MoveToDungeonAndCreate()
+    {
+        SceneManager.sceneLoaded += OnDungeonSceneLoaded;
+
+        SceneManager.LoadSceneAsync("DungeonGenerate");
+    }
+
+    private void OnDungeonSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "DungeonGenerate")
+        {
+            CreateDungeon();
+        }
+        SceneManager.sceneLoaded -= OnDungeonSceneLoaded;
     }
 }
