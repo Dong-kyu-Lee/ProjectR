@@ -15,7 +15,7 @@ public class FinishSpot : MonoBehaviour
             if (isWaveEnd)
             {
                 if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "LobbyScene")
-                    GameManager.Instance.MoveScene("DungeonGenerate");
+                    GameManager.Instance.MoveScene(SceneKey.Normal, "DungeonGenerate");
                 else
                     DungeonFlowManager.Instance.GetCurrentStage().LoadNextDungeon();
                 isPlayerTriggered = true;

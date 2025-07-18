@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public enum StageFlow
 {
-    Lobby, Normal1, Normal2, MiddleBoss, Normal3, Store, FinalBoss
+    Lobby, Normal1, Normal2, MiddleBoss, Normal3, Shop, FinalBoss
 }
 
 public class Stage : MonoBehaviour
@@ -48,19 +48,32 @@ public class Stage : MonoBehaviour
                 CreateDungeon();
                 break;
             case StageFlow.Normal2:
+                GameManager.Instance.MoveScene(SceneKey.MiddleBoss, "TempMiddleBoss");
                 break;
             case StageFlow.MiddleBoss:
+                GameManager.Instance.MoveScene(SceneKey.Normal, "DungeonGenerate");
+                RemoveDungeon();
+                CreateDungeon();
                 break;
             case StageFlow.Normal3:
+                GameManager.Instance.MoveScene(SceneKey.Shop, "ShopScene");
                 break;
-            case StageFlow.Store:
+            case StageFlow.Shop:
+                Debug.Log("Final Boss 준비");
                 break;
             case StageFlow.FinalBoss:
+                // 다음 스테이지로 이동
                 break;
         }
         if (currentArea != StageFlow.FinalBoss)
             currentArea++;
     }
+
+    // 던전 씬이 로드될 때까지 기다렸다가 다음 코드를 실행하는 코루틴
+    /*IEnumerator CreateDungeonCoroutine()
+    {
+        yield return new WaitUntil(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name=="DungeonGenerate")
+    }    */
 
     private void CreateDungeon()
     {
