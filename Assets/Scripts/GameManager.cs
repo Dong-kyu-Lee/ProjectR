@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
+public enum SceneKey
+{
+    StartScene, LobbyScene, Normal, MiddleBoss, Shop, FinalBossScene, TestScene
+}
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
@@ -70,28 +75,13 @@ public class GameManager : MonoBehaviour
         playerObject.transform.position = position;
     }
 
-    public void MoveScene(string sceneName)
+    /* SceneKey : 이동할 씬의 종류를 나타내는 열거형 , sceneName : 이동할 씬의 이름 */
+    public void MoveScene(SceneKey key, string sceneName)
     {
-        if (SceneManager.GetActiveScene().name == "LobbyScene")
+        // 해당 key의 씬으로 이동 시 필요한 코드 실행
+        switch(key)
         {
-            if (sceneName == "DungeonGenerate")
-            {
-                // 던전에서 사용되는 UI 생성
-                upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
-                inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
-                inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
-                DontDestroyOnLoad(upgradeUI);
-                DontDestroyOnLoad(inventoryUI);
-                DontDestroyOnLoad(inGameUI);
-
-                if (testUI != null)
-                {
-                    testUI = Instantiate(DungeonTestHelper.Instance.testUI);
-                    DontDestroyOnLoad(testUI);
-                }
-            }
-            else if (sceneName == "StartScene")
-            {
+            case SceneKey.StartScene:
                 // 업그레이드UI & 인벤토리 UI 제거
                 Destroy(upgradeUI);
                 Destroy(inventoryUI);
@@ -100,8 +90,46 @@ public class GameManager : MonoBehaviour
                 Destroy(playerObject);
 
                 // 테스트용 UI 제거
-                if(testUI != null) Destroy(testUI);
-            }
+                if (testUI != null) Destroy(testUI);
+                break;
+            case SceneKey.LobbyScene:
+                
+                break;
+            case SceneKey.Normal:
+                // 던전에서 사용되는 UI 생성
+                if (upgradeUI == null)
+                {
+                    upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
+                    DontDestroyOnLoad(upgradeUI);
+                }
+                if (inventoryUI == null)
+                {
+                    inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
+                    DontDestroyOnLoad(inventoryUI);
+                }
+                if (inGameUI == null)
+                {
+                    inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
+                    DontDestroyOnLoad(inGameUI);
+                }
+                if (testUI != null)
+                {
+                    testUI = Instantiate(DungeonTestHelper.Instance.testUI);
+                    DontDestroyOnLoad(testUI);
+                }
+                break;
+            case SceneKey.MiddleBoss:
+                playerObject.SetActive(false);
+                break;
+            case SceneKey.Shop:
+                
+                break;
+            case SceneKey.FinalBossScene:
+                
+                break;
+            case SceneKey.TestScene:
+                
+                break;
         }
         SceneManager.LoadScene(sceneName);
     }
