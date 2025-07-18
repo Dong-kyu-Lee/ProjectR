@@ -56,6 +56,7 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
             inventorySlotImgs[i].Init(gameObject, i);
+            Debug.Log($"[InitCheck] Init 호출됨: {inventorySlotImgs[i].gameObject.name}");
         }
         //퀵슬롯 초기화. -1은 해당 UI의 index가 의미 없음을 나타냄.
         QuickSlotImg.Init(gameObject, -1);
@@ -104,6 +105,8 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+
+
     //인벤토리 슬롯에 있는 아이템의 갯수를 업데이트 하는 함수
     public void UpdateItemSlotAmount(BasicItemData itemData, int amount)
     {
@@ -121,6 +124,9 @@ public class InventoryUI : MonoBehaviour
     //퀵슬롯 UI에 아이템 데이터를 삽입 및 UI 업데이트 하는 함수
     public void SetQuickSLotItemData(BasicItemData itemData, int amount)
     {
+        if (!quickSlotImg.IsInitialized)
+            quickSlotImg.Init(gameObject, -1);
+
         quickSlotImg.SetItemData(itemData, amount);
     }
     private void OnDestroy()

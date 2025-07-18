@@ -1,19 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class HpPotion : Potion
+[CreateAssetMenu(fileName = "New HpPotion", menuName = "Item/Potion/HpPotion")]
+public class HpPotion : PotionItemData
 {
-    [SerializeField]
-    private float hpIncreasePercent = 30; //Ã¼·Â Áõ°¡·®(ÆÛ¼¾Æ®)
-    public float HpIncreasePercent { get { return hpIncreasePercent; } }
+    [SerializeField] private float hpIncreasePercent = 30f;
+    public float HpIncreasePercent => hpIncreasePercent;
 
-    //Ã¼·Â È¸º¹ È¿°ú ¹ß»ý
-    public override void DoEffect(PlayerStatus playerStatus) 
+    private void OnEnable()
     {
-        float forDebugHP = playerStatus.Hp; //µð¹ö±×¿ë.
-        playerStatus.Hp += playerStatus.Hp * hpIncreasePercent / 100.0f;
-        Debug.Log($"ÇÃ·¹ÀÌ¾î HP¸¦ {hpIncreasePercent}% Áï½Ã È¸º¹ : {forDebugHP} -> {playerStatus.Hp}");
-        Destroy(gameObject);
+        kind = ConsumableKind.POTION;
+        potionType = PotionType.HpIncrease;
+    }
+    public override void ActivateItemEffect(PlayerStatus playerStatus)
+    {
+        float beforeHp = playerStatus.Hp;
+        playerStatus.Hp += playerStatus.Hp * hpIncreasePercent / 100f;
+        Debug.Log($"[HpPotion] HP íšŒë³µ: {beforeHp} â†’ {playerStatus.Hp}");
     }
 }

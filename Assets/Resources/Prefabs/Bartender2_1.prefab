@@ -166,7 +166,7 @@ MonoBehaviour:
   playerStatus: {fileID: 0}
   maxEquipSlot: 6
   equipmentItemSlot: []
-  dummyItemData: {fileID: 0}
+  dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   myInventoryUI: {fileID: 0}
 --- !u!1 &5965097530767993371
 GameObject:
@@ -411,6 +411,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ae19801b1828242b36c599240234cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAbilityUpdated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3492517143969350190
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,21 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class DamageReductionPotion : Potion
+[CreateAssetMenu(fileName = "New DamageReductionPotion", menuName = "Item/Potion/DamageReduction")]
+public class DamageReductionPotion : PotionItemData
 {
-    [SerializeField]
-    private float dmgReductionPercent = 10; //«««ÿ ∞®º“∑Æ ¡ı∞°∑Æ(∆€ºæ∆Æ)
-    public float DmgReductionPercent { get { return dmgReductionPercent; } }
+    [SerializeField] private float damageReductionPercent = 10f;
+    public float DamageReductionPercent => damageReductionPercent;
 
-    //«««ÿ ∞®º“∑Æ ¡ı∞° »ø∞˙ πﬂª˝
-    public override void DoEffect(PlayerStatus playerStatus)
+    private void OnEnable()
     {
-        float forDebug = playerStatus.AdditionalDamageReduction; //µπˆ±ÎøÎ
-        playerStatus.AdditionalDamageReduction += dmgReductionPercent;
-        Debug.Log($"«««ÿ ∞®º“∑Æ {dmgReductionPercent}% ¡ı∞°«‘ : {forDebug} -> {playerStatus.AdditionalDamageReduction}");
-                
-        Destroy(gameObject);
+        kind = ConsumableKind.POTION;
+        potionType = PotionType.DamageReductionIncrease;
+    }
+
+    public override void ActivateItemEffect(PlayerStatus playerStatus)
+    {
+        float before = playerStatus.AdditionalDamageReduction;
+        playerStatus.AdditionalDamageReduction += damageReductionPercent / 100f;
+        Debug.Log($"[DamageReductionPotion] ÌîºÌï¥ Í∞êÏÜå {damageReductionPercent}% Ï¶ùÍ∞Ä: {before} ‚Üí {playerStatus.AdditionalDamageReduction}");
     }
 }

@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 6261926348261354944}
   - component: {fileID: 6261926348261354945}
   - component: {fileID: 6261926348261354946}
-  - component: {fileID: 6261926348261354947}
+  - component: {fileID: 6548573525490280018}
   m_Layer: 0
   m_Name: HpPotion
-  m_TagString: Untagged
+  m_TagString: Potion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.5896226, g: 1, b: 0.68181545, a: 1}
+  m_Sprite: {fileID: -996343043, guid: 49ab927187f6f3c48910bb6c60042943, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -103,7 +103,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 5, y: 5}
     newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6261926348261354947
+--- !u!114 &6548573525490280018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,10 +121,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6261926348261354950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46e08ff846eb4f541bde431234a8722a, type: 3}
+  m_Script: {fileID: 11500000, guid: 84e9eca4f476af54a8d7046efc985ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicItemData: {fileID: 11400000, guid: c2b2ab1fa982aee4f941f96d0aebac13, type: 2}
-  type: 0
-  itemDescriptionPanel: {fileID: 0}
-  hpIncreasePercent: 30
+  myItemData: {fileID: 11400000, guid: d2e4740b4a1e1c74396da88fa00604fe, type: 2}
+  amount: 1

@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 595367759784048249}
   - component: {fileID: 595367759784048250}
   - component: {fileID: 595367759784048251}
-  - component: {fileID: 595367759784048228}
+  - component: {fileID: -5951233396859680587}
   m_Layer: 0
   m_Name: MoveSpeedPotion
-  m_TagString: Untagged
+  m_TagString: Potion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.4198113, g: 0.8038212, b: 1, a: 1}
+  m_Sprite: {fileID: -1435967315, guid: 49ab927187f6f3c48910bb6c60042943, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -103,7 +103,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 5, y: 5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &595367759784048228
+--- !u!114 &-5951233396859680587
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,10 +121,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 595367759784048229}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d1188cf0f3a9a341bff1f581fa2b80a, type: 3}
+  m_Script: {fileID: 11500000, guid: 84e9eca4f476af54a8d7046efc985ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicItemData: {fileID: 11400000, guid: 2d539133788794e4b9533059f9bc5987, type: 2}
-  type: 6
-  itemDescriptionPanel: {fileID: 0}
-  moveSpeedIncreasement: 30
+  myItemData: {fileID: 11400000, guid: f179b5a1e507f3b41b0d3c8d88d499bb, type: 2}
+  amount: 1

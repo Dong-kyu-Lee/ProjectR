@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackSpeedPotion : Potion
+[CreateAssetMenu(fileName = "New AttackSpeedPotion", menuName = "Item/Potion/AttackSpeed")]
+public class AttackSpeedPotion : PotionItemData
 {
-    [SerializeField] 
-    private float attackSpeedIncreasement = 10.0f;    //°ø°İ¼Óµµ Áõ°¡·® (ÆÛ¼¾Æ®)
-    public float AttackSpeedIncreasement { get { return attackSpeedIncreasement; } }
+    [SerializeField] private float attackSpeedIncreasement = 10f;
+    public float AttackSpeedIncreasement => attackSpeedIncreasement;
 
-    //°ø°İ¼Óµµ Áõ°¡ È¿°ú ¹ß»ı
-    public override void DoEffect(PlayerStatus playerStatus)
+    private void OnEnable()
     {
-        float forDebug = playerStatus.AdditionalAttackSpeed; //µğ¹ö±ë¿ë
-        playerStatus.AdditionalAttackSpeed += attackSpeedIncreasement;
-        Debug.Log($"°ø°İ¼Óµµ {attackSpeedIncreasement}% Áõ°¡ÇÔ: {forDebug} -> {playerStatus.AdditionalAttackSpeed}");
+        kind = ConsumableKind.POTION;
+        potionType = PotionType.AttackSpeedIncrease;
+    }
+
+    public override void ActivateItemEffect(PlayerStatus playerStatus)
+    {
+        float before = playerStatus.AdditionalAttackSpeed;
+        playerStatus.AdditionalAttackSpeed += attackSpeedIncreasement / 100f;
+        Debug.Log($"[AttackSpeedPotion] ê³µê²©ì†ë„ {attackSpeedIncreasement}% ì¦ê°€: {before} â†’ {playerStatus.AdditionalAttackSpeed}");
     }
 }

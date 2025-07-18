@@ -50,7 +50,6 @@ public class ItemExplain : MonoBehaviour
             itemExplainUI.SetActive(false);
         }
     }
-
     public void ChangeInfo()
     {
         spriteRenderer.sprite = item.ItemSprite;

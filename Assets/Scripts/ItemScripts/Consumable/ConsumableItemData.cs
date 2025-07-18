@@ -7,9 +7,9 @@ using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using static PlayerObj;
 
-public abstract class ConsumableItemData : BasicItemData
+public abstract class ConsumableItemDataa : BasicItemData
 {
     //public int maxAmount = 0;
-    //¾ÆÀÌÅÛ »ç¿ëÇÒ °æ¿ì È¿°ú¸¦ ¹ßÈÖÇÏ°Ô ÇØÁÖ´Â ¸Ş¼­µå
-    public abstract void ActivateItemEffect(PlayerStatus player);
+    //ì•„ì´í…œ ì‚¬ìš©í•  ê²½ìš° íš¨ê³¼ë¥¼ ë°œíœ˜í•˜ê²Œ í•´ì£¼ëŠ” ë©”ì„œë“œ
+    public abstract void ActivateItemEffect(PlayerStatus playerStatus);
 }
