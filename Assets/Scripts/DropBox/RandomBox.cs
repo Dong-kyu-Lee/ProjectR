@@ -127,26 +127,35 @@ public class RandomBox : MonoBehaviour
     {
         int dropNum = Random.Range(minDropCount, maxDropCount + 1);
 
+        // 박스 내 중복 방지
+        HashSet<BasicItemData> alreadyDropped = new HashSet<BasicItemData>();
+
+        // 플레이어 소유 아이템 (장비 포함)
+        Inventory inventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Inventory>();
+        HashSet<BasicItemData> ownedItems = new HashSet<BasicItemData>(inventory.GetOwnedItems());
+
         for (int i = 0; i < dropNum; i++)
         {
-            // 1. 아이템 등급 결정
+            //아이템 등급 선택
             ItemGrade selectedGrade = GetRandomItemGrade(currentBoxGrade);
 
-            // 2. 아이템 풀에서 해당 등급 리스트 중 랜덤 선택
-            BasicItemData randomItem = GetRandomItemFromGrade(selectedGrade);
+            //후보 중 하나 선택 (조건에 따라 필터링)
+            BasicItemData randomItem = GetFilteredRandomItem(selectedGrade, alreadyDropped, ownedItems);
+
             if (randomItem == null)
             {
-                Debug.LogWarning($"[RandomBox] {selectedGrade} 등급 아이템 풀이 비어있습니다.");
+                Debug.LogWarning($"[RandomBox] 드롭 가능한 {selectedGrade} 아이템이 없음.");
                 continue;
             }
+
+            alreadyDropped.Add(randomItem);
 
             Vector3 dropPosition = new Vector3(
                 transform.position.x + (i - (dropNum - 1) / 2f) * itemSpacing,
                 dropParent.position.y - 0.5f,
-                transform.position.z
+                transform.position.z - 1f // 박스보다 앞에 생성되게
             );
 
-            // 포션이면 즉시 효과
             if (randomItem is PotionItemData potionItem)
             {
                 Debug.Log($"[RandomBox] 포션 즉시 효과 적용됨: {potionItem.ItemName}");
@@ -155,7 +164,6 @@ public class RandomBox : MonoBehaviour
                 continue;
             }
 
-            // 아이템 프리팹 드롭
             GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, dropParent);
             ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
             if (itemExplain)
@@ -165,13 +173,41 @@ public class RandomBox : MonoBehaviour
             }
         }
     }
+    private BasicItemData GetFilteredRandomItem(
+        ItemGrade grade,
+        HashSet<BasicItemData> alreadySelected,
+        HashSet<BasicItemData> ownedItems)
+    {
+        List<BasicItemData> list = itemGradeList.GetListByGrade(grade);
+        if (list == null || list.Count == 0) return null;
+
+        List<BasicItemData> candidates = new List<BasicItemData>();
+
+        foreach (var item in list)
+        {
+            // 장비는 소유 중이면 드롭 안 함
+            if (item is EquipmentItemData && ownedItems.Contains(item))
+                continue;
+
+            // 한 박스에서 중복 제거
+            if (alreadySelected.Contains(item))
+                continue;
+
+            candidates.Add(item);
+        }
+
+        if (candidates.Count == 0)
+            return null;
+
+        return candidates[Random.Range(0, candidates.Count)];
+    }
 
     private ItemGrade GetRandomItemGrade(BoxGrade boxGrade)
     {
         var table = dropTables.Find(t => t.boxGrade == boxGrade);
         if (table == null || table.itemGradeChances.Count == 0)
         {
-            Debug.LogWarning($"[RandomBox] {boxGrade}에 대한 아이템 등급 드롭 테이블이 없습니다.");
+            Debug.LogWarning($"[RandomBox] {boxGrade}에 대한 아이템 드롭 테이블 없음.");
             return ItemGrade.Normal;
         }
 
@@ -188,13 +224,5 @@ public class RandomBox : MonoBehaviour
         }
 
         return ItemGrade.Normal;
-    }
-
-    private BasicItemData GetRandomItemFromGrade(ItemGrade grade)
-    {
-        List<BasicItemData> list = itemGradeList.GetListByGrade(grade);
-        if (list == null || list.Count == 0) return null;
-
-        return list[Random.Range(0, list.Count)];
     }
 }
