@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
         {
             playerObject = value;
             DontDestroyOnLoad(playerObject);
-
             OnPlayerCharacterChanged?.Invoke();
         }
     }
@@ -93,7 +92,15 @@ public class GameManager : MonoBehaviour
                 if (testUI != null) Destroy(testUI);
                 break;
             case SceneKey.LobbyScene:
-                
+                // 업그레이드UI & 인벤토리 UI 제거
+                if(upgradeUI != null) Destroy(upgradeUI);
+                if (inventoryUI != null) Destroy(inventoryUI);
+                if (inGameUI != null) Destroy(inGameUI);
+                // 플레이어 오브젝트 제거
+                if (playerObject != null) Destroy(playerObject);
+
+                // 테스트용 UI 제거
+                if (testUI != null) Destroy(testUI);
                 break;
             case SceneKey.Normal:
                 // 던전에서 사용되는 UI 생성
@@ -150,5 +157,15 @@ public class GameManager : MonoBehaviour
             testUI = Instantiate(DungeonTestHelper.Instance.testUI);
             DontDestroyOnLoad(testUI);
         }
+    }
+
+    public void PlayerDead()
+    {
+        // 게임 오버 UI 표시
+
+        // 재화 저장은 
+        Destroy(upgradeUI);
+        // 플레이어를 로비 씬으로 이동
+        MoveScene(SceneKey.LobbyScene, "LobbyScene");
     }
 }
