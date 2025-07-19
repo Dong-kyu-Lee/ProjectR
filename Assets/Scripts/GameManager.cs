@@ -159,12 +159,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 플레이어 사망 시, PlayerControllerBase에서 호출되는 함수
     public void PlayerDead()
     {
         // 게임 오버 UI 표시
 
-        // 재화 저장은 
-        Destroy(upgradeUI);
+        // 스테이지 흐름 초기화
+        DungeonFlowManager.Instance.ResetStages();
         // 플레이어를 로비 씬으로 이동
         MoveScene(SceneKey.LobbyScene, "LobbyScene");
     }

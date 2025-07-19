@@ -12,6 +12,7 @@ public class DungeonFlowManager : MonoBehaviour
 {
     // 신
     public List<StageData> stageDataList;   // 스테이지 데이터 리스트
+    private List<StageData> stageDataListCopy; // 스테이지 데이터 복사본 (중복 방지용)
     public Queue<GameObject> stages;         // 스테이지 리스트
     public int stageCount = 3;              // 스테이지 개수
     [SerializeField]
@@ -97,16 +98,17 @@ public class DungeonFlowManager : MonoBehaviour
         if (stages.Count > 0)
             return;
 
-        for(int i = 1; i <= stageCount; ++i)
+        stageDataListCopy = new List<StageData>(stageDataList);
+        for (int i = 1; i <= stageCount; ++i)
         {
             GameObject stage = new GameObject($"Stage{i}");
             stage.transform.parent = this.transform;
             stage.SetActive(false); // 초기에는 비활성화
             Stage stageComponent = stage.AddComponent<Stage>();
-            int stageDataIdx = UnityEngine.Random.Range(0, stageDataList.Count);
-            stageComponent.stageData = stageDataList[stageDataIdx];
+            int stageDataIdx = UnityEngine.Random.Range(0, stageDataListCopy.Count);
+            stageComponent.stageData = stageDataListCopy[stageDataIdx];
             stages.Enqueue(stage);
-            stageDataList.RemoveAt(stageDataIdx); // 중복 방지
+            stageDataListCopy.RemoveAt(stageDataIdx); // 중복 방지
         }
 
         // 첫 스테이지 오브젝트 활성화
@@ -124,10 +126,23 @@ public class DungeonFlowManager : MonoBehaviour
     {
         if (stages.Count == 0)
         {
-            Debug.LogError("No stages available");
+            Debug.LogWarning("No stages available");
             return null;
         }
         return stages.Peek().GetComponent<Stage>();
+    }
+
+    // 플레이어 사망 시, 스테이지 초기화하는 함수
+    public void ResetStages()
+    {
+        while (stages.Count > 0)
+        {
+            GameObject stage = stages.Dequeue();
+            Destroy(stage);
+        }
+        // 스테이지 리스트 초기화
+        stageDataListCopy.Clear();
+        stages.Clear();
     }
 
     private void OnDestroy()
