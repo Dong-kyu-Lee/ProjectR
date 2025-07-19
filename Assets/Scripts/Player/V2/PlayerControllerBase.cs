@@ -141,7 +141,8 @@ public abstract class PlayerControllerBase : MonoBehaviour
         playerRigidBody.velocity = Vector2.zero;
         playerAnimator.SetTrigger("Die");
         yield return new WaitForSeconds(1.5f);
-        gameObject.SetActive(false);
+        GameManager.Instance.PlayerDead();
+        //gameObject.SetActive(false);
     }
 
     public IAbilityV2 GetCharacterAbility()
