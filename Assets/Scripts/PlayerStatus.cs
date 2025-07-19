@@ -17,6 +17,9 @@ public class PlayerStatus : Status
     private float totalDamageReduction;
     private float ignoreDamageReduction;
 
+    private List<SlowDebuff> slowDebuffs = new();
+    private float baseMoveSpeed;
+
     public float Level { get { return level; } set { level = value; } }
     public float CriticalPercent { get { return criticalPercent; } set { criticalPercent = value; } }
     public float CriticalDamage { get { return criticalDamage; } set { criticalDamage = (value < 0.0f) ? 0 : value; } }
@@ -131,13 +134,29 @@ public class PlayerStatus : Status
         criticalPercent = 0;
         priceAdditional = 0;
         ignoreDamageReduction = 0;
+
+        baseMoveSpeed = MoveSpeed;
     }
 
     void Start()
     {
 
     }
-    
+
+    private void Update()
+    {
+        if (slowDebuffs.Count == 0) return;
+
+        // 뒤에서 앞으로 탐색하며 만료된 디버프 제거
+        for (int i = slowDebuffs.Count - 1; i >= 0; i--)
+        {
+            if (Time.time >= slowDebuffs[i].endTime)
+                slowDebuffs.RemoveAt(i);
+        }
+
+        RecalculateSlow();
+    }
+
     protected override void Dead()
     {
         //gameObject.GetComponent<PlayerController>().Dead();
@@ -156,4 +175,23 @@ public class PlayerStatus : Status
 
 
     }
+
+    public void ApplySlow(float amount, float duration)
+    {
+        // 새 디버프 추가
+        slowDebuffs.Add(new SlowDebuff(amount, duration));
+        // 즉시 재계산
+        RecalculateSlow();
+    }
+
+    private void RecalculateSlow()
+    {
+        float totalSlow = 0f;
+        foreach (var debuff in slowDebuffs)
+            totalSlow += debuff.amount;
+
+        totalSlow = Mathf.Clamp01(totalSlow); // 최대 100%(=이동 불가) 제한
+        MoveSpeed = baseMoveSpeed * (1f - totalSlow);
+    }
+
 }

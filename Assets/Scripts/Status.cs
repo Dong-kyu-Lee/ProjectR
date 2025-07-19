@@ -60,22 +60,36 @@ public class Status : MonoBehaviour
         }
     }
     public float TotalAttackSpeed { get { return totalAttackSpeed; } }
-    
-    public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
+
+    public float MoveSpeed
+    {
+        get { return moveSpeed; }
+        set
+        {
+            moveSpeed = value;
+            UpdateTotalMoveSpeed();
+        }
+    }
+
+    private void UpdateTotalMoveSpeed()
+    {
+        if (additionalMoveSpeed < -1f)
+        {
+            totalMoveSpeed = moveSpeed + (moveSpeed * -1);
+        }
+        else
+        {
+            totalMoveSpeed = moveSpeed + (moveSpeed * additionalMoveSpeed);
+        }
+    }
+
     public float AdditionalMoveSpeed
     {
         get { return additionalMoveSpeed; }
         set
         {
             additionalMoveSpeed = value;
-            if (additionalMoveSpeed < -1f)
-            {
-                totalMoveSpeed = MoveSpeed + (MoveSpeed * -1);
-            }
-            else
-            {
-                totalMoveSpeed = MoveSpeed + (MoveSpeed * additionalMoveSpeed);
-            }
+            UpdateTotalMoveSpeed();
         }
     }
     public float TotalMoveSpeed { get { return totalMoveSpeed; } }

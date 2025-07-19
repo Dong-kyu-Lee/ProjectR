@@ -5,14 +5,16 @@ using UnityEngine;
 public class AttackState : IState
 {
     private Enemy enemy;
+    private IAttackStrategy attackStrategy;
     private float attackTime;
     private bool isAttacking;
 
-    public AttackState(Enemy enemy)
+    public AttackState(Enemy enemy, IAttackStrategy attackStrategy)
     {
         this.enemy = enemy;
         attackTime = 0.7f;
         isAttacking = false;
+        this.attackStrategy = attackStrategy;
     }
 
     public void Enter()
@@ -21,6 +23,7 @@ public class AttackState : IState
         {
             isAttacking = true;
             enemy.EnemyAnimator.SetTrigger("Attack");
+            attackStrategy.ExecuteAttack(enemy);
             enemy.StateMachine.StartCoroutine(enemy.StateMachine.AttackCoroutine(attackTime));
         }
         else
