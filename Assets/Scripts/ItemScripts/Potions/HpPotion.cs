@@ -10,12 +10,4 @@ public class HpPotion : PotionItemData
         kind = ConsumableKind.POTION;
         potionType = PotionType.HpIncrease;
     }
-
-    public override void ActivateItemEffect(PlayerStatus playerStatus)
-    {
-        float beforeHp = playerStatus.Hp;
-        float healAmount = playerStatus.MaxHp * hpIncreasePercent / 100f;
-        playerStatus.Hp += healAmount;
-        Debug.Log($"[HpPotion] 체력 회복: {beforeHp} → {playerStatus.Hp} (+{healAmount})");
-    }
 }

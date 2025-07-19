@@ -56,7 +56,6 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
             inventorySlotImgs[i].Init(gameObject, i);
-            Debug.Log($"[InitCheck] Init 호출됨: {inventorySlotImgs[i].gameObject.name}");
         }
         //퀵슬롯 초기화. -1은 해당 UI의 index가 의미 없음을 나타냄.
         QuickSlotImg.Init(gameObject, -1);

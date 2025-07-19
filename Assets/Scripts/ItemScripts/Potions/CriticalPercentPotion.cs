@@ -11,11 +11,4 @@ public class CriticalPercentPotion : PotionItemData
         kind = ConsumableKind.POTION;
         potionType = PotionType.CriticalPercentIncrease;
     }
-
-    public override void ActivateItemEffect(PlayerStatus playerStatus)
-    {
-        float before = playerStatus.CriticalPercent;
-        playerStatus.CriticalPercent += criticalIncreasePercent;
-        Debug.Log($"[CriticalPercentPotion] 크리티컬 확률 {criticalIncreasePercent}% 증가: {before} → {playerStatus.CriticalPercent}");
-    }
 }

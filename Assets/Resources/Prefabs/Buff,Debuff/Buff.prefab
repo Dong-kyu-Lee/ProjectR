@@ -172,59 +172,57 @@ MonoBehaviour:
   iconImage: {fileID: 728470863890287123}
   cooldownOverlay: {fileID: 3384356460110572333}
   buffSpriteEntries:
-  - buffType: 0
-    sprite: {fileID: -252393165, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
   - buffType: 1
-    sprite: {fileID: 1887718961, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+    sprite: {fileID: -252393165, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
   - buffType: 2
-    sprite: {fileID: -155452298, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+    sprite: {fileID: 1887718961, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
   - buffType: 3
-    sprite: {fileID: 1871652530, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+    sprite: {fileID: -155452298, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
   - buffType: 4
-    sprite: {fileID: -810559684, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+    sprite: {fileID: 1871652530, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
   - buffType: 5
-    sprite: {fileID: 1199942458, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+    sprite: {fileID: -810559684, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
   - buffType: 6
-    sprite: {fileID: 21300000, guid: f8eb0d57aa2ec854f9bce28e3da5c601, type: 3}
+    sprite: {fileID: 1199942458, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
   - buffType: 7
-    sprite: {fileID: -1082884622, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
-  - buffType: 8
-    sprite: {fileID: 260680326, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
-  - buffType: 9
-    sprite: {fileID: 21300000, guid: e40dae01b041fc1499381fbacf31e0e3, type: 3}
-  - buffType: 10
-    sprite: {fileID: 21300000, guid: 45d5774cb931da240b187d1dbd71f843, type: 3}
-  - buffType: 11
-    sprite: {fileID: 1741498624, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
-  - buffType: 12
-    sprite: {fileID: -1842030189, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
-  - buffType: 13
-    sprite: {fileID: 21300000, guid: ffcf2d801f3907448bf217fca31ea035, type: 3}
-  - buffType: 14
-    sprite: {fileID: -895075621, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
-  - buffType: 21
-    sprite: {fileID: -1065962286, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
-  - buffType: 22
-    sprite: {fileID: 1241768061, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
-  - buffType: 23
-    sprite: {fileID: -1886561882, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
-  - buffType: 24
-    sprite: {fileID: 2126601645, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
-  - buffType: 25
-    sprite: {fileID: -504217708, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
-  - buffType: 26
-    sprite: {fileID: 21300000, guid: 0f17ef7cdc323ca4384a27e140a6a94f, type: 3}
-  - buffType: 27
     sprite: {fileID: 21300000, guid: f8eb0d57aa2ec854f9bce28e3da5c601, type: 3}
-  - buffType: 28
-    sprite: {fileID: 1208476174, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
-  - buffType: 29
-    sprite: {fileID: 21300000, guid: 0f17ef7cdc323ca4384a27e140a6a94f, type: 3}
-  - buffType: 30
+  - buffType: 8
+    sprite: {fileID: -1082884622, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 9
+    sprite: {fileID: 260680326, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+  - buffType: 10
+    sprite: {fileID: 21300000, guid: e40dae01b041fc1499381fbacf31e0e3, type: 3}
+  - buffType: 11
+    sprite: {fileID: 21300000, guid: 45d5774cb931da240b187d1dbd71f843, type: 3}
+  - buffType: 12
+    sprite: {fileID: 1741498624, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+  - buffType: 13
     sprite: {fileID: -1842030189, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
-  - buffType: 31
-    sprite: {fileID: -700110575, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 14
+    sprite: {fileID: 21300000, guid: ffcf2d801f3907448bf217fca31ea035, type: 3}
   - buffType: 15
+    sprite: {fileID: -895075621, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 22
+    sprite: {fileID: -1065962286, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 23
+    sprite: {fileID: 1241768061, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 24
+    sprite: {fileID: -1886561882, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 25
+    sprite: {fileID: 2126601645, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+  - buffType: 26
+    sprite: {fileID: -504217708, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 27
+    sprite: {fileID: 21300000, guid: 0f17ef7cdc323ca4384a27e140a6a94f, type: 3}
+  - buffType: 28
+    sprite: {fileID: 21300000, guid: f8eb0d57aa2ec854f9bce28e3da5c601, type: 3}
+  - buffType: 29
+    sprite: {fileID: 1208476174, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 30
+    sprite: {fileID: 21300000, guid: 0f17ef7cdc323ca4384a27e140a6a94f, type: 3}
+  - buffType: 31
+    sprite: {fileID: -1842030189, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 32
     sprite: {fileID: -700110575, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
   - buffType: 16
     sprite: {fileID: -700110575, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
@@ -236,6 +234,20 @@ MonoBehaviour:
     sprite: {fileID: -700110575, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
   - buffType: 20
     sprite: {fileID: -700110575, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 21
+    sprite: {fileID: -700110575, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 33
+    sprite: {fileID: -1082884622, guid: 8cbc717838bc8b240951d6740e6bb9d4, type: 3}
+  - buffType: 34
+    sprite: {fileID: -252393165, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+  - buffType: 35
+    sprite: {fileID: 260680326, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+  - buffType: 36
+    sprite: {fileID: 1199942458, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+  - buffType: 37
+    sprite: {fileID: -810559684, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+  - buffType: 38
+    sprite: {fileID: 1887718961, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
 --- !u!114 &1020384974377408828
 MonoBehaviour:
   m_ObjectHideFlags: 0

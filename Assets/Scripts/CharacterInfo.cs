@@ -95,7 +95,6 @@ public class CharacterInfo : MonoBehaviour
     // 세팅 전 초기화
     void Init()
     {
-        Debug.Log("Init");
         statusObjList.Clear();
         if (playerStatus == null)
         {
