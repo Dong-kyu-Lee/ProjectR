@@ -73,7 +73,7 @@ public class RoomInstance : MonoBehaviour
         // 현재 방 문 열기
         gate.OpenGate(true);
         // 다음 방 문 열기
-        DungeonFlowManager.Instance.OpenNextRoom(this);
+        DungeonFlowManager.Instance.GetCurrentStage().OpenNextRoom(this);
     }
 
     public void ResetRoomState()

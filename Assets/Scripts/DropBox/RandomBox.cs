@@ -84,11 +84,10 @@ public class RandomBox : MonoBehaviour
                 break;
         }
     }
-
     public void DropItem()
     {
         List<BasicItemData> itemList = GetItemListByColor();
-        int dropNum = Mathf.Min(Random.Range(minDropCount, maxDropCount + 1), itemList.Count); // 드랍 개수를 아이템 리스트 크기와 비교하여 설정
+        int dropNum = Mathf.Min(Random.Range(minDropCount, maxDropCount + 1), itemList.Count);
         HashSet<int> selectedIndices = new HashSet<int>();
 
         for (int i = 0; i < dropNum; i++)
@@ -102,14 +101,24 @@ public class RandomBox : MonoBehaviour
             selectedIndices.Add(randomIndex);
             BasicItemData randomItem = itemList[randomIndex];
 
-            // 아이템 드랍
             Vector3 dropPosition = new Vector3(transform.position.x + (i - (dropNum - 1) / 2f) * itemSpacing, dropParent.position.y - 0.5f, transform.position.z);
+
+            //1. 포션일 경우 바로 효과 적용
+            if (randomItem is PotionItemData potionItem)
+            {
+                Debug.Log($"[RandomBox] 포션 즉시 효과 적용됨: {potionItem.ItemName}");
+                PlayerStatus player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
+                potionItem.ActivateItemEffect(player);
+                continue; // 생성하지 않음
+            }
+
+            //2. 나머지는 프리팹 생성
             GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, dropParent);
             ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
             if (itemExplain)
             {
                 itemExplain.item = randomItem;
-                itemExplain.ChangeInfo(); // 아이템 정보
+                itemExplain.ChangeInfo(); // 설명 UI 갱신
             }
         }
     }

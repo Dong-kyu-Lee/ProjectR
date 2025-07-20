@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CriticalDamagePostion : Potion
+[CreateAssetMenu(fileName = "New CriticalDamagePotion", menuName = "Item/Potion/CriticalDamage")]
+public class CriticalDamagePostion : PotionItemData
 {
-    [SerializeField]
-    private float criticalDamageIncrease = 10;  //≈©∏Æ∆ºƒ√ µ•πÃ¡ˆ ¡ı∞°∑Æ(∆€ºæ∆Æ)
-    public float CriticalDamageIncrease { get { return criticalDamageIncrease; } }
+    [SerializeField] private float criticalDamageIncrease = 10f; // Ï¶ùÍ∞ÄÎüâ (%)
+    public float CriticalDamageIncrease => criticalDamageIncrease;
 
-    //≈©∏Æ∆ºƒ√ µ•πÃ¡ˆ ¡ı∞° »ø∞˙ πﬂª˝
-    public override void DoEffect(PlayerStatus playerStatus)
+    private void OnEnable()
     {
-        float forDebug = playerStatus.CriticalDamage;
-        playerStatus.CriticalDamage += playerStatus.CriticalDamage * criticalDamageIncrease * 0.01f;
-        Debug.Log($"≈©∏Æ∆ºƒ√ µ•πÃ¡ˆ {criticalDamageIncrease}% ¡ı∞°«‘ : {forDebug} -> {playerStatus.CriticalDamage}");
+        kind = ConsumableKind.POTION;
+        potionType = PotionType.CriticalDamageIncrease;
+    }
+
+    public override void ActivateItemEffect(PlayerStatus playerStatus)
+    {
+        float before = playerStatus.CriticalDamage;
+        playerStatus.CriticalDamage += playerStatus.CriticalDamage * (criticalDamageIncrease / 100f);
+        Debug.Log($"[CriticalDamagePotion] ÌÅ¨Î¶¨Ìã∞Ïª¨ ÌîºÌï¥Îüâ {criticalDamageIncrease}% Ï¶ùÍ∞Ä: {before} ‚Üí {playerStatus.CriticalDamage}");
     }
 }

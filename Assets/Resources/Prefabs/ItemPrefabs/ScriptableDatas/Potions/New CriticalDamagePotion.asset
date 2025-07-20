@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd6474ffe46b0ba429681b8f7c79ccea, type: 3}
+  m_Name: New CriticalDamagePotion
+  m_EditorClassIdentifier: Assembly-CSharp::CriticalDamagePotion
+  itemName: CriticalDamaagePotion
+  itemDescription: Increases Critical Damage by n%.
+  itemID: 2
+  itemSprite: {fileID: 237445611, guid: 49ab927187f6f3c48910bb6c60042943, type: 3}
+  maxAmount: 99
+  itemType: 0
+  itemPrice: 63
+  itemExplain: Nuclear Damage!
+  kind: 0
+  potionType: 4
+  effectValue: 0
+  criticalDamageIncrease: 10

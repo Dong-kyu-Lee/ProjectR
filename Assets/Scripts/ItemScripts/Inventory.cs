@@ -116,44 +116,49 @@ public class Inventory : MonoBehaviour
     }
 
     //아이템을 획득을 처리하는 메서드. 아이템의 종류에 따라 다른 함수 실행
-    //아이템 획득 로직의 처리가 성공할 경우 true를, 실패하면 false를 반환
-    public bool AddItem(BasicItemData item, int amount = 1)
+    public void AddItem(BasicItemData item, int amount = 1)
     {
         switch (item.ItemType)
         {
             case ItemType.CONSUMABLE:
-                return AddConsumableItem(item as ConsumableItemData, amount);
+                AddConsumableItem(item as ConsumableItemData, amount);
+                break;
             case ItemType.EQUIPMENT:
-                return AddEquipmentItem(item as EquipmentItemData);
+                AddEquipmentItem(item as EquipmentItemData);
+                break;
+            case ItemType.DUMMY:
+                Debug.LogWarning($"[Inventory] DUMMY 아이템은 추가하지 않습니다: {item.ItemName}");
+                break;
             default:
-                Debug.Log("아이템이 어떠한 클래스 타입이랑도 매칭되지 않음");
-                return false;
+                Debug.LogWarning($"[Inventory] 정의되지 않은 아이템 타입: {item.ItemType}");
+                break;
         }
 
+        // UI 갱신은 여기서 통합 처리
+        OnItemAdded?.Invoke(item, amount);
     }
+
 
     //획득한 소모품 아이템 데이터를 퀵슬롯 or 인벤토리에 추가하는 메서드
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        //퀵슬롯에 아이템이 없거나 같은 아이템일 때 처리
-        if (!quickSlot || quickSlot == item)
+        if (quickSlot == null) // 퀵슬롯이 비어 있으면
         {
             LoadToQuickSlot(item, amount);
-
-            OnItemAdded?.Invoke(item, QuickSlotItemAmount);
-
             return true;
         }
 
-        // 인벤토리에 추가
-        bool result = AddItemsToInventoryWithUiUpdate(item, amount);
+        // 퀵슬롯이 이미 같은 아이템이면 수량 추가
+        if (quickSlot == item)
+        {
+            LoadToQuickSlot(item, amount);
+            return true;
+        }
 
-        //아이템 추가 성공 시 이벤트 호출
-        if (result)
-            OnItemAdded?.Invoke(item, amount);
-
-        return result;
+        // 다른 아이템이 퀵슬롯에 있다면 인벤토리에 추가
+        return AddItemsToInventoryWithUiUpdate(item, amount);
     }
+
 
 
     //획득한 장비를 비어있는 공간(장비칸 or 인벤토리)에 추가하는 함수
@@ -161,16 +166,16 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < equipmentItemSlot.Length; i++)
         {
-            if (equipmentItemSlot[i].ItemType == ItemType.DUMMY)    //비어있는 장비칸을 검색해 삽입
+            if (equipmentItemSlot[i].ItemType == ItemType.DUMMY)
             {
                 LoadEquipmentItem(item, i);
-                MyInventoryUI.SetItemToUI(item, 1); //차라리 이 함수보단 SetEquippedItemSlotData()를 호출하는게 나을지도. 이 SetItemToUI는 삭제해도 괜찮지 않나.
                 return true;
             }
         }
 
         return AddItemsToInventoryWithUiUpdate(item, 1);
     }
+
 
     //해당 장비 칸에 장비 데이터를 추가하는 메서드
     public void LoadEquipmentItem(EquipmentItemData item, int idx = 0)
@@ -208,12 +213,10 @@ public class Inventory : MonoBehaviour
         equipmentItemSlot[idx1] = equipmentItemSlot[idx2];
         equipmentItemSlot[idx2] = temp;
     }
-
-    //대상 아이템을 인벤토리에 추가하고 UI를 업데이트 하는 함수. 아이템을 처음 획득했을 때 사용
-    //UI 스프라이트 업데이트까지 할지, 아니면 아이템 갯수 텍스트만 갱신할지 경우가 나뉘어 함수를 따로 만듬
+    //UI도 업데이트 하는 함수
     private bool AddItemsToInventoryWithUiUpdate(BasicItemData item, int amount)
     {
-        if (inventory.ContainsKey(item))   //인벤토리에 있는 경우
+        if (inventory.ContainsKey(item))
         {
             if (inventory[item] + amount <= item.MaxAmount)
             {
@@ -239,7 +242,6 @@ public class Inventory : MonoBehaviour
             return false;
         }
     }
-
     //대상 아이템 데이터를 인벤토리에 추가하는 함수. UI를 업데이트하지 않음
     private bool AddItemsToInventory(BasicItemData item, int amount)
     {
