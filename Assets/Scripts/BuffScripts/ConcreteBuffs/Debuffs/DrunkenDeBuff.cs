@@ -12,6 +12,7 @@ public class DrunkenDeBuff : Buff
         this.BuffType = BuffType.Drunken;
         maxDuration = 2;
         maxBuffLevel = 1;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()

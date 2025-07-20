@@ -5,20 +5,22 @@ using UnityEngine.UIElements;
 
 public abstract class Buff
 {
-    protected float maxDuration = 10.0f;            //최대 버프 지속시간
+    protected float maxDuration = 300.0f;            //최대 버프 지속시간
     protected float currentDuration = 0.0f;         //현재 버프 지속시간
     protected float buffEffectTick = 1.0f;          //다음 버프 효과 적용시간 까지의 간격
     protected GameObject targetObject;              //버프 적용 대상
     protected int currentBuffLevel = 0;     //현재 버프 레벨 (0 ~ maxBuffLevel - 1 의 값을 가짐)
     protected int maxBuffLevel = 3;         //최대 버프 레벨
+    protected bool isDebuff = false;
 
     public BuffType BuffType { get; protected set; }
     public float MaxDuration
     {
         get
         {
-            if (targetObject.CompareTag("Player")) return maxDuration;
-            else return maxDuration * (1 + CalcDamage.Instance.additionalDebuffTime);
+            if (targetObject.CompareTag("Player") && !isDebuff) return maxDuration * (1 + CalcDamage.Instance.additionalBuffTime);
+            else if (targetObject.CompareTag("Enemy") && isDebuff) return maxDuration * (1 + CalcDamage.Instance.additionalDebuffTime);
+            else return maxDuration;
         }
     }
     public float CurrentDuration

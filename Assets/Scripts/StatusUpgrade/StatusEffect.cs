@@ -82,7 +82,7 @@ public class StatusEffect : MonoBehaviour
             case "mystery":
                 switch (point)
                 {
-                    case 1: mysteryEffect.EnableMysteryEffect1(); break;
+                    case 1: mysteryEffect.EnableMysteryEffect1(playerStatus); break;
                     case 4: mysteryEffect.EnableMysteryEffect4(); break;
                     case 7: mysteryEffect.EnableMysteryEffect7(); break;
                     case 10: mysteryEffect.EnableMysteryEffect10(); break;
@@ -177,7 +177,7 @@ public class StatusEffect : MonoBehaviour
             case "mystery":
                 switch (point)
                 {
-                    case 1: mysteryEffect.DisableMysteryEffect1(); break;
+                    case 1: mysteryEffect.DisableMysteryEffect1(playerStatus); break;
                     case 4: mysteryEffect.DisableMysteryEffect4(); break;
                     case 7: mysteryEffect.DisableMysteryEffect7(); break;
                     case 10: mysteryEffect.DisableMysteryEffect10(); break;

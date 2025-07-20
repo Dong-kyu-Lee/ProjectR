@@ -11,6 +11,7 @@ public class StoneCurseDeBuff : Buff
     {
         this.BuffType = BuffType.StoneCurse;
         maxBuffLevel = 1;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()

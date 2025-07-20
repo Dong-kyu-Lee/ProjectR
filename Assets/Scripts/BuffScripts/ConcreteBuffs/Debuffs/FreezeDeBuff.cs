@@ -13,6 +13,7 @@ public class FreezeDeBuff : Buff
         this.BuffType = BuffType.Freeze;
         maxDuration = 8;
         maxBuffLevel = 1;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()

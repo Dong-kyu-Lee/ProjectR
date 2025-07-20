@@ -17,6 +17,8 @@ public class PlayerStatus : Status
     private float totalDamageReduction;
     private float ignoreDamageReduction;
     private float debuffDamage;
+    private float buffDuration;
+    private float debuffDuration;
 
     public float Level { get { return level; } set { level = value; } }
     public float CriticalPercent { get { return criticalPercent; } set { criticalPercent = value; } }
@@ -25,6 +27,27 @@ public class PlayerStatus : Status
     public float TotalDamage { get { return totalDamage; } }
     public float TotalDamageReduction { get { return totalDamageReduction; } }
     public float IgnoreDamageReduction { get { return ignoreDamageReduction; } set { ignoreDamageReduction = value; } }
+
+    public float BuffDuration
+    {
+        get { return buffDuration; }
+        set
+        {
+            buffDuration = value;
+            CalcDamage.Instance.additionalBuffTime = value;
+        }
+    }
+
+    public float DebuffDuration
+    {
+        get { return debuffDuration; }
+        set
+        {
+            debuffDuration = value;
+            CalcDamage.Instance.additionalDebuffTime = value;
+        }
+    }
+
     public float DebuffDamage { get { return debuffDamage; } set { debuffDamage = value; } }
     public float Gold;
 

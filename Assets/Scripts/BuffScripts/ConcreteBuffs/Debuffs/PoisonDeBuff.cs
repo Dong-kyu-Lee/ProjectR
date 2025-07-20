@@ -10,6 +10,7 @@ public class PoisonDeBuff : Buff
     {
         this.BuffType = BuffType.Poison;
         maxDuration = 10;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()
@@ -20,7 +21,7 @@ public class PoisonDeBuff : Buff
         CalcReceiveDamage.Instance.TakeDebuffDamage(poisonDmg[currentBuffLevel], targetStatus, false);
     }
 
-    public override void DoActionOnActivate(float tickDuration = 1)
+    public override void DoActionOnActivate(float tickDuration)
     {
         base.DoActionOnActivate(tickDuration);
         ApplyBuffEffect();

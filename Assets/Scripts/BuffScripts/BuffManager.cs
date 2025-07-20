@@ -12,18 +12,23 @@ public class BuffManager : MonoBehaviour
     {
         return BuffFactory.Instance.CreateBuff(type, duration, target);
     }
-    
-    // 버프 활성화 (최대 지속시간)
-    public void ActivateBuff(BuffType type)
+
+    // 버프 활성화
+    public void ActivateBuff(BuffType type, float duration)
     {
+        if (gameObject.CompareTag("Player"))
+        {
+            duration *= (1 + CalcDamage.Instance.additionalBuffTime);
+        }
+
         if (activeBuffs.ContainsKey(type))
         {
-            activeBuffs[type].BuffOverlap(activeBuffs[type].MaxDuration);
-            Debug.Log("지속시간 갱신");
+            activeBuffs[type].BuffOverlap(duration);
+            Debug.Log($"지속시간 갱신 {activeBuffs[type].CurrentDuration}");
         }
         else
         {
-            Buff newBuff = GenerateBuff(type, 100, gameObject);
+            Buff newBuff = GenerateBuff(type, duration, gameObject);
             activeBuffs.Add(type, newBuff);
             newBuff.ApplyBuffEffect();
             StartCoroutine(StartBuffEffect(newBuff));
@@ -31,10 +36,13 @@ public class BuffManager : MonoBehaviour
         }
     }
 
-    // 버프 활성화 (지속시간 설정)
-    public void ActivateBuff(BuffType type, float duration)
+    // 디버프 활성화
+    public void ActivateDeBuff(BuffType type, float duration)
     {
-        duration *= (1 + CalcDamage.Instance.additionalDebuffTime);
+        if (gameObject.CompareTag("Enemy"))
+        {
+            duration *= (1 + CalcDamage.Instance.additionalDebuffTime);
+        }
         if (activeBuffs.ContainsKey(type))
         {
             activeBuffs[type].BuffOverlap(duration);

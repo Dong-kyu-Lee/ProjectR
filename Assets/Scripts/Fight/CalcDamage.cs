@@ -30,6 +30,12 @@ public class CalcDamage : MonoBehaviour
     public bool dexterityEffect16;
     public int dexterityEffect16_Stack;
 
+    public bool mysteryEffect7;
+    public bool mysteryEffect13;
+    public bool mysteryEffect16;
+
+    public float additionalBuffTime = 0f;
+
     public bool curseEffect4;
     public bool curseEffect10;
     public bool curseEffect13;
@@ -294,3 +300,4 @@ public class CalcDamage : MonoBehaviour
         }
     }
 }
+    

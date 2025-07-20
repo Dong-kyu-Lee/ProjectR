@@ -9,6 +9,7 @@ public class BuzzedDeBuff : Buff
         this.BuffType = BuffType.Buzzed;
         maxDuration = 5;
         maxBuffLevel = 10;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()
@@ -23,7 +24,7 @@ public class BuzzedDeBuff : Buff
     private void ActivateDrunkenBuff()
     {
         BuffManager targetBuffManager = targetObject.GetComponent<BuffManager>();
-        targetBuffManager.ActivateBuff(BuffType.Drunken);
+        targetBuffManager.ActivateDeBuff(BuffType.Drunken, 2f);
         targetBuffManager.DeactivateBuff(BuffType.Buzzed);
     }
 

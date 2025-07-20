@@ -61,13 +61,13 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
         switch (bottle)
         {
             case "Poison":
-                enemyBuffManager.ActivateBuff(BuffType.Poison);
+                enemyBuffManager.ActivateDeBuff(BuffType.Poison, 10f);
                 break;
             case "Burn":
-                enemyBuffManager.ActivateBuff(BuffType.Burn);
+                enemyBuffManager.ActivateDeBuff(BuffType.Burn, 5f);
                 break;
             case "Freeze":
-                enemyBuffManager.ActivateBuff(BuffType.Freeze);
+                enemyBuffManager.ActivateDeBuff(BuffType.Freeze, 8f);
                 break;
         }
     }
@@ -75,7 +75,7 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
     public void BartenderAttackDebuff(GameObject enemy)
     {
         enemyBuffManager = enemy.GetComponent<BuffManager>();
-        enemyBuffManager.ActivateBuff(BuffType.Buzzed);
+        enemyBuffManager.ActivateDeBuff(BuffType.Buzzed, 10f);
     }
 
     public int GetBottleCounts()

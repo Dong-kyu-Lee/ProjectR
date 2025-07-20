@@ -119,7 +119,7 @@ public class CalcReceiveDamage : MonoBehaviour
                 if (!CalcDamage.Instance.IsOnCooldown("CurseEffect1"))
                 {
                     BuffManager enemyBuffManager = targetStatus.GetComponent<BuffManager>();
-                    enemyBuffManager.ActivateBuff(BuffType.Curse);
+                    enemyBuffManager.ActivateDeBuff(BuffType.Curse, 10f);
                     StartCoroutine(CalcDamage.Instance.Cooldown("CurseEffect1", 2f));
                 }
             }

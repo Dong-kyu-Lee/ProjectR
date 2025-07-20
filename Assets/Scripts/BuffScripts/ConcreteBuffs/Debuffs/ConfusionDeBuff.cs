@@ -8,6 +8,7 @@ public class ConfusionDeBuff : Buff
     {
         this.BuffType = BuffType.Confusion;
         maxBuffLevel = 1;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()

@@ -12,6 +12,7 @@ public class BurnDeBuff : Buff
         this.BuffType = BuffType.Burn;
         maxDuration = 5;
         maxBuffLevel = 1;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()
@@ -40,6 +41,7 @@ public class BurnDeBuff : Buff
 
     public override void DoActionOnActivate(float tickDuration)
     {
+        base.DoActionOnActivate(tickDuration);
         TickDamage();
     }
 

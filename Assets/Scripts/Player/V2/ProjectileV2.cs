@@ -66,7 +66,7 @@ public class ProjectileV2 : MonoBehaviour
                     processedEnemies.Add(enemy);
 
                     damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical) / 2;
-                    enemy.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
+                    enemy.GetComponent<Status>()?.TakeDamage(player, damage, ignoreDamageReduction, isCritical);
 
                     if (bartenderAbility != null)
                     {

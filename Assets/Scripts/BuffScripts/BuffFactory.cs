@@ -99,6 +99,10 @@ public class BuffFactory : MonoBehaviour
         {
             return new RagingBuff(duration, target);
         });
+        buffConstructors.Add(BuffType.Destruction, (duration, target) =>
+        {
+            return new DestructionBuff(duration, target);
+        });
         buffConstructors.Add(BuffType.Reflection, (duration, target) =>
         {
             return new ReflectionBuff(duration, target);

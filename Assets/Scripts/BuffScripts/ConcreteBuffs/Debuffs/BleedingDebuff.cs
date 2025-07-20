@@ -11,6 +11,7 @@ public class BleedingDebuff : Buff
     {
         this.BuffType = BuffType.Bleeding;
         maxBuffLevel = 5;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()
