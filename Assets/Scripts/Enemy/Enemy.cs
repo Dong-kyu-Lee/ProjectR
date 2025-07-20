@@ -53,6 +53,8 @@ public class Enemy : MonoBehaviour
 
     public bool IsEdgeDetected { get; private set; }
 
+    protected IAttackStrategy attackStrategy;
+
     protected virtual void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
@@ -102,9 +104,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual void Attack()
+    public virtual void Attack()
     {
-
+        attackStrategy?.ExecuteAttack(this);
     }
 
     protected void CheckPlatformEdge()
@@ -135,5 +137,10 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
+    }
+
+    public virtual void SetAttackStrategy(IAttackStrategy strategy)
+    {
+        attackStrategy = strategy;
     }
 }
