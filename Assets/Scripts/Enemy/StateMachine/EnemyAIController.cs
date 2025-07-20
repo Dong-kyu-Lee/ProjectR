@@ -22,13 +22,18 @@ public class EnemyAIController : MonoBehaviour
         this.chaseState = new ChaseState(enemy);
         this.deadState = new DeadState(enemy);
 
-        if (enemy is RangedEnemy rangedEnemy)
+        // 공격 전략 주입
+        if (enemy is DebuffMeleeEnemy)
         {
-            this.attackState = new RangedAttackState(rangedEnemy);
+            attackState = new AttackState(enemy, new DebuffAttackStrategy());
+        }
+        else if (enemy is RangedEnemy)
+        {
+            attackState = new AttackState(enemy, new RangedAttackStrategy());
         }
         else
         {
-            this.attackState = new MeleeAttackState(enemy);
+            attackState = new AttackState(enemy, new MeleeAttackStrategy());
         }
 
         isChasing = false;

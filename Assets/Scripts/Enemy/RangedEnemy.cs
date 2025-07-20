@@ -10,6 +10,7 @@ public class RangedEnemy : Enemy
     protected override void Awake()
     {
         base.Awake();
+        SetAttackStrategy(new RangedAttackStrategy());
     }
 
     void Start()
