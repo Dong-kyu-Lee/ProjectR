@@ -11,11 +11,4 @@ public class MoveSpeedPotion : PotionItemData
         kind = ConsumableKind.POTION;
         potionType = PotionType.MoveSpeedIncrease;
     }
-
-    public override void ActivateItemEffect(PlayerStatus playerStatus)
-    {
-        float before = playerStatus.MoveSpeed;
-        playerStatus.MoveSpeed += playerStatus.MoveSpeed * moveSpeedIncreasement / 100f;
-        Debug.Log($"[MoveSpeedPotion] 이동속도 {moveSpeedIncreasement}% 증가: {before} → {playerStatus.MoveSpeed}");
-    }
 }

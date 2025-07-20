@@ -2,152 +2,227 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#region 드롭 확률 테이블 클래스
+
+[System.Serializable]
+public class BoxGradeChance
+{
+    public BoxGrade grade;
+    [Range(0f, 1f)]
+    public float probability;
+}
+
+[System.Serializable]
+public class ItemGradeChance
+{
+    public ItemGrade grade;
+    [Range(0f, 1f)]
+    public float probability;
+}
+
+[System.Serializable]
+public class BoxGradeDropTable
+{
+    public BoxGrade boxGrade;
+    public List<ItemGradeChance> itemGradeChances;
+}
+
+#endregion
+
 public class RandomBox : MonoBehaviour
 {
+    [Header("박스 자체 등급 확률")]
     [SerializeField]
-    private List<BasicItemData> normalBox;
+    private List<BoxGradeChance> boxGradeChances;
+
+    [Header("박스 → 아이템 등급 확률")]
     [SerializeField]
-    private List<BasicItemData> rareBox;
+    private List<BoxGradeDropTable> dropTables;
+
+    private BoxGrade currentBoxGrade;
+
+    [Header("아이템 풀")]
     [SerializeField]
-    private List<BasicItemData> epicBox;
+    private ItemGradeList itemGradeList;
+
+    [Header("드롭 설정")]
     [SerializeField]
-    private List<BasicItemData> uniqueBox;
+    private GameObject dropItemPrefab;
     [SerializeField]
-    private List<BasicItemData> legendaryBox;
+    private Transform dropParent;
     [SerializeField]
-    private GameObject dropItemPrefab; // 드랍할 아이템 프리펩
+    private int minDropCount = 3;
     [SerializeField]
-    private Transform dropParent; // 아이템이 드랍될 위치의 부모 오브젝트
+    private int maxDropCount = 4;
     [SerializeField]
-    private int minDropCount = 3; // 최소 드랍 아이템 개수
-    [SerializeField]
-    private int maxDropCount = 4; // 최대 드랍 아이템 개수
-    [SerializeField]
-    private float itemSpacing = 1.0f; // 아이템 사이의 간격
+    private float itemSpacing = 1.0f;
+
     private bool isOpen;
     private bool canOpen;
 
-    private SpriteRenderer spriteRenderer; // 스프라이트 렌더러
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         isOpen = false;
         canOpen = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        BoxGrade();
+        DetermineBoxGrade();
     }
-    private void Update()
+
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!isOpen&&canOpen)
+            if (!isOpen && canOpen)
             {
                 DropItem();
                 isOpen = true;
             }
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             canOpen = true;
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             canOpen = false;
         }
     }
 
-    private void BoxGrade()
+    private void DetermineBoxGrade()
     {
-        int boxGrade = Random.Range(0, 5);
-        switch (boxGrade)
+        float rand = Random.value;
+        float cumulative = 0f;
+
+        foreach (var entry in boxGradeChances)
         {
-            case 0:
-                spriteRenderer.color = Color.gray; // Normal
+            cumulative += entry.probability;
+            if (rand <= cumulative)
+            {
+                currentBoxGrade = entry.grade;
                 break;
-            case 1:
-                spriteRenderer.color = Color.blue; // Rare
-                break;
-            case 2:
-                spriteRenderer.color = Color.magenta; // Epic
-                break;
-            case 3:
-                spriteRenderer.color = Color.yellow; // Unique
-                break;
-            case 4:
-                spriteRenderer.color = Color.red; // Legendary
-                break;
+            }
+        }
+
+        switch (currentBoxGrade)
+        {
+            case BoxGrade.Normal: spriteRenderer.color = Color.gray; break;
+            case BoxGrade.Rare: spriteRenderer.color = Color.blue; break;
+            case BoxGrade.Epic: spriteRenderer.color = Color.magenta; break;
+            case BoxGrade.Unique: spriteRenderer.color = Color.yellow; break;
+            case BoxGrade.Legendary: spriteRenderer.color = Color.red; break;
         }
     }
+
     public void DropItem()
     {
-        List<BasicItemData> itemList = GetItemListByColor();
-        int dropNum = Mathf.Min(Random.Range(minDropCount, maxDropCount + 1), itemList.Count);
-        HashSet<int> selectedIndices = new HashSet<int>();
+        int dropNum = Random.Range(minDropCount, maxDropCount + 1);
+
+        // 박스 내 중복 방지
+        HashSet<BasicItemData> alreadyDropped = new HashSet<BasicItemData>();
+
+        // 플레이어 소유 아이템 (장비 포함)
+        Inventory inventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Inventory>();
+        HashSet<BasicItemData> ownedItems = new HashSet<BasicItemData>(inventory.GetOwnedItems());
 
         for (int i = 0; i < dropNum; i++)
         {
-            int randomIndex;
-            do
+            //아이템 등급 선택
+            ItemGrade selectedGrade = GetRandomItemGrade(currentBoxGrade);
+
+            //후보 중 하나 선택 (조건에 따라 필터링)
+            BasicItemData randomItem = GetFilteredRandomItem(selectedGrade, alreadyDropped, ownedItems);
+
+            if (randomItem == null)
             {
-                randomIndex = Random.Range(0, itemList.Count);
-            } while (selectedIndices.Contains(randomIndex));
+                Debug.LogWarning($"[RandomBox] 드롭 가능한 {selectedGrade} 아이템이 없음.");
+                continue;
+            }
 
-            selectedIndices.Add(randomIndex);
-            BasicItemData randomItem = itemList[randomIndex];
+            alreadyDropped.Add(randomItem);
 
-            Vector3 dropPosition = new Vector3(transform.position.x + (i - (dropNum - 1) / 2f) * itemSpacing, dropParent.position.y - 0.5f, transform.position.z);
+            Vector3 dropPosition = new Vector3(
+                transform.position.x + (i - (dropNum - 1) / 2f) * itemSpacing,
+                dropParent.position.y - 0.5f,
+                transform.position.z - 1f // 박스보다 앞에 생성되게
+            );
 
-            //1. 포션일 경우 바로 효과 적용
             if (randomItem is PotionItemData potionItem)
             {
                 Debug.Log($"[RandomBox] 포션 즉시 효과 적용됨: {potionItem.ItemName}");
                 PlayerStatus player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
                 potionItem.ActivateItemEffect(player);
-                continue; // 생성하지 않음
+                continue;
             }
 
-            //2. 나머지는 프리팹 생성
             GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, dropParent);
             ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
             if (itemExplain)
             {
                 itemExplain.item = randomItem;
-                itemExplain.ChangeInfo(); // 설명 UI 갱신
+                itemExplain.ChangeInfo();
             }
         }
     }
-
-    private List<BasicItemData> GetItemListByColor()
+    private BasicItemData GetFilteredRandomItem(
+        ItemGrade grade,
+        HashSet<BasicItemData> alreadySelected,
+        HashSet<BasicItemData> ownedItems)
     {
-        if (spriteRenderer.color == Color.gray)
+        List<BasicItemData> list = itemGradeList.GetListByGrade(grade);
+        if (list == null || list.Count == 0) return null;
+
+        List<BasicItemData> candidates = new List<BasicItemData>();
+
+        foreach (var item in list)
         {
-            return normalBox;
+            // 장비는 소유 중이면 드롭 안 함
+            if (item is EquipmentItemData && ownedItems.Contains(item))
+                continue;
+
+            // 한 박스에서 중복 제거
+            if (alreadySelected.Contains(item))
+                continue;
+
+            candidates.Add(item);
         }
-        else if (spriteRenderer.color == Color.blue)
+
+        if (candidates.Count == 0)
+            return null;
+
+        return candidates[Random.Range(0, candidates.Count)];
+    }
+
+    private ItemGrade GetRandomItemGrade(BoxGrade boxGrade)
+    {
+        var table = dropTables.Find(t => t.boxGrade == boxGrade);
+        if (table == null || table.itemGradeChances.Count == 0)
         {
-            return rareBox;
+            Debug.LogWarning($"[RandomBox] {boxGrade}에 대한 아이템 드롭 테이블 없음.");
+            return ItemGrade.Normal;
         }
-        else if (spriteRenderer.color == Color.magenta)
+
+        float rand = Random.value;
+        float cumulative = 0f;
+
+        foreach (var chance in table.itemGradeChances)
         {
-            return epicBox;
+            cumulative += chance.probability;
+            if (rand <= cumulative)
+            {
+                return chance.grade;
+            }
         }
-        else if (spriteRenderer.color == Color.yellow)
-        {
-            return uniqueBox;
-        }
-        else if (spriteRenderer.color == Color.red)
-        {
-            return legendaryBox;
-        }
-        else
-        {
-            return normalBox;
-        }
+
+        return ItemGrade.Normal;
     }
 }

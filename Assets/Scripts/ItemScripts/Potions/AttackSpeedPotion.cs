@@ -11,11 +11,4 @@ public class AttackSpeedPotion : PotionItemData
         kind = ConsumableKind.POTION;
         potionType = PotionType.AttackSpeedIncrease;
     }
-
-    public override void ActivateItemEffect(PlayerStatus playerStatus)
-    {
-        float before = playerStatus.AdditionalAttackSpeed;
-        playerStatus.AdditionalAttackSpeed += attackSpeedIncreasement / 100f;
-        Debug.Log($"[AttackSpeedPotion] 공격속도 {attackSpeedIncreasement}% 증가: {before} → {playerStatus.AdditionalAttackSpeed}");
-    }
 }

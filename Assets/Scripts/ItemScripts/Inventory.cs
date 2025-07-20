@@ -269,4 +269,26 @@ public class Inventory : MonoBehaviour
             return false;
         }
     }
+
+    //보유중인 아이템 확인용
+    public List<BasicItemData> GetOwnedItems()
+    {
+        List<BasicItemData> result = new List<BasicItemData>();
+
+        // 1. 인벤토리 아이템
+        result.AddRange(inventory.Keys);
+
+        // 2. 퀵슬롯 아이템
+        if (quickSlot != null)
+            result.Add(quickSlot);
+
+        // 3. 장비 슬롯 아이템
+        foreach (var equip in equipmentItemSlot)
+        {
+            if (equip != null && equip.ItemType != ItemType.DUMMY)
+                result.Add(equip);
+        }
+
+        return result;
+    }
 }
