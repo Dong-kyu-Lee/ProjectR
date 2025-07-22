@@ -58,7 +58,7 @@ public class Stage : MonoBehaviour
                 GameManager.Instance.MoveScene(SceneKey.Shop, "ShopScene");
                 break;
             case StageFlow.Shop:
-                Debug.Log("Final Boss 준비");
+                GameManager.Instance.MoveScene(SceneKey.FinalBossScene, "TempFinalBoss");
                 break;
             case StageFlow.FinalBoss:
                 // 다음 스테이지로 이동
