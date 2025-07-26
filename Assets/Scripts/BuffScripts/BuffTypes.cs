@@ -15,6 +15,7 @@ public enum BuffType
     EagleEye,                   //매의 눈 버프
     BulkUp,                     //벌크 업 버프
     IronBody,                   //강철 몸 버프
+    Destruction,                //파괴 버프
     Reflection,                 //반사 버프
     Invincible,                 //무적 버프
 
@@ -36,6 +37,7 @@ public enum BuffType
     Stun,                         //기절 디버프
     StoneCurse,                   //석화 디버프
     Confusion,                    //혼란 디버프
+    Curse,                        //저주 디버프
 
     // 포션 전용 버프타입
     Potion_AttackSpeedIncrease,

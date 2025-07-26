@@ -10,6 +10,7 @@ public class SlowDeBuff : Buff
     {
         this.BuffType = BuffType.Slow;
         maxBuffLevel = 1;
+        isDebuff = true;
     }
     public override void ApplyBuffEffect()
     {

@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class AtkDmgIncBuff : Buff
 {
-    private float[] atkDmgIncGap = { 0.1f, 0.2f, 0.2f };  //공격력 증가량 간격
+    private float[] atkDmgIncGap = { 0.1f, 0.2f, 0.2f };  // 추가 피해량 증가 간격
     
     public AtkDmgIncBuff(float duration, GameObject targetObject) : base(duration, targetObject) {
         this.BuffType = BuffType.AttackDamageIncrease;
+        if (CalcDamage.Instance.mysteryEffect13) maxBuffLevel = 3;
+        else maxBuffLevel = 2;
     }
 
     //대상에게 버프를 적용하는 함수. 스탯이 누적되며 증가하는 식

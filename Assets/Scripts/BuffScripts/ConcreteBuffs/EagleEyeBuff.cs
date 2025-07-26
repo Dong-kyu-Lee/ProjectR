@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class EagleEyeBuff : Buff
 {
-    private float[] critPercentIncGap = { 0.2f, 0.3f, 0.5f };   //크리티컬 확률 증가량 간격
-    private float[] critDamageIncGap = { 0.5f, 1.0f, 1.5f };   //크리티컬 데미지 증가량 간격
+    private float[] critPercentIncGap = { 0.1f, 0.2f, 0.2f };   //크리티컬 확률 증가량 간격
+    private float[] critDamageIncGap = { 0.2f, 0.4f, 0.4f };   //크리티컬 데미지 증가량 간격
 
     public EagleEyeBuff(float duration, GameObject target) : base(duration, target) {
         this.BuffType = BuffType.EagleEye;
+        if (CalcDamage.Instance.mysteryEffect13) maxBuffLevel = 3;
+        else maxBuffLevel = 2;
     }
 
     //대상에게 버프를 적용하는 함수. 스탯이 누적되며 증가하는 식

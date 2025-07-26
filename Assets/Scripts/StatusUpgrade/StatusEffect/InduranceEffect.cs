@@ -9,12 +9,12 @@ public class InduranceEffect : MonoBehaviour
 
     private void Awake()
     {
-        statusEffectTooltip[0] = transform.Find("InduranceEffect/InduranceEffect1").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[1] = transform.Find("InduranceEffect/InduranceEffect4").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[2] = transform.Find("InduranceEffect/InduranceEffect7").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[3] = transform.Find("InduranceEffect/InduranceEffect10").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[4] = transform.Find("InduranceEffect/InduranceEffect13").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[5] = transform.Find("InduranceEffect/InduranceEffect16").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[0] = transform.Find("InduranceEffect1").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[1] = transform.Find("InduranceEffect4").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[2] = transform.Find("InduranceEffect7").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[3] = transform.Find("InduranceEffect10").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[4] = transform.Find("InduranceEffect13").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[5] = transform.Find("InduranceEffect16").GetComponent<StatusEffectTooltip>();
     }
 
     public void EnableInduranceEffect1(PlayerStatus playerStatus)

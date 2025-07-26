@@ -99,6 +99,10 @@ public class BuffFactory : MonoBehaviour
         {
             return new RagingBuff(duration, target);
         });
+        buffConstructors.Add(BuffType.Destruction, (duration, target) =>
+        {
+            return new DestructionBuff(duration, target);
+        });
         buffConstructors.Add(BuffType.Reflection, (duration, target) =>
         {
             return new ReflectionBuff(duration, target);
@@ -147,6 +151,10 @@ public class BuffFactory : MonoBehaviour
         buffConstructors.Add(BuffType.Stun, (duration, target) =>
         {
             return new StunDeBuff(duration, target);
+        });
+        buffConstructors.Add(BuffType.Curse, (duration, target) =>
+        {
+            return new CurseDeBuff(duration, target);
         });
         buffConstructors.Add(BuffType.Force7, (duration, target) =>
         {
@@ -210,8 +218,9 @@ public class BuffFactory : MonoBehaviour
         {
             try
             {
-                Buff newBuff = constructor(duration, target);
-                Debug.Log($"BuffFactory: 버프 [{type}] 생성 완료, 지속 시간: {duration}");
+                Buff newBuff = constructor(0, target);
+                newBuff.CurrentDuration = duration;
+                Debug.Log($"BuffFactory: 버프 [{type}] 생성 완료, 지속 시간: {newBuff.CurrentDuration}");
                 return newBuff;
             }
             catch (Exception e)

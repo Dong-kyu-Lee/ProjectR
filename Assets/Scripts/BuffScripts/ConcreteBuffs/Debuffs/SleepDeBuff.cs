@@ -11,6 +11,7 @@ public class SleepDeBuff : Buff
     {
         this.BuffType = BuffType.Sleep;
         maxBuffLevel = 1;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()

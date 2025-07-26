@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class CritDmgIncBuff : Buff
 {
-    private float[] critDmgIncGap = { 10.0f, 20.0f, 20.0f };  //크리티컬 데미지 증가량 간격
+    private float[] critDmgIncGap = { 0.2f, 0.4f, 0.4f };  //크리티컬 데미지 증가량 간격
     
     public CritDmgIncBuff(float duration , GameObject targetObj) : base(duration, targetObj) {
         this.BuffType = BuffType.CritDamageIncrease;
+        if (CalcDamage.Instance.mysteryEffect13) maxBuffLevel = 3;
+        else maxBuffLevel = 2;
     }
 
     //대상에게 버프를 적용하는 함수. 스탯이 누적되며 증가하는 식

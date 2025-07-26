@@ -9,12 +9,12 @@ public class DexterityEffect : MonoBehaviour
 
     private void Awake()
     {
-        statusEffectTooltip[0] = transform.Find("DexterityEffect/DexterityEffect1").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[1] = transform.Find("DexterityEffect/DexterityEffect4").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[2] = transform.Find("DexterityEffect/DexterityEffect7").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[3] = transform.Find("DexterityEffect/DexterityEffect10").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[4] = transform.Find("DexterityEffect/DexterityEffect13").GetComponent<StatusEffectTooltip>();
-        statusEffectTooltip[5] = transform.Find("DexterityEffect/DexterityEffect16").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[0] = transform.Find("DexterityEffect1").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[1] = transform.Find("DexterityEffect4").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[2] = transform.Find("DexterityEffect7").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[3] = transform.Find("DexterityEffect10").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[4] = transform.Find("DexterityEffect13").GetComponent<StatusEffectTooltip>();
+        statusEffectTooltip[5] = transform.Find("DexterityEffect16").GetComponent<StatusEffectTooltip>();
     }
 
     public void EnableDexterityEffect1(PlayerStatus playerStatus)
