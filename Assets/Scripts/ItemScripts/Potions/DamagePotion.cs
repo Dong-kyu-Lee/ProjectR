@@ -11,11 +11,4 @@ public class DamagePotion : PotionItemData
         kind = ConsumableKind.POTION;
         potionType = PotionType.DamageIncrease;
     }
-
-    public override void ActivateItemEffect(PlayerStatus playerStatus)
-    {
-        float before = playerStatus.AdditionalDamage;
-        playerStatus.AdditionalDamage += damageIncreasePercent / 100f;
-        Debug.Log($"[DamagePotion] 추가 피해량 {damageIncreasePercent}% 증가: {before} → {playerStatus.AdditionalDamage}");
-    }
 }

@@ -4,36 +4,34 @@ using UnityEngine;
 public class PotionItemData : ConsumableItemData
 {
     public PotionType potionType;
-    public float effectValue;
+
+    [SerializeField] public BuffType linkedBuffType;
+    [SerializeField] public float effectValue = 10f;
 
     public override void ActivateItemEffect(PlayerStatus playerStatus)
     {
-        switch (potionType)
+        if (linkedBuffType == BuffType.None)
         {
-            case PotionType.HpIncrease:
-                playerStatus.Hp += effectValue;
-                break;
-            case PotionType.DamageIncrease:
-                playerStatus.AdditionalDamage += effectValue / 100f;
-                break;
-            case PotionType.DamageReductionIncrease:
-                playerStatus.AdditionalDamageReduction += effectValue / 100f;
-                break;
-            case PotionType.CriticalPercentIncrease:
-                playerStatus.CriticalPercent += effectValue;
-                break;
-            case PotionType.CriticalDamageIncrease:
-                playerStatus.CriticalDamage += effectValue / 100f;
-                break;
-            case PotionType.AttackSpeedIncrease:
-                playerStatus.AdditionalAttackSpeed += effectValue / 100f;
-                break;
-            case PotionType.MoveSpeedIncrease:
-                playerStatus.AdditionalMoveSpeed += effectValue / 100f;
-                break;
-            default:
-                Debug.LogWarning($"[PotionItemData] 알 수 없는 포션 타입: {potionType}");
-                break;
+            float maxHp = playerStatus.MaxHp;
+            float heal = maxHp * (effectValue / 100f);
+            playerStatus.Hp += heal;
+            if (playerStatus.Hp > maxHp)
+            {
+                playerStatus.Hp = maxHp;
+            }
+            Debug.Log($"[PotionItemData] HP {effectValue}% 회복 → +{heal}");
+            return;
+        }
+
+        BuffManager buffManager = GameObject.FindObjectOfType<BuffManager>();
+        if (buffManager != null)
+        {
+            buffManager.ActivateBuff(linkedBuffType, 10000f);
+            Debug.Log($"[PotionItemData] 버프 포션 사용: {linkedBuffType}");
+        }
+        else
+        {
+            Debug.LogError("[PotionItemData] BuffManager가 없습니다.");
         }
     }
 }

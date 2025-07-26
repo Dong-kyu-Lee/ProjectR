@@ -48,12 +48,20 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
     public void Initialize(Buff newBuffData)
     {
         buffData = newBuffData;
+        Debug.Log($"[BuffIconUI] Initialize 호출됨: {buffData.BuffType}");
         SetSprites();
 
         buffStartTime = Time.time;
         buffDuration = buffData.MaxDuration;
 
         iconImage.fillAmount = 1f;
+
+        //포션용
+        if (buffData.BuffType.ToString().StartsWith("Potion_"))
+        {
+            iconImage.color = new Color(1f, 1f, 1f, 0.6f); // 반투명 표시
+            cooldownOverlay.color = new Color(1f, 1f, 1f, 0.6f);
+        }
     }
 
     public void UpdateData(Buff newBuffData)

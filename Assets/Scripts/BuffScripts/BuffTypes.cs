@@ -1,5 +1,7 @@
 public enum BuffType
 {
+    None,                       //Hp회복용
+
     AttackDamageIncrease,       //공격력 증가
     DamageReductionIncrease,    //피해 감소량 증가
     Bless,                      //축복 버프
@@ -36,4 +38,12 @@ public enum BuffType
     StoneCurse,                   //석화 디버프
     Confusion,                    //혼란 디버프
     Curse,                        //저주 디버프
+
+    // 포션 전용 버프타입
+    Potion_AttackSpeedIncrease,
+    Potion_AttackDamageIncrease,
+    Potion_MoveSpeedIncrease,
+    Potion_CritPercentIncrease,
+    Potion_CritDamageIncrease,
+    Potion_DamageReductionIncrease,
 }

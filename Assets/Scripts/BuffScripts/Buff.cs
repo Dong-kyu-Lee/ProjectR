@@ -28,7 +28,7 @@ public abstract class Buff
         get { return currentDuration; }
         set
         {
-            currentDuration = (value < MaxDuration) ? value : MaxDuration;
+            currentDuration = value;
         }
     }
     public int CurrentBuffLevel
@@ -42,6 +42,7 @@ public abstract class Buff
 
     public Buff(float duration, GameObject target)
     {
+        maxDuration = duration;
         currentDuration = duration;
         targetObject = target;
     }
