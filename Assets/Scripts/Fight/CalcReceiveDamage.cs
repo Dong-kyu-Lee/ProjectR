@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CalcReceiveDamage : MonoBehaviour
 {
+    private GameObject player;
     private PlayerStatus playerStatus;
 
     public float induranceEffect10_IncreaseDamage;
@@ -47,7 +48,12 @@ public class CalcReceiveDamage : MonoBehaviour
             Destroy(gameObject); // 중복된 CalcReceiveDamage 제거
         }
 
-        GameObject player = GameObject.FindWithTag("Player");
+        SetPlayer(GameObject.FindWithTag("Player"));
+    }
+
+    public void SetPlayer(GameObject newPlayer)
+    {
+        player = newPlayer;
         playerStatus = player.GetComponent<PlayerStatus>();
     }
 

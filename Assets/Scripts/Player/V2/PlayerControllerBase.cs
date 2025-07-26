@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 모든 캐릭터의 고유 능력을 추상화하는 인터페이스
@@ -46,6 +47,8 @@ public abstract class PlayerControllerBase : MonoBehaviour
         playerRigidBody = GetComponent<Rigidbody2D>();
         playerStatus = GetComponent<PlayerStatus>();
         characterAbility = GetComponent<IAbilityV2>();
+        CalcDamage.Instance.SetPlayer(this.gameObject);
+        CalcReceiveDamage.Instance.SetPlayer(this.gameObject);
     }
 
     protected virtual void Update()

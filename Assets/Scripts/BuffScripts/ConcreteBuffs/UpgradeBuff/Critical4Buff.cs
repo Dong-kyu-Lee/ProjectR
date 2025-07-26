@@ -14,16 +14,18 @@ public class Critical4Buff : Buff
     //대상에게 버프를 적용하는 함수. 각 스탯이 누적되며 증가하는 식
     public override void ApplyBuffEffect()
     {
-        PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
+        PlayerStatus targetStatus = targetObject.GetComponent<PlayerStatus>();
+        if (targetStatus == null) return;
 
-        playerStatus.AdditionalMoveSpeed += moveSpeedInc;
+        targetStatus.AdditionalMoveSpeed += moveSpeedInc;
     }
 
     //적용된 버프를 해제하는 함수. 각 스탯마다 누적된 값을 계산해 감소하는 식
     public override void RemoveBuffEffect()
     {
-        PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
+        PlayerStatus targetStatus = targetObject.GetComponent<PlayerStatus>();
+        if (targetStatus == null) return;
 
-        playerStatus.AdditionalMoveSpeed -= moveSpeedInc;
+        targetStatus.AdditionalMoveSpeed -= moveSpeedInc;
     }
 }
