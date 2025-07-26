@@ -116,4 +116,24 @@ public class BuffManager : MonoBehaviour
     {
         return new List<Buff>(activeBuffs.Values);
     }
+
+    public void ClearPotionBuffs()
+    {
+        List<BuffType> potionBuffsToRemove = new List<BuffType>();
+
+        foreach (var buffType in activeBuffs.Keys)
+        {
+            if (buffType.ToString().StartsWith("Potion_"))
+            {
+                potionBuffsToRemove.Add(buffType);
+            }
+        }
+
+        foreach (var buffType in potionBuffsToRemove)
+        {
+            DeactivateBuff(buffType);
+            Debug.Log($"[BuffManager] 스테이지 전환으로 포션 버프 제거됨: {buffType}");
+        }
+    }
+
 }

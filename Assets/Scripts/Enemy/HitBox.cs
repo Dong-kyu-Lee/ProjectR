@@ -6,13 +6,13 @@ using UnityEngine;
 public class HitBox : MonoBehaviour
 {
     [SerializeField]
-    private BoxCollider2D hitBoxCol;
+    protected BoxCollider2D hitBoxCol;
     [SerializeField]
-    private float damage;
+    protected float damage;
 
-    private GameObject enemy;
+    protected GameObject enemy;
 
-    bool isHit;
+    protected bool isHit;
 
     private void Awake()
     {
@@ -36,15 +36,12 @@ public class HitBox : MonoBehaviour
         isHit = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" && !isHit)
         {
-            if (!isHit)
-            {
-                isHit = true;
-                collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
-            }
+            isHit = true;
+            collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
         }
         gameObject.SetActive(false);
     }

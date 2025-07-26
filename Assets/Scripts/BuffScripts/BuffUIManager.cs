@@ -62,6 +62,8 @@ public class BuffUIManager : MonoBehaviour
 
             if (!activeBuffIcons.ContainsKey(buffType))
             {
+                Debug.Log($"[BuffUIManager] 새 Buff UI 생성 대상: {buffType}");
+
                 // 새 버프 아이콘을 생성하여 buffPanel 아래에 배치
                 GameObject newIcon = Instantiate(buffIconPrefab, buffPanel);
                 BuffIconUI iconUI = newIcon.GetComponent<BuffIconUI>();

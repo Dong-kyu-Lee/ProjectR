@@ -5,11 +5,12 @@ using UnityEngine;
 public class MeleeEnemy : Enemy
 {
     [SerializeField]
-    private GameObject hitBoxObj;
+    protected GameObject hitBoxObj;
 
     protected override void Awake()
     {
         base.Awake();
+        SetAttackStrategy(new MeleeAttackStrategy());
         AttackRangeCol.size = new Vector2(enemyStatus.EnemyStatusData.AttackRange, AttackRangeCol.size.y);
     }
 
@@ -29,12 +30,9 @@ public class MeleeEnemy : Enemy
 
     }
 
-    protected override void Attack()
+    public void PerformAttack()
     {
-        //base.Attack();
-
-        Debug.Log(transform.right.x);
-        hitBoxObj.transform.localPosition = new Vector2( (transform.rotation.y != 180f ? -1f : 1f), 0.3f);
+        hitBoxObj.transform.localPosition = new Vector2((transform.rotation.y != 180f ? -1f : 1f), 0.3f);
         hitBoxObj.SetActive(true);
     }
 }

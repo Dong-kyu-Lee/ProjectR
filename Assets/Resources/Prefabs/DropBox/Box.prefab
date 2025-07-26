@@ -129,19 +129,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c547cdc56eedbb448e630cb90999a75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalBox:
-  - {fileID: 11400000, guid: a198298e41a4beb4b9fa5ac990e77926, type: 2}
-  - {fileID: 11400000, guid: 28829a9182da7d74782ff3648b3d1b9b, type: 2}
-  - {fileID: 11400000, guid: 37487c66b69ba53429129cc22b1b3e7f, type: 2}
-  rareBox:
-  - {fileID: 11400000, guid: 4a4e690d7baedc24395c70879e15b101, type: 2}
-  - {fileID: 11400000, guid: d73cdb4d49be2a54a848c56f9bf085cd, type: 2}
-  epicBox:
-  - {fileID: 11400000, guid: 9aa67da372c921249972ee94114aa02f, type: 2}
-  uniqueBox:
-  - {fileID: 11400000, guid: b8ca0eafc00e119408c9b5196c10ba26, type: 2}
-  legendaryBox:
-  - {fileID: 11400000, guid: f179b5a1e507f3b41b0d3c8d88d499bb, type: 2}
+  boxGradeChances:
+  - grade: 0
+    probability: 0.4
+  - grade: 1
+    probability: 0.2
+  - grade: 2
+    probability: 0.2
+  - grade: 3
+    probability: 0.15
+  - grade: 4
+    probability: 0.05
+  dropTables:
+  - boxGrade: 0
+    itemGradeChances:
+    - grade: 0
+      probability: 0.5
+    - grade: 1
+      probability: 0.5
+  - boxGrade: 1
+    itemGradeChances:
+    - grade: 0
+      probability: 0.4
+    - grade: 1
+      probability: 0.4
+    - grade: 2
+      probability: 0.2
+  - boxGrade: 2
+    itemGradeChances:
+    - grade: 1
+      probability: 0.3
+    - grade: 2
+      probability: 0.5
+    - grade: 3
+      probability: 0.2
+  - boxGrade: 3
+    itemGradeChances:
+    - grade: 1
+      probability: 0.1
+    - grade: 2
+      probability: 0.3
+    - grade: 3
+      probability: 0.5
+    - grade: 4
+      probability: 0.1
+  - boxGrade: 4
+    itemGradeChances:
+    - grade: 2
+      probability: 0.2
+    - grade: 3
+      probability: 0.3
+    - grade: 4
+      probability: 0.5
+  itemGradeList: {fileID: 11400000, guid: ff621b5ed834caf45b472387b9fdaf46, type: 2}
   dropItemPrefab: {fileID: 5381951104563746129, guid: 47b8f09d5542bbe4c8b757bc5ffc7e71, type: 3}
   dropParent: {fileID: 3283866905245224950}
   minDropCount: 3

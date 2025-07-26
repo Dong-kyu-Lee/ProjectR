@@ -344,10 +344,13 @@ MonoBehaviour:
   chaseRangeCol: {fileID: 2874281276949492762}
   enemyController: {fileID: 1918481558}
   playerTransform: {fileID: 0}
-  leftEdge: {fileID: 0}
-  rightEdge: {fileID: 0}
   enemyRigidbody: {fileID: 2854206439868323322}
   speed: 5
+  groundCheckPoint: {fileID: 0}
+  groundCheckDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
   hitBoxObj: {fileID: 8901037968461984229}
 --- !u!114 &3842903198805543405
 MonoBehaviour:
@@ -361,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911c3f35092100a478218d2cbcaba56a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 40843861306502d48ae24fd524055e43, type: 2}
+  enemyData: {fileID: 11400000, guid: 12d61e069afe6414eb0e8ae4da6e524b, type: 2}
 --- !u!61 &1576205176
 BoxCollider2D:
   m_ObjectHideFlags: 0
