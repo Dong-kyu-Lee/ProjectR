@@ -23,7 +23,7 @@ public class RangedEnemy : Enemy
         base.FixedUpdate();
     }
 
-    public void ShootProjectile()
+    public override void ShootProjectile()
     {
         if (projectilePrefab && firePoint)
         {

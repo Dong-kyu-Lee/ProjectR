@@ -106,6 +106,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void Attack()
     {
+        FacePlayer();
         attackStrategy?.ExecuteAttack(this);
     }
 
@@ -142,5 +143,26 @@ public class Enemy : MonoBehaviour
     public virtual void SetAttackStrategy(IAttackStrategy strategy)
     {
         attackStrategy = strategy;
+    }
+
+    public void FacePlayer()
+    {
+        if (PlayerTransform == null) return;
+
+        float dir = PlayerTransform.position.x - transform.position.x;
+        if (dir > 0f)
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        else if (dir < 0f)
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+    }
+
+    public virtual void PerformAttack()
+    {
+
+    }
+
+    public virtual void ShootProjectile()
+    {
+
     }
 }
