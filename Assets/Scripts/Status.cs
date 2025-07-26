@@ -19,6 +19,9 @@ public class Status : MonoBehaviour
 
     private bool invincible;
 
+    protected bool isDead = false;
+    public bool IsDead => isDead;
+
     public float MaxHp
     {
         get { return maxHp; }
@@ -112,6 +115,8 @@ public class Status : MonoBehaviour
     // 피해를 받음. 
     public void TakeDamage(GameObject attacker, float damage, float ignoreDamageReduction, bool isCritical)
     {
+        if (isDead) return;
+
         float receiveDamage = (1 - damageReduction * (1 - ignoreDamageReduction)) * damage * (1 + damageTaken);
         if (invincible) receiveDamage = 0;
 
@@ -146,6 +151,8 @@ public class Status : MonoBehaviour
     // 고정 피해를 받음.
     public void TakeTrueDamage(float damage)
     {
+        if (isDead) return;
+
         if (invincible) damage = 0;
         damage *= (1 + damageTaken);
         CalcReceiveDamage.Instance.TakeTrueDamageQueue(damage, gameObject);
