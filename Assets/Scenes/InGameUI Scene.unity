@@ -438,6 +438,51 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9074538797874456322, guid: e97b60c9b2906ea48ad4fcbf6bb0336d, type: 3}
   m_PrefabInstance: {fileID: 9074538798215956963}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &594715395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 594715397}
+  - component: {fileID: 594715396}
+  m_Layer: 0
+  m_Name: RuneSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &594715396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594715395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46109b76d5c2d1e4294972e7f18708c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runePrefab: {fileID: 2957334018155128924, guid: 00147bf83e524344b8bbaf4012af7337, type: 3}
+--- !u!4 &594715397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594715395}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 312.15308, y: 412.74957, z: -1.4896481}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &646784741
 PrefabInstance:
   m_ObjectHideFlags: 0
