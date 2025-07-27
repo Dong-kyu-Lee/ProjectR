@@ -7,8 +7,6 @@ public class DynamiteProjectile : Projectile
     [SerializeField]
     private float timeToExplode = 5.0f;     //폭발 시간
     [SerializeField]
-    private float explosionRadius = 5.0f;   //폭발 반경
-    [SerializeField]
     private float explosionDmg = 100.0f;    //폭발 데미지
 
 

@@ -180,32 +180,6 @@ public class BuffFactory : MonoBehaviour
         {
             return new Critical7Buff(duration, target);
         });
-        // 포션 전용 버프 생성 함수
-        buffConstructors.Add(BuffType.Potion_AttackSpeedIncrease, (duration, target) =>
-        {
-            return new AttackSpeedIncBuff(duration, target);
-        });
-        buffConstructors.Add(BuffType.Potion_AttackDamageIncrease, (duration, target) =>
-        {
-            return new AtkDmgIncBuff(duration, target);
-        });
-        buffConstructors.Add(BuffType.Potion_CritDamageIncrease, (duration, target) =>
-        {
-            return new CritDmgIncBuff(duration, target);
-        });
-        buffConstructors.Add(BuffType.Potion_CritPercentIncrease, (duration, target) =>
-        {
-            return new CritPercentIncBuff(duration, target);
-        });
-        buffConstructors.Add(BuffType.Potion_DamageReductionIncrease, (duration, target) =>
-        {
-            return new DmgReductIncBuff(duration, target);
-        });
-        buffConstructors.Add(BuffType.Potion_MoveSpeedIncrease, (duration, target) =>
-        {
-            return new MoveSpeedIncBuff(duration, target);
-        });
-
 
         Debug.Log("BuffFactory: 모든 버프 생성 함수 초기화 완료.");
     }

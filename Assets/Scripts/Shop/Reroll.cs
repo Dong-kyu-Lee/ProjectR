@@ -18,6 +18,9 @@ public class Reroll : MonoBehaviour
 
     private void Awake()
     {
+        if (playerStatus == null)
+            playerStatus = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStatus>();
+
         rerollCount = 0;
         rerollCoast = 50;
     }

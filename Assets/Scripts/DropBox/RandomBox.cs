@@ -136,10 +136,10 @@ public class RandomBox : MonoBehaviour
 
         for (int i = 0; i < dropNum; i++)
         {
-            //아이템 등급 선택
+            // 아이템 등급 선택
             ItemGrade selectedGrade = GetRandomItemGrade(currentBoxGrade);
 
-            //후보 중 하나 선택 (조건에 따라 필터링)
+            // 후보 중 하나 선택
             BasicItemData randomItem = GetFilteredRandomItem(selectedGrade, alreadyDropped, ownedItems);
 
             if (randomItem == null)
@@ -153,17 +153,13 @@ public class RandomBox : MonoBehaviour
             Vector3 dropPosition = new Vector3(
                 transform.position.x + (i - (dropNum - 1) / 2f) * itemSpacing,
                 dropParent.position.y - 0.5f,
-                transform.position.z - 1f // 박스보다 앞에 생성되게
+                transform.position.z - 1f
             );
 
-            if (randomItem is PotionItemData potionItem)
-            {
-                Debug.Log($"[RandomBox] 포션 즉시 효과 적용됨: {potionItem.ItemName}");
-                PlayerStatus player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
-                potionItem.ActivateItemEffect(player);
-                continue;
-            }
+            //룬 생성 시도
+            RuneSpawner.Instance.TrySpawnRune(dropPosition);
 
+            //일반 아이템 드롭
             GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, dropParent);
             ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
             if (itemExplain)
@@ -173,6 +169,7 @@ public class RandomBox : MonoBehaviour
             }
         }
     }
+
     private BasicItemData GetFilteredRandomItem(
         ItemGrade grade,
         HashSet<BasicItemData> alreadySelected,

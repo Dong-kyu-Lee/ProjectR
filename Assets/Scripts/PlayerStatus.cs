@@ -52,7 +52,17 @@ public class PlayerStatus : Status
     }
 
     public float DebuffDamage { get { return debuffDamage; } set { debuffDamage = value; } }
-    public float Gold;
+    private float gold;
+    public float Gold
+    {
+        get { return gold; }
+        set
+        {
+            gold = value;
+            InGameUIManager.Instance?.CheckGold();
+        }
+    }
+
 
     public float Exp
     {
