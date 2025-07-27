@@ -29,6 +29,9 @@ public class EnemyStatus : Status
 
     protected override void Dead()
     {
+        if (isDead) return;
+        isDead = true;
+
         EnemyAIController enemyAIController = GetComponent<Enemy>().StateMachine;
         LevelUp.Instance.IncreaseExp(enemyData.ExpValue);
         Vector2 spawnPosition = GetComponent<CapsuleCollider2D>().bounds.min;
