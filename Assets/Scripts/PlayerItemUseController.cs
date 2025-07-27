@@ -40,14 +40,6 @@ public class PlayerItemUseController : MonoBehaviour
             FieldItem fieldItem = itemHit.collider.GetComponent<FieldItem>();
             var item = fieldItem.MyItemData;
 
-            // 포션이면 즉시 사용
-            if (item is PotionItemData potion)
-            {
-                potion.ActivateItemEffect(myInventory.GetComponentInParent<PlayerStatus>());
-                Destroy(itemHit.transform.gameObject);
-                return;
-            }
-
             // 그 외 소비아이템은 인벤토리에 추가
             myInventory.AddItem(item, fieldItem.Amount);
             Destroy(itemHit.transform.gameObject);

@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
     private bool hasExploded = false;
 
     public GameObject explosionPrefab;
-    public float explosionRadius = 5f;
+    protected float explosionRadius = 5f;
 
     Vector2 velocity;
 
