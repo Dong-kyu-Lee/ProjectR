@@ -29,8 +29,10 @@ public class BasicItemData : ScriptableObject
     protected int itemPrice;
     [SerializeField]
     protected string itemExplain;
+    [SerializeField]
+    protected ItemGrade itemGrade;  // 아이템 등급
 
-
+    public ItemGrade ItemGrade => itemGrade;   // 외부 접근용
     public string ItemName { get { return itemName; } }
     public string ItemDescription { get { return itemDescription; } }
     public int ItemID { get { return itemID; } }

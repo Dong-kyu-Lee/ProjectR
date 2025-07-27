@@ -5,6 +5,7 @@ public class ItemInteraction : MonoBehaviour
 {
     public Inventory inventory;
     private ShopManager shopManager;
+    public bool isShop;
 
     private void Awake()
     {
@@ -14,6 +15,7 @@ public class ItemInteraction : MonoBehaviour
         if (currentScene == "ShopScene")
         {
             shopManager = FindObjectOfType<ShopManager>();
+            isShop = true;
         }
     }
 
@@ -24,8 +26,7 @@ public class ItemInteraction : MonoBehaviour
             var itemExplain = GetComponent<ItemExplain>();
             if (itemExplain && itemExplain.IsActive())
             {
-                string currentScene = SceneManager.GetActiveScene().name;
-                if (currentScene == "ShopScene")
+                if (isShop)
                 {
                     shopManager.BuyItem(itemExplain.item);
                     itemExplain.HideUI();
@@ -50,7 +51,6 @@ public class ItemInteraction : MonoBehaviour
                     {
                         inventory.AddItem(item); // 장비 아이템 등
                     }
-
 
                     itemExplain.HideUI();
                     Destroy(gameObject); // 먹은 아이템 제거
