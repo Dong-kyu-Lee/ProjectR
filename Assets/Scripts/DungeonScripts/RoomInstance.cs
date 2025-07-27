@@ -41,19 +41,24 @@ public class RoomInstance : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && roomState == RoomState.Default)
+        if (collision.CompareTag("Player"))
         {
-            // 문 닫기
-            gate.CloseGate();
-
-            Debug.Log("Player is Detected");
-            if (isFirstWaveEnded == false)
+            if (roomState == RoomState.Default)
             {
-                // first wave 적 생성
-                enemyInRoom.ActivateEnemies(false);
+                // 문 닫기
+                gate.CloseGate();
+
+                Debug.Log("Player is Detected");
+                if (isFirstWaveEnded == false)
+                {
+                    // first wave 적 생성
+                    enemyInRoom.ActivateEnemies(false);
+                }
+                // 방 상태 변경
+                roomState = RoomState.Start;
             }
-            // 방 상태 변경
-            roomState = RoomState.Start;
+            // 카메라 경계 현재 방 위치로 이동
+            DungeonFlowManager.Instance.DungeonCreator.cameraBoundary.transform.position = transform.position + new Vector3(19.5f, 19.5f, 0);
         }
     }
 

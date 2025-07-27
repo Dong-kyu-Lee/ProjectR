@@ -13,6 +13,7 @@ public class DungeonCreator : MonoBehaviour
 
     [Header("Needed Objects")]
     public RoomContainer roomContainer;
+    public GameObject cameraBoundary;
     [SerializeField]
     private Tilemap backgroundTilemap;
     [SerializeField]
@@ -43,6 +44,9 @@ public class DungeonCreator : MonoBehaviour
             numberOfRooms = DungeonTestHelper.Instance.numberOfRooms;
             dungeonBoxCount = DungeonTestHelper.Instance.dungeonBoxCount;
         }
+
+        if (cameraBoundary != null)
+            cameraBoundary.transform.position = new Vector3(19.5f, 19.5f, 0);
     }
     
     // 던전과 관련 요소를 씬에 생성하는 함수
