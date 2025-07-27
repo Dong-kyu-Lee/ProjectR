@@ -13,6 +13,8 @@ public class CharacterSelect : MonoBehaviour
     GameObject currentPlayer;
     [SerializeField]
     Mannequin[] mannequins;
+    [SerializeField]
+    CM_LobbyScene vcam;
 
     void Start()
     {
@@ -50,5 +52,7 @@ public class CharacterSelect : MonoBehaviour
                 break;
         }
         GameManager.Instance.CurrentPlayer = currentPlayer;
+        // 카메라 설정
+        vcam?.SetFollowTarget(currentPlayer.transform);
     }
 }

@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 // 던전 스테이지 진행을 관리하는 클래스
 public class DungeonFlowManager : MonoBehaviour
 {
-    // 신
+    private bool isSceneChanged = false;
     public List<StageData> stageDataList;   // 스테이지 데이터 리스트
     private List<StageData> stageDataListCopy; // 스테이지 데이터 복사본 (중복 방지용)
     public Queue<GameObject> stages;         // 스테이지 리스트
@@ -29,16 +29,9 @@ public class DungeonFlowManager : MonoBehaviour
             return dungeonCreator;
         }
     }
-
-    // 구
     private static DungeonFlowManager instance;
-
     public GameObject finishSpotPrefab;
-
-    // DungeonCreator가 던전 생성 준비를 마쳤으니 던전 생성을 요청할 때 호출하는 Action
-    // public Action onDungeonCreatorReady;
     
-
     public static DungeonFlowManager Instance
     {
         get
@@ -63,7 +56,7 @@ public class DungeonFlowManager : MonoBehaviour
         }
         instance = this;
         stages = new Queue<GameObject>();
-        SceneManager.sceneLoaded += SceneChanged;
+        SceneManager.sceneLoaded += OnNewStageStarted;
         DontDestroyOnLoad(gameObject);
         if(finishSpotPrefab == null) {
             finishSpotPrefab = Resources.Load<GameObject>("Prefabs/MapElements/FinishSpot");
@@ -75,22 +68,28 @@ public class DungeonFlowManager : MonoBehaviour
         }
     }
 
-    // 씬이 변경되었을 때, 각 씬에서 DFM이 처리해야 할 작업을 정의하는 함수 (Start 함수와 유사)
-    private void SceneChanged(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    // 새로운 Stage가 선택되고, "DungeonGenerate" 씬이 로드되었을 때 호출되는 함수
+    private void OnNewStageStarted(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
     {
-        switch (scene.name)
+        if (scene.name == "DungeonGenerate")
         {
-            case "DungeonGenerate":
-                Debug.Log("DungeonGenerate Scene Loaded");
-                if (dungeonCreator == null)
+            if (dungeonCreator == null)
+            {
+                dungeonCreator = FindObjectOfType<DungeonCreator>();
+                if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
+            }
+            
+            if(stages.Count <= 0) CreateStage(); // 첫 스테이지를 시작하는 경우
+            else // 다음 스테이지를 실행하는 경우
+            {
+                if(isSceneChanged)
                 {
-                    dungeonCreator = FindObjectOfType<DungeonCreator>();
-                    if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
+                    stages.Peek().SetActive(true);
+                    isSceneChanged = false;
                 }
-                CreateStage();
-                break;
+            }
         }
-    }
+    }   
 
     // 스테이지(던전맵, 플레이어 스폰) 생성
     private void CreateStage()
@@ -114,6 +113,15 @@ public class DungeonFlowManager : MonoBehaviour
         // 첫 스테이지 오브젝트 활성화
         if (stages.Count > 0) stages.Peek().SetActive(true);
         else Debug.LogError("No stages available to activate");
+    }
+
+    // 스테이지 클리어 후 다음 스테이지를 호출하는 함수
+    public void ChangeStage()
+    {
+        // 완료된 스테이지 제거
+        stages.Dequeue().SetActive(false);
+        isSceneChanged = true;
+        GameManager.Instance.MoveScene(SceneKey.Normal, "DungeonGenerate");
     }
 
     // 각 스테이지 순서에 따라 정해진 스테이지 데이터를 선택하는 함수

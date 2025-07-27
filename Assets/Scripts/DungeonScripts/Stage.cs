@@ -12,7 +12,8 @@ public enum StageFlow
 public class Stage : MonoBehaviour
 {
     public StageData stageData;
-    private StageFlow currentArea;
+    private StageFlow currentArea = StageFlow.Lobby;
+    public StageFlow GetCurrentArea { get => currentArea; }
 
     // 일반 던전 관리 변수
     private int currentRoomIndex = -1; // 현재 방 인덱스
@@ -28,11 +29,6 @@ public class Stage : MonoBehaviour
         currentArea = StageFlow.Lobby;
         Debug.Log($"{gameObject.name} Start");
         LoadNextDungeon();
-    }
-
-    void Update()
-    {
-        
     }
 
     // 다음 던전 구역을 로드하는 함수
@@ -58,10 +54,11 @@ public class Stage : MonoBehaviour
                 GameManager.Instance.MoveScene(SceneKey.Shop, "ShopScene");
                 break;
             case StageFlow.Shop:
-                Debug.Log("Final Boss 준비");
+                GameManager.Instance.MoveScene(SceneKey.FinalBossScene, "TempFinalBoss");
                 break;
             case StageFlow.FinalBoss:
                 // 다음 스테이지로 이동
+                DungeonFlowManager.Instance.ChangeStage();
                 break;
         }
         if (currentArea != StageFlow.FinalBoss)
