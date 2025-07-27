@@ -76,10 +76,16 @@ public class CalcDamage : MonoBehaviour
             Destroy(gameObject); // 중복된 CalcDamage 제거
         }
 
-        player = GameObject.FindWithTag("Player");
+        SetPlayer(GameObject.FindWithTag("Player"));
+        additionalDebuffTime = 0;
+        additionalBuffTime = 0;
+    }
+
+    public void SetPlayer(GameObject newPlayer)
+    {
+        player = newPlayer;
         playerStatus = player.GetComponent<PlayerStatus>();
         playerBuffManager = player.GetComponent<BuffManager>();
-        additionalDebuffTime = 0;
     }
 
     // 적 처치 시 획득하는 버프.
