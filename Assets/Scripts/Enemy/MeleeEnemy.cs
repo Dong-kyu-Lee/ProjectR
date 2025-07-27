@@ -30,7 +30,7 @@ public class MeleeEnemy : Enemy
 
     }
 
-    public void PerformAttack()
+    public override void PerformAttack()
     {
         hitBoxObj.transform.localPosition = new Vector2((transform.rotation.y != 180f ? -1f : 1f), 0.3f);
         hitBoxObj.SetActive(true);
