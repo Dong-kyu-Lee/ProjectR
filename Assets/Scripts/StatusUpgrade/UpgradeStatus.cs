@@ -10,6 +10,7 @@ public class UpgradeStatus : MonoBehaviour
     private int critical;
     private int dexterity;
     private int mystery;
+    private int curse;
 
     public int StatPoint { get { return statPoint; } set { statPoint = value; } }
     public int Force { get { return force; } set { force = value; } }
@@ -17,6 +18,7 @@ public class UpgradeStatus : MonoBehaviour
     public int Critical { get { return critical; } set { critical = value; } }
     public int Dexterity { get { return dexterity; } set { dexterity = value; } }
     public int Mystery { get { return mystery; } set { mystery = value; } }
+    public int Curse { get { return curse; } set { curse = value; } }
 
     void Awake()
     {
@@ -26,5 +28,6 @@ public class UpgradeStatus : MonoBehaviour
         critical = 0;
         dexterity = 0;
         mystery = 0;
+        curse = 0;
     }
 }

@@ -16,6 +16,9 @@ public class PlayerStatus : Status
     private float totalDamage;
     private float totalDamageReduction;
     private float ignoreDamageReduction;
+    private float debuffDamage;
+    private float buffDuration;
+    private float debuffDuration;
 
     private List<SlowDebuff> slowDebuffs = new();
     private float baseMoveSpeed;
@@ -27,6 +30,28 @@ public class PlayerStatus : Status
     public float TotalDamage { get { return totalDamage; } }
     public float TotalDamageReduction { get { return totalDamageReduction; } }
     public float IgnoreDamageReduction { get { return ignoreDamageReduction; } set { ignoreDamageReduction = value; } }
+
+    public float BuffDuration
+    {
+        get { return buffDuration; }
+        set
+        {
+            buffDuration = value;
+            CalcDamage.Instance.additionalBuffTime = value;
+        }
+    }
+
+    public float DebuffDuration
+    {
+        get { return debuffDuration; }
+        set
+        {
+            debuffDuration = value;
+            CalcDamage.Instance.additionalDebuffTime = value;
+        }
+    }
+
+    public float DebuffDamage { get { return debuffDamage; } set { debuffDamage = value; } }
     public float Gold;
 
     public float Exp
@@ -45,6 +70,7 @@ public class PlayerStatus : Status
         {
             base.Damage = value;
             totalDamage = base.Damage + (base.Damage * additionalDamage);
+            CalcDamage.Instance.CurseEffect10_IncreaseDebuffDamage(); // 저주 10레벨.
         }
     }
 
@@ -80,6 +106,7 @@ public class PlayerStatus : Status
         {
             additionalDamage = value;
             totalDamage = Damage + (Damage * additionalDamage);
+            CalcDamage.Instance.CurseEffect10_IncreaseDebuffDamage(); // 저주 10레벨.
         }
     }
 
@@ -142,6 +169,7 @@ public class PlayerStatus : Status
     {
 
     }
+
 
     private void Update()
     {

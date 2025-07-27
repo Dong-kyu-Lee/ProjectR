@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyStatus : Status
 {
@@ -28,8 +29,13 @@ public class EnemyStatus : Status
 
     protected override void Dead()
     {
+        if (isDead) return;
+        isDead = true;
+
         EnemyAIController enemyAIController = GetComponent<Enemy>().StateMachine;
         LevelUp.Instance.IncreaseExp(enemyData.ExpValue);
+        Vector2 spawnPosition = GetComponent<CapsuleCollider2D>().bounds.min;
+        RuneSpawner.Instance.TrySpawnRune(spawnPosition + Vector2.up);
         enemyAIController.TransitionTo(enemyAIController.deadState);
     }
 }

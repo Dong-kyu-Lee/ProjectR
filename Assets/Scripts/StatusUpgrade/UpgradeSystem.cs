@@ -8,13 +8,14 @@ public class UpgradeSystem : MonoBehaviour
 
     private PlayerStatus playerStatus;
     private UpgradeStatus upgradeStatus;
-    [SerializeField] private StatusEffect statusEffect;
+    private StatusEffect statusEffect;
     private StatusValueText statusValueText;
 
     private void Start()
     {
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        statusEffect = GetComponent<StatusEffect>();
         statusValueText = transform.GetComponent<StatusValueText>();
     }
 
@@ -52,7 +53,13 @@ public class UpgradeSystem : MonoBehaviour
                 break;
             case "mystery":
                 upgradeStatus.Mystery++;
+                playerStatus.BuffDuration += 0.02f;
                 CheckUnlock("mystery", upgradeStatus.Mystery);
+                break;
+            case "curse":
+                upgradeStatus.Curse++;
+                playerStatus.DebuffDamage += 0.03f;
+                CheckUnlock("curse", upgradeStatus.Curse);
                 break;
             default:
                 Debug.Log("잘못된 스테이터스 이름");
@@ -70,14 +77,17 @@ public class UpgradeSystem : MonoBehaviour
         playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance * 0.01f;
         playerStatus.CriticalPercent -= upgradeStatus.Critical * 0.02f;
         playerStatus.AdditionalAttackSpeed -= upgradeStatus.Dexterity * 0.02f;
+        playerStatus.BuffDuration -= upgradeStatus.Mystery * 0.02f;
+        playerStatus.DebuffDamage -= upgradeStatus.Curse * 0.03f;
 
-        upgradeStatus.Force = upgradeStatus.Indurance = upgradeStatus.Critical = upgradeStatus.Dexterity = upgradeStatus.Mystery = 0;
+        upgradeStatus.Force = upgradeStatus.Indurance = upgradeStatus.Critical = upgradeStatus.Dexterity = upgradeStatus.Mystery = upgradeStatus.Curse = 0;
         upgradeStatus.StatPoint = 0;
         CheckUnlock("force", upgradeStatus.Force);
         CheckUnlock("indurance", upgradeStatus.Indurance);
         CheckUnlock("critical", upgradeStatus.Critical);
         CheckUnlock("dexterity", upgradeStatus.Dexterity);
         CheckUnlock("mystery", upgradeStatus.Mystery);
+        CheckUnlock("curse", upgradeStatus.Curse);
         statusValueText.SetupValueText(upgradeStatus);
     }
 

@@ -5,21 +5,17 @@ using UnityEngine;
 public class StatusEffect : MonoBehaviour
 {
     private PlayerStatus playerStatus;
-    private ForceEffect forceEffect;
-    private InduranceEffect induranceEffect;
-    private CriticalEffect criticalEffect;
-    private DexterityEffect dexterityEffect;
-    private MysteryEffect mysteryEffect;
+    [SerializeField] private ForceEffect forceEffect;
+    [SerializeField] private InduranceEffect induranceEffect;
+    [SerializeField] private CriticalEffect criticalEffect;
+    [SerializeField] private DexterityEffect dexterityEffect;
+    [SerializeField] private MysteryEffect mysteryEffect;
+    [SerializeField] private CurseEffect curseEffect;
 
     // 컴포넌트 할당.
     private void Start()
     {
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        forceEffect = GetComponent<ForceEffect>();
-        induranceEffect = GetComponent<InduranceEffect>();
-        criticalEffect = GetComponent<CriticalEffect>();
-        dexterityEffect = GetComponent<DexterityEffect>();
-        mysteryEffect = GetComponent<MysteryEffect>();
     }
 
     // 특수 효과 활성화.
@@ -86,12 +82,26 @@ public class StatusEffect : MonoBehaviour
             case "mystery":
                 switch (point)
                 {
-                    case 1: mysteryEffect.EnableMysteryEffect1(); break;
+                    case 1: mysteryEffect.EnableMysteryEffect1(playerStatus); break;
                     case 4: mysteryEffect.EnableMysteryEffect4(); break;
                     case 7: mysteryEffect.EnableMysteryEffect7(); break;
                     case 10: mysteryEffect.EnableMysteryEffect10(); break;
                     case 13: mysteryEffect.EnableMysteryEffect13(); break;
                     case 16: mysteryEffect.EnableMysteryEffect16(); break;
+                    default:
+                        Debug.Log("올바르지 않는 스텟포인트");
+                        return;
+                }
+                break;
+            case "curse":
+                switch (point)
+                {
+                    case 1: curseEffect.EnableCurseEffect1(playerStatus); break;
+                    case 4: curseEffect.EnableCurseEffect4(); break;
+                    case 7: curseEffect.EnableCurseEffect7(); break;
+                    case 10: curseEffect.EnableCurseEffect10(); break;
+                    case 13: curseEffect.EnableCurseEffect13(); break;
+                    case 16: curseEffect.EnableCurseEffect16(); break;
                     default:
                         Debug.Log("올바르지 않는 스텟포인트");
                         return;
@@ -167,12 +177,26 @@ public class StatusEffect : MonoBehaviour
             case "mystery":
                 switch (point)
                 {
-                    case 1: mysteryEffect.DisableMysteryEffect1(); break;
+                    case 1: mysteryEffect.DisableMysteryEffect1(playerStatus); break;
                     case 4: mysteryEffect.DisableMysteryEffect4(); break;
                     case 7: mysteryEffect.DisableMysteryEffect7(); break;
                     case 10: mysteryEffect.DisableMysteryEffect10(); break;
                     case 13: mysteryEffect.DisableMysteryEffect13(); break;
                     case 16: mysteryEffect.DisableMysteryEffect16(); break;
+                    default:
+                        Debug.Log("올바르지 않는 스텟포인트");
+                        return;
+                }
+                break;
+            case "curse":
+                switch (point)
+                {
+                    case 1: curseEffect.DisableCurseEffect1(playerStatus); break;
+                    case 4: curseEffect.DisableCurseEffect4(); break;
+                    case 7: curseEffect.DisableCurseEffect7(); break;
+                    case 10: curseEffect.DisableCurseEffect10(); break;
+                    case 13: curseEffect.DisableCurseEffect13(); break;
+                    case 16: curseEffect.DisableCurseEffect16(); break;
                     default:
                         Debug.Log("올바르지 않는 스텟포인트");
                         return;

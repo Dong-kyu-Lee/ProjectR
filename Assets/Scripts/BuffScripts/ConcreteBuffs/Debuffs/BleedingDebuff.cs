@@ -11,6 +11,7 @@ public class BleedingDebuff : Buff
     {
         this.BuffType = BuffType.Bleeding;
         maxBuffLevel = 5;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()
@@ -18,7 +19,7 @@ public class BleedingDebuff : Buff
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
 
-        CalcReceiveDamage.Instance.TakeDebuffDamage(bleedingDmg[currentBuffLevel], targetStatus);
+        CalcReceiveDamage.Instance.TakeDebuffDamage(bleedingDmg[currentBuffLevel], targetStatus, true);
 
         if (InGameUIManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
         {

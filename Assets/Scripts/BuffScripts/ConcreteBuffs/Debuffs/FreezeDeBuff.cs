@@ -5,7 +5,7 @@ using static PlayerObj;
 
 public class FreezeDeBuff : Buff
 {
-    private float freezeBustDmg = 0.05f;
+    private float freezeBustDmg = 8f;
     private float moveSpeedDec = 0.5f;
 
     public FreezeDeBuff(float duration, GameObject target) : base(duration, target) 
@@ -13,6 +13,7 @@ public class FreezeDeBuff : Buff
         this.BuffType = BuffType.Freeze;
         maxDuration = 8;
         maxBuffLevel = 1;
+        isDebuff = true;
     }
 
     public override void ApplyBuffEffect()
@@ -21,7 +22,7 @@ public class FreezeDeBuff : Buff
         if (targetStatus == null) return;
 
         targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
-        CalcReceiveDamage.Instance.TakeDebuffDamage(targetStatus.MaxHp * freezeBustDmg, targetStatus);
+        CalcReceiveDamage.Instance.TakeDebuffDamage(freezeBustDmg, targetStatus, false);
     }
 
     public override void RenewBuffEffect()
@@ -29,7 +30,7 @@ public class FreezeDeBuff : Buff
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
 
-        CalcReceiveDamage.Instance.TakeDebuffDamage(targetStatus.MaxHp * freezeBustDmg, targetStatus);
+        CalcReceiveDamage.Instance.TakeDebuffDamage(freezeBustDmg, targetStatus, false);
     }
 
     public override void RemoveBuffEffect()

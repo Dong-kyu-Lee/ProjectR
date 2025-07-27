@@ -6,9 +6,14 @@ public class RangedAttackStrategy : IAttackStrategy
 {
     public void ExecuteAttack(Enemy enemy)
     {
-        if (enemy is RangedEnemy rangedEnemy)
+        switch (enemy)
         {
-            rangedEnemy.ShootProjectile();
+            case BossEnemy boss:
+                boss.ShootProjectile();
+                break;
+            case RangedEnemy rangedEnemy:
+                rangedEnemy.ShootProjectile();
+                break;
         }
     }
 }

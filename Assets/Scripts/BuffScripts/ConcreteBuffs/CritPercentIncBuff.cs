@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class CritPercentIncBuff : Buff
 {
-    private float[] critPercentIncGap = { 0.1f, 0.2f, 0.3f };  //크리티컬 확률 증가량
+    private float[] critPercentIncGap = { 0.1f, 0.2f, 0.2f };  //크리티컬 확률 증가량
 
     public CritPercentIncBuff(float duration, GameObject targetObj) : base(duration, targetObj) {
         this.BuffType = BuffType.CritPercentIncrease;
+        if (CalcDamage.Instance.mysteryEffect13) maxBuffLevel = 3;
+        else maxBuffLevel = 2;
     }
 
     //대상에게 버프를 적용하는 함수. 스탯이 누적되며 증가하는 식

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class ExtremeSpeedBuff : Buff
 {
-    private float[] attackSpeedIncGap = { 0.1f, 0.2f, 0.3f };    //공격속도 증가량 간격
-    private float[] moveSpeedIncGap = { 0.1f, 0.2f, 0.3f };      //이동속도 증가량 간격
+    private float[] attackSpeedIncGap = { 0.2f, 0.4f, 0.4f };    //공격속도 증가량 간격
+    private float[] moveSpeedIncGap = { 0.05f, 0.1f, 0.1f };      //이동속도 증가량 간격
 
     public ExtremeSpeedBuff(float duration, GameObject target) : base(duration, target) {
         this.BuffType = BuffType.ExtremeSpeed;
+        if (CalcDamage.Instance.mysteryEffect13) maxBuffLevel = 3;
+        else maxBuffLevel = 2;
     }
 
     //대상에게 버프를 적용하는 함수. 스탯이 누적되며 증가하는 식

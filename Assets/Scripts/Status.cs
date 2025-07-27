@@ -15,8 +15,12 @@ public class Status : MonoBehaviour
     private float moveSpeed;
     private float additionalMoveSpeed;
     private float totalMoveSpeed;
+    private float damageTaken;
 
     private bool invincible;
+
+    protected bool isDead = false;
+    public bool IsDead => isDead;
 
     public float MaxHp
     {
@@ -94,6 +98,8 @@ public class Status : MonoBehaviour
     }
     public float TotalMoveSpeed { get { return totalMoveSpeed; } }
 
+    public float DamageTaken { get { return damageTaken; } set { damageTaken = value; } }
+
     public bool Invincible { get { return invincible; } set { invincible = value; } }
 
     void Start()
@@ -106,10 +112,12 @@ public class Status : MonoBehaviour
 
     }
 
-    // 피해를 입힘. 
+    // 피해를 받음. 
     public void TakeDamage(GameObject attacker, float damage, float ignoreDamageReduction, bool isCritical)
     {
-        float receiveDamage = (1 - damageReduction * (1 - ignoreDamageReduction)) * damage;
+        if (isDead) return;
+
+        float receiveDamage = (1 - damageReduction * (1 - ignoreDamageReduction)) * damage * (1 + damageTaken);
         if (invincible) receiveDamage = 0;
 
         if (gameObject.CompareTag("Player"))
@@ -140,10 +148,13 @@ public class Status : MonoBehaviour
         Hp -= receiveDamage;
     }
 
-    // 고정 피해를 입힘.
+    // 고정 피해를 받음.
     public void TakeTrueDamage(float damage)
     {
+        if (isDead) return;
+
         if (invincible) damage = 0;
+        damage *= (1 + damageTaken);
         CalcReceiveDamage.Instance.TakeTrueDamageQueue(damage, gameObject);
         Hp -= damage;
     }
