@@ -106,17 +106,17 @@ public class GameManager : MonoBehaviour
                 // 던전에서 사용되는 UI 생성
                 if (upgradeUI == null)
                 {
-                    upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
+                    upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
                     DontDestroyOnLoad(upgradeUI);
                 }
                 if (inventoryUI == null)
                 {
-                    inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
+                    inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas(QuickSlot)"));
                     DontDestroyOnLoad(inventoryUI);
                 }
                 if (inGameUI == null)
                 {
-                    inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
+                    inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/InGameUICanvasV2"));
                     DontDestroyOnLoad(inGameUI);
                 }
                 if (testUI != null)
