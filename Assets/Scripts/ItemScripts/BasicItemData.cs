@@ -41,4 +41,19 @@ public class BasicItemData : ScriptableObject
     public ItemType ItemType { get { return itemType; } }
     public int ItemPrice { get { return itemPrice; } }
     public string ItemExplain { get { return itemExplain; } }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is BasicItemData other)
+        {
+            return this.ItemID == other.ItemID;
+        }
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return ItemID.GetHashCode();
+    }
+
 }

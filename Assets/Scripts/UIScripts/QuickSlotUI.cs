@@ -18,11 +18,15 @@ public class QuickSlotUI : ItemSlotUI
                     parentUI.PlayerInventory.SwapQuickSlotWithInventory(draggedSlot.NowItemData as ConsumableItemData);
                     SwapItemData(draggedSlot);
                     break;
-                case ItemType.DUMMY:    //(인벤토리 -> 퀵슬롯) 아이템 로드 기능
+                case ItemType.DUMMY:    // (인벤토리 → 퀵슬롯)
                     parentUI.PlayerInventory.LoadToQuickSlotFromInventory(draggedSlot.NowItemData as ConsumableItemData);
-                    SetItemData(draggedSlot.NowItemData, draggedSlot.ItemCount);
-                    draggedSlot.DeleteItemData();
+
+                    // 퀵슬롯 UI 갱신
+                    SetItemData(draggedSlot.NowItemData, parentUI.PlayerInventory.InventoryDict[draggedSlot.NowItemData]);
+
+                    draggedSlot.SetItemData(draggedSlot.NowItemData, parentUI.PlayerInventory.InventoryDict[draggedSlot.NowItemData]);
                     break;
+
                 default:
                     break;
             }

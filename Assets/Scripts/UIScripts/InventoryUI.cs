@@ -94,6 +94,18 @@ public class InventoryUI : MonoBehaviour
     //아이템의 데이터를 비어있는 인벤토리 슬롯 UI에 삽압하는 함수
     public void SetInventorySlotData(BasicItemData itemData, int amount)
     {
+        // 먼저 기존 슬롯에 같은 아이템이 있는지 확인
+        for (int i = 0; i < inventorySlotImgs.Length; i++)
+        {
+            if (inventorySlotImgs[i].NowItemData != null &&
+                inventorySlotImgs[i].NowItemData.Equals(itemData))
+            {
+                inventorySlotImgs[i].SetItemData(itemData, amount);
+                return;
+            }
+        }
+
+        // 없다면 빈 슬롯 찾아서 새로 등록
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
             if (inventorySlotImgs[i].NowItemData.ItemType == ItemType.DUMMY)
@@ -104,14 +116,13 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-
-
     //인벤토리 슬롯에 있는 아이템의 갯수를 업데이트 하는 함수
     public void UpdateItemSlotAmount(BasicItemData itemData, int amount)
     {
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
-            if (inventorySlotImgs[i].NowItemData == itemData)
+            if (inventorySlotImgs[i].NowItemData != null &&
+                inventorySlotImgs[i].NowItemData.Equals(itemData))
             {
                 inventorySlotImgs[i].SetItemData(itemData, amount);
                 Debug.Log("아이템 갯수 UI에 반영");
@@ -119,6 +130,7 @@ public class InventoryUI : MonoBehaviour
             }
         }
     }
+
 
     //퀵슬롯 UI에 아이템 데이터를 삽입 및 UI 업데이트 하는 함수
     public void SetQuickSLotItemData(BasicItemData itemData, int amount)

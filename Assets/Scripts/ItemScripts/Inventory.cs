@@ -67,8 +67,20 @@ public class Inventory : MonoBehaviour
         {
             quickSlot.ActivateItemEffect(playerStatus);
             QuickSlotItemAmount--;
+
+            //인벤토리 수량도 함께 감소
+            if (inventory.ContainsKey(quickSlot))
+            {
+                inventory[quickSlot]--;
+                if (inventory[quickSlot] <= 0)
+                {
+                    inventory.Remove(quickSlot);
+                }
+            }
+            //UI 반영
             myInventoryUI.QuickSlotImg.SetItemAmountData(quickSlotItemAmount);
 
+            //퀵슬롯 수량 0일 경우 해제
             if (quickSlotItemAmount <= 0)
             {
                 quickSlot = null;
@@ -94,9 +106,21 @@ public class Inventory : MonoBehaviour
     public void LoadToQuickSlotFromInventory(BasicItemData item)
     {
         quickSlot = item as ConsumableItemData;
-        quickSlotItemAmount = inventory[item];
-        inventory.Remove(item);
+
+        // 인벤토리에 있는 수량을 그대로 참조해 퀵슬롯 수량 업데이트
+        if (inventory.ContainsKey(item))
+        {
+            quickSlotItemAmount = inventory[item];
+        }
+        else
+        {
+            quickSlotItemAmount = 0;
+            Debug.LogWarning("[Inventory] 퀵슬롯에 등록하려는 아이템이 인벤토리에 존재하지 않습니다.");
+        }
+
+        //inventory.Remove(item); 
     }
+
 
     //퀵슬롯에 있는 아이템을 인벤토리로 옮기는 메서드
     public void UnLoadQuickSlotItem()
@@ -142,23 +166,32 @@ public class Inventory : MonoBehaviour
     //획득한 소모품 아이템 데이터를 퀵슬롯 or 인벤토리에 추가하는 메서드
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        if (quickSlot == null) // 퀵슬롯이 비어 있으면
+        // 1. 인벤토리에 먼저 추가 (중복 아이템이면 수량 증가, 없으면 새로 추가)
+        bool added = AddItemsToInventory(item, amount);
+        if (!added)
         {
-            LoadToQuickSlot(item, amount);
-            return true;
+            Debug.LogWarning($"[Inventory] {item.ItemName} 추가 실패: 인벤토리 가득 참 또는 수량 초과");
+            return false;
         }
 
-        // 퀵슬롯이 이미 같은 아이템이면 수량 추가
+        // 2. 퀵슬롯이 같은 아이템이라면 → 퀵슬롯 수량을 인벤토리 기준으로 동기화
         if (quickSlot == item)
         {
-            LoadToQuickSlot(item, amount);
-            return true;
+            quickSlotItemAmount = inventory[item];
+            myInventoryUI.SetQuickSLotItemData(quickSlot, quickSlotItemAmount);
         }
 
-        // 다른 아이템이 퀵슬롯에 있다면 인벤토리에 추가
-        return AddItemsToInventoryWithUiUpdate(item, amount);
-    }
+        // 3. 퀵슬롯이 비어 있다면 자동으로 등록 (자동 등록 유지하는 경우)
+        else if (quickSlot == null)
+        {
+            quickSlot = item;
+            quickSlotItemAmount = inventory[item];
+            myInventoryUI.SetQuickSLotItemData(quickSlot, quickSlotItemAmount);
+        }
 
+        // 4. 퀵슬롯이 다른 아이템일 경우 → 아무 작업도 하지 않음
+        return true;
+    }
 
 
     //획득한 장비를 비어있는 공간(장비칸 or 인벤토리)에 추가하는 함수
