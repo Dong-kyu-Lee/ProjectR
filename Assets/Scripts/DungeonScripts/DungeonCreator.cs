@@ -129,13 +129,13 @@ public class DungeonCreator : MonoBehaviour
         // 예외 처리: boxCount이 roomCount보다 크면 안 됨
         if (boxCount > roomCount)
         {
-            Debug.LogError("M은 N보다 클 수 없습니다.");
+            Debug.LogError("boxCount은 roomCount보다 클 수 없습니다.");
             return null;
         }
 
         // 전체 숫자 리스트 생성 (0부터 N까지)
         List<int> numbers = new List<int>();
-        for (int i = 0; i <= roomCount; i++)
+        for (int i = 0; i < roomCount; i++)
         {
             numbers.Add(i);
         }
