@@ -101,4 +101,14 @@ public class RoomInstance : MonoBehaviour
     {
         this.boxObject = Instantiate(boxObject, transform.position + boxObject.transform.localPosition, Quaternion.identity, transform);
     }
+
+    public void SetLightObjects(GameObject lights)
+    {
+        for (int i = 0; i < lights.transform.childCount; ++i)
+        {
+            GameObject element = Instantiate(lights.transform.GetChild(i).gameObject,
+                transform.position + lights.transform.GetChild(i).localPosition, lights.transform.GetChild(i).gameObject.transform.rotation, transform);
+            this.dynamicElements.Add(element);
+        }
+    }
 }

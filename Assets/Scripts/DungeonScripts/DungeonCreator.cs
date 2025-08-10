@@ -80,9 +80,12 @@ public class DungeonCreator : MonoBehaviour
             roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));
 
             CreateRoomInstance(generatePosition, roomNodes[i].OpenNeededGate);
+            // 적 스포너 생성
             roomInstanceDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
             // 맵의 동적 요소들 생성(ex. 움직이는 발판 등)
             roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetDynamicElements(currentRoom.dynamicElements);
+            // 라이팅 오브젝트 생성
+            roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetLightObjects(currentRoom.lightElements);
             // 상자 생성
             if(roomIndexForBoxes.Contains(i))
             {
@@ -94,8 +97,16 @@ public class DungeonCreator : MonoBehaviour
             if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
             else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
         }
+        // 그림자 영역 생성
+        StartCoroutine(ShadowCasterGenerate());
 
         UpdateWarpPosition();
+    }
+
+    private IEnumerator ShadowCasterGenerate()
+    {
+        yield return null;
+        floatingTilemap.gameObject.GetComponent<ShadowCaster2DTileMap>()?.Generate();
     }
 
     // 방 오브젝트를 생성하는 함수

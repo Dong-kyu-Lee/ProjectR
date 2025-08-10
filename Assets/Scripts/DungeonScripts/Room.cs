@@ -15,6 +15,7 @@ public class Room : MonoBehaviour
 
     public List<Transform> enemySpawnPoint = new List<Transform>();
     public GameObject dynamicElements;
+    public GameObject lightElements;
     public GameObject boxObject;
 
     public Transform playerSpawnPosition;
