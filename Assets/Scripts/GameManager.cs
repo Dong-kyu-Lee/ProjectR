@@ -108,6 +108,8 @@ public class GameManager : MonoBehaviour
                 if (testUI != null) Destroy(testUI);
                 break;
             case SceneKey.Normal:
+                // 던전에서 사용되는 BTGM 생성
+                sound.Play("Sounds/BGM/BGM2", global::Sound.Bgm, 1);
                 // 던전에서 사용되는 UI 생성
                 if (upgradeUI == null)
                 {

@@ -34,12 +34,14 @@ public class SoundManager
         }
     }
 
+    // 사운드 경로를 받아 해당 사운드를 재생
     public void Play(string path, Sound type = Sound.Effect, float pitch =1.0f)
     {
         AudioClip audioClip = GetOrAddAudioClip(path, type);
         Play(audioClip, type, pitch);
     }
 
+    // AudioClip을 받아 해당 사운드를 재생
     public void Play(AudioClip audioClip, Sound type = Sound.Effect, float pitch = 1.0f)
     {
         if (audioClip == null) return;
@@ -62,6 +64,7 @@ public class SoundManager
         }
     }
 
+    // 모든 사운드를 멈추고 클립을 제거
     public void Clear()
     {
         foreach(AudioSource audioSource in audioSources)
