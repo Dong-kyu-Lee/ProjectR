@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    SoundManager sound = new SoundManager();
+    public static SoundManager Sound { get { return instance.sound; } }
+
     public UnityEvent OnPlayerCharacterChanged = new UnityEvent();
 
     [SerializeField]
@@ -66,6 +69,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject); // 중복된 GameManager 제거
         }
+        instance.sound.Init();
     }
 
     // 플레이어 오브젝트를 지정된 시작 지점(position)에 배치하는 함수
@@ -77,6 +81,7 @@ public class GameManager : MonoBehaviour
     /* SceneKey : 이동할 씬의 종류를 나타내는 열거형 , sceneName : 이동할 씬의 이름 */
     public void MoveScene(SceneKey key, string sceneName)
     {
+        sound.Clear();
         // 해당 key의 씬으로 이동 시 필요한 코드 실행
         switch(key)
         {
@@ -103,6 +108,8 @@ public class GameManager : MonoBehaviour
                 if (testUI != null) Destroy(testUI);
                 break;
             case SceneKey.Normal:
+                // 던전에서 사용되는 BTGM 생성
+                sound.Play("Sounds/BGM/BGM2", global::Sound.Bgm, 1);
                 // 던전에서 사용되는 UI 생성
                 if (upgradeUI == null)
                 {
