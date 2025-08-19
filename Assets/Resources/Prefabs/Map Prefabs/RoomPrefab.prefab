@@ -659,6 +659,7 @@ Transform:
   - {fileID: 2186993961508497041}
   - {fileID: 2829931260051335812}
   - {fileID: 1549121678469151420}
+  - {fileID: 8179520477325664851}
   - {fileID: 2245998612197139705}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -683,6 +684,7 @@ MonoBehaviour:
   enemyTilemap: {fileID: 2025986612644125225}
   enemySpawnPoint: []
   dynamicElements: {fileID: 7488353423214938666}
+  lightElements: {fileID: 3748654834070483462}
   boxObject: {fileID: 2245998612197139687}
   playerSpawnPosition: {fileID: 811224058916861686}
   finishSpotPosition: {fileID: 2186993961508497041}
@@ -691,6 +693,37 @@ MonoBehaviour:
   isDownOpenable: 1
   isRightOpenable: 1
   isLeftOpenable: 1
+--- !u!1 &3748654834070483462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8179520477325664851}
+  m_Layer: 0
+  m_Name: Lights
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8179520477325664851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3748654834070483462}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6163864638947270046}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5342594763616217621
 GameObject:
   m_ObjectHideFlags: 0
@@ -28087,7 +28120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3283866905245224950, guid: 716d9f0b446372446a2e965ca7706779, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3283866905245224950, guid: 716d9f0b446372446a2e965ca7706779, type: 3}
       propertyPath: m_AnchorMax.x
