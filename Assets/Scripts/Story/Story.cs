@@ -4,21 +4,21 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using System;
 
-[Serializable]
-public class Story
+[CreateAssetMenu(fileName = "New Story", menuName = "Story/Story")]
+public class Story : ScriptableObject
 {
-    public string storyName;
-    public StoryState storyState;
-    public string triggerStage;
-    public string[] nextStoryName;
-    public Action action = null;
+    public string storyName;            // 스토리 이름
+    public StoryState storyState;       // 스토리 상태
+    public string sceneToLoad;          // 스토리 진행에 사용할 씬 이름
+    public string[] nextStoryName;      // 다음 스토리 이름들
+    public string description = null;   // 간단한 스토리 설명
 
-    public Story(string storyName, StoryState storyState, string triggerStage = null, string[] nextStoryName = null, Action action = null)
+    public Story(Story asset)
     {
-        this.storyName = storyName;
-        this.storyState = storyState;
-        this.triggerStage = triggerStage;
-        this.nextStoryName = nextStoryName;
-        this.action = action;
+        this.storyName = asset.storyName;
+        this.storyState = asset.storyState;
+        this.sceneToLoad = asset.sceneToLoad;
+        this.nextStoryName = asset.nextStoryName;
+        this.description = asset.description;
     }
 }

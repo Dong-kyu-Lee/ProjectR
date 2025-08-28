@@ -10,19 +10,71 @@ public enum StoryState
 
 public class StorySystem : MonoBehaviour
 {
+    public static StorySystem Instance {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<StorySystem>();
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject("StorySystem");
+                    instance = obj.AddComponent<StorySystem>();
+                }
+            }
+            return instance;
+        }
+    }
+    private static StorySystem instance;
+
+    public TextAsset singleUseStoryData;
+    public Story[] stories;
+
     // string : 스토리 이름, Story : 스토리 오브젝트
     private Dictionary<string, Story> storyContainer = new Dictionary<string, Story>();
 
     void Start()
     {
+        Init();
+
+        // JSON 데이터 파싱 (SingleUseStory)
+        SingleUseStory storyData = JsonUtility.FromJson<SingleUseStory>(singleUseStoryData.text);
+        foreach (var data in storyData.stories)
+        {
+            Debug.Log($"Story Name: {data.name}, Value: {data.value}");
+        }
+
         // 스토리 데이터 추가
-        storyContainer.Add("prologue",
-            new Story("prologue", StoryState.Locked, "NextScene", "Test", () => Debug.Log("Test")));
+        for (int i = 0; i < stories.Length; i++)
+        {
+            if (!storyContainer.ContainsKey(stories[i].storyName))
+            {
+                storyContainer.Add(stories[i].storyName, new Story(stories[i]));
+            }
+            else
+            {
+                Debug.LogError($"Duplicate story name found: {stories[i].storyName}");
+            }
+        }
+    }
+
+    // 싱글톤 초기화
+    private void Init()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // 새로운 스토리 시작 처리
     // 플레이어의 상호작용에 의해서 호출됨(ex. NPC 대화, 씬 이동)
-    public void StartNewStory(string storyName)
+    public void StartStory(string storyName)
     {
         // 스토리가 딕셔너리에 존재하는지 확인
         if (!storyContainer.ContainsKey(storyName))
