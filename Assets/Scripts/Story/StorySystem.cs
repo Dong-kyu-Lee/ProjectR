@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +15,9 @@ public class StorySystem : MonoBehaviour
 
     void Start()
     {
-        
-    }
-
-    void Update()
-    {
-        
+        // 스토리 데이터 추가
+        storyContainer.Add("prologue",
+            new Story("prologue", StoryState.Locked, "NextScene", "Test", () => Debug.Log("Test")));
     }
 
     // 새로운 스토리 시작 처리
@@ -43,5 +41,11 @@ public class StorySystem : MonoBehaviour
         // 스토리가 딕셔너리에 존재하는지 확인
         // 스토리 상태를 Completed로 변경
         // 다음 스토리가 있다면 상태를 Available로 변경
+    }
+
+    // 플레이어가 죽으면 스토리 진행 초기화. (일회성 스토리는 초기화하지 않음)
+    public void ResetStory()
+    {
+
     }
 }
