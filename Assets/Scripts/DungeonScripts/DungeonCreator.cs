@@ -13,6 +13,7 @@ public class DungeonCreator : MonoBehaviour
 
     [Header("Needed Objects")]
     public RoomContainer roomContainer;
+    public GameObject cameraBoundary;
     [SerializeField]
     private Tilemap backgroundTilemap;
     [SerializeField]
@@ -43,6 +44,9 @@ public class DungeonCreator : MonoBehaviour
             numberOfRooms = DungeonTestHelper.Instance.numberOfRooms;
             dungeonBoxCount = DungeonTestHelper.Instance.dungeonBoxCount;
         }
+
+        if (cameraBoundary != null)
+            cameraBoundary.transform.position = new Vector3(19.5f, 19.5f, 0);
     }
     
     // 던전과 관련 요소를 씬에 생성하는 함수
@@ -76,9 +80,12 @@ public class DungeonCreator : MonoBehaviour
             roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));
 
             CreateRoomInstance(generatePosition, roomNodes[i].OpenNeededGate);
+            // 적 스포너 생성
             roomInstanceDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
             // 맵의 동적 요소들 생성(ex. 움직이는 발판 등)
             roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetDynamicElements(currentRoom.dynamicElements);
+            // 라이팅 오브젝트 생성
+            roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetLightObjects(currentRoom.lightElements);
             // 상자 생성
             if(roomIndexForBoxes.Contains(i))
             {
@@ -90,8 +97,16 @@ public class DungeonCreator : MonoBehaviour
             if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
             else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
         }
+        // 그림자 영역 생성
+        StartCoroutine(ShadowCasterGenerate());
 
         UpdateWarpPosition();
+    }
+
+    private IEnumerator ShadowCasterGenerate()
+    {
+        yield return null;
+        floatingTilemap.gameObject.GetComponent<ShadowCaster2DTileMap>()?.Generate();
     }
 
     // 방 오브젝트를 생성하는 함수
@@ -125,13 +140,13 @@ public class DungeonCreator : MonoBehaviour
         // 예외 처리: boxCount이 roomCount보다 크면 안 됨
         if (boxCount > roomCount)
         {
-            Debug.LogError("M은 N보다 클 수 없습니다.");
+            Debug.LogError("boxCount은 roomCount보다 클 수 없습니다.");
             return null;
         }
 
         // 전체 숫자 리스트 생성 (0부터 N까지)
         List<int> numbers = new List<int>();
-        for (int i = 0; i <= roomCount; i++)
+        for (int i = 0; i < roomCount; i++)
         {
             numbers.Add(i);
         }

@@ -5,6 +5,7 @@ public class ItemInteraction : MonoBehaviour
 {
     public Inventory inventory;
     private ShopManager shopManager;
+    public bool isShop;
 
     private void Awake()
     {
@@ -14,6 +15,7 @@ public class ItemInteraction : MonoBehaviour
         if (currentScene == "ShopScene")
         {
             shopManager = FindObjectOfType<ShopManager>();
+            isShop = true;
         }
     }
 
@@ -24,8 +26,7 @@ public class ItemInteraction : MonoBehaviour
             var itemExplain = GetComponent<ItemExplain>();
             if (itemExplain && itemExplain.IsActive())
             {
-                string currentScene = SceneManager.GetActiveScene().name;
-                if (currentScene == "ShopScene")
+                if (isShop)
                 {
                     shopManager.BuyItem(itemExplain.item);
                     itemExplain.HideUI();
@@ -40,16 +41,8 @@ public class ItemInteraction : MonoBehaviour
                         ConsumableItemData consumableItem = item as ConsumableItemData;
                         switch (consumableItem.kind)
                         {
-                            case ConsumableKind.POTION:
-                                // 포션일 경우 즉시 효과 적용
-                                PlayerStatus player = FindObjectOfType<PlayerStatus>();
-                                consumableItem.ActivateItemEffect(player);
-                                Debug.Log($"[ItemInteraction] 포션 사용됨: {item.ItemName}");
-                                break;
-
                             case ConsumableKind.Throwable:
                             case ConsumableKind.ETC:
-                                // 나머지는 인벤토리에 추가
                                 inventory.AddItem(item);
                                 break;
                         }

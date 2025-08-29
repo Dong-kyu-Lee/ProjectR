@@ -2,8 +2,6 @@ using UnityEngine;
 
 public enum ConsumableKind
 {
-    POTION,
-    Consumable,
     Throwable,
     ETC
 }

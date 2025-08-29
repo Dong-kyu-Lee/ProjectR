@@ -38,12 +38,4 @@ public enum BuffType
     StoneCurse,                   //석화 디버프
     Confusion,                    //혼란 디버프
     Curse,                        //저주 디버프
-
-    // 포션 전용 버프타입
-    Potion_AttackSpeedIncrease,
-    Potion_AttackDamageIncrease,
-    Potion_MoveSpeedIncrease,
-    Potion_CritPercentIncrease,
-    Potion_CritDamageIncrease,
-    Potion_DamageReductionIncrease,
 }
