@@ -7,6 +7,8 @@ public class EnemyStatus : Status
 {
     [SerializeField]
     private EnemyData enemyData;
+    [SerializeField]
+    private EnemyLoot enemyLoot;
 
     public EnemyData EnemyStatusData { get { return enemyData; } }
 
@@ -20,6 +22,7 @@ public class EnemyStatus : Status
         AttackSpeed = enemyData.AttackSpeed;
         MoveSpeed = enemyData.MoveSpeed;
         AdditionalMoveSpeed = 0;
+        enemyLoot = transform.GetComponent<EnemyLoot>();
     }
 
     void Start()
@@ -34,6 +37,7 @@ public class EnemyStatus : Status
 
         EnemyAIController enemyAIController = GetComponent<Enemy>().StateMachine;
         LevelUp.Instance.IncreaseExp(enemyData.ExpValue);
+        enemyLoot.DropLoot();
         Vector2 spawnPosition = GetComponent<CapsuleCollider2D>().bounds.min;
         RuneSpawner.Instance.TrySpawnRune(spawnPosition + Vector2.up);
         enemyAIController.TransitionTo(enemyAIController.deadState);
