@@ -11,7 +11,7 @@ public class ConversationUITester : MonoBehaviour
         {
             ui.Open("또 왔구만.\n이번에도 새로운 가능성을 열어볼텐가?",
                 yes: () => { if (traitWindow) traitWindow.SetActive(true); },
-                no: () => { /* "싫다." 처리나 로그 등 */ });
+                no: () => { /* "그래. 잘 가게나 */ });
         }
         if (Input.GetKeyDown(KeyCode.F2))
             ui.Close();
