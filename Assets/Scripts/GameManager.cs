@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
-public enum SceneKey
+public enum SceneType
 {
-    StartScene, LobbyScene, Normal, MiddleBoss, Shop, FinalBossScene, TestScene
+    StartScene, LobbyScene, Normal, MiddleBoss, Shop, FinalBossScene, TestScene, StoryScene,
 }
 
 public class GameManager : MonoBehaviour
@@ -75,34 +75,24 @@ public class GameManager : MonoBehaviour
     }
 
     /* SceneKey : 이동할 씬의 종류를 나타내는 열거형 , sceneName : 이동할 씬의 이름 */
-    public void MoveScene(SceneKey key, string sceneName)
+    public void MoveScene(SceneType key, string sceneName)
     {
         // 해당 key의 씬으로 이동 시 필요한 코드 실행
         switch(key)
         {
-            case SceneKey.StartScene:
+            case SceneType.StartScene:
                 // 업그레이드UI & 인벤토리 UI 제거
-                Destroy(upgradeUI);
-                Destroy(inventoryUI);
-                Destroy(inGameUI);
+                DestroyUI();
                 // 플레이어 오브젝트 제거
                 Destroy(playerObject);
-
-                // 테스트용 UI 제거
-                if (testUI != null) Destroy(testUI);
                 break;
-            case SceneKey.LobbyScene:
+            case SceneType.LobbyScene:
                 // 업그레이드UI & 인벤토리 UI 제거
-                if(upgradeUI != null) Destroy(upgradeUI);
-                if (inventoryUI != null) Destroy(inventoryUI);
-                if (inGameUI != null) Destroy(inGameUI);
+                DestroyUI();
                 // 플레이어 오브젝트 제거
                 if (playerObject != null) Destroy(playerObject);
-
-                // 테스트용 UI 제거
-                if (testUI != null) Destroy(testUI);
                 break;
-            case SceneKey.Normal:
+            case SceneType.Normal:
                 // 던전에서 사용되는 UI 생성
                 if (upgradeUI == null)
                 {
@@ -125,17 +115,22 @@ public class GameManager : MonoBehaviour
                     DontDestroyOnLoad(testUI);
                 }
                 break;
-            case SceneKey.MiddleBoss:
+            case SceneType.MiddleBoss:
+                SetActiveUI(true);
                 playerObject.SetActive(false);
                 break;
-            case SceneKey.Shop:
-                
+            case SceneType.Shop:
                 break;
-            case SceneKey.FinalBossScene:
-                
+            case SceneType.FinalBossScene:
+                SetActiveUI(true);
+                playerObject.SetActive(false);
                 break;
-            case SceneKey.TestScene:
-                
+            case SceneType.TestScene:
+                break;
+            case SceneType.StoryScene:
+                SetActiveUI(false);
+                // 플레이어 오브젝트 비활성화
+                if (playerObject != null) playerObject.SetActive(false);
                 break;
         }
         SceneManager.LoadScene(sceneName);
@@ -167,6 +162,24 @@ public class GameManager : MonoBehaviour
         // 스테이지 흐름 초기화
         DungeonFlowManager.Instance.ResetStages();
         // 플레이어를 로비 씬으로 이동
-        MoveScene(SceneKey.LobbyScene, "LobbyScene");
+        MoveScene(SceneType.LobbyScene, "LobbyScene");
+    }
+
+    // 인게임에 사용되는 UI 제거 함수
+    private void DestroyUI()
+    {
+        if (upgradeUI != null) Destroy(upgradeUI);
+        if (inventoryUI != null) Destroy(inventoryUI);
+        if (inGameUI != null) Destroy(inGameUI);
+        if (testUI != null) Destroy(testUI);
+    }
+
+    // 인게임에 활성화/비활성화 할 UI 설정
+    private void SetActiveUI(bool isActive)
+    {
+        if (upgradeUI != null) upgradeUI.SetActive(isActive);
+        if (inventoryUI != null) inventoryUI.SetActive(isActive);
+        if (inGameUI != null) inGameUI.SetActive(isActive);
+        if (testUI != null) testUI.SetActive(isActive);
     }
 }
