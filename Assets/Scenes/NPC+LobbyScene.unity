@@ -3856,6 +3856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 454814999}
   - component: {fileID: 454814998}
+  - component: {fileID: 454815000}
   - component: {fileID: 454814997}
   - component: {fileID: 454814996}
   m_Layer: 0
@@ -3979,6 +3980,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &454815000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454814995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cfdc05418fc4e49bef1a9f6be32acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conversationUI: {fileID: 696673191}
+  traitWindow: {fileID: 117528329}
+  prompt: "\uB610 \uC654\uAD6C\uB9CC.\n\uC774\uBC88\uC5D0\uB3C4 \uC0C8\uB85C\uC6B4
+    \uAC00\uB2A5\uC131\uC744 \uC5F4\uC5B4\uBCFC\uD150\uAC00?"
+  interactKey: 101
+  playerTag: Player
 --- !u!1 &460671135
 GameObject:
   m_ObjectHideFlags: 0
@@ -7278,8 +7297,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messageText: {fileID: 761008019}
   yesButton: {fileID: 1267070537}
+  yesButtonLabel: {fileID: 0}
   noButton: {fileID: 1121935283}
+  noButtonLabel: {fileID: 0}
+  defaultYesText: "\uC88B\uB2E4."
+  defaultNoText: "\uC2EB\uB2E4."
   fadeDuration: 0.12
+  ignoreIfAlreadyOpen: 1
+  refreshTextIfReopen: 0
 --- !u!1 &706496815
 GameObject:
   m_ObjectHideFlags: 0
