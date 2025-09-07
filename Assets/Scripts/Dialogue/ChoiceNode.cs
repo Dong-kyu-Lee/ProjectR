@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dialogue/Choice (Yes/No) Node")]
+[CreateAssetMenu(menuName = "Dialogue/Choice(Yes/No)Node")]
 public class ChoiceNode : DialogueNode
 {
     [TextArea] public string question;
