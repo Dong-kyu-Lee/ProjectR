@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cb6836c904d0ec4db8e97d54dc99c6f, type: 3}
-  m_Name: TraitNPC_Graph
+  m_Script: {fileID: 11500000, guid: 843f35ea198328b419bc3f195eac5f7c, type: 3}
+  m_Name: Goodbye
   m_EditorClassIdentifier: 
-  startNodeId: Start
-  nodes: []
+  nodeId: Goodbye
+  text: "\uADF8\uB798. \uB2E4\uC74C\uC5D0 \uB610 \uC624\uAC8C.\n\uC798 \uAC00\uAC8C\uB098"
+  okText: "\uC54C\uACA0\uC5B4"
+  nextNodeId: 

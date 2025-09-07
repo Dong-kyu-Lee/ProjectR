@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Ask
   m_EditorClassIdentifier: 
   nodeId: Ask
-  question: 
-  yesText: "\uC88B\uB2E4."
-  noText: "\uC2EB\uB2E4."
-  nextIfYesId: 
-  nextIfNoId: 
+  question: "\uB610 \uC654\uAD6C\uB9CC.\n\uC774\uBC88\uC5D0\uB3C4 \uC0C8\uB85C\uC6B4
+    \uAC00\uB2A5\uC131\uC744 \uC5F4\uC5B4\uBCFC\uD150\uAC00?"
+  yesText: "\uC88B\uC544"
+  noText: "\uB2E4\uC74C\uC5D0 \uD558\uC8E0"
+  nextIfYesId: Open
+  nextIfNoId: Goodbye
