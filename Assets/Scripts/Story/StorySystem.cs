@@ -161,4 +161,16 @@ public class StorySystem : MonoBehaviour
         Debug.LogError($"Story '{storyID}' does not exist.");
         return StoryState.Locked; // 기본값 반환
     }
+
+    public void SetStoryState(StoryID storyID, StoryState state)
+    {
+        if (storyContainer.ContainsKey(storyID))
+        {
+            storyContainer[storyID].storyState = state;
+        }
+        else
+        {
+            Debug.LogError($"Story '{storyID}' does not exist.");
+        }
+    }
 }

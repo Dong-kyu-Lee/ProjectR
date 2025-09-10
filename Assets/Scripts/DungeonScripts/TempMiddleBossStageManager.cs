@@ -32,7 +32,7 @@ public class TempMiddleBossStageManager : MonoBehaviour
             finishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
             return;
         }
-        // 컷씬이 수행되지 않았다면 아래 코드 수행
+        // 컷씬이 수행되지 않았다면 아래 코드 수행 (중간보스전 시작)
         GameManager.Instance.PlacePlayerObject(playerSpawnPosition.transform.position);
         GameManager.Instance.CurrentPlayer.SetActive(true);
         finishSpot.SetActive(false);
@@ -46,6 +46,7 @@ public class TempMiddleBossStageManager : MonoBehaviour
             isMiddleBossDead = true;
             OnMiddleBossStageEnd();
             // 중간보스 처치 후 컷씬 재생
+            StorySystem.Instance.SetStoryState(StoryID.Temp_Middle_Moss, StoryState.Available);
             StorySystem.Instance.StartStory(StoryID.Temp_Middle_Moss);
         }
     }

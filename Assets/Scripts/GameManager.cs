@@ -91,6 +91,8 @@ public class GameManager : MonoBehaviour
                 DestroyUI();
                 // 플레이어 오브젝트 제거
                 if (playerObject != null) Destroy(playerObject);
+                // 스토리 초기화
+                StorySystem.Instance.ResetStory();
                 break;
             case SceneType.Normal:
                 // 던전에서 사용되는 UI 생성
@@ -114,6 +116,7 @@ public class GameManager : MonoBehaviour
                     testUI = Instantiate(DungeonTestHelper.Instance.testUI);
                     DontDestroyOnLoad(testUI);
                 }
+                SetActiveUI(true);
                 break;
             case SceneType.MiddleBoss:
                 SetActiveUI(true);
