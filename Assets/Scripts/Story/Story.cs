@@ -21,13 +21,4 @@ public class Story : ScriptableObject
     public string sceneToLoad;          // 스토리 진행에 사용할 씬 이름
     public StoryID[] nextStoryID;      // 다음 스토리 이름들
     public string description = null;   // 간단한 스토리 설명
-
-    public Story(Story asset)
-    {
-        this.storyID = asset.storyID;
-        this.storyState = asset.storyState;
-        this.sceneToLoad = asset.sceneToLoad;
-        this.nextStoryID = asset.nextStoryID;
-        this.description = asset.description;
-    }
 }

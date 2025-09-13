@@ -52,7 +52,14 @@ public class StorySystem : MonoBehaviour
         {
             if (!storyContainer.ContainsKey(stories[i].storyID))
             {
-                storyContainer.Add(stories[i].storyID, new Story(stories[i]));
+                Story story = ScriptableObject.CreateInstance<Story>();
+                story.storyID = stories[i].storyID;
+                story.storyState = stories[i].storyState;
+                story.sceneToLoad = stories[i].sceneToLoad;
+                story.nextStoryID = stories[i].nextStoryID;
+                story.description = stories[i].description;
+
+                storyContainer.Add(stories[i].storyID, story);
             }
             else
             {
@@ -128,10 +135,7 @@ public class StorySystem : MonoBehaviour
     {
         foreach (var story in storyContainer.Values)
         {
-            if (story.storyState == StoryState.In_Progress)
-            {
-                story.storyState = StoryState.Available;
-            }
+            story.storyState = StoryState.Locked;
         }
     }
 

@@ -128,4 +128,17 @@ public class EnemyInRoom : MonoBehaviour
             secondIdx = 0;
         }
     }
+
+    // 에디터용. 모든 적 오브젝트 제거
+    public void KillAllEnemies()
+    {
+        for(int i = 0; i < firstEnemyList.Count; ++i)
+        {
+            if (firstEnemyList[i] != null) firstEnemyList[i].GetComponent<Enemy>().Dead();
+        }
+        for (int i = 0; i < secondEnemyList.Count; ++i)
+        {
+            if (secondEnemyList[i] != null) secondEnemyList[i].GetComponent<Enemy>().Dead();
+        }
+    }
 }

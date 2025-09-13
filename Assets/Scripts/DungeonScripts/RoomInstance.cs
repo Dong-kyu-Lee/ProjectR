@@ -111,4 +111,10 @@ public class RoomInstance : MonoBehaviour
             this.dynamicElements.Add(element);
         }
     }
+
+    // 에디터용. 방을 즉시 클리어시키는 함수
+    public void Editor_EndRoom()
+    {
+        SecondWaveEnd();
+    }
 }
