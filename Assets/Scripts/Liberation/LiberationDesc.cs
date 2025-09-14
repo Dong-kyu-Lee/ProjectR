@@ -16,7 +16,7 @@ public class LiberationDesc : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Image image;
     public Color defaultColor;
 
-    void Start()
+    void Awake()
     {
         defaultColor = new Color(28f / 255f, 32f / 255f, 36f / 255f);
         image = GetComponent<Image>();

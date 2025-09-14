@@ -21,13 +21,13 @@ public class DrunkenDeBuff : Buff
         if (targetStatus == null) return;
         
         targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
-        if (AbilityManager.Instance.bartenderAbility3) CalcReceiveDamage.Instance.TakeDebuffDamage(DrunkenBustDmg, targetStatus, false);
+        if (AbilityManager.Instance.bartenderAbility[2]) CalcReceiveDamage.Instance.TakeDebuffDamage(DrunkenBustDmg, targetStatus, false);
     }
 
     public override void RenewBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
-        if (AbilityManager.Instance.bartenderAbility3) CalcReceiveDamage.Instance.TakeDebuffDamage(DrunkenBustDmg, targetStatus, false);
+        if (AbilityManager.Instance.bartenderAbility[2]) CalcReceiveDamage.Instance.TakeDebuffDamage(DrunkenBustDmg, targetStatus, false);
     }
 
     public override void RemoveBuffEffect()
