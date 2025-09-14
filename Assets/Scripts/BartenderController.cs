@@ -235,7 +235,7 @@ public class BartenderController : MonoBehaviour
         projectileCompo.bartenderAbility = bartenderAbility;
         projectileCompo.bottle = bartenderAbility.UseBartenderBottle();
 
-        if (AbilityManager.Instance.bartenderAbility1)
+        if (AbilityManager.Instance.bartenderAbility[0])
         {
             GameObject projectile2 = Instantiate(projectilePref, spawnPosition, Quaternion.identity);
             Projectile projectile2Compo = projectile2.GetComponent<Projectile>();

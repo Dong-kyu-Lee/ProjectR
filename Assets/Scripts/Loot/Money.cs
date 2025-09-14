@@ -17,7 +17,7 @@ public class Money : MonoBehaviour
     private bool isFlying = false;
     private Vector3 velocity = Vector3.zero;
 
-    private void Start()
+    private void Awake()
     {
         player = GameManager.Instance.CurrentPlayer.transform;
         StartCoroutine(LootDelay());
@@ -53,6 +53,7 @@ public class Money : MonoBehaviour
                         player.GetComponent<PlayerStatus>().Gold += moneyAmount;
                         break;
                     case "steadfite":
+                        player.GetComponent<PlayerStatus>().Steadfite += (int)moneyAmount;
                         break;
                     default:
                         break;

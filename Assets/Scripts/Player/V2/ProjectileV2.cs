@@ -50,7 +50,7 @@ public class ProjectileV2 : MonoBehaviour
         Vector3 hitPoint = transform.position;
 
         // 광역 폭발 기능
-        if (AbilityManager.Instance.bartenderAbility2)
+        if (AbilityManager.Instance.bartenderAbility[1])
         {
             Instantiate(explosionPrefab, hitPoint, Quaternion.identity);
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(hitPoint, explosionRadius);

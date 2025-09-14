@@ -7,7 +7,6 @@ public class EnemyStatus : Status
 {
     [SerializeField]
     private EnemyData enemyData;
-    [SerializeField]
     private EnemyLoot enemyLoot;
 
     public EnemyData EnemyStatusData { get { return enemyData; } }
