@@ -4065,7 +4065,7 @@ GameObject:
   m_Component:
   - component: {fileID: 454814999}
   - component: {fileID: 454814998}
-  - component: {fileID: 454815000}
+  - component: {fileID: 454815002}
   - component: {fileID: 454815001}
   - component: {fileID: 454814997}
   - component: {fileID: 454814996}
@@ -4190,7 +4190,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &454815000
+--- !u!114 &454815001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454814995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35a7f8420110ea4458a49b754b05b0ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runner: {fileID: 60486752}
+  graph: {fileID: 11400000, guid: 355981b31431682439fc6cf593cdf17e, type: 2}
+  interactKey: 101
+  playerTag: Player
+--- !u!114 &454815002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4206,22 +4222,6 @@ MonoBehaviour:
   traitWindow: {fileID: 117528329}
   prompt: "\uB610 \uC654\uAD6C\uB9CC.\n\uC774\uBC88\uC5D0\uB3C4 \uC0C8\uB85C\uC6B4
     \uAC00\uB2A5\uC131\uC744 \uC5F4\uC5B4\uBCFC\uD150\uAC00?"
-  interactKey: 101
-  playerTag: Player
---- !u!114 &454815001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 454814995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35a7f8420110ea4458a49b754b05b0ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  runner: {fileID: 60486752}
-  graph: {fileID: 11400000, guid: 355981b31431682439fc6cf593cdf17e, type: 2}
   interactKey: 101
   playerTag: Player
 --- !u!1 &460671135
@@ -7250,7 +7250,6 @@ GameObject:
   - component: {fileID: 696673187}
   - component: {fileID: 696673191}
   - component: {fileID: 696673190}
-  - component: {fileID: 696673189}
   m_Layer: 5
   m_Name: ConversationUI
   m_TagString: Untagged
@@ -7319,20 +7318,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696673185}
   m_CullTransparentMesh: 1
---- !u!114 &696673189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 696673185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b48c115f48b15946b2e4de44705753d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ui: {fileID: 696673191}
-  traitWindow: {fileID: 117528329}
 --- !u!225 &696673190
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -7365,8 +7350,8 @@ MonoBehaviour:
   defaultYesText: "\uC88B\uC8E0"
   defaultNoText: "\uB2E4\uC74C\uC5D0 \uD558\uC8E0"
   fadeDuration: 0.12
-  ignoreIfAlreadyOpen: 0
-  refreshTextIfReopen: 1
+  ignoreIfAlreadyOpen: 1
+  refreshTextIfReopen: 0
 --- !u!1 &706496815
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,12 +22,20 @@ public class NpcDialogue : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag(playerTag)) inRange = true;
+        if (other.CompareTag(playerTag))
+        {
+            Debug.Log("Player in range for NPC dialogue.");
+            inRange = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag(playerTag)) inRange = false;
+        if (other.CompareTag(playerTag))
+        {
+            Debug.Log("Player out of range for NPC dialogue.");
+            inRange = false;
+        }
     }
 
     private void Update()
