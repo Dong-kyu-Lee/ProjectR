@@ -46,7 +46,7 @@ public class Projectile : MonoBehaviour
         float ignoreDamageReduction = playerStatus.IgnoreDamageReduction;
         bool isCritical = false;
 
-        if (AbilityManager.Instance.bartenderAbility2)
+        if (AbilityManager.Instance.bartenderAbility[1])
         {
             Vector3 hitPoint = transform.position;
 

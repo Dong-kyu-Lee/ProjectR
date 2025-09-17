@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 517c0678f863c164aa71880f2ce1dcc3, type: 3}
+  m_Name: MeleeEnemyLoot
+  m_EditorClassIdentifier: 
+  dropItems:
+  - prefab: {fileID: 5864806164603591251, guid: c9915d0fdce2e95408e4d0eb12f21c1a, type: 3}
+    dropRate: 1
+    maxCount: 3
+  - prefab: {fileID: 5864806164603591251, guid: 983dc70c0886aab469d0edcb2bf3e0b9, type: 3}
+    dropRate: 1
+    maxCount: 1

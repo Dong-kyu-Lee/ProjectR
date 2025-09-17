@@ -21,10 +21,10 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
         {
             bartenderBottles.Clear();
 
-            int count = AbilityManager.Instance.bartenderAbility5 ? 20 : 10;
+            int count = AbilityManager.Instance.bartenderAbility[4] ? 20 : 10;
             AddBartenderBottle(count);
 
-            float cooldown = AbilityManager.Instance.bartenderAbility6 ? 12f : 20f;
+            float cooldown = AbilityManager.Instance.bartenderAbility[5] ? 12f : 20f;
             StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", cooldown));
 
             onAbilityUpdated?.Invoke();
