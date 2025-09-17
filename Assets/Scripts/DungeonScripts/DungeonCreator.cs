@@ -17,6 +17,8 @@ public class DungeonCreator : MonoBehaviour
     [SerializeField]
     private Tilemap backgroundTilemap;
     [SerializeField]
+    private Tilemap backgroundDecoTilemap;
+    [SerializeField]
     private Tilemap groundTilemap;
     [SerializeField]
     private Tilemap floatingTilemap;
@@ -176,6 +178,16 @@ public class DungeonCreator : MonoBehaviour
                     bTilemap.GetTile(new Vector3Int(j, i, 0)));
             }
         }
+        // Background Decoration Tilemap 그리기
+        Tilemap bdTilemap = room.backgroundDecoTilemap;
+        for (int i = 0; i < bdTilemap.size.y; ++i)
+        {
+            for (int j = 0; j < bdTilemap.size.x; ++j)
+            {
+                backgroundDecoTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
+                    bdTilemap.GetTile(new Vector3Int(j, i, 0)));
+            }
+        }
         // Ground Tilemap 그리기
         Tilemap gTilemap = room.groundTilemap;
         for (int i = 0; i < gTilemap.size.y; ++i)
@@ -227,6 +239,7 @@ public class DungeonCreator : MonoBehaviour
     public void RemoveAllRooms()
     {
         backgroundTilemap.ClearAllTiles();
+        backgroundDecoTilemap.ClearAllTiles();
         groundTilemap.ClearAllTiles();
         floatingTilemap.ClearAllTiles();
         decorationTilemap.ClearAllTiles();

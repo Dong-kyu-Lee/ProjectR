@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 public class Room : MonoBehaviour
 {
     public Tilemap backgroundTilemap;
+    public Tilemap backgroundDecoTilemap;
     public Tilemap groundTilemap;
     public Tilemap floatingTilemap;
     public Tilemap decorationTilemap;
