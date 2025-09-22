@@ -34,6 +34,6 @@ public class EndSceneManager : MonoBehaviour
     // 게임 종료 함수: 동아리의밤에서만 쓸 함수
     public void EndGame()
     {
-        SceneManager.LoadScene("StartScene");
+        GameManager.Instance.MoveScene(SceneType.StartScene, "StartScene");
     }
 }

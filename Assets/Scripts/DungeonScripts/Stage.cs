@@ -46,7 +46,7 @@ public class Stage : MonoBehaviour
                 break;
             case StageFlow.Normal2:
                 // 동아리의 밤 행사까지만 쓸 부분
-                SceneManager.LoadScene("TempEndScene");
+                GameManager.Instance.MoveScene(SceneType.TempEndScene, "TempEndScene");
                 // GameManager.Instance.MoveScene(SceneType.MiddleBoss, "TempMiddleBoss");
                 break;
             case StageFlow.MiddleBoss:
