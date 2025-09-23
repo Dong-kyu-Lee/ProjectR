@@ -121,7 +121,7 @@ public class DungeonFlowManager : MonoBehaviour
         // 완료된 스테이지 제거
         stages.Dequeue().SetActive(false);
         isSceneChanged = true;
-        GameManager.Instance.MoveScene(SceneKey.Normal, "DungeonGenerate");
+        GameManager.Instance.MoveScene(SceneType.Normal, "DungeonGenerate");
     }
 
     // 각 스테이지 순서에 따라 정해진 스테이지 데이터를 선택하는 함수

@@ -53,6 +53,16 @@ public class DungeonMapUI : MonoBehaviour
     {
         Debug.Log("DrawDungeonMap");
         var roomInfos = DungeonFlowManager.Instance.GetCurrentStage().roomList;
+        if(roomInfos == null || roomInfos.Count == 0)
+        {
+            Debug.LogError("roomInfos is null");
+            return;
+        }
+        else if (roomInfos.Count == 0)
+        {
+            Debug.LogError("roomInfos count is 0");
+            return;
+        }
         Vector2 bottomLeft = new Vector2(1000f, 1000f); // 가장 왼쪽 아래 방
         Vector2 topRight = new Vector2(-1000f, -1000f); // 가장 오른쪽 위 방
 
