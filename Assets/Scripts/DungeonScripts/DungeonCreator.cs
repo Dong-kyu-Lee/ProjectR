@@ -184,8 +184,13 @@ public class DungeonCreator : MonoBehaviour
         {
             for (int j = 0; j < bdTilemap.size.x; ++j)
             {
-                backgroundDecoTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
-                    bdTilemap.GetTile(new Vector3Int(j, i, 0)));
+                TileBase tile = bdTilemap.GetTile(new Vector3Int(j, i, 0));
+                // 타일의 변형 메트릭스 가져오기
+                Matrix4x4 transforMatrix = bdTilemap.GetTransformMatrix(new Vector3Int(j, i, 0));
+                // 타일 배치
+                backgroundDecoTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0), tile);
+                // 타일의 변형 메트릭스를 적용하여 타일 설정
+                backgroundDecoTilemap.SetTransformMatrix(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0), transforMatrix);
             }
         }
         // Ground Tilemap 그리기
