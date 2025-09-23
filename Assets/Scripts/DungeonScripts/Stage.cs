@@ -45,16 +45,18 @@ public class Stage : MonoBehaviour
                 CreateDungeon();
                 break;
             case StageFlow.Normal2:
-                GameManager.Instance.MoveScene(SceneKey.MiddleBoss, "TempMiddleBoss");
+                // 동아리의 밤 행사까지만 쓸 부분
+                GameManager.Instance.MoveScene(SceneType.TempEndScene, "TempEndScene");
+                // GameManager.Instance.MoveScene(SceneType.MiddleBoss, "TempMiddleBoss");
                 break;
             case StageFlow.MiddleBoss:
                 MoveToDungeonAndCreate();
                 break;
             case StageFlow.Normal3:
-                GameManager.Instance.MoveScene(SceneKey.Shop, "ShopScene");
+                GameManager.Instance.MoveScene(SceneType.Shop, "ShopScene");
                 break;
             case StageFlow.Shop:
-                GameManager.Instance.MoveScene(SceneKey.FinalBossScene, "TempFinalBoss");
+                GameManager.Instance.MoveScene(SceneType.FinalBossScene, "TempFinalBoss");
                 break;
             case StageFlow.FinalBoss:
                 // 다음 스테이지로 이동

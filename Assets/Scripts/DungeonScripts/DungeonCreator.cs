@@ -17,6 +17,8 @@ public class DungeonCreator : MonoBehaviour
     [SerializeField]
     private Tilemap backgroundTilemap;
     [SerializeField]
+    private Tilemap backgroundDecoTilemap;
+    [SerializeField]
     private Tilemap groundTilemap;
     [SerializeField]
     private Tilemap floatingTilemap;
@@ -176,6 +178,21 @@ public class DungeonCreator : MonoBehaviour
                     bTilemap.GetTile(new Vector3Int(j, i, 0)));
             }
         }
+        // Background Decoration Tilemap 그리기
+        Tilemap bdTilemap = room.backgroundDecoTilemap;
+        for (int i = 0; i < bdTilemap.size.y; ++i)
+        {
+            for (int j = 0; j < bdTilemap.size.x; ++j)
+            {
+                TileBase tile = bdTilemap.GetTile(new Vector3Int(j, i, 0));
+                // 타일의 변형 메트릭스 가져오기
+                Matrix4x4 transforMatrix = bdTilemap.GetTransformMatrix(new Vector3Int(j, i, 0));
+                // 타일 배치
+                backgroundDecoTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0), tile);
+                // 타일의 변형 메트릭스를 적용하여 타일 설정
+                backgroundDecoTilemap.SetTransformMatrix(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0), transforMatrix);
+            }
+        }
         // Ground Tilemap 그리기
         Tilemap gTilemap = room.groundTilemap;
         for (int i = 0; i < gTilemap.size.y; ++i)
@@ -227,6 +244,7 @@ public class DungeonCreator : MonoBehaviour
     public void RemoveAllRooms()
     {
         backgroundTilemap.ClearAllTiles();
+        backgroundDecoTilemap.ClearAllTiles();
         groundTilemap.ClearAllTiles();
         floatingTilemap.ClearAllTiles();
         decorationTilemap.ClearAllTiles();
