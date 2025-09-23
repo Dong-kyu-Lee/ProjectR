@@ -21,22 +21,32 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         enableAttack = false;
         isAttaking = true;
 
-        // 마우스 방향에 따라 회전
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = Mathf.Abs(playerCamera.transform.position.z);
-        Vector3 worldMousePos = playerCamera.ScreenToWorldPoint(mousePos);
+        var cam = GetActiveCamera();
+        if (cam == null)
+        {
+            goto Cooldown;
+        }
+        var sr = GetSprite();
+        if (sr == null)
+        {
+            goto Cooldown;
+        }
 
-        Vector3 direction = worldMousePos - transform.position;
-        if (direction.x > 0)
-            Flip(1f);
-        else
-            Flip(-1f);
+        float px = cam.WorldToScreenPoint(transform.position).x;
+        float dx = Input.mousePosition.x - px;
+        float sx = (Mathf.Abs(dx) < 1f) ? (sr.flipX ? 1f : -1f) : Mathf.Sign(dx);
 
-        playerAnimator.SetTrigger("Attack");
+        bool aimRight = sx > 0f;
+        if (aimRight != sr.flipX) Flip(sx);
 
-        yield return new WaitForSeconds(0.1f); // 공격 타이밍과 동기화
+        if (playerAnimator != null)
+            playerAnimator.SetTrigger("Attack");
 
-        // 적 감지
+        if (attackPoint == null)
+        {
+            goto Cooldown;
+        }
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
         foreach (var hit in hits)
         {
@@ -54,12 +64,15 @@ public class BlacksmithControllerV2 : PlayerControllerBase
             }
         }
 
+    Cooldown:
         yield return new WaitForSeconds(attackCoolTimeA);
         isAttaking = false;
-
         yield return new WaitForSeconds(1f / playerStatus.TotalAttackSpeed - attackCoolTimeA);
         enableAttack = true;
     }
+
+
+
 
     private void OnDrawGizmosSelected()
     {

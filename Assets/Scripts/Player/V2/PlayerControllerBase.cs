@@ -42,6 +42,9 @@ public abstract class PlayerControllerBase : MonoBehaviour
     protected bool isDead = false;
     protected bool isGround = false;
 
+    private Vector2 _queuedAimDir;
+    private bool _hasQueuedAim;
+
     protected virtual void Start()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
@@ -62,7 +65,22 @@ public abstract class PlayerControllerBase : MonoBehaviour
             StartCoroutine(Dash());
 
         if (Input.GetMouseButtonDown(0) && enableAttack)
+        {
+            // 1) 클릭 시 조준 벡터 계산
+            var aim = GetAimDirection2D(horizontalOnly: false);
+
+            // 2) 현재 바라보는 방향과 반대면 먼저 플립
+            bool facingRight = rendererObject.GetComponent<SpriteRenderer>().flipX;
+            bool aimRight = aim.x > 0f;
+            if (aim.x != 0f && (aimRight != facingRight))
+                Flip(aim.x);
+
+            // 3) 공격 코루틴에서 같은 벡터를 쓰도록 큐에 저장
+            _queuedAimDir = aim;
+            _hasQueuedAim = true;
+
             StartCoroutine(Attack());
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
             UseCharacterAbility();
@@ -92,7 +110,8 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 방향 전환
     protected void Flip(float direction)
     {
-        rendererObject.GetComponent<SpriteRenderer>().flipX = direction > 0;
+        var sr = GetSprite();
+        if (sr != null) sr.flipX = direction > 0;
     }
 
     // 점프 처리
@@ -152,4 +171,87 @@ public abstract class PlayerControllerBase : MonoBehaviour
     {
         return characterAbility;
     }
+
+    protected Vector2 GetAimDirection2D(bool horizontalOnly = false)
+    {
+        var cam = GetActiveCamera();
+        if (!cam)
+        {
+            // 카메라 정말 없으면 현재 바라보는 방향으로 보정
+            var sr = GetSprite();
+            float dir = (sr != null && sr.flipX) ? 1f : -1f;
+            return new Vector2(dir, 0f);
+        }
+
+        Vector3 playerPos = transform.position;
+
+        if (horizontalOnly)
+        {
+            float dx = Input.mousePosition.x - cam.WorldToScreenPoint(playerPos).x;
+            return dx >= 0 ? Vector2.right : Vector2.left;
+        }
+
+        Vector3 mouseWorld = cam.ScreenToWorldPoint(
+            new Vector3(Input.mousePosition.x, Input.mousePosition.y, cam.nearClipPlane)
+        );
+        mouseWorld.z = playerPos.z;
+
+        Vector2 dir2 = (Vector2)(mouseWorld - playerPos);
+        if (dir2.sqrMagnitude < 1e-4f)
+        {
+            var sr = GetSprite();
+            dir2 = (sr != null && sr.flipX) ? Vector2.right : Vector2.left;
+        }
+        return dir2.normalized;
+    }
+
+    protected Vector2 ConsumeQueuedAimDirection(bool horizontalOnly = false)
+    {
+        Vector2 dir;
+        if (_hasQueuedAim)
+        {
+            dir = _queuedAimDir;
+            _hasQueuedAim = false;
+        }
+        else
+        {
+            dir = GetAimDirection2D(horizontalOnly);
+        }
+
+        if (horizontalOnly)
+        {
+            float sx = dir.x;
+            if (Mathf.Approximately(sx, 0f))
+            {
+                // 수평 전용인데 0이면 현재 바라보는 쪽으로 보정
+                bool facingRight = rendererObject.GetComponent<SpriteRenderer>().flipX;
+                sx = facingRight ? 1f : -1f;
+            }
+            dir = new Vector2(Mathf.Sign(sx), 0f);
+        }
+
+        if (dir.sqrMagnitude < 1e-6f)
+        {
+            bool facingRight = rendererObject.GetComponent<SpriteRenderer>().flipX;
+            dir = facingRight ? Vector2.right : Vector2.left;
+        }
+        return dir.normalized;
+    }
+
+    protected Camera GetActiveCamera()
+    {
+        var cam = Camera.main;
+        if (cam == null) cam = Camera.current;
+        if (cam == null && Camera.allCamerasCount > 0) cam = Camera.allCameras[0];
+        return cam;
+    }
+
+    protected SpriteRenderer GetSprite()
+    {
+        if (rendererObject == null) rendererObject = gameObject;
+        var sr = rendererObject.GetComponent<SpriteRenderer>();
+        if (sr == null) sr = GetComponentInChildren<SpriteRenderer>();
+        return sr;
+    }
+
 }
