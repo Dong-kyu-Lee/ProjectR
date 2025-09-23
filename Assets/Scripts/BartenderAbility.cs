@@ -12,9 +12,9 @@ public class BartenderAbility : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) && !CalcDamage.Instance.IsOnCooldown("BartenderAbility"))
         {
-            if (AbilityManager.Instance.bartenderAbility5) AddBartenderBottle(20);
+            if (AbilityManager.Instance.bartenderAbility[4]) AddBartenderBottle(20);
             else AddBartenderBottle(10);
-            if (AbilityManager.Instance.bartenderAbility6) StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", 12f));
+            if (AbilityManager.Instance.bartenderAbility[5]) StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", 12f));
             else StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", 20f));
         }
     }

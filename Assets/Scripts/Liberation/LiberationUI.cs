@@ -11,16 +11,14 @@ public class LiberationUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            if (!isOpen)
+            if (liberationUI == null)
             {
-                liberationUI.SetActive(true);
-                isOpen = true;
+                Debug.LogError("liberationUI is null!");
+                return;
             }
-            else
-            {
-                liberationUI.SetActive(false);
-                isOpen = false;
-            }
+
+            isOpen = !isOpen;
+            liberationUI.SetActive(isOpen);
         }
     }
 }

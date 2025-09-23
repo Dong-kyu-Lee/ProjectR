@@ -46,7 +46,7 @@ public class BartenderControllerV2 : PlayerControllerBase
         projComp.bartenderAbility = bartenderAbility;
         projComp.bottle = bartenderAbility.UseBartenderBottle();
 
-        if (AbilityManager.Instance.bartenderAbility1)
+        if (AbilityManager.Instance.bartenderAbility[0])
         {
             GameObject projectile2 = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
             var proj2Comp = projectile2.GetComponent<ProjectileV2>();

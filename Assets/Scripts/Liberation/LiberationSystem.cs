@@ -9,28 +9,24 @@ public class LiberationSystem : MonoBehaviour
 {
     private HashSet<string> unlockedEffects = new HashSet<string>(); // 중복 실행 방지용.
 
-    private float steadite;
-    [SerializeField] private Text currentCrystalText;
+    [SerializeField] private PlayerStatus playerStatus;
+    [SerializeField] private Text currentSteadfiteText;
 
     public string characterName;
-    public int currentAbility = 0;
+    public int currentAbility = -1;
     private LiberationDesc[] liberationDesc = new LiberationDesc[6];
 
     private void Awake()
     {
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         liberationDesc = GetComponentsInChildren<LiberationDesc>();
         characterName = "bartender";
-        Steadite = 3000;
-        currentCrystalText.text = steadite.ToString();
+        currentSteadfiteText.text = playerStatus.Steadfite.ToString();
     }
 
-    public float Steadite
+    private void Start()
     {
-        get { return steadite; }
-        set
-        {
-            steadite = value;
-        }
+        playerStatus.Steadfite = 3000;
     }
 
     public void EnableLiberationOnClick()
@@ -39,14 +35,14 @@ public class LiberationSystem : MonoBehaviour
         {
             Debug.Log("이미 활성화된 능력입니다.");
         }
-        else if (Steadite < liberationDesc[currentAbility - 1].abilityPrice)
+        else if (playerStatus.Steadfite < liberationDesc[currentAbility].abilityPrice)
         {
             Debug.Log("능력을 해방하기 위한 단석이 부족합니다.");
         }
         else
         {
-            Steadite -= liberationDesc[currentAbility - 1].abilityPrice;
-            currentCrystalText.text = Steadite.ToString();
+            playerStatus.Steadfite -= liberationDesc[currentAbility].abilityPrice;
+            currentSteadfiteText.text = playerStatus.Steadfite.ToString();
             if (!unlockedEffects.Contains($"{characterName}_{currentAbility}"))
             {
                 EnableLiberationEffect(characterName, currentAbility);
@@ -58,7 +54,7 @@ public class LiberationSystem : MonoBehaviour
     // 해당 캐릭터의 해방 효과 리셋.
     private void ResetLiberation(string characterName)
     {
-        for (int point = 1; point <= 6; point++)
+        for (int point = 0; point <= 5; point++)
         {
             if (unlockedEffects.Contains($"{characterName}_{point}"))
             {
@@ -71,50 +67,12 @@ public class LiberationSystem : MonoBehaviour
     // 해방 특수 효과 활성화.
     public void EnableLiberationEffect(string characterName, int point)
     {
-        switch (characterName)
-        {
-            case "bartender":
-                switch (point)
-                {
-                    case 1: AbilityManager.Instance.bartenderAbility1 = true; break;
-                    case 2: AbilityManager.Instance.bartenderAbility2 = true; break;
-                    case 3: AbilityManager.Instance.bartenderAbility3 = true; break;
-                    case 4: AbilityManager.Instance.bartenderAbility4 = true; break;
-                    case 5: AbilityManager.Instance.bartenderAbility5 = true; break;
-                    case 6: AbilityManager.Instance.bartenderAbility6 = true; break;
-                    default:
-                        Debug.Log("올바르지 않는 숫자");
-                        return;
-                }
-                break;
-            default:
-                Debug.Log("잘못된 직업 이름");
-                return;
-        }
+        AbilityManager.Instance.SetAbiltiy(characterName, point, true);
     }
 
     // 해방 특수 효과 비활성화.
     public void DisableLiberationEffect(string characterName, int point)
     {
-        switch (characterName)
-        {
-            case "bartender":
-                switch (point)
-                {
-                    case 1: AbilityManager.Instance.bartenderAbility1 = false; break;
-                    case 2: AbilityManager.Instance.bartenderAbility2 = false; break;
-                    case 3: AbilityManager.Instance.bartenderAbility3 = false; break;
-                    case 4: AbilityManager.Instance.bartenderAbility4 = false; break;
-                    case 5: AbilityManager.Instance.bartenderAbility5 = false; break;
-                    case 6: AbilityManager.Instance.bartenderAbility6 = false; break;
-                    default:
-                        Debug.Log("올바르지 않는 숫자");
-                        return;
-                }
-                break;
-            default:
-                Debug.Log("잘못된 직업 이름");
-                return;
-        }
+        AbilityManager.Instance.SetAbiltiy(characterName, point, false);
     }
 }
