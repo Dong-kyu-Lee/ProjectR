@@ -5,7 +5,7 @@ public class TraitNpc : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private ConversationUIController conversationUI;
-    [SerializeField] private GameObject traitWindow; // 특성 창 루트
+    [SerializeField] private LiberationUI traitWindow; // 특성 창 루트
 
     [Header("설정")]
     [TextArea]
@@ -51,7 +51,10 @@ public class TraitNpc : MonoBehaviour
 
     private void OnYes()
     {
-        if (traitWindow) traitWindow.SetActive(true); // 특성 창 열기
+        if (traitWindow)
+        {
+            traitWindow.OpenUI();
+        }// 특성 창 열기
         isInteracting = false;
     }
 
