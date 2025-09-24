@@ -49,6 +49,7 @@ public static class SaveSystem
 public class SaveManager : MonoBehaviour
 {
     private static SaveManager instance;
+    private bool flag = false; // Update를 한번만 실행하기 위한 플래그
 
     public static SaveManager Instance
     {
@@ -70,13 +71,17 @@ public class SaveManager : MonoBehaviour
 
     private SaveData saveData = new SaveData();
 
-    private void Awake()
+    private void Update()
     {
-        if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
-        else if (instance != this) Destroy(gameObject);
+        if (!flag && GameManager.Instance.CurrentPlayer != null)
+        {
+            if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
+            else if (instance != this) Destroy(gameObject);
 
-        saveData = SaveSystem.Load();
-        SyncFromLiberationData();
+            saveData = SaveSystem.Load();
+            SyncFromLiberationData();
+            flag = true;
+        }
     }
 
     public void SaveAbility(string characterName, int point, bool enable)
