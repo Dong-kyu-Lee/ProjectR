@@ -6,21 +6,29 @@ using UnityEngine;
 public class LiberationUI : MonoBehaviour
 {
     [SerializeField] private GameObject liberationUI;
-    [SerializeField] private LiberationSystem liberationSystem;
     private bool isOpen;
+    private void Awake()
+    {
+        liberationUI.SetActive(false);
+    }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (liberationUI == null)
             {
                 Debug.LogError("liberationUI is null!");
                 return;
             }
-
-            isOpen = !isOpen;
-            liberationUI.SetActive(!isOpen);
-            liberationSystem.SyncLiberationColor();
+            CloseUI();
         }
+    }
+    public void OpenUI()
+    {
+        liberationUI.SetActive(true);
+    }
+    public void CloseUI()
+    {
+        liberationUI.SetActive(false);
     }
 }

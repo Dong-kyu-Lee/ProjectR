@@ -19,51 +19,87 @@ public class BartenderControllerV2 : PlayerControllerBase
     {
         enableAttack = false;
         isAttaking = true;
-        playerAnimator.SetTrigger("Attack");
 
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = Mathf.Abs(playerCamera.transform.position.z);
-        Vector3 curMousePoint = playerCamera.ScreenToWorldPoint(mousePos);
+        if (playerAnimator != null)
+            playerAnimator.SetTrigger("Attack");
 
-        Vector3 direction = curMousePoint - transform.position;
-        if (direction.magnitude < 0.5f)
+        // 카메라/스프라이트 안전 취득
+        var cam = GetActiveCamera();
+        if (cam == null)
         {
-            direction = (direction.x > 0 ? Vector3.right : Vector3.left);
+            goto Cooldown;
         }
-        else
+        var sr = GetSprite();
+        if (sr == null)
         {
-            direction.Normalize();
+            goto Cooldown;
         }
 
-        Vector3 spawnPos = transform.position + direction * projectileSpawnOffset;
-        rendererObject.GetComponent<SpriteRenderer>().flipX = spawnPos.x > transform.position.x;
+        // 클릭 좌표 기준 방향 (화면 공간)
+        Vector2 playerScreen = cam.WorldToScreenPoint(transform.position);
+        Vector2 sdir = (Vector2)Input.mousePosition - playerScreen;
+        if (sdir.sqrMagnitude < 1f)
+            sdir = sr.flipX ? Vector2.right : Vector2.left; // 너무 가까이 클릭하면 보정
 
-        GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        Vector2 direction = sdir.normalized;
+
+        // 클릭 방향과 반대면 플립
+        bool aimRight = direction.x > 0f;
+        if (aimRight != sr.flipX) Flip(direction.x);
+
+        // 프리팹/능력 null 가드
+        if (projectilePrefab == null)
+        {
+            goto Cooldown;
+        }
+        if (bartenderAbility == null)
+            bartenderAbility = GetComponent<BartenderAbilityV2>();
+
+        // 발사
+        Vector3 spawnPos = transform.position + (Vector3)direction * projectileSpawnOffset;
+        sr.flipX = spawnPos.x > transform.position.x;
+
+        var projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
         var projComp = projectile.GetComponent<ProjectileV2>();
-        projComp.Velocity = direction;
-        projComp.playerStatus = playerStatus;
-        projComp.player = gameObject;
-        projComp.bartenderAbility = bartenderAbility;
-        projComp.bottle = bartenderAbility.UseBartenderBottle();
-
-        if (AbilityManager.Instance.bartenderAbility[0])
+        if (projComp != null)
         {
-            GameObject projectile2 = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-            var proj2Comp = projectile2.GetComponent<ProjectileV2>();
-
-            Vector3 offsetDirection = direction + Vector3.up * 0.2f;
-            offsetDirection.Normalize();
-
-            proj2Comp.Velocity = (Vector2)offsetDirection;
-            proj2Comp.playerStatus = playerStatus;
-            proj2Comp.player = gameObject;
-            proj2Comp.bartenderAbility = bartenderAbility;
-            proj2Comp.bottle = bartenderAbility.UseBartenderBottle();
+            projComp.Velocity = direction;
+            projComp.playerStatus = playerStatus;
+            projComp.player = gameObject;
+            if (bartenderAbility != null)
+            {
+                projComp.bartenderAbility = bartenderAbility;
+                projComp.bottle = bartenderAbility.UseBartenderBottle();
+            }
         }
 
+        // 2발 옵션 — 매니저/배열 null 가드
+        if (AbilityManager.Instance != null &&
+            AbilityManager.Instance.bartenderAbility != null &&
+            AbilityManager.Instance.bartenderAbility.Length > 0 &&
+            AbilityManager.Instance.bartenderAbility[0])
+        {
+            var projectile2 = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+            var proj2Comp = projectile2.GetComponent<ProjectileV2>();
+            if (proj2Comp != null)
+            {
+                Vector2 offsetDir = (direction + Vector2.up * 0.2f).normalized;
+                proj2Comp.Velocity = offsetDir;
+                proj2Comp.playerStatus = playerStatus;
+                proj2Comp.player = gameObject;
+                if (bartenderAbility != null)
+                {
+                    proj2Comp.bartenderAbility = bartenderAbility;
+                    proj2Comp.bottle = bartenderAbility.UseBartenderBottle();
+                }
+            }
+        }
+
+    Cooldown:
         yield return new WaitForSeconds(attackCoolTimeA);
         isAttaking = false;
         yield return new WaitForSeconds(1f / playerStatus.TotalAttackSpeed - attackCoolTimeA);
         enableAttack = true;
     }
+
 }
