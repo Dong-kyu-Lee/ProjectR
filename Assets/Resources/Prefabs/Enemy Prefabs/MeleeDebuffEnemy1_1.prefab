@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 2854206439868323322}
   - component: {fileID: 9036694678958889534}
   - component: {fileID: 4116802487966569988}
+  - component: {fileID: -2854649348666833929}
   - component: {fileID: 3842903198805543405}
   - component: {fileID: 1576205176}
   - component: {fileID: 1918481558}
@@ -355,6 +356,19 @@ MonoBehaviour:
   hitBoxObj: {fileID: 8901037968461984229}
   debuffDuration: 3
   debuffAmount: 0.5
+--- !u!114 &-2854649348666833929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7154700476304014582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b6898fdad3c89842907f333877b2de5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootTable: {fileID: 0}
 --- !u!114 &3842903198805543405
 MonoBehaviour:
   m_ObjectHideFlags: 0
