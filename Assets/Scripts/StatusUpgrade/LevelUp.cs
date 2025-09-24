@@ -12,6 +12,7 @@ public class LevelUp : MonoBehaviour
 
     // 요구 경험치 ex) 레벨 1 -> 레벨 2 요구 경험치 = requiredExp[1].
     public static readonly int[] requiredExp;
+    [SerializeField] private int maxlevel = 50;
 
     public static LevelUp Instance;
 
@@ -40,23 +41,30 @@ public class LevelUp : MonoBehaviour
     static LevelUp()
     {
         int maxLevel = 50; // 최대 레벨.
-        double coefficient = 20; // 계수.
-        requiredExp = new int[maxLevel + 1];
+        requiredExp = new int[maxLevel + 2];
 
         for (int i = 1; i <= maxLevel; i++)
         {
-            double exp = Math.Pow((i * 100.0 / 99), 2) * coefficient;
+            double exp = 100 + 2 * Math.Pow(i, 2) * Math.Pow(1.03, i);
             requiredExp[i] = (int)Math.Round(exp);
         }
+        requiredExp[maxLevel + 1] = 0;
     }
 
     // 경험치 증가.
     public void IncreaseExp(float value)
     {
-        playerStatus.Exp += value;
-        if (playerStatus.Exp > requiredExp[(int)playerStatus.Level])
+        if (playerStatus.Level < maxlevel)
         {
-            UpLevel();
+            playerStatus.Exp += value;
+            if (playerStatus.Exp > requiredExp[(int)playerStatus.Level])
+            {
+                UpLevel();
+            }
+        }
+        else
+        {
+            playerStatus.Exp = 0;
         }
     }
 
@@ -72,7 +80,8 @@ public class LevelUp : MonoBehaviour
 
         playerStatus.Exp -= requiredExp[(int)playerStatus.Level - 1];
 
-        if (playerStatus.Exp > requiredExp[(int)playerStatus.Level])
+        if (playerStatus.Level == maxlevel) playerStatus.Exp = 0;
+        if (playerStatus.Exp > requiredExp[(int)playerStatus.Level] && playerStatus.Level < maxlevel)
         {
             UpLevel();
         }

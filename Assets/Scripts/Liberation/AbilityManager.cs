@@ -39,15 +39,12 @@ public class AbilityManager : MonoBehaviour
 
     public void SetAbiltiy(string characterName, int point, bool enable)
     {
-        if (enable)
-        {
-            bartenderAbility[point] = true;
-            SaveManager.Instance.SaveAbility(characterName, point, true);
-        }
-        else
-        {
-            bartenderAbility[point] = false;
-            SaveManager.Instance.SaveAbility(characterName, point, false);
-        }
+        bartenderAbility[point] = enable;
+        SaveManager.Instance.SaveAbility(characterName, point, enable);
+    }
+
+    public void SyncAbility(int point, bool enable)
+    {
+        bartenderAbility[point] = enable;
     }
 }
