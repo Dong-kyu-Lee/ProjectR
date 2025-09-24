@@ -7,20 +7,28 @@ public class LiberationUI : MonoBehaviour
 {
     [SerializeField] private GameObject liberationUI;
     private bool isOpen;
+    private void Awake()
+    {
+        liberationUI.SetActive(false);
+    }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!isOpen)
+            if (liberationUI == null)
             {
-                liberationUI.SetActive(true);
-                isOpen = true;
+                Debug.LogError("liberationUI is null!");
+                return;
             }
-            else
-            {
-                liberationUI.SetActive(false);
-                isOpen = false;
-            }
+            CloseUI();
         }
+    }
+    public void OpenUI()
+    {
+        liberationUI.SetActive(true);
+    }
+    public void CloseUI()
+    {
+        liberationUI.SetActive(false);
     }
 }

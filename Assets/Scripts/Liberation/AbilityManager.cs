@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class AbilityManager : MonoBehaviour
 {
-    public bool bartenderAbility1;
-    public bool bartenderAbility2;
-    public bool bartenderAbility3;
-    public bool bartenderAbility4;
-    public bool bartenderAbility5;
-    public bool bartenderAbility6;
+    public bool[] bartenderAbility = new bool[6];
 
     private static AbilityManager instance;
 
@@ -39,6 +34,20 @@ public class AbilityManager : MonoBehaviour
         else if (instance != this)
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void SetAbiltiy(string characterName, int point, bool enable)
+    {
+        if (enable)
+        {
+            bartenderAbility[point] = true;
+            SaveManager.Instance.SaveAbility(characterName, point, true);
+        }
+        else
+        {
+            bartenderAbility[point] = false;
+            SaveManager.Instance.SaveAbility(characterName, point, false);
         }
     }
 }
