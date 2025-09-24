@@ -4,7 +4,7 @@ using UnityEngine;
 public class RuneSpawner : MonoBehaviour
 {
     public GameObject runePrefab; // 룬 프리팹
-    private float spawnChance = 0.5f; // 룬 생성 확률
+    private float spawnChance = 0.05f; // 룬 생성 확률
 
     private static RuneSpawner instance;
 
