@@ -29,6 +29,8 @@ public class RuneSpawner : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+
+            runePrefab = Resources.Load<GameObject>("Prefabs/Buff,Debuff/RunePrefab");
         }
 
         else if (instance != this)
