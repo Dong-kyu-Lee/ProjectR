@@ -103,7 +103,7 @@ public class SaveManager : MonoBehaviour
         for(int i = 0; i <= 5; i++)
         {
             AbilityManager.Instance.SyncAbility(i, saveData.liberationData.bartenderAbilityData.bartenderAbility[i]);
-            GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>().Steadfite = saveData.liberationData.Steadfite;
         }
+        GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>().Steadfite = saveData.liberationData.Steadfite;
     }
 }

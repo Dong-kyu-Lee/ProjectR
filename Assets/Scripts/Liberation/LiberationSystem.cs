@@ -20,6 +20,11 @@ public class LiberationSystem : MonoBehaviour
         currentSteadfiteText.text = playerStatus.Steadfite.ToString();
     }
 
+    private void Start()
+    {
+        SyncLiberationColor();
+    }
+
     public void EnableLiberationOnClick()
     {
         if (AbilityManager.Instance.bartenderAbility[currentAbility])
