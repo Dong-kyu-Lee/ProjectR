@@ -6,6 +6,7 @@ using UnityEngine;
 public class LiberationUI : MonoBehaviour
 {
     [SerializeField] private GameObject liberationUI;
+    [SerializeField] private LiberationSystem liberationSystem;
     private bool isOpen;
     private void Update()
     {
@@ -18,7 +19,8 @@ public class LiberationUI : MonoBehaviour
             }
 
             isOpen = !isOpen;
-            liberationUI.SetActive(isOpen);
+            liberationUI.SetActive(!isOpen);
+            liberationSystem.SyncLiberationColor();
         }
     }
 }

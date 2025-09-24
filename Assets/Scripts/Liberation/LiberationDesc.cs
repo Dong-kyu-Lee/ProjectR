@@ -18,7 +18,7 @@ public class LiberationDesc : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     void Awake()
     {
-        defaultColor = new Color(28f / 255f, 32f / 255f, 36f / 255f);
+        defaultColor = new Color(100f / 255f, 100f / 255f, 100f / 255f);
         image = GetComponent<Image>();
         liberationSystem = transform.parent.GetComponent<LiberationSystem>();
     }
@@ -41,9 +41,14 @@ public class LiberationDesc : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     // 설명 초기화.
     private void ResetDescState()
     {
-        liberationSystem.currentAbility = 0;
+        liberationSystem.currentAbility = -1;
         image.color = defaultColor;
         if (abilityText != null) abilityText.text = "";
         if (abilityPriceText != null) abilityPriceText.text = "";
+    }
+
+    private void OnDisable()
+    {
+        ResetDescState();
     }
 }

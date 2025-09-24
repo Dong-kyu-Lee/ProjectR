@@ -76,6 +76,7 @@ public class SaveManager : MonoBehaviour
         else if (instance != this) Destroy(gameObject);
 
         saveData = SaveSystem.Load();
+        SyncFromLiberationData();
     }
 
     public void SaveAbility(string characterName, int point, bool enable)
@@ -94,5 +95,15 @@ public class SaveManager : MonoBehaviour
     public void SetSteadfite(int value)
     {
         saveData.liberationData.Steadfite = value;
+    }
+
+
+    public void SyncFromLiberationData()
+    {
+        for(int i = 0; i <= 5; i++)
+        {
+            AbilityManager.Instance.SyncAbility(i, saveData.liberationData.bartenderAbilityData.bartenderAbility[i]);
+            GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>().Steadfite = saveData.liberationData.Steadfite;
+        }
     }
 }

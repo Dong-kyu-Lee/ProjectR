@@ -12,10 +12,11 @@ public class StatusEffectTooltip : MonoBehaviour, IPointerEnterHandler, IPointer
     public Color defaultColor;
 
     // 시작 시 툴팁 숨기기.
-    void Start()
+    void Awake()
     {
-        defaultColor = Color.white;
+        defaultColor = Color.grey;
         image = gameObject.GetComponent<Image>();
+        image.color = defaultColor;
 
         if (effectTooltip != null)
         {
@@ -29,7 +30,7 @@ public class StatusEffectTooltip : MonoBehaviour, IPointerEnterHandler, IPointer
         string name = gameObject.GetComponent<StatusEffectInformation>().statusEffectName;
         string desc = gameObject.GetComponent<StatusEffectInformation>().statusEffectDesc;
 
-        image.color = Color.grey;
+        image.color = Color.yellow;
 
         if (effectTooltip != null)
         {
