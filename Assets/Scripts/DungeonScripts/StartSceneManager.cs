@@ -41,4 +41,11 @@ public class StartSceneManager : MonoBehaviour
             DungeonTestHelper.Instance.LoadTestScene();
         }
     }
+
+    // 게임 종료 버튼에 의해 호출되는 이벤트 함수
+    public void ExitGame()
+    {
+        Debug.Log("게임 종료");
+        Application.Quit();
+    }
 }
