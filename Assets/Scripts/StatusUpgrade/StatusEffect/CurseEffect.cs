@@ -19,87 +19,87 @@ public class CurseEffect : MonoBehaviour
 
     public void EnableCurseEffect1(PlayerStatus playerStatus)
     {
-        statusEffectTooltip[0].defaultColor = Color.yellow;
-        statusEffectTooltip[0].image.color = Color.yellow;
+        statusEffectTooltip[0].defaultColor = Color.white;
+        statusEffectTooltip[0].image.color = Color.white;
         playerStatus.DebuffDamage += 0.15f;
     }
 
     public void EnableCurseEffect4()
     {
-        statusEffectTooltip[1].defaultColor = Color.yellow;
-        statusEffectTooltip[1].image.color = Color.yellow;
+        statusEffectTooltip[1].defaultColor = Color.white;
+        statusEffectTooltip[1].image.color = Color.white;
         CalcDamage.Instance.curseEffect4 = true;
     }
 
     public void EnableCurseEffect7()
     {
-        statusEffectTooltip[2].defaultColor = Color.yellow;
-        statusEffectTooltip[2].image.color = Color.yellow;
+        statusEffectTooltip[2].defaultColor = Color.white;
+        statusEffectTooltip[2].image.color = Color.white;
         CalcDamage.Instance.additionalDebuffTime = 0.2f;
     }
 
     public void EnableCurseEffect10()
     {
-        statusEffectTooltip[3].defaultColor = Color.yellow;
-        statusEffectTooltip[3].image.color = Color.yellow;
+        statusEffectTooltip[3].defaultColor = Color.white;
+        statusEffectTooltip[3].image.color = Color.white;
         CalcDamage.Instance.curseEffect10 = true;
         CalcDamage.Instance.CurseEffect10_IncreaseDebuffDamage();
     }
 
     public void EnableCurseEffect13()
     {
-        statusEffectTooltip[4].defaultColor = Color.yellow;
-        statusEffectTooltip[4].image.color = Color.yellow;
+        statusEffectTooltip[4].defaultColor = Color.white;
+        statusEffectTooltip[4].image.color = Color.white;
         CalcDamage.Instance.curseEffect13 = true;
     }
 
     public void EnableCurseEffect16()
     {
-        statusEffectTooltip[5].defaultColor = Color.yellow;
-        statusEffectTooltip[5].image.color = Color.yellow;
+        statusEffectTooltip[5].defaultColor = Color.white;
+        statusEffectTooltip[5].image.color = Color.white;
         CalcDamage.Instance.curseEffect16 = true;
     }
 
     public void DisableCurseEffect1(PlayerStatus playerStatus)
     {
-        statusEffectTooltip[0].defaultColor = Color.white;
-        statusEffectTooltip[0].image.color = Color.white;
+        statusEffectTooltip[0].defaultColor = Color.grey;
+        statusEffectTooltip[0].image.color = Color.grey;
         playerStatus.DebuffDamage -= 0.15f;
     }
 
     public void DisableCurseEffect4()
     {
-        statusEffectTooltip[1].defaultColor = Color.white;
-        statusEffectTooltip[1].image.color = Color.white;
+        statusEffectTooltip[1].defaultColor = Color.grey;
+        statusEffectTooltip[1].image.color = Color.grey;
         CalcDamage.Instance.curseEffect4 = false;
     }
 
     public void DisableCurseEffect7()
     {
-        statusEffectTooltip[2].defaultColor = Color.white;
-        statusEffectTooltip[2].image.color = Color.white;
+        statusEffectTooltip[2].defaultColor = Color.grey;
+        statusEffectTooltip[2].image.color = Color.grey;
         CalcDamage.Instance.additionalDebuffTime -= 0.2f;
     }
 
     public void DisableCurseEffect10()
     {
-        statusEffectTooltip[3].defaultColor = Color.white;
-        statusEffectTooltip[3].image.color = Color.white;
+        statusEffectTooltip[3].defaultColor = Color.grey;
+        statusEffectTooltip[3].image.color = Color.grey;
         CalcDamage.Instance.curseEffect10 = false;
         CalcDamage.Instance.CurseEffect10_IncreaseDebuffDamage();
     }
 
     public void DisableCurseEffect13()
     {
-        statusEffectTooltip[4].defaultColor = Color.white;
-        statusEffectTooltip[4].image.color = Color.white;
+        statusEffectTooltip[4].defaultColor = Color.grey;
+        statusEffectTooltip[4].image.color = Color.grey;
         CalcDamage.Instance.curseEffect13 = false;
     }
 
     public void DisableCurseEffect16()
     {
-        statusEffectTooltip[5].defaultColor = Color.white;
-        statusEffectTooltip[5].image.color = Color.white;
+        statusEffectTooltip[5].defaultColor = Color.grey;
+        statusEffectTooltip[5].image.color = Color.grey;
         CalcDamage.Instance.curseEffect16 = false;
     }
 }

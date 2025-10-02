@@ -18,86 +18,86 @@ public class ForceEffect : MonoBehaviour
 
     public void EnableForceEffect1(PlayerStatus playerStatus)
     {
-        statusEffectTooltip[0].defaultColor = Color.yellow;
-        statusEffectTooltip[0].image.color = Color.yellow;
+        statusEffectTooltip[0].defaultColor = Color.white;
+        statusEffectTooltip[0].image.color = Color.white;
         playerStatus.Damage += 5;
     }
 
     public void EnableForceEffect4()
     {
-        statusEffectTooltip[1].defaultColor = Color.yellow;
-        statusEffectTooltip[1].image.color = Color.yellow;
+        statusEffectTooltip[1].defaultColor = Color.white;
+        statusEffectTooltip[1].image.color = Color.white;
         CalcDamage.Instance.forceEffect4 = true;
     }
 
     public void EnableForceEffect7()
     {
-        statusEffectTooltip[2].defaultColor = Color.yellow;
-        statusEffectTooltip[2].image.color = Color.yellow;
+        statusEffectTooltip[2].defaultColor = Color.white;
+        statusEffectTooltip[2].image.color = Color.white;
         CalcDamage.Instance.forceEffect7 = true;
     }
 
     public void EnableForceEffect10(PlayerStatus playerStatus)
     {
-        statusEffectTooltip[3].defaultColor = Color.yellow;
-        statusEffectTooltip[3].image.color = Color.yellow;
+        statusEffectTooltip[3].defaultColor = Color.white;
+        statusEffectTooltip[3].image.color = Color.white;
         playerStatus.IgnoreDamageReduction = 1 - (1 - playerStatus.IgnoreDamageReduction) * (1 - 0.3f);
     }
 
     public void EnableForceEffect13()
     {
-        statusEffectTooltip[4].defaultColor = Color.yellow;
-        statusEffectTooltip[4].image.color = Color.yellow;
+        statusEffectTooltip[4].defaultColor = Color.white;
+        statusEffectTooltip[4].image.color = Color.white;
         CalcDamage.Instance.forceEffect13 = true;
     }
 
     public void EnableForceEffect16()
     {
-        statusEffectTooltip[5].defaultColor = Color.yellow;
-        statusEffectTooltip[5].image.color = Color.yellow;
+        statusEffectTooltip[5].defaultColor = Color.white;
+        statusEffectTooltip[5].image.color = Color.white;
         CalcDamage.Instance.forceEffect16 = true;
     }
 
     public void DisableForceEffect1(PlayerStatus playerStatus)
     {
-        statusEffectTooltip[0].defaultColor = Color.white;
-        statusEffectTooltip[0].image.color = Color.white;
+        statusEffectTooltip[0].defaultColor = Color.grey;
+        statusEffectTooltip[0].image.color = Color.grey;
         playerStatus.Damage -= 5;
     }
 
     public void DisableForceEffect4()
     {
-        statusEffectTooltip[1].defaultColor = Color.white;
-        statusEffectTooltip[1].image.color = Color.white;
+        statusEffectTooltip[1].defaultColor = Color.grey;
+        statusEffectTooltip[1].image.color = Color.grey;
         CalcDamage.Instance.forceEffect4 = false;
     }
 
     public void DisableForceEffect7()
     {
-        statusEffectTooltip[2].defaultColor = Color.white;
-        statusEffectTooltip[2].image.color = Color.white;
+        statusEffectTooltip[2].defaultColor = Color.grey;
+        statusEffectTooltip[2].image.color = Color.grey;
         CalcDamage.Instance.forceEffect7 = false;
         CalcDamage.Instance.ResetBuff();
     }
 
     public void DisableForceEffect10(PlayerStatus playerStatus)
     {
-        statusEffectTooltip[3].defaultColor = Color.white;
-        statusEffectTooltip[3].image.color = Color.white;
+        statusEffectTooltip[3].defaultColor = Color.grey;
+        statusEffectTooltip[3].image.color = Color.grey;
         playerStatus.IgnoreDamageReduction = 1 - (1 - playerStatus.IgnoreDamageReduction) / (1 - 0.3f);
     }
 
     public void DisableForceEffect13()
     {
-        statusEffectTooltip[4].defaultColor = Color.white;
-        statusEffectTooltip[4].image.color = Color.white;
+        statusEffectTooltip[4].defaultColor = Color.grey;
+        statusEffectTooltip[4].image.color = Color.grey;
         CalcDamage.Instance.forceEffect13 = false;
     }
 
     public void DisableForceEffect16()
     {
-        statusEffectTooltip[5].defaultColor = Color.white;
-        statusEffectTooltip[5].image.color = Color.white;
+        statusEffectTooltip[5].defaultColor = Color.grey;
+        statusEffectTooltip[5].image.color = Color.grey;
         CalcDamage.Instance.forceEffect16 = false;
         CalcDamage.Instance.ResetBuff();
     }

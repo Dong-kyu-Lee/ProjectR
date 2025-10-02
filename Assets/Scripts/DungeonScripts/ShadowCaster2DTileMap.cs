@@ -1,10 +1,11 @@
 using System.Linq;
 using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
+# if UNITY_EDITOR
 [RequireComponent(typeof(CompositeCollider2D))]
+# endif
 public class ShadowCaster2DTileMap : MonoBehaviour
 {
 
