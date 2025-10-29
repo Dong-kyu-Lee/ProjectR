@@ -37,15 +37,13 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject playerObject;
-    public GameObject CurrentPlayer { 
-        get => playerObject;
-        set
-        {
-            playerObject = value;
-            DontDestroyOnLoad(playerObject);
-            OnPlayerCharacterChanged?.Invoke();
-        }
-    }
+    // 시작 캐릭터 타입(임시).
+    // TODO : 추후 기존 저장된 데이터에서 불러오도록 대체할 예정
+    public CharacterType startCharacterType;
+
+    private CharacterType currentCharacterType;
+    public CharacterType CurrentCharacterType { get => currentCharacterType; }
+    public GameObject CurrentPlayer { get => playerObject; }
 
     [SerializeField]
     private GameObject upgradeUI;
@@ -56,6 +54,19 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject testUI; // 테스트용 UI
 
+    // 임시 변수 : 게임 시작 후 플레이어 최초 생성인지 여부 확인용
+    // CharacterSelect에서 게임 시작 후 최초로 Start에서 플레이어 생성
+    // 이유 : 원래 StartSceneManager에서 플레이어를 생성했으나, StartScene에서 플레이어를 생성하고 씬 이동을 하면
+    // 생성된 플레이어의 PlayerStatus에서 InGameUIManager.Instance를 참조할 때 null 참조 오류가 발생함
+    // 래서 LobbyScene에 위치한 CharacterSelect에서 최초 플레이어를 생성하도록 변경함
+    public bool isFirstPlayerCreated = false;
+
+    // 캐릭터 프리팹 경로 매핑 - Define 클래스로 이동 예정
+    public Dictionary<CharacterType, string> characterPrefabPaths = new Dictionary<CharacterType, string>()
+    {
+        { CharacterType.Bartender, "Prefabs/Player Prefabs/Bartender2_1 Variant" },
+        { CharacterType.Blacksmith, "Prefabs/Player Prefabs/Blacksmith2_1" },
+    };
 
     private void Awake()
     {
@@ -70,6 +81,21 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // 중복된 GameManager 제거
         }
         instance.sound.Init();
+    }
+
+    public void SetCurrentPlayer(GameObject value, CharacterType type, Vector3 spawnPosition)
+    {
+        if(value == null)
+        {
+            Debug.LogError("SetCurrentPlayer: value is null");
+            return;
+        }
+        Destroy(playerObject); // 이전 플레이어 오브젝트 제거
+        playerObject = value;
+        currentCharacterType = type;
+        playerObject.transform.position = spawnPosition;
+        DontDestroyOnLoad(playerObject);
+        OnPlayerCharacterChanged?.Invoke();
     }
 
     // 플레이어 오브젝트를 지정된 시작 지점(position)에 배치하는 함수
@@ -180,6 +206,22 @@ public class GameManager : MonoBehaviour
         DungeonFlowManager.Instance.ResetStages();
         // 플레이어를 로비 씬으로 이동
         MoveScene(SceneType.LobbyScene, "LobbyScene");
+    }
+
+    public void CreateFirstPlayer()
+    {
+        playerObject = Instantiate(
+            Resources.Load<GameObject>(characterPrefabPaths[startCharacterType]),
+            Vector3.zero,
+            Quaternion.identity);
+        if(playerObject == null)
+        {
+            Debug.LogError($"CreateFirstPlayer: Player prefab not found at path: {characterPrefabPaths[startCharacterType]}");
+            return;
+        }
+        currentCharacterType = startCharacterType;
+        playerObject.SetActive(false);
+        DontDestroyOnLoad(playerObject);
     }
 
     // 인게임에 사용되는 UI 제거 함수
