@@ -71,16 +71,15 @@ public class SaveManager : MonoBehaviour
 
     private SaveData saveData = new SaveData();
 
-    private void Update()
+    private void Start()
     {
-        if (!flag && GameManager.Instance.CurrentPlayer != null)
+        if (GameManager.Instance.CurrentPlayer != null)
         {
             if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
             else if (instance != this) Destroy(gameObject);
 
             saveData = SaveSystem.Load();
             SyncFromLiberationData();
-            flag = true;
         }
     }
 

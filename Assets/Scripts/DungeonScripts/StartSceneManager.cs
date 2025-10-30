@@ -9,6 +9,8 @@ public class StartSceneManager : MonoBehaviour
     public float frontBackgroundSpeed;
     public GameObject background;
     public GameObject frontBackground;
+    // 게임 최초 시작 시 생성할 플레이어 캐릭터 타입
+    public CharacterType initialCharacterType;
 
     void Update()
     {
@@ -34,12 +36,10 @@ public class StartSceneManager : MonoBehaviour
     // 게임 시작 화면에서 Start 버튼에 의해 호출되는 이벤트 함수
     public void StartGame()
     {
-        if (string.IsNullOrEmpty(DungeonTestHelper.Instance.testSceneName))
-            SceneManager.LoadScene("LobbyScene");
-        else
-        {
-            DungeonTestHelper.Instance.LoadTestScene();
-        }
+        // 첫 시작 시 플레이어 오브젝트 생성
+        // GameManager.Instance.CreateFirstPlayer(initialCharacterType);
+        GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
+        //StartCoroutine(MoveSceneAfterPlayerGenerated());
     }
 
     // 게임 종료 버튼에 의해 호출되는 이벤트 함수

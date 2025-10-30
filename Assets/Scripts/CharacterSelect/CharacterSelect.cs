@@ -10,26 +10,82 @@ public enum CharacterType
 
 public class CharacterSelect : MonoBehaviour
 {
-    GameObject currentPlayer;
+    GameObject[] characters = new GameObject[System.Enum.GetValues(typeof(CharacterType)).Length];
     [SerializeField]
     Mannequin[] mannequins;
     [SerializeField]
     CM_LobbyScene vcam;
 
+    private void Awake()
+    {
+        if (GameManager.Instance.isFirstPlayerCreated == false)
+        {
+            // 최초 플레이어 생성
+            GameManager.Instance.CreateFirstPlayer();
+            GameManager.Instance.isFirstPlayerCreated = true;
+        }
+    }
+
     void Start()
     {
-        // TODO : 이전에 선택한 캐릭터 데이터 있다면 그 캐릭터를 생성
+        // 캐릭터 생성
+        for (int i = 0; i < characters.Length; i++)
+        {
+            CharacterType type = (CharacterType)i;
+            // if(type == GameManager.Instance.CurrentCharacterType)
+            //    continue; // 현재 플레이어 캐릭터는 생성하지 않음
 
-        // 기본 캐릭터 생성
-        SelectCharacter(mannequins[0].characterType, mannequins[0].transform.position);
+            string path = GameManager.Instance.characterPrefabPaths[type];
+            GameObject characterPrefab = Resources.Load<GameObject>(path);
+            if(characterPrefab != null)
+            {
+                characters[i] = Instantiate(characterPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                characters[i].SetActive(false);
+            }
+            else
+            {
+                Debug.LogError($"Character prefab not found at path: {path}");
+            }
+        }
+        // 현재 플레이어 오브젝트 설정
+        GameManager.Instance.SetCurrentPlayer(
+            characters[(int)GameManager.Instance.CurrentCharacterType],
+            GameManager.Instance.CurrentCharacterType,
+            mannequins[(int)GameManager.Instance.CurrentCharacterType].transform.position
+            );
+        // 현재 플레이어 위치를 해당 타입의 마네킹 위치로 이동
+        /*GameManager.Instance.CurrentPlayer.transform.position =
+            mannequins[(int)GameManager.Instance.CurrentCharacterType].transform.position;*/
+        GameManager.Instance.CurrentPlayer.SetActive(true);
+
+        SetMannequin(GameManager.Instance.CurrentCharacterType);
+        vcam?.SetFollowTarget(GameManager.Instance.CurrentPlayer.transform);
     }
 
     public void SelectCharacter(CharacterType type, Vector3 spawnPosition)
     {
-        // 마네킹 비활성화
+        // 캐릭터 선택 시 해당 마네킹 비활성화
+        SetMannequin(type);
+
+        CharacterType prevCharacterType = GameManager.Instance.CurrentCharacterType;
+        // 현재 플레이어 오브젝트 삭제하고 해당 캐릭터 오브젝트를 생성(DontDestroyOnLoad 해제를 위함)
+        GameManager.Instance.SetCurrentPlayer(characters[(int)type], type, spawnPosition);
+        // 이전 캐릭터 오브젝트 생성(SetCurrentPlayer 내부에서 이전 캐릭터 오브젝트 삭제)
+        characters[(int)prevCharacterType] = Instantiate(
+            Resources.Load<GameObject>(GameManager.Instance.characterPrefabPaths[prevCharacterType])
+            , new Vector3(0, 0, 0), Quaternion.identity);
+        characters[(int)prevCharacterType].SetActive(false);
+
+        GameManager.Instance.CurrentPlayer.SetActive(true);
+        // 카메라 설정
+        vcam?.SetFollowTarget(GameManager.Instance.CurrentPlayer.transform);
+    }
+
+    private void SetMannequin(CharacterType type)
+    {
         for (int i = 0; i < mannequins.Length; i++)
         {
-            if(mannequins[i].characterType == type)
+            if (mannequins[i].characterType == type)
             {
                 mannequins[i].gameObject.SetActive(false);
             }
@@ -38,21 +94,5 @@ public class CharacterSelect : MonoBehaviour
                 mannequins[i].gameObject.SetActive(true);
             }
         }
-
-        // 이전 캐릭터 삭제
-        if (currentPlayer != null) Destroy(currentPlayer);
-        // 선택한 캐릭터 생성
-        switch (type)
-        {
-            case CharacterType.Bartender:
-                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Player Prefabs/Bartender2_1 Variant"), spawnPosition, transform.rotation);
-                break;
-            case CharacterType.Blacksmith:
-                currentPlayer = Instantiate(Resources.Load<GameObject>("Prefabs/Player Prefabs/Blacksmith2_1"), spawnPosition, transform.rotation);
-                break;
-        }
-        GameManager.Instance.CurrentPlayer = currentPlayer;
-        // 카메라 설정
-        vcam?.SetFollowTarget(currentPlayer.transform);
     }
 }
