@@ -16,14 +16,19 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     protected int itemCount = 0;                                //현재 슬롯의 아이템의 갯수
     [SerializeField] protected Text itemCountText;              //아이템 갯수를 표시할 텍스트
 
+    //아이템 설명용
+    private Button slotButton;                                  //버튼 컴포넌트
+    private InventoryItemExplain explainUI;                     //아이템 설명 UI
+
     public Image ItemSlotImage { get; set; }
-    public BasicItemData NowItemData {
+    public BasicItemData NowItemData
+    {
         get => nowItemData;
-        set => nowItemData = value; 
+        set => nowItemData = value;
     }
     public int SlotIndex { get => slotIndex; set => slotIndex = value; }
     public int ItemCount { get => itemCount; set => itemCount = value; }
-    
+
     private bool isInitialized = false;
     public bool IsInitialized => isInitialized;
     //자신의 슬롯의 초기화 함수
@@ -42,6 +47,14 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         itemSlotImage.sprite = nowItemData.ItemSprite;
         slotIndex = indexNumber;
+
+        //버튼과 설명창 연결
+        slotButton = itemSlotImage.GetComponent<Button>();
+        if (slotButton != null)
+        {
+            explainUI = FindObjectOfType<InventoryItemExplain>();
+            slotButton.onClick.AddListener(() => explainUI.OnItemSlotClicked(nowItemData));
+        }
 
         isInitialized = true;
     }
@@ -87,17 +100,17 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     //SetItemData()를 사용했기에 이미지와 아이템 갯수 텍스트까지 같이 업데이트됨.
     public void SwapItemData(ItemSlotUI targetSlot)
     {
-        if(targetSlot == null) return;
+        if (targetSlot == null) return;
         BasicItemData temp = nowItemData;
         int tempItemCount = itemCount;
-        SetItemData(targetSlot.nowItemData,targetSlot.itemCount);
+        SetItemData(targetSlot.nowItemData, targetSlot.itemCount);
         targetSlot.SetItemData(temp, tempItemCount);
     }
 
     //자기 자신인 아이템 슬롯이 Drag가 시작되었을 때 호출되는 함수
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(nowItemData.ItemType == ItemType.DUMMY) return;  //자신이 비어있는 칸일 경우 드래그 안되게 방지
+        if (nowItemData.ItemType == ItemType.DUMMY) return;  //자신이 비어있는 칸일 경우 드래그 안되게 방지
 
         parentUI.PreviewSlotUI.gameObject.SetActive(true);  //미리보기 Slot 활성화 및 이미지와 갯수 텍스트 설정
         parentUI.PreviewSlotUI.SetItemData(nowItemData, itemCount);
@@ -133,7 +146,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
         else if (targetSlotUI is QuickSlotUI) //(퀵슬롯 -> 인벤토리) => 퀵슬롯 언로드
         {
-            switch(nowItemData.ItemType)
+            switch (nowItemData.ItemType)
             {
                 case ItemType.CONSUMABLE:
                     parentUI.PlayerInventory.SwapQuickSlotWithInventory(NowItemData);
