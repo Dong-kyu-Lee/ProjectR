@@ -9,11 +9,12 @@ public class AttackScanner : MonoBehaviour
     private void Awake()
     {
         enemy = transform.parent.GetComponent<Enemy>();
+        gameObject.SetActive(false);
     }
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -26,6 +27,12 @@ public class AttackScanner : MonoBehaviour
         if (collision.tag == "Player")
         {
             enemy.StartAttack();
+            gameObject.SetActive(false);
         }
+    }
+
+    public void ActivateScanner()
+    {
+        gameObject.SetActive(true);
     }
 }

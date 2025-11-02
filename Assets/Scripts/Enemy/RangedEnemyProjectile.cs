@@ -33,7 +33,6 @@ public class RangedEnemyProjectile : MonoBehaviour
             var playerStatus = collision.gameObject.GetComponent<PlayerStatus>();
             if (playerStatus != null)
             {
-                playerStatus.Hp -= damage;
                 collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
             }
 

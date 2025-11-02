@@ -7,12 +7,14 @@ public class AttackState : IState
     private Enemy enemy;
     private IAttackStrategy attackStrategy;
     private float attackTime;
+    private float minAttackTime;
     private bool isAttacking;
 
     public AttackState(Enemy enemy, IAttackStrategy attackStrategy)
     {
         this.enemy = enemy;
-        attackTime = 0.7f;
+        attackTime = 1 / enemy.EnemyStatus.TotalAttackSpeed;
+        minAttackTime = 0.7f;
         isAttacking = false;
         this.attackStrategy = attackStrategy;
     }
@@ -24,11 +26,13 @@ public class AttackState : IState
             isAttacking = true;
             enemy.EnemyAnimator.SetTrigger("Attack");
             attackStrategy.ExecuteAttack(enemy);
-            enemy.StateMachine.StartCoroutine(enemy.StateMachine.AttackCoroutine(attackTime));
+            float applyAttackTime = attackTime;
+            if (attackTime < minAttackTime) applyAttackTime = minAttackTime;
+            enemy.StateMachine.StartCoroutine(enemy.StateMachine.AttackCoroutine(applyAttackTime));
         }
         else
         {
-            enemy.StateMachine.TransitionTo(enemy.StateMachine.chaseState);
+            //enemy.StateMachine.TransitionTo(enemy.StateMachine.chaseState);
         }
     }
 

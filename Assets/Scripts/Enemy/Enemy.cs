@@ -12,6 +12,9 @@ public class Enemy : MonoBehaviour
     protected Animator enemyAnimator;
 
     [SerializeField]
+    protected AttackScanner attackScanner;
+
+    [SerializeField]
     private BoxCollider2D attackRangeCol;
 
     [SerializeField]
@@ -42,6 +45,7 @@ public class Enemy : MonoBehaviour
 
     public EnemyStatus EnemyStatus { get { return enemyStatus; } }
     public EnemyAIController StateMachine { get { return enemyController; } }
+    public AttackScanner AttackScanner { get { return attackScanner; } }
     public BoxCollider2D AttackRangeCol { get { return attackRangeCol; } }
     public BoxCollider2D ChaseRangeCol { get { return chaseRangeCol; } }
     public Transform PlayerTransform { get { return playerTransform; } }
