@@ -24,6 +24,19 @@ public class Stage : MonoBehaviour
     public Vector3 finishSpotPosition = new Vector3();
     public List<RoomInstance> roomList = new List<RoomInstance>();
 
+    private MissionUI missionUI;
+    public MissionUI GetMissionUI
+    {
+        get
+        {
+            if(missionUI == null)
+            {
+                missionUI = FindObjectOfType<MissionUI>();
+            }
+            return missionUI;
+        }
+    }
+
     void Start()
     {
         currentArea = StageFlow.Lobby;
@@ -45,8 +58,6 @@ public class Stage : MonoBehaviour
                 CreateDungeon();
                 break;
             case StageFlow.Normal2:
-                // 동아리의 밤 행사까지만 쓸 부분
-                // GameManager.Instance.MoveScene(SceneType.TempEndScene, "TempEndScene");
                 GameManager.Instance.MoveScene(SceneType.MiddleBoss, "TempMiddleBoss");
                 break;
             case StageFlow.MiddleBoss:
@@ -76,6 +87,12 @@ public class Stage : MonoBehaviour
         // 도착 위치 생성
         currentFinishSpot = Instantiate(DungeonFlowManager.Instance.finishSpotPrefab, finishSpotPosition, transform.rotation);
         Debug.Log("Finish Spot 생성됨. 닫힌 상태");
+        // MissionUI 참조 가져오기
+        missionUI = FindObjectOfType<MissionUI>();
+        if(missionUI == null)
+        {
+            Debug.LogError("MissionUI를 찾을 수 없음");
+        }
         // 던전 갱신 완료 이벤트 호출
         onDungeonReset?.Invoke();
     }
@@ -86,7 +103,8 @@ public class Stage : MonoBehaviour
         DungeonFlowManager.Instance.DungeonCreator.RemoveAllRooms();
     }
 
-    // roomList에 생성된 방을 추가하는 함수
+    // roomList에 생성된 방을 추가하는 함수.
+    // 던전 생성 시 DungeonCreator에서 생성한 RoomInstance를 Stage에 추가하기 위해 사용
     public void AddRoomInstance(RoomInstance currentRoom)
     {
         if (currentRoom == null)
