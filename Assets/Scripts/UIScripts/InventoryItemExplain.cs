@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class InventoryItemExplain : MonoBehaviour
 {
     [Header("참조 설정")]
-    [SerializeField] private GameObject explainPanel;       //설명창 UI 패널
-    [SerializeField] private Image itemImage;               //아이템 이미지
-    [SerializeField] private Text itemNameText;             //아이템 이름
-    [SerializeField] private Text itemEffectText;           //아이템 효과
-    [SerializeField] private Text itemDescriptionText;      //아이템 설정
+    [SerializeField] private GameObject explainPanel;
+    [SerializeField] private Image itemImage;
+    [SerializeField] private Text itemNameText;
+    [SerializeField] private Text itemEffectText;
+    [SerializeField] private Text itemDescriptionText;
 
-    private BasicItemData currentItemData;                  //현재 설명 중인 아이템 데이터
-    private bool isPanelActive = false;                     //패널 활성화 여부
+    private BasicItemData currentItemData;
+    private bool isPanelActive = false;
 
     void Start()
     {
@@ -30,35 +30,33 @@ public class InventoryItemExplain : MonoBehaviour
         }
     }
 
-    //아이템 슬롯 클릭 시 호출
     public void OnItemSlotClicked(BasicItemData itemData)
     {
         //Dummy 아이템이면 무시
-        if (itemData.ItemName == "Dummy" )
+        if (itemData.ItemName == "Dummy")
             return;
 
-        //패널이 꺼져 있다면 활성화
         if (!isPanelActive)
         {
             ShowPanel(itemData);
         }
         else
         {
-            //패널이 켜져 있을 경우, 다른 아이템이면 갱신
             if (itemData != currentItemData)
                 UpdatePanel(itemData);
         }
     }
 
-    //설명창 표시
     public void ShowPanel(BasicItemData itemData)
     {
         explainPanel.SetActive(true);
         UpdatePanel(itemData);
         isPanelActive = true;
+
+        //열린 UI 등록
+        InGameUIManager.Instance.RegisterUI(explainPanel);
     }
 
-    //설명창 갱신
     private void UpdatePanel(BasicItemData itemData)
     {
         currentItemData = itemData;
@@ -68,15 +66,17 @@ public class InventoryItemExplain : MonoBehaviour
         if (itemNameText != null)
             itemNameText.text = itemData.ItemName;
         if (itemEffectText != null)
-            itemEffectText.text = itemData.ItemExplain; //효과 요약
+            itemEffectText.text = itemData.ItemExplain;
         if (itemDescriptionText != null)
-            itemDescriptionText.text = itemData.ItemDescription; //상세 설명
+            itemDescriptionText.text = itemData.ItemDescription;
     }
 
-    //설명창 닫기
     public void ClosePanel()
     {
         explainPanel.SetActive(false);
         isPanelActive = false;
+
+        //닫힌 UI 스택에서 제거
+        InGameUIManager.Instance.UnregisterUI(explainPanel);
     }
 }
