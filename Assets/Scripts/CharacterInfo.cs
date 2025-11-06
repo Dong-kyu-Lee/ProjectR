@@ -63,27 +63,37 @@ public class CharacterInfo : MonoBehaviour
         bool hasInventoryEvent = controller != null &&
             controller.OnEnableCharacterInfoUI != null &&
             controller.OnEnableCharacterInfoUI.GetPersistentEventCount() > 0;
+        
+        InventoryUI inventoryUI = GetComponentInChildren<InventoryUI>(true);
 
+        if (inventoryUI == null)
+        {
+            Debug.LogWarning("CharacterInfo 내부에서 InventoryUI를 찾을 수 없습니다.");
+            return;
+        }
         /*if (!hasInventoryEvent)
         {
             Debug.Log("인벤토리 UI 이벤트가 없음");
             return;
         }*/
-
-        if (characterInfo.activeSelf)
+        GameObject panelRoot = characterInfo;
+        if (panelRoot.activeSelf)
         {
+            // 닫기
+            InGameUIManager.Instance.UnregisterUI(panelRoot); // 스택 제거
             DisableUI();
+
             if (controller != null)
-            {
                 controller.DisableCharacterUI();
-            }
         }
-        else { 
+        else
+        {
+            // 열기
+            InGameUIManager.Instance.RegisterUI(panelRoot); // 스택 등록
             EnableUI();
+
             if (controller != null && hasInventoryEvent)
-            {
                 controller.OnEnableCharacterInfoUI.Invoke();
-            }
         }
     }
 
