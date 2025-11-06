@@ -15,6 +15,12 @@ public class InventoryItemExplain : MonoBehaviour
     private BasicItemData currentItemData;
     private bool isPanelActive = false;
 
+    void OnDisable()
+    {
+        // 창이 비활성화될 때, 상태를 확실하게 초기화
+        isPanelActive = false;
+    }
+
     void Start()
     {
         if (explainPanel != null)

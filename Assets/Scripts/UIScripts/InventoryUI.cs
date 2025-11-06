@@ -109,19 +109,6 @@ public class InventoryUI : MonoBehaviour
         quickSlotImg.SetItemData(itemData, amount);
     }
 
-    //추가: 인벤토리 열기 / 닫기 시 UI 매니저에 등록
-    public void OpenInventory()
-    {
-        gameObject.SetActive(true);
-        InGameUIManager.Instance.RegisterUI(this.gameObject);
-    }
-
-    public void CloseInventory()
-    {
-        gameObject.SetActive(false);
-        InGameUIManager.Instance.UnregisterUI(this.gameObject);
-    }
-
     private void OnDestroy()
     {
         Inventory.OnItemAdded -= HandleItemAdded;
