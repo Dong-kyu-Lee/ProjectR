@@ -5,9 +5,11 @@ using UnityEngine;
 // 생성된 방 안에 존재하는 적 오브젝트를 관리하는 클래스
 public class EnemyInRoom : MonoBehaviour
 {
-    private int killCount;
+    public int killCount; // 처치한 적 수
+    public int totalEnemyCount; // 방에 생성된 모든 적 수
     public float enemySpawnDelay;
 
+    private RoomInstance roomInstance;
     // 생성할 적 프리펩
     public GameObject EnemySpawnEffect;
 
@@ -18,7 +20,11 @@ public class EnemyInRoom : MonoBehaviour
 
     private void Start()
     {
-
+        roomInstance = GetComponent<RoomInstance>();
+        if(roomInstance == null)
+        {
+            Debug.LogError("EnemyInRoom: RoomInstance component not found!");
+        }
     }
 
     // 해당 방에 생성될 모든 적 프리팹을 주어진 위치에 생성하는 함수
@@ -51,6 +57,7 @@ public class EnemyInRoom : MonoBehaviour
         // 첫번재 웨이브 적 인스턴스 생성
         if (firstEnemy != null)
         {
+            totalEnemyCount++;
             firstEnemyList.Add(Instantiate(firstEnemy, generatePosition, transform.rotation, transform));
             firstEnemyList[firstEnemyList.Count - 1].GetComponent<Enemy>().onDeath += EnemyDied;
             firstEnemyList[firstEnemyList.Count - 1].SetActive(false);
@@ -58,6 +65,7 @@ public class EnemyInRoom : MonoBehaviour
         // 두번째 웨이브 적 인스턴스 생성
         if (secondEnemy != null)
         {
+            totalEnemyCount++;
             secondEnemyList.Add(Instantiate(secondEnemy, generatePosition, transform.rotation, transform));
             secondEnemyList[secondEnemyList.Count - 1].GetComponent<Enemy>().onDeath += EnemyDied;
             secondEnemyList[secondEnemyList.Count - 1].SetActive(false);
@@ -115,6 +123,8 @@ public class EnemyInRoom : MonoBehaviour
             secondIdx++;
         }
         monster.onDeath -= EnemyDied;
+        killCount++;
+        roomInstance.SetMissionKillCountText(killCount, totalEnemyCount);
 
         // 각 웨이브의 적을 전부 처치했을 때 실행되는 조건문
         if (firstIdx >= firstEnemyList.Count)

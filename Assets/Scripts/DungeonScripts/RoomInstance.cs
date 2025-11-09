@@ -16,6 +16,7 @@ public class RoomInstance : MonoBehaviour
     public EnemyInRoom enemyInRoom;
     public List<GameObject> dynamicElements;
     public GameObject boxObject;
+    private Stage stage; // 이 방이 속한 스테이지
 
     public Action onFirstWaveEnd;
     public Action onSecondWaveEnd;
@@ -59,6 +60,9 @@ public class RoomInstance : MonoBehaviour
             }
             // 카메라 경계 현재 방 위치로 이동
             DungeonFlowManager.Instance.DungeonCreator.cameraBoundary.transform.position = transform.position + new Vector3(19.5f, 19.5f, 0);
+
+            // 적 처치 미션 시작
+            stage.GetMissionUI.StartMission("Kill all the enemies.", enemyInRoom.killCount, enemyInRoom.totalEnemyCount);
         }
     }
 
@@ -97,11 +101,13 @@ public class RoomInstance : MonoBehaviour
         }
     }
 
+    // Room 프리팹 내의 상자 오브젝트를 동적으로 생성하는 함수
     public void SetBoxObject(GameObject boxObject)
     {
         this.boxObject = Instantiate(boxObject, transform.position + boxObject.transform.localPosition, Quaternion.identity, transform);
     }
 
+    // Room 프리팹 내의 조명 오브젝트들을 동적으로 생성하는 함수
     public void SetLightObjects(GameObject lights)
     {
         for (int i = 0; i < lights.transform.childCount; ++i)
@@ -112,9 +118,25 @@ public class RoomInstance : MonoBehaviour
         }
     }
 
+    // RoomInstance가 속한 Stage 참조를 설정하는 함수
+    public void SetStageReference(Stage stage)
+    {
+        this.stage = stage;
+    }
+
+    public void SetMissionKillCountText(int killedEnemy, int totalEnemy)
+    {
+        if (stage.GetMissionUI != null)
+        {
+            stage.GetMissionUI.SetKillCountText(killedEnemy, totalEnemy);
+        }
+    }
+
+#if UNITY_EDITOR
     // 에디터용. 방을 즉시 클리어시키는 함수
     public void Editor_EndRoom()
     {
         SecondWaveEnd();
     }
+#endif
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,7 +51,7 @@ public class Gate : MonoBehaviour
     }
 
     // 임시 문 프리팹을 활성화하여 문 열림을 구현
-    public void OpenGate(bool isRoomCleared)
+    public Vector3 OpenGate(bool isRoomCleared)
     {
         for (int i = 0; i < gateObjects.Length; ++i)
         {
@@ -64,9 +65,10 @@ public class Gate : MonoBehaviour
             if (isWarp)
             {
                 currentWarp.SetActive(true);
-                return;
+                return currentWarp.transform.position;
             }
         }
+        return Vector3.zero;
     }
 
     // 임시 문 프리팹을 비활성화하여 문 열림을 구현

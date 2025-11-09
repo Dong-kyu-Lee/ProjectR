@@ -24,6 +24,19 @@ public class Stage : MonoBehaviour
     public Vector3 finishSpotPosition = new Vector3();
     public List<RoomInstance> roomList = new List<RoomInstance>();
 
+    private MissionUI missionUI;
+    public MissionUI GetMissionUI
+    {
+        get
+        {
+            if(missionUI == null)
+            {
+                missionUI = FindObjectOfType<MissionUI>();
+            }
+            return missionUI;
+        }
+    }
+
     void Start()
     {
         currentArea = StageFlow.Lobby;
@@ -45,8 +58,6 @@ public class Stage : MonoBehaviour
                 CreateDungeon();
                 break;
             case StageFlow.Normal2:
-                // 동아리의 밤 행사까지만 쓸 부분
-                // GameManager.Instance.MoveScene(SceneType.TempEndScene, "TempEndScene");
                 GameManager.Instance.MoveScene(SceneType.MiddleBoss, "TempMiddleBoss");
                 break;
             case StageFlow.MiddleBoss:
@@ -76,6 +87,12 @@ public class Stage : MonoBehaviour
         // 도착 위치 생성
         currentFinishSpot = Instantiate(DungeonFlowManager.Instance.finishSpotPrefab, finishSpotPosition, transform.rotation);
         Debug.Log("Finish Spot 생성됨. 닫힌 상태");
+        // MissionUI 참조 가져오기
+        missionUI = FindObjectOfType<MissionUI>();
+        if(missionUI == null)
+        {
+            Debug.LogError("MissionUI를 찾을 수 없음");
+        }
         // 던전 갱신 완료 이벤트 호출
         onDungeonReset?.Invoke();
     }
@@ -86,7 +103,8 @@ public class Stage : MonoBehaviour
         DungeonFlowManager.Instance.DungeonCreator.RemoveAllRooms();
     }
 
-    // roomList에 생성된 방을 추가하는 함수
+    // roomList에 생성된 방을 추가하는 함수.
+    // 던전 생성 시 DungeonCreator에서 생성한 RoomInstance를 Stage에 추가하기 위해 사용
     public void AddRoomInstance(RoomInstance currentRoom)
     {
         if (currentRoom == null)
@@ -95,6 +113,7 @@ public class Stage : MonoBehaviour
             return;
         }
         roomList.Add(currentRoom);
+        currentRoom.SetStageReference(this);
     }
 
     // currentRoom을 클리어하여 다음으로 넘어갈 방의 문을 여는 함수
@@ -103,7 +122,15 @@ public class Stage : MonoBehaviour
         int index = roomList.IndexOf(currentRoom);
         if (index != -1)
         {
-            if (index != roomList.Count - 1) roomList[index + 1].gate.OpenGate(false);
+            Vector3 arrivePos = Vector3.zero;
+            if (index != roomList.Count - 1)
+                // 워프를 통해 이동할 경우 arrivePos에 워프 위치가 반환됨
+                arrivePos = roomList[index + 1].gate.OpenGate(false);
+            // 워프가 아닌 문을 통해 이동할 경우 다음 방의 기본 위치로 지정
+            if (arrivePos == Vector3.zero)
+            {
+                missionUI.StartMission("Move to next room.", arrivePos);
+            }
             currentRoomIndex = index;
         }
         else
@@ -124,6 +151,7 @@ public class Stage : MonoBehaviour
         Debug.Log("포탈 열림");
         currentFinishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
     }
+
 
     private void MoveToDungeonAndCreate()
     {
