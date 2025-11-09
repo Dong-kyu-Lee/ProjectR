@@ -113,6 +113,7 @@ public class Stage : MonoBehaviour
             return;
         }
         roomList.Add(currentRoom);
+        currentRoom.SetStageReference(this);
     }
 
     // currentRoom을 클리어하여 다음으로 넘어갈 방의 문을 여는 함수
@@ -121,7 +122,15 @@ public class Stage : MonoBehaviour
         int index = roomList.IndexOf(currentRoom);
         if (index != -1)
         {
-            if (index != roomList.Count - 1) roomList[index + 1].gate.OpenGate(false);
+            Vector3 arrivePos = Vector3.zero;
+            if (index != roomList.Count - 1)
+                // 워프를 통해 이동할 경우 arrivePos에 워프 위치가 반환됨
+                arrivePos = roomList[index + 1].gate.OpenGate(false);
+            // 워프가 아닌 문을 통해 이동할 경우 다음 방의 기본 위치로 지정
+            if (arrivePos == Vector3.zero)
+            {
+                missionUI.StartMission("Move to next room.", arrivePos);
+            }
             currentRoomIndex = index;
         }
         else
@@ -142,6 +151,7 @@ public class Stage : MonoBehaviour
         Debug.Log("포탈 열림");
         currentFinishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
     }
+
 
     private void MoveToDungeonAndCreate()
     {
