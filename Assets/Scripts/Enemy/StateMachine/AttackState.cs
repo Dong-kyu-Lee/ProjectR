@@ -21,6 +21,7 @@ public class AttackState : IState
 
     public void Enter()
     {
+        enemy.isAttacking = true;
         if (!isAttacking)
         {
             isAttacking = true;

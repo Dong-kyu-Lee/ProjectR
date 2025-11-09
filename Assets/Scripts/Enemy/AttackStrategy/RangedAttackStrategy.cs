@@ -12,7 +12,7 @@ public class RangedAttackStrategy : IAttackStrategy
                 boss.ShootProjectile();
                 break;
             case RangedEnemy rangedEnemy:
-                rangedEnemy.ShootProjectile();
+                rangedEnemy.StartCoroutine(rangedEnemy.EnableRangeAttack());
                 break;
         }
     }

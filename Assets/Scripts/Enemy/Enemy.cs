@@ -41,6 +41,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private LayerMask groundLayer;
 
+    public bool isAttacking = false;
+
     public event Action OnEdgeDetected;
 
     public EnemyStatus EnemyStatus { get { return enemyStatus; } }
@@ -101,7 +103,7 @@ public class Enemy : MonoBehaviour
 
     public void StartAttack()
     {
-        if (!StateMachine.isDead)
+        if (!StateMachine.isDead && !isAttacking)
         {
             StateMachine.TransitionTo(StateMachine.attackState);
             Attack();
@@ -111,7 +113,7 @@ public class Enemy : MonoBehaviour
     public virtual void Attack()
     {
         FacePlayer();
-        attackStrategy?.ExecuteAttack(this);
+        //attackStrategy?.ExecuteAttack(this);
     }
 
     protected void CheckPlatformEdge()
