@@ -8,7 +8,9 @@ public class DebuffAttackStrategy : IAttackStrategy
     {
         if (enemy is BossEnemy boss && boss.DebuffHitBox != null)
         {
-            boss.DebuffHitBox.transform.localPosition = new Vector2((boss.transform.rotation.y != 180f ? -1f : 1f), 0.3f);
+            float hitOffsetX = 0.6f;
+            boss.DebuffHitBox.transform.localPosition =
+                new Vector2(-hitOffsetX, 0.3f);
             boss.DebuffHitBox.SetActive(true);
         }
         else if (enemy is DebuffMeleeEnemy debuffEnemy)

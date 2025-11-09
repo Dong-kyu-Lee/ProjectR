@@ -6,14 +6,19 @@ public class MeleeAttackStrategy : IAttackStrategy
 {
     public void ExecuteAttack(Enemy enemy)
     {
+        float hitOffsetX = 0.6f;
+
         if (enemy is BossEnemy boss && boss.MeleeHitBox != null)
         {
-            boss.MeleeHitBox.transform.localPosition = new Vector2((boss.transform.rotation.y != 180f ? -1f : 1f), 0.3f);
+            boss.MeleeHitBox.transform.localPosition =
+                new Vector2(-hitOffsetX, 0.3f);
             boss.MeleeHitBox.SetActive(true);
         }
         else if (enemy is MeleeEnemy meleeEnemy)
         {
-            meleeEnemy.PerformAttack();
+            meleeEnemy.hitBoxObj.transform.localPosition =
+                new Vector2(-hitOffsetX, 0.3f);
+            meleeEnemy.hitBoxObj.SetActive(true);
         }
     }
 }

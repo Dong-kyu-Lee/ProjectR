@@ -36,7 +36,11 @@ public class HitBox : MonoBehaviour
         if (collision.CompareTag("Player") && !isHit)
         {
             isHit = true;
-            collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
+            PlayerControllerBase pcb = collision.gameObject.GetComponent<PlayerControllerBase>();
+            if (pcb == null || !pcb.IsInvincible)
+            {
+                collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
+            }
         }
     }
 
