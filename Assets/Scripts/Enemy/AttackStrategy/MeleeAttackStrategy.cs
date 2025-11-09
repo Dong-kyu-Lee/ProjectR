@@ -16,9 +16,7 @@ public class MeleeAttackStrategy : IAttackStrategy
         }
         else if (enemy is MeleeEnemy meleeEnemy)
         {
-            meleeEnemy.hitBoxObj.transform.localPosition =
-                new Vector2(-hitOffsetX, 0.3f);
-            meleeEnemy.hitBoxObj.SetActive(true);
+            meleeEnemy.PerformAttack();
         }
     }
 }

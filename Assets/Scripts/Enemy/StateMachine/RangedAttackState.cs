@@ -41,7 +41,7 @@ public class RangedAttackState : IState
         Debug.Log("Coroutine");
 
         yield return new WaitForSeconds(0.3f);
-        enemy.ShootProjectile();
+        enemy.StartCoroutine(enemy.EnableRangeAttack());
 
         yield return new WaitForSeconds(delay);
         attackCoroutine = null;

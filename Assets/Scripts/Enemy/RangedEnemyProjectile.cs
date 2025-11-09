@@ -25,6 +25,12 @@ public class RangedEnemyProjectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // 땅에 충돌 시 제거
+        if (collision.gameObject.layer == LayerMask.NameToLayer("GroundTile"))
+        {
+            Destroy(gameObject);
+        }
+
         // 지정 레이어 감지
         if (((1 << collision.gameObject.layer) & targetLayer) != 0)
         {
@@ -33,7 +39,6 @@ public class RangedEnemyProjectile : MonoBehaviour
             var playerStatus = collision.gameObject.GetComponent<PlayerStatus>();
             if (playerStatus != null)
             {
-                playerStatus.Hp -= damage;
                 collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
             }
 
