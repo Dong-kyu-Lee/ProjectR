@@ -113,4 +113,13 @@ public class InventoryUI : MonoBehaviour
     {
         Inventory.OnItemAdded -= HandleItemAdded;
     }
+
+    // 인벤토리 슬롯 인덱스로 해당 UI 슬롯을 반환하는 함수
+    public ItemSlotUI GetInventorySlotUI(int index)
+    {
+        if (inventorySlotImgs == null) return null;
+        if (index < 0 || index >= inventorySlotImgs.Length) return null;
+        return inventorySlotImgs[index];
+    }
+
 }

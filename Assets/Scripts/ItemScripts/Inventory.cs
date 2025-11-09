@@ -291,4 +291,69 @@ public class Inventory : MonoBehaviour
 
         return result;
     }
+
+    // 인벤토리 내부에서 아이템을 사용하는 메서드
+    public void UseInventoryItem(BasicItemData item)
+    {
+        // 1아이템 효과 적용
+        if (item is ConsumableItemData consumable)
+        {
+            consumable.ActivateItemEffect(playerStatus);
+        }
+        else
+        {
+            Debug.LogWarning($"[Inventory] 소비 아이템이 아닙니다: {item.ItemName}");
+            return;
+        }
+
+        // 2수량 감소
+        if (inventory.ContainsKey(item))
+        {
+            inventory[item]--;
+
+            // 3️UI 갱신
+            if (inventory[item] > 0)
+            {
+                myInventoryUI.UpdateItemSlotAmount(item, inventory[item]);
+            }
+            else
+            {
+                inventory.Remove(item);
+                myInventoryUI.UpdateItemSlotAmount(item, 0);
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[Inventory] 인벤토리에 없는 아이템 사용 시도: {item.ItemName}");
+        }
+    }
+
+    // 인벤토리 1번(0-index) 슬롯을 '퀵슬롯'처럼 참조해 UI를 갱신
+    public void UpdateQuickSlotReference()
+    {
+        if (myInventoryUI == null) return;
+
+        // UI의 인벤토리 0번 슬롯을 기준으로 판단 (Dictionary 순서 X)
+        var firstSlot = myInventoryUI.GetInventorySlotUI(0);
+        if (firstSlot == null)
+        {
+            myInventoryUI.QuickSlotImg.DeleteItemData();
+            return;
+        }
+
+        var data = firstSlot.NowItemData;
+        var amount = firstSlot.ItemCount;
+
+        // 소비 아이템만 퀵슬롯에 표시
+        if (data != null && data.ItemType == ItemType.CONSUMABLE && amount > 0)
+        {
+            myInventoryUI.SetQuickSLotItemData(data, amount);
+        }
+        else
+        {
+            myInventoryUI.QuickSlotImg.DeleteItemData();
+        }
+    }
+
+
 }
