@@ -30,7 +30,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
     public float moveFactor = 100f;
     public float dashFactor = 1f;
     public float dashTime = 0.2f;
-    public float dashCoolTime = 1f;
+    public float dashCoolTime = 0.5f;
     public float attackCoolTimeA = 0.5f;
     public float projectileSpawnOffset = 1f;
 
@@ -44,6 +44,14 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
     private Vector2 _queuedAimDir;
     private bool _hasQueuedAim;
+
+    protected bool isDashing = false;
+    protected bool isInvincible = false;
+    public bool IsInvincible => isInvincible;
+
+    [Header("Dash Ghost")]
+    [SerializeField] protected float dashGhostInterval = 0.03f; // 잔상 간격
+    [SerializeField] private GameObject dashGhostTemplate;
 
     protected virtual void Start()
     {
@@ -61,7 +69,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && enableJump)
             Jump();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && enableDash)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && enableDash && IsMovingHorizontally())
             StartCoroutine(Dash());
 
         if (Input.GetMouseButtonDown(0) && enableAttack)
@@ -134,12 +142,87 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 대시 처리
     protected virtual IEnumerator Dash()
     {
+        if (isDashing || !enableDash || isDead || isPause || !IsMovingHorizontally())
+            yield break;
+
         enableDash = false;
+        isDashing = true;
+        isInvincible = true;
+        enableAttack = false; // 대시 중 공격 잠금 (원하면 빼도 됨)
+
+        // 애니메이션 트리거 (각 플레이어 애니메이터에 "Dash" 트리거 추가)
+        if (playerAnimator != null)
+            playerAnimator.SetTrigger("dash");
+
+        float originalDashFactor = dashFactor;
         dashFactor = 5f;
+
+        // 잔상 생성 코루틴
+        Coroutine ghostRoutine = null;
+        if (dashGhostTemplate != null)
+            ghostRoutine = StartCoroutine(DashGhostRoutine());
+
+        // 실제 대시 지속 시간
         yield return new WaitForSeconds(dashTime);
-        dashFactor = 1f;
+
+        // 대시 종료
+        dashFactor = originalDashFactor;
+        isInvincible = false;
+        isDashing = false;
+        enableAttack = true;
+
+        if (ghostRoutine != null)
+            StopCoroutine(ghostRoutine);
+
+        // 쿨타임
         yield return new WaitForSeconds(dashCoolTime);
         enableDash = true;
+    }
+
+    // 수평 이동 중인지 판정 (입력 or 실제 속도 기준)
+    protected bool IsMovingHorizontally()
+    {
+        // 입력으로 먼저 판단
+        float inputX = Input.GetAxisRaw("Horizontal");
+        if (Mathf.Abs(inputX) > 0.01f)
+            return true;
+
+        // 혹시 모를 외력(밀림 등)도 허용하고 싶으면 속도도 확인
+        if (playerRigidBody != null && Mathf.Abs(playerRigidBody.velocity.x) > 0.01f)
+            return true;
+
+        return false;
+    }
+
+
+    protected virtual IEnumerator DashGhostRoutine()
+    {
+        while (isDashing)
+        {
+            SpawnDashGhost();
+            yield return new WaitForSeconds(dashGhostInterval);
+        }
+    }
+
+    protected void SpawnDashGhost()
+    {
+        if (dashGhostTemplate == null) return;
+
+        var sr = GetSprite();
+        if (sr == null || sr.sprite == null) return;
+
+        // 템플릿을 기준으로 새 인스턴스 생성 (부모는 null로 해서 플레이어와 분리)
+        var ghost = Instantiate(dashGhostTemplate, transform.position, Quaternion.identity);
+        ghost.SetActive(true);
+
+        var ghostSr = ghost.GetComponent<SpriteRenderer>();
+        if (ghostSr != null)
+        {
+            ghostSr.sprite = sr.sprite;
+            ghostSr.flipX = sr.flipX;
+            ghostSr.sortingLayerID = sr.sortingLayerID;
+            ghostSr.sortingOrder = sr.sortingOrder - 1;
+        }
     }
 
     // 고유 능력 발동 위임

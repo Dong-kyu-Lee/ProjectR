@@ -22,14 +22,25 @@ public class ProjectileV2 : MonoBehaviour
 
     private Vector2 velocity;
 
+    // 투사체 이동 속도 배율
+    [SerializeField] private float speedMultiplier = 15f;
+    // 포물선 궤적을 위해 Rigidbody2D의 중력 비율
+    [SerializeField] private float gravityScale = 2f;
+    // 초기 상승 속도. 수치가 클수록 더 높은 호를 형성
+    [SerializeField] private float initialUpwardVelocity = 1.2f;
+
     // 발사 속도 설정 (Velocity 속성으로 외부에서 설정 
     public Vector2 Velocity
     {
         get => velocity;
         set
         {
-            velocity = value;
-            projectileRigidbody.velocity = velocity * 50f;
+            // 중력 적용
+            projectileRigidbody.gravityScale = gravityScale;
+            // 수평 속도는 방향 벡터의 x성분에 speedMultiplier를 곱해 지정
+            // 수직 속도는 initialUpwardVelocity만큼 추가하여 포물선 궤적 형성.
+            projectileRigidbody.velocity = new Vector2(value.x * speedMultiplier,
+                                                       value.y * speedMultiplier + initialUpwardVelocity);
         }
     }
 
