@@ -5723,9 +5723,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3876051710393344225, guid: ccf36d70f958cf1409487598c05b9da5, type: 3}
+      propertyPath: attackScanner
+      value: 
+      objectReference: {fileID: 1328413933}
     - target: {fileID: 7154700476304014582, guid: ccf36d70f958cf1409487598c05b9da5, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy1_2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901037968461984229, guid: ccf36d70f958cf1409487598c05b9da5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccf36d70f958cf1409487598c05b9da5, type: 3}
@@ -6229,10 +6237,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playerObject: {fileID: 624456198}
+  startCharacterType: 0
   upgradeUI: {fileID: 1994829755}
   inventoryUI: {fileID: 0}
   inGameUI: {fileID: 0}
   testUI: {fileID: 0}
+  isFirstPlayerCreated: 0
 --- !u!4 &1258365073
 Transform:
   m_ObjectHideFlags: 0
@@ -6670,6 +6680,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1326522232}
   m_CullTransparentMesh: 1
+--- !u!114 &1328413933 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1709160410, guid: ccf36d70f958cf1409487598c05b9da5, type: 3}
+  m_PrefabInstance: {fileID: 1000260634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f5a0f8c7c216b548a38e0baf2486fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1403261257
 GameObject:
   m_ObjectHideFlags: 0
@@ -7748,6 +7769,7 @@ MonoBehaviour:
   characterInfo: {fileID: 0}
   playerStatus: {fileID: 0}
   closeButton: {fileID: 0}
+  statusContent: {fileID: 0}
 --- !u!1 &1655445101
 GameObject:
   m_ObjectHideFlags: 0

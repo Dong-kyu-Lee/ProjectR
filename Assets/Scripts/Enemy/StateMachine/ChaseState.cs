@@ -16,7 +16,7 @@ public class ChaseState : IState
         enemy.isAttacking = false;
         enemy.OnEdgeDetected += StopAtEdge;
         enemy.StateMachine.isChasing = true;
-        enemy.AttackScanner.ActivateScanner();
+        //enemy.AttackScanner.ActivateScanner();
     }
 
     public void Update(float delta)

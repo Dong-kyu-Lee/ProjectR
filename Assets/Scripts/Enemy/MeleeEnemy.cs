@@ -32,7 +32,13 @@ public class MeleeEnemy : Enemy
 
     public override void PerformAttack()
     {
-        float hitOffsetX = 0.6f;
+        StartCoroutine(EnableHitbox());
+    }
+
+    IEnumerator EnableHitbox()
+    {
+        yield return new WaitForSeconds(0.3f);
+        float hitOffsetX = 0.35f;
 
         hitBoxObj.transform.localPosition = new Vector2(-hitOffsetX, 0.3f);
         hitBoxObj.SetActive(true);

@@ -342,6 +342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyStatus: {fileID: 3842903198805543405}
   enemyAnimator: {fileID: 4992420694920009114}
+  attackScanner: {fileID: 1709160410}
   attackRangeCol: {fileID: 1576205176}
   chaseRangeCol: {fileID: 2874281276949492762}
   enemyController: {fileID: 1918481558}
@@ -353,6 +354,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 4096
+  isAttacking: 0
   hitBoxObj: {fileID: 8901037968461984229}
 --- !u!114 &3842903198805543405
 MonoBehaviour:
@@ -520,7 +522,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.52}
+  m_Size: {x: 0.5, y: 0.52}
   m_EdgeRadius: 0
 --- !u!114 &593694728
 MonoBehaviour:
