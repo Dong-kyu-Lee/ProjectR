@@ -117,19 +117,21 @@ public class Stage : MonoBehaviour
     }
 
     // currentRoom을 클리어하여 다음으로 넘어갈 방의 문을 여는 함수
-    public void OpenNextRoom(RoomInstance currentRoom)
+    // arrivePos : 미션에서 사용. 플레이어가 도착해야 할 위치
+    // arrivePos == Vector3.zero : 통로를 통한 이동. 특정 위치를 나타내지 않음.
+    // arrivePos != Vector3.zero : 워프를 통한 이동. 워프의 위치를 나타냄.
+    public void OpenNextRoom(RoomInstance currentRoom, Vector3 arrivePos)
     {
         int index = roomList.IndexOf(currentRoom);
         if (index != -1)
         {
-            Vector3 arrivePos = Vector3.zero;
             if (index != roomList.Count - 1)
-                // 워프를 통해 이동할 경우 arrivePos에 워프 위치가 반환됨
-                arrivePos = roomList[index + 1].gate.OpenGate(false);
-            // 워프가 아닌 문을 통해 이동할 경우 다음 방의 기본 위치로 지정
-            if (arrivePos == Vector3.zero)
             {
-                missionUI.StartMission("Move to next room.", arrivePos + new Vector3(20,20,0));
+                roomList[index + 1].gate.OpenGate(false);
+                if (arrivePos != Vector3.zero) // 워프를 통한 이동인 경우
+                    missionUI.StartMission("Move to next room.", arrivePos);
+                else // 통로를 통한 이동인 경우, 다음 방의 중심 좌표를 목표 위치로 설정
+                    missionUI.StartMission("Move to next room.", roomList[index + 1].transform.position + new Vector3(20, 20, 0));
             }
             currentRoomIndex = index;
         }
@@ -142,6 +144,7 @@ public class Stage : MonoBehaviour
         if (currentRoomIndex == roomList.Count - 1)
         {
             OpenFinishSpot();
+            missionUI.StartMission("Move to next room.", currentFinishSpot.transform.position);
         }
     }
 

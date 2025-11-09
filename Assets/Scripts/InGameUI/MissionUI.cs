@@ -42,8 +42,12 @@ public class MissionUI : MonoBehaviour
         {
             Vector3 dir = targetPoint - GameManager.Instance.CurrentPlayer.transform.position;
             dir.Normalize();
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            directionArrow.rectTransform.rotation = Quaternion.Euler(0, 0, -angle);
+            Debug.DrawLine(GameManager.Instance.CurrentPlayer.transform.position, targetPoint, Color.red);
+            directionArrow.rectTransform.up = dir;
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(GameManager.Instance.CurrentPlayer.transform.position);
+            Vector3 arrowPos = Vector3.zero;
+            // TODO : 화살표 위치 범위 조정 필요
+            directionArrow.rectTransform.position = screenPos + dir*300;
         }
     }
 
@@ -61,6 +65,7 @@ public class MissionUI : MonoBehaviour
     // 이동 미션 추가
     public void StartMission(string desc, Vector3 targetPoint)
     {
+        Debug.Log("Start Move Mission to " + targetPoint.ToString());
         currentMissionKind = MissionKind.MOVE_TO_POINT;
         description.text = desc;
         killCountText.gameObject.SetActive(false);
