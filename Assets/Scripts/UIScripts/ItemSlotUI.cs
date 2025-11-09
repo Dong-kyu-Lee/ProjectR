@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler
+
 {
     [SerializeField] protected BasicItemData dummyItemData;     //더미 아이템 데이터. 아이템 데이터가 없음을 나타낼 때 사용
     [SerializeField] protected BasicItemData nowItemData;       //현재 가지고 있는 아이템 데이터. 데이터가 없으면 더미 아이템 데이터로 설정
@@ -165,11 +166,27 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         {
             SwapItemData(targetSlotUI); //인벤토리칸 끼리 스왑
         }
+
+        if (parentUI.PlayerInventory != null)
+            parentUI.PlayerInventory.UpdateQuickSlotReference();
+
     }
 
     //드래그를 끝냈을 때 미리보기 UI 슬롯 비활성화
     public void OnEndDrag(PointerEventData eventData)
     {
         parentUI.PreviewSlotUI.gameObject.SetActive(false);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            if (nowItemData != null && nowItemData.ItemType == ItemType.CONSUMABLE)
+            {
+                parentUI.PlayerInventory.UseInventoryItem(nowItemData);
+                parentUI.PlayerInventory.UpdateQuickSlotReference();
+            }
+        }
     }
 }

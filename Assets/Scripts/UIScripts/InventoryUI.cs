@@ -24,6 +24,8 @@ public class InventoryUI : MonoBehaviour
 
         InitiateAllItemsSlots();
         Inventory.OnItemAdded += HandleItemAdded;
+
+        playerInventory.UpdateQuickSlotReference();
     }
 
     private void HandleItemAdded(BasicItemData item, int amount)
