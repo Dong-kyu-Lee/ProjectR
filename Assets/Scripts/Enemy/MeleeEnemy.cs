@@ -5,7 +5,7 @@ using UnityEngine;
 public class MeleeEnemy : Enemy
 {
     [SerializeField]
-    protected GameObject hitBoxObj;
+    public GameObject hitBoxObj;
 
     protected override void Awake()
     {
@@ -32,7 +32,10 @@ public class MeleeEnemy : Enemy
 
     public override void PerformAttack()
     {
-        hitBoxObj.transform.localPosition = new Vector2((transform.rotation.y != 180f ? -1f : 1f), 0.3f);
+        float hitOffsetX = 0.6f;
+
+        hitBoxObj.transform.localPosition = new Vector2(-hitOffsetX, 0.3f);
         hitBoxObj.SetActive(true);
     }
+
 }

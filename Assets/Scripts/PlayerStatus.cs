@@ -167,7 +167,7 @@ public class PlayerStatus : Status
         Hp = MaxHp;
         Damage = 10f;
         DamageReduction = 0;
-        AttackSpeed = 0.7f;
+        AttackSpeed = 1.0f;
         MoveSpeed = 3f;
         Gold = 100f;
 
