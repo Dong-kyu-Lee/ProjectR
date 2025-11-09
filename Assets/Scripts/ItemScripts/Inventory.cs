@@ -18,8 +18,8 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private PlayerStatus playerStatus;                  //플레이어의 Status
     [SerializeField]
-    private Dictionary<BasicItemData, int> inventory;   //인벤토리 딕셔너리<아이템정보, 아이템 갯수>. 가지고 있는 아이템을 O(1)에 검색하기 위함.
-    
+    private Dictionary<string, (BasicItemData data, int count)> inventory;   //인벤토리 딕셔너리<아이템정보, 아이템 갯수>. 가지고 있는 아이템을 O(1)에 검색하기 위함.
+
     //소모품 관련 칸
     private ConsumableItemData quickSlot = null;        //퀵슬롯 아이템 데이터
     private int quickSlotItemAmount = 0;                //퀵슬롯에 있는 아이템 갯수
@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        inventory = new Dictionary<BasicItemData, int>();
+        inventory = new Dictionary<string, (BasicItemData data, int count)>();
         playerStatus = GetComponentInParent<PlayerStatus>();
         equipmentItemSlot = new EquipmentItemData[maxEquipSlot];
         for (int i = 0; i < equipmentItemSlot.Length; i++)
@@ -295,38 +295,42 @@ public class Inventory : MonoBehaviour
     // 인벤토리 내부에서 아이템을 사용하는 메서드
     public void UseInventoryItem(BasicItemData item)
     {
-        // 1아이템 효과 적용
-        if (item is ConsumableItemData consumable)
-        {
-            consumable.ActivateItemEffect(playerStatus);
-        }
-        else
+        // 1소비 아이템만 사용 가능
+        if (item is not ConsumableItemData consumable)
         {
             Debug.LogWarning($"[Inventory] 소비 아이템이 아닙니다: {item.ItemName}");
             return;
         }
 
-        // 2수량 감소
-        if (inventory.ContainsKey(item))
+        // 2실제 인벤토리 내부에서 '이름'으로 같은 아이템 찾기
+        var realItem = inventory.Keys.FirstOrDefault(i => i.ItemName == item.ItemName);
+        if (realItem == null)
         {
-            inventory[item]--;
+            Debug.LogWarning($"[Inventory] 인벤토리에 해당 아이템이 존재하지 않습니다: {item.ItemName}");
+            return;
+        }
 
-            // 3️UI 갱신
-            if (inventory[item] > 0)
-            {
-                myInventoryUI.UpdateItemSlotAmount(item, inventory[item]);
-            }
-            else
-            {
-                inventory.Remove(item);
-                myInventoryUI.UpdateItemSlotAmount(item, 0);
-            }
+        // 3️아이템 효과 적용
+        consumable.ActivateItemEffect(playerStatus);
+
+        // 4수량 감소
+        inventory[realItem]--;
+
+        // 5UI 갱신
+        if (inventory[realItem] > 0)
+        {
+            myInventoryUI.UpdateItemSlotAmount(realItem, inventory[realItem]);
         }
         else
         {
-            Debug.LogWarning($"[Inventory] 인벤토리에 없는 아이템 사용 시도: {item.ItemName}");
+            inventory.Remove(realItem);
+            myInventoryUI.UpdateItemSlotAmount(realItem, 0);
         }
+
+        // 6️퀵슬롯(1번 칸) UI 자동 갱신
+        UpdateQuickSlotReference();
     }
+
 
     // 인벤토리 1번(0-index) 슬롯을 '퀵슬롯'처럼 참조해 UI를 갱신
     public void UpdateQuickSlotReference()
