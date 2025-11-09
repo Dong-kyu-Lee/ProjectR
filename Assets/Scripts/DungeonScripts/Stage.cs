@@ -129,7 +129,7 @@ public class Stage : MonoBehaviour
             // 워프가 아닌 문을 통해 이동할 경우 다음 방의 기본 위치로 지정
             if (arrivePos == Vector3.zero)
             {
-                missionUI.StartMission("Move to next room.", arrivePos);
+                missionUI.StartMission("Move to next room.", arrivePos + new Vector3(20,20,0));
             }
             currentRoomIndex = index;
         }
