@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3283866905245224938}
   - component: {fileID: 3283866905245224937}
   - component: {fileID: 3283866905245224948}
+  - component: {fileID: 1031259085993397157}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -187,3 +188,18 @@ MonoBehaviour:
   minDropCount: 3
   maxDropCount: 4
   itemSpacing: 1
+--- !u!114 &1031259085993397157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3283866905245224936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8658cfd451b90764cb4764ca9f5c6ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapIconObject: {fileID: 0}
+  iconSprite: {fileID: 1890379846, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  iconScale: 2
