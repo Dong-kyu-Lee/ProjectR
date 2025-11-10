@@ -82,14 +82,6 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    //아이템 정보를 퀵슬롯에 로드하는 메서드
-    public void LoadToQuickSlot(BasicItemData item, int amount = 1)
-    {
-        quickSlot = item as ConsumableItemData;
-        quickSlotItemAmount += amount;
-        myInventoryUI.SetQuickSLotItemData(quickSlot, quickSlotItemAmount);     //UI 반영
-    }
-
     //인벤토리에 있는 아이템 데이터를 퀵슬롯에 로드하는 메서드
     public void LoadToQuickSlotFromInventory(BasicItemData item)
     {
@@ -99,23 +91,6 @@ public class Inventory : MonoBehaviour
         quickSlot = item as ConsumableItemData;
         quickSlotItemAmount = inventory[key].Count;
         inventory.Remove(key);
-    }
-
-    //퀵슬롯에 있는 아이템을 인벤토리로 옮기는 메서드
-    public void UnLoadQuickSlotItem()
-    {
-        AddItemsToInventory(QuickSlot, QuickSlotAmount);
-        quickSlot = null;
-        quickSlotItemAmount = 0;
-    }
-
-    //인벤토리와 퀵슬롯에 있는 아이템 데이터를 서로 교체하는 메서드
-    public void SwapQuickSlotWithInventory(BasicItemData inventoryItem)
-    {
-        BasicItemData temp = quickSlot;
-        int tempAmount = quickSlotItemAmount;
-        LoadToQuickSlotFromInventory(inventoryItem);
-        AddItemsToInventory(temp, tempAmount);
     }
 
     //아이템을 획득을 처리하는 메서드. 아이템의 종류에 따라 다른 함수 실행
@@ -143,19 +118,7 @@ public class Inventory : MonoBehaviour
     //획득한 소모품 아이템 데이터를 퀵슬롯 or 인벤토리에 추가하는 메서드
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        if (quickSlot == null)
-        {
-            LoadToQuickSlot(item, amount);
-            return true;
-        }
-
-        if (quickSlot == item)
-        {
-            LoadToQuickSlot(item, amount);
-            return true;
-        }
-
-        return AddItemsToInventoryWithUiUpdate(item, amount);
+        return false; // 수정 예정
     }
 
     //획득한 장비를 비어있는 공간(장비칸 or 인벤토리)에 추가하는 함수
