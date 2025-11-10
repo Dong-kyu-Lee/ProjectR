@@ -94,25 +94,31 @@ public class Inventory : MonoBehaviour
     }
 
     //아이템을 획득을 처리하는 메서드. 아이템의 종류에 따라 다른 함수 실행
-    public void AddItem(BasicItemData item, int amount = 1)
+    public bool AddItem(BasicItemData item, int amount = 1)
     {
+        bool success = false;
+
         switch (item.ItemType)
         {
             case ItemType.CONSUMABLE:
-                AddConsumableItem(item as ConsumableItemData, amount);
+                success = AddConsumableItem(item as ConsumableItemData, amount);
                 break;
             case ItemType.EQUIPMENT:
-                AddEquipmentItem(item as EquipmentItemData);
+                success = AddEquipmentItem(item as EquipmentItemData);
                 break;
             case ItemType.DUMMY:
                 Debug.LogWarning($"[Inventory] DUMMY 아이템은 추가하지 않습니다: {item.ItemName}");
-                break;
+                return false;
             default:
                 Debug.LogWarning($"[Inventory] 정의되지 않은 아이템 타입: {item.ItemType}");
-                break;
+                return false;
         }
 
-        OnItemAdded?.Invoke(item, amount);
+        // 추가 성공 시에만 이벤트 발생
+        if (success)
+            OnItemAdded?.Invoke(item, amount);
+
+        return success;
     }
 
     //획득한 소모품 아이템 데이터를 인벤토리에 추가하는 메서드
