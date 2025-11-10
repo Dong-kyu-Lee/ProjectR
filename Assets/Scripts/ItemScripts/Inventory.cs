@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour
 
     //인벤토리 관련
     [SerializeField]
-    private int maxInventorySlot = 10;                  //최대 인벤토리 칸 갯수
+    private int maxInventorySlot = 12;                  //최대 인벤토리 칸 갯수
     [SerializeField]
     private PlayerStatus playerStatus;                  //플레이어의 Status
     [SerializeField]
