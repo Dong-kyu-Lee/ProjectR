@@ -159,8 +159,7 @@ public class Stage : MonoBehaviour
     private void MoveToDungeonAndCreate()
     {
         SceneManager.sceneLoaded += OnDungeonSceneLoaded;
-
-        SceneManager.LoadSceneAsync("DungeonGenerate");
+        GameManager.Instance.MoveScene(SceneType.Normal, "DungeonGenerate", true);
     }
 
     private void OnDungeonSceneLoaded(Scene scene, LoadSceneMode mode)
