@@ -118,8 +118,43 @@ public class Inventory : MonoBehaviour
     //획득한 소모품 아이템 데이터를 인벤토리에 추가하는 메서드
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        return false; // 수정 예정
+        string key = item.ItemName;
+
+        //1.이미 같은 아이템이 있을 경우 수량만 증가
+        if (inventory.ContainsKey(key))
+        {
+            var current = inventory[key];
+            int newAmount = current.Count + amount;
+
+            //최대 개수 제한
+            if (newAmount <= item.MaxAmount)
+            {
+                inventory[key] = (current.Data, newAmount);
+                myInventoryUI.UpdateItemSlotAmount(current.Data, newAmount);
+                Debug.Log($"[Inventory] {key} 수량 {current.Count} → {newAmount}");
+                return true;
+            }
+            else
+            {
+                Debug.LogWarning($"[Inventory] {key} 수량이 최대치({item.MaxAmount})를 초과했습니다.");
+                return false;
+            }
+        }
+
+        //2.인벤토리에 없고, 빈 칸이 있을 경우 새로 추가
+        if (inventory.Count < maxInventorySlot)
+        {
+            inventory.Add(key, (item, amount));
+            myInventoryUI.SetInventorySlotData(item, amount);
+            Debug.Log($"[Inventory] 새 소모품 {key} 등록 ({amount})");
+            return true;
+        }
+
+        //3.인벤토리가 가득 찼을 경우
+        Debug.LogWarning("[Inventory] 인벤토리에 빈 공간이 없습니다!");
+        return false;
     }
+
 
     //획득한 장비를 비어있는 공간(장비칸 or 인벤토리)에 추가하는 함수
     private bool AddEquipmentItem(EquipmentItemData item)
