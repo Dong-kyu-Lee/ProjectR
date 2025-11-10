@@ -124,7 +124,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     }
 
     //다른 슬롯에서 출발해서 자신의 슬롯 위에 Drop이 되었을 때 호출.
-    //QuickSlotUI, EquipmentSlotUI 클래스가 이 함수를 재정의함.
+    //EquipmentSlotUI 클래스가 이 함수를 재정의함.
     public virtual void OnDrop(PointerEventData eventData)
     {
         ItemSlotUI targetSlotUI = eventData.pointerDrag.GetComponent<ItemSlotUI>(); //다른 ItemSlotUI
@@ -145,23 +145,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                     break;
             }
         }
-        else if (targetSlotUI is QuickSlotUI) //(퀵슬롯 -> 인벤토리) => 퀵슬롯 언로드
-        {
-            switch (nowItemData.ItemType)
-            {
-                case ItemType.CONSUMABLE:
-                    parentUI.PlayerInventory.SwapQuickSlotWithInventory(NowItemData);
-                    SwapItemData(targetSlotUI);
-                    break;
-                case ItemType.EQUIPMENT:
-                    break;
-                case ItemType.DUMMY:
-                    SetItemData(targetSlotUI.NowItemData, targetSlotUI.ItemCount);
-                    targetSlotUI.DeleteItemData();
-                    parentUI.PlayerInventory.UnLoadQuickSlotItem();
-                    break;
-            }
-        }
         else //targetSlotUI is ItemSlotUI 
         {
             SwapItemData(targetSlotUI); //인벤토리칸 끼리 스왑
@@ -169,7 +152,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         if (parentUI.PlayerInventory != null)
             parentUI.PlayerInventory.UpdateQuickSlotReference();
-
     }
 
     //드래그를 끝냈을 때 미리보기 UI 슬롯 비활성화
@@ -184,7 +166,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         {
             if (nowItemData != null && nowItemData.ItemType == ItemType.CONSUMABLE)
             {
-                parentUI.PlayerInventory.UseInventoryItem(nowItemData);
                 parentUI.PlayerInventory.UpdateQuickSlotReference();
             }
         }

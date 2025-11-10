@@ -65,7 +65,7 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    private void SetEquippedItemSlotData(EquipmentItemData itemData)
+    public void SetEquippedItemSlotData(EquipmentItemData itemData)
     {
         for (int i = 0; i < equipSlotImgs.Length; i++)
         {

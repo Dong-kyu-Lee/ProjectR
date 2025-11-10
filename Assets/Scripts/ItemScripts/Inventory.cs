@@ -115,7 +115,7 @@ public class Inventory : MonoBehaviour
         OnItemAdded?.Invoke(item, amount);
     }
 
-    //획득한 소모품 아이템 데이터를 퀵슬롯 or 인벤토리에 추가하는 메서드
+    //획득한 소모품 아이템 데이터를 인벤토리에 추가하는 메서드
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
         return false; // 수정 예정
@@ -129,6 +129,7 @@ public class Inventory : MonoBehaviour
             if (equipmentItemSlot[i].ItemType == ItemType.DUMMY)
             {
                 LoadEquipmentItem(item, i);
+                myInventoryUI.SetEquippedItemSlotData(item);
                 return true;
             }
         }
