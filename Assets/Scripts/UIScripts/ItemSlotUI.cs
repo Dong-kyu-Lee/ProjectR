@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler
-
 {
     [SerializeField] protected BasicItemData dummyItemData;     //더미 아이템 데이터. 아이템 데이터가 없음을 나타낼 때 사용
     [SerializeField] protected BasicItemData nowItemData;       //현재 가지고 있는 아이템 데이터. 데이터가 없으면 더미 아이템 데이터로 설정
@@ -32,6 +31,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     private bool isInitialized = false;
     public bool IsInitialized => isInitialized;
+
     //자신의 슬롯의 초기화 함수
     public void Init(GameObject parent, int indexNumber)
     {
@@ -88,7 +88,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         itemCountText.text = itemCount > 1 ? itemCount.ToString() : "";
     }
 
-
     //더미 아이템 데이터로 설정하고 자신의 슬롯의 아이템 이미지를 초기화하는 메서드
     public void DeleteItemData()
     {
@@ -128,16 +127,19 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public virtual void OnDrop(PointerEventData eventData)
     {
         ItemSlotUI targetSlotUI = eventData.pointerDrag.GetComponent<ItemSlotUI>(); //다른 ItemSlotUI
-        if (targetSlotUI.NowItemData.ItemType == ItemType.DUMMY) return;
+        if (targetSlotUI == null || targetSlotUI.NowItemData.ItemType == ItemType.DUMMY) return;
 
+        // (인벤토리칸 <-> 장비칸) => 장비 스왑 / 언로드
         if (targetSlotUI is EquipmentSlotUI)
         {
             switch (nowItemData.ItemType)
             {
                 case ItemType.EQUIPMENT: //(인벤토리칸 <-> 장비칸) => 장비 스왑
                     SwapItemData(targetSlotUI);
-                    parentUI.PlayerInventory.SwapEquippedItemWithInventory(targetSlotUI.SlotIndex, nowItemData as EquipmentItemData);
+                    parentUI.PlayerInventory.SwapEquippedItemWithInventory(
+                        targetSlotUI.SlotIndex, nowItemData as EquipmentItemData);
                     break;
+
                 case ItemType.DUMMY: //(장비 -> 인벤토리) => 장비 언로드
                     parentUI.PlayerInventory.UnloadEquipmentItem((targetSlotUI as EquipmentSlotUI).SlotIndex);
                     SetItemData(targetSlotUI.NowItemData, targetSlotUI.itemCount);
@@ -145,9 +147,15 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                     break;
             }
         }
-        else //targetSlotUI is ItemSlotUI 
+        // 퀵슬롯은 인벤토리의 첫 번째 칸을 참조하므로, 별도 스왑/언로드 동작은 없음
+        else if (targetSlotUI is QuickSlotUI)
         {
-            SwapItemData(targetSlotUI); //인벤토리칸 끼리 스왑
+            return;
+        }
+        // 인벤토리칸 끼리 스왑
+        else
+        {
+            SwapItemData(targetSlotUI);
         }
 
         if (parentUI.PlayerInventory != null)
@@ -166,7 +174,8 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         {
             if (nowItemData != null && nowItemData.ItemType == ItemType.CONSUMABLE)
             {
-                parentUI.PlayerInventory.UpdateQuickSlotReference();
+                // 퀵슬롯은 인벤토리 첫 번째 칸을 참조하므로, 직접 사용만 수행
+                parentUI.PlayerInventory.UseQuickSlotItem();
             }
         }
     }
