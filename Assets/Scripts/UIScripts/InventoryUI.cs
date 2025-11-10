@@ -122,6 +122,24 @@ public class InventoryUI : MonoBehaviour
         if (inventorySlotImgs == null) return null;
         if (index < 0 || index >= inventorySlotImgs.Length) return null;
         return inventorySlotImgs[index];
+        }
+
+     //이미 존재하는 아이템 슬롯의 수량만 갱신하는 함수(새 슬롯 생성 방지)
+    public void UpdateExistingItemSlot(BasicItemData itemData, int newAmount)
+    {
+        for (int i = 0; i < inventorySlotImgs.Length; i++)
+        {
+            var slotItem = inventorySlotImgs[i].NowItemData;
+            if (slotItem != null && slotItem.ItemName == itemData.ItemName)
+            {
+                inventorySlotImgs[i].SetItemAmountData(newAmount);
+                Debug.Log($"[InventoryUI] {itemData.ItemName} 수량 {newAmount}로 갱신됨");
+                return;
+            }
+        }
+
+        // 만약 기존 슬롯이 없으면 새 슬롯 생성 (안전장치)
+        SetInventorySlotData(itemData, newAmount);
     }
 
 }

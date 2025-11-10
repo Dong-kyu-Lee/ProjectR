@@ -152,6 +152,7 @@ public class Inventory : MonoBehaviour
         {
             inventory.Add(key, (item, amount));
             myInventoryUI.SetInventorySlotData(item, amount);
+            UpdateQuickSlotReference();
             Debug.Log($"[Inventory] 새 소모품 {key} 등록 ({amount})");
             return true;
         }
@@ -254,29 +255,6 @@ public class Inventory : MonoBehaviour
     {
         string key = item.ItemName;
 
-        // 소비 아이템일 때만 수량 합치기
-        if (item.ItemType == ItemType.CONSUMABLE)
-        {
-            if (inventory.ContainsKey(key))
-            {
-                var current = inventory[key];
-                int newAmount = current.Count + amount;
-
-                if (newAmount <= item.MaxAmount)
-                {
-                    inventory[key] = (current.Data, newAmount);
-                    myInventoryUI.UpdateItemSlotAmount(current.Data, newAmount);
-                    Debug.Log($"[Inventory] {key} 수량 {current.Count} → {newAmount}");
-                    return true;
-                }
-                else
-                {
-                    Debug.Log("아이템이 최대 갯수를 초과했습니다!");
-                    return false;
-                }
-            }
-        }
-
         // 장비 또는 신규 아이템 추가
         if (inventory.Count < maxInventorySlot)
         {
@@ -319,14 +297,15 @@ public class Inventory : MonoBehaviour
         if (myInventoryUI == null) return;
 
         var firstSlot = myInventoryUI.GetInventorySlotUI(0);
-        if (firstSlot == null)
+
+        var data = firstSlot.NowItemData;
+        var amount = firstSlot.ItemCount;
+
+        if (firstSlot.NowItemData.ItemType != ItemType.CONSUMABLE)
         {
             myInventoryUI.QuickSlotImg.DeleteItemData();
             return;
         }
-
-        var data = firstSlot.NowItemData;
-        var amount = firstSlot.ItemCount;
 
         if (data != null && data.ItemType == ItemType.CONSUMABLE && amount > 0)
         {
