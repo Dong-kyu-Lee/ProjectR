@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
@@ -27,6 +28,41 @@ public class InventoryUI : MonoBehaviour
 
         playerInventory.UpdateQuickSlotReference();
     }
+
+    // 인벤토리 전체 UI를 다시 갱신하는 함수
+    public void RefreshInventoryUI()
+    {
+        if (playerInventory == null || inventorySlotImgs == null)
+            return;
+
+        // 인벤토리의 모든 아이템 슬롯 데이터를 가져옴
+        var slots = playerInventory.InventorySlots;
+
+        for (int i = 0; i < inventorySlotImgs.Length; i++)
+        {
+            if (i < slots.Count)
+            {
+                var slot = slots[i];
+                if (slot.itemData != null)
+                {
+                    inventorySlotImgs[i].SetItemData(slot.itemData, slot.count);
+                }
+                else
+                {
+                    inventorySlotImgs[i].DeleteItemData();
+                }
+            }
+            else
+            {
+                // 남은 슬롯은 더미로 채우는것
+                inventorySlotImgs[i].DeleteItemData();
+            }
+        }
+
+        // 퀵슬롯은 인벤토리 첫 번째 칸을 참조하므로 함께 업데이트
+        playerInventory.UpdateQuickSlotReference();
+    }
+
 
     private void HandleItemAdded(BasicItemData item, int amount)
     {
