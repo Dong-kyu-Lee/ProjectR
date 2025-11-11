@@ -24,7 +24,6 @@ public class InventoryUI : MonoBehaviour
         playerInventory.MyInventoryUI = this;
 
         InitiateAllItemsSlots();
-        Inventory.OnItemAdded += HandleItemAdded;
 
         playerInventory.UpdateQuickSlotReference();
     }
@@ -63,11 +62,6 @@ public class InventoryUI : MonoBehaviour
         playerInventory.UpdateQuickSlotReference();
     }
 
-
-    private void HandleItemAdded(BasicItemData item, int amount)
-    {
-        SetItemToUI(item, amount);
-    }
 
     private void InitiateAllItemsSlots()
     {
@@ -145,11 +139,6 @@ public class InventoryUI : MonoBehaviour
             quickSlotImg.Init(gameObject, -1);
 
         quickSlotImg.SetItemData(itemData, amount);
-    }
-
-    private void OnDestroy()
-    {
-        Inventory.OnItemAdded -= HandleItemAdded;
     }
 
     // 인벤토리 슬롯 인덱스로 해당 UI 슬롯을 반환하는 함수
