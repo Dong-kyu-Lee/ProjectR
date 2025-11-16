@@ -130,6 +130,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2133990160400029120, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133990160400029120, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133990160400029120, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133990160400029120, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133990160400029120, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1369
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133990160400029120, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 632
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133990160400029123, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 51c2330dec20a03439b00e7ab4823999, type: 3}
+    - target: {fileID: 2133990160400029123, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133990160400029123, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133990160400029123, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2133990160400029123, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2133990160728746082, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
       propertyPath: m_Name
       value: Canvas(QuickSlot)
@@ -218,6 +262,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2133990161367232203, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 70.00072
+      objectReference: {fileID: 0}
     - target: {fileID: 2133990161447415994, guid: fb0e8379080da7649a7d805f6bf0ffe1, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -277,10 +325,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playerObject: {fileID: 1623735415}
+  startCharacterType: 0
   upgradeUI: {fileID: 0}
   inventoryUI: {fileID: 1782459960}
   inGameUI: {fileID: 468714632}
   testUI: {fileID: 0}
+  isFirstPlayerCreated: 0
 --- !u!4 &347625460
 Transform:
   m_ObjectHideFlags: 0
