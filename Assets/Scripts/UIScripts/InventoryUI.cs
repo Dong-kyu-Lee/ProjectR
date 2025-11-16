@@ -9,8 +9,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject inventorySlotParentObj;
     [SerializeField] private ItemSlotUI[] inventorySlotImgs;
 
-    [SerializeField] private ItemSlotUI quickSlotImg;
-    public ItemSlotUI QuickSlotImg { get { return quickSlotImg; } }
+    [SerializeField] private QuickSlotUI quickSlotImg;
+    public QuickSlotUI QuickSlotImg { get { return quickSlotImg; } }
 
     [SerializeField] private ItemSlotUI previewSlotUI;
     public ItemSlotUI PreviewSlotUI { get { return previewSlotUI; } }
@@ -31,34 +31,60 @@ public class InventoryUI : MonoBehaviour
     // 인벤토리 전체 UI를 다시 갱신하는 함수
     public void RefreshInventoryUI()
     {
-        if (playerInventory == null || inventorySlotImgs == null)
+        if (playerInventory == null)
             return;
 
-        // 인벤토리의 모든 아이템 슬롯 데이터를 가져옴
-        var slots = playerInventory.InventorySlots;
-
-        for (int i = 0; i < inventorySlotImgs.Length; i++)
+        // 1. 인벤토리의 모든 아이템 슬롯 데이터를 가져옴
+        if (inventorySlotImgs != null)
         {
-            if (i < slots.Count)
+            var slots = playerInventory.InventorySlots;
+            for (int i = 0; i < inventorySlotImgs.Length; i++)
             {
-                var slot = slots[i];
-                if (slot.itemData != null)
+                if (i < slots.Count)
                 {
-                    inventorySlotImgs[i].SetItemData(slot.itemData, slot.count);
+                    var slot = slots[i];
+                    if (slot.itemData != null && slot.itemData.ItemType != ItemType.DUMMY) // 더미 타입 명확히 구분
+                    {
+                        inventorySlotImgs[i].SetItemData(slot.itemData, slot.count);
+                    }
+                    else
+                    {
+                        inventorySlotImgs[i].DeleteItemData();
+                    }
                 }
                 else
                 {
                     inventorySlotImgs[i].DeleteItemData();
                 }
             }
-            else
+        }
+
+        // 2. 장비칸의 모든 아이템 슬롯 데이터를 가져옴
+        if (equipSlotImgs != null)
+        {
+            var equipSlots = playerInventory.EquipmentItemSlot;
+            for (int i = 0; i < equipSlotImgs.Length; i++)
             {
-                // 남은 슬롯은 더미로 채우는것
-                inventorySlotImgs[i].DeleteItemData();
+                if (i < equipSlots.Length)
+                {
+                    var itemData = equipSlots[i];
+                    if (itemData != null && itemData.ItemType != ItemType.DUMMY)
+                    {
+                        equipSlotImgs[i].SetItemData(itemData, 1);
+                    }
+                    else
+                    {
+                        equipSlotImgs[i].DeleteItemData();
+                    }
+                }
+                else
+                {
+                    equipSlotImgs[i].DeleteItemData();
+                }
             }
         }
 
-        // 퀵슬롯은 인벤토리 첫 번째 칸을 참조하므로 함께 업데이트
+        // 3. 퀵슬롯은 인벤토리 첫 번째 칸을 참조하므로 함께 업데이트
         playerInventory.UpdateQuickSlotReference();
     }
 
@@ -138,7 +164,7 @@ public class InventoryUI : MonoBehaviour
         if (!quickSlotImg.IsInitialized)
             quickSlotImg.Init(gameObject, -1);
 
-        quickSlotImg.SetItemData(itemData, amount);
+        quickSlotImg.UpdateQuickSlot(itemData, amount);
     }
 
     // 인벤토리 슬롯 인덱스로 해당 UI 슬롯을 반환하는 함수
@@ -147,9 +173,9 @@ public class InventoryUI : MonoBehaviour
         if (inventorySlotImgs == null) return null;
         if (index < 0 || index >= inventorySlotImgs.Length) return null;
         return inventorySlotImgs[index];
-        }
+    }
 
-     //이미 존재하는 아이템 슬롯의 수량만 갱신하는 함수(새 슬롯 생성 방지)
+    //이미 존재하는 아이템 슬롯의 수량만 갱신하는 함수(새 슬롯 생성 방지)
     public void UpdateExistingItemSlot(BasicItemData itemData, int newAmount)
     {
         for (int i = 0; i < inventorySlotImgs.Length; i++)
@@ -163,8 +189,6 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
-        // 만약 기존 슬롯이 없으면 새 슬롯 생성 (안전장치)
         SetInventorySlotData(itemData, newAmount);
     }
-
 }

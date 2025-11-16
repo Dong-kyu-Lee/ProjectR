@@ -23,8 +23,6 @@ public class QuickSlotUI : ItemSlotUI
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            // inventory.UseQuickSlotItem() 호출
-            // Inventory.cs의 UseQuickSlotItem()이 수정되어 0번 슬롯을 사용함
             inventory.UseQuickSlotItem();
         }
     }
@@ -32,10 +30,13 @@ public class QuickSlotUI : ItemSlotUI
     // Inventory.UpdateQuickSlotReference()가 호출하면 여기서 UI 갱신
     public void UpdateQuickSlot(BasicItemData itemData, int amount)
     {
+        // 순수하게 UI만 갱신합니다.
+        /*
         if (itemData != null && itemData.ItemType == ItemType.CONSUMABLE)
         {
-            inventory.SetQuickSlot(itemData, amount); // 'quickSlot' 변수 설정 부분
+            inventory.SetQuickSlot(itemData, amount); 
         }
+        */
 
         // UI 갱신
         SetItemData(itemData, amount);

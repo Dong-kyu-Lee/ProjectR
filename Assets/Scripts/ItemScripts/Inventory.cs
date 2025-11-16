@@ -28,30 +28,19 @@ public class Inventory : MonoBehaviour
     public static event Action<BasicItemData, int> OnItemAdded;
 
     // 인벤토리 관련
-    [SerializeField] private int maxInventorySlot = 12;
-    [SerializeField] private PlayerStatus playerStatus;
-    [SerializeField] private List<InventorySlot> inventorySlots;
-
-    // 소모품 관련 칸
-    private ConsumableItemData quickSlot = null;
-    private int quickSlotItemAmount = 0;
+    [SerializeField] private int maxInventorySlot = 12;          // 최대 인벤토리 칸 갯수
+    [SerializeField] private PlayerStatus playerStatus;           // 플레이어의 Status
+    [SerializeField] private List<InventorySlot> inventorySlots;   // 슬롯 기반 인벤토리 구조
 
     // 장비 관련 칸
-    [SerializeField] private int maxEquipSlot = 6;
-    [SerializeField] private EquipmentItemData[] equipmentItemSlot;
+    [SerializeField] private int maxEquipSlot = 6;             // 장비칸의 갯수
+    [SerializeField] private EquipmentItemData[] equipmentItemSlot; // 장비칸에 장착된 아이템들
 
     // 그 외
-    [SerializeField] private EquipmentItemData dummyItemData;
-    [SerializeField] private BasicItemData dummyInventoryItemData; //인벤토리용 더미
-    [SerializeField] private InventoryUI myInventoryUI;
+    [SerializeField] private EquipmentItemData dummyItemData;        // 더미데이터. 칸이 비어있음을 나타낼 때 사용함
+    [SerializeField] private BasicItemData dummyInventoryItemData; // (신규) 인벤토리용 더미
+    [SerializeField] private InventoryUI myInventoryUI;            // 인벤토리 UI. Init()이 호출될 때 참조 연결됨.
 
-    public int QuickSlotItemAmount
-    {
-        get => quickSlotItemAmount;
-        set => quickSlotItemAmount = Mathf.Max(0, value);
-    }
-    public ConsumableItemData QuickSlot => quickSlot;
-    public int QuickSlotAmount => quickSlotItemAmount;
     public List<InventorySlot> InventorySlots => inventorySlots;
     public int MaxInventorySlot => maxInventorySlot;
     public int MaxEquipSlot => maxEquipSlot;
@@ -63,6 +52,7 @@ public class Inventory : MonoBehaviour
         inventorySlots = new List<InventorySlot>(maxInventorySlot);
         playerStatus = GetComponentInParent<PlayerStatus>();
 
+        // (고정 크기 리스트) 더미 슬롯으로 미리 채움
         for (int i = 0; i < maxInventorySlot; i++)
         {
             inventorySlots.Add(new InventorySlot(dummyInventoryItemData, 0));
@@ -73,7 +63,7 @@ public class Inventory : MonoBehaviour
             equipmentItemSlot[i] = dummyItemData;
     }
 
-    // 퀵슬롯에 있는 아이템을 사용하는 메서드.
+    // 퀵슬롯에 있는 아이템을 사용하는 메서드. (0번 슬롯 사용)
     public void UseQuickSlotItem()
     {
         UseInventoryItem(0);
@@ -95,36 +85,19 @@ public class Inventory : MonoBehaviour
             ConsumableItemData consumable = slot.itemData as ConsumableItemData;
 
             consumable.ActivateItemEffect(playerStatus);
-            slot.count--; // 수량 1 감소
+            slot.count--;
 
             if (slot.count <= 0)
             {
-                // 아이템을 다 썼으면 슬롯을 비움 (더미 아이템으로 교체)
                 slot.Clear(dummyInventoryItemData);
             }
 
-            // UI 갱신 (퀵슬롯과 인벤토리 슬롯 모두 갱신)
             myInventoryUI.RefreshInventoryUI();
         }
         else
         {
             Debug.Log($"{slotIndex}번 슬롯에 사용할 아이템이 없습니다.");
         }
-    }
-
-    // 인벤토리에 있는 아이템 데이터를 퀵슬롯에 로드하는 메서드
-    public void LoadToQuickSlotFromInventory(BasicItemData item)
-    {
-        var slot = inventorySlots.FirstOrDefault(s => s.itemData == item);
-        if (slot == null) return;
-
-        quickSlot = item as ConsumableItemData;
-        quickSlotItemAmount = slot.count;
-
-        // 더미 아이템으로 '교체'
-        slot.Clear(dummyInventoryItemData);
-
-        myInventoryUI.RefreshInventoryUI(); // UI 갱신
     }
 
     // 아이템 획득 처리 (소모품/장비에 따라 다른 함수 실행)
@@ -165,7 +138,6 @@ public class Inventory : MonoBehaviour
             if (newAmount <= item.MaxAmount)
             {
                 slot.count = newAmount;
-
                 myInventoryUI.UpdateExistingItemSlot(item, newAmount);
                 Debug.Log($"[Inventory] {item.ItemName} 수량 {slot.count - amount} → {newAmount}");
                 return true;
@@ -185,7 +157,7 @@ public class Inventory : MonoBehaviour
                 inventorySlots[i].itemData = item;
                 inventorySlots[i].count = amount;
 
-                myInventoryUI.RefreshInventoryUI(); // 전체 UI 갱신
+                myInventoryUI.RefreshInventoryUI();
                 Debug.Log($"[Inventory] 새 소모품 {item.ItemName} {i}번 슬롯에 등록 ({amount})");
                 return true;
             }
@@ -208,7 +180,6 @@ public class Inventory : MonoBehaviour
                 return true;
             }
         }
-
         return AddItemToInventory(item, 1);
     }
 
@@ -216,7 +187,62 @@ public class Inventory : MonoBehaviour
     public void LoadEquipmentItem(EquipmentItemData item, int idx = 0)
     {
         equipmentItemSlot[idx] = item;
-        equipmentItemSlot[idx].EquipItem(playerStatus);
+        equipmentItemSlot[idx].EquipItem(playerStatus);   // 장비 장착 효과 적용
+    }
+
+    // 인벤토리에 아이템 추가 (NoRefresh)
+    private bool AddItemToInventory_NoRefresh(BasicItemData item, int amount)
+    {
+        for (int i = 0; i < inventorySlots.Count; i++)
+        {
+            if (inventorySlots[i].itemData.ItemType == ItemType.DUMMY)
+            {
+                inventorySlots[i].itemData = item;
+                inventorySlots[i].count = amount;
+                Debug.Log($"[Inventory] {item.ItemName} {i}번 슬롯에 신규 등록 ({amount})");
+                return true;
+            }
+        }
+        Debug.Log("인벤토리에 빈 공간이 없습니다!");
+        return false;
+    }
+
+    // 인벤토리에 아이템 추가 (소모품/장비 공용)
+    private bool AddItemToInventory(BasicItemData item, int amount)
+    {
+        if (AddItemToInventory_NoRefresh(item, amount))
+        {
+            myInventoryUI.RefreshInventoryUI();
+            return true;
+        }
+        return false;
+    }
+
+    // 장비칸 -> 인벤토리 (드래그용, Refresh 없음, 지정 슬롯)
+    public bool UnloadEqToInv_NoRefresh(int equipSlotIdx, int invSlotIdx)
+    {
+        if (equipSlotIdx < 0 || equipSlotIdx >= equipmentItemSlot.Length ||
+            invSlotIdx < 0 || invSlotIdx >= inventorySlots.Count)
+        {
+            Debug.LogWarning("[Inventory] UnloadEqToInv_NoRefresh: 잘못된 인덱스입니다.");
+            return false;
+        }
+        EquipmentItemData itemToUnload = equipmentItemSlot[equipSlotIdx];
+        if (itemToUnload.ItemType == ItemType.DUMMY) return false;
+
+        if (inventorySlots[invSlotIdx].itemData.ItemType == ItemType.DUMMY)
+        {
+            inventorySlots[invSlotIdx].itemData = itemToUnload;
+            inventorySlots[invSlotIdx].count = 1;
+            itemToUnload.UnEquipItem(playerStatus);
+            equipmentItemSlot[equipSlotIdx] = dummyItemData;
+            return true;
+        }
+        else
+        {
+            Debug.LogWarning($"[Inventory] 타겟 슬롯 {invSlotIdx}이 비어있지 않습니다.");
+            return false;
+        }
     }
 
     // 장착된 장비를 인벤토리로 옮기는 메서드
@@ -225,14 +251,13 @@ public class Inventory : MonoBehaviour
         EquipmentItemData itemToUnload = equipmentItemSlot[idx];
         if (itemToUnload.ItemType == ItemType.DUMMY) return;
 
-        // 인벤토리에 먼저 추가 시도
-        bool addedToInventory = AddItemToInventory(itemToUnload, 1);
+        bool addedToInventory = AddItemToInventory_NoRefresh(itemToUnload, 1);
 
-        // 인벤토리 추가에 성공한 경우에만 장비 해제
         if (addedToInventory)
         {
-            itemToUnload.UnEquipItem(playerStatus);
+            itemToUnload.UnEquipItem(playerStatus);   // 장비 장착 효과 해제
             equipmentItemSlot[idx] = dummyItemData;
+            myInventoryUI.RefreshInventoryUI();
         }
         else
         {
@@ -240,39 +265,17 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    // 인벤토리에 아이템 추가 (소모품/장비 공용)
-    private bool AddItemToInventory(BasicItemData item, int amount)
-    {
-        // 빈 슬롯(DUMMY)을 찾아 교체
-        for (int i = 0; i < inventorySlots.Count; i++)
-        {
-            if (inventorySlots[i].itemData.ItemType == ItemType.DUMMY)
-            {
-                inventorySlots[i].itemData = item;
-                inventorySlots[i].count = amount;
-
-                myInventoryUI.RefreshInventoryUI(); // 전체 UI 갱신
-                Debug.Log($"[Inventory] {item.ItemName} {i}번 슬롯에 신규 등록 ({amount})");
-                return true;
-            }
-        }
-
-        Debug.Log("인벤토리에 빈 공간이 없습니다!");
-        return false;
-    }
-
     // 보유중인 아이템 확인용
     public List<BasicItemData> GetOwnedItems()
     {
         List<BasicItemData> result = new List<BasicItemData>();
 
+        // 1. 인벤토리 아이템 (더미 제외)
         result.AddRange(inventorySlots
             .Where(s => s.itemData.ItemType != ItemType.DUMMY)
             .Select(s => s.itemData));
 
-        if (quickSlot != null)
-            result.Add(quickSlot);
-
+        // 2. 장비 슬롯 아이템 (더미 제외)
         foreach (var equip in equipmentItemSlot)
         {
             if (equip != null && equip.ItemType != ItemType.DUMMY)
@@ -286,15 +289,12 @@ public class Inventory : MonoBehaviour
     public void UpdateQuickSlotReference()
     {
         if (myInventoryUI == null) return;
-
-        // '데이터 슬롯'을 직접 참조
         if (inventorySlots == null || inventorySlots.Count == 0)
         {
             myInventoryUI.QuickSlotImg.DeleteItemData();
             return;
         }
-
-        var firstSlotData = inventorySlots[0]; // 데이터 0번 슬롯
+        var firstSlotData = inventorySlots[0];
         var data = firstSlotData.itemData;
         var amount = firstSlotData.count;
 
@@ -303,15 +303,16 @@ public class Inventory : MonoBehaviour
             myInventoryUI.QuickSlotImg.DeleteItemData();
             return;
         }
-
         myInventoryUI.SetQuickSLotItemData(data, amount);
     }
 
     // 인벤토리에 있는 장비와 장착칸의 장비 데이터를 서로 교체하는 함수
     public void SwapEquippedItemWithInventory(int equippedSlotIdx, EquipmentItemData inventoryItemData)
     {
+        // 1. 현재 장비칸에 장착된 아이템 임시 저장
         EquipmentItemData equippedItem = equipmentItemSlot[equippedSlotIdx];
 
+        // 2. 인벤토리에서 교체할 아이템 슬롯 찾기
         var slot = inventorySlots.FirstOrDefault(s => s.itemData == inventoryItemData);
         if (slot == null)
         {
@@ -319,29 +320,29 @@ public class Inventory : MonoBehaviour
             return;
         }
 
+        // 3. 기존 장비 해제
         if (equippedItem != null && equippedItem.ItemType != ItemType.DUMMY)
             equippedItem.UnEquipItem(playerStatus);
 
+        // 4. 새로운 장비 장착
         equipmentItemSlot[equippedSlotIdx] = inventoryItemData;
         inventoryItemData.EquipItem(playerStatus);
 
-        // 인벤토리 슬롯을 기존 장비로 교체 (더미 처리 포함)
+        // 5. 인벤토리 슬롯을 기존 장비로 교체
         slot.itemData = equippedItem;
         slot.count = (equippedItem.ItemType == ItemType.DUMMY) ? 0 : 1;
 
         myInventoryUI.RefreshInventoryUI();
     }
 
-    // 장비 장착칸의 아이템 슬롯끼리 교체하는 함수
+    // 장비 장착칸의 아이템 슬롯끼리 교체하는 함수 (순서 변경용)
     public void SwapEquipmentItemSlots(int idx1, int idx2)
     {
         if (idx1 < 0 || idx1 >= equipmentItemSlot.Length) return;
         if (idx2 < 0 || idx2 >= equipmentItemSlot.Length) return;
-
         EquipmentItemData temp = equipmentItemSlot[idx1];
         equipmentItemSlot[idx1] = equipmentItemSlot[idx2];
         equipmentItemSlot[idx2] = temp;
-
         myInventoryUI.RefreshInventoryUI();
     }
 
@@ -353,33 +354,39 @@ public class Inventory : MonoBehaviour
             Debug.LogWarning($"[Inventory] 잘못된 스왑 인덱스: {indexA}, {indexB}");
             return;
         }
-
-        // 데이터 리스트(inventorySlots)의 내용을 직접 교환
         InventorySlot temp = inventorySlots[indexA];
         inventorySlots[indexA] = inventorySlots[indexB];
         inventorySlots[indexB] = temp;
     }
 
-    // 인벤토리에 있는 장비를 해당 장비칸에 추가하는 메서드
-    public void LoadEquipmentItemFromInventory(EquipmentItemData equipData, int equipSlotIdx)
+    // 인벤토리 -> 장비칸 (드래그용, Refresh 없음)
+    public void LoadEqFromInv_NoRefresh(EquipmentItemData equipData, int equipSlotIdx)
     {
+        if (equipData == null || equipSlotIdx < 0 || equipSlotIdx >= equipmentItemSlot.Length)
+        {
+            Debug.LogWarning("[Inventory] LoadEqFromInv_NoRefresh: 잘못된 데이터 또는 인덱스입니다.");
+            return;
+        }
+        // 1. 장비 장착
         equipmentItemSlot[equipSlotIdx] = equipData;
         equipData.EquipItem(playerStatus);
 
-        // 인벤토리에서 해당 아이템 '제거' (더미로 교체)
+        // 2. 인벤토리에서 해당 아이템 제거
         var slot = inventorySlots.FirstOrDefault(s => s.itemData == equipData);
         if (slot != null)
         {
             slot.Clear(dummyInventoryItemData);
         }
-
-        myInventoryUI.RefreshInventoryUI();
+        else
+        {
+            Debug.LogWarning($"[Inventory] 인벤토리에서 {equipData.ItemName}을(를) 찾지 못해 제거하지 못했습니다.");
+        }
     }
 
-    // QuickSlotUI.cs의 UpdateQuickSlot에서 호출하는 함수
-    public void SetQuickSlot(BasicItemData itemData, int amount)
+    // 인벤토리에 있는 장비를 해당 장비칸에 추가하는 메서드
+    public void LoadEquipmentItemFromInventory(EquipmentItemData equipData, int equipSlotIdx)
     {
-        quickSlot = itemData as ConsumableItemData;
-        quickSlotItemAmount = amount;
+        LoadEqFromInv_NoRefresh(equipData, equipSlotIdx);
+        myInventoryUI.RefreshInventoryUI();
     }
 }
