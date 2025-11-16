@@ -1,32 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class QuickSlotUI : ItemSlotUI
 {
+    // QuickSlot 에 들어가는 실제 데이터
+    private Inventory inventory;
+
+    public override void Init(GameObject parent, int indexNumber)
+    {
+        base.Init(parent, indexNumber);
+        inventory = parentUI.PlayerInventory;
+    }
+
+    // QuickSlot은 드래그해서 이동 불가
     public override void OnDrop(PointerEventData eventData)
     {
         return;
-        //if (eventData.pointerDrag == gameObject) return;    //QuickSlot -> QuickSlot일 경우 아무일도 안일어나게 설정.
-        //ItemSlotUI draggedSlot = eventData.pointerDrag.GetComponent<ItemSlotUI>();
-        
-        //if (draggedSlot.NowItemData.ItemType == ItemType.CONSUMABLE)
-        //{
-        //    switch (NowItemData.ItemType)
-        //    {
-        //        case ItemType.CONSUMABLE:   //(인벤토리 <-> 퀵슬롯) 아이템 스왑 기능
-        //            parentUI.PlayerInventory.SwapQuickSlotWithInventory(draggedSlot.NowItemData as ConsumableItemData);
-        //            SwapItemData(draggedSlot);
-        //            break;
-        //        case ItemType.DUMMY:    //(인벤토리 -> 퀵슬롯) 아이템 로드 기능
-        //            parentUI.PlayerInventory.LoadToQuickSlotFromInventory(draggedSlot.NowItemData as ConsumableItemData);
-        //            SetItemData(draggedSlot.NowItemData, draggedSlot.ItemCount);
-        //            draggedSlot.DeleteItemData();
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
+    }
+
+    // 퀵슬롯 클릭 = 아이템 사용
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            // inventory.UseQuickSlotItem() 호출
+            // Inventory.cs의 UseQuickSlotItem()이 수정되어 0번 슬롯을 사용함
+            inventory.UseQuickSlotItem();
+        }
+    }
+
+    // Inventory.UpdateQuickSlotReference()가 호출하면 여기서 UI 갱신
+    public void UpdateQuickSlot(BasicItemData itemData, int amount)
+    {
+        if (itemData != null && itemData.ItemType == ItemType.CONSUMABLE)
+        {
+            inventory.SetQuickSlot(itemData, amount); // 'quickSlot' 변수 설정 부분
+        }
+
+        // UI 갱신
+        SetItemData(itemData, amount);
     }
 }
