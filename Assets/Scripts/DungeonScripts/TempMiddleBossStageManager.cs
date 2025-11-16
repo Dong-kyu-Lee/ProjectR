@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class TempMiddleBossStageManager : MonoBehaviour
     GameObject playerSpawnPosition;
     [SerializeField]
     GameObject middleBoss;
+    [SerializeField]
+    CinemachineVirtualCamera middleBossCam;
 
     bool isMiddleBossDead = false;
 
@@ -35,6 +38,7 @@ public class TempMiddleBossStageManager : MonoBehaviour
         // 컷씬이 수행되지 않았다면 아래 코드 수행 (중간보스전 시작)
         GameManager.Instance.PlacePlayerObject(playerSpawnPosition.transform.position);
         GameManager.Instance.CurrentPlayer.SetActive(true);
+        middleBossCam.Follow = GameManager.Instance.CurrentPlayer.transform;
         finishSpot.SetActive(false);
         StartCoroutine(MiddleBossActivateCoroutine());
     }
