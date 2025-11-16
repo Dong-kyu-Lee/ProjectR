@@ -38,7 +38,7 @@ public class Inventory : MonoBehaviour
 
     // 그 외
     [SerializeField] private EquipmentItemData dummyItemData;        // 더미데이터. 칸이 비어있음을 나타낼 때 사용함
-    [SerializeField] private BasicItemData dummyInventoryItemData; // (신규) 인벤토리용 더미
+    [SerializeField] private BasicItemData dummyInventoryItemData; // 인벤토리용 더미
     [SerializeField] private InventoryUI myInventoryUI;            // 인벤토리 UI. Init()이 호출될 때 참조 연결됨.
 
     public List<InventorySlot> InventorySlots => inventorySlots;
@@ -52,7 +52,6 @@ public class Inventory : MonoBehaviour
         inventorySlots = new List<InventorySlot>(maxInventorySlot);
         playerStatus = GetComponentInParent<PlayerStatus>();
 
-        // (고정 크기 리스트) 더미 슬롯으로 미리 채움
         for (int i = 0; i < maxInventorySlot; i++)
         {
             inventorySlots.Add(new InventorySlot(dummyInventoryItemData, 0));
@@ -190,7 +189,6 @@ public class Inventory : MonoBehaviour
         equipmentItemSlot[idx].EquipItem(playerStatus);   // 장비 장착 효과 적용
     }
 
-    // 인벤토리에 아이템 추가 (NoRefresh)
     private bool AddItemToInventory_NoRefresh(BasicItemData item, int amount)
     {
         for (int i = 0; i < inventorySlots.Count; i++)
@@ -230,16 +228,20 @@ public class Inventory : MonoBehaviour
         EquipmentItemData itemToUnload = equipmentItemSlot[equipSlotIdx];
         if (itemToUnload.ItemType == ItemType.DUMMY) return false;
 
+        // 드롭한 칸(invSlotIdx)이 비어있는지 확인
         if (inventorySlots[invSlotIdx].itemData.ItemType == ItemType.DUMMY)
         {
+            // 데이터 이동
             inventorySlots[invSlotIdx].itemData = itemToUnload;
             inventorySlots[invSlotIdx].count = 1;
+            // 장비칸 비우기
             itemToUnload.UnEquipItem(playerStatus);
             equipmentItemSlot[equipSlotIdx] = dummyItemData;
             return true;
         }
         else
         {
+            // 타겟 슬롯이 비어있지 않음 (현재는 스왑 미지원)
             Debug.LogWarning($"[Inventory] 타겟 슬롯 {invSlotIdx}이 비어있지 않습니다.");
             return false;
         }
@@ -251,7 +253,7 @@ public class Inventory : MonoBehaviour
         EquipmentItemData itemToUnload = equipmentItemSlot[idx];
         if (itemToUnload.ItemType == ItemType.DUMMY) return;
 
-        bool addedToInventory = AddItemToInventory_NoRefresh(itemToUnload, 1);
+        bool addedToInventory = AddItemToInventory_NoRefresh(itemToUnload, 1); // 첫 빈칸에 추가
 
         if (addedToInventory)
         {
@@ -389,4 +391,5 @@ public class Inventory : MonoBehaviour
         LoadEqFromInv_NoRefresh(equipData, equipSlotIdx);
         myInventoryUI.RefreshInventoryUI();
     }
+
 }

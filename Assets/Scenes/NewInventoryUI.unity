@@ -400,6 +400,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player(Buff
       objectReference: {fileID: 0}
+    - target: {fileID: 5681693857535988756, guid: 811c1ed15f7679e4fad1b021093edf2a, type: 3}
+      propertyPath: dummyEquipmentItemData
+      value: 
+      objectReference: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
+    - target: {fileID: 5681693857535988756, guid: 811c1ed15f7679e4fad1b021093edf2a, type: 3}
+      propertyPath: dummyInventoryItemData
+      value: 
+      objectReference: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 811c1ed15f7679e4fad1b021093edf2a, type: 3}
 --- !u!1 &143791634
@@ -1489,7 +1497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2155572198328935884, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 70.00032
+      value: 74.85965
       objectReference: {fileID: 0}
     - target: {fileID: 2155572198379764669, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
       propertyPath: m_AnchorMax.x

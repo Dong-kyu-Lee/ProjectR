@@ -9,25 +9,33 @@ public class EquipmentSlotUI : ItemSlotUI
     {
         ItemSlotUI draggedSlot = eventData.pointerDrag.GetComponent<ItemSlotUI>();
 
+        // 유효성 검사
+        if (draggedSlot == null || draggedSlot == this) return; // 자기 자신 드롭 방지
+        if (parentUI.PlayerInventory == null) return;
+
         if (draggedSlot.NowItemData.ItemType == ItemType.EQUIPMENT)
         {
             if (draggedSlot is EquipmentSlotUI) //장비 칸끼리 아이템 스왑
             {
                 parentUI.PlayerInventory.SwapEquipmentItemSlots(slotIndex, (draggedSlot as EquipmentSlotUI).slotIndex);
-                SwapItemData(draggedSlot);
             }
-            else //draggedSLot is InventorySlotUI
+            else 
             {
                 if (nowItemData.ItemType == ItemType.EQUIPMENT) // (장비 <-> 인벤토리) => 장비칸 스왑
                 {
                     parentUI.PlayerInventory.SwapEquippedItemWithInventory(slotIndex, draggedSlot.NowItemData as EquipmentItemData);
-                    SwapItemData(draggedSlot);
+
                 }
-                else //nowItemData.ItemType == ItemType.Dummy // (장비칸 <- 인벤토리) => 장비 로드
+                else  // (인벤토리 -> 장비칸) => 장비 로드
                 {
-                    parentUI.PlayerInventory.LoadEquipmentItemFromInventory(draggedSlot.NowItemData as EquipmentItemData, slotIndex);
-                    SetItemData(draggedSlot.NowItemData,draggedSlot.ItemCount);
-                    draggedSlot.DeleteItemData();
+                    // NoRefresh 함수 호출
+                    parentUI.PlayerInventory.LoadEqFromInv_NoRefresh(
+                        draggedSlot.NowItemData as EquipmentItemData,
+                        slotIndex
+                    );
+
+                    //  NoRefresh 함수를 썼으므로 Refresh 호출
+                    parentUI.RefreshInventoryUI();
                 }
             }
         }

@@ -9,6 +9,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject inventorySlotParentObj;
     [SerializeField] private ItemSlotUI[] inventorySlotImgs;
 
+    // 변수의 타입을 자식 클래스인 QuickSlotUI로 변경
     [SerializeField] private QuickSlotUI quickSlotImg;
     public QuickSlotUI QuickSlotImg { get { return quickSlotImg; } }
 
@@ -189,6 +190,7 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
+        // 만약 기존 슬롯이 없으면 새 슬롯 생성 (안전장치)
         SetInventorySlotData(itemData, newAmount);
     }
 }

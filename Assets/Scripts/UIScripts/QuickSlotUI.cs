@@ -30,14 +30,6 @@ public class QuickSlotUI : ItemSlotUI
     // Inventory.UpdateQuickSlotReference()가 호출하면 여기서 UI 갱신
     public void UpdateQuickSlot(BasicItemData itemData, int amount)
     {
-        // 순수하게 UI만 갱신합니다.
-        /*
-        if (itemData != null && itemData.ItemType == ItemType.CONSUMABLE)
-        {
-            inventory.SetQuickSlot(itemData, amount); 
-        }
-        */
-
         // UI 갱신
         SetItemData(itemData, amount);
     }
