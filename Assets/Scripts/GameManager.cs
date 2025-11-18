@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
     }
 
     /* SceneKey : 이동할 씬의 종류를 나타내는 열거형 , sceneName : 이동할 씬의 이름 */
-    public void MoveScene(SceneType key, string sceneName)
+    public void MoveScene(SceneType key, string sceneName, bool isAsync = false)
     {
         sound.Clear();
         // 해당 key의 씬으로 이동 시 필요한 코드 실행
@@ -176,7 +176,11 @@ public class GameManager : MonoBehaviour
                 StorySystem.Instance.ResetStory();
                 break;
         }
-        SceneManager.LoadScene(sceneName);
+        if (isAsync)
+        {
+            SceneManager.LoadSceneAsync(sceneName);
+        }
+        else SceneManager.LoadScene(sceneName);
     }
 
     // 테스트 씬에서 작동할 던전 씬 UI 생성 함수

@@ -20,12 +20,6 @@ public class HitBox : MonoBehaviour
         damage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
     }
 
-
-    void Start()
-    {
-        StartCoroutine(HitBoxCoroutine());
-    }
-
     void Update()
     {
         
@@ -34,16 +28,20 @@ public class HitBox : MonoBehaviour
     private void OnEnable()
     {
         isHit = false;
+        StartCoroutine(HitBoxCoroutine());
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && !isHit)
+        if (collision.CompareTag("Player") && !isHit)
         {
             isHit = true;
-            collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
+            PlayerControllerBase pcb = collision.gameObject.GetComponent<PlayerControllerBase>();
+            if (pcb == null || !pcb.IsInvincible)
+            {
+                collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
+            }
         }
-        gameObject.SetActive(false);
     }
 
     IEnumerator HitBoxCoroutine()
