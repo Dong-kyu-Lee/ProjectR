@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum StoryID
 {
-    Temp_Middle_Moss, Temp_Final_Boss, Test,
+    Temp_Middle_Boss, Temp_Final_Boss, Test,
 }
 
 public enum StoryState
