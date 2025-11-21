@@ -13,8 +13,10 @@ public class ChaseState : IState
 
     public void Enter()
     {
+        enemy.isAttacking = false;
         enemy.OnEdgeDetected += StopAtEdge;
         enemy.StateMachine.isChasing = true;
+        //enemy.AttackScanner.ActivateScanner();
     }
 
     public void Update(float delta)
@@ -47,6 +49,8 @@ public class ChaseState : IState
         {
             enemy.Rigidbody.velocity = new Vector2(0f, enemy.Rigidbody.velocity.y);
         }
+
+        enemy.EnemyAnimator.SetBool("isMove", enemy.Rigidbody.velocity.magnitude > 0.1f);
     }
 
 

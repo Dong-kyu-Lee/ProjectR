@@ -20,6 +20,7 @@ public class EnemyStatus : Status
         DamageReduction = enemyData.DamageReduction;
         AttackSpeed = enemyData.AttackSpeed;
         MoveSpeed = enemyData.MoveSpeed;
+        AdditionalAttackSpeed = 0;
         AdditionalMoveSpeed = 0;
         enemyLoot = transform.GetComponent<EnemyLoot>();
     }

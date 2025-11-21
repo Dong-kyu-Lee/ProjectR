@@ -6,6 +6,7 @@ public class RangedEnemy : Enemy
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
+    private Vector2 direction;
 
     protected override void Awake()
     {
@@ -23,6 +24,35 @@ public class RangedEnemy : Enemy
         base.FixedUpdate();
     }
 
+    public Vector2 SetTarget()
+    {
+        Vector2 direction = PlayerTransform.position - firePoint.position;
+
+        float distance = direction.magnitude;
+        float radAngle = 30f * Mathf.Deg2Rad; // 30도
+
+        // 속력 계산 공식 (포물선 방정식 기반)
+        float velocity = Mathf.Sqrt(distance * 9.8f / Mathf.Sin(2 * radAngle));
+
+        // x, y 성분 분리
+        float vx = velocity * Mathf.Cos(radAngle);
+        float vy = velocity * Mathf.Sin(radAngle);
+
+        // 방향 보정 (좌우 반전)
+        if (PlayerTransform.position.x < firePoint.position.x)
+            vx = -vx;
+
+        return new Vector2(vx, vy);
+    }
+
+    public IEnumerator EnableRangeAttack()
+    {
+        direction = SetTarget();
+        yield return new WaitForSeconds(0.3f);
+        ShootProjectile();
+    }
+
+
     public override void ShootProjectile()
     {
         if (projectilePrefab && firePoint)
@@ -33,8 +63,7 @@ public class RangedEnemy : Enemy
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             if (rb)
             {
-                Vector2 dir = (PlayerTransform.position - firePoint.position).normalized;
-                rb.velocity = dir * 20f; // 투사체 속도
+                rb.velocity = direction; // 투사체 속도
             }
         }
     }

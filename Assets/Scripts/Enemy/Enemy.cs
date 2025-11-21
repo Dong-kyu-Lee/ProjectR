@@ -12,6 +12,9 @@ public class Enemy : MonoBehaviour
     protected Animator enemyAnimator;
 
     [SerializeField]
+    protected AttackScanner attackScanner;
+
+    [SerializeField]
     private BoxCollider2D attackRangeCol;
 
     [SerializeField]
@@ -38,10 +41,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private LayerMask groundLayer;
 
+    public bool isAttacking = false;
+
     public event Action OnEdgeDetected;
 
     public EnemyStatus EnemyStatus { get { return enemyStatus; } }
     public EnemyAIController StateMachine { get { return enemyController; } }
+    public AttackScanner AttackScanner { get { return attackScanner; } }
     public BoxCollider2D AttackRangeCol { get { return attackRangeCol; } }
     public BoxCollider2D ChaseRangeCol { get { return chaseRangeCol; } }
     public Transform PlayerTransform { get { return playerTransform; } }
@@ -97,7 +103,7 @@ public class Enemy : MonoBehaviour
 
     public void StartAttack()
     {
-        if (!StateMachine.isDead)
+        if (!StateMachine.isDead && !isAttacking)
         {
             StateMachine.TransitionTo(StateMachine.attackState);
             Attack();
@@ -107,7 +113,7 @@ public class Enemy : MonoBehaviour
     public virtual void Attack()
     {
         FacePlayer();
-        attackStrategy?.ExecuteAttack(this);
+        //attackStrategy?.ExecuteAttack(this);
     }
 
     protected void CheckPlatformEdge()
