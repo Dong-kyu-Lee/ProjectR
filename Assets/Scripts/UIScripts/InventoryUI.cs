@@ -142,6 +142,12 @@ public class InventoryUI : MonoBehaviour
             if (inventorySlotImgs[i].NowItemData.ItemType == ItemType.DUMMY)
             {
                 inventorySlotImgs[i].SetItemData(itemData, amount);
+
+                // [수정됨] 만약 0번 슬롯(퀵슬롯 자리)에 아이템이 들어갔다면 퀵슬롯도 갱신
+                if (i == 0)
+                {
+                    quickSlotImg.UpdateQuickSlot(itemData, amount);
+                }
                 return;
             }
         }
@@ -154,6 +160,13 @@ public class InventoryUI : MonoBehaviour
             if (inventorySlotImgs[i].NowItemData == itemData)
             {
                 inventorySlotImgs[i].SetItemData(itemData, amount);
+
+                // [수정됨] 만약 업데이트된 슬롯이 0번 슬롯이라면 퀵슬롯도 갱신
+                if (i == 0)
+                {
+                    quickSlotImg.UpdateQuickSlot(itemData, amount);
+                }
+
                 Debug.Log("아이템 갯수 UI에 반영");
                 return;
             }
@@ -182,9 +195,17 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
             var slotItem = inventorySlotImgs[i].NowItemData;
+            // 이름 비교 혹은 객체 비교 (여기선 기존 코드 존중)
             if (slotItem != null && slotItem.ItemName == itemData.ItemName)
             {
                 inventorySlotImgs[i].SetItemAmountData(newAmount);
+
+                // [수정됨] 만약 0번 슬롯의 수량이 변한 것이라면 퀵슬롯도 갱신
+                if (i == 0)
+                {
+                    quickSlotImg.UpdateQuickSlot(itemData, newAmount);
+                }
+
                 Debug.Log($"[InventoryUI] {itemData.ItemName} 수량 {newAmount}로 갱신됨");
                 return;
             }

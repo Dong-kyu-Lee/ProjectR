@@ -71,7 +71,17 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             itemSlotImage.sprite = nowItemData.ItemSprite;
 
         if (itemCountText != null)
-            itemCountText.text = itemCount > 1 ? itemCount.ToString() : ""; // (수량 1개일 때 표기 안 함)
+        {
+            // 소비 아이템인 경우에만 수량 표시
+            if (nowItemData.ItemType == ItemType.CONSUMABLE)
+            {
+                itemCountText.text = itemCount > 1 ? itemCount.ToString() : ""; // (수량 1개일 때 표기 안 함)
+            }
+            else
+            {
+                itemCountText.text = "";
+            }
+        }
     }
 
     //아이템의 갯수 텍스트만 설정하는 메서드
@@ -85,7 +95,19 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void UpdateItemSpriteAndAmountText()
     {
         itemSlotImage.sprite = nowItemData.ItemSprite;
-        itemCountText.text = itemCount > 1 ? itemCount.ToString() : "";
+
+        if (itemCountText != null)
+        {
+            // 소비 아이템인 경우에만 수량 표시
+            if (nowItemData.ItemType == ItemType.CONSUMABLE)
+            {
+                itemCountText.text = itemCount > 1 ? itemCount.ToString() : "";
+            }
+            else
+            {
+                itemCountText.text = "";
+            }
+        }
     }
 
     //더미 아이템 데이터로 설정하고 자신의 슬롯의 아이템 이미지를 초기화하는 메서드
