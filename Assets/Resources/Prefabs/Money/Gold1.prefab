@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5864806164603591249}
   - component: {fileID: 5864806164603591250}
   - component: {fileID: 5864806164603591263}
-  - component: {fileID: 5864806164603591248}
+  - component: {fileID: 2843277702072254333}
   - component: {fileID: 3250297767763202097}
   m_Layer: 20
   m_Name: Gold1
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5864806164603591251}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.14, y: -2.74, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.9811321, g: 0.8741713, b: 0.2082592, a: 1}
+  m_Sprite: {fileID: 21300000, guid: b9b6d1769f5cc774594729ad016eb966, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -108,8 +108,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5864806164603591248
-CircleCollider2D:
+--- !u!61 &2843277702072254333
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -117,13 +117,23 @@ CircleCollider2D:
   m_GameObject: {fileID: 5864806164603591251}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 11a2133b73fd14244bc3972a6e483031, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.045}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.07, y: 0.09}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 0.07, y: 0.09}
+  m_EdgeRadius: 0
 --- !u!114 &3250297767763202097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,4 +152,4 @@ MonoBehaviour:
   moneyType: gold
   moneyAmount: 1
   rigid: {fileID: 5864806164603591263}
-  col: {fileID: 5864806164603591248}
+  col: {fileID: 2843277702072254333}

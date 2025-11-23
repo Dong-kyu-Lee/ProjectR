@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Money : MonoBehaviour
 {
-    [SerializeField] private float smoothTime = 0.2f;
+    private float smoothTime = 0.25f;
     [SerializeField] private float delay = 1.5f;
     [SerializeField] private float stopDistance = 1f;
     [SerializeField] private string moneyType;
