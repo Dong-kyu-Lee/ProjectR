@@ -21,7 +21,6 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GameObject stopUI;
     [SerializeField] private GameObject checkUI;
     [SerializeField] private Text goldText;
     [SerializeField] private Slider HpBarSlider;
@@ -38,7 +37,6 @@ public class InGameUIManager : MonoBehaviour
     private void Awake()
     {
         checkUI.SetActive(false);
-        stopUI.SetActive(false);
     }
 
     private void Start()
@@ -81,10 +79,6 @@ public class InGameUIManager : MonoBehaviour
                     topUI.SetActive(false);
                 return;
             }
-
-            //열린 UI가 하나도 없으면 정지 메뉴 토글
-            bool isActive = stopUI.activeSelf;
-            stopUI.SetActive(!isActive);
         }
     }
 
@@ -170,11 +164,6 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
-    public void ContinueButton()
-    {
-        stopUI.SetActive(false);
-    }
-
     public void FirstToLobby()
     {
         checkUI.SetActive(true);
@@ -182,7 +171,6 @@ public class InGameUIManager : MonoBehaviour
 
     public void ToLobby()
     {
-        stopUI.SetActive(false);
         checkUI.SetActive(false);
         SceneManager.LoadScene("Lobby + UpgradeScene");
     }
