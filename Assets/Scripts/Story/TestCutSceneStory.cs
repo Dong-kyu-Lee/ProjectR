@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class TestCutSceneStory : MonoBehaviour
 {
+    public StoryID storyIDToComplete;
+
     public void ReceiveSignal()
     {
-        StorySystem.Instance.CompleteStory(StoryID.Temp_Middle_Moss);
+        StorySystem.Instance.CompleteStory(storyIDToComplete);
     }
 }
