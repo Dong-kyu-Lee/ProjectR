@@ -128,35 +128,20 @@ public class GameManager : MonoBehaviour
                 break;
             case SceneType.Normal:
                 // 던전에서 사용되는 UI 생성
-                if (upgradeUI == null)
-                {
-                    upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
-                    DontDestroyOnLoad(upgradeUI);
-                }
-                if (inventoryUI == null)
-                {
-                    inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas(QuickSlot)"));
-                    DontDestroyOnLoad(inventoryUI);
-                }
-                if (inGameUI == null)
-                {
-                    inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/InGameUICanvasV2"));
-                    DontDestroyOnLoad(inGameUI);
-                }
-                if (testUI != null)
-                {
-                    testUI = Instantiate(DungeonTestHelper.Instance.testUI);
-                    DontDestroyOnLoad(testUI);
-                }
+                CreateUI();
                 SetActiveUI(true);
                 break;
             case SceneType.MiddleBoss:
+                CreateUI();
                 SetActiveUI(true);
                 playerObject.SetActive(false);
                 break;
             case SceneType.Shop:
+                CreateUI();
+                SetActiveUI(true);
                 break;
             case SceneType.FinalBossScene:
+                CreateUI();
                 SetActiveUI(true);
                 playerObject.SetActive(false);
                 break;
@@ -226,6 +211,31 @@ public class GameManager : MonoBehaviour
         currentCharacterType = startCharacterType;
         playerObject.SetActive(false);
         DontDestroyOnLoad(playerObject);
+    }
+
+    // 인게임에 사용되는 UI의 존재를 확인하고 없으면 생성하는 함수
+    private void CreateUI()
+    {
+        if (upgradeUI == null)
+        {
+            upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
+            DontDestroyOnLoad(upgradeUI);
+        }
+        if (inventoryUI == null)
+        {
+            inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas(QuickSlot)"));
+            DontDestroyOnLoad(inventoryUI);
+        }
+        if (inGameUI == null)
+        {
+            inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/InGameUICanvasV2"));
+            DontDestroyOnLoad(inGameUI);
+        }
+        if (testUI != null)
+        {
+            testUI = Instantiate(DungeonTestHelper.Instance.testUI);
+            DontDestroyOnLoad(testUI);
+        }
     }
 
     // 인게임에 사용되는 UI 제거 함수
