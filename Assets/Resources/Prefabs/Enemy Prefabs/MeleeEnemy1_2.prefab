@@ -260,7 +260,6 @@ GameObject:
   - component: {fileID: 9036694678958889534}
   - component: {fileID: 3876051710393344225}
   - component: {fileID: 3842903198805543405}
-  - component: {fileID: 1576205176}
   - component: {fileID: 1918481558}
   - component: {fileID: 5349268765530089570}
   - component: {fileID: -3508079392760038262}
@@ -343,7 +342,6 @@ MonoBehaviour:
   enemyStatus: {fileID: 3842903198805543405}
   enemyAnimator: {fileID: 4992420694920009114}
   attackScanner: {fileID: 1709160410}
-  attackRangeCol: {fileID: 1576205176}
   chaseRangeCol: {fileID: 2874281276949492762}
   enemyController: {fileID: 1918481558}
   playerTransform: {fileID: 0}
@@ -368,33 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911c3f35092100a478218d2cbcaba56a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 40843861306502d48ae24fd524055e43, type: 2}
---- !u!61 &1576205176
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7154700476304014582}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.4}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.2}
-  m_EdgeRadius: 0
+  enemyData: {fileID: 11400000, guid: be70ebfec56109d4b92cd61fad0c5883, type: 2}
 --- !u!114 &1918481558
 MonoBehaviour:
   m_ObjectHideFlags: 0

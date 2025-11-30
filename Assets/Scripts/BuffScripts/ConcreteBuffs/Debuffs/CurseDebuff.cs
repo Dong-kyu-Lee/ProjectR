@@ -18,13 +18,14 @@ public class CurseDeBuff : Buff
     {
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
-
         targetStatus.DamageTaken += damageTakenInc;
+        Debug.Log(currentBuffLevel + " " + targetStatus.DamageTaken);
     }
 
     public override void RenewBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
+        Debug.Log(currentBuffLevel + " " + targetStatus.DamageTaken);
     }
 
     public override void RemoveBuffEffect()
