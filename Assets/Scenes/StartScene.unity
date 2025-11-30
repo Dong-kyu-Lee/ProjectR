@@ -1145,10 +1145,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playerObject: {fileID: 0}
+  startCharacterType: 0
   upgradeUI: {fileID: 0}
   inventoryUI: {fileID: 0}
   inGameUI: {fileID: 0}
   testUI: {fileID: 0}
+  isFirstPlayerCreated: 0
 --- !u!4 &1103382022
 Transform:
   m_ObjectHideFlags: 0
@@ -1586,6 +1588,7 @@ MonoBehaviour:
   frontBackgroundSpeed: 1.5
   background: {fileID: 1357667438}
   frontBackground: {fileID: 1838744786}
+  initialCharacterType: 0
 --- !u!1 &1453687726
 GameObject:
   m_ObjectHideFlags: 0

@@ -101,4 +101,22 @@ public class SoundManager
         }
         return audioClip;
     }
+
+    public float GetBgmVolume()
+    {
+        return audioSources[(int)Sound.Bgm].volume;
+    }
+    public float GetEffectVolume()
+    {
+        return audioSources[(int)Sound.Effect].volume;
+    }
+
+    public void SetBgmVolume(float volume)
+    {
+        audioSources[(int)Sound.Bgm].volume = volume;
+    }
+    public void SetEffectVolume(float volume)
+    {
+        audioSources[(int)Sound.Effect].volume = volume;
+    }
 }

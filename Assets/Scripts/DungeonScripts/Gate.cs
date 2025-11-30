@@ -51,6 +51,7 @@ public class Gate : MonoBehaviour
     }
 
     // 임시 문 프리팹을 활성화하여 문 열림을 구현
+    // 워프가 있는 방일 경우 워프 위치 반환, 없는 방일 경우 Vector3.zero 반환
     public Vector3 OpenGate(bool isRoomCleared)
     {
         for (int i = 0; i < gateObjects.Length; ++i)
@@ -65,8 +66,12 @@ public class Gate : MonoBehaviour
             if (isWarp)
             {
                 currentWarp.SetActive(true);
-                return currentWarp.transform.position;
             }
+        }
+        if (isWarp)
+        {
+            Debug.Log("워프 위치 반환" + currentWarp.transform.position);
+            return currentWarp.transform.position;
         }
         return Vector3.zero;
     }
