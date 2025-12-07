@@ -1810,6 +1810,7 @@ MonoBehaviour:
   characterInfo: {fileID: 0}
   playerStatus: {fileID: 0}
   closeButton: {fileID: 0}
+  statusContent: {fileID: 0}
 --- !u!1 &492220239
 GameObject:
   m_ObjectHideFlags: 0
@@ -4223,6 +4224,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossEnemy1_1
       objectReference: {fileID: 0}
+    - target: {fileID: 7154700476304014582, guid: d71007a8ed77f9c4ba96657af598afbd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d71007a8ed77f9c4ba96657af598afbd, type: 3}
 --- !u!1 &993254738
@@ -4964,7 +4969,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2711782163986027066, guid: 67575ab63fc4fb94fa1c690b0394d87a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8.74
       objectReference: {fileID: 0}
     - target: {fileID: 2711782163986027066, guid: 67575ab63fc4fb94fa1c690b0394d87a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9079,7 +9084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e22eac1e61b0754ba7646009f5f623a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stopUI: {fileID: 475009536}
   checkUI: {fileID: 475009536}
   goldText: {fileID: 0}
   HpBarSlider: {fileID: 201825273}
@@ -10037,3 +10041,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2130584182}
   m_CullTransparentMesh: 1
+--- !u!1001 &6539259041329426227
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.999962
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.008726558
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7154700476304014582, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: m_Name
+      value: QueenBossEnemy1_1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}

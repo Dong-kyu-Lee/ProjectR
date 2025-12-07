@@ -160,7 +160,10 @@ public class Enemy : MonoBehaviour
 
     public virtual void PerformAttack()
     {
-
+        if (enemyAnimator != null)
+        {
+            enemyAnimator.SetTrigger("Attack");
+        }
     }
 
     public virtual void ShootProjectile()

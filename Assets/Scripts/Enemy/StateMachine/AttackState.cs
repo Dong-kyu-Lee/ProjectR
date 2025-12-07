@@ -25,15 +25,10 @@ public class AttackState : IState
         if (!isAttacking)
         {
             isAttacking = true;
-            enemy.EnemyAnimator.SetTrigger("Attack");
             attackStrategy.ExecuteAttack(enemy);
             float applyAttackTime = attackTime;
             if (attackTime < minAttackTime) applyAttackTime = minAttackTime;
             enemy.StateMachine.StartCoroutine(enemy.StateMachine.AttackCoroutine(applyAttackTime));
-        }
-        else
-        {
-            //enemy.StateMachine.TransitionTo(enemy.StateMachine.chaseState);
         }
     }
 

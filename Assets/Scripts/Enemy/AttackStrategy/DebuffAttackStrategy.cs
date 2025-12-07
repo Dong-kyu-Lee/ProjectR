@@ -6,6 +6,8 @@ public class DebuffAttackStrategy : IAttackStrategy
 {
     public void ExecuteAttack(Enemy enemy)
     {
+        enemy.EnemyAnimator.SetTrigger("Attack");
+
         if (enemy is BossEnemy boss && boss.DebuffHitBox != null)
         {
             float hitOffsetX = 0.6f;

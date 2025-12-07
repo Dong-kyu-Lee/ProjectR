@@ -6,6 +6,11 @@ public class RangedAttackStrategy : IAttackStrategy
 {
     public void ExecuteAttack(Enemy enemy)
     {
+        if (enemy.EnemyAnimator != null)
+        {
+            enemy.EnemyAnimator.SetTrigger("Attack");
+        }
+
         switch (enemy)
         {
             case BossEnemy boss:

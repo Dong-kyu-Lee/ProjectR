@@ -31,6 +31,10 @@ public class EnemyAIController : MonoBehaviour
         {
             attackState = new AttackState(enemy, new RangedAttackStrategy());
         }
+        else if (enemy is QueenBossEnemy)
+        {
+            attackState = new AttackState(enemy, new QueenProxyStrategy());
+        }
         else
         {
             attackState = new AttackState(enemy, new MeleeAttackStrategy());
