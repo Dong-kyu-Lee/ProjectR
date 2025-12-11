@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 // 플레이어의 투사체. 적과 충돌 시 데미지를 입히고, 바텐더 전용 병 효과를 적용한다.
@@ -18,7 +19,8 @@ public class ProjectileV2 : MonoBehaviour
     private bool hasExploded = false;
 
     public GameObject explosionPrefab;
-    public float explosionRadius = 5f;
+    public float explosionRadius;
+    public LayerMask enemyLayer;
 
     private Vector2 velocity;
 
@@ -59,25 +61,26 @@ public class ProjectileV2 : MonoBehaviour
         bool isCritical = false;
 
         Vector3 hitPoint = transform.position;
+        HashSet<GameObject> processedEnemies = new HashSet<GameObject>();
 
         // 광역 폭발 기능
         if (AbilityManager.Instance.bartenderAbility[1])
         {
             Instantiate(explosionPrefab, hitPoint, Quaternion.identity);
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(hitPoint, explosionRadius);
-            HashSet<GameObject> processedEnemies = new HashSet<GameObject>();
 
             foreach (var hitCollider in hitColliders)
             {
-                if (hitCollider.CompareTag("Enemy"))
+                EnemyStatus enemyStatus = hitCollider.GetComponentInParent<EnemyStatus>();
+                if (enemyStatus != null)
                 {
-                    GameObject enemy = hitCollider.gameObject;
+                    if (hitCollider.gameObject != enemyStatus.gameObject) continue;
 
-                    if (processedEnemies.Contains(enemy)) continue;
+                    GameObject enemy = enemyStatus.gameObject;
+
+                    float explodeDamage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
+                    enemyStatus?.TakeDamage(player, explodeDamage, ignoreDamageReduction, isCritical);
                     processedEnemies.Add(enemy);
-
-                    damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical) / 2;
-                    enemy.GetComponent<Status>()?.TakeDamage(player, damage, ignoreDamageReduction, isCritical);
 
                     if (bartenderAbility != null)
                     {
@@ -93,7 +96,7 @@ public class ProjectileV2 : MonoBehaviour
         }
 
         // 일반 충돌
-        if (collision.transform.CompareTag("Enemy"))
+        if (collision.transform.CompareTag("Enemy") && !processedEnemies.Contains(collision.gameObject))
         {
             damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
             collision.gameObject.GetComponent<Status>()?.TakeDamage(player, damage, ignoreDamageReduction, isCritical);
@@ -111,5 +114,4 @@ public class ProjectileV2 : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-
 }

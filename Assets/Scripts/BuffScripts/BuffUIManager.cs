@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class BuffUIManager : MonoBehaviour
 {
-    [SerializeField]
     private BuffManager buffManager;
     [SerializeField]
     private GameObject buffIconPrefab;
