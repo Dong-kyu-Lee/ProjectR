@@ -61,6 +61,7 @@ public class Stage : MonoBehaviour
                 GameManager.Instance.MoveScene(SceneType.MiddleBoss, "TempMiddleBoss");
                 break;
             case StageFlow.MiddleBoss:
+                RemoveDungeon();
                 MoveToDungeonAndCreate();
                 break;
             case StageFlow.Normal3:
@@ -100,7 +101,6 @@ public class Stage : MonoBehaviour
     private void RemoveDungeon()
     {
         roomList.Clear();
-        DungeonFlowManager.Instance.DungeonCreator.RemoveAllRooms();
     }
 
     // roomList에 생성된 방을 추가하는 함수.

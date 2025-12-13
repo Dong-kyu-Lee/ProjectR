@@ -18,6 +18,11 @@ public class MinimapCamera : MonoBehaviour
         var roomInfos = currentStage.roomList;
         for (int i = 0; i < roomInfos.Count; ++i)
         {
+            if(roomInfos[i] == null)
+            {
+                Debug.LogError("MinimapCamera: roomInfos[" + i + "] is null");
+                continue;
+            }
             if (roomInfos[i].GetRoomState != RoomState.Default)
             {
                 Vector3 roomPosition = roomInfos[i].transform.position;

@@ -54,6 +54,8 @@ public class DungeonCreator : MonoBehaviour
     // 던전과 관련 요소를 씬에 생성하는 함수
     public void CreateDungeon(StageData stageData, out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
+        RemoveAllRooms();
+
         DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(numberOfRooms);
         var roomNodes = dungeonStructure.GetDungeonStructure();
 
