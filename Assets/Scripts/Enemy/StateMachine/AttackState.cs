@@ -14,7 +14,7 @@ public class AttackState : IState
     {
         this.enemy = enemy;
         attackTime = 1 / enemy.EnemyStatus.TotalAttackSpeed;
-        minAttackTime = 0.7f;
+        minAttackTime = 0.1f;
         isAttacking = false;
         this.attackStrategy = attackStrategy;
     }
