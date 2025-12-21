@@ -35,7 +35,7 @@ public class InventoryUI : MonoBehaviour
         if (playerInventory == null)
             return;
 
-        // 1. 인벤토리의 모든 아이템 슬롯 데이터를 가져옴
+        // 인벤토리의 모든 아이템 슬롯 데이터를 가져옴
         if (inventorySlotImgs != null)
         {
             var slots = playerInventory.InventorySlots;
@@ -60,7 +60,7 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
-        // 2. 장비칸의 모든 아이템 슬롯 데이터를 가져옴
+        // 장비칸의 모든 아이템 슬롯 데이터를 가져옴
         if (equipSlotImgs != null)
         {
             var equipSlots = playerInventory.EquipmentItemSlot;
@@ -85,7 +85,7 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
-        // 3. 퀵슬롯은 인벤토리 첫 번째 칸을 참조하므로 함께 업데이트
+        // 퀵슬롯은 인벤토리 첫 번째 칸을 참조하므로 함께 업데이트
         playerInventory.UpdateQuickSlotReference();
     }
 
@@ -143,7 +143,7 @@ public class InventoryUI : MonoBehaviour
             {
                 inventorySlotImgs[i].SetItemData(itemData, amount);
 
-                // [수정됨] 만약 0번 슬롯(퀵슬롯 자리)에 아이템이 들어갔다면 퀵슬롯도 갱신
+                //0번 슬롯에 아이템이 들어갔다면 퀵슬롯도 갱신
                 if (i == 0)
                 {
                     quickSlotImg.UpdateQuickSlot(itemData, amount);
@@ -161,7 +161,7 @@ public class InventoryUI : MonoBehaviour
             {
                 inventorySlotImgs[i].SetItemData(itemData, amount);
 
-                // [수정됨] 만약 업데이트된 슬롯이 0번 슬롯이라면 퀵슬롯도 갱신
+                // 업데이트된 슬롯이 0번 슬롯이라면 퀵슬롯도 갱신
                 if (i == 0)
                 {
                     quickSlotImg.UpdateQuickSlot(itemData, amount);
@@ -195,12 +195,11 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
             var slotItem = inventorySlotImgs[i].NowItemData;
-            // 이름 비교 혹은 객체 비교 (여기선 기존 코드 존중)
             if (slotItem != null && slotItem.ItemName == itemData.ItemName)
             {
                 inventorySlotImgs[i].SetItemAmountData(newAmount);
 
-                // [수정됨] 만약 0번 슬롯의 수량이 변한 것이라면 퀵슬롯도 갱신
+                //0번 슬롯의 수량이 변한 것이라면 퀵슬롯도 갱신
                 if (i == 0)
                 {
                     quickSlotImg.UpdateQuickSlot(itemData, newAmount);

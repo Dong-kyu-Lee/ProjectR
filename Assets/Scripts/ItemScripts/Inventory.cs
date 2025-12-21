@@ -129,7 +129,7 @@ public class Inventory : MonoBehaviour
     // 획득한 소모품 아이템 데이터를 인벤토리에 추가하는 메서드
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        // 1. 이미 같은 아이템이 있을 경우 수량만 증가
+        //이미 같은 아이템이 있을 경우 수량만 증가
         var slot = inventorySlots.FirstOrDefault(s => s.itemData == item);
         if (slot != null)
         {
@@ -148,7 +148,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        // 2. 빈 슬롯(DUMMY)을 찾아 교체
+        // 빈 슬롯(DUMMY)을 찾아 교체
         for (int i = 0; i < inventorySlots.Count; i++)
         {
             if (inventorySlots[i].itemData.ItemType == ItemType.DUMMY)
@@ -162,7 +162,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        // 3. 인벤토리가 가득 찼을 경우
+        // 인벤토리가 가득 찼을 경우
         Debug.LogWarning("[Inventory] 인벤토리에 빈 공간이 없습니다!");
         return false;
     }
@@ -309,30 +309,26 @@ public class Inventory : MonoBehaviour
     }
 
     // 인벤토리에 있는 장비와 장착칸의 장비 데이터를 서로 교체하는 함수
-    public void SwapEquippedItemWithInventory(int equippedSlotIdx, EquipmentItemData inventoryItemData)
+    public void SwapEquippedItemWithInventory(int equippedSlotIdx, int inventorySlotIdx)
     {
-        // 1. 현재 장비칸에 장착된 아이템 임시 저장
+        // 현재 장비칸에 장착된 아이템 임시 저장
         EquipmentItemData equippedItem = equipmentItemSlot[equippedSlotIdx];
 
-        // 2. 인벤토리에서 교체할 아이템 슬롯 찾기
-        var slot = inventorySlots.FirstOrDefault(s => s.itemData == inventoryItemData);
-        if (slot == null)
-        {
-            Debug.LogError("[Inventory] 스왑할 아이템을 인벤토리에서 찾을 수 없습니다.");
-            return;
-        }
+        // 인덱스를 사용하여 정확한 인벤토리 슬롯을 즉시 참조
+        InventorySlot invSlot = inventorySlots[inventorySlotIdx];
+        EquipmentItemData inventoryItemData = invSlot.itemData as EquipmentItemData;
 
-        // 3. 기존 장비 해제
+        // 기존 장비 해제
         if (equippedItem != null && equippedItem.ItemType != ItemType.DUMMY)
             equippedItem.UnEquipItem(playerStatus);
 
-        // 4. 새로운 장비 장착
+        // 새로운 장비 장착
         equipmentItemSlot[equippedSlotIdx] = inventoryItemData;
         inventoryItemData.EquipItem(playerStatus);
 
-        // 5. 인벤토리 슬롯을 기존 장비로 교체
-        slot.itemData = equippedItem;
-        slot.count = (equippedItem.ItemType == ItemType.DUMMY) ? 0 : 1;
+        // 인벤토리 슬롯을 기존 장비로 교체
+        invSlot.itemData = equippedItem;
+        invSlot.count = (equippedItem.ItemType == ItemType.DUMMY) ? 0 : 1;
 
         myInventoryUI.RefreshInventoryUI();
     }
@@ -362,33 +358,30 @@ public class Inventory : MonoBehaviour
     }
 
     // 인벤토리 -> 장비칸 (드래그용, Refresh 없음)
-    public void LoadEqFromInv_NoRefresh(EquipmentItemData equipData, int equipSlotIdx)
+    public void LoadEqFromInv_NoRefresh(int inventorySlotIdx, int equipSlotIdx)
     {
-        if (equipData == null || equipSlotIdx < 0 || equipSlotIdx >= equipmentItemSlot.Length)
+        if (inventorySlotIdx < 0 || inventorySlotIdx >= inventorySlots.Count ||
+            equipSlotIdx < 0 || equipSlotIdx >= equipmentItemSlot.Length)
         {
-            Debug.LogWarning("[Inventory] LoadEqFromInv_NoRefresh: 잘못된 데이터 또는 인덱스입니다.");
+            Debug.LogWarning("[Inventory] LoadEqFromInv_NoRefresh: 잘못된 인덱스입니다.");
             return;
         }
-        // 1. 장비 장착
+
+        InventorySlot invSlot = inventorySlots[inventorySlotIdx];
+        EquipmentItemData equipData = invSlot.itemData as EquipmentItemData;
+
+        // 장비 장착
         equipmentItemSlot[equipSlotIdx] = equipData;
         equipData.EquipItem(playerStatus);
 
-        // 2. 인벤토리에서 해당 아이템 제거
-        var slot = inventorySlots.FirstOrDefault(s => s.itemData == equipData);
-        if (slot != null)
-        {
-            slot.Clear(dummyInventoryItemData);
-        }
-        else
-        {
-            Debug.LogWarning($"[Inventory] 인벤토리에서 {equipData.ItemName}을(를) 찾지 못해 제거하지 못했습니다.");
-        }
+        // 인벤토리에서 해당 아이템 제거
+        invSlot.Clear(dummyInventoryItemData);
     }
 
     // 인벤토리에 있는 장비를 해당 장비칸에 추가하는 메서드
-    public void LoadEquipmentItemFromInventory(EquipmentItemData equipData, int equipSlotIdx)
+    public void LoadEquipmentItemFromInventory(int inventorySlotIdx, int equipSlotIdx)
     {
-        LoadEqFromInv_NoRefresh(equipData, equipSlotIdx);
+        LoadEqFromInv_NoRefresh(inventorySlotIdx, equipSlotIdx);
         myInventoryUI.RefreshInventoryUI();
     }
 

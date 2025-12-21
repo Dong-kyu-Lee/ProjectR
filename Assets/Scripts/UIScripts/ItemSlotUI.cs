@@ -151,46 +151,36 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         ItemSlotUI targetSlotUI = eventData.pointerDrag.GetComponent<ItemSlotUI>();
 
         // 유효성 검사
-        if (targetSlotUI == null || targetSlotUI == this) return; // 자기 자신에게 드롭 방지
-        if (parentUI.PlayerInventory == null) return;
-
-        // 드래그한 아이템이 비어있으면 무시 (DUMMY 드래그 방지)
+        if (targetSlotUI == null || targetSlotUI == this || parentUI.PlayerInventory == null) return;
         if (targetSlotUI.NowItemData.ItemType == ItemType.DUMMY) return;
 
         bool needsRefresh = false;
 
-        // (인벤토리칸 <-> 장비칸)
+        //장비창에서 인벤토리로 드롭된 경우
         if (targetSlotUI is EquipmentSlotUI)
         {
             switch (nowItemData.ItemType)
             {
-                case ItemType.EQUIPMENT: // (인벤토리칸(장비) <-> 장비칸) - 스왑
+                case ItemType.EQUIPMENT:
                     parentUI.PlayerInventory.SwapEquippedItemWithInventory(
-                        targetSlotUI.SlotIndex, nowItemData as EquipmentItemData);
+                        targetSlotUI.SlotIndex, this.slotIndex);
+                    needsRefresh = true; // 스왑 후 UI 갱신 필요
                     break;
 
-                case ItemType.DUMMY: // (장비칸 -> 인벤토리칸(빈칸)) - 언로드
+                case ItemType.DUMMY:
                     parentUI.PlayerInventory.UnloadEqToInv_NoRefresh(
-                        (targetSlotUI as EquipmentSlotUI).SlotIndex,
-                        this.slotIndex // 'this'가 드롭된 인벤토리 슬롯
-                    );
-                    needsRefresh = true; // NoRefresh 함수를 썼으므로 Refresh 필요
+                        (targetSlotUI as EquipmentSlotUI).SlotIndex, this.slotIndex);
+                    needsRefresh = true;
                     break;
             }
         }
-        // 퀵슬롯은 인벤토리의 첫 번째 칸을 참조하므로, 별도 스왑/언로드 동작은 없음
-        else if (targetSlotUI is QuickSlotUI)
-        {
-            return;
-        }
-        // 인벤토리칸 끼리 스왑
+        // 인벤토리 칸끼리 스왑
         else
         {
             parentUI.PlayerInventory.SwapInventorySlots(slotIndex, targetSlotUI.SlotIndex);
-            needsRefresh = true; // 데이터만 바꿨으므로 Refresh 필요
+            needsRefresh = true;
         }
 
-        // 데이터 변경이 일어난 경우에만 Refresh
         if (needsRefresh)
         {
             parentUI.RefreshInventoryUI();
