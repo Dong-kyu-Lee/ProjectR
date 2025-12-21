@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6268,6 +6267,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -10095,6 +10095,10 @@ PrefabInstance:
     - target: {fileID: 7154700476304014582, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
       propertyPath: m_Name
       value: QueenBossEnemy1_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8255022711659699400, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+      propertyPath: fanSpawnRadius
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}

@@ -105,6 +105,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2602985480948221505
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +238,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 3}
+  m_Size: {x: 7, y: 3}
   m_EdgeRadius: 0
 --- !u!114 &1709160410
 MonoBehaviour:

@@ -12,17 +12,25 @@ public enum QueenAttackPattern
 
 public class QueenBossEnemy : Enemy
 {
-    [Header("--- Queen Boss Settings ---")]
+    [Header("Queen Boss Settings")]
     [SerializeField] private GameObject projectilePrefab; // 마법 구체 프리팹
     [SerializeField] private Transform firePoint;         // 발사 위치 (지팡이 끝)
 
     [Header("Pattern Settings")]
     [SerializeField] private float fanAngle = 20f;        // 부채꼴 각도
+    [SerializeField] private float fanSpawnRadius = 6.5f;  // 투사체 생성 반지름 (이격 거리)
     [SerializeField] private int rapidFireCount = 5;      // 연사 횟수
     [SerializeField] private float rapidFireDelay = 0.15f;// 연사 간격
 
+    [SerializeField] private float rapidFireSpreadY = 0.5f;
+
     private QueenAttackPattern currentPattern = QueenAttackPattern.SingleLine;
     private int currentPhase = 1;
+
+    [Header("Cooldown Settings")]
+    [SerializeField] private float attackCooldown = 2.0f; // 공격 후 다음 공격까지 쉴 시간 (이동 시간)
+    private float lastAttackTime = 0f;                    // 마지막 공격 시간 저장
+    private bool isPatternRunning = false;                // 현재 코루틴이 돌고 있는지 여부
 
     protected override void Awake()
     {
@@ -100,18 +108,16 @@ public class QueenBossEnemy : Enemy
     // QueenProjectileStrategy에서 호출하는 실제 공격 함수
     public void CastMagicAttack()
     {
-        //if (isAttacking) return;
-
         // 애니메이션 트리거 (Animator에 "CastAttack" 같은 트리거 필요)
         if (enemyAnimator != null) enemyAnimator.SetTrigger("RangedAttack");
 
         switch (currentPattern)
         {
             case QueenAttackPattern.SingleLine:
-                ShootSingle();
+                StartCoroutine(ShootSingle());
                 break;
             case QueenAttackPattern.FanShape:
-                ShootFan();
+                StartCoroutine(ShootFan());
                 break;
             case QueenAttackPattern.RapidHoming:
                 StartCoroutine(ShootRapid());
@@ -119,40 +125,84 @@ public class QueenBossEnemy : Enemy
         }
     }
 
-    // --- 패턴 1: 직선 발사 ---
-    private void ShootSingle()
+    // 패턴 1: 직선 발사
+    private IEnumerator ShootSingle()
     {
+        isAttacking = true;
+        isAttacking = true;
+
+        yield return new WaitForSeconds(0.3f); // 선딜레이 (모션)
+
         Vector2 dir = GetTargetDirection();
         CreateProjectile(dir);
+
+        yield return new WaitForSeconds(1.5f); // 후딜레이
+
+        isAttacking = false;
+        isPatternRunning = false;
+        StateMachine.TransitionTo(StateMachine.chaseState); // 상태 전환
     }
 
-    // --- 패턴 2: 부채꼴 발사 (3발) ---
-    private void ShootFan()
+    // 패턴 2: 부채꼴 발사
+    private IEnumerator ShootFan()
     {
+        isAttacking = true;
+        isPatternRunning = true;
+
+        yield return new WaitForSeconds(0.3f); // 선딜레이
+
+        // 중앙 방향 (플레이어 쪽, Y축 평행 보정됨)
         Vector2 centerDir = GetTargetDirection();
 
-        // 중앙
-        CreateProjectile(centerDir);
-        // 위쪽 (각도 회전)
-        CreateProjectile(RotateVector(centerDir, fanAngle));
-        // 아래쪽
-        CreateProjectile(RotateVector(centerDir, -fanAngle));
+        // [1] 중앙 발사
+        // 위치: firePoint에서 centerDir 방향으로 radius만큼 떨어진 곳
+        Vector3 centerPos = firePoint.position + (Vector3)(centerDir * fanSpawnRadius);
+        CreateProjectile(centerPos, centerDir);
+
+        // [2] 위쪽 발사 (+각도)
+        Vector2 upperDir = RotateVector(centerDir, fanAngle);
+        Vector3 upperPos = firePoint.position + (Vector3)(upperDir * fanSpawnRadius);
+        CreateProjectile(upperPos, upperDir); // upperDir 방향으로 날아감
+
+        // [3] 아래쪽 발사 (-각도)
+        Vector2 lowerDir = RotateVector(centerDir, -fanAngle);
+        Vector3 lowerPos = firePoint.position + (Vector3)(lowerDir * fanSpawnRadius);
+        CreateProjectile(lowerPos, lowerDir); // lowerDir 방향으로 날아감
+
+        yield return new WaitForSeconds(1.5f); // 후딜레이
+
+        isAttacking = false;
+        isPatternRunning = false;
+        StateMachine.TransitionTo(StateMachine.chaseState);
     }
 
-    // --- 패턴 3: 조준 연사 ---
+    // 패턴 3: 조준 연사
     private IEnumerator ShootRapid()
     {
+        isPatternRunning = true;
         isAttacking = true; // 연사 중 다른 행동 방지
 
         for (int i = 0; i < rapidFireCount; i++)
         {
-            // 쏠 때마다 플레이어 방향 다시 계산 (유도성 부여)
+            // 1. 발사 방향 계산 (플레이어 쪽, 수평)
             Vector2 dir = GetTargetDirection();
-            CreateProjectile(dir);
+
+            // 2. 생성 위치에 랜덤 Y 오프셋 적용
+            // firePoint 기준 위(+) 아래(-)로 랜덤하게 위치 결정
+            float randomY = Random.Range(-rapidFireSpreadY, rapidFireSpreadY);
+            Vector3 spawnPos = firePoint.position + new Vector3(0, randomY, 0);
+
+            // 3. 위치를 지정하여 생성하는 함수 호출
+            CreateProjectile(spawnPos, dir);
+
             yield return new WaitForSeconds(rapidFireDelay);
         }
 
+        // 후딜레이 (연사 후 잠시 멈춤)
+        yield return new WaitForSeconds(1.5f);
+
         isAttacking = false;
+        isPatternRunning = false;
         // 공격 후 추격 상태로 전환 (EnemyAIController 로직에 따라 자동 전환될 수 있음)
         StateMachine.TransitionTo(StateMachine.chaseState);
     }
@@ -182,15 +232,49 @@ public class QueenBossEnemy : Enemy
         Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.velocity = direction * 10f; // 투사체 속도 (필요시 변수화)
+            rb.velocity = direction * 5f; // 투사체 속도 (필요시 변수화)
+        }
+    }
+
+    // 위치 지정 함수 (부채꼴 패턴용)
+    private void CreateProjectile(Vector3 spawnPos, Vector2 direction)
+    {
+        if (projectilePrefab == null) return;
+
+        // 지정된 위치(spawnPos)에 생성
+        GameObject proj = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+
+        // 회전 설정
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        // 데이터 설정
+        RangedEnemyProjectile projScript = proj.GetComponent<RangedEnemyProjectile>();
+        if (projScript != null)
+        {
+            projScript.enemy = this.gameObject;
+            projScript.damage = EnemyStatus.Damage;
+        }
+
+        // 속도 설정
+        Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.velocity = direction * 5f; // 속도
         }
     }
 
     // 플레이어 방향 벡터 계산
     private Vector2 GetTargetDirection()
     {
-        if (PlayerTransform == null) return transform.right * (transform.rotation.y == 0 ? 1 : -1);
-        return (PlayerTransform.position - firePoint.position).normalized;
+        if (PlayerTransform == null) 
+            return transform.right * (transform.rotation.y == 0 ? 1 : -1);
+
+        Vector2 dir = PlayerTransform.position - firePoint.position;
+
+        dir.y = 0;
+
+        return dir.normalized;
     }
 
     // 벡터 회전 함수
@@ -225,9 +309,22 @@ public class QueenBossEnemy : Enemy
         StateMachine.TransitionTo(StateMachine.chaseState);
     }
 
+    // 전략에서 호출하는 진입점 함수 수정
     public void RunCurrentStrategy()
     {
-        // 현재 설정된 전략(1페이즈, 2페이즈, 혼합 등)을 실행
+        // 1. 이미 패턴 코루틴이 실행 중이면 중복 실행 방지
+        if (isPatternRunning) return;
+
+        // 2. 쿨타임 체크: 아직 쿨타임이라면 공격하지 않고 추격(이동) 상태로 돌려보냄
+        if (Time.time < lastAttackTime + attackCooldown)
+        {
+            StateMachine.TransitionTo(StateMachine.chaseState);
+            return;
+        }
+
+        // 3. 쿨타임이 지났다면 공격 실행
+        lastAttackTime = Time.time; // 공격 시작 시간 기록
+
         if (attackStrategy != null)
         {
             attackStrategy.ExecuteAttack(this);
