@@ -34,7 +34,7 @@ public class Inventory : MonoBehaviour
 
     // 장비 관련 칸
     [SerializeField] private int maxEquipSlot = 6;             // 장비칸의 갯수
-    [SerializeField] private EquipmentItemData[] equipmentItemSlot; // 장비칸에 장착된 아이템들
+    [SerializeField] public EquipmentItemData[] equipmentItemSlot; // 장비칸에 장착된 아이템들
 
     // 그 외
     [SerializeField] private EquipmentItemData dummyItemData;        // 더미데이터. 칸이 비어있음을 나타낼 때 사용함
