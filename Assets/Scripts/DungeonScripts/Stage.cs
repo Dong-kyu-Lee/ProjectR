@@ -71,8 +71,10 @@ public class Stage : MonoBehaviour
                 GameManager.Instance.MoveScene(SceneType.FinalBossScene, "TempFinalBoss");
                 break;
             case StageFlow.FinalBoss:
+                // Demo 버전 - End Scene으로 이동
+                GameManager.Instance.MoveScene(SceneType.EndScene, "EndScene");
                 // 다음 스테이지로 이동
-                DungeonFlowManager.Instance.ChangeStage();
+                // DungeonFlowManager.Instance.ChangeStage();
                 break;
         }
         if (currentArea != StageFlow.FinalBoss)

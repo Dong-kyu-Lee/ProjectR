@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 using static UnityEngine.UI.Image;
 
 public class EndSceneManager : MonoBehaviour
@@ -15,13 +16,24 @@ public class EndSceneManager : MonoBehaviour
     [Header("결과 화면 설정")]
     public GameObject resultBackground;
     public TextMeshProUGUI exitText;
+    [Header("Contents")]
+    public TextMeshProUGUI statusText;
+    public GameObject itemGrid;
+    public int killCount;
+    public float maximumDamage;
+    public int playTime;
 
+    [SerializeField]
+    private Image[] itemImages;
     private Color original;
 
     private void Awake()
     {
-        CehckField();
+        
         original = exitText.color;
+        // itemImage 초기화
+        itemImages = itemGrid.GetComponentsInChildren<Image>();
+        CehckField();
     }
 
     private void Start()
@@ -54,7 +66,7 @@ public class EndSceneManager : MonoBehaviour
     {
         if(background == null) background = GameObject.Find("Background");
         if(frontBackground == null) frontBackground = GameObject.Find("FrontBackground");
-
+        if (itemImages.Length <= 0) Debug.LogError("아이템 이미지 슬롯이 없습니다.");
     }
 
     // 게임 종료 함수: 동아리의밤에서만 쓸 함수
