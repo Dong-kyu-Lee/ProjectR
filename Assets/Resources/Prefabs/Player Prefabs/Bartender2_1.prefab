@@ -162,11 +162,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc8de8434fee7b40850ad9818ca3ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxInventorySlot: 10
+  maxInventorySlot: 12
   playerStatus: {fileID: 0}
+  inventorySlots: []
   maxEquipSlot: 6
   equipmentItemSlot: []
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
+  dummyInventoryItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
   myInventoryUI: {fileID: 0}
 --- !u!1 &5965097530767993371
 GameObject:
@@ -631,3 +633,4 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
