@@ -165,7 +165,10 @@ MonoBehaviour:
   ignoreDamageReduction: 0
   bottle: 
   explosionPrefab: {fileID: 8847766772754687324, guid: da608e847a4f98e4b9596784490f2e53, type: 3}
-  explosionRadius: 0.2
+  explosionRadius: 0.8
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
   speedMultiplier: 25
   gravityScale: 2
   initialUpwardVelocity: 1.2

@@ -14,6 +14,7 @@ public class LiberationDesc : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private string abilityDesc;
     public int abilityPrice;
     public Image image;
+    public GameObject steadfiteImage;
     public Color defaultColor;
 
     void Awake()
@@ -28,6 +29,7 @@ public class LiberationDesc : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         liberationSystem.currentAbility = abilityIndex;
         image.color = Color.grey;
+        if (steadfiteImage != null) steadfiteImage.SetActive(true);
         if (abilityText != null) abilityText.text = abilityDesc;
         if (abilityPriceText != null) abilityPriceText.text = abilityPrice.ToString() + " 필요";
     }
@@ -43,6 +45,7 @@ public class LiberationDesc : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         liberationSystem.currentAbility = -1;
         image.color = defaultColor;
+        if (steadfiteImage != null) steadfiteImage.SetActive(false);
         if (abilityText != null) abilityText.text = "";
         if (abilityPriceText != null) abilityPriceText.text = "";
     }

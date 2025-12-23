@@ -11,7 +11,6 @@ public class MeleeEnemy : Enemy
     {
         base.Awake();
         SetAttackStrategy(new MeleeAttackStrategy());
-        AttackRangeCol.size = new Vector2(enemyStatus.EnemyStatusData.AttackRange, AttackRangeCol.size.y);
     }
 
     void Start()
