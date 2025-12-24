@@ -63,7 +63,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     //자신의 아이템 데이터를 삽입하고 이미지와 갯수 텍스트를 설정 하는 메서드
     public void SetItemData(BasicItemData itemData, int amount = 1)
     {
-        Debug.Log(itemData.ItemName); // (아이템 획득 시 로그 확인용)
         nowItemData = itemData;
         itemCount = amount;
 
