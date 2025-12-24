@@ -18,21 +18,17 @@ public class EndSceneManager : MonoBehaviour
     public TextMeshProUGUI exitText;
     [Header("Contents")]
     public TextMeshProUGUI statusText;
-    public GameObject itemGrid;
     public int killCount;
     public float maximumDamage;
     public int playTime;
 
     [SerializeField]
-    private Image[] itemImages;
+    private GameObject[] itemImages;
     private Color original;
 
     private void Awake()
     {
-        
         original = exitText.color;
-        // itemImage 초기화
-        itemImages = itemGrid.GetComponentsInChildren<Image>();
         CehckField();
     }
 
