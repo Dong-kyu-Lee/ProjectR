@@ -144,7 +144,6 @@ public class RandomBox : MonoBehaviour
 
             if (randomItem == null)
             {
-                Debug.LogWarning($"[RandomBox] 드롭 가능한 {selectedGrade} 아이템이 없음.");
                 continue;
             }
 
@@ -204,7 +203,6 @@ public class RandomBox : MonoBehaviour
         var table = dropTables.Find(t => t.boxGrade == boxGrade);
         if (table == null || table.itemGradeChances.Count == 0)
         {
-            Debug.LogWarning($"[RandomBox] {boxGrade}에 대한 아이템 드롭 테이블 없음.");
             return ItemGrade.Normal;
         }
 
