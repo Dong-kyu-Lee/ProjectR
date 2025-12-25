@@ -32,11 +32,16 @@ public class QueenBossEnemy : Enemy
     private float lastAttackTime = 0f;                    // 마지막 공격 시간 저장
     private bool isPatternRunning = false;                // 현재 코루틴이 돌고 있는지 여부
 
+    [Header("Detection Settings")]
+    [SerializeField] private float detectRange = 8.0f;
+
     protected override void Awake()
     {
         base.Awake();
-        // 초기 전략: 1페이즈는 여왕 전용 원거리 공격으로 시작
-        // (필요 시 MeleeAttackStrategy로 시작했다가 거리가 멀어지면 바꾸는 등 조정 가능)
+
+        deadDelayTime = 3f;
+
+        // 1페이즈는 여왕 전용 원거리 공격으로 시작
         SetAttackStrategy(new QueenProjectileStrategy());
     }
 
@@ -93,16 +98,7 @@ public class QueenBossEnemy : Enemy
         currentPhase = 3;
         currentPattern = QueenAttackPattern.RapidHoming;
 
-        // 3페이즈는 근접, 원거리, 디버프를 섞어서 사용 (랜덤 패턴)
-        var mixedStrategies = new List<IAttackStrategy>()
-        {
-            new QueenProjectileStrategy(), // 연사 (가중치 높게 주려면 여러번 추가)
-            new QueenProjectileStrategy(),
-            new MeleeAttackStrategy(),     // 가까이 오면 지팡이 타격
-            new DebuffAttackStrategy()     // 속박
-        };
-
-        SetAttackStrategy(new RandomCompositeStrategy(this, mixedStrategies));
+        SetAttackStrategy(new QueenProjectileStrategy());
     }
 
     // QueenProjectileStrategy에서 호출하는 실제 공격 함수
@@ -129,18 +125,20 @@ public class QueenBossEnemy : Enemy
     private IEnumerator ShootSingle()
     {
         isAttacking = true;
-        isAttacking = true;
+        isPatternRunning = true;
 
         yield return new WaitForSeconds(0.3f); // 선딜레이 (모션)
 
         Vector2 dir = GetTargetDirection();
-        CreateProjectile(dir);
+        CreateProjectile(GetTargetDirection());
 
-        yield return new WaitForSeconds(1.5f); // 후딜레이
+        yield return new WaitForSeconds(1f); // 후딜레이
 
         isAttacking = false;
         isPatternRunning = false;
-        StateMachine.TransitionTo(StateMachine.chaseState); // 상태 전환
+
+        // 공격이 끝났을 때 거리 체크 후 상태 결정
+        CheckDistanceAndTransition();
     }
 
     // 패턴 2: 부채꼴 발사
@@ -169,11 +167,12 @@ public class QueenBossEnemy : Enemy
         Vector3 lowerPos = firePoint.position + (Vector3)(lowerDir * fanSpawnRadius);
         CreateProjectile(lowerPos, lowerDir); // lowerDir 방향으로 날아감
 
-        yield return new WaitForSeconds(1.5f); // 후딜레이
+        yield return new WaitForSeconds(0.7f); // 후딜레이
 
         isAttacking = false;
         isPatternRunning = false;
-        StateMachine.TransitionTo(StateMachine.chaseState);
+
+        CheckDistanceAndTransition();
     }
 
     // 패턴 3: 조준 연사
@@ -199,15 +198,38 @@ public class QueenBossEnemy : Enemy
         }
 
         // 후딜레이 (연사 후 잠시 멈춤)
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
 
         isAttacking = false;
         isPatternRunning = false;
-        // 공격 후 추격 상태로 전환 (EnemyAIController 로직에 따라 자동 전환될 수 있음)
-        StateMachine.TransitionTo(StateMachine.chaseState);
+
+        CheckDistanceAndTransition();
     }
 
-    // --- 유틸리티 함수 ---
+    // 공통으로 사용할 상태 전환 헬퍼
+    private void CheckDistanceAndTransition()
+    {
+        if (PlayerTransform == null)
+        {
+            StateMachine.TransitionTo(StateMachine.idleState);
+            return;
+        }
+
+        float dist = Vector2.Distance(transform.position, PlayerTransform.position);
+
+        if (dist <= detectRange)
+        {
+            // 사거리 안이라면 추격하지 않고 Idle로 전환 -> AttackScanner가 즉시 다시 감지하여 Attack 시도
+            Debug.Log("IdleState로 전환");
+            StateMachine.TransitionTo(StateMachine.idleState);
+        }
+        else
+        {
+            // 사거리 밖이라면 추격 시작
+            StateMachine.TransitionTo(StateMachine.chaseState);
+        }
+    }
+
 
     // 투사체 생성 로직
     private void CreateProjectile(Vector2 direction)
@@ -318,7 +340,20 @@ public class QueenBossEnemy : Enemy
         // 2. 쿨타임 체크: 아직 쿨타임이라면 공격하지 않고 추격(이동) 상태로 돌려보냄
         if (Time.time < lastAttackTime + attackCooldown)
         {
-            StateMachine.TransitionTo(StateMachine.chaseState);
+            float dist = Vector2.Distance(transform.position, PlayerTransform.position);
+
+            if (dist <= detectRange)
+            {
+                // 범위 안이면: 쫓아가지 않고 제자리에서 대기 (Idle)
+                // AttackScanner가 계속 감지하다가 쿨타임 끝나면 다시 공격 명령을 내림
+                StateMachine.TransitionTo(StateMachine.idleState);
+            }
+            else
+            {
+                // 범위 밖이면: 쫓아감
+                StateMachine.TransitionTo(StateMachine.chaseState);
+            }
+
             return;
         }
 

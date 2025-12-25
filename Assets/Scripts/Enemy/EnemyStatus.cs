@@ -36,7 +36,7 @@ public class EnemyStatus : Status
         isDead = true;
 
         EnemyAIController enemyAIController = GetComponent<Enemy>().StateMachine;
-        LevelUp.Instance.IncreaseExp(enemyData.ExpValue);
+        LevelUp.Instance?.IncreaseExp(enemyData.ExpValue);
         enemyLoot.DropLoot();
         Vector2 spawnPosition = GetComponent<CapsuleCollider2D>().bounds.min;
         RuneSpawner.Instance.TrySpawnRune(spawnPosition + Vector2.up);

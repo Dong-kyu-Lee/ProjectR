@@ -22,6 +22,12 @@ public class AttackState : IState
     public void Enter()
     {
         enemy.isAttacking = true;
+
+        if (enemy.EnemyAnimator != null)
+        {
+            enemy.EnemyAnimator.SetBool("isMove", false);
+        }
+
         if (!isAttacking)
         {
             isAttacking = true;
