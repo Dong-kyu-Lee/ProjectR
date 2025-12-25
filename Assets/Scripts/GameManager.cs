@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public enum SceneType
 {
-    StartScene, LobbyScene, Normal, MiddleBoss, Shop, FinalBossScene, TestScene, StoryScene, TempEndScene,
+    StartScene, LobbyScene, Normal, MiddleBoss, Shop, FinalBossScene, TestScene, StoryScene, EndScene,
 }
 
 public class GameManager : MonoBehaviour
@@ -152,9 +152,9 @@ public class GameManager : MonoBehaviour
                 // 플레이어 오브젝트 비활성화
                 if (playerObject != null) playerObject.SetActive(false);
                 break;
-            case SceneType.TempEndScene: // 동아리의 밤 행사까지만 쓸 엔딩 씬
-                // 업그레이드UI & 인벤토리 UI 제거
-                DestroyUI();
+            case SceneType.EndScene:
+                // 업그레이드UI & 인벤토리 UI 비활성화
+                SetActiveUI(false);
                 // 플레이어 오브젝트 비활성화
                 if (playerObject != null) playerObject.SetActive(false);
                 // 스토리 초기화
