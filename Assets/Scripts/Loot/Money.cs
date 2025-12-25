@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Money : MonoBehaviour
 {
-    private float smoothTime = 0.25f;
+    private float smoothTime = 0.15f;
     [SerializeField] private float delay = 1.5f;
-    [SerializeField] private float stopDistance = 1f;
+    private float stopDistance = 0.6f;
     [SerializeField] private string moneyType;
     [SerializeField] private float moneyAmount = 0f;
 

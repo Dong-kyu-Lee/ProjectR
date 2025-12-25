@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -21,6 +22,8 @@ public class Status : MonoBehaviour
 
     protected bool isDead = false;
     public bool IsDead => isDead;
+
+    public event Action<float, float> OnHpChanged;
 
     public float MaxHp
     {
@@ -102,6 +105,10 @@ public class Status : MonoBehaviour
 
     public bool Invincible { get { return invincible; } set { invincible = value; } }
 
+    private void Awake()
+    {
+        OnHpChanged?.Invoke(hp, maxHp);
+    }
     void Start()
     {
         
@@ -146,6 +153,11 @@ public class Status : MonoBehaviour
 
         CalcReceiveDamage.Instance.TakeDamageQueue(receiveDamage, isCritical, gameObject);
         Hp -= receiveDamage;
+
+        if (gameObject.CompareTag("Enemy"))
+        {
+            OnHpChanged?.Invoke(Hp, maxHp);
+        }
     }
 
     // 고정 피해를 받음.

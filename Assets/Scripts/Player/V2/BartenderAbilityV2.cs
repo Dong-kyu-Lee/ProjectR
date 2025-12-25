@@ -64,7 +64,7 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
                 enemyBuffManager.ActivateDeBuff(BuffType.Poison, 10f);
                 break;
             case "Burn":
-                enemyBuffManager.ActivateDeBuff(BuffType.Burn, 5f);
+                enemyBuffManager.ActivateDeBuff(BuffType.Burn, 6f);
                 break;
             case "Freeze":
                 enemyBuffManager.ActivateDeBuff(BuffType.Freeze, 8f);
