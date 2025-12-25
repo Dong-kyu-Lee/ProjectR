@@ -34,7 +34,7 @@ public class Inventory : MonoBehaviour
 
     // 장비 관련 칸
     [SerializeField] private int maxEquipSlot = 6;             // 장비칸의 갯수
-    [SerializeField] public EquipmentItemData[] equipmentItemSlot; // 장비칸에 장착된 아이템들
+    [SerializeField] private EquipmentItemData[] equipmentItemSlot; // 장비칸에 장착된 아이템들
 
     // 그 외
     [SerializeField] private EquipmentItemData dummyItemData;        // 더미데이터. 칸이 비어있음을 나타낼 때 사용함
@@ -73,7 +73,6 @@ public class Inventory : MonoBehaviour
     {
         if (inventorySlots == null || slotIndex < 0 || slotIndex >= inventorySlots.Count)
         {
-            Debug.LogWarning($"[Inventory] 잘못된 인덱스 {slotIndex}의 아이템을 사용하려 했습니다.");
             return;
         }
 
@@ -95,7 +94,6 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{slotIndex}번 슬롯에 사용할 아이템이 없습니다.");
         }
     }
 
@@ -113,10 +111,8 @@ public class Inventory : MonoBehaviour
                 success = AddEquipmentItem(item as EquipmentItemData);
                 break;
             case ItemType.DUMMY:
-                Debug.LogWarning($"[Inventory] DUMMY 아이템은 추가하지 않습니다: {item.ItemName}");
                 return false;
             default:
-                Debug.LogWarning($"[Inventory] 정의되지 않은 아이템 타입: {item.ItemType}");
                 return false;
         }
 
@@ -138,12 +134,10 @@ public class Inventory : MonoBehaviour
             {
                 slot.count = newAmount;
                 myInventoryUI.UpdateExistingItemSlot(item, newAmount);
-                Debug.Log($"[Inventory] {item.ItemName} 수량 {slot.count - amount} → {newAmount}");
                 return true;
             }
             else
             {
-                Debug.LogWarning($"[Inventory] {item.ItemName} 수량이 최대치({item.MaxAmount})를 초과했습니다.");
                 return false;
             }
         }
@@ -157,13 +151,11 @@ public class Inventory : MonoBehaviour
                 inventorySlots[i].count = amount;
 
                 myInventoryUI.RefreshInventoryUI();
-                Debug.Log($"[Inventory] 새 소모품 {item.ItemName} {i}번 슬롯에 등록 ({amount})");
                 return true;
             }
         }
 
         // 인벤토리가 가득 찼을 경우
-        Debug.LogWarning("[Inventory] 인벤토리에 빈 공간이 없습니다!");
         return false;
     }
 
@@ -197,11 +189,9 @@ public class Inventory : MonoBehaviour
             {
                 inventorySlots[i].itemData = item;
                 inventorySlots[i].count = amount;
-                Debug.Log($"[Inventory] {item.ItemName} {i}번 슬롯에 신규 등록 ({amount})");
                 return true;
             }
         }
-        Debug.Log("인벤토리에 빈 공간이 없습니다!");
         return false;
     }
 
@@ -222,7 +212,6 @@ public class Inventory : MonoBehaviour
         if (equipSlotIdx < 0 || equipSlotIdx >= equipmentItemSlot.Length ||
             invSlotIdx < 0 || invSlotIdx >= inventorySlots.Count)
         {
-            Debug.LogWarning("[Inventory] UnloadEqToInv_NoRefresh: 잘못된 인덱스입니다.");
             return false;
         }
         EquipmentItemData itemToUnload = equipmentItemSlot[equipSlotIdx];
@@ -241,8 +230,6 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            // 타겟 슬롯이 비어있지 않음 (현재는 스왑 미지원)
-            Debug.LogWarning($"[Inventory] 타겟 슬롯 {invSlotIdx}이 비어있지 않습니다.");
             return false;
         }
     }
@@ -263,7 +250,8 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[Inventory] {itemToUnload.ItemName}을(를) 인벤토리로 옮기려 했으나 공간이 부족합니다.");
+            //실패
+            return;
         }
     }
 
@@ -349,7 +337,6 @@ public class Inventory : MonoBehaviour
     {
         if (indexA < 0 || indexA >= inventorySlots.Count || indexB < 0 || indexB >= inventorySlots.Count)
         {
-            Debug.LogWarning($"[Inventory] 잘못된 스왑 인덱스: {indexA}, {indexB}");
             return;
         }
         InventorySlot temp = inventorySlots[indexA];
@@ -363,7 +350,6 @@ public class Inventory : MonoBehaviour
         if (inventorySlotIdx < 0 || inventorySlotIdx >= inventorySlots.Count ||
             equipSlotIdx < 0 || equipSlotIdx >= equipmentItemSlot.Length)
         {
-            Debug.LogWarning("[Inventory] LoadEqFromInv_NoRefresh: 잘못된 인덱스입니다.");
             return;
         }
 

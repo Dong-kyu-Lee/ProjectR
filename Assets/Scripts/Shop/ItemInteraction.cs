@@ -62,7 +62,8 @@ public class ItemInteraction : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogWarning($"[ItemInteraction] {item.ItemName}을(를) 인벤토리에 추가하지 못했습니다. (공간 부족)");
+                        //실패
+                        return;
                     }
                 }
 

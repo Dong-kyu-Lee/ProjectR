@@ -167,7 +167,6 @@ public class InventoryUI : MonoBehaviour
                     quickSlotImg.UpdateQuickSlot(itemData, amount);
                 }
 
-                Debug.Log("아이템 갯수 UI에 반영");
                 return;
             }
         }
@@ -205,7 +204,6 @@ public class InventoryUI : MonoBehaviour
                     quickSlotImg.UpdateQuickSlot(itemData, newAmount);
                 }
 
-                Debug.Log($"[InventoryUI] {itemData.ItemName} 수량 {newAmount}로 갱신됨");
                 return;
             }
         }
