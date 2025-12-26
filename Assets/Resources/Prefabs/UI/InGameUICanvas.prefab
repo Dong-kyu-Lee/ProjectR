@@ -3330,7 +3330,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9074538798819739616}
   - component: {fileID: 9074538798819739623}
-  - component: {fileID: 9074538798819739622}
   m_Layer: 5
   m_Name: BuffManager
   m_TagString: Untagged
@@ -3373,18 +3372,6 @@ MonoBehaviour:
   buffIconPrefab: {fileID: 5592364504719645186, guid: 611424635191bff419a52635e48b3fe7, type: 3}
   buffPanel: {fileID: 9074538798622737923}
   tooltipUI: {fileID: 6106600580546545095}
---- !u!114 &9074538798819739622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9074538798819739617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beb850f9f87cb7e4ea782edefb8e8963, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9074538798871220412
 GameObject:
   m_ObjectHideFlags: 0
