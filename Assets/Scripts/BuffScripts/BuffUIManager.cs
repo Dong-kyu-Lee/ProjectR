@@ -29,31 +29,50 @@ public class BuffUIManager : MonoBehaviour
     }
 
     private void Update()
-    {// 테스트용 코드
-        if (Input.GetKeyDown(KeyCode.G))
+    {
+        // 참조 재연결 buffManager가 없으면 다시 찾기
+        if (buffManager == null)
         {
-            // BuffType 열거형의 모든 값을 가져와서 랜덤하게 선택
-            BuffType[] buffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
-            int randomIndex = Random.Range(0, buffTypes.Length);
-            BuffType randomBuff = buffTypes[randomIndex];
-            Debug.Log("적용할 랜덤 버프/디버프: " + randomBuff);
-
-            if (buffManager != null)
+            if (GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
             {
-                // 기본 지속시간 10초로 ActivateBuff 호출
-                buffManager.ActivateBuff(randomBuff, 10f);
-            }
-            else
-            {
-                Debug.LogError("BuffManager가 null 입니다.");
+                // 플레이어에 있는 데이터를 가진 BuffManager를 가져옴
+                buffManager = GameManager.Instance.CurrentPlayer.GetComponent<BuffManager>();
             }
         }
+
+        // 여전히 null이라면
+        if (buffManager == null)
+        {
+            if (activeBuffIcons.Count > 0) ClearAllBuffIcons();
+            return;
+        }
+
+        // G키 테스트 코드
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            BuffType[] buffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
+            buffManager.ActivateBuff(buffTypes[Random.Range(0, buffTypes.Length)], 10f);
+        }
+
         UpdateBuffUI();
+    }
+
+    // 아이콘을 모두 지우고 리스트를 비우는 기능
+    private void ClearAllBuffIcons()
+    {
+        foreach (var icon in activeBuffIcons.Values)
+        {
+            if (icon != null) Destroy(icon);
+        }
+        activeBuffIcons.Clear();
     }
 
     private void UpdateBuffUI()
     {
-        // 1. BuffManager의 활성 버프 정보에 따라 아이콘 생성 또는 업데이트
+        //데이터 딕셔너리가 유효한지 확인
+        if (buffManager == null || buffManager.ActiveBuffDict == null) return;
+
+        // BuffManager의 활성 버프 정보에 따라 아이콘 생성 또는 업데이트
         foreach (var buffEntry in buffManager.ActiveBuffDict)
         {
             BuffType buffType = buffEntry.Key;
@@ -86,7 +105,7 @@ public class BuffUIManager : MonoBehaviour
             }
         }
 
-        // 2. 만약 PlayerBuffManager에서 해제된 버프가 있다면, 해당 아이콘을 제거
+        // 만약 PlayerBuffManager에서 해제된 버프가 있다면, 해당 아이콘을 제거
         List<BuffType> iconsToRemove = new List<BuffType>();
         foreach (var iconPair in activeBuffIcons)
         {

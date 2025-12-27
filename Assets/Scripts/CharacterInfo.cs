@@ -97,14 +97,9 @@ public class CharacterInfo : MonoBehaviour
 
         if (inventoryUI == null)
         {
-            Debug.LogWarning("CharacterInfo 내부에서 InventoryUI를 찾을 수 없습니다.");
             return;
         }
-        /*if (!hasInventoryEvent)
-        {
-            Debug.Log("인벤토리 UI 이벤트가 없음");
-            return;
-        }*/
+
         GameObject panelRoot = characterInfo;
         if (panelRoot.activeSelf)
         {

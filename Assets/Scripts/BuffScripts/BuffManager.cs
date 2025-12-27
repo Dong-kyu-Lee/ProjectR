@@ -5,8 +5,7 @@ using UnityEngine;
 public class BuffManager : MonoBehaviour
 {
     // 활성화된 버프들을 BuffType을 키로 하여 저장.
-    private Dictionary<BuffType, Buff> activeBuffs = new Dictionary<BuffType, Buff>();
-    public Dictionary<BuffType, Buff> ActiveBuffDict => activeBuffs;
+    public Dictionary<BuffType, Buff> ActiveBuffDict = new Dictionary<BuffType, Buff>();
 
     private Collider col;
 
@@ -28,15 +27,15 @@ public class BuffManager : MonoBehaviour
             duration *= (1 + CalcDamage.Instance.additionalBuffTime);
         }
 
-        if (activeBuffs.ContainsKey(type))
+        if (ActiveBuffDict.ContainsKey(type))
         {
-            activeBuffs[type].BuffOverlap(duration);
-            Debug.Log($"지속시간 갱신 {activeBuffs[type].CurrentDuration}");
+            ActiveBuffDict[type].BuffOverlap(duration);
+            Debug.Log($"지속시간 갱신 {ActiveBuffDict[type].CurrentDuration}");
         }
         else
         {
             Buff newBuff = GenerateBuff(type, duration, gameObject);
-            activeBuffs.Add(type, newBuff);
+            ActiveBuffDict.Add(type, newBuff);
             newBuff.ApplyBuffEffect();
             StartCoroutine(StartBuffEffect(newBuff));
             Debug.Log($"버프[{type}]적용");
@@ -50,15 +49,15 @@ public class BuffManager : MonoBehaviour
         {
             duration *= (1 + CalcDamage.Instance.additionalDebuffTime);
         }
-        if (activeBuffs.ContainsKey(type))
+        if (ActiveBuffDict.ContainsKey(type))
         {
-            activeBuffs[type].BuffOverlap(duration);
+            ActiveBuffDict[type].BuffOverlap(duration);
             Debug.Log("지속시간 갱신");
         }
         else
         {
             Buff newBuff = GenerateBuff(type, duration, gameObject);
-            activeBuffs.Add(type, newBuff);
+            ActiveBuffDict.Add(type, newBuff);
             newBuff.ApplyBuffEffect();
             StartCoroutine(StartBuffEffect(newBuff));
             Debug.Log($"버프[{type}]적용");
@@ -68,19 +67,19 @@ public class BuffManager : MonoBehaviour
     //활성중인 버프 레벨을 1단계 올리는 메서드
     public void ActiveBuffLevelUpOnce(BuffType type)
     {
-        if (activeBuffs.ContainsKey(type))
+        if (ActiveBuffDict.ContainsKey(type))
         {
-            activeBuffs[type].BuffOverlap(0.0f);
+            ActiveBuffDict[type].BuffOverlap(0.0f);
         }
     }
 
     /// 외부에서 버프를 강제 제거할 때 사용하는 메서드
     public void DeactivateBuff(BuffType type)
     {
-        if (activeBuffs.TryGetValue(type, out Buff buff))
+        if (ActiveBuffDict.TryGetValue(type, out Buff buff))
         {
             buff.RemoveBuffEffect();
-            activeBuffs.Remove(type);
+            ActiveBuffDict.Remove(type);
             Debug.Log($"버프 [{type}] 강제 제거됨.");
         }
         else
@@ -110,9 +109,9 @@ public class BuffManager : MonoBehaviour
         }
         buff.RemoveBuffEffect();
 
-        if (activeBuffs.ContainsKey(type))
+        if (ActiveBuffDict.ContainsKey(type))
         {
-            activeBuffs.Remove(type);
+            ActiveBuffDict.Remove(type);
         }
         Debug.Log($"버프 [{type}] 지속시간 만료되어 제거됨.");
     }
@@ -124,14 +123,14 @@ public class BuffManager : MonoBehaviour
 
     public List<Buff> GetActiveBuffs()
     {
-        return new List<Buff>(activeBuffs.Values);
+        return new List<Buff>(ActiveBuffDict.Values);
     }
 
     public void ClearPotionBuffs()
     {
         List<BuffType> potionBuffsToRemove = new List<BuffType>();
 
-        foreach (var buffType in activeBuffs.Keys)
+        foreach (var buffType in ActiveBuffDict.Keys)
         {
             if (buffType.ToString().StartsWith("Potion_"))
             {
