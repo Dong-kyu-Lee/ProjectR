@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Equipment", menuName = "Scriptable Object/Equipment Item Data", order = 1)]
-public class EquipmentItemData : ScriptableObject
+public class EquipmentItemData : BasicItemData
 {
     [Header("1. 공격력 (Damage)")]
     [Tooltip("기본 공격력에 더해지는 고정 수치")]
