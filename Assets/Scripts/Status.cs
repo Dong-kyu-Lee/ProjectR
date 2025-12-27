@@ -146,6 +146,9 @@ public class Status : MonoBehaviour
 
         CalcReceiveDamage.Instance.TakeDamageQueue(receiveDamage, isCritical, gameObject);
         Hp -= receiveDamage;
+
+        // 최대 데미지 갱신
+        GameManager.Instance.SetMaximumDamage(receiveDamage);
     }
 
     // 고정 피해를 받음.
