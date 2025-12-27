@@ -10,16 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 757edcdf1a6d8304b9390a4b4ef05c28, type: 3}
-  m_Name: New Equipment 3
+  m_Name: "\uCE68\uC218\uB41C \uB3C4\uC11C\uAD00\uC758 \uAE30\uB85D"
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
+  itemName: "\uCE68\uC218\uB41C \uB3C4\uC11C\uAD00\uC758 \uAE30\uB85D"
+  itemDescription: "\uAC00\uB77C\uC549\uC740 \uB545\uC5D0\uC11C \uBC1C\uACAC\uB41C
+    \uC816\uC740 \uAE30\uB85D\uBB3C\uC785\uB2C8\uB2E4. \uC801\uC758 \uC57D\uC810\uC774
+    \uC77C\uBD80 \uC801\uD600 \uC788\uC2B5\uB2C8\uB2E4."
   itemID: 0
   itemSprite: {fileID: 0}
   maxAmount: 99
   itemType: 1
   itemPrice: 0
-  itemExplain: 
+  itemExplain: "\uD53C\uD574 \uAC10\uC18C\uB7C9 \uBB34\uC2DC +5%"
   itemGrade: 0
   damage: 0
   additionalDamage: 0
@@ -30,3 +32,4 @@ MonoBehaviour:
   attackSpeed: 0
   moveSpeed: 0
   priceAdditional: 0
+  ignoreDamageReduction: 0.05

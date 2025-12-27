@@ -41,6 +41,10 @@ public class EquipmentItemData : BasicItemData
     [Tooltip("재화 획득 시 가산되는 수치")]
     [SerializeField] private float priceAdditional = 0.0f;
 
+    [Header("10. 피해 감소 무시 (Ignore Def)")]
+    [Tooltip("적의 방어력을 무시하는 비율 (예: 0.05 = 5% 무시)")]
+    [SerializeField] private float ignoreDamageReduction = 0.0f;
+
     public void EquipItem(PlayerStatus player)
     {
         if (player == null) return;
@@ -58,6 +62,8 @@ public class EquipmentItemData : BasicItemData
         player.MoveSpeed += moveSpeed;
 
         player.PriceAdditional += priceAdditional;
+
+        player.IgnoreDamageReduction += ignoreDamageReduction;
     }
 
     public void UnEquipItem(PlayerStatus player)
@@ -76,5 +82,6 @@ public class EquipmentItemData : BasicItemData
         player.AdditionalAttackSpeed -= attackSpeed;
         player.MoveSpeed -= moveSpeed;
         player.PriceAdditional -= priceAdditional;
+        player.IgnoreDamageReduction -= ignoreDamageReduction;
     }
 }
