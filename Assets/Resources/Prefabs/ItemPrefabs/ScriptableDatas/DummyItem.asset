@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 757edcdf1a6d8304b9390a4b4ef05c28, type: 3}
-  m_Name: New Equipment
+  m_Name: DummyItem
   m_EditorClassIdentifier: 
   itemName: 
   itemDescription: 
   itemID: 0
   itemSprite: {fileID: 0}
   maxAmount: 99
-  itemType: 1
+  itemType: 0
   itemPrice: 0
   itemExplain: 
   itemGrade: 0
@@ -30,3 +30,4 @@ MonoBehaviour:
   attackSpeed: 0
   moveSpeed: 0
   priceAdditional: 0
+  ignoreDamageReduction: 0
