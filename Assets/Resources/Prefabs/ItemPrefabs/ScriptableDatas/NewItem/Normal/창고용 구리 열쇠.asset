@@ -16,11 +16,11 @@ MonoBehaviour:
   itemDescription: "\uC220\uC9D1 \uC9C0\uD558 \uCC3D\uACE0\uC758 \uB0A1\uC740 \uC5F4\uC1E0\uC785\uB2C8\uB2E4.
     \uBB34\uC5B8\uAC00\uB97C \uC5EC\uB294 \uC6A9\uB3C4\uBCF4\uB2E4 \uD638\uC2E0\uC6A9\uC73C\uB85C
     \uC950\uAE30 \uC88B\uC2B5\uB2C8\uB2E4."
-  itemID: 0
-  itemSprite: {fileID: 0}
-  maxAmount: 99
+  itemID: 81
+  itemSprite: {fileID: 21300000, guid: 5476cf65a1d763b4fac635502e0fa594, type: 3}
+  maxAmount: 1
   itemType: 1
-  itemPrice: 0
+  itemPrice: 60
   itemExplain: "\uACF5\uACA9\uB825 + 5"
   itemGrade: 0
   damage: 5
@@ -32,3 +32,4 @@ MonoBehaviour:
   attackSpeed: 0
   moveSpeed: 0
   priceAdditional: 0
+  ignoreDamageReduction: 0

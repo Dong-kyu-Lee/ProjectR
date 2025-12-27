@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757edcdf1a6d8304b9390a4b4ef05c28, type: 3}
   m_Name: "\uC815\uC6D0\uC0AC\uC758 \uD654\uC0B4 \uC8FC\uBA38\uB2C8"
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
-  itemID: 0
-  itemSprite: {fileID: 0}
-  maxAmount: 99
+  itemName: "\uC815\uC6D0\uC0AC\uC758 \uD654\uC0B4 \uC8FC\uBA38\uB2C8"
+  itemDescription: "\uC815\uC6D0\uC744 \uB9DD\uCE58\uB294 \uC720\uD574 \uC870\uC218\uB97C
+    \uCAD3\uB358 \uAC00\uC0AC\uB3C4\uC6B0\uBBF8\uC758 \uC7A5\uBE44\uC785\uB2C8\uB2E4.
+    \uAC00\uBCCD\uACE0 \uC2E4\uC6A9\uC801\uC785\uB2C8\uB2E4."
+  itemID: 31
+  itemSprite: {fileID: 21300000, guid: a813c0dc4a8942f48b4b51f75b84d4b8, type: 3}
+  maxAmount: 1
   itemType: 1
-  itemPrice: 0
-  itemExplain: 
+  itemPrice: 60
+  itemExplain: "\uC774\uB3D9\uC18D\uB3C4 +5"
   itemGrade: 0
   damage: 0
   additionalDamage: 0
@@ -28,5 +30,6 @@ MonoBehaviour:
   damageReduction: 0
   additionalDamageReduction: 0
   attackSpeed: 0
-  moveSpeed: 0
+  moveSpeed: 5
   priceAdditional: 0
+  ignoreDamageReduction: 0
