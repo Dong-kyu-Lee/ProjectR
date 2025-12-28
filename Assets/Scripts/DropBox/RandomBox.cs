@@ -27,6 +27,14 @@ public class BoxGradeDropTable
     public List<ItemGradeChance> itemGradeChances;
 }
 
+// [추가됨] 등급별 스프라이트를 연결하기 위한 클래스
+[System.Serializable]
+public class BoxGradeSprite
+{
+    public BoxGrade grade;
+    public Sprite sprite;
+}
+
 #endregion
 
 public class RandomBox : MonoBehaviour
@@ -38,6 +46,10 @@ public class RandomBox : MonoBehaviour
     [Header("박스 → 아이템 등급 확률")]
     [SerializeField]
     private List<BoxGradeDropTable> dropTables;
+
+    [Header("박스 등급별 이미지 설정")]
+    [SerializeField]
+    private List<BoxGradeSprite> boxGradeSprites;
 
     private BoxGrade currentBoxGrade;
 
@@ -78,6 +90,8 @@ public class RandomBox : MonoBehaviour
             {
                 DropItem();
                 isOpen = true;
+
+                canOpen = false;
             }
         }
     }
@@ -103,6 +117,7 @@ public class RandomBox : MonoBehaviour
         float rand = Random.value;
         float cumulative = 0f;
 
+        // 박스 등급 결정
         foreach (var entry in boxGradeChances)
         {
             cumulative += entry.probability;
@@ -113,13 +128,19 @@ public class RandomBox : MonoBehaviour
             }
         }
 
-        switch (currentBoxGrade)
+        // 결정된 등급에 맞는 이미지 적용
+        BoxGradeSprite matchedSprite = boxGradeSprites.Find(x => x.grade == currentBoxGrade);
+
+        if (matchedSprite != null && matchedSprite.sprite != null)
         {
-            case BoxGrade.Normal: spriteRenderer.color = Color.gray; break;
-            case BoxGrade.Rare: spriteRenderer.color = Color.blue; break;
-            case BoxGrade.Epic: spriteRenderer.color = Color.magenta; break;
-            case BoxGrade.Unique: spriteRenderer.color = Color.yellow; break;
-            case BoxGrade.Legendary: spriteRenderer.color = Color.red; break;
+            spriteRenderer.sprite = matchedSprite.sprite;
+
+            spriteRenderer.color = Color.white;
+        }
+        else
+        {
+            Debug.LogWarning($"등급에 해당하는 이미지가 없습니다: {currentBoxGrade}");
+            spriteRenderer.color = Color.gray;
         }
     }
 
@@ -132,7 +153,17 @@ public class RandomBox : MonoBehaviour
 
         // 플레이어 소유 아이템 (장비 포함)
         Inventory inventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Inventory>();
-        HashSet<BasicItemData> ownedItems = new HashSet<BasicItemData>(inventory.GetOwnedItems());
+
+        // 인벤토리가 없을 경우를 대비한 예외 처리
+        HashSet<BasicItemData> ownedItems;
+        if (inventory != null)
+        {
+            ownedItems = new HashSet<BasicItemData>(inventory.GetOwnedItems());
+        }
+        else
+        {
+            ownedItems = new HashSet<BasicItemData>();
+        }
 
         for (int i = 0; i < dropNum; i++)
         {

@@ -164,6 +164,8 @@ public class Status : MonoBehaviour
         Hp -= receiveDamage;
 
         OnHpChange();
+
+        GameManager.Instance.SetMaximumDamage(receiveDamage);
     }
 
     // 고정 피해를 받음.
