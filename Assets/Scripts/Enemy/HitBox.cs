@@ -17,7 +17,12 @@ public class HitBox : MonoBehaviour
     private void Awake()
     {
         enemy = gameObject.transform.parent.gameObject;
-        damage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
+        float statusDamage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
+
+        if (statusDamage != 0)
+        {
+            damage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
+        }
     }
 
     void Update()

@@ -122,9 +122,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileRigidbody: {fileID: -1023563486243673248}
   playerStatus: {fileID: 0}
+  bartenderAbility: {fileID: 0}
   player: {fileID: 0}
   damage: 0
   ignoreDamageReduction: 0
+  bottle: 
+  explosionPrefab: {fileID: 0}
 --- !u!58 &2550299675381142272
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -135,7 +138,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
