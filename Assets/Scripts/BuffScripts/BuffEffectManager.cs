@@ -27,6 +27,7 @@ public class BuffEffectManager : MonoBehaviour
     public class DebuffEffectEntry
     {
         public BuffType buffType;
+        public bool isTick;
         public GameObject effectPrefab;
     }
 
@@ -54,25 +55,58 @@ public class BuffEffectManager : MonoBehaviour
     }
 
     // 버프 이펙트 실행
-    public void PlayBuffEffect(BuffType buffType, Vector3 position, Collider col)
+    public void PlayBuffEffect(BuffType buffType, Vector3 position, bool isTick)
     {
-        // 등록되지 않은 버프 무시
-        if (!buffEffectDict.TryGetValue(buffType, out var buffPrefab))
-            return;
-
-        Vector3 spawnPosition = position; // 기본: 발바닥 기준
-
-        // 버프 타입별 위치 보정
-        switch (buffType)
+        // 틱일 경우
+        if (isTick)
         {
-            case BuffType.Burn:
-                break;
+            // 등록되지 않은 버프 무시
+            if (!buffEffectDict.TryGetValue(buffType, out var buffPrefab))
+                return;
 
-            case BuffType.Poison:
-                spawnPosition.y += 1.2f;
-                break;
+            Vector3 spawnPosition = position; // 기본: 발바닥 기준
+
+            // 버프 타입별 위치 보정
+            switch (buffType)
+            {
+                case BuffType.Burn:
+                    break;
+
+                case BuffType.Poison:
+                    spawnPosition.y += 1.2f;
+                    break;
+            }
+
+            Instantiate(buffPrefab, spawnPosition, Quaternion.identity);
         }
 
-        Instantiate(buffPrefab, spawnPosition, Quaternion.identity);
+        // 버스트일 경우
+        else
+        {
+            // 등록되지 않은 버프 무시
+            if (!buffEffectDict.TryGetValue(buffType, out var buffPrefab))
+                return;
+
+            Vector3 spawnPosition = position; // 기본: 발바닥 기준
+
+            // 버프 타입별 위치 보정
+            switch (buffType)
+            {
+                case BuffType.Drunken:
+                    spawnPosition.y += 1.2f;
+                    break;
+
+                case BuffType.Freeze:
+                    spawnPosition.y += 0.8f;
+                    break;
+
+                case BuffType.Curse:
+                    spawnPosition.y += 0.7f;
+                    break;
+            }
+
+            Instantiate(buffPrefab, spawnPosition, Quaternion.identity);
+        }
+
     }
 }

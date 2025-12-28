@@ -11,6 +11,7 @@ public class StunDeBuff : Buff
     {
         this.BuffType = BuffType.Stun;
         maxBuffLevel = 1;
+        maxDuration = 2f;
         isDebuff = true;
     }
 

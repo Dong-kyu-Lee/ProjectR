@@ -24,7 +24,7 @@ public class CurseDeBuff : Buff
         if (CalcDamage.Instance.curseEffect13) damageTakenInc = 0.1f;
         totalDamageTaken = damageTakenInc * (currentBuffLevel + 1);
         targetStatus.DamageTaken += totalDamageTaken;
-        Debug.Log(currentBuffLevel + " " + targetStatus.DamageTaken);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, false);
     }
 
     public override void RenewBuffEffect()
@@ -35,7 +35,7 @@ public class CurseDeBuff : Buff
         if (CalcDamage.Instance.curseEffect13) damageTakenInc = 0.1f;
         totalDamageTaken = damageTakenInc * (currentBuffLevel + 1);
         targetStatus.DamageTaken += totalDamageTaken;
-        Debug.Log(currentBuffLevel + " " + targetStatus.DamageTaken);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, false);
     }
 
     public override void RemoveBuffEffect()

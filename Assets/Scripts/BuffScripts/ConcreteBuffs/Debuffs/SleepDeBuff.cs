@@ -11,6 +11,7 @@ public class SleepDeBuff : Buff
     {
         this.BuffType = BuffType.Sleep;
         maxBuffLevel = 1;
+        maxDuration = 2f;
         isDebuff = true;
     }
 

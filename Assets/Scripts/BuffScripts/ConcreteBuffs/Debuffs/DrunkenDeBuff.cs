@@ -22,12 +22,14 @@ public class DrunkenDeBuff : Buff
         
         targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
         if (AbilityManager.Instance.bartenderAbility[2]) CalcReceiveDamage.Instance.TakeDebuffDamage(DrunkenBustDmg, targetStatus, false);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, false);
     }
 
     public override void RenewBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
         if (AbilityManager.Instance.bartenderAbility[2]) CalcReceiveDamage.Instance.TakeDebuffDamage(DrunkenBustDmg, targetStatus, false);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, false);
     }
 
     public override void RemoveBuffEffect()

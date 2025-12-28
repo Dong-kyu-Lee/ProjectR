@@ -37,18 +37,23 @@ public class LevelUp : MonoBehaviour
         statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
     }
 
+    private void Update()
+    {
+        Debug.Log(playerStatus.Level + "레벨 " + playerStatus.Exp + "/" + requiredExp[(int)playerStatus.Level]);
+    }
+
     // 경험치 통 정의.
     static LevelUp()
     {
         int maxLevel = 50; // 최대 레벨.
-        requiredExp = new int[maxLevel + 2];
+        requiredExp = new int[maxLevel + 1];
 
-        for (int i = 1; i <= maxLevel; i++)
+        for (int i = 1; i < maxLevel; i++)
         {
             double exp = 100 + 2 * Math.Pow(i, 2) * Math.Pow(1.03, i);
             requiredExp[i] = (int)Math.Round(exp);
         }
-        requiredExp[maxLevel + 1] = 0;
+        requiredExp[maxLevel] = 0;
     }
 
     // 경험치 증가.

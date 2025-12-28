@@ -97,13 +97,11 @@ public class BuffManager : MonoBehaviour
             if (buff.TargetObject() == "Enemy" && CalcDamage.Instance.curseEffect16 && (type == BuffType.Burn || type == BuffType.Poison))
             {
                 buff.DoActionOnActivate(buff.BuffEffectTick / 2);
-                BuffEffectManager.Instance.PlayBuffEffect(type, transform.position, col);
                 yield return new WaitForSeconds(buff.BuffEffectTick / 2);
             }
             else
             {
                 buff.DoActionOnActivate(buff.BuffEffectTick);
-                BuffEffectManager.Instance.PlayBuffEffect(type, transform.position, col);
                 yield return new WaitForSeconds(buff.BuffEffectTick);
             }
         }

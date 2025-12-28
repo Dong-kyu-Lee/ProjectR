@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class BurnDeBuff : Buff
 {
@@ -38,7 +39,7 @@ public class BurnDeBuff : Buff
         if (targetStatus == null) return;
 
         CalcReceiveDamage.Instance.TakeDebuffDamage(fireTickDmg, targetStatus, false);
-
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, true);
     }
 
     public override void DoActionOnActivate(float tickDuration)

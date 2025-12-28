@@ -107,7 +107,7 @@ public class Status : MonoBehaviour
 
     private void Awake()
     {
-        OnHpChanged?.Invoke(hp, maxHp);
+        OnHpChange();
     }
     void Start()
     {
@@ -117,6 +117,15 @@ public class Status : MonoBehaviour
     void Update()
     {
 
+    }
+
+    // 적의 체력 변화 확인
+    public void OnHpChange()
+    {
+        if (gameObject.CompareTag("Enemy"))
+        {
+            OnHpChanged?.Invoke(Hp, maxHp);
+        }
     }
 
     // 피해를 받음. 
@@ -154,10 +163,7 @@ public class Status : MonoBehaviour
         CalcReceiveDamage.Instance.TakeDamageQueue(receiveDamage, isCritical, gameObject);
         Hp -= receiveDamage;
 
-        if (gameObject.CompareTag("Enemy"))
-        {
-            OnHpChanged?.Invoke(Hp, maxHp);
-        }
+        OnHpChange();
     }
 
     // 고정 피해를 받음.
@@ -169,6 +175,8 @@ public class Status : MonoBehaviour
         damage *= (1 + damageTaken);
         CalcReceiveDamage.Instance.TakeTrueDamageQueue(damage, gameObject);
         Hp -= damage;
+
+        OnHpChange();
     }
 
     protected virtual void Dead()
