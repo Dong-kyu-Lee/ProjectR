@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using System;
 
 public enum SceneType
 {
@@ -68,6 +69,13 @@ public class GameManager : MonoBehaviour
         { CharacterType.Blacksmith, "Prefabs/Player Prefabs/Blacksmith2_1" },
     };
 
+    // 게임 결과 관련 변수
+    public TimeSpan totalPlayTimeInSeconds; // 총 플레이 시간(초)
+    public int totalKillCount = 0; // 총 처치한 적 수
+    public float maximumDamage = 0;
+    private DateTime playStartTime;
+    private bool isPlayTimeRunning = false;
+
     private void Awake()
     {
         // 싱글톤 초기화
@@ -125,6 +133,10 @@ public class GameManager : MonoBehaviour
                 if (playerObject != null) Destroy(playerObject);
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
+                // 게임 결과 초기화
+                totalPlayTimeInSeconds = TimeSpan.Zero;
+                totalKillCount = 0;
+                maximumDamage = 0;
                 break;
             case SceneType.Normal:
                 // 던전에서 사용되는 UI 생성
@@ -189,12 +201,10 @@ public class GameManager : MonoBehaviour
     // 플레이어 사망 시, PlayerControllerBase에서 호출되는 함수
     public void PlayerDead()
     {
-        // 게임 오버 UI 표시
-
         // 스테이지 흐름 초기화
         DungeonFlowManager.Instance.ResetStages();
-        // 플레이어를 로비 씬으로 이동
-        MoveScene(SceneType.LobbyScene, "LobbyScene");
+        // 플레이어를 엔딩 씬으로 이동
+        MoveScene(SceneType.EndScene, "EndScene");
     }
 
     public void CreateFirstPlayer()
@@ -211,6 +221,29 @@ public class GameManager : MonoBehaviour
         currentCharacterType = startCharacterType;
         playerObject.SetActive(false);
         DontDestroyOnLoad(playerObject);
+    }
+
+    // 플레이 시간 측정 시작/종료 함수
+    public void PlayTimeStart()
+    {
+        if(isPlayTimeRunning) return;
+        playStartTime = DateTime.Now;
+        isPlayTimeRunning = true;
+    }
+
+    public void PlayTimeStop()
+    {
+        if(!isPlayTimeRunning) return;
+        totalPlayTimeInSeconds = DateTime.Now - playStartTime;
+        isPlayTimeRunning = false;
+    }
+
+    public void SetMaximumDamage(float damage)
+    {
+        if(damage > maximumDamage)
+        {
+            maximumDamage = damage;
+        }
     }
 
     // 인게임에 사용되는 UI의 존재를 확인하고 없으면 생성하는 함수

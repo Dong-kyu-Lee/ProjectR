@@ -47,11 +47,7 @@ public class TempMiddleBossStageManager : MonoBehaviour
     {
         if(middleBoss.GetComponent<EnemyAIController>().isDead && !isMiddleBossDead)
         {
-            isMiddleBossDead = true;
-            OnMiddleBossStageEnd();
-            // 중간보스 처치 후 컷씬 재생
-            StorySystem.Instance.SetStoryState(StoryID.Temp_Middle_Boss, StoryState.Available);
-            StorySystem.Instance.StartStory(StoryID.Temp_Middle_Boss);
+            StartCoroutine(MiddleBossDeadCoroutine());
         }
     }
 
@@ -68,5 +64,15 @@ public class TempMiddleBossStageManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f); // 2초 대기
         middleBoss.SetActive(true);
+    }
+
+    IEnumerator MiddleBossDeadCoroutine()
+    {
+        yield return new WaitForSeconds(1.5f); // 2초 대기
+        isMiddleBossDead = true;
+        OnMiddleBossStageEnd();
+        // 중간보스 처치 후 컷씬 재생
+        StorySystem.Instance.SetStoryState(StoryID.Temp_Middle_Boss, StoryState.Available);
+        StorySystem.Instance.StartStory(StoryID.Temp_Middle_Boss);
     }
 }

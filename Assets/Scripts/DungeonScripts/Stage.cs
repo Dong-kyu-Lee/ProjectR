@@ -42,6 +42,7 @@ public class Stage : MonoBehaviour
         currentArea = StageFlow.Lobby;
         Debug.Log($"{gameObject.name} Start");
         LoadNextDungeon();
+        GameManager.Instance.PlayTimeStart();
     }
 
     // 다음 던전 구역을 로드하는 함수
@@ -72,6 +73,7 @@ public class Stage : MonoBehaviour
                 break;
             case StageFlow.FinalBoss:
                 // Demo 버전 - End Scene으로 이동
+                GameManager.Instance.PlayTimeStop();
                 GameManager.Instance.MoveScene(SceneType.EndScene, "EndScene");
                 // 다음 스테이지로 이동
                 // DungeonFlowManager.Instance.ChangeStage();
