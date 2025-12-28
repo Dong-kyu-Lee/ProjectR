@@ -133,9 +133,9 @@ public class Stage : MonoBehaviour
             {
                 roomList[index + 1].gate.OpenGate(false);
                 if (arrivePos != Vector3.zero) // 워프를 통한 이동인 경우
-                    missionUI.StartMission("Move to next room.", arrivePos);
+                    missionUI.StartMission("다음 방으로 이동하세요.", arrivePos);
                 else // 통로를 통한 이동인 경우, 다음 방의 중심 좌표를 목표 위치로 설정
-                    missionUI.StartMission("Move to next room.", roomList[index + 1].transform.position + new Vector3(20, 20, 0));
+                    missionUI.StartMission("다음 방으로 이동하세요.", roomList[index + 1].transform.position + new Vector3(20, 20, 0));
             }
             currentRoomIndex = index;
         }
@@ -148,7 +148,7 @@ public class Stage : MonoBehaviour
         if (currentRoomIndex == roomList.Count - 1)
         {
             OpenFinishSpot();
-            missionUI.StartMission("Move to next room.", currentFinishSpot.transform.position);
+            missionUI.StartMission("다음 방으로 이동하세요.", currentFinishSpot.transform.position);
         }
     }
 
