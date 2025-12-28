@@ -26,29 +26,16 @@ public class RangedEnemy : Enemy
 
     public Vector2 SetTarget()
     {
-        Vector2 direction = PlayerTransform.position - firePoint.position;
+        Vector2 direction = (PlayerTransform.position - firePoint.position).normalized;
+        float speed = 10f; // 원하는 발사 속도
 
-        float distance = direction.magnitude;
-        float radAngle = 30f * Mathf.Deg2Rad; // 30도
-
-        // 속력 계산 공식 (포물선 방정식 기반)
-        float velocity = Mathf.Sqrt(distance * 9.8f / Mathf.Sin(2 * radAngle));
-
-        // x, y 성분 분리
-        float vx = velocity * Mathf.Cos(radAngle);
-        float vy = velocity * Mathf.Sin(radAngle);
-
-        // 방향 보정 (좌우 반전)
-        if (PlayerTransform.position.x < firePoint.position.x)
-            vx = -vx;
-
-        return new Vector2(vx, vy);
+        return direction * speed;
     }
 
     public IEnumerator EnableRangeAttack()
     {
         direction = SetTarget();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.35f);
         ShootProjectile();
     }
 

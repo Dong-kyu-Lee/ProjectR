@@ -138,7 +138,7 @@ public class Enemy : MonoBehaviour
 
     protected IEnumerator DeadCoroutine()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
         gameObject.SetActive(false);
     }
 
