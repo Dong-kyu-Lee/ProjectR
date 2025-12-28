@@ -12,19 +12,38 @@ public class InventoryItemExplain : MonoBehaviour
     [SerializeField] private Text itemEffectText;
     [SerializeField] private Text itemDescriptionText;
 
+    [Header("기능 버튼")]
+    [SerializeField] private Button discardButton;
+
     private BasicItemData currentItemData;
     private bool isPanelActive = false;
+    private Inventory playerInventory;
 
-    // 인벤토리(이 객체가 포함된 상위 오브젝트)가 켜질 때 실행
+    void Start()
+    {
+        if (GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
+        {
+            playerInventory = GameManager.Instance.CurrentPlayer.GetComponentInChildren<Inventory>();
+        }
+        else
+        {
+            Debug.LogWarning("InventoryItemExplain: GameManager 또는 CurrentPlayer를 찾을 수 없습니다.");
+        }
+
+        // 버튼 리스너 연결
+        if (discardButton != null)
+        {
+            discardButton.onClick.AddListener(OnClickDiscard);
+            discardButton.interactable = false;
+        }
+    }
+
     void OnEnable()
     {
-        // 인벤토리가 열리면 설명창 패널도 강제로 활성화
         if (explainPanel != null)
             explainPanel.SetActive(true);
 
         isPanelActive = true;
-
-        // 처음 열렸을 때는 선택된 아이템이 없으므로 빈 상태로 초기화
         ClearPanel();
     }
 
@@ -35,14 +54,11 @@ public class InventoryItemExplain : MonoBehaviour
 
     public void OnItemSlotClicked(BasicItemData itemData)
     {
-        //Dummy 아이템이면 무시 -> 무시하는 대신 내용을 비워줌
         if (itemData == null || itemData.ItemName == "Dummy")
         {
             ClearPanel();
             return;
         }
-
-        // 패널은 이미 켜져 있으므로 내용만 갱신
         UpdatePanel(itemData);
     }
 
@@ -57,46 +73,70 @@ public class InventoryItemExplain : MonoBehaviour
     {
         currentItemData = itemData;
 
-        // 아이템이 선택되면 이미지를 다시 보이게 설정
         if (itemImage != null)
         {
             itemImage.gameObject.SetActive(true);
             itemImage.sprite = itemData.ItemSprite;
         }
 
-        if (itemNameText != null)
-            itemNameText.text = itemData.ItemName;
-        if (itemEffectText != null)
-            itemEffectText.text = itemData.ItemExplain;
-        if (itemDescriptionText != null)
-            itemDescriptionText.text = itemData.ItemDescription;
+        if (itemNameText != null) itemNameText.text = itemData.ItemName;
+        if (itemEffectText != null) itemEffectText.text = itemData.ItemExplain;
+        if (itemDescriptionText != null) itemDescriptionText.text = itemData.ItemDescription;
+
+        if (discardButton != null) discardButton.interactable = true;
     }
 
-    // 패널을 빈 상태로 초기화하는 함수
     private void ClearPanel()
     {
         currentItemData = null;
 
-        // 이미지는 숨김 (빈 하얀 네모 방지)
-        if (itemImage != null)
-            itemImage.gameObject.SetActive(false);
+        if (itemImage != null) itemImage.gameObject.SetActive(false);
+        if (itemNameText != null) itemNameText.text = "";
+        if (itemEffectText != null) itemEffectText.text = "";
+        if (itemDescriptionText != null) itemDescriptionText.text = " ";
 
-        if (itemNameText != null)
-            itemNameText.text = "";
-        if (itemEffectText != null)
-            itemEffectText.text = "";
+        if (discardButton != null) discardButton.interactable = false;
+    }
 
-        // 안내 문구 표시
-        if (itemDescriptionText != null)
-            itemDescriptionText.text = " ";
+    public void OnClickDiscard()
+    {
+        if (currentItemData == null) return;
+
+        // 인벤토리 참조 재확인
+        if (playerInventory == null)
+        {
+            if (GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
+            {
+                playerInventory = GameManager.Instance.CurrentPlayer.GetComponent<Inventory>();
+            }
+        }
+
+        // 인벤토리가 있다면 삭제 진행
+        if (playerInventory != null)
+        {
+            // 장비라면 장착 해제 먼저
+            if (currentItemData is EquipmentItemData equipData)
+            {
+                PlayerStatus status = playerInventory.GetComponent<PlayerStatus>();
+                if (status != null) equipData.UnEquipItem(status);
+            }
+
+            // 인벤토리 리스트에서 삭제 요청
+            playerInventory.RemoveItem(currentItemData);
+
+            Debug.Log($"{currentItemData.ItemName}을(를) 버렸습니다.");
+            ClearPanel();
+        }
+        else
+        {
+            Debug.LogError("플레이어 인벤토리를 찾을 수 없어 아이템을 버리지 못했습니다.");
+        }
     }
 
     public void ClosePanel()
     {
         explainPanel.SetActive(false);
         isPanelActive = false;
-
-        //닫힌 UI 스택에서 제거
         InGameUIManager.Instance.UnregisterUI(explainPanel);
     }
 }

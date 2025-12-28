@@ -1240,6 +1240,8 @@ MonoBehaviour:
   inGameUI: {fileID: 1818308320}
   testUI: {fileID: 0}
   isFirstPlayerCreated: 0
+  totalKillCount: 0
+  maximumDamage: 0
 --- !u!4 &1429445450
 Transform:
   m_ObjectHideFlags: 0
@@ -1467,21 +1469,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewQuickSlot
       objectReference: {fileID: 0}
-    - target: {fileID: 2155572198068048143, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2155572198068048143, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2155572198068048143, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2155572198328935884, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00015807025
+      value: 0.00038595023
       objectReference: {fileID: 0}
     - target: {fileID: 2155572198379764669, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
       propertyPath: m_AnchorMax.x
