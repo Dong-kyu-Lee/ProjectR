@@ -25,7 +25,8 @@ public class CharacterUIManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnPlayerCharacterChanged.AddListener(InitUIForCurrentPlayer);
+        InitUIForCurrentPlayer();
+        // GameManager.Instance.OnPlayerCharacterChanged.AddListener(InitUIForCurrentPlayer);
     }
 
     public void SetActiveUI(string characterType, IAbilityV2 ability)

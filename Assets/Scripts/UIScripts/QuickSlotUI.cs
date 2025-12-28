@@ -1,31 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class QuickSlotUI : ItemSlotUI
 {
+    // QuickSlot 에 들어가는 실제 데이터
+    private Inventory inventory;
+
+    public override void Init(GameObject parent, int indexNumber)
+    {
+        base.Init(parent, indexNumber);
+        inventory = parentUI.PlayerInventory;
+    }
+
+    // QuickSlot은 드래그해서 이동 불가
     public override void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag == gameObject) return;    //QuickSlot -> QuickSlot일 경우 아무일도 안일어나게 설정.
-        ItemSlotUI draggedSlot = eventData.pointerDrag.GetComponent<ItemSlotUI>();
-        
-        if (draggedSlot.NowItemData.ItemType == ItemType.CONSUMABLE)
+        return;
+    }
+
+    // 퀵슬롯 클릭 = 아이템 사용
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
         {
-            switch (NowItemData.ItemType)
-            {
-                case ItemType.CONSUMABLE:   //(인벤토리 <-> 퀵슬롯) 아이템 스왑 기능
-                    parentUI.PlayerInventory.SwapQuickSlotWithInventory(draggedSlot.NowItemData as ConsumableItemData);
-                    SwapItemData(draggedSlot);
-                    break;
-                case ItemType.DUMMY:    //(인벤토리 -> 퀵슬롯) 아이템 로드 기능
-                    parentUI.PlayerInventory.LoadToQuickSlotFromInventory(draggedSlot.NowItemData as ConsumableItemData);
-                    SetItemData(draggedSlot.NowItemData, draggedSlot.ItemCount);
-                    draggedSlot.DeleteItemData();
-                    break;
-                default:
-                    break;
-            }
+            inventory.UseQuickSlotItem();
         }
+    }
+
+    // Inventory.UpdateQuickSlotReference()가 호출하면 여기서 UI 갱신
+    public void UpdateQuickSlot(BasicItemData itemData, int amount)
+    {
+        // UI 갱신
+        SetItemData(itemData, amount);
     }
 }

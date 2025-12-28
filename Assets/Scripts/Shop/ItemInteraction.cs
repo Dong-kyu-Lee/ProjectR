@@ -36,6 +36,8 @@ public class ItemInteraction : MonoBehaviour
                     BasicItemData item = itemExplain.item;
                     if (item == null) return;
 
+                    bool added = false;
+
                     if (item.ItemType == ItemType.CONSUMABLE)
                     {
                         ConsumableItemData consumableItem = item as ConsumableItemData;
@@ -43,18 +45,28 @@ public class ItemInteraction : MonoBehaviour
                         {
                             case ConsumableKind.Throwable:
                             case ConsumableKind.ETC:
-                                inventory.AddItem(item);
+                                added = inventory.AddItem(item);
                                 break;
                         }
                     }
                     else
                     {
-                        inventory.AddItem(item); // 장비 아이템 등
+                        added = inventory.AddItem(item); // 장비 아이템 등
                     }
 
-                    itemExplain.HideUI();
-                    Destroy(gameObject); // 먹은 아이템 제거
+                    // 인벤토리에 정상적으로 추가되었을 때만 필드에서 제거
+                    if (added)
+                    {
+                        itemExplain.HideUI();
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        //실패
+                        return;
+                    }
                 }
+
             }
         }
     }

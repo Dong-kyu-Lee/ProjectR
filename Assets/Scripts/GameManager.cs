@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public enum SceneType
 {
-    StartScene, LobbyScene, Normal, MiddleBoss, Shop, FinalBossScene, TestScene, StoryScene, TempEndScene,
+    StartScene, LobbyScene, Normal, MiddleBoss, Shop, FinalBossScene, TestScene, StoryScene, EndScene,
 }
 
 public class GameManager : MonoBehaviour
@@ -152,9 +152,9 @@ public class GameManager : MonoBehaviour
                 // 플레이어 오브젝트 비활성화
                 if (playerObject != null) playerObject.SetActive(false);
                 break;
-            case SceneType.TempEndScene: // 동아리의 밤 행사까지만 쓸 엔딩 씬
-                // 업그레이드UI & 인벤토리 UI 제거
-                DestroyUI();
+            case SceneType.EndScene:
+                // 업그레이드UI & 인벤토리 UI 비활성화
+                SetActiveUI(false);
                 // 플레이어 오브젝트 비활성화
                 if (playerObject != null) playerObject.SetActive(false);
                 // 스토리 초기화
@@ -173,8 +173,8 @@ public class GameManager : MonoBehaviour
     {
         // 던전에서 사용되는 UI 생성
         upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
-        inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/Canvas(QuickSlot)"));
-        inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvasV2"));
+        inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/NewQuickSlot"));
+        inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvas"));
         DontDestroyOnLoad(upgradeUI);
         DontDestroyOnLoad(inventoryUI);
         DontDestroyOnLoad(inGameUI);
@@ -223,12 +223,12 @@ public class GameManager : MonoBehaviour
         }
         if (inventoryUI == null)
         {
-            inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/Canvas(QuickSlot)"));
+            inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/NewQuickSlot"));
             DontDestroyOnLoad(inventoryUI);
         }
         if (inGameUI == null)
         {
-            inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/InGameUICanvasV2"));
+            inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/InGameUICanvas"));
             DontDestroyOnLoad(inGameUI);
         }
         if (testUI != null)
