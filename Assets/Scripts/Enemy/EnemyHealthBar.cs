@@ -9,6 +9,14 @@ public class EnemyHealthBar : MonoBehaviour
     [SerializeField] private Image hpFill;
     [SerializeField] private CanvasGroup canvasGroup;
 
+    private Quaternion originalRotation;
+
+    void Start()
+    {
+        // 처음 회전 저장
+        originalRotation = Quaternion.identity;
+    }
+
     private void OnEnable()
     {
         enemyStatus.OnHpChanged += UpdateHpBar;
@@ -32,5 +40,6 @@ public class EnemyHealthBar : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x);
         transform.localScale = scale;
+        transform.rotation = originalRotation;
     }
 }
