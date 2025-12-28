@@ -61,9 +61,10 @@ public class CalcReceiveDamage : MonoBehaviour
     private Dictionary<GameObject, bool> isProcessing = new Dictionary<GameObject, bool>();
     private float damageInterval = 0.05f;
 
-    // 피해를 입힐 때 데미지를 큐에 삽입.
+    // 피해를 입을 때 데미지를 큐에 삽입.
     public void TakeDamageQueue(float receiveDamage, bool isCritical, GameObject target)
     {
+        receiveDamage = Mathf.Round(receiveDamage * 10f) / 10f;
         // 데미지 텍스트 출력 준비.
         if (!damageQueue.ContainsKey(target))
         {
@@ -86,6 +87,7 @@ public class CalcReceiveDamage : MonoBehaviour
     // 고정 피해를 입힐 때 데미지를 큐에 삽입.
     public void TakeTrueDamageQueue(float damage, GameObject target)
     {
+        damage = Mathf.Round(damage * 10f) / 10f;
         if (!damageQueue.ContainsKey(target))
         {
             damageQueue[target] = new Queue<float>();
@@ -131,11 +133,17 @@ public class CalcReceiveDamage : MonoBehaviour
         }
         CalcReceiveDamage.Instance.TakeDebuffDamageQueue(receiveDamage, targetStatus.gameObject);
         targetStatus.Hp -= receiveDamage;
+
+        if (targetStatus.CompareTag("Enemy"))
+        {
+            targetStatus.OnHpChange();
+        }
     }
 
     // 디버프 피해를 입힐 때 데미지를 큐에 삽입.
     public void TakeDebuffDamageQueue(float damage, GameObject target)
     {
+        damage = Mathf.Round(damage * 10f) / 10f;
         if (!damageQueue.ContainsKey(target))
         {
             damageQueue[target] = new Queue<float>();

@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class BurnDeBuff : Buff
 {
-    private float fireBustDmg = 10f; // 화염 버스트 데미지
-    private float fireTickDmg = 2f; // 틱당 화염 데미지
+    private float fireBustDmg = 15f; // 화염 버스트 데미지
+    private float fireTickDmg = 4f; // 틱당 화염 데미지
 
     public BurnDeBuff(float duration, GameObject target) : base(duration, target)
     {
         this.BuffType = BuffType.Burn;
-        maxDuration = 5;
+        maxDuration = 6;
         maxBuffLevel = 1;
+        buffEffectTick = 2f;
         isDebuff = true;
     }
 
@@ -37,6 +39,7 @@ public class BurnDeBuff : Buff
         if (targetStatus == null) return;
 
         CalcReceiveDamage.Instance.TakeDebuffDamage(fireTickDmg, targetStatus, false);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, true);
     }
 
     public override void DoActionOnActivate(float tickDuration)

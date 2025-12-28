@@ -7,6 +7,13 @@ public class BuffManager : MonoBehaviour
     // 활성화된 버프들을 BuffType을 키로 하여 저장.
     public Dictionary<BuffType, Buff> ActiveBuffDict = new Dictionary<BuffType, Buff>();
 
+    private Collider col;
+
+    private void Awake()
+    {
+        col = GetComponent<CapsuleCollider>();
+    }
+
     public Buff GenerateBuff(BuffType type, float duration, GameObject target)
     {
         return BuffFactory.Instance.CreateBuff(type, duration, target);
@@ -80,21 +87,22 @@ public class BuffManager : MonoBehaviour
             Debug.LogWarning($"DeactivateBuff: 버프 [{type}]가 활성화되어 있지 않습니다.");
         }
     }
+
     private IEnumerator StartBuffEffect(Buff buff)
     {
         BuffType type = GetBuffTypeFromBuff(buff);
-        // 매 1초마다 버프 효과를 적용하고 지속시간을 감소시킵니다.
+        // 매 2초마다 버프 효과를 적용하고 지속시간을 감소시킵니다.
         while (buff.CurrentDuration > 0)
         {
             if (buff.TargetObject() == "Enemy" && CalcDamage.Instance.curseEffect16 && (type == BuffType.Burn || type == BuffType.Poison))
             {
-                buff.DoActionOnActivate(0.5f);
-                yield return new WaitForSeconds(0.5f);
+                buff.DoActionOnActivate(buff.BuffEffectTick / 2);
+                yield return new WaitForSeconds(buff.BuffEffectTick / 2);
             }
             else
             {
-                buff.DoActionOnActivate(1.0f);
-                yield return new WaitForSeconds(1.0f);
+                buff.DoActionOnActivate(buff.BuffEffectTick);
+                yield return new WaitForSeconds(buff.BuffEffectTick);
             }
         }
         buff.RemoveBuffEffect();

@@ -8,6 +8,7 @@ public class ConfusionDeBuff : Buff
     {
         this.BuffType = BuffType.Confusion;
         maxBuffLevel = 1;
+        maxDuration = 10f;
         isDebuff = true;
     }
 

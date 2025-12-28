@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -87, y: -402}
+  m_AnchoredPosition: {x: -95, y: -402}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2226018527449291725
@@ -325,7 +325,7 @@ MonoBehaviour:
   abilityText: {fileID: 4063412947407339564}
   abilityPriceText: {fileID: 4063412945861975648}
   abilityIndex: 4
-  abilityDesc: "\uC220 \uC81C\uC870\uC2DC \uC5BB\uB294 \uB514\uBC84\uD504 \uC220\uBCD1\uC774
+  abilityDesc: "\uC220 \uC81C\uC870\uC2DC \uD68D\uB4DD\uD558 \uB514\uBC84\uD504 \uC220\uBCD1\uC774
     20\uAC1C\uB85C \uC99D\uAC00\uD55C\uB2E4."
   abilityPrice: 200
   image: {fileID: 0}
@@ -601,7 +601,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: a2d76719819c0bd4a9b481bf01c736f8, type: 3}
+    m_Font: {fileID: 12800000, guid: 889787f713e30c84889c0ea94dcf20d0, type: 3}
     m_FontSize: 50
     m_FontStyle: 1
     m_BestFit: 0
@@ -681,7 +681,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 889787f713e30c84889c0ea94dcf20d0, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -788,7 +788,8 @@ MonoBehaviour:
   abilityText: {fileID: 4063412947407339564}
   abilityPriceText: {fileID: 4063412945861975648}
   abilityIndex: 3
-  abilityDesc: "\uBBF8\uC644\uC131\uC785\uB2C8\uB2E4"
+  abilityDesc: "\uC220 \uC81C\uC870\uC2DC \uD2B9\uBCC4\uD55C \uC220\uC744 \uC81C\uC870\uD558\uC5EC
+    \uBC84\uD504 \uD558\uB098\uB97C \uD68D\uB4DD\uD55C\uB2E4."
   abilityPrice: 200
   image: {fileID: 0}
   steadfiteImage: {fileID: 2417093984486104832}
@@ -866,7 +867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4063412946138282427
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1143,6 +1144,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1267,7 +1269,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 889787f713e30c84889c0ea94dcf20d0, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -1452,7 +1454,7 @@ MonoBehaviour:
   abilityIndex: 1
   abilityDesc: "\uC220\uBCD1 \uD22C\uCC99\uC774 \uB3C4\uCC29 \uC9C0\uC810\uC5D0\uC11C
     \uD3ED\uBC1C\uD558\uB294 \uACF5\uACA9\uC73C\uB85C \uBCC0\uACBD\uB41C\uB2E4."
-  abilityPrice: 400
+  abilityPrice: 200
   image: {fileID: 0}
   steadfiteImage: {fileID: 2417093984486104832}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
@@ -1608,7 +1610,7 @@ MonoBehaviour:
   abilityIndex: 0
   abilityDesc: "\uC220\uBCD1 \uD22C\uCC99\uC758 \uD22C\uC0AC\uCCB4\uAC00 2\uAC1C\uB85C
     \uC99D\uAC00\uD55C\uB2E4."
-  abilityPrice: 200
+  abilityPrice: 400
   image: {fileID: 0}
   steadfiteImage: {fileID: 2417093984486104832}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
@@ -1735,7 +1737,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 889787f713e30c84889c0ea94dcf20d0, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -1784,7 +1786,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -260, y: 400}
-  m_SizeDelta: {x: 70, y: 70}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7658038665205092735
 CanvasRenderer:

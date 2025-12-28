@@ -31,6 +31,15 @@ public abstract class Buff
             currentDuration = value;
         }
     }
+
+    public float BuffEffectTick
+    {
+        get { return buffEffectTick; }
+        set
+        {
+            buffEffectTick = value;
+        }
+    }
     public int CurrentBuffLevel
     {
         get { return currentBuffLevel; }
