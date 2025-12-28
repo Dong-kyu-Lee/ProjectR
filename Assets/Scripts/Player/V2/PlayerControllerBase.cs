@@ -72,7 +72,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && enableDash && IsMovingHorizontally())
             StartCoroutine(Dash());
 
-        if (Input.GetMouseButtonDown(0) && enableAttack)
+        if (Input.GetMouseButtonDown(0) && enableAttack && !isDashing)
         {
             // 1) 클릭 시 조준 벡터 계산
             var aim = GetAimDirection2D(horizontalOnly: false);
@@ -148,7 +148,6 @@ public abstract class PlayerControllerBase : MonoBehaviour
         enableDash = false;
         isDashing = true;
         isInvincible = true;
-        enableAttack = false; // 대시 중 공격 잠금 (원하면 빼도 됨)
 
         // 애니메이션 트리거 (각 플레이어 애니메이터에 "Dash" 트리거 추가)
         if (playerAnimator != null)
@@ -169,7 +168,6 @@ public abstract class PlayerControllerBase : MonoBehaviour
         dashFactor = originalDashFactor;
         isInvincible = false;
         isDashing = false;
-        enableAttack = true;
 
         if (ghostRoutine != null)
             StopCoroutine(ghostRoutine);

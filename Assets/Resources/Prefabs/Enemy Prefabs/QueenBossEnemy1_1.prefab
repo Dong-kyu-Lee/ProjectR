@@ -340,14 +340,13 @@ GameObject:
   - component: {fileID: 1576205176}
   - component: {fileID: 1918481558}
   - component: {fileID: 5349268765530089570}
-  - component: {fileID: 872920021}
   m_Layer: 9
   m_Name: QueenBossEnemy1_1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3260529182925472828
 Transform:
   m_ObjectHideFlags: 0
@@ -433,11 +432,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   isAttacking: 0
+  deadDelayTime: 1.5
   projectilePrefab: {fileID: 6555752719577843000, guid: 81099c7faf1f9c045832df6748690b81, type: 3}
   firePoint: {fileID: 3675939739213084502}
-  fanAngle: 20
+  fanAngle: 15
+  fanSpawnRadius: 1.5
   rapidFireCount: 5
   rapidFireDelay: 0.15
+  rapidFireSpreadY: 0.5
+  attackCooldown: 2
+  detectRange: 6
 --- !u!114 &3842903198805543405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911c3f35092100a478218d2cbcaba56a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 90c7b611f68c090429b0904152bfd7d2, type: 2}
+  enemyData: {fileID: 11400000, guid: 50944ec083c376f4fb440c67b93184dc, type: 2}
 --- !u!114 &8641209375698975346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,7 +467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6898fdad3c89842907f333877b2de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootTable: {fileID: 0}
+  lootTable: {fileID: 11400000, guid: aafc686c88a1a9c44a32fd23b6ee9e9c, type: 2}
 --- !u!61 &1576205176
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -516,19 +520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb850f9f87cb7e4ea782edefb8e8963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &872920021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7154700476304014582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b6898fdad3c89842907f333877b2de5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lootTable: {fileID: 11400000, guid: aafc686c88a1a9c44a32fd23b6ee9e9c, type: 2}
 --- !u!1 &7413816408706172057
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +575,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8337815424468210881}
   m_LocalRotation: {x: -0, y: -0.008726558, z: -0, w: 0.999962}
-  m_LocalPosition: {x: -0.357, y: 0.3, z: -0.01}
+  m_LocalPosition: {x: -0.27, y: 0.3, z: -0.01}
   m_LocalScale: {x: 0.20004874, y: 0.2, z: 0.9987831}
   m_ConstrainProportionsScale: 0
   m_Children: []
