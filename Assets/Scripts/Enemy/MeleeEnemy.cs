@@ -31,6 +31,7 @@ public class MeleeEnemy : Enemy
 
     public override void PerformAttack()
     {
+        base.PerformAttack();
         StartCoroutine(EnableHitbox());
     }
 
