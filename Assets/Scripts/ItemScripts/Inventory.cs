@@ -27,13 +27,16 @@ public class Inventory : MonoBehaviour
 {
     public static event Action<BasicItemData, int> OnItemAdded;
 
+    // 장비 장착 상태 변경 시 발생할 이벤트
+    public event Action OnStatusChanged;
+
     // 인벤토리 관련
     [SerializeField] private int maxInventorySlot = 12;          // 최대 인벤토리 칸 갯수
     [SerializeField] private PlayerStatus playerStatus;           // 플레이어의 Status
     [SerializeField] private List<InventorySlot> inventorySlots;   // 슬롯 기반 인벤토리 구조
 
     // 장비 관련 칸
-    [SerializeField] private int maxEquipSlot = 6;             // 장비칸의 갯수
+    [SerializeField] private int maxEquipSlot = 6;              // 장비칸의 갯수
     [SerializeField] private EquipmentItemData[] equipmentItemSlot; // 장비칸에 장착된 아이템들
 
     // 그 외
@@ -166,6 +169,9 @@ public class Inventory : MonoBehaviour
         {
             UpdateQuickSlotReference();
             myInventoryUI.RefreshInventoryUI();
+
+            // 스탯 갱신 알림
+            OnStatusChanged?.Invoke();
         }
     }
 
@@ -226,6 +232,9 @@ public class Inventory : MonoBehaviour
     {
         equipmentItemSlot[idx] = item;
         equipmentItemSlot[idx].EquipItem(playerStatus);   // 장비 장착 효과 적용
+
+        // 장비 장착으로 스탯이 변했음을 알림
+        OnStatusChanged?.Invoke();
     }
 
     private bool AddItemToInventory_NoRefresh(BasicItemData item, int amount)
@@ -273,6 +282,9 @@ public class Inventory : MonoBehaviour
             // 장비칸 비우기
             itemToUnload.UnEquipItem(playerStatus);
             equipmentItemSlot[equipSlotIdx] = dummyItemData;
+
+            OnStatusChanged?.Invoke();
+
             return true;
         }
         else
@@ -294,6 +306,9 @@ public class Inventory : MonoBehaviour
             itemToUnload.UnEquipItem(playerStatus);   // 장비 장착 효과 해제
             equipmentItemSlot[idx] = dummyItemData;
             myInventoryUI.RefreshInventoryUI();
+
+            // 장비 해제로 스탯이 변했음을 알림
+            OnStatusChanged?.Invoke();
         }
         else
         {
@@ -307,12 +322,12 @@ public class Inventory : MonoBehaviour
     {
         List<BasicItemData> result = new List<BasicItemData>();
 
-        // 1. 인벤토리 아이템 (더미 제외)
+        // 인벤토리 아이템
         result.AddRange(inventorySlots
             .Where(s => s.itemData.ItemType != ItemType.DUMMY)
             .Select(s => s.itemData));
 
-        // 2. 장비 슬롯 아이템 (더미 제외)
+        // 장비 슬롯 아이템
         foreach (var equip in equipmentItemSlot)
         {
             if (equip != null && equip.ItemType != ItemType.DUMMY)
@@ -366,6 +381,9 @@ public class Inventory : MonoBehaviour
         invSlot.count = (equippedItem.ItemType == ItemType.DUMMY) ? 0 : 1;
 
         myInventoryUI.RefreshInventoryUI();
+
+        // 장비 교체로 스탯이 변했음을 알림
+        OnStatusChanged?.Invoke();
     }
 
     // 장비 장착칸의 아이템 슬롯끼리 교체하는 함수 (순서 변경용)
@@ -416,6 +434,8 @@ public class Inventory : MonoBehaviour
     {
         LoadEqFromInv_NoRefresh(inventorySlotIdx, equipSlotIdx);
         myInventoryUI.RefreshInventoryUI();
-    }
 
+        // 드래그를 통해 장비를 장착했으므로 스탯 갱신 알림
+        OnStatusChanged?.Invoke();
+    }
 }
