@@ -29,7 +29,7 @@ RectTransform:
   m_GameObject: {fileID: 3283866905245224936}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5929, y: 2.2896, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 56b3f530691a5514d97f5761217f4057, type: 3}
   m_Color: {r: 1, g: 0.9265037, b: 0.5613208, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,18 +105,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.000000044703484, y: 0.06459129}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.19, y: 0.12}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.19804153, y: 0.14269745}
   m_EdgeRadius: 0
 --- !u!114 &3283866905245224948
 MonoBehaviour:
@@ -182,6 +182,17 @@ MonoBehaviour:
       probability: 0.3
     - grade: 4
       probability: 0.5
+  boxGradeSprites:
+  - grade: 0
+    sprite: {fileID: 21300000, guid: 56b3f530691a5514d97f5761217f4057, type: 3}
+  - grade: 1
+    sprite: {fileID: 21300000, guid: 9fba3de480edfe74681481770b5dd576, type: 3}
+  - grade: 2
+    sprite: {fileID: 21300000, guid: b91604b41cc7bb74db18d32655bf9212, type: 3}
+  - grade: 3
+    sprite: {fileID: 21300000, guid: ab41f89bf5328bf4ebe8ed404f1542a9, type: 3}
+  - grade: 4
+    sprite: {fileID: 21300000, guid: 9ae73cc8499d92b4cadf5de943bbfc92, type: 3}
   itemGradeList: {fileID: 11400000, guid: ff621b5ed834caf45b472387b9fdaf46, type: 2}
   dropItemPrefab: {fileID: 5381951104563746129, guid: ad090c3599ef3b8478d11c3e0198a07b, type: 3}
   dropParent: {fileID: 3283866905245224950}
