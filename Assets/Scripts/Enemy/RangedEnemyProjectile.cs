@@ -27,7 +27,6 @@ public class RangedEnemyProjectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 땅에 충돌 시 제거
         if (collision.gameObject.layer == LayerMask.NameToLayer("GroundTile"))
         {
             Destroy(gameObject);

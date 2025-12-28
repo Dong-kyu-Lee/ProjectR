@@ -42,6 +42,8 @@ public class Enemy : MonoBehaviour
 
     public event Action OnEdgeDetected;
 
+    public float deadDelayTime = 1.5f;
+
     public EnemyStatus EnemyStatus { get { return enemyStatus; } }
     public EnemyAIController StateMachine { get { return enemyController; } }
     public AttackScanner AttackScanner { get { return attackScanner; } }
@@ -138,7 +140,7 @@ public class Enemy : MonoBehaviour
 
     protected IEnumerator DeadCoroutine()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(deadDelayTime);
         gameObject.SetActive(false);
     }
 
@@ -160,7 +162,10 @@ public class Enemy : MonoBehaviour
 
     public virtual void PerformAttack()
     {
-
+        if (enemyAnimator != null)
+        {
+            enemyAnimator.SetTrigger("Attack");
+        }
     }
 
     public virtual void ShootProjectile()
