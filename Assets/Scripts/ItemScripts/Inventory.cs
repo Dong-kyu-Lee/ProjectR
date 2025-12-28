@@ -122,6 +122,53 @@ public class Inventory : MonoBehaviour
         return success;
     }
 
+    // 아이템 삭제 (버리기 기능용)
+    public void RemoveItem(BasicItemData item)
+    {
+        if (item == null) return;
+        Debug.Log("제거 시작");
+        bool isRemoved = false;
+
+        // 인벤토리 슬롯에서 검색
+        for (int i = 0; i < inventorySlots.Count; i++)
+        {
+            if (inventorySlots[i].itemData == item)
+            {
+                inventorySlots[i].Clear(dummyInventoryItemData);
+                isRemoved = true;
+                break;
+            }
+        }
+
+        // 장비 슬롯에서 검색
+        if (!isRemoved)
+        {
+            for (int i = 0; i < equipmentItemSlot.Length; i++)
+            {
+                if (equipmentItemSlot[i] == item)
+                {
+                    // 장착 중인 아이템이므로 스탯 효과 제거(UnEquip) 먼저 실행
+                    if (playerStatus != null)
+                    {
+                        equipmentItemSlot[i].UnEquipItem(playerStatus);
+                    }
+
+                    equipmentItemSlot[i] = dummyItemData;
+
+                    isRemoved = true;
+                    break;
+                }
+            }
+        }
+
+        // 삭제된 내역이 있다면 UI 전체 갱신
+        if (isRemoved)
+        {
+            UpdateQuickSlotReference();
+            myInventoryUI.RefreshInventoryUI();
+        }
+    }
+
     // 획득한 소모품 아이템 데이터를 인벤토리에 추가하는 메서드
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
