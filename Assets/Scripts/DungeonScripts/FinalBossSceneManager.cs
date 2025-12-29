@@ -13,6 +13,8 @@ public class FinalBossSceneManager : MonoBehaviour
     GameObject finalBoss;
     [SerializeField]
     CinemachineVirtualCamera finalBossCam;
+    [SerializeField]
+    BossHealthUI bossHealthUI;
 
     bool isFinalBossDead = false;
 
@@ -66,5 +68,11 @@ public class FinalBossSceneManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f); // 2초 대기
         finalBoss.SetActive(true);
+
+        if (bossHealthUI != null)
+        {
+            bossHealthUI.gameObject.SetActive(true);
+            bossHealthUI.SetBoss(finalBoss.GetComponent<EnemyStatus>());
+        }
     }
 }

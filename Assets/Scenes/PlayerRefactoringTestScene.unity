@@ -8783,10 +8783,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HeroBossEnemy1_1
       objectReference: {fileID: 0}
-    - target: {fileID: 7154700476304014582, guid: 2f4155215d93ee24da89f5b9bd17c8af, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f4155215d93ee24da89f5b9bd17c8af, type: 3}
 --- !u!1 &1801556409
@@ -10498,18 +10494,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2449468010808055053, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2449468010808055053, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2449468010808055053, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3260529182925472828, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -10554,30 +10538,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3675939739213084502, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.27
-      objectReference: {fileID: 0}
     - target: {fileID: 7154700476304014582, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
       propertyPath: m_Name
       value: QueenBossEnemy1_1
       objectReference: {fileID: 0}
-    - target: {fileID: 7154700476304014582, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8255022711659699400, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
-      propertyPath: detectRange
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8255022711659699400, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
-      propertyPath: fanSpawnRadius
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8641209375698975346, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
-      propertyPath: lootTable
-      value: 
-      objectReference: {fileID: 11400000, guid: aafc686c88a1a9c44a32fd23b6ee9e9c, type: 2}
-    m_RemovedComponents:
-    - {fileID: 872920021, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}

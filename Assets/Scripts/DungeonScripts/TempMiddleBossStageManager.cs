@@ -13,6 +13,8 @@ public class TempMiddleBossStageManager : MonoBehaviour
     GameObject middleBoss;
     [SerializeField]
     CinemachineVirtualCamera middleBossCam;
+    [SerializeField]
+    BossHealthUI bossHealthUI;
 
     bool isMiddleBossDead = false;
 
@@ -40,6 +42,8 @@ public class TempMiddleBossStageManager : MonoBehaviour
         GameManager.Instance.CurrentPlayer.SetActive(true);
         middleBossCam.Follow = GameManager.Instance.CurrentPlayer.transform;
         finishSpot.SetActive(false);
+        middleBoss.SetActive(false);
+
         StartCoroutine(MiddleBossActivateCoroutine());
     }
 
@@ -64,6 +68,13 @@ public class TempMiddleBossStageManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f); // 2초 대기
         middleBoss.SetActive(true);
+
+        if (bossHealthUI != null)
+        {
+            bossHealthUI.gameObject.SetActive(true);
+            // 보스 오브젝트에서 Status를 찾아 UI에 연결
+            bossHealthUI.SetBoss(middleBoss.GetComponent<EnemyStatus>());
+        }
     }
 
     IEnumerator MiddleBossDeadCoroutine()

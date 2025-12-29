@@ -17,7 +17,9 @@ public class CharacterInfo : MonoBehaviour
     [SerializeField] private Transform statusContent;
 
     List<GameObject> statusObjList = new List<GameObject>();
-    
+
+    private Inventory cachedInventory;
+
     private void Awake()
     {
         if (characterInfo == null)
@@ -44,6 +46,15 @@ public class CharacterInfo : MonoBehaviour
     {
         Init();
         SetStatus();
+    }
+
+    private void OnDisable()
+    {
+        if (cachedInventory != null)
+        {
+            cachedInventory.OnStatusChanged -= RefreshStatusUI;
+        }
+        if (characterInfo != null) characterInfo.SetActive(false);
     }
 
     // UI 활성화
@@ -74,6 +85,19 @@ public class CharacterInfo : MonoBehaviour
         var ps = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         if (ps != null)
             playerStatus = ps;
+
+        if (cachedInventory != null)
+        {
+            cachedInventory.OnStatusChanged -= RefreshStatusUI;
+        }
+
+        cachedInventory = GameManager.Instance.CurrentPlayer.GetComponentInChildren<Inventory>();
+
+        // 이벤트 연결
+        if (cachedInventory != null)
+        {
+            cachedInventory.OnStatusChanged += RefreshStatusUI;
+        }
     }
 
     private void ClearStatusTexts()
