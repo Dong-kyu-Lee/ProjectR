@@ -34,6 +34,7 @@ public class FinalBossSceneManager : MonoBehaviour
             finalBoss.SetActive(false);
             finishSpot.SetActive(true);
             finishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
+            GameManager.Sound.Play("Sounds/BGM/FinalBossBGM", Sound.Bgm);
             return;
         }
         // 컷씬이 수행되지 않았다면 아래 코드 수행 (최종보스전 시작)
@@ -42,6 +43,8 @@ public class FinalBossSceneManager : MonoBehaviour
         finalBossCam.Follow = GameManager.Instance.CurrentPlayer.transform;
         finishSpot.SetActive(false);
         StartCoroutine(FinalBossActivateCoroutine());
+        // BGM 재생
+        GameManager.Sound.Play("Sounds/BGM/FinalBossBGM", Sound.Bgm);
     }
 
     // Update is called once per frame

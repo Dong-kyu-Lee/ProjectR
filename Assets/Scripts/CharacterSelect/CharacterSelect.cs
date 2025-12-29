@@ -28,6 +28,9 @@ public class CharacterSelect : MonoBehaviour
 
     void Start()
     {
+        // BGM 재생
+        GameManager.Sound.Play("Sounds/BGM/LobbySceneBGM", Sound.Bgm);
+
         // 캐릭터 생성
         for (int i = 0; i < characters.Length; i++)
         {

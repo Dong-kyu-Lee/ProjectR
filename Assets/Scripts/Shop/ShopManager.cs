@@ -2,36 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class ShopItemGradeChance
-{
-    public ItemGrade grade;
-    [Range(0f, 1f)]
-    public float probability;
-}
-
-
 public class ShopManager : MonoBehaviour
 {
+    [Header("UI 및 데이터 참조")]
     [SerializeField]
     private SpriteRenderer[] itemImage;
     [SerializeField]
-    private BasicItemData[] item;
-    [SerializeField]
-    private DropableItem dropableItem;
-    [SerializeField]
-    private BasicItemData noneItem;
+    private BasicItemData[] item; // 현재 슬롯에 있는 아이템들
     [SerializeField]
     private ItemExplain[] itemExplain;
+
+    [Header("설정")]
+    [SerializeField]
+    private DropableItem dropableItem; // 확률 및 아이템 풀 관리자
+    [SerializeField]
+    private BasicItemData noneItem;    // 빈 슬롯용 아이템
+
+    [Header("플레이어 참조")]
     [SerializeField]
     private Inventory inventory;
     [SerializeField]
     private PlayerStatus playerStatus;
-    bool isOverlap;
-
-    [Header("등급별 등장 확률")]
-    [SerializeField]
-    private List<ShopItemGradeChance> itemGradeChances;
 
     private void Awake()
     {
@@ -41,77 +32,47 @@ public class ShopManager : MonoBehaviour
         if (playerStatus == null)
             playerStatus = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStatus>();
 
+        // 시작 시 상점 물건 진열
         SellingItem();
     }
 
-
+    // 상점 물건 갱신
     public void SellingItem()
     {
-        int[] checkOverlap = new int[4];
-        for (int i = 0; i < 4; i++)
+        // 이미 가진 장비 중복 방지용
+        List<BasicItemData> ownedItems = null;
+        if (inventory != null)
+            ownedItems = inventory.GetOwnedItems();
+
+        List<BasicItemData> newStock = dropableItem.GetShopItems(ownedItems);
+
+        // 상점 슬롯에 배치
+        for (int i = 0; i < item.Length; i++)
         {
-            if (item[i] != noneItem)
+            if (i < newStock.Count)
             {
-                do
-                {
-                    isOverlap = false;
-                    // 1. 등급 먼저 확률로 결정
-                    ItemGrade selectedGrade = GetRandomGradeByProbability();
-
-                    // 2. 해당 등급의 아이템 후보들 필터링
-                    List<BasicItemData> candidates = dropableItem.dropableItem.FindAll(
-                        item => item.ItemGrade == selectedGrade
-                    );
-
-                    if (candidates.Count == 0)
-                    {
-                        Debug.LogWarning($"[ShopManager] {selectedGrade} 등급 아이템이 없습니다.");
-                        break;
-                    }
-
-                    // 3. 중복 방지를 위해 랜덤 인덱스 반복
-                    int randomIndex = Random.Range(0, candidates.Count);
-                    BasicItemData selectedItem = candidates[randomIndex];
-
-                    // 중복 체크
-                    for (int j = 0; j < i; j++)
-                    {
-                        if (item[j] == selectedItem)
-                        {
-                            isOverlap = true;
-                            break;
-                        }
-                    }
-
-                    if (!isOverlap)
-                    {
-                        item[i] = selectedItem;
-                        itemImage[i].sprite = selectedItem.ItemSprite;
-                        itemExplain[i].item = selectedItem;
-                    }
-
-                } while (isOverlap);
+                // 아이템이 있으면 채워넣기
+                item[i] = newStock[i];
+                itemImage[i].sprite = newStock[i].ItemSprite;
+                itemImage[i].color = Color.white; // 투명도나 색상 초기화
+                if (itemExplain[i] != null) itemExplain[i].item = newStock[i];
+            }
+            else
+            {
+                // 아이템이 모자라거나 슬롯이 남으면 빈 슬롯 처리
+                SetSlotEmpty(i);
             }
         }
     }
-    private ItemGrade GetRandomGradeByProbability()
+
+    // 슬롯을 비우는 함수
+    private void SetSlotEmpty(int index)
     {
-        float rand = Random.value;
-        float cumulative = 0f;
+        item[index] = noneItem;
+        itemImage[index].sprite = null;
 
-        foreach (var chance in itemGradeChances)
-        {
-            cumulative += chance.probability;
-            if (rand <= cumulative)
-            {
-                return chance.grade;
-            }
-        }
-
-        // 기본값
-        return ItemGrade.Normal;
+        if (itemExplain[index] != null) itemExplain[index].item = noneItem;
     }
-
 
     public void EmptySlot(BasicItemData itemB)
     {
@@ -119,23 +80,28 @@ public class ShopManager : MonoBehaviour
         {
             if (item[i] == itemB)
             {
-                item[i] = noneItem;
-                itemImage[i].sprite = null;
-                itemExplain[i].item = noneItem;
+                SetSlotEmpty(i);
             }
         }
     }
 
-    public void BuyItem(BasicItemData item)
+    public void BuyItem(BasicItemData targetItem)
     {
-        if (item.ItemPrice <= playerStatus.Gold)
+        // noneItem을 사려고 하면 무시
+        if (targetItem == noneItem) return;
+
+        if (targetItem.ItemPrice <= playerStatus.Gold)
         {
-            playerStatus.Gold -= item.ItemPrice;
-            EmptySlot(item);
-            inventory.AddItem(item);
-            dropableItem.removeItem(item);
+            playerStatus.Gold -= targetItem.ItemPrice;
+
+            inventory.AddItem(targetItem);
+
+            // 상점 슬롯에서 비우기
+            EmptySlot(targetItem);
         }
         else
+        {
             Debug.Log("골드가 부족합니다.");
+        }
     }
 }
