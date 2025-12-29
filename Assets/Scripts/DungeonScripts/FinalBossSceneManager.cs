@@ -49,19 +49,16 @@ public class FinalBossSceneManager : MonoBehaviour
         if (finalBoss.GetComponent<EnemyAIController>().isDead && !isFinalBossDead)
         {
             isFinalBossDead = true;
-            OnFinalBossStageEnd();
-            // 최종보스 처치 후 컷씬 재생
-            StorySystem.Instance.SetStoryState(StoryID.Temp_Final_Boss, StoryState.Available);
-            StorySystem.Instance.StartStory(StoryID.Temp_Final_Boss);
+            StartCoroutine(FinalBossDeadCoroutine());
         }
     }
 
-    public void OnFinalBossStageEnd()
+    /*public void OnFinalBossStageEnd()
     {
-        finalBoss.SetActive(false);
+        
         finishSpot.SetActive(true);
         finishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
-    }
+    }*/
 
     // 최종보스 활성화 대기 코루틴
     IEnumerator FinalBossActivateCoroutine()
@@ -74,5 +71,14 @@ public class FinalBossSceneManager : MonoBehaviour
             bossHealthUI.gameObject.SetActive(true);
             bossHealthUI.SetBoss(finalBoss.GetComponent<EnemyStatus>());
         }
+    }
+
+    IEnumerator FinalBossDeadCoroutine()
+    {
+        yield return new WaitForSeconds(2.5f); // 2.5초 대기
+        finalBoss.SetActive(false);
+        // 최종보스 처치 후 컷씬 재생
+        StorySystem.Instance.SetStoryState(StoryID.Temp_Final_Boss, StoryState.Available);
+        StorySystem.Instance.StartStory(StoryID.Temp_Final_Boss);
     }
 }
