@@ -45,12 +45,26 @@ public class RangedEnemy : Enemy
         if (projectilePrefab && firePoint)
         {
             GameObject proj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-            proj.GetComponent<RangedEnemyProjectile>().enemy = this.gameObject;
-            proj.GetComponent<RangedEnemyProjectile>().damage = enemyStatus.Damage;
+
+            RangedEnemyProjectile projScript = proj.GetComponent<RangedEnemyProjectile>();
+            if (projScript != null)
+            {
+                projScript.enemy = this.gameObject;
+                projScript.damage = EnemyStatus.Damage;
+            }
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             if (rb)
             {
                 rb.velocity = direction; // 투사체 속도
+            }
+
+            if (direction != Vector2.zero)
+            {
+                Quaternion baseRot = Quaternion.FromToRotation(Vector2.left, direction);
+
+                Quaternion offset = Quaternion.Euler(0f, 0f, -20f); // 왼쪽 기준 아래로 20도
+
+                proj.transform.rotation = baseRot * offset;
             }
         }
     }
