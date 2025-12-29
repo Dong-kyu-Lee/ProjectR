@@ -28,6 +28,7 @@ public class FinalBossSceneManager : MonoBehaviour
         // 중간보스 처치 컷씬이 수행되었다면 플레이어 배치, 중간보스 비활성화, 피니시 스팟 활성화
         if (StorySystem.Instance.GetStoryState(StoryID.Temp_Final_Boss) == StoryState.Completed)
         {
+            GameManager.Instance.SetActiveInGameUI(); // 인게임 UI 활성화
             GameManager.Instance.PlacePlayerObject(playerSpawnPosition.transform.position);
             GameManager.Instance.CurrentPlayer.SetActive(true);
             finalBoss.SetActive(false);
@@ -49,18 +50,8 @@ public class FinalBossSceneManager : MonoBehaviour
         if (finalBoss.GetComponent<EnemyAIController>().isDead && !isFinalBossDead)
         {
             isFinalBossDead = true;
-            OnFinalBossStageEnd();
-            // 최종보스 처치 후 컷씬 재생
-            StorySystem.Instance.SetStoryState(StoryID.Temp_Final_Boss, StoryState.Available);
-            StorySystem.Instance.StartStory(StoryID.Temp_Final_Boss);
+            StartCoroutine(FinalBossDeadCoroutine());
         }
-    }
-
-    public void OnFinalBossStageEnd()
-    {
-        finalBoss.SetActive(false);
-        finishSpot.SetActive(true);
-        finishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
     }
 
     // 최종보스 활성화 대기 코루틴
@@ -74,5 +65,14 @@ public class FinalBossSceneManager : MonoBehaviour
             bossHealthUI.gameObject.SetActive(true);
             bossHealthUI.SetBoss(finalBoss.GetComponent<EnemyStatus>());
         }
+    }
+
+    IEnumerator FinalBossDeadCoroutine()
+    {
+        yield return new WaitForSeconds(2.5f); // 2.5초 대기
+        finalBoss.SetActive(false);
+        // 최종보스 처치 후 컷씬 재생
+        StorySystem.Instance.SetStoryState(StoryID.Temp_Final_Boss, StoryState.Available);
+        StorySystem.Instance.StartStory(StoryID.Temp_Final_Boss);
     }
 }

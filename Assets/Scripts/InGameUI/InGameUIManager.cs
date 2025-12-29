@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,11 +30,15 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private BuffToolTipUI tooltipUI;
     [SerializeField] private Image PlayerHead;
     [SerializeField] private CharacterUIManager CharacterUI;
+    [SerializeField] private TextMeshProUGUI warpUIText;
 
     public PlayerStatus playerStatus;
 
     //열린 UI들을 관리하는 스택 (최근 열린 순서대로 저장)
     private Stack<GameObject> uiStack = new Stack<GameObject>();
+
+    // 워프에 닿았을 때 E 키를 누르면 실행할 함수
+    private Action warpAction;
 
     private void Awake()
     {
@@ -79,6 +85,10 @@ public class InGameUIManager : MonoBehaviour
                     topUI.SetActive(false);
                 return;
             }
+        }
+        if(Input.GetKeyDown(KeyCode.E) && warpUIText.IsActive())
+        {
+            warpAction?.Invoke();
         }
     }
 
@@ -183,5 +193,24 @@ public class InGameUIManager : MonoBehaviour
     public void CancelButton()
     {
         checkUI.SetActive(false);
+    }
+
+    // 워프에 닿았을 때 UI 표시
+    // message : 표시할 메시지
+    // action : E 키를 눌렀을 때 실행할 함수
+    public void ShowWarpUI(string message, Action action)
+    {
+        if (warpUIText != null)
+        {
+            warpUIText.text = message;
+            warpAction = action;
+            warpUIText.gameObject.SetActive(true);
+        }
+    }
+
+    public void HideWarpUI()
+    {
+        warpUIText.gameObject.SetActive(false);
+        warpAction = null;
     }
 }

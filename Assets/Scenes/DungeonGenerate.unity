@@ -194,7 +194,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -5
+  m_SortingLayer: -6
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -326,8 +326,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: EXIT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9d21c538dd9bbb04bbbdf45cf60b9fdf, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 9d21c538dd9bbb04bbbdf45cf60b9fdf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d94cc1207d7bb6428535ba750bfe878, type: 2}
+  m_sharedMaterial: {fileID: -7116431166160003524, guid: 2d94cc1207d7bb6428535ba750bfe878, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -892,15 +892,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: (99/99)
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9d21c538dd9bbb04bbbdf45cf60b9fdf, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 9d21c538dd9bbb04bbbdf45cf60b9fdf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d94cc1207d7bb6428535ba750bfe878, type: 2}
+  m_sharedMaterial: {fileID: -7116431166160003524, guid: 2d94cc1207d7bb6428535ba750bfe878, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1468,7 +1468,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -5
+  m_SortingLayer: -6
   m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -1703,7 +1703,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -5
+  m_SortingLayer: -6
   m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -2218,7 +2218,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -5
+  m_SortingLayer: -6
   m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -2368,10 +2368,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Current Room
+  m_text: "\uD604\uC7AC \uBC29 \uBCF4\uAE30"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9d21c538dd9bbb04bbbdf45cf60b9fdf, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 9d21c538dd9bbb04bbbdf45cf60b9fdf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d94cc1207d7bb6428535ba750bfe878, type: 2}
+  m_sharedMaterial: {fileID: -7116431166160003524, guid: 2d94cc1207d7bb6428535ba750bfe878, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2839,19 +2839,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Destroy them and escape from here.
-
-    Hahaha!!'
+  m_text: ...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9d21c538dd9bbb04bbbdf45cf60b9fdf, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 9d21c538dd9bbb04bbbdf45cf60b9fdf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2d94cc1207d7bb6428535ba750bfe878, type: 2}
+  m_sharedMaterial: {fileID: -7116431166160003524, guid: 2d94cc1207d7bb6428535ba750bfe878, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4381,7 +4379,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573963353
-  m_SortingLayer: -5
+  m_SortingLayer: -6
   m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
