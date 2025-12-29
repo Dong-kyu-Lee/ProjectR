@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TempMiddleBossStageManager : MonoBehaviour
+public class MiddleBossSceneManager : MonoBehaviour
 {
     [SerializeField]
     GameObject finishSpot;
