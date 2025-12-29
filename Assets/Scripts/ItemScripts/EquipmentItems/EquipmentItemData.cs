@@ -21,27 +21,23 @@ public class EquipmentItemData : BasicItemData
     [Tooltip("기본 0.5(50%)에 가산됨. 0.2 입력 시 총 70% 피해")]
     [SerializeField] private float criticalDamage = 0.0f;
 
-    [Header("5. 피해 감소량 (Damage Reduction)")]
-    [Tooltip("곱연산으로 적용되는 피해 감소율 (예: 0.1 = 10% 감소)")]
-    [SerializeField] private float damageReduction = 0.0f;
-
-    [Header("6. 추가 피해 감소량 (Add. Dmg Reduction)")]
+    [Header("5. 추가 피해 감소량 (Add. Dmg Reduction)")]
     [Tooltip("피해 감소량과 동일하게 곱연산으로 적용되는 추가 수치")]
     [SerializeField] private float additionalDamageReduction = 0.0f;
 
-    [Header("7. 공격 속도 (Attack Speed)")]
+    [Header("6. 공격 속도 (Attack Speed)")]
     [Tooltip("기본 공격속도에 비율(%)로 가산됨 (예: 0.2 = 속도 20% 증가)")]
     [SerializeField] private float attackSpeed = 0.0f;
 
-    [Header("8. 이동 속도 (Move Speed)")]
+    [Header("7. 이동 속도 (Add. Move Speed)")]
     [Tooltip("이동 속도 고정 수치 증가")]
-    [SerializeField] private float moveSpeed = 0.0f;
+    [SerializeField] private float additionalmoveSpeed = 0.0f;
 
-    [Header("9. 재화 획득량 (Gold Gain)")]
+    [Header("8. 재화 획득량 (Gold Gain)")]
     [Tooltip("재화 획득 시 가산되는 수치")]
     [SerializeField] private float priceAdditional = 0.0f;
 
-    [Header("10. 피해 감소 무시 (Ignore Def)")]
+    [Header("9. 피해 감소 무시 (Ignore Def)")]
     [Tooltip("적의 방어력을 무시하는 비율 (예: 0.05 = 5% 무시)")]
     [SerializeField] private float ignoreDamageReduction = 0.0f;
 
@@ -54,12 +50,11 @@ public class EquipmentItemData : BasicItemData
         player.CriticalPercent += criticalPercent;
         player.CriticalDamage += criticalDamage;
 
-        if (damageReduction != 0f) player.AdditionalDamageReduction += damageReduction;
         if (additionalDamageReduction != 0f) player.AdditionalDamageReduction += additionalDamageReduction;
 
         player.AdditionalAttackSpeed += attackSpeed;
 
-        player.MoveSpeed += moveSpeed;
+        player.AdditionalMoveSpeed += additionalmoveSpeed;
 
         player.PriceAdditional += priceAdditional;
 
@@ -76,11 +71,10 @@ public class EquipmentItemData : BasicItemData
         player.CriticalDamage -= criticalDamage;
 
         // 피해 감소 해제 (PlayerStatus Setter가 음수 값을 받으면 Remove 로직 수행)
-        if (damageReduction != 0f) player.AdditionalDamageReduction -= damageReduction;
         if (additionalDamageReduction != 0f) player.AdditionalDamageReduction -= additionalDamageReduction;
 
         player.AdditionalAttackSpeed -= attackSpeed;
-        player.MoveSpeed -= moveSpeed;
+        player.AdditionalMoveSpeed -= additionalmoveSpeed;
         player.PriceAdditional -= priceAdditional;
         player.IgnoreDamageReduction -= ignoreDamageReduction;
     }

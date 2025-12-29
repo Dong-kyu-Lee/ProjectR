@@ -27,37 +27,37 @@ public class BoxGradeDropTable
     public List<ItemGradeChance> itemGradeChances;
 }
 
-// [추가됨] 등급별 스프라이트를 연결하기 위한 클래스
 [System.Serializable]
 public class BoxGradeSprite
 {
     public BoxGrade grade;
     public Sprite sprite;
+    public RuntimeAnimatorController animatorController;
 }
 
 #endregion
 
 public class RandomBox : MonoBehaviour
 {
-    [Header("박스 자체 등급 확률")]
-    [SerializeField]
-    private List<BoxGradeChance> boxGradeChances;
+    [Header("비주얼 및 참조")]
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
 
-    [Header("박스 → 아이템 등급 확률")]
-    [SerializeField]
-    private List<BoxGradeDropTable> dropTables;
-
-    [Header("박스 등급별 이미지 설정")]
+    [Header("박스 등급별 이미지 & 애니메이션")]
     [SerializeField]
     private List<BoxGradeSprite> boxGradeSprites;
 
-    private BoxGrade currentBoxGrade;
+    [Header("박스 등급 확률")]
+    [SerializeField]
+    private List<BoxGradeChance> boxGradeChances;
 
-    [Header("아이템 풀")]
+    [Header("아이템 등급 확률 & 아이템 풀")]
+    [SerializeField]
+    private List<BoxGradeDropTable> dropTables;
     [SerializeField]
     private ItemGradeList itemGradeList;
 
-    [Header("드롭 설정")]
+    [Header("드롭 위치 및 개수 설정")]
     [SerializeField]
     private GameObject dropItemPrefab;
     [SerializeField]
@@ -69,29 +69,45 @@ public class RandomBox : MonoBehaviour
     [SerializeField]
     private float itemSpacing = 1.0f;
 
-    private bool isOpen;
-    private bool canOpen;
+    // 내부 변수
+    private BoxGrade currentBoxGrade;
+    private bool canOpen = false;
+    private bool isOpened;
 
-    private SpriteRenderer spriteRenderer;
+    public bool IsOpened
+    {
+        get { return isOpened; }
+        set
+        {
+            isOpened = value;
+            if (animator != null)
+            {
+                animator.SetBool("IsOpened", isOpened);
+            }
+        }
+    }
 
     void Start()
     {
-        isOpen = false;
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (animator == null)
+            animator = GetComponent<Animator>();
+
+        IsOpened = false;
         canOpen = false;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        DetermineBoxGrade();
+
+        DetermineBoxGrade(); // 등급 결정 및 애니메이션 교체
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!isOpen && canOpen)
+            if (!IsOpened && canOpen)
             {
-                DropItem();
-                isOpen = true;
-
-                canOpen = false;
+                Open();
             }
         }
     }
@@ -112,12 +128,21 @@ public class RandomBox : MonoBehaviour
         }
     }
 
+    public void Open()
+    {
+        if (IsOpened) return;
+
+        IsOpened = true; // 애니메이션 재생
+        DropItem();      // 아이템 생성
+    }
+
+    //박스 등급 결정 및 애니메이션 교체 로직
     private void DetermineBoxGrade()
     {
         float rand = Random.value;
         float cumulative = 0f;
 
-        // 박스 등급 결정
+        //등급 결정
         foreach (var entry in boxGradeChances)
         {
             cumulative += entry.probability;
@@ -128,83 +153,78 @@ public class RandomBox : MonoBehaviour
             }
         }
 
-        // 결정된 등급에 맞는 이미지 적용
+        //등급에 맞는 데이터(이미지, 애니메이션) 찾기
         BoxGradeSprite matchedSprite = boxGradeSprites.Find(x => x.grade == currentBoxGrade);
 
-        if (matchedSprite != null && matchedSprite.sprite != null)
+        if (matchedSprite != null)
         {
-            spriteRenderer.sprite = matchedSprite.sprite;
+            if (matchedSprite.sprite != null)
+            {
+                spriteRenderer.sprite = matchedSprite.sprite;
+                spriteRenderer.color = Color.white;
+            }
 
-            spriteRenderer.color = Color.white;
-        }
-        else
-        {
-            Debug.LogWarning($"등급에 해당하는 이미지가 없습니다: {currentBoxGrade}");
-            spriteRenderer.color = Color.gray;
+            // 등급별 애니메이터 교체
+            if (matchedSprite.animatorController != null)
+            {
+                animator.runtimeAnimatorController = matchedSprite.animatorController;
+            }
         }
     }
 
     public void DropItem()
     {
         int dropNum = Random.Range(minDropCount, maxDropCount + 1);
-
-        // 박스 내 중복 방지
         HashSet<BasicItemData> alreadyDropped = new HashSet<BasicItemData>();
 
-        // 플레이어 소유 아이템 (장비 포함)
-        Inventory inventory = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Inventory>();
+        Inventory inventory = null;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+            inventory = player.GetComponentInChildren<Inventory>();
 
-        // 인벤토리가 없을 경우를 대비한 예외 처리
         HashSet<BasicItemData> ownedItems;
         if (inventory != null)
-        {
             ownedItems = new HashSet<BasicItemData>(inventory.GetOwnedItems());
-        }
         else
-        {
             ownedItems = new HashSet<BasicItemData>();
-        }
 
         for (int i = 0; i < dropNum; i++)
         {
-            // 아이템 등급 선택
             ItemGrade selectedGrade = GetRandomItemGrade(currentBoxGrade);
-
-            // 후보 중 하나 선택
             BasicItemData randomItem = GetFilteredRandomItem(selectedGrade, alreadyDropped, ownedItems);
 
-            if (randomItem == null)
-            {
-                continue;
-            }
+            if (randomItem == null) continue;
 
             alreadyDropped.Add(randomItem);
 
+            //아이템 생성 위치
             Vector3 dropPosition = new Vector3(
                 transform.position.x + (i - (dropNum - 1) / 2f) * itemSpacing,
-                dropParent.position.y - 0.5f,
+                (dropParent != null ? dropParent.position.y : transform.position.y) + 0.5f,
                 transform.position.z - 1f
             );
 
-            //룬 생성 시도
-            RuneSpawner.Instance.TrySpawnRune(dropPosition);
+            if (RuneSpawner.Instance != null)
+                RuneSpawner.Instance.TrySpawnRune(dropPosition);
 
-            //일반 아이템 드롭
-            GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, dropParent);
-            ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
-            if (itemExplain)
+            if (dropItemPrefab != null)
             {
-                itemExplain.item = randomItem;
-                itemExplain.ChangeInfo();
+                GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, null);
+
+                ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
+                if (itemExplain)
+                {
+                    itemExplain.item = randomItem;
+                    itemExplain.ChangeInfo();
+                }
             }
         }
     }
 
-    private BasicItemData GetFilteredRandomItem(
-        ItemGrade grade,
-        HashSet<BasicItemData> alreadySelected,
-        HashSet<BasicItemData> ownedItems)
+    private BasicItemData GetFilteredRandomItem(ItemGrade grade, HashSet<BasicItemData> alreadySelected, HashSet<BasicItemData> ownedItems)
     {
+        if (itemGradeList == null) return null;
+
         List<BasicItemData> list = itemGradeList.GetListByGrade(grade);
         if (list == null || list.Count == 0) return null;
 
@@ -212,20 +232,15 @@ public class RandomBox : MonoBehaviour
 
         foreach (var item in list)
         {
-            // 장비는 소유 중이면 드롭 안 함
             if (item is EquipmentItemData && ownedItems.Contains(item))
                 continue;
-
-            // 한 박스에서 중복 제거
             if (alreadySelected.Contains(item))
                 continue;
 
             candidates.Add(item);
         }
 
-        if (candidates.Count == 0)
-            return null;
-
+        if (candidates.Count == 0) return null;
         return candidates[Random.Range(0, candidates.Count)];
     }
 
@@ -233,9 +248,7 @@ public class RandomBox : MonoBehaviour
     {
         var table = dropTables.Find(t => t.boxGrade == boxGrade);
         if (table == null || table.itemGradeChances.Count == 0)
-        {
             return ItemGrade.Normal;
-        }
 
         float rand = Random.value;
         float cumulative = 0f;
@@ -244,11 +257,8 @@ public class RandomBox : MonoBehaviour
         {
             cumulative += chance.probability;
             if (rand <= cumulative)
-            {
                 return chance.grade;
-            }
         }
-
         return ItemGrade.Normal;
     }
 }

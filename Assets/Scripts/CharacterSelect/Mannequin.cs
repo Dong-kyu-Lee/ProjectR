@@ -31,8 +31,7 @@ public class Mannequin : MonoBehaviour
         {
             isPlayerNear = true;
             // 'E' 키 활성화
-            CharacterSelectUI.Instance.SetText($"Press 'E' to select <color=yellow>{characterName}</color>");
-            Debug.Log("Press 'E' to select character");
+            CharacterSelectUI.Instance.SetText($"'E' 키를 눌러 <color=yellow>{characterName}</color> 로 변경하기");
         }
     }
 

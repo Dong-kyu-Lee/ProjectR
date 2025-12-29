@@ -59,7 +59,7 @@ public class RoomInstance : MonoBehaviour
                 roomState = RoomState.Start;
 
                 // 적 처치 미션 시작
-                stage.GetMissionUI.StartMission("Kill all the enemies.", enemyInRoom.killCount, enemyInRoom.totalEnemyCount);
+                stage.GetMissionUI.StartMission("모든 적을 처치하세요.", enemyInRoom.killCount, enemyInRoom.totalEnemyCount);
             }
             // 카메라 경계 현재 방 위치로 이동
             DungeonFlowManager.Instance.DungeonCreator.cameraBoundary.transform.position = transform.position + new Vector3(19.5f, 19.5f, 0);

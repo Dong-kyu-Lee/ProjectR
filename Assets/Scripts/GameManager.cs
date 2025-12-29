@@ -12,6 +12,7 @@ public enum SceneType
 
 public class GameManager : MonoBehaviour
 {
+    #region Member Variables
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -75,6 +76,7 @@ public class GameManager : MonoBehaviour
     public float maximumDamage = 0;
     private DateTime playStartTime;
     private bool isPlayTimeRunning = false;
+    #endregion
 
     private void Awake()
     {
@@ -127,6 +129,9 @@ public class GameManager : MonoBehaviour
                 DungeonFlowManager.Instance.ResetStages();
                 break;
             case SceneType.LobbyScene:
+                /* -----------------------------------------------------
+                    <-- 여기에 코드 작성
+                ----------------------------------------------------- */
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
                 // 플레이어 오브젝트 제거
@@ -287,5 +292,12 @@ public class GameManager : MonoBehaviour
         if (inventoryUI != null) inventoryUI.SetActive(isActive);
         if (inGameUI != null) inGameUI.SetActive(isActive);
         if (testUI != null) testUI.SetActive(isActive);
+    }
+
+    // 인게임 UI 활성화 함수
+    // (스토리 씬에서 던전 씬으로 복귀할 때 사용)
+    public void SetActiveInGameUI()
+    {
+        if (inGameUI != null) inGameUI.SetActive(true);
     }
 }

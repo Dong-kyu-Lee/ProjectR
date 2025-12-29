@@ -85,6 +85,8 @@ public class Stage : MonoBehaviour
 
     private void CreateDungeon()
     {
+        // 던전 생성 전, 플레이어 추락 방지를 위해 플레이어 비활성화
+        GameManager.Instance.CurrentPlayer.SetActive(false);
         // 던전 생성
         DungeonFlowManager.Instance.DungeonCreator.CreateDungeon(stageData, out playerSpawnPosition, out finishSpotPosition);
         // 테스트 플레이어 생성
@@ -100,6 +102,7 @@ public class Stage : MonoBehaviour
         }
         // 던전 갱신 완료 이벤트 호출
         onDungeonReset?.Invoke();
+        StartCoroutine(PlayerActivateDelay());
     }
 
     private void RemoveDungeon()
@@ -133,9 +136,9 @@ public class Stage : MonoBehaviour
             {
                 roomList[index + 1].gate.OpenGate(false);
                 if (arrivePos != Vector3.zero) // 워프를 통한 이동인 경우
-                    missionUI.StartMission("Move to next room.", arrivePos);
+                    missionUI.StartMission("다음 방으로 이동하세요.", arrivePos);
                 else // 통로를 통한 이동인 경우, 다음 방의 중심 좌표를 목표 위치로 설정
-                    missionUI.StartMission("Move to next room.", roomList[index + 1].transform.position + new Vector3(20, 20, 0));
+                    missionUI.StartMission("다음 방으로 이동하세요.", roomList[index + 1].transform.position + new Vector3(20, 20, 0));
             }
             currentRoomIndex = index;
         }
@@ -148,7 +151,7 @@ public class Stage : MonoBehaviour
         if (currentRoomIndex == roomList.Count - 1)
         {
             OpenFinishSpot();
-            missionUI.StartMission("Move to next room.", currentFinishSpot.transform.position);
+            missionUI.StartMission("다음 방으로 이동하세요.", currentFinishSpot.transform.position);
         }
     }
 
@@ -159,6 +162,11 @@ public class Stage : MonoBehaviour
         currentFinishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
     }
 
+    private IEnumerator PlayerActivateDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        GameManager.Instance.CurrentPlayer.SetActive(true);
+    }
 
     private void MoveToDungeonAndCreate()
     {
