@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class StartSceneManager : MonoBehaviour
 {
@@ -11,6 +11,10 @@ public class StartSceneManager : MonoBehaviour
     public GameObject frontBackground;
     // 게임 최초 시작 시 생성할 플레이어 캐릭터 타입
     public CharacterType initialCharacterType;
+
+    [SerializeField] private TextMeshProUGUI startBtnText;
+    [SerializeField] private TextMeshProUGUI exitBtnText;
+    private Color original = Color.black;
 
     void Update()
     {
@@ -47,5 +51,25 @@ public class StartSceneManager : MonoBehaviour
     {
         Debug.Log("게임 종료");
         Application.Quit();
+    }
+
+    // 마우스 포인터가 로비 버튼 위에 올라갔을 때, 노란색으로 하이라이트
+    public void OnPointerEnterStartButton()
+    {
+        startBtnText.color = Color.yellow;
+    }
+    // 마우스 포인터가 로비 버튼에서 벗어났을 때, 원래 색상으로 복원
+    public void OnPointerExitStartButton()
+    {
+        startBtnText.color = original;
+    }
+
+    public void OnPointerEnterExitButton()
+    {
+        exitBtnText.color = Color.yellow;
+    }
+    public void OnPointerExitExitButton()
+    {
+        exitBtnText.color = original;
     }
 }

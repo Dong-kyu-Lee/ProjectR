@@ -15,13 +15,14 @@ public class LiberationSystem : MonoBehaviour
 
     private void Awake()
     {
-        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        characterName = "bartender";
-        currentSteadfiteText.text = playerStatus.Steadfite.ToString();
+        
     }
 
     private void Start()
     {
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        characterName = "bartender";
+        currentSteadfiteText.text = playerStatus.Steadfite.ToString();
         SyncLiberationColor();
     }
 
