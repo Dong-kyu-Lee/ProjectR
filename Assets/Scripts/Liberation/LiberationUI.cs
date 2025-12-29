@@ -2,33 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using static PlayerObj;
 
 public class LiberationUI : MonoBehaviour
 {
     [SerializeField] private GameObject liberationUI;
-    private bool isOpen;
+    [SerializeField] private LiberationSystem liberationSystem;
+
     private void Awake()
     {
         liberationUI.SetActive(false);
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (liberationUI == null)
-            {
-                Debug.LogError("liberationUI is null!");
-                return;
-            }
-            CloseUI();
-        }
-    }
+
     public void OpenUI()
     {
         liberationUI.SetActive(true);
+        liberationSystem.SyncSteadfiteText();
+        SaveManager.Instance.SyncFromLiberationData();
     }
-    public void CloseUI()
+    public void CloseUIOnclick()
     {
-        liberationUI.SetActive(false);
+        if (liberationUI != null) liberationUI.SetActive(false);
     }
 }

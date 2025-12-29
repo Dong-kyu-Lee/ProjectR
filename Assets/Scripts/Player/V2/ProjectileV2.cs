@@ -18,7 +18,7 @@ public class ProjectileV2 : MonoBehaviour
 
     private bool hasExploded = false;
 
-    public GameObject explosionPrefab;
+    public GameObject[] explosionPrefabs = new GameObject[4];
     public float explosionRadius;
     public LayerMask enemyLayer;
 
@@ -63,35 +63,51 @@ public class ProjectileV2 : MonoBehaviour
         Vector3 hitPoint = transform.position;
         HashSet<GameObject> processedEnemies = new HashSet<GameObject>();
 
-        // 광역 폭발 기능
-        if (AbilityManager.Instance.bartenderAbility[1])
+        GameObject explosionPrefab;
+        switch (bottle)
         {
-            Instantiate(explosionPrefab, hitPoint, Quaternion.identity);
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(hitPoint, explosionRadius);
+            case "Burn":
+                explosionPrefab = explosionPrefabs[1];
+                break;
+            case "Poison":
+                explosionPrefab = explosionPrefabs[2];
+                break;
+            case "Freeze":
+                explosionPrefab = explosionPrefabs[3];
+                break;
+            default:
+                explosionPrefab = explosionPrefabs[0];
+                break;
+        }
+        // 닿은 곳에 술병 폭발 생성
+        GameObject explosion =Instantiate(explosionPrefab, hitPoint, Quaternion.identity);
+        int explosionScale = 1;
+        if (AbilityManager.Instance.bartenderAbility[1]) explosionScale = 3;
+        explosion.transform.localScale = explosionPrefab.transform.localScale * explosionScale;
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(hitPoint, explosionRadius * explosionScale);
 
-            foreach (var hitCollider in hitColliders)
+        foreach (var hitCollider in hitColliders)
+        {
+            EnemyStatus enemyStatus = hitCollider.GetComponentInParent<EnemyStatus>();
+            if (enemyStatus != null)
             {
-                EnemyStatus enemyStatus = hitCollider.GetComponentInParent<EnemyStatus>();
-                if (enemyStatus != null)
+                if (hitCollider.gameObject != enemyStatus.gameObject) continue;
+
+                GameObject enemy = enemyStatus.gameObject;
+
+                float explodeDamage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
+                enemyStatus?.TakeDamage(player, explodeDamage, ignoreDamageReduction, isCritical);
+                processedEnemies.Add(enemy);
+
+                if (bartenderAbility != null)
                 {
-                    if (hitCollider.gameObject != enemyStatus.gameObject) continue;
-
-                    GameObject enemy = enemyStatus.gameObject;
-
-                    float explodeDamage = CalcDamage.Instance.CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
-                    enemyStatus?.TakeDamage(player, explodeDamage, ignoreDamageReduction, isCritical);
-                    processedEnemies.Add(enemy);
-
-                    if (bartenderAbility != null)
-                    {
-                        bartenderAbility.BartenderAttackDebuff(enemy);
-                        bartenderAbility.CheckBartenderAbility(enemy, bottle);
-                    }
-
-                    CalcDamage.Instance.CheckAddtionalDamage(enemy);
-                    CalcDamage.Instance.AdditionalEffect(enemy);
-                    CalcDamage.Instance.CheckFightState();
+                    bartenderAbility.BartenderAttackDebuff(enemy);
+                    bartenderAbility.CheckBartenderAbility(enemy, bottle);
                 }
+
+                CalcDamage.Instance.CheckAddtionalDamage(enemy);
+                CalcDamage.Instance.AdditionalEffect(enemy);
+                CalcDamage.Instance.CheckFightState();
             }
         }
 

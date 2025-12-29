@@ -6,7 +6,7 @@ public class RangedEnemy : Enemy
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
-    private Vector2 direction;
+    private Vector2 projDirection;
 
     protected override void Awake()
     {
@@ -24,7 +24,7 @@ public class RangedEnemy : Enemy
         base.FixedUpdate();
     }
 
-    public Vector2 SetTarget()
+    public Vector2 SetTargetDir()
     {
         Vector2 direction = (PlayerTransform.position - firePoint.position).normalized;
         float speed = 10f; // 원하는 발사 속도
@@ -34,7 +34,7 @@ public class RangedEnemy : Enemy
 
     public IEnumerator EnableRangeAttack()
     {
-        direction = SetTarget();
+        projDirection = SetTargetDir();
         yield return new WaitForSeconds(0.35f);
         ShootProjectile();
     }
@@ -55,12 +55,12 @@ public class RangedEnemy : Enemy
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             if (rb)
             {
-                rb.velocity = direction; // 투사체 속도
+                rb.velocity = projDirection; // 투사체 속도
             }
 
-            if (direction != Vector2.zero)
+            if (projDirection != Vector2.zero)
             {
-                Quaternion baseRot = Quaternion.FromToRotation(Vector2.left, direction);
+                Quaternion baseRot = Quaternion.FromToRotation(Vector2.left, projDirection);
 
                 Quaternion offset = Quaternion.Euler(0f, 0f, -20f); // 왼쪽 기준 아래로 20도
 

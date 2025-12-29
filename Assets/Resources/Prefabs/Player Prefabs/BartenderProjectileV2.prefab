@@ -145,6 +145,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-4437246379517418838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,8 +165,12 @@ MonoBehaviour:
   damage: 0
   ignoreDamageReduction: 0
   bottle: 
-  explosionPrefab: {fileID: 8847766772754687324, guid: da608e847a4f98e4b9596784490f2e53, type: 3}
-  explosionRadius: 0.8
+  explosionPrefabs:
+  - {fileID: 6608486369911292895, guid: cddf0341bfc4b944facd0a509305dc19, type: 3}
+  - {fileID: 1318991477344625502, guid: db4d993a649fe2b439e9141a13febbda, type: 3}
+  - {fileID: 2021790042187411745, guid: 94eb6549cbfe2084db3c5eb8260a7abe, type: 3}
+  - {fileID: 3438296413803256738, guid: d00b1ce4ee345bb458c85b5efcc58c3a, type: 3}
+  explosionRadius: 0.3
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
