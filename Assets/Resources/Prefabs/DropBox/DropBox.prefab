@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 37665030502078993}
   - component: {fileID: 6526341724929266264}
   - component: {fileID: 6526341724929266260}
+  - component: {fileID: -6981005028884776697}
   m_Layer: 0
   m_Name: DropBox
   m_TagString: Untagged
@@ -158,7 +159,22 @@ MonoBehaviour:
   dropParent: {fileID: 4232966827592559012}
   minDropCount: 3
   maxDropCount: 4
-  itemSpacing: 1
+  itemSpacing: 2
+--- !u!114 &-6981005028884776697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232966827592559013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8658cfd451b90764cb4764ca9f5c6ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapIconObject: {fileID: 0}
+  iconSprite: {fileID: 1890379846, guid: 97674d34c3046274f9cee23fa0f2aec1, type: 3}
+  iconScale: 2
 --- !u!1 &5593486913358886758
 GameObject:
   m_ObjectHideFlags: 0
