@@ -10,7 +10,7 @@ public class DungeonUIManager : MonoBehaviour
 
     void Start()
     {
-        
+        GameManager.Sound.Play("Sounds/BGM/NormalDungeonBGM", Sound.Bgm);
     }
 
     public void ShowFullMap()
