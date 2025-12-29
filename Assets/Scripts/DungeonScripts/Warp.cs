@@ -6,6 +6,9 @@ using UnityEngine;
 public class Warp : MonoBehaviour
 {
     private Vector3 warpPoint;
+    private bool isPlayerTriggered = false;
+    private string message = "'<color=yellow>E</color>'키를 눌러 다음 방으로 이동";
+
     void Start()
     {
         
@@ -19,11 +22,24 @@ public class Warp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Player") && !isPlayerTriggered)
+        {
+            isPlayerTriggered = true;
+            // 플레이어가 워프에 닿았을 때, 플레이어를 워프 위치로 이동
+            InGameUIManager.Instance.ShowWarpUI(message,
+                () => { 
+                    GameManager.Instance.CurrentPlayer.transform.position = warpPoint;
+                    gameObject.SetActive(false);
+                });
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
         if (collision.CompareTag("Player"))
         {
-            // 플레이어가 워프에 닿았을 때, 플레이어를 워프 위치로 이동
-            GameManager.Instance.CurrentPlayer.transform.position = warpPoint;
-            gameObject.SetActive(false);
+            InGameUIManager.Instance.HideWarpUI();
+            isPlayerTriggered = false;
         }
     }
 }
