@@ -85,6 +85,8 @@ public class Stage : MonoBehaviour
 
     private void CreateDungeon()
     {
+        // 던전 생성 전, 플레이어 추락 방지를 위해 플레이어 비활성화
+        GameManager.Instance.CurrentPlayer.SetActive(false);
         // 던전 생성
         DungeonFlowManager.Instance.DungeonCreator.CreateDungeon(stageData, out playerSpawnPosition, out finishSpotPosition);
         // 테스트 플레이어 생성
@@ -100,6 +102,7 @@ public class Stage : MonoBehaviour
         }
         // 던전 갱신 완료 이벤트 호출
         onDungeonReset?.Invoke();
+        StartCoroutine(PlayerActivateDelay());
     }
 
     private void RemoveDungeon()
@@ -159,6 +162,11 @@ public class Stage : MonoBehaviour
         currentFinishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
     }
 
+    private IEnumerator PlayerActivateDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        GameManager.Instance.CurrentPlayer.SetActive(true);
+    }
 
     private void MoveToDungeonAndCreate()
     {
