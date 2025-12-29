@@ -16,6 +16,11 @@ public class StartSceneManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI exitBtnText;
     private Color original = Color.black;
 
+    private void Start()
+    {
+        GameManager.Sound.Play("Sounds/BGM/StartSceneBGM", Sound.Bgm);
+    }
+
     void Update()
     {
         // 배경 오브젝트 움직임
