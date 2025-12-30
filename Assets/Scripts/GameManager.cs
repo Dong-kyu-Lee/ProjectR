@@ -208,6 +208,7 @@ public class GameManager : MonoBehaviour
         DungeonFlowManager.Instance.ResetStages();
         // 플레이어를 엔딩 씬으로 이동
         MoveScene(SceneType.EndScene, "EndScene");
+        PlayTimeStop();
     }
 
     public void CreateFirstPlayer()
