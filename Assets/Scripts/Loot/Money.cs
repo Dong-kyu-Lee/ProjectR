@@ -53,7 +53,7 @@ public class Money : MonoBehaviour
                         player.GetComponent<PlayerStatus>().Gold += moneyAmount;
                         break;
                     case "steadfite":
-                        player.GetComponent<PlayerStatus>().Steadfite += (int)moneyAmount;
+                        SaveManager.Instance.AddSteadfite((int)moneyAmount);
                         break;
                     default:
                         break;

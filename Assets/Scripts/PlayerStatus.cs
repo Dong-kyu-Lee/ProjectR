@@ -62,17 +62,6 @@ public class PlayerStatus : Status
             InGameUIManager.Instance?.CheckGold();
         }
     }
-    private int steadfite;
-    public int Steadfite
-    {
-        get { return steadfite; }
-        set
-        {
-            steadfite = value;
-            SaveManager.Instance.SetSteadfite(steadfite);
-        }
-    }
-
 
     public float Exp
     {
@@ -184,12 +173,6 @@ public class PlayerStatus : Status
 
         baseMoveSpeed = MoveSpeed;
     }
-
-    void Start()
-    {
-
-    }
-
 
     private void Update()
     {

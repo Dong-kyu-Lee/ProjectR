@@ -69,11 +69,6 @@ public class Enemy : MonoBehaviour
         
     }
 
-    void Update()
-    {
-        
-    }
-
     protected virtual void FixedUpdate()
     {
         FlipX();

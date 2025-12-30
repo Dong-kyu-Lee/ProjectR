@@ -95,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 2165544603971447547}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 8085293657488718214, guid: b02fde9b104b2264188a3219df3d0680, type: 3}
+  m_Controller: {fileID: 9100000, guid: 98ab61c39cae802458248f616b438fbc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 4286891369284554038}
   - component: {fileID: 242294358733283423}
   - component: {fileID: 3752253542072666238}
+  - component: {fileID: 2463957498215350902}
   m_Layer: 9
   m_Name: HPBarCanvas
   m_TagString: Untagged
@@ -624,6 +625,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &2463957498215350902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5650054974866124435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434b008451e80214bad766b5d3153df6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyStatus: {fileID: 3842903198805543405}
+  hpFill: {fileID: 3825549567313088556}
+  canvasGroup: {fileID: 3752253542072666238}
 --- !u!1 &7154700476304014582
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,7 +656,6 @@ GameObject:
   - component: {fileID: 1918481558}
   - component: {fileID: 5349268765530089570}
   - component: {fileID: 3012331348040848098}
-  - component: {fileID: 8589388722885297029}
   m_Layer: 9
   m_Name: RangedEnemy1_1
   m_TagString: Enemy
@@ -733,6 +748,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   isAttacking: 0
+  deadDelayTime: 1
   projectilePrefab: {fileID: 2127986129719347135, guid: decf7e6da194e524cbe3a2b2e5a0d726, type: 3}
   firePoint: {fileID: 2601844380281849964}
 --- !u!114 &3842903198805543405
@@ -787,21 +803,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lootTable: {fileID: 11400000, guid: aafc686c88a1a9c44a32fd23b6ee9e9c, type: 2}
---- !u!114 &8589388722885297029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7154700476304014582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 434b008451e80214bad766b5d3153df6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyStatus: {fileID: 3842903198805543405}
-  hpFill: {fileID: 3825549567313088556}
-  canvasGroup: {fileID: 3752253542072666238}
 --- !u!1 &7413816408706172057
 GameObject:
   m_ObjectHideFlags: 0

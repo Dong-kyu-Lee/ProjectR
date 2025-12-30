@@ -22,8 +22,17 @@ public class LiberationSystem : MonoBehaviour
     {
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         characterName = "bartender";
-        currentSteadfiteText.text = playerStatus.Steadfite.ToString();
         SyncLiberationColor();
+    }
+
+    public void SyncSteadfiteText()
+    {
+        currentSteadfiteText.text = SaveManager.Instance.GetSteadfite().ToString();
+    }
+
+    public void GetPlayerStatus(PlayerStatus playerStat)
+    {
+        playerStatus = playerStat;
     }
 
     public void EnableLiberationOnClick()
@@ -32,14 +41,14 @@ public class LiberationSystem : MonoBehaviour
         {
             Debug.Log("이미 활성화된 능력입니다.");
         }
-        else if (playerStatus.Steadfite < liberationDesc[currentAbility].abilityPrice)
+        else if (SaveManager.Instance.GetSteadfite() < liberationDesc[currentAbility].abilityPrice)
         {
             Debug.Log("능력을 해방하기 위한 단석이 부족합니다.");
         }
         else
         {
-            playerStatus.Steadfite -= liberationDesc[currentAbility].abilityPrice;
-            currentSteadfiteText.text = playerStatus.Steadfite.ToString();
+            SaveManager.Instance.AddSteadfite(-liberationDesc[currentAbility].abilityPrice);
+            currentSteadfiteText.text = SaveManager.Instance.GetSteadfite().ToString();
             EnableLiberationEffect(characterName, currentAbility);
         }
     }

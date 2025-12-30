@@ -15,7 +15,7 @@ public class LiberationData
 {
     public BartenderAbilityData bartenderAbilityData = new BartenderAbilityData();
 
-    [SerializeField] private int steadfite = 0;
+    [SerializeField] private int steadfite;
     public int Steadfite { get { return steadfite; } set { steadfite = value; } }
 }
 
@@ -49,7 +49,6 @@ public static class SaveSystem
 public class SaveManager : MonoBehaviour
 {
     private static SaveManager instance;
-    private bool flag = false; // Update를 한번만 실행하기 위한 플래그
 
     public static SaveManager Instance
     {
@@ -73,14 +72,11 @@ public class SaveManager : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.Instance.CurrentPlayer != null)
-        {
-            if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
-            else if (instance != this) Destroy(gameObject);
+        if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
+        else if (instance != this) Destroy(gameObject);
 
-            saveData = SaveSystem.Load();
-            SyncFromLiberationData();
-        }
+        saveData = SaveSystem.Load();
+        SyncFromLiberationData();
     }
 
     public void SaveAbility(string characterName, int point, bool enable)
@@ -89,18 +85,27 @@ public class SaveManager : MonoBehaviour
         {
             case "bartender":
                 saveData.liberationData.bartenderAbilityData.bartenderAbility[point] = enable;
-                SaveSystem.Save(saveData);
+                SaveCurrentData();
                 break;
             default:
                 break;
         }
     }
 
-    public void SetSteadfite(int value)
+    public void SaveCurrentData()
     {
-        saveData.liberationData.Steadfite = value;
+        SaveSystem.Save(saveData);
     }
 
+    public void AddSteadfite(int value)
+    {
+        saveData.liberationData.Steadfite += value;
+    }
+
+    public int GetSteadfite()
+    {
+        return saveData.liberationData.Steadfite;
+    }
 
     public void SyncFromLiberationData()
     {
@@ -108,6 +113,5 @@ public class SaveManager : MonoBehaviour
         {
             AbilityManager.Instance.SyncAbility(i, saveData.liberationData.bartenderAbilityData.bartenderAbility[i]);
         }
-        GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>().Steadfite = saveData.liberationData.Steadfite;
     }
 }

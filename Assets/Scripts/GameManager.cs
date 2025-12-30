@@ -129,9 +129,7 @@ public class GameManager : MonoBehaviour
                 DungeonFlowManager.Instance.ResetStages();
                 break;
             case SceneType.LobbyScene:
-                /* -----------------------------------------------------
-                    <-- 여기에 코드 작성
-                ----------------------------------------------------- */
+                SaveManager.Instance.SaveCurrentData();
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
                 // 플레이어 오브젝트 제거
