@@ -24,7 +24,7 @@ public class StartSceneManager : MonoBehaviour
     void Update()
     {
         // 배경 오브젝트 움직임
-        if(background.transform.position.x <= -24)
+        if(background.transform.position.x <= -24.7)
         {
             background.transform.position = new Vector3(0, 0, 0);
         }
@@ -32,7 +32,7 @@ public class StartSceneManager : MonoBehaviour
         {
             background.transform.Translate(Vector3.left * backgroundSpeed * Time.deltaTime);
         }
-        if(frontBackground.transform.position.x <= -24)
+        if(frontBackground.transform.position.x <= -24.7)
         {
             frontBackground.transform.position = new Vector3(0, 0, 0);
         }
