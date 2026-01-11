@@ -61,6 +61,9 @@ public class ItemExplain : MonoBehaviour
         itemEffectTxt.text = item.ItemDescription;
         itemExTxt.text = item.ItemExplain;
         itemGradeTxt.text = item.ItemGrade.ToString();
-        itemPriceTxt.text = $"{item.ItemPrice} G";
+        if (itemPriceTxt != null)
+        {
+            itemPriceTxt.text = $"{item.ItemPrice} G";
+        }
     }
 }
