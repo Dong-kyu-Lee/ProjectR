@@ -18,7 +18,10 @@ public class ItemExplain : MonoBehaviour
     [SerializeField]
     TextMeshPro itemName;   //아이템 이름
     [SerializeField]
+    TextMeshPro itemGradeTxt;   // 등급
+    [SerializeField]
     public BasicItemData item;  //아이템
+
 
     private void Awake()
     {
@@ -52,10 +55,12 @@ public class ItemExplain : MonoBehaviour
     }
     public void ChangeInfo()
     {
+        // 기본 정보 - 이미지, 이름, 효과, 설명, 등급, 가격
         spriteRenderer.sprite = item.ItemSprite;
-        itemPriceTxt.text = item.ItemPrice.ToString();
+        itemName.text = item.ItemName;
         itemEffectTxt.text = item.ItemDescription;
         itemExTxt.text = item.ItemExplain;
-        itemName.text = item.ItemName;
+        itemGradeTxt.text = item.ItemGrade.ToString();
+        itemPriceTxt.text = $"{item.ItemPrice} G";
     }
 }
