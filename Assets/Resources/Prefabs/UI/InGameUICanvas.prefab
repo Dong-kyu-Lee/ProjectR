@@ -3005,7 +3005,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 607.4, y: -5}
+  m_AnchoredPosition: {x: 520.6, y: -20}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &9074538798622737920
@@ -4162,10 +4162,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9074538797874456326}
     m_Modifications:
-    - target: {fileID: 6593811978161895004, guid: 22507169ec46ce2438037725d661b147, type: 3}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: 889787f713e30c84889c0ea94dcf20d0, type: 3}
     - target: {fileID: 6593811979532327234, guid: 22507169ec46ce2438037725d661b147, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4232,11 +4228,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6593811979532327234, guid: 22507169ec46ce2438037725d661b147, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -177.5
+      value: -281
       objectReference: {fileID: 0}
     - target: {fileID: 6593811979532327234, guid: 22507169ec46ce2438037725d661b147, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 324.43152
+      value: 380
       objectReference: {fileID: 0}
     - target: {fileID: 6593811979532327234, guid: 22507169ec46ce2438037725d661b147, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4254,10 +4250,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuffToolTip
       objectReference: {fileID: 0}
-    - target: {fileID: 6593811979942924647, guid: 22507169ec46ce2438037725d661b147, type: 3}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: 889787f713e30c84889c0ea94dcf20d0, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22507169ec46ce2438037725d661b147, type: 3}
 --- !u!114 &6106600580546545095 stripped
