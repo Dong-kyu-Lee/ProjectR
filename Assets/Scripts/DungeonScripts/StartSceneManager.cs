@@ -45,10 +45,10 @@ public class StartSceneManager : MonoBehaviour
     // 게임 시작 화면에서 Start 버튼에 의해 호출되는 이벤트 함수
     public void StartGame()
     {
-        // 첫 시작 시 플레이어 오브젝트 생성
-        // GameManager.Instance.CreateFirstPlayer(initialCharacterType);
-        GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
-        //StartCoroutine(MoveSceneAfterPlayerGenerated());
+        if (GameManager.Instance.prologue.hasSeenPrologue == true)
+            GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
+        else
+            GameManager.Instance.prologue.StartPrologue();
     }
 
     // 게임 종료 버튼에 의해 호출되는 이벤트 함수
