@@ -15,6 +15,8 @@ public class CharacterSelect : MonoBehaviour
     Mannequin[] mannequins;
     [SerializeField]
     CM_LobbyScene vcam;
+    [SerializeField]
+    Transform prologueSpawnPoint;
 
     private void Awake()
     {
@@ -40,7 +42,7 @@ public class CharacterSelect : MonoBehaviour
 
             string path = GameManager.Instance.characterPrefabPaths[type];
             GameObject characterPrefab = Resources.Load<GameObject>(path);
-            if(characterPrefab != null)
+            if (characterPrefab != null)
             {
                 characters[i] = Instantiate(characterPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 characters[i].SetActive(false);
@@ -50,15 +52,19 @@ public class CharacterSelect : MonoBehaviour
                 Debug.LogError($"Character prefab not found at path: {path}");
             }
         }
-        // 현재 플레이어 오브젝트 설정
+        // 플레이어 오브젝트 생성 위치 결정(프롤로그 완료 여부에 따름)
+        Vector3 spawnPosition;
+        if (GameManager.Instance.prologue.hasSeenPrologue == false) { 
+            spawnPosition = prologueSpawnPoint.position;
+            GameManager.Instance.prologue.EndPrologue();
+        }
+        else { spawnPosition = mannequins[(int)GameManager.Instance.CurrentCharacterType].transform.position; }
+        // 현재 플레이어 오브젝트 설정(생성할 캐릭터 오브젝트, 타입, 위치)
         GameManager.Instance.SetCurrentPlayer(
             characters[(int)GameManager.Instance.CurrentCharacterType],
             GameManager.Instance.CurrentCharacterType,
-            mannequins[(int)GameManager.Instance.CurrentCharacterType].transform.position
+            spawnPosition
             );
-        // 현재 플레이어 위치를 해당 타입의 마네킹 위치로 이동
-        /*GameManager.Instance.CurrentPlayer.transform.position =
-            mannequins[(int)GameManager.Instance.CurrentCharacterType].transform.position;*/
         GameManager.Instance.CurrentPlayer.SetActive(true);
 
         SetMannequin(GameManager.Instance.CurrentCharacterType);
