@@ -76,6 +76,9 @@ public class GameManager : MonoBehaviour
     public float maximumDamage = 0;
     private DateTime playStartTime;
     private bool isPlayTimeRunning = false;
+
+    // 프롤로그 관리
+    public PrologueManager prologue;
     #endregion
 
     private void Awake()
@@ -91,6 +94,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // 중복된 GameManager 제거
         }
         instance.sound.Init();
+        // 프롤로그 매니저 추가
+        prologue = gameObject.AddComponent<PrologueManager>();
     }
 
     public void SetCurrentPlayer(GameObject value, CharacterType type, Vector3 spawnPosition)
