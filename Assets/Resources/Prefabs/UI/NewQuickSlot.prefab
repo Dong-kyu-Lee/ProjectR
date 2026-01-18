@@ -1110,6 +1110,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2155572197000175930}
+  - component: {fileID: 3446786700082131656}
+  - component: {fileID: 3642519707951874357}
   m_Layer: 5
   m_Name: CharacterInfo
   m_TagString: Untagged
@@ -1138,6 +1140,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3446786700082131656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2155572197000175933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb58138452e58847ac83346c201492d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: {fileID: 2155572197408780879}
+  statusTextPref: {fileID: 5530336742706271555, guid: 2aebc3a8aee99684ca85ccd00032d1c5, type: 3}
+  statusParentObj: {fileID: 2155572198328935886}
+  characterInfo: {fileID: 2155572197000175933}
+  playerStatus: {fileID: 0}
+  closeButton: {fileID: 2155572197718445158}
+  statusContent: {fileID: 2155572198328935884}
+--- !u!114 &3642519707951874357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2155572197000175933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5053f3c609426c3438a817d94497040c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2155572197048704365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1775,8 +1808,6 @@ GameObject:
   - component: {fileID: 2155572197220426592}
   - component: {fileID: 2155572197220426595}
   - component: {fileID: 2155572197220426594}
-  - component: {fileID: 3044602416797800843}
-  - component: {fileID: 1321164607437988180}
   m_Layer: 5
   m_Name: NewQuickSlot
   m_TagString: QuickSlot
@@ -1867,37 +1898,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3044602416797800843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2155572197220426597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5053f3c609426c3438a817d94497040c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1321164607437988180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2155572197220426597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb58138452e58847ac83346c201492d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterName: {fileID: 2155572197408780879}
-  statusTextPref: {fileID: 5530336742706271555, guid: 2aebc3a8aee99684ca85ccd00032d1c5, type: 3}
-  statusParentObj: {fileID: 2155572198328935886}
-  characterInfo: {fileID: 2155572197000175933}
-  playerStatus: {fileID: 0}
-  closeButton: {fileID: 2155572197718445158}
-  statusContent: {fileID: 2155572198328935884}
 --- !u!1 &2155572197258153382
 GameObject:
   m_ObjectHideFlags: 0

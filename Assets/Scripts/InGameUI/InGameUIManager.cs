@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -36,8 +37,8 @@ public class InGameUIManager : MonoBehaviour
     public SkillCoolTime skillCoolTimeUI;
     public PlayerStatus playerStatus;
 
-    private CharacterInfo characterInfoUI;
-    private GameSettingUI gameSettingUI;
+    public CharacterInfo characterInfoUI;
+    public GameSettingUI gameSettingUI;
 
     //열린 UI들을 관리하는 스택 (최근 열린 순서대로 저장)
     private Stack<GameObject> uiStack = new Stack<GameObject>();
@@ -98,6 +99,24 @@ public class InGameUIManager : MonoBehaviour
             Debug.LogWarning("PlayerStatus 컴포넌트를 찾을 수 없습니다.");
             yield break;
         }
+        float timeOut = 3.0f; // 최대 3초 대기
+        while (characterInfoUI == null && timeOut > 0)
+        {
+            characterInfoUI = FindObjectOfType<CharacterInfo>(true);
+            if (characterInfoUI == null)
+            {
+                timeOut -= Time.deltaTime;
+                yield return null; // 다음 프레임에 다시 시도
+            }
+        }
+
+        if (characterInfoUI == null)
+        {
+            characterInfoUI = FindObjectOfType<CharacterInfo>(true);
+
+            if (characterInfoUI == null)
+                Debug.LogWarning("InGameUIManager: CharacterInfo를 찾을 수 없습니다!");
+        }
 
         CharacterUI?.InitUIForCurrentPlayer();
         CheckGold();
@@ -115,6 +134,7 @@ public class InGameUIManager : MonoBehaviour
         // 인벤토리 (I 키)
         if (Input.GetKeyDown(KeyCode.I))
         {
+            
             if (characterInfoUI != null)
             {
                 characterInfoUI.ToggleInventoryUI();

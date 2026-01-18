@@ -31,15 +31,7 @@ public class CharacterInfo : MonoBehaviour
         SetStatus();
         transform.GetComponentInChildren<InventoryUI>().Init();
         closeButton.onClick.AddListener(DisableUI);
-        DontDestroyOnLoad(gameObject);
         DisableUI();
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            ToggleInventoryUI();
-        }
     }
 
     private void OnEnable()
