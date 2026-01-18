@@ -22,6 +22,7 @@ public class InGameUIManager : MonoBehaviour
             return instance;
         }
     }
+    private Canvas rootCanvas;
 
     [SerializeField] private GameObject checkUI;
     [SerializeField] private Text goldText;
@@ -60,6 +61,8 @@ public class InGameUIManager : MonoBehaviour
             Destroy(this.transform.root.gameObject);
             return;
         }
+
+        rootCanvas = GetComponentInParent<Canvas>();
 
         if (characterInfoUI == null)
         {
@@ -133,23 +136,22 @@ public class InGameUIManager : MonoBehaviour
         {
             GameObject topUI = uiStack.Peek();
 
-            // GameSettingUI 체크
-            GameSettingUI settingUI = topUI.GetComponentInParent<GameSettingUI>();
+            DungeonUIManager dungeonManager = FindObjectOfType<DungeonUIManager>();
 
-            if (settingUI != null)
+            if (dungeonManager != null && topUI == dungeonManager.fullMap)
             {
-                settingUI.OpenCloseSettingUI();
+                dungeonManager.CloseFullMap();
             }
+            // GameSettingUI 처리
+            else if (topUI.GetComponentInParent<GameSettingUI>() != null)
+            {
+                topUI.GetComponentInParent<GameSettingUI>().OpenCloseSettingUI();
+            }
+            // 그 외 일반 UI
             else
             {
-                // 일반 UI 닫기
                 topUI.SetActive(false);
-
-                // 안전장치
-                if (uiStack.Count > 0 && uiStack.Peek() == topUI)
-                {
-                    uiStack.Pop();
-                }
+                if (uiStack.Count > 0 && uiStack.Peek() == topUI) uiStack.Pop();
             }
             return;
         }
@@ -281,5 +283,28 @@ public class InGameUIManager : MonoBehaviour
     {
         warpUIText.gameObject.SetActive(false);
         warpAction = null;
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (rootCanvas == null) return;
+
+        if (scene.name == "EndScene")
+        {
+            rootCanvas.enabled = false;
+        }
+        else
+        {
+            rootCanvas.enabled = true;
+        }
     }
 }
