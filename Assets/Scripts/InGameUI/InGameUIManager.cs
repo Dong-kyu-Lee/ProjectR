@@ -35,6 +35,9 @@ public class InGameUIManager : MonoBehaviour
     public SkillCoolTime skillCoolTimeUI;
     public PlayerStatus playerStatus;
 
+    private CharacterInfo characterInfoUI;
+    private GameSettingUI gameSettingUI;
+
     //열린 UI들을 관리하는 스택 (최근 열린 순서대로 저장)
     private Stack<GameObject> uiStack = new Stack<GameObject>();
 
@@ -48,17 +51,38 @@ public class InGameUIManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this.transform.root.gameObject);
         }
+        else if (instance == this)
+        {
+            DontDestroyOnLoad(this.transform.root.gameObject);
+        }
         else
         {
             Destroy(this.transform.root.gameObject);
             return;
         }
-        checkUI.SetActive(false);
+
+        if (characterInfoUI == null)
+        {
+            characterInfoUI = FindObjectOfType<CharacterInfo>(true);
+            if (characterInfoUI == null) Debug.LogWarning("CharacterInfo UI를 찾을 수 없습니다.");
+        }
+
+        if (gameSettingUI == null)
+        {
+            gameSettingUI = FindObjectOfType<GameSettingUI>(true);
+            if (gameSettingUI == null) Debug.LogWarning("GameSettingUI를 찾을 수 없습니다.");
+        }
+
+        if (checkUI != null)
+            checkUI.SetActive(false);
     }
 
     private void Start()
     {
         StartCoroutine(InitPlayerStatus());
+
+        if (characterInfoUI == null) characterInfoUI = FindObjectOfType<CharacterInfo>();
+        if (gameSettingUI == null) gameSettingUI = FindObjectOfType<GameSettingUI>();
     }
 
     private IEnumerator InitPlayerStatus()
@@ -79,27 +103,61 @@ public class InGameUIManager : MonoBehaviour
 
     private void Update()
     {
+        //ESC 입력 처리
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            //버프 툴팁이 켜져 있으면 닫기
-            if (tooltipUI != null && tooltipUI.IsVisible())
-            {
-                tooltipUI.Hide();
-                return;
-            }
+            HandleEscapeInput();
+        }
 
-            //열려 있는 UI가 있다면 최근 UI부터 닫기
-            if (uiStack.Count > 0)
+        // 인벤토리 (I 키)
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (characterInfoUI != null)
             {
-                GameObject topUI = uiStack.Pop();
-                if (topUI != null)
-                    topUI.SetActive(false);
-                return;
+                characterInfoUI.ToggleInventoryUI();
             }
         }
-        if(Input.GetKeyDown(KeyCode.E) && warpUIText.IsActive())
+
+        // 워프 상호작용 (E 키)
+        if (Input.GetKeyDown(KeyCode.E) && warpUIText.IsActive())
         {
             warpAction?.Invoke();
+        }
+    }
+
+    // ESC 키 로직 분리
+    private void HandleEscapeInput()
+    {
+        // 스택에 쌓인 UI가 있다면 닫기
+        if (uiStack.Count > 0)
+        {
+            GameObject topUI = uiStack.Peek();
+
+            // GameSettingUI 체크
+            GameSettingUI settingUI = topUI.GetComponentInParent<GameSettingUI>();
+
+            if (settingUI != null)
+            {
+                settingUI.OpenCloseSettingUI();
+            }
+            else
+            {
+                // 일반 UI 닫기
+                topUI.SetActive(false);
+
+                // 안전장치
+                if (uiStack.Count > 0 && uiStack.Peek() == topUI)
+                {
+                    uiStack.Pop();
+                }
+            }
+            return;
+        }
+
+        // 아무 창도 없으면 설정창 열기
+        if (gameSettingUI != null)
+        {
+            gameSettingUI.OpenCloseSettingUI();
         }
     }
 
