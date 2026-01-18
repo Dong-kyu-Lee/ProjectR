@@ -946,6 +946,7 @@ MonoBehaviour:
   isFirstPlayerCreated: 0
   totalKillCount: 0
   maximumDamage: 0
+  prologue: {fileID: 0}
 --- !u!4 &1429445450
 Transform:
   m_ObjectHideFlags: 0
@@ -1072,6 +1073,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9074538798622737927, guid: e97b60c9b2906ea48ad4fcbf6bb0336d, type: 3}
+      propertyPath: m_Spacing
+      value: 45
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e97b60c9b2906ea48ad4fcbf6bb0336d, type: 3}
 --- !u!1001 &1730849232
@@ -1169,21 +1174,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewQuickSlot
       objectReference: {fileID: 0}
-    - target: {fileID: 2155572198068048143, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2155572198068048143, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2155572198068048143, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2155572198328935884, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00002682749
+      value: 0.00020830763
       objectReference: {fileID: 0}
     - target: {fileID: 2155572198379764669, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
       propertyPath: m_AnchorMax.x
