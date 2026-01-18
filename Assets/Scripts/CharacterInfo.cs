@@ -201,7 +201,7 @@ public class CharacterInfo : MonoBehaviour
 
         // ====== 실제 스탯 표시 ======
         float additionalDamageValue =
-            playerStatus.Damage * playerStatus.AdditionalDamage * 0.01f;
+            playerStatus.Damage * playerStatus.AdditionalDamage;
         float additionalDamageReductionValue =
             playerStatus.DamageReduction * playerStatus.AdditionalDamageReduction * 0.01f;
 
@@ -214,18 +214,16 @@ public class CharacterInfo : MonoBehaviour
             $"<color=yellow>{additionalDamageValue}</color>" +
             $"<color=black>)</color>"
         );
-        AddStatusLine($"추가 피해량 : {playerStatus.AdditionalDamage}%");
-        AddStatusLine($"치명타 확률 : {playerStatus.CriticalPercent}%");
-        AddStatusLine(
-            $"피해 감소량 : {playerStatus.TotalDamageReduction}(" +
-            $"{playerStatus.DamageReduction}+" +
-            $"<color=yellow>{additionalDamageReductionValue}</color>" +
-            $"<color=black>)</color>"
-        );
-        AddStatusLine($"추가 피해 감소량 : {playerStatus.AdditionalDamageReduction}%");
-        AddStatusLine($"공격속도 : {playerStatus.AttackSpeed}");
-        AddStatusLine($"이동속도 : {playerStatus.MoveSpeed}");
-        AddStatusLine($"재화 획득량 : {playerStatus.PriceAdditional}");
+        AddStatusLine($"추가 피해량 : {playerStatus.AdditionalDamage * 100}%");
+        AddStatusLine($"치명타 확률 : {playerStatus.CriticalPercent * 100}%");
+        AddStatusLine($"치명타 피해량 : {playerStatus.CriticalDamage * 100}%");
+        AddStatusLine($"피해 감소량 : {Mathf.Round(playerStatus.DamageReduction * 100f)}%");
+        AddStatusLine($"피해 감소량 무시 : {playerStatus.IgnoreDamageReduction * 100}%");
+        AddStatusLine($"공격속도 : {playerStatus.TotalAttackSpeed}");
+        AddStatusLine($"이동속도 : {100 + playerStatus.AdditionalMoveSpeed * 100}%");
+        AddStatusLine($"버프 지속시간 : {playerStatus.BuffDuration * 100}%");
+        AddStatusLine($"디버프 피해량 : {playerStatus.DebuffDamage * 100}%");
+        AddStatusLine($"재화 획득량 : {playerStatus.PriceAdditional * 100}%");
     }
 
 

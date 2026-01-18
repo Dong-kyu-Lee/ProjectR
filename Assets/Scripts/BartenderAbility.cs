@@ -14,8 +14,8 @@ public class BartenderAbility : MonoBehaviour
         {
             if (AbilityManager.Instance.bartenderAbility[4]) AddBartenderBottle(20);
             else AddBartenderBottle(10);
-            if (AbilityManager.Instance.bartenderAbility[5]) StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", 12f));
-            else StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", 20f));
+            if (AbilityManager.Instance.bartenderAbility[5]) CalcDamage.Instance.StartCooldown("BartenderAbility", 12f);
+            else CalcDamage.Instance.StartCooldown("BartenderAbility", 20f);
         }
     }
 
