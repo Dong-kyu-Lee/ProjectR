@@ -20,7 +20,15 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
         playerBuffManager = GetComponent<BuffManager>();
     }
 
-    // 능력 발동 처리 (Q키는 컨트롤러에서 처리하고 이 메서드를 호출함)
+    private void OnEnable()
+    {
+        if (InGameUIManager.Instance != null && InGameUIManager.Instance.skillCoolTimeUI != null)
+        {
+            InGameUIManager.Instance.skillCoolTimeUI.ResetCooldownUI();
+        }
+    }
+
+    // 능력 발동 처리
     public void Activate()
     {
         if (!CalcDamage.Instance.IsOnCooldown("BartenderAbility"))
@@ -32,6 +40,11 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
 
             float cooldown = AbilityManager.Instance.bartenderAbility[5] ? 12f : 20f;
             StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", cooldown));
+
+            if (InGameUIManager.Instance != null && InGameUIManager.Instance.skillCoolTimeUI != null)
+            {
+                InGameUIManager.Instance.skillCoolTimeUI.TriggerCooldown(cooldown);
+            }
 
             onAbilityUpdated?.Invoke();
         }

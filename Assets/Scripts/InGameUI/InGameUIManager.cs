@@ -32,6 +32,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private CharacterUIManager CharacterUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
 
+    public SkillCoolTime skillCoolTimeUI;
     public PlayerStatus playerStatus;
 
     //열린 UI들을 관리하는 스택 (최근 열린 순서대로 저장)
@@ -42,6 +43,16 @@ public class InGameUIManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.transform.root.gameObject);
+        }
+        else
+        {
+            Destroy(this.transform.root.gameObject);
+            return;
+        }
         checkUI.SetActive(false);
     }
 
