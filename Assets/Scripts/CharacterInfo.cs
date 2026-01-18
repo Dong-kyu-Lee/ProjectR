@@ -128,7 +128,6 @@ public class CharacterInfo : MonoBehaviour
         if (panelRoot.activeSelf)
         {
             // 닫기
-            InGameUIManager.Instance.UnregisterUI(panelRoot); // 스택 제거
             DisableUI();
 
             if (controller != null)
@@ -137,7 +136,6 @@ public class CharacterInfo : MonoBehaviour
         else
         {
             // 열기
-            InGameUIManager.Instance.RegisterUI(panelRoot); // 스택 등록
             EnableUI();
 
             if (controller != null && hasInventoryEvent)

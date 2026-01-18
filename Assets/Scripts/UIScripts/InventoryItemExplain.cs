@@ -152,6 +152,5 @@ public class InventoryItemExplain : MonoBehaviour
     {
         explainPanel.SetActive(false);
         isPanelActive = false;
-        InGameUIManager.Instance.UnregisterUI(explainPanel);
     }
 }
