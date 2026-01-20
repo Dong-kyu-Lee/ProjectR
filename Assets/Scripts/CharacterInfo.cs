@@ -27,17 +27,33 @@ public class CharacterInfo : MonoBehaviour
             Debug.LogWarning("CharacterInfo 오브젝트가 Inspector에 할당되지 않았습니다!");
         }
 
+        // 플레이어가 없으면 초기화 중단
+        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null)
+        {
+            return;
+        }
+
         Init();
         SetStatus();
-        transform.GetComponentInChildren<InventoryUI>().Init();
-        closeButton.onClick.AddListener(DisableUI);
+
+        // InventoryUI 초기화 안전장치
+        InventoryUI invUI = transform.GetComponentInChildren<InventoryUI>();
+        if (invUI != null) invUI.Init();
+
+        if (closeButton != null)
+            closeButton.onClick.AddListener(DisableUI);
+
         DisableUI();
     }
 
     private void OnEnable()
     {
-        Init();
-        SetStatus();
+        // 플레이어가 있을 때만 초기화 진행
+        if (GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
+        {
+            Init();
+            SetStatus();
+        }
     }
 
     private void OnDisable()
@@ -53,17 +69,19 @@ public class CharacterInfo : MonoBehaviour
     public void EnableUI()
     {
         RefreshStatusUI();
-        characterInfo.SetActive(true);
+        if (characterInfo != null) characterInfo.SetActive(true);
     }
 
     // UI 비활성화
     public void DisableUI()
     {
-        characterInfo.SetActive(false);
+        if (characterInfo != null) characterInfo.SetActive(false);
     }
 
     private void RefreshStatusUI()
     {
+        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
+
         InitPlayerStatus();   // PlayerStatus 다시 찾기
         ClearStatusTexts();   // 기존 텍스트 오브젝트 삭제
         SetStatus();          // 최신 값으로 다시 생성
@@ -104,11 +122,13 @@ public class CharacterInfo : MonoBehaviour
 
     public void ToggleInventoryUI()
     {
+        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
+
         BartenderController controller = GameManager.Instance.CurrentPlayer.GetComponent<BartenderController>();
         bool hasInventoryEvent = controller != null &&
             controller.OnEnableCharacterInfoUI != null &&
             controller.OnEnableCharacterInfoUI.GetPersistentEventCount() > 0;
-        
+
         InventoryUI inventoryUI = GetComponentInChildren<InventoryUI>(true);
 
         if (inventoryUI == null)
@@ -117,21 +137,24 @@ public class CharacterInfo : MonoBehaviour
         }
 
         GameObject panelRoot = characterInfo;
-        if (panelRoot.activeSelf)
+        if (panelRoot != null)
         {
-            // 닫기
-            DisableUI();
+            if (panelRoot.activeSelf)
+            {
+                // 닫기
+                DisableUI();
 
-            if (controller != null)
-                controller.DisableCharacterUI();
-        }
-        else
-        {
-            // 열기
-            EnableUI();
+                if (controller != null)
+                    controller.DisableCharacterUI();
+            }
+            else
+            {
+                // 열기
+                EnableUI();
 
-            if (controller != null && hasInventoryEvent)
-                controller.OnEnableCharacterInfoUI.Invoke();
+                if (controller != null && hasInventoryEvent)
+                    controller.OnEnableCharacterInfoUI.Invoke();
+            }
         }
     }
 
@@ -139,6 +162,8 @@ public class CharacterInfo : MonoBehaviour
     // 세팅 전 초기화
     void Init()
     {
+        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
+
         // 기존 오브젝트 삭제
         foreach (var obj in statusObjList)
         {
@@ -147,35 +172,26 @@ public class CharacterInfo : MonoBehaviour
         statusObjList.Clear();
 
         // PlayerStatus 다시 가져오기
-        if (playerStatus == null || GameManager.Instance.CurrentPlayer == null ||
-            playerStatus.gameObject != GameManager.Instance.CurrentPlayer)
+        if (playerStatus == null || playerStatus.gameObject != GameManager.Instance.CurrentPlayer)
         {
-            if (GameManager.Instance.CurrentPlayer != null)
-            {
-                playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-                if (playerStatus == null)
-                    Debug.Log("PlayerStatus 없음");
-            }
-            else
-            {
-                Debug.LogWarning("GameManager의 CurrentPlayer가 null입니다.");
-            }
+            playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+            if (playerStatus == null)
+                Debug.Log("PlayerStatus 없음");
         }
     }
 
 
     // 스테이터스 세팅
-    // 스테이터스 세팅
     void SetStatus()
     {
+        // 플레이어 없으면 리턴
+        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
+
         // RefreshStatusUI / Init 에서 이미 playerStatus 세팅 시도하니까
         // 여기서는 한 번만 더 확인하고, 없으면 그냥 리턴
         if (playerStatus == null)
         {
-            if (GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
-            {
-                playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-            }
+            playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
 
             if (playerStatus == null)
             {
@@ -185,9 +201,12 @@ public class CharacterInfo : MonoBehaviour
         }
 
         // 캐릭터 이름 (나중에 캐릭터별로 분기하고 싶으면 여기서 처리)
-        var nameText = characterName.GetComponent<Text>();
-        if (nameText != null)
-            nameText.text = "바텐더";
+        if (characterName != null)
+        {
+            var nameText = characterName.GetComponent<Text>();
+            if (nameText != null)
+                nameText.text = "바텐더";
+        }
 
         // ====== 실제 스탯 표시 ======
         float additionalDamageValue =
@@ -221,6 +240,8 @@ public class CharacterInfo : MonoBehaviour
 
     private void AddStatusLine(string text)
     {
+        if (statusContent == null || statusTextPref == null) return;
+
         var go = Instantiate(statusTextPref, statusContent);
         var tmp = go.GetComponent<Text>();
         if (tmp != null)
