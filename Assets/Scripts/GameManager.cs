@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject upgradeUI;
     [SerializeField]
-    private GameObject inventoryUI;
+    private GameObject inventoryUI; // [참고] 통합 프리펩 사용 시 더 이상 직접 할당되지 않음 (inGameUI 내부에 포함됨)
     [SerializeField]
     private GameObject inGameUI;
     [SerializeField]
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
     public void SetCurrentPlayer(GameObject value, CharacterType type, Vector3 spawnPosition)
     {
-        if(value == null)
+        if (value == null)
         {
             Debug.LogError("SetCurrentPlayer: value is null");
             return;
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         sound.Clear();
         // 해당 key의 씬으로 이동 시 필요한 코드 실행
-        switch(key)
+        switch (key)
         {
             case SceneType.StartScene:
                 // 업그레이드UI & 인벤토리 UI 제거
@@ -193,11 +193,20 @@ public class GameManager : MonoBehaviour
     {
         // 던전에서 사용되는 UI 생성
         upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
-        inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/NewQuickSlot"));
-        inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/InGameUICanvas"));
+
+        // 통합 프리펩 생성
+        GameObject integratedObj = Instantiate(Resources.Load<GameObject>("Prefabs/UI/GamePlayUI"));
+        if (integratedObj != null)
+        {
+            inGameUI = integratedObj;
+            DontDestroyOnLoad(inGameUI);
+        }
+        else
+        {
+            Debug.LogError("테스트 씬에서 GamePlayUI를 찾을 수 없음");
+        }
+
         DontDestroyOnLoad(upgradeUI);
-        DontDestroyOnLoad(inventoryUI);
-        DontDestroyOnLoad(inGameUI);
 
         if (testUI != null)
         {
@@ -222,7 +231,7 @@ public class GameManager : MonoBehaviour
             Resources.Load<GameObject>(characterPrefabPaths[startCharacterType]),
             Vector3.zero,
             Quaternion.identity);
-        if(playerObject == null)
+        if (playerObject == null)
         {
             Debug.LogError($"CreateFirstPlayer: Player prefab not found at path: {characterPrefabPaths[startCharacterType]}");
             return;
@@ -235,21 +244,21 @@ public class GameManager : MonoBehaviour
     // 플레이 시간 측정 시작/종료 함수
     public void PlayTimeStart()
     {
-        if(isPlayTimeRunning) return;
+        if (isPlayTimeRunning) return;
         playStartTime = DateTime.Now;
         isPlayTimeRunning = true;
     }
 
     public void PlayTimeStop()
     {
-        if(!isPlayTimeRunning) return;
+        if (!isPlayTimeRunning) return;
         totalPlayTimeInSeconds = DateTime.Now - playStartTime;
         isPlayTimeRunning = false;
     }
 
     public void SetMaximumDamage(float damage)
     {
-        if(damage > maximumDamage)
+        if (damage > maximumDamage)
         {
             maximumDamage = damage;
         }
@@ -263,16 +272,21 @@ public class GameManager : MonoBehaviour
             upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
             DontDestroyOnLoad(upgradeUI);
         }
-        if (inventoryUI == null)
-        {
-            inventoryUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/NewQuickSlot"));
-            DontDestroyOnLoad(inventoryUI);
-        }
+
         if (inGameUI == null)
         {
-            inGameUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/InGameUICanvas"));
-            DontDestroyOnLoad(inGameUI);
+            GameObject integratedObj = Instantiate(Resources.Load<GameObject>("Prefabs/UI/GamePlayUI"));
+            if (integratedObj != null)
+            {
+                inGameUI = integratedObj;
+                DontDestroyOnLoad(inGameUI);
+            }
+            else
+            {
+                Debug.LogError("GamePlayUI를 찾을 수 없음");
+            }
         }
+
         if (testUI != null)
         {
             testUI = Instantiate(DungeonTestHelper.Instance.testUI);
@@ -284,7 +298,8 @@ public class GameManager : MonoBehaviour
     private void DestroyUI()
     {
         if (upgradeUI != null) Destroy(upgradeUI);
-        if (inventoryUI != null) Destroy(inventoryUI);
+
+
         if (inGameUI != null) Destroy(inGameUI);
         if (testUI != null) Destroy(testUI);
     }
@@ -293,7 +308,7 @@ public class GameManager : MonoBehaviour
     private void SetActiveUI(bool isActive)
     {
         if (upgradeUI != null) upgradeUI.SetActive(isActive);
-        if (inventoryUI != null) inventoryUI.SetActive(isActive);
+
         if (inGameUI != null) inGameUI.SetActive(isActive);
         if (testUI != null) testUI.SetActive(isActive);
     }
