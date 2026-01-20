@@ -239,6 +239,8 @@ public class GameManager : MonoBehaviour
         currentCharacterType = startCharacterType;
         playerObject.SetActive(false);
         DontDestroyOnLoad(playerObject);
+
+        OnPlayerCharacterChanged?.Invoke();
     }
 
     // 플레이 시간 측정 시작/종료 함수

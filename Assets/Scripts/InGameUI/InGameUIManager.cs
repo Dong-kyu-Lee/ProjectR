@@ -46,7 +46,7 @@ public class InGameUIManager : MonoBehaviour
     // 워프에 닿았을 때 E 키를 누르면 실행할 함수
     private Action warpAction;
 
-    // UIConnector가 호출하여 CharacterInfo를 연결
+    // [신규] UIConnector가 호출하여 CharacterInfo를 연결해주는 함수
     public void SetCharacterInfoUI(CharacterInfo info)
     {
         this.characterInfoUI = info;
@@ -83,39 +83,64 @@ public class InGameUIManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(InitPlayerStatus());
+        if (GameManager.Instance.CurrentPlayer != null)
+        {
+            OnPlayerChanged();
+        }
 
-        if (gameSettingUI == null) 
-            gameSettingUI = FindObjectOfType<GameSettingUI>();
+        if (gameSettingUI == null) gameSettingUI = FindObjectOfType<GameSettingUI>();
+    }
+
+    // 플레이어가 변경/생성되었을 때 실행되는 함수
+    public void OnPlayerChanged()
+    {
+        // 기존 코루틴 중단 후 재시작 (중복 실행 방지)
+        StopAllCoroutines();
+        StartCoroutine(InitPlayerStatus());
     }
 
     private IEnumerator InitPlayerStatus()
     {
-        yield return new WaitUntil(() => GameManager.Instance.CurrentPlayer != null);
+        // 플레이어가 확실히 준비될 때까지 대기
+        yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null);
 
+        // PlayerStatus 컴포넌트 찾기
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        if (playerStatus == null)
+        while (playerStatus == null)
         {
-            Debug.LogWarning("PlayerStatus 컴포넌트를 찾을 수 없습니다.");
-            yield break;
+            yield return null; // 없으면 다음 프레임까지 대기
+            if (GameManager.Instance.CurrentPlayer != null)
+                playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         }
 
-        //  UIConnector가 연결해줄 때까지 잠시 대기
+        // UI 연결 대기
         float timeOut = 3.0f; // 최대 3초 대기
         while (characterInfoUI == null && timeOut > 0)
         {
             timeOut -= Time.deltaTime;
-            yield return null; // 연결될 때까지 대기
+            yield return null;
         }
 
-        if (characterInfoUI == null)
+        if (characterInfoUI != null)
         {
-            Debug.LogWarning("CharacterInfo가 연결되지 않음 (시간초과)");
+            characterInfoUI.EnableUI();
+            CharacterUI?.InitUIForCurrentPlayer();
+            characterInfoUI.DisableUI();
+
+            InventoryUI invUI = characterInfoUI.GetComponentInChildren<InventoryUI>(true);
+
+            if (invUI != null)
+            {
+                invUI.Init();
+            }
+            else
+            {
+                Debug.LogWarning("CharacterInfo 하위에서 InventoryUI를 찾을 수 없음");
+            }
         }
         else
         {
-            // 연결 성공 시 초기화 진행
-            CharacterUI?.InitUIForCurrentPlayer();
+            Debug.LogWarning("CharacterInfo가 연결되지 않음");
         }
 
         CheckGold();
@@ -303,14 +328,23 @@ public class InGameUIManager : MonoBehaviour
         warpUIText.gameObject.SetActive(false);
         warpAction = null;
     }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
+        }
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
+        }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
