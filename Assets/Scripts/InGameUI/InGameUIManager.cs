@@ -46,6 +46,12 @@ public class InGameUIManager : MonoBehaviour
     // 워프에 닿았을 때 E 키를 누르면 실행할 함수
     private Action warpAction;
 
+    // UIConnector가 호출하여 CharacterInfo를 연결
+    public void SetCharacterInfoUI(CharacterInfo info)
+    {
+        this.characterInfoUI = info;
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -65,12 +71,6 @@ public class InGameUIManager : MonoBehaviour
 
         rootCanvas = GetComponentInParent<Canvas>();
 
-        if (characterInfoUI == null)
-        {
-            characterInfoUI = FindObjectOfType<CharacterInfo>(true);
-            if (characterInfoUI == null) Debug.LogWarning("CharacterInfo UI를 찾을 수 없습니다.");
-        }
-
         if (gameSettingUI == null)
         {
             gameSettingUI = FindObjectOfType<GameSettingUI>(true);
@@ -85,8 +85,8 @@ public class InGameUIManager : MonoBehaviour
     {
         StartCoroutine(InitPlayerStatus());
 
-        if (characterInfoUI == null) characterInfoUI = FindObjectOfType<CharacterInfo>();
-        if (gameSettingUI == null) gameSettingUI = FindObjectOfType<GameSettingUI>();
+        if (gameSettingUI == null) 
+            gameSettingUI = FindObjectOfType<GameSettingUI>();
     }
 
     private IEnumerator InitPlayerStatus()
@@ -99,26 +99,25 @@ public class InGameUIManager : MonoBehaviour
             Debug.LogWarning("PlayerStatus 컴포넌트를 찾을 수 없습니다.");
             yield break;
         }
+
+        //  UIConnector가 연결해줄 때까지 잠시 대기
         float timeOut = 3.0f; // 최대 3초 대기
         while (characterInfoUI == null && timeOut > 0)
         {
-            characterInfoUI = FindObjectOfType<CharacterInfo>(true);
-            if (characterInfoUI == null)
-            {
-                timeOut -= Time.deltaTime;
-                yield return null; // 다음 프레임에 다시 시도
-            }
+            timeOut -= Time.deltaTime;
+            yield return null; // 연결될 때까지 대기
         }
 
         if (characterInfoUI == null)
         {
-            characterInfoUI = FindObjectOfType<CharacterInfo>(true);
-
-            if (characterInfoUI == null)
-                Debug.LogWarning("InGameUIManager: CharacterInfo를 찾을 수 없습니다!");
+            Debug.LogWarning("CharacterInfo가 연결되지 않음 (시간초과)");
+        }
+        else
+        {
+            // 연결 성공 시 초기화 진행
+            CharacterUI?.InitUIForCurrentPlayer();
         }
 
-        CharacterUI?.InitUIForCurrentPlayer();
         CheckGold();
         UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
     }
@@ -134,7 +133,7 @@ public class InGameUIManager : MonoBehaviour
         // 인벤토리 (I 키)
         if (Input.GetKeyDown(KeyCode.I))
         {
-            
+
             if (characterInfoUI != null)
             {
                 characterInfoUI.ToggleInventoryUI();
