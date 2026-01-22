@@ -11,6 +11,7 @@ public class InventoryItemExplain : MonoBehaviour
     [SerializeField] private Text itemNameText;
     [SerializeField] private Text itemEffectText;
     [SerializeField] private Text itemDescriptionText;
+    [SerializeField] private Text itemGradeText;
 
     [Header("기능 버튼")]
     [SerializeField] private Button discardButton;
@@ -83,7 +84,18 @@ public class InventoryItemExplain : MonoBehaviour
         if (itemEffectText != null) itemEffectText.text = itemData.ItemExplain;
         if (itemDescriptionText != null) itemDescriptionText.text = itemData.ItemDescription;
 
-        if (discardButton != null) discardButton.interactable = true;
+        if (itemGradeText != null)
+        {
+            if (itemData.ItemGrade == ItemGrade.Dummy)
+            {
+                itemGradeText.text = "";
+            }
+            else
+            {
+                itemGradeText.text = itemData.ItemGrade.ToString();
+            }
+        }
+       if (discardButton != null) discardButton.interactable = true;
     }
 
     private void ClearPanel()
@@ -94,7 +106,10 @@ public class InventoryItemExplain : MonoBehaviour
         if (itemNameText != null) itemNameText.text = "";
         if (itemEffectText != null) itemEffectText.text = "";
         if (itemDescriptionText != null) itemDescriptionText.text = " ";
-
+        if (itemGradeText != null)
+        {
+            itemGradeText.text = "";
+        }
         if (discardButton != null) discardButton.interactable = false;
     }
 
@@ -137,6 +152,5 @@ public class InventoryItemExplain : MonoBehaviour
     {
         explainPanel.SetActive(false);
         isPanelActive = false;
-        InGameUIManager.Instance.UnregisterUI(explainPanel);
     }
 }

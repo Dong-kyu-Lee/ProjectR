@@ -15,26 +15,61 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
 
     public UnityEvent onAbilityUpdated = new UnityEvent();
 
+    //연타 방지용 변수
+    private bool isInputLocked = false;
+
     void Awake()
     {
         playerBuffManager = GetComponent<BuffManager>();
     }
 
-    // 능력 발동 처리 (Q키는 컨트롤러에서 처리하고 이 메서드를 호출함)
+    private void OnEnable()
+    {
+        if (InGameUIManager.Instance != null && InGameUIManager.Instance.skillCoolTimeUI != null)
+        {
+            InGameUIManager.Instance.skillCoolTimeUI.ResetCooldownUI();
+        }
+        // 활성화될 때 입력 잠금 해제
+        isInputLocked = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && !isInputLocked)
+        {
+            Activate();
+        }
+    }
+
+    // 능력 발동 처리
     public void Activate()
     {
-        if (!CalcDamage.Instance.IsOnCooldown("BartenderAbility"))
+        if (CalcDamage.Instance.IsOnCooldown("BartenderAbility"))
         {
-            bartenderBottles.Clear();
-
-            int count = AbilityManager.Instance.bartenderAbility[4] ? 20 : 10;
-            AddBartenderBottle(count);
-
-            float cooldown = AbilityManager.Instance.bartenderAbility[5] ? 12f : 20f;
-            StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", cooldown));
-
-            onAbilityUpdated?.Invoke();
+            return;
         }
+        isInputLocked = true;
+        Invoke("UnlockInput", 0.1f);
+
+        bartenderBottles.Clear();
+
+        int count = AbilityManager.Instance.bartenderAbility[4] ? 20 : 10;
+        AddBartenderBottle(count);
+
+        float cooldown = AbilityManager.Instance.bartenderAbility[5] ? 12f : 20f;
+
+        StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", cooldown));
+
+        if (InGameUIManager.Instance != null && InGameUIManager.Instance.skillCoolTimeUI != null)
+        {
+            InGameUIManager.Instance.skillCoolTimeUI.TriggerCooldown(cooldown);
+        }
+
+        onAbilityUpdated?.Invoke();
+    }
+    private void UnlockInput()
+    {
+        isInputLocked = false;
     }
 
     public void AddBartenderBottle(int count)

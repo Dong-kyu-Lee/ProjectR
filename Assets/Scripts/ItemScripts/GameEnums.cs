@@ -5,7 +5,8 @@ public enum ItemGrade
     Rare,
     Epic,
     Unique,
-    Legendary
+    Legendary,
+    Dummy
 }
 
 public enum BoxGrade
