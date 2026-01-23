@@ -1,65 +1,78 @@
 using System.Collections;
 using UnityEngine;
+using System; // Action을 쓰기 위해 필요
 
 public class DialogueRunner : MonoBehaviour
 {
-    [SerializeField] private ConversationUIController ui;
+    [Header("UI 연결")]
+    [SerializeField] private DialogueUI ui;
+
+    [Header("설정")]
+    [SerializeField] private KeyCode nextKey = KeyCode.E;
+    [SerializeField] private bool useMouseClick = true;
+
     public bool IsRunning { get; private set; }
 
-    // 그래프 실행 시작. 이미 실행 중이면 무시.
-    public void Run(DialogueGraph graph, string overrideStartId = null)
+    public void Run(DialogueGraph graph, Action<string> onEvent = null)
     {
         if (IsRunning || graph == null || ui == null) return;
-        StartCoroutine(RunRoutine(graph, overrideStartId));
+        StartCoroutine(RunRoutine(graph, onEvent));
     }
 
-    private IEnumerator RunRoutine(DialogueGraph graph, string overrideStartId)
+    private IEnumerator RunRoutine(DialogueGraph graph, Action<string> onEvent)
     {
         IsRunning = true;
+        ui.Open();
 
-        string currentId = string.IsNullOrEmpty(overrideStartId) ? graph.startNodeId : overrideStartId;
-        DialogueNode node = graph.Get(currentId);
+        DialogueNode node = graph.Get(graph.startNodeId);
 
         while (node != null)
         {
-            if (node is SayNode s)
+            if (node is SayNode sayNode)
             {
-                bool ok = false;
-                ui.OpenSingle(
-                    s.text,
-                    () => ok = true,
-                    string.IsNullOrEmpty(s.okText) ? "다음" : s.okText
-                );
-                yield return new WaitUntil(() => ok);
-                node = graph.Get(s.GetNextId());
+                ui.SetSayNode(sayNode);
+                yield return StartCoroutine(WaitForInput());
+                node = graph.Get(sayNode.GetNextId());
             }
-            else if (node is ChoiceNode c)
+            else if (node is ChoiceNode choiceNode)
             {
-                int choice = -1; // 0: 예, 1: 아니오
-                ui.OpenChoices(
-                    c.question,
-                    yes: () => choice = 0,
-                    no: () => choice = 1,
-                    c.yesText, c.noText
+                int selectedIndex = -1;
+                ui.SetChoiceNode(choiceNode,
+                    onYes: () => selectedIndex = 0,
+                    onNo: () => selectedIndex = 1
                 );
-                yield return new WaitUntil(() => choice >= 0);
-                node = graph.Get(c.GetNextId(choice));
+                yield return new WaitUntil(() => selectedIndex != -1);
+                node = graph.Get(choiceNode.GetNextId(selectedIndex));
             }
-            else if (node is EventNode e)
+            else if (node is EventNode eventNode)
             {
-                e.Invoke();                 // 특성창 열기 등
-                node = graph.Get(e.GetNextId());
-                yield return null;          // 다음 프레임
+                if (!string.IsNullOrEmpty(eventNode.eventName))
+                {
+                    onEvent?.Invoke(eventNode.eventName);
+                }
+
+                node = graph.Get(eventNode.GetNextId());
+                yield return null;
             }
             else
             {
-                break; // 알 수 없는 노드 → 종료
+                break;
             }
         }
 
-        //UI가 남아있으면 닫기
-        if (ui != null && ui.IsOpen) ui.Close();
-
+        ui.Close();
         IsRunning = false;
+    }
+
+    private IEnumerator WaitForInput()
+    {
+        while (true)
+        {
+            if (Input.GetKeyDown(nextKey) || (useMouseClick && Input.GetMouseButtonDown(0)))
+            {
+                if (!ui.TrySkipTyping()) break;
+            }
+            yield return null;
+        }
     }
 }
