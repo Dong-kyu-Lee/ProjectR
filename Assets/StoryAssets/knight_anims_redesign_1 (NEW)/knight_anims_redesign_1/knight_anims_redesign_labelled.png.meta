@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -67,10 +67,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -91,7 +91,1330 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_10
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 4096
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37d3fa99c165e9c44af3cab35b3f0d6e
+      internalID: -400464422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_11
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 4096
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a13fa4ccc56d7bf499976cf7e785176a
+      internalID: -1796462691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 4096
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdba31fc70b33404cb43a6d48ebfea75
+      internalID: 671224223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_13
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 4096
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbeb48d32ad5c6f43ab6386c86170644
+      internalID: -1811923442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_14
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 4096
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c31bc8967c1767479983eb6291754e9
+      internalID: -1602611395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_15
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 4096
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72dbf350db7121e48bd79de49b99c63d
+      internalID: -1739992185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_16
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 4096
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f04231da7ee6ba4f90a2e094c22cb0f
+      internalID: -1318570137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_17
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 4096
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdd63ce59e265df4a92bdd8c7927bc8f
+      internalID: -288791841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_18
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 4096
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 863ae1f5c310bcf439cf02f6cd3528ae
+      internalID: -1910386857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84463d5a2203d5a43a996e87b8f8b548
+      internalID: 125162022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_20
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29dcb8f28336d2448a113d28969bde03
+      internalID: -1282580749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_21
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc733809a81261143a43f7e411d2cd43
+      internalID: -38023729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_22
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb7d027f85ea36b419733fc870d0a738
+      internalID: -536950132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_23
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb80729a38542da4cafe50cc0eadc7c1
+      internalID: 700508288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_24
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7a5f6209bd11044ca339b2179880bfa
+      internalID: 1262504144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_25
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ea3f949af582db4094313c447c0d58b
+      internalID: -475911122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_26
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96351cad300bf7144ba059cdb2f39ecf
+      internalID: 607877449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_27
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da4ad6189f83c94499ecc3e01885a582
+      internalID: -886020012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_28
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 3968
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77429a2639bdcbc4aaea86e80a478730
+      internalID: 1914436810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_29
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e646ba9db4aac3e4cab4637b18459507
+      internalID: 1996171536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_30
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c9accd9602ba4348b880911dfec9361
+      internalID: 201641581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_31
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c692b04c72ba26a44995b44ceb9d94cb
+      internalID: 381426993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_32
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9410f129460fb9444bc6fef198ba2dfc
+      internalID: -1350354660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_33
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b71a16f37e82024e9ac21a1f3896313
+      internalID: -1590547137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_34
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae1d05b8a7ee9f740a1109350aeb95c2
+      internalID: 455015576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_35
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5a30666d0dd7f641afc1d7707e40a2c
+      internalID: 2059902202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_36
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9e9af0702d2a1f4394057cb53889ff4
+      internalID: 2037211312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_37
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2458acfebaff4004c97bfb8a7b41b94a
+      internalID: 445567386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_38
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 3840
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b284cf8e74c150349af06c89cf3d0abe
+      internalID: -775574639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_39
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 466eb5db50cdd7e46a1b96d7c3bbd42b
+      internalID: -857936893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_40
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bed522435d581b448240f66396b08d3
+      internalID: 476450785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_41
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d95f75a35f76df344839cf9f75270f39
+      internalID: 1915654383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_42
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44a935693fd828a45b10a7e50830b0ee
+      internalID: 1008936086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_43
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e39b17777b1aea4cad44fbb9a0db081
+      internalID: -112076230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_44
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d2af3d38cdaa114fbd34e3bd9409b6d
+      internalID: 1167481562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_45
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a02fb8842d91b74eae5adf7ab2a3590
+      internalID: 30490543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_46
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3f988e036cb7464c87d58470f6ed88a
+      internalID: -1496917671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_47
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14f8d16df18aa074781ac247bdaf2647
+      internalID: 1195941906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_48
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 3712
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37e691b380108b24dad9b1991475630e
+      internalID: 1630080423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_49
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f65604e39ec2a9448570e46b7c1944f
+      internalID: -1167365423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_50
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea03ad1b7eb5bcd4894d0a7c183cc8c1
+      internalID: -1566972384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_51
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f95e794084b9c5478ca0baa2de516a3
+      internalID: -1540925531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_52
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e28bfe561cf3e240abeec8f0a8966d3
+      internalID: 742026766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_112
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 2816
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74016ee923136ac4e98343da606f4cb0
+      internalID: -1395362551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_113
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2816
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d668e97bec6ade54f9dae85132febf3a
+      internalID: -5030633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_114
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 2816
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a0b7f560e5afdf49b2b7c6ec8347887
+      internalID: -2112860254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_115
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2816
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22655964823a4214fabf535ba2d2f3b3
+      internalID: -100718421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_116
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 2816
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b4bd95223cdbe244bb265658d8c81ed
+      internalID: -1455834869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_117
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2816
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8900c553725fe24abae15538d67badd
+      internalID: 1330595664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_118
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 2816
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a36db34cf0f84774e8739768c2ca398f
+      internalID: -1849355193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_137
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2560
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42c36ff771de8c045a9f696cadb4c605
+      internalID: -1841967616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_138
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 2560
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a01ea168fa8062478754225d9d1ac2c
+      internalID: 1700821924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_139
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa036193246195f45a6aceee196db551
+      internalID: -213839600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_140
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7935851855ed89e4f9f6771b058912e2
+      internalID: -378364043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_141
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b4b5471e2dc9b84bac7bff043789ad6
+      internalID: -351634527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_142
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0545fd4939d9214ba4d9a8070f005f2
+      internalID: 208572822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_143
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4ddd9fc7f3000a4180a94646d451e52
+      internalID: -297888218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_144
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca7ff22d7f828de45b2e04577f30c1f3
+      internalID: 602285381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_145
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cad72b1c1e0d48b43bb14a1da33f3d68
+      internalID: 1191743800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_146
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ec53c4a357aaa94b8a1ece9edd7d5dc
+      internalID: 226168285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_147
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e1c70778a768e944b7f6cca5b82402e
+      internalID: 92699640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_148
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 2432
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8968726360192bd459a6aa7d6eed20f1
+      internalID: -170058255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_anims_redesign_labelled_149
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2304
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f51157cfad50a1344b3cfed8304d2d83
+      internalID: 798666062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -102,7 +1425,345 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      knight_anims_redesign_labelled_0: -2062249820
+      knight_anims_redesign_labelled_1: 904846242
+      knight_anims_redesign_labelled_10: -400464422
+      knight_anims_redesign_labelled_100: 1386738540
+      knight_anims_redesign_labelled_101: -2037430999
+      knight_anims_redesign_labelled_102: -779580936
+      knight_anims_redesign_labelled_103: -1397488261
+      knight_anims_redesign_labelled_104: 2008987401
+      knight_anims_redesign_labelled_105: -1342775069
+      knight_anims_redesign_labelled_106: -252941828
+      knight_anims_redesign_labelled_107: 541251263
+      knight_anims_redesign_labelled_108: -1578783928
+      knight_anims_redesign_labelled_109: 1911564848
+      knight_anims_redesign_labelled_11: -1796462691
+      knight_anims_redesign_labelled_110: -701663973
+      knight_anims_redesign_labelled_111: 624768198
+      knight_anims_redesign_labelled_112: -1395362551
+      knight_anims_redesign_labelled_113: -5030633
+      knight_anims_redesign_labelled_114: -2112860254
+      knight_anims_redesign_labelled_115: -100718421
+      knight_anims_redesign_labelled_116: -1455834869
+      knight_anims_redesign_labelled_117: 1330595664
+      knight_anims_redesign_labelled_118: -1849355193
+      knight_anims_redesign_labelled_119: 2046210902
+      knight_anims_redesign_labelled_12: 671224223
+      knight_anims_redesign_labelled_120: 1552574151
+      knight_anims_redesign_labelled_121: -484390333
+      knight_anims_redesign_labelled_122: -2136849362
+      knight_anims_redesign_labelled_123: -1618904876
+      knight_anims_redesign_labelled_124: -1201039172
+      knight_anims_redesign_labelled_125: 1552604103
+      knight_anims_redesign_labelled_126: -665873946
+      knight_anims_redesign_labelled_127: 888779536
+      knight_anims_redesign_labelled_128: 374825857
+      knight_anims_redesign_labelled_129: 1170159414
+      knight_anims_redesign_labelled_13: -1811923442
+      knight_anims_redesign_labelled_130: -2145457839
+      knight_anims_redesign_labelled_131: 2131297769
+      knight_anims_redesign_labelled_132: 423100208
+      knight_anims_redesign_labelled_133: 1320108551
+      knight_anims_redesign_labelled_134: -1024922750
+      knight_anims_redesign_labelled_135: 151567298
+      knight_anims_redesign_labelled_136: 10568910
+      knight_anims_redesign_labelled_137: -1841967616
+      knight_anims_redesign_labelled_138: 1700821924
+      knight_anims_redesign_labelled_139: -213839600
+      knight_anims_redesign_labelled_14: -1602611395
+      knight_anims_redesign_labelled_140: -378364043
+      knight_anims_redesign_labelled_141: -351634527
+      knight_anims_redesign_labelled_142: 208572822
+      knight_anims_redesign_labelled_143: -297888218
+      knight_anims_redesign_labelled_144: 602285381
+      knight_anims_redesign_labelled_145: 1191743800
+      knight_anims_redesign_labelled_146: 226168285
+      knight_anims_redesign_labelled_147: 92699640
+      knight_anims_redesign_labelled_148: -170058255
+      knight_anims_redesign_labelled_149: 798666062
+      knight_anims_redesign_labelled_15: -1739992185
+      knight_anims_redesign_labelled_150: 1795318867
+      knight_anims_redesign_labelled_151: -318567177
+      knight_anims_redesign_labelled_152: 1884276693
+      knight_anims_redesign_labelled_153: 750719088
+      knight_anims_redesign_labelled_154: 71805304
+      knight_anims_redesign_labelled_155: -1142689644
+      knight_anims_redesign_labelled_156: -468643230
+      knight_anims_redesign_labelled_157: 1245930085
+      knight_anims_redesign_labelled_158: -1039068460
+      knight_anims_redesign_labelled_159: -1823460155
+      knight_anims_redesign_labelled_16: -1318570137
+      knight_anims_redesign_labelled_160: 804417038
+      knight_anims_redesign_labelled_161: 1070620800
+      knight_anims_redesign_labelled_162: 910630705
+      knight_anims_redesign_labelled_163: -34475595
+      knight_anims_redesign_labelled_164: 1076742785
+      knight_anims_redesign_labelled_165: -1158921262
+      knight_anims_redesign_labelled_166: 1686037875
+      knight_anims_redesign_labelled_167: 1854082254
+      knight_anims_redesign_labelled_168: 259980902
+      knight_anims_redesign_labelled_169: 642441948
+      knight_anims_redesign_labelled_17: -288791841
+      knight_anims_redesign_labelled_170: 1691882872
+      knight_anims_redesign_labelled_171: -215041953
+      knight_anims_redesign_labelled_172: -1260574697
+      knight_anims_redesign_labelled_173: 210631494
+      knight_anims_redesign_labelled_174: -1142810306
+      knight_anims_redesign_labelled_175: -899750066
+      knight_anims_redesign_labelled_176: -1858656153
+      knight_anims_redesign_labelled_177: 1416671520
+      knight_anims_redesign_labelled_178: 2107798058
+      knight_anims_redesign_labelled_179: 89148642
+      knight_anims_redesign_labelled_18: -1910386857
+      knight_anims_redesign_labelled_180: -152560025
+      knight_anims_redesign_labelled_181: 1063286618
+      knight_anims_redesign_labelled_182: -445848262
+      knight_anims_redesign_labelled_183: 1464423041
+      knight_anims_redesign_labelled_184: -1873544878
+      knight_anims_redesign_labelled_185: 1387720098
+      knight_anims_redesign_labelled_186: 544019330
+      knight_anims_redesign_labelled_187: 1155924770
+      knight_anims_redesign_labelled_188: 2081566353
+      knight_anims_redesign_labelled_189: 726218017
+      knight_anims_redesign_labelled_19: 125162022
+      knight_anims_redesign_labelled_190: -65009625
+      knight_anims_redesign_labelled_191: 1665320789
+      knight_anims_redesign_labelled_192: -1976818080
+      knight_anims_redesign_labelled_193: 530909992
+      knight_anims_redesign_labelled_194: -514446724
+      knight_anims_redesign_labelled_195: -1690060294
+      knight_anims_redesign_labelled_196: 262872626
+      knight_anims_redesign_labelled_197: 741975620
+      knight_anims_redesign_labelled_198: -1277341179
+      knight_anims_redesign_labelled_199: 1415904188
+      knight_anims_redesign_labelled_2: 565174526
+      knight_anims_redesign_labelled_20: -1282580749
+      knight_anims_redesign_labelled_200: -209019074
+      knight_anims_redesign_labelled_201: 670265254
+      knight_anims_redesign_labelled_202: 347322498
+      knight_anims_redesign_labelled_203: -2139004197
+      knight_anims_redesign_labelled_204: -999550962
+      knight_anims_redesign_labelled_205: 907087857
+      knight_anims_redesign_labelled_206: -723806022
+      knight_anims_redesign_labelled_207: -1400550247
+      knight_anims_redesign_labelled_208: 157586603
+      knight_anims_redesign_labelled_209: 934469282
+      knight_anims_redesign_labelled_21: -38023729
+      knight_anims_redesign_labelled_210: 617242494
+      knight_anims_redesign_labelled_211: -791470746
+      knight_anims_redesign_labelled_212: -618994367
+      knight_anims_redesign_labelled_213: 1253147832
+      knight_anims_redesign_labelled_214: -1275284654
+      knight_anims_redesign_labelled_215: -153686382
+      knight_anims_redesign_labelled_216: -50334911
+      knight_anims_redesign_labelled_217: 1665975178
+      knight_anims_redesign_labelled_218: -598169793
+      knight_anims_redesign_labelled_219: -1806586676
+      knight_anims_redesign_labelled_22: -536950132
+      knight_anims_redesign_labelled_220: 1463713707
+      knight_anims_redesign_labelled_221: -1147088230
+      knight_anims_redesign_labelled_222: -1696333436
+      knight_anims_redesign_labelled_223: 770686059
+      knight_anims_redesign_labelled_224: -2056473238
+      knight_anims_redesign_labelled_225: -80386449
+      knight_anims_redesign_labelled_226: 627113479
+      knight_anims_redesign_labelled_227: -189313095
+      knight_anims_redesign_labelled_228: -518280038
+      knight_anims_redesign_labelled_229: 1547470984
+      knight_anims_redesign_labelled_23: 700508288
+      knight_anims_redesign_labelled_230: 1611787213
+      knight_anims_redesign_labelled_231: 1340139090
+      knight_anims_redesign_labelled_232: -1080354497
+      knight_anims_redesign_labelled_233: -2131971904
+      knight_anims_redesign_labelled_234: -2001899272
+      knight_anims_redesign_labelled_235: -1441406993
+      knight_anims_redesign_labelled_236: 1651615468
+      knight_anims_redesign_labelled_237: 954517
+      knight_anims_redesign_labelled_238: 81773157
+      knight_anims_redesign_labelled_239: 195035689
+      knight_anims_redesign_labelled_24: 1262504144
+      knight_anims_redesign_labelled_240: -1033376133
+      knight_anims_redesign_labelled_241: 598203582
+      knight_anims_redesign_labelled_242: -1287175159
+      knight_anims_redesign_labelled_243: 1281549177
+      knight_anims_redesign_labelled_244: 2121433203
+      knight_anims_redesign_labelled_245: -2056405464
+      knight_anims_redesign_labelled_246: 2051204258
+      knight_anims_redesign_labelled_247: -1895036928
+      knight_anims_redesign_labelled_248: 1109414
+      knight_anims_redesign_labelled_249: 2118574976
+      knight_anims_redesign_labelled_25: -475911122
+      knight_anims_redesign_labelled_250: -660821784
+      knight_anims_redesign_labelled_251: -1621007705
+      knight_anims_redesign_labelled_252: -1982499674
+      knight_anims_redesign_labelled_253: -2136772228
+      knight_anims_redesign_labelled_254: -1546651518
+      knight_anims_redesign_labelled_255: -1693094312
+      knight_anims_redesign_labelled_256: 1875959320
+      knight_anims_redesign_labelled_257: 930413209
+      knight_anims_redesign_labelled_258: -67497153
+      knight_anims_redesign_labelled_259: 348052227
+      knight_anims_redesign_labelled_26: 607877449
+      knight_anims_redesign_labelled_260: -1018066545
+      knight_anims_redesign_labelled_261: -689134696
+      knight_anims_redesign_labelled_262: 1278267384
+      knight_anims_redesign_labelled_263: -1256004207
+      knight_anims_redesign_labelled_264: -1543603719
+      knight_anims_redesign_labelled_265: 963376344
+      knight_anims_redesign_labelled_266: -119171713
+      knight_anims_redesign_labelled_267: -1558284546
+      knight_anims_redesign_labelled_268: -765139305
+      knight_anims_redesign_labelled_269: 2003618593
+      knight_anims_redesign_labelled_27: -886020012
+      knight_anims_redesign_labelled_270: 2051993613
+      knight_anims_redesign_labelled_271: -1882456239
+      knight_anims_redesign_labelled_272: -308593202
+      knight_anims_redesign_labelled_273: 232736375
+      knight_anims_redesign_labelled_274: 1518476467
+      knight_anims_redesign_labelled_275: -1348724594
+      knight_anims_redesign_labelled_276: 1797549856
+      knight_anims_redesign_labelled_277: -1870949423
+      knight_anims_redesign_labelled_278: -1770717388
+      knight_anims_redesign_labelled_279: 1194325307
+      knight_anims_redesign_labelled_28: 1914436810
+      knight_anims_redesign_labelled_280: -1599822237
+      knight_anims_redesign_labelled_281: -91428967
+      knight_anims_redesign_labelled_282: -375558922
+      knight_anims_redesign_labelled_283: 1665613029
+      knight_anims_redesign_labelled_284: 1686131822
+      knight_anims_redesign_labelled_285: 810076918
+      knight_anims_redesign_labelled_286: 1869391084
+      knight_anims_redesign_labelled_287: 882191004
+      knight_anims_redesign_labelled_288: -117053351
+      knight_anims_redesign_labelled_289: -500506625
+      knight_anims_redesign_labelled_29: 1996171536
+      knight_anims_redesign_labelled_290: -1343689114
+      knight_anims_redesign_labelled_291: 918810295
+      knight_anims_redesign_labelled_292: 719706142
+      knight_anims_redesign_labelled_293: 1469292584
+      knight_anims_redesign_labelled_294: -870892302
+      knight_anims_redesign_labelled_295: 1027229711
+      knight_anims_redesign_labelled_296: -1271899565
+      knight_anims_redesign_labelled_297: 1791439033
+      knight_anims_redesign_labelled_298: -1456727262
+      knight_anims_redesign_labelled_299: 533608494
+      knight_anims_redesign_labelled_3: -705782488
+      knight_anims_redesign_labelled_30: 201641581
+      knight_anims_redesign_labelled_300: -758748148
+      knight_anims_redesign_labelled_301: -1530282706
+      knight_anims_redesign_labelled_302: 878895774
+      knight_anims_redesign_labelled_303: 646953695
+      knight_anims_redesign_labelled_304: 709551954
+      knight_anims_redesign_labelled_305: 300927506
+      knight_anims_redesign_labelled_306: 1413152906
+      knight_anims_redesign_labelled_307: -242279699
+      knight_anims_redesign_labelled_308: -1069125553
+      knight_anims_redesign_labelled_309: 1515584329
+      knight_anims_redesign_labelled_31: 381426993
+      knight_anims_redesign_labelled_310: 1177798951
+      knight_anims_redesign_labelled_311: 1813937206
+      knight_anims_redesign_labelled_312: -458366543
+      knight_anims_redesign_labelled_313: -1786812396
+      knight_anims_redesign_labelled_314: -395110185
+      knight_anims_redesign_labelled_315: 1001721939
+      knight_anims_redesign_labelled_316: 933874994
+      knight_anims_redesign_labelled_317: 1448866755
+      knight_anims_redesign_labelled_318: 589051613
+      knight_anims_redesign_labelled_319: 850239025
+      knight_anims_redesign_labelled_32: -1350354660
+      knight_anims_redesign_labelled_320: 699774973
+      knight_anims_redesign_labelled_321: 1933406382
+      knight_anims_redesign_labelled_322: -1794064976
+      knight_anims_redesign_labelled_323: 203599465
+      knight_anims_redesign_labelled_324: 1430866142
+      knight_anims_redesign_labelled_325: 1598886799
+      knight_anims_redesign_labelled_326: 2109192870
+      knight_anims_redesign_labelled_327: -1698383725
+      knight_anims_redesign_labelled_328: -1496196676
+      knight_anims_redesign_labelled_329: 1558969048
+      knight_anims_redesign_labelled_33: -1590547137
+      knight_anims_redesign_labelled_330: 865713514
+      knight_anims_redesign_labelled_331: -27338269
+      knight_anims_redesign_labelled_332: -94771944
+      knight_anims_redesign_labelled_333: 629875165
+      knight_anims_redesign_labelled_334: -2023000774
+      knight_anims_redesign_labelled_335: 7770595
+      knight_anims_redesign_labelled_336: 538550299
+      knight_anims_redesign_labelled_337: -460959869
+      knight_anims_redesign_labelled_34: 455015576
+      knight_anims_redesign_labelled_35: 2059902202
+      knight_anims_redesign_labelled_36: 2037211312
+      knight_anims_redesign_labelled_37: 445567386
+      knight_anims_redesign_labelled_38: -775574639
+      knight_anims_redesign_labelled_39: -857936893
+      knight_anims_redesign_labelled_4: -102796602
+      knight_anims_redesign_labelled_40: 476450785
+      knight_anims_redesign_labelled_41: 1915654383
+      knight_anims_redesign_labelled_42: 1008936086
+      knight_anims_redesign_labelled_43: -112076230
+      knight_anims_redesign_labelled_44: 1167481562
+      knight_anims_redesign_labelled_45: 30490543
+      knight_anims_redesign_labelled_46: -1496917671
+      knight_anims_redesign_labelled_47: 1195941906
+      knight_anims_redesign_labelled_48: 1630080423
+      knight_anims_redesign_labelled_49: -1167365423
+      knight_anims_redesign_labelled_5: 1901049413
+      knight_anims_redesign_labelled_50: -1566972384
+      knight_anims_redesign_labelled_51: -1540925531
+      knight_anims_redesign_labelled_52: 742026766
+      knight_anims_redesign_labelled_53: 974929510
+      knight_anims_redesign_labelled_54: -865712965
+      knight_anims_redesign_labelled_55: 1805077712
+      knight_anims_redesign_labelled_56: 1513241253
+      knight_anims_redesign_labelled_57: 394326483
+      knight_anims_redesign_labelled_58: -341747815
+      knight_anims_redesign_labelled_59: 950542939
+      knight_anims_redesign_labelled_6: -1683285138
+      knight_anims_redesign_labelled_60: -1312232560
+      knight_anims_redesign_labelled_61: 821828398
+      knight_anims_redesign_labelled_62: 1279187940
+      knight_anims_redesign_labelled_63: -950274445
+      knight_anims_redesign_labelled_64: -1958404908
+      knight_anims_redesign_labelled_65: 477252095
+      knight_anims_redesign_labelled_66: 348634646
+      knight_anims_redesign_labelled_67: -187208655
+      knight_anims_redesign_labelled_68: -1603190799
+      knight_anims_redesign_labelled_69: -2109971676
+      knight_anims_redesign_labelled_7: -410314959
+      knight_anims_redesign_labelled_70: -217616699
+      knight_anims_redesign_labelled_71: 1819687356
+      knight_anims_redesign_labelled_72: -716314576
+      knight_anims_redesign_labelled_73: 819930333
+      knight_anims_redesign_labelled_74: -1318273255
+      knight_anims_redesign_labelled_75: 1797922396
+      knight_anims_redesign_labelled_76: 1219956612
+      knight_anims_redesign_labelled_77: -577639595
+      knight_anims_redesign_labelled_78: 73099626
+      knight_anims_redesign_labelled_79: -303915566
+      knight_anims_redesign_labelled_8: 1357712122
+      knight_anims_redesign_labelled_80: -75599404
+      knight_anims_redesign_labelled_81: -1956550338
+      knight_anims_redesign_labelled_82: -658237150
+      knight_anims_redesign_labelled_83: 41534831
+      knight_anims_redesign_labelled_84: 715579631
+      knight_anims_redesign_labelled_85: -796446272
+      knight_anims_redesign_labelled_86: 1509245958
+      knight_anims_redesign_labelled_87: -2136374470
+      knight_anims_redesign_labelled_88: -1271674975
+      knight_anims_redesign_labelled_89: -1028615322
+      knight_anims_redesign_labelled_9: -1207937747
+      knight_anims_redesign_labelled_90: -263280655
+      knight_anims_redesign_labelled_91: -1225718968
+      knight_anims_redesign_labelled_92: -2039879975
+      knight_anims_redesign_labelled_93: -713261629
+      knight_anims_redesign_labelled_94: 227796356
+      knight_anims_redesign_labelled_95: -2069024944
+      knight_anims_redesign_labelled_96: 1954918621
+      knight_anims_redesign_labelled_97: 778012093
+      knight_anims_redesign_labelled_98: -1789826034
+      knight_anims_redesign_labelled_99: 1235312833
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
