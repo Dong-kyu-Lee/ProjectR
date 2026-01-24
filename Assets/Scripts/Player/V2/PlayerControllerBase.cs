@@ -365,4 +365,51 @@ public abstract class PlayerControllerBase : MonoBehaviour
         return sr;
     }
 
+    protected virtual void OnEnable()
+    {
+        ResetPlayerState();
+    }
+
+    protected virtual void OnDisable()
+    {
+        StopAllCoroutines();
+
+        // 물리 속도 즉시 정지 (관성 제거)
+        if (playerRigidBody != null)
+            playerRigidBody.velocity = Vector2.zero;
+    }
+
+    public virtual void ResetPlayerState()
+    {
+        // 제어 변수 초기화
+        enableJump = true;
+        enableDash = true;
+        enableAttack = true;
+
+        // 상태 변수 초기화
+        isAttaking = false;
+        isDashing = false;
+        isInvincible = false;
+        isPause = false;
+        _hasQueuedAim = false;
+
+        // 대시 중에 비활성화 되었을 경우 계수를 원래대로 복구
+        dashFactor = 1f;
+
+        // 물리 초기화
+        if (playerRigidBody != null)
+            playerRigidBody.velocity = Vector2.zero;
+
+        // 애니메이터 초기화 (남아있는 트리거 제거)
+        if (playerAnimator != null)
+        {
+            playerAnimator.ResetTrigger("Attack");
+            playerAnimator.ResetTrigger("dash");
+            playerAnimator.SetBool("isMove", false);
+            playerAnimator.SetBool("isGround", false);
+
+            if (!isDead)
+                playerAnimator.ResetTrigger("Die");
+        }
+    }
 }
