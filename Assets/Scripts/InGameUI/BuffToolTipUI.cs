@@ -15,13 +15,12 @@ public class BuffToolTipUI : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    private void Update()
+
+    private void OnDisable()
     {
-        if (isVisible && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Hide();
-        }
+        isVisible = false;
     }
+
     public void ShowTooltip(BuffType type, Sprite sprite)
     {
         gameObject.SetActive(true);

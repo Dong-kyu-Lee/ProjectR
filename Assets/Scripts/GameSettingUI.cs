@@ -34,14 +34,6 @@ public class GameSettingUI : MonoBehaviour
         original = lobbyButtonText.color;
     }
 
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            OpenCloseSettingUI();
-        }
-    }
-
     // 설정 UI 열기/닫기 함수
     public void OpenCloseSettingUI()
     {

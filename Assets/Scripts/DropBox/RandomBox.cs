@@ -69,6 +69,9 @@ public class RandomBox : MonoBehaviour
     [SerializeField]
     private float itemSpacing = 1.0f;
 
+    // 드랍된 아이템들을 추적/관리하는 리스트
+    private List<GameObject> spawnedItems = new List<GameObject>();
+
     // 내부 변수
     private BoxGrade currentBoxGrade;
     private bool canOpen = false;
@@ -112,6 +115,18 @@ public class RandomBox : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        foreach (var item in spawnedItems)
+        {
+            if (item != null)
+            {
+                Destroy(item);
+            }
+        }
+        spawnedItems.Clear();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -153,7 +168,7 @@ public class RandomBox : MonoBehaviour
             }
         }
 
-        //등급에 맞는 데이터(이미지, 애니메이션) 찾기
+        //등급에 맞는 데이터 찾기
         BoxGradeSprite matchedSprite = boxGradeSprites.Find(x => x.grade == currentBoxGrade);
 
         if (matchedSprite != null)
@@ -210,6 +225,8 @@ public class RandomBox : MonoBehaviour
             if (dropItemPrefab != null)
             {
                 GameObject droppedItem = Instantiate(dropItemPrefab, dropPosition, Quaternion.identity, null);
+
+                spawnedItems.Add(droppedItem);
 
                 ItemExplain itemExplain = droppedItem.GetComponent<ItemExplain>();
                 if (itemExplain)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,7 @@ public class InGameUIManager : MonoBehaviour
             return instance;
         }
     }
+    private Canvas rootCanvas;
 
     [SerializeField] private GameObject checkUI;
     [SerializeField] private Text goldText;
@@ -32,7 +34,11 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private CharacterUIManager CharacterUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
 
+    public SkillCoolTime skillCoolTimeUI;
     public PlayerStatus playerStatus;
+
+    public CharacterInfo characterInfoUI;
+    public GameSettingUI gameSettingUI;
 
     //열린 UI들을 관리하는 스택 (최근 열린 순서대로 저장)
     private Stack<GameObject> uiStack = new Stack<GameObject>();
@@ -40,55 +46,164 @@ public class InGameUIManager : MonoBehaviour
     // 워프에 닿았을 때 E 키를 누르면 실행할 함수
     private Action warpAction;
 
+    // [신규] UIConnector가 호출하여 CharacterInfo를 연결해주는 함수
+    public void SetCharacterInfoUI(CharacterInfo info)
+    {
+        this.characterInfoUI = info;
+    }
+
     private void Awake()
     {
-        checkUI.SetActive(false);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.transform.root.gameObject);
+        }
+        else if (instance == this)
+        {
+            DontDestroyOnLoad(this.transform.root.gameObject);
+        }
+        else
+        {
+            Destroy(this.transform.root.gameObject);
+            return;
+        }
+
+        rootCanvas = GetComponentInParent<Canvas>();
+
+        if (gameSettingUI == null)
+        {
+            gameSettingUI = FindObjectOfType<GameSettingUI>(true);
+            if (gameSettingUI == null) Debug.LogWarning("GameSettingUI를 찾을 수 없습니다.");
+        }
+
+        if (checkUI != null)
+            checkUI.SetActive(false);
     }
 
     private void Start()
     {
+        if (GameManager.Instance.CurrentPlayer != null)
+        {
+            OnPlayerChanged();
+        }
+
+        if (gameSettingUI == null) gameSettingUI = FindObjectOfType<GameSettingUI>();
+    }
+
+    // 플레이어가 변경/생성되었을 때 실행되는 함수
+    public void OnPlayerChanged()
+    {
+        // 기존 코루틴 중단 후 재시작 (중복 실행 방지)
+        StopAllCoroutines();
         StartCoroutine(InitPlayerStatus());
     }
 
     private IEnumerator InitPlayerStatus()
     {
-        yield return new WaitUntil(() => GameManager.Instance.CurrentPlayer != null);
+        // 플레이어가 확실히 준비될 때까지 대기
+        yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null);
 
+        // PlayerStatus 컴포넌트 찾기
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        if (playerStatus == null)
+        while (playerStatus == null)
         {
-            Debug.LogWarning("PlayerStatus 컴포넌트를 찾을 수 없습니다.");
-            yield break;
+            yield return null; // 없으면 다음 프레임까지 대기
+            if (GameManager.Instance.CurrentPlayer != null)
+                playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         }
 
-        CharacterUI?.InitUIForCurrentPlayer();
+        // UI 연결 대기
+        float timeOut = 3.0f; // 최대 3초 대기
+        while (characterInfoUI == null && timeOut > 0)
+        {
+            timeOut -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (characterInfoUI != null)
+        {
+            characterInfoUI.EnableUI();
+            CharacterUI?.InitUIForCurrentPlayer();
+            characterInfoUI.DisableUI();
+
+            InventoryUI invUI = characterInfoUI.GetComponentInChildren<InventoryUI>(true);
+
+            if (invUI != null)
+            {
+                invUI.Init();
+            }
+            else
+            {
+                Debug.LogWarning("CharacterInfo 하위에서 InventoryUI를 찾을 수 없음");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("CharacterInfo가 연결되지 않음");
+        }
+
         CheckGold();
         UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
     }
 
     private void Update()
     {
+        //ESC 입력 처리
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            //버프 툴팁이 켜져 있으면 닫기
-            if (tooltipUI != null && tooltipUI.IsVisible())
-            {
-                tooltipUI.Hide();
-                return;
-            }
+            HandleEscapeInput();
+        }
 
-            //열려 있는 UI가 있다면 최근 UI부터 닫기
-            if (uiStack.Count > 0)
+        // 인벤토리 (I 키)
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+
+            if (characterInfoUI != null)
             {
-                GameObject topUI = uiStack.Pop();
-                if (topUI != null)
-                    topUI.SetActive(false);
-                return;
+                characterInfoUI.ToggleInventoryUI();
             }
         }
-        if(Input.GetKeyDown(KeyCode.E) && warpUIText.IsActive())
+
+        // 워프 상호작용 (E 키)
+        if (Input.GetKeyDown(KeyCode.E) && warpUIText.IsActive())
         {
             warpAction?.Invoke();
+        }
+    }
+
+    // ESC 키 로직 분리
+    private void HandleEscapeInput()
+    {
+        // 스택에 쌓인 UI가 있다면 닫기
+        if (uiStack.Count > 0)
+        {
+            GameObject topUI = uiStack.Peek();
+
+            DungeonUIManager dungeonManager = FindObjectOfType<DungeonUIManager>();
+
+            if (dungeonManager != null && topUI == dungeonManager.fullMap)
+            {
+                dungeonManager.CloseFullMap();
+            }
+            // GameSettingUI 처리
+            else if (topUI.GetComponentInParent<GameSettingUI>() != null)
+            {
+                topUI.GetComponentInParent<GameSettingUI>().OpenCloseSettingUI();
+            }
+            // 그 외 일반 UI
+            else
+            {
+                topUI.SetActive(false);
+                if (uiStack.Count > 0 && uiStack.Peek() == topUI) uiStack.Pop();
+            }
+            return;
+        }
+
+        // 아무 창도 없으면 설정창 열기
+        if (gameSettingUI != null)
+        {
+            gameSettingUI.OpenCloseSettingUI();
         }
     }
 
@@ -212,5 +327,37 @@ public class InGameUIManager : MonoBehaviour
     {
         warpUIText.gameObject.SetActive(false);
         warpAction = null;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
+        }
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (rootCanvas == null) return;
+
+        if (scene.name == "EndScene")
+        {
+            rootCanvas.enabled = false;
+        }
+        else
+        {
+            rootCanvas.enabled = true;
+        }
     }
 }

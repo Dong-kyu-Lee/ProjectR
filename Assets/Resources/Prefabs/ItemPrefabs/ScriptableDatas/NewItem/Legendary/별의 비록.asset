@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 757edcdf1a6d8304b9390a4b4ef05c28, type: 3}
-  m_Name: "\uC131\uC790(\u661F\u5B50)\uC758 \uC5F0\uAD6C \uBE44\uB85D"
+  m_Name: "\uBCC4\uC758 \uBE44\uB85D"
   m_EditorClassIdentifier: 
-  itemName: "\uC131\uC790(\u661F\u5B50)\uC758 \uC5F0\uAD6C \uBE44\uB85D"
-  itemDescription: "\uC131\uC790(\u661F\u5B50)\uAC00 \uC7AC\uC559\uC744 \uB9C9\uAE30
-    \uC704\uD574 \uB9C8\uC9C0\uB9C9\uAE4C\uC9C0 \uC9D1\uD544\uD558\uB358 \uC5F0\uAD6C
-    \uBE44\uB85D\uC785\uB2C8\uB2E4. "
+  itemName: "\uBCC4\uC758 \uBE44\uB85D"
+  itemDescription: "\uBCC4\uC758 \uC0AC\uB791\uC744 \uBC1B\uC740 \uC774\uAC00 \uD53C\uD560
+    \uC218 \uC5C6\uB294 \uC7AC\uC559 \uC55E\uC5D0\uC11C\uB3C4 \uB05D\uB0B4 \uB193\uC9C0
+    \uC54A\uC558\uB358, \uC138\uC0C1\uC5D0 \uB4DC\uB7EC\uB098\uC9C0 \uC54A\uC740
+    \uCD5C\uD6C4\uC758 \uC5F0\uAD6C \uAE30\uB85D\uC785\uB2C8\uB2E4."
   itemID: 193
   itemSprite: {fileID: 21300000, guid: 24d80fac7e3b8254c8acf1693f39e7b1, type: 3}
   maxAmount: 1
@@ -27,9 +28,8 @@ MonoBehaviour:
   additionalDamage: 0.25
   criticalPercent: 0
   criticalDamage: 0
-  damageReduction: 0
   additionalDamageReduction: 0
   attackSpeed: 0.15
-  moveSpeed: 0
+  additionalmoveSpeed: 0
   priceAdditional: 0
   ignoreDamageReduction: 0

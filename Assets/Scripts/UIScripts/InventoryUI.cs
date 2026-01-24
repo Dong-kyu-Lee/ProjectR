@@ -21,12 +21,24 @@ public class InventoryUI : MonoBehaviour
 
     public void Init()
     {
+        // 플레이어가 없으면 초기화 중단
+        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null)
+        {
+            return;
+        }
+
         playerInventory = GameManager.Instance.CurrentPlayer.transform.GetChild(0).GetComponent<Inventory>();
-        playerInventory.MyInventoryUI = this;
 
-        InitiateAllItemsSlots();
-
-        playerInventory.UpdateQuickSlotReference();
+        if (playerInventory != null)
+        {
+            playerInventory.MyInventoryUI = this;
+            InitiateAllItemsSlots();
+            playerInventory.UpdateQuickSlotReference();
+        }
+        else
+        {
+            Debug.LogWarning("InventoryUI: 플레이어 인벤토리를 찾을 수 없습니다.");
+        }
     }
 
     // 인벤토리 전체 UI를 다시 갱신하는 함수
@@ -92,21 +104,29 @@ public class InventoryUI : MonoBehaviour
 
     private void InitiateAllItemsSlots()
     {
-        previewSlotUI.Init(gameObject, -1);
+        if (previewSlotUI != null)
+            previewSlotUI.Init(gameObject, -1);
 
-        equipSlotImgs = equipSlotParentObj.transform.GetComponentsInChildren<EquipmentSlotUI>();
-        for (int i = 0; i < equipSlotImgs.Length; i++)
+        if (equipSlotParentObj != null)
         {
-            equipSlotImgs[i].Init(gameObject, i);
+            equipSlotImgs = equipSlotParentObj.transform.GetComponentsInChildren<EquipmentSlotUI>();
+            for (int i = 0; i < equipSlotImgs.Length; i++)
+            {
+                equipSlotImgs[i].Init(gameObject, i);
+            }
         }
 
-        inventorySlotImgs = inventorySlotParentObj.transform.GetComponentsInChildren<ItemSlotUI>();
-        for (int i = 0; i < inventorySlotImgs.Length; i++)
+        if (inventorySlotParentObj != null)
         {
-            inventorySlotImgs[i].Init(gameObject, i);
+            inventorySlotImgs = inventorySlotParentObj.transform.GetComponentsInChildren<ItemSlotUI>();
+            for (int i = 0; i < inventorySlotImgs.Length; i++)
+            {
+                inventorySlotImgs[i].Init(gameObject, i);
+            }
         }
 
-        QuickSlotImg.Init(gameObject, -1);
+        if (quickSlotImg != null)
+            QuickSlotImg.Init(gameObject, -1);
     }
 
     public void SetItemToUI(BasicItemData item, int amount)
@@ -124,6 +144,8 @@ public class InventoryUI : MonoBehaviour
 
     public void SetEquippedItemSlotData(EquipmentItemData itemData)
     {
+        if (equipSlotImgs == null) return;
+
         for (int i = 0; i < equipSlotImgs.Length; i++)
         {
             if (equipSlotImgs[i].NowItemData.ItemType == ItemType.DUMMY)
@@ -137,6 +159,8 @@ public class InventoryUI : MonoBehaviour
 
     public void SetInventorySlotData(BasicItemData itemData, int amount)
     {
+        if (inventorySlotImgs == null) return;
+
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
             if (inventorySlotImgs[i].NowItemData.ItemType == ItemType.DUMMY)
@@ -144,7 +168,7 @@ public class InventoryUI : MonoBehaviour
                 inventorySlotImgs[i].SetItemData(itemData, amount);
 
                 //0번 슬롯에 아이템이 들어갔다면 퀵슬롯도 갱신
-                if (i == 0)
+                if (i == 0 && quickSlotImg != null)
                 {
                     quickSlotImg.UpdateQuickSlot(itemData, amount);
                 }
@@ -155,6 +179,8 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateItemSlotAmount(BasicItemData itemData, int amount)
     {
+        if (inventorySlotImgs == null) return;
+
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
             if (inventorySlotImgs[i].NowItemData == itemData)
@@ -162,7 +188,7 @@ public class InventoryUI : MonoBehaviour
                 inventorySlotImgs[i].SetItemData(itemData, amount);
 
                 // 업데이트된 슬롯이 0번 슬롯이라면 퀵슬롯도 갱신
-                if (i == 0)
+                if (i == 0 && quickSlotImg != null)
                 {
                     quickSlotImg.UpdateQuickSlot(itemData, amount);
                 }
@@ -174,6 +200,8 @@ public class InventoryUI : MonoBehaviour
 
     public void SetQuickSLotItemData(BasicItemData itemData, int amount)
     {
+        if (quickSlotImg == null) return;
+
         if (!quickSlotImg.IsInitialized)
             quickSlotImg.Init(gameObject, -1);
 
@@ -191,6 +219,8 @@ public class InventoryUI : MonoBehaviour
     //이미 존재하는 아이템 슬롯의 수량만 갱신하는 함수(새 슬롯 생성 방지)
     public void UpdateExistingItemSlot(BasicItemData itemData, int newAmount)
     {
+        if (inventorySlotImgs == null) return;
+
         for (int i = 0; i < inventorySlotImgs.Length; i++)
         {
             var slotItem = inventorySlotImgs[i].NowItemData;
@@ -199,7 +229,7 @@ public class InventoryUI : MonoBehaviour
                 inventorySlotImgs[i].SetItemAmountData(newAmount);
 
                 //0번 슬롯의 수량이 변한 것이라면 퀵슬롯도 갱신
-                if (i == 0)
+                if (i == 0 && quickSlotImg != null)
                 {
                     quickSlotImg.UpdateQuickSlot(itemData, newAmount);
                 }
