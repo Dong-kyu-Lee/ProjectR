@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Windows;
+using Input = UnityEngine.Input;
 
 // 모든 캐릭터의 고유 능력을 추상화하는 인터페이스
 public interface IAbilityV2
@@ -52,6 +54,11 @@ public abstract class PlayerControllerBase : MonoBehaviour
     [Header("Dash Ghost")]
     [SerializeField] protected float dashGhostInterval = 0.03f; // 잔상 간격
     [SerializeField] private GameObject dashGhostTemplate;
+
+    [Header("Effects")]
+    [SerializeField] protected GameObject dustPrefab;       
+    [SerializeField] protected float dustInterval = 0.3f;   // 먼지 생성 간격
+    private float dustTimer;
 
     protected virtual void Start()
     {
@@ -104,15 +111,38 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 좌우 이동 처리
     protected void PlayerMove()
     {
+        float inputX = Input.GetAxis("Horizontal");
+
         Vector2 moveVector = new Vector2(
-            Input.GetAxis("Horizontal") * playerStatus.TotalMoveSpeed * moveFactor * dashFactor * Time.deltaTime,
+            inputX * playerStatus.TotalMoveSpeed * moveFactor * dashFactor * Time.deltaTime,
             playerRigidBody.velocity.y
         );
         playerRigidBody.velocity = moveVector;
 
-        playerAnimator.SetBool("isMove", moveVector.x != 0f);
+
+        bool isMoving = Mathf.Abs(inputX) > 0.01f;
+        playerAnimator.SetBool("isMove", isMoving);
+
+        if (isMoving && isGround && !isDashing)
+        {
+            dustTimer -= Time.deltaTime;
+            if (dustTimer <= 0)
+            {
+                SpawnDust();
+                dustTimer = dustInterval;
+            }
+        }
+
         if (moveVector.x != 0f && !isAttaking)
             Flip(moveVector.x);
+    }
+
+    protected void SpawnDust()
+    {
+        if (dustPrefab == null || groundCheck == null) return;
+
+        // groundCheck 위치(발밑)에 먼지 생성
+        Instantiate(dustPrefab, groundCheck.position, Quaternion.identity);
     }
 
     // 방향 전환
