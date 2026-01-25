@@ -210,29 +210,28 @@ public class CharacterInfo : MonoBehaviour
 
         // ====== 실제 스탯 표시 ======
         float additionalDamageValue =
-            playerStatus.Damage * playerStatus.AdditionalDamage;
-        float additionalDamageReductionValue =
-            playerStatus.DamageReduction * playerStatus.AdditionalDamageReduction * 0.01f;
+            Mathf.Round(playerStatus.Damage * playerStatus.AdditionalDamage * 100f) / 100f;
 
         // 필요하면 경험치/HP 라인도 추가 가능
         AddStatusLine($"레벨 : {playerStatus.Level}");
-        //AddStatusLine($"경험치 : {playerStatus.Exp} / {playerStatus.NeededExp}");
+        AddStatusLine($"체력 : {playerStatus.Hp} / {playerStatus.MaxHp}");
+        AddStatusLine($"경험치 : {playerStatus.Exp} / {LevelUp.requiredExp[(int)playerStatus.Level]}");
         AddStatusLine(
             $"피해량 : {playerStatus.TotalDamage}(" +
             $"{playerStatus.Damage}+" +
             $"<color=yellow>{additionalDamageValue}</color>" +
             $"<color=black>)</color>"
         );
-        AddStatusLine($"추가 피해량 : {playerStatus.AdditionalDamage * 100}%");
-        AddStatusLine($"치명타 확률 : {playerStatus.CriticalPercent * 100}%");
-        AddStatusLine($"치명타 피해량 : {playerStatus.CriticalDamage * 100}%");
+        AddStatusLine($"추가 피해량 : {Mathf.Round(playerStatus.AdditionalDamage * 100f)}%");
+        AddStatusLine($"치명타 확률 : {Mathf.Round(playerStatus.CriticalPercent * 100f)}%");
+        AddStatusLine($"치명타 피해량 : {Mathf.Round(playerStatus.CriticalDamage * 100f)}%");
         AddStatusLine($"피해 감소량 : {Mathf.Round(playerStatus.DamageReduction * 100f)}%");
-        AddStatusLine($"피해 감소량 무시 : {playerStatus.IgnoreDamageReduction * 100}%");
-        AddStatusLine($"공격속도 : {playerStatus.TotalAttackSpeed}");
-        AddStatusLine($"이동속도 : {100 + playerStatus.AdditionalMoveSpeed * 100}%");
-        AddStatusLine($"버프 지속시간 : {playerStatus.BuffDuration * 100}%");
-        AddStatusLine($"디버프 피해량 : {playerStatus.DebuffDamage * 100}%");
-        AddStatusLine($"재화 획득량 : {playerStatus.PriceAdditional * 100}%");
+        AddStatusLine($"피해 감소량 무시 : {Mathf.Round(playerStatus.IgnoreDamageReduction * 100f)}%");
+        AddStatusLine($"공격속도 : {Mathf.Round(playerStatus.TotalAttackSpeed * 100) / 100}");
+        AddStatusLine($"이동속도 : {100 + Mathf.Round(playerStatus.AdditionalMoveSpeed * 100f)}%");
+        AddStatusLine($"버프 지속시간 : {Mathf.Round(playerStatus.BuffDuration * 100f)}%");
+        AddStatusLine($"디버프 피해량 : {Mathf.Round(playerStatus.DebuffDamage * 100f)}%");
+        AddStatusLine($"재화 획득량 : {Mathf.Round(playerStatus.PriceAdditional * 100f)}%");
     }
 
 

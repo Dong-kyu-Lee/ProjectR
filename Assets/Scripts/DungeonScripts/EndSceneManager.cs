@@ -55,13 +55,13 @@ public class EndSceneManager : MonoBehaviour
         {
             statusText.text = string.Format(statusFormat,
                 playerStatus.Level,
-                playerStatus.Damage.ToString("F1"),
-                playerStatus.AdditionalDamage.ToString("F1"),
+                playerStatus.TotalDamage.ToString("F1"),
+                (playerStatus.AdditionalDamage * 100).ToString("F1") + "%",
                 (playerStatus.CriticalPercent * 100).ToString("F1") + "%",
                 (playerStatus.CriticalDamage * 100).ToString("F1") + "%",
                 (playerStatus.DamageReduction * 100).ToString("F1") + "%",
                 (playerStatus.AdditionalDamageReduction * 100).ToString("F1") + "%",
-                playerStatus.AttackSpeed.ToString("F2") + " s"
+                playerStatus.TotalAttackSpeed.ToString("F2") + " s"
                 );
         }
         // 기타 결과 변수 설정

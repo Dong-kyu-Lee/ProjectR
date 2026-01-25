@@ -152,7 +152,7 @@ public class PlayerStatus : Status
 
     void Awake()
     {
-        MaxHp = 500f;
+        MaxHp = 100f;
         Hp = MaxHp;
         Damage = 10f;
         DamageReduction = 0;
