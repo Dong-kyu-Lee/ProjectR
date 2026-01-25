@@ -164,9 +164,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxInventorySlot: 10
   playerStatus: {fileID: 0}
+  inventorySlots: []
   maxEquipSlot: 6
   equipmentItemSlot: []
   dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
+  dummyInventoryItemData: {fileID: 0}
   myInventoryUI: {fileID: 0}
 --- !u!1 &3771677880208089936
 GameObject:
@@ -325,7 +327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c0e2870d8a50d418730fc683e57008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gold: 0
 --- !u!114 &8295723942867970973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,6 +453,10 @@ MonoBehaviour:
   dashCoolTime: 1
   attackCoolTimeA: 0.5
   projectileSpawnOffset: 1
+  dashGhostInterval: 0.03
+  dashGhostTemplate: {fileID: 0}
+  dustPrefab: {fileID: 1494079121764176809, guid: 60e775219983fe848b5e887f622ab313, type: 3}
+  dustInterval: 0.3
   attackPoint: {fileID: 3981629379849105235}
   attackRange: 2
 --- !u!114 &901635999839254759
@@ -571,3 +576,4 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

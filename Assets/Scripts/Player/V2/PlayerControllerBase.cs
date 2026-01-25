@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Windows;
+using Input = UnityEngine.Input;
 
 // 모든 캐릭터의 고유 능력을 추상화하는 인터페이스
 public interface IAbilityV2
@@ -55,6 +57,11 @@ public abstract class PlayerControllerBase : MonoBehaviour
     [SerializeField] protected float dashGhostInterval = 0.03f; // 잔상 간격
     [SerializeField] private GameObject dashGhostTemplate;
 
+    [Header("Effects")]
+    [SerializeField] protected GameObject dustPrefab;       
+    [SerializeField] protected float dustInterval = 0.3f;   // 먼지 생성 간격
+    private float dustTimer;
+
     protected virtual void Start()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
@@ -106,15 +113,38 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 좌우 이동 처리
     protected void PlayerMove()
     {
+        float inputX = Input.GetAxis("Horizontal");
+
         Vector2 moveVector = new Vector2(
-            Input.GetAxis("Horizontal") * playerStatus.TotalMoveSpeed * moveFactor * dashFactor * Time.deltaTime,
+            inputX * playerStatus.TotalMoveSpeed * moveFactor * dashFactor * Time.deltaTime,
             playerRigidBody.velocity.y
         );
         playerRigidBody.velocity = moveVector;
 
-        playerAnimator.SetBool("isMove", moveVector.x != 0f);
+
+        bool isMoving = Mathf.Abs(inputX) > 0.01f;
+        playerAnimator.SetBool("isMove", isMoving);
+
+        if (isMoving && isGround && !isDashing)
+        {
+            dustTimer -= Time.deltaTime;
+            if (dustTimer <= 0)
+            {
+                SpawnDust();
+                dustTimer = dustInterval;
+            }
+        }
+
         if (moveVector.x != 0f && !isAttaking)
             Flip(moveVector.x);
+    }
+
+    protected void SpawnDust()
+    {
+        if (dustPrefab == null || groundCheck == null) return;
+
+        // groundCheck 위치(발밑)에 먼지 생성
+        Instantiate(dustPrefab, groundCheck.position, Quaternion.identity);
     }
 
     // 방향 전환
@@ -337,4 +367,51 @@ public abstract class PlayerControllerBase : MonoBehaviour
         return sr;
     }
 
+    protected virtual void OnEnable()
+    {
+        ResetPlayerState();
+    }
+
+    protected virtual void OnDisable()
+    {
+        StopAllCoroutines();
+
+        // 물리 속도 즉시 정지 (관성 제거)
+        if (playerRigidBody != null)
+            playerRigidBody.velocity = Vector2.zero;
+    }
+
+    public virtual void ResetPlayerState()
+    {
+        // 제어 변수 초기화
+        enableJump = true;
+        enableDash = true;
+        enableAttack = true;
+
+        // 상태 변수 초기화
+        isAttaking = false;
+        isDashing = false;
+        isInvincible = false;
+        isPause = false;
+        _hasQueuedAim = false;
+
+        // 대시 중에 비활성화 되었을 경우 계수를 원래대로 복구
+        dashFactor = 1f;
+
+        // 물리 초기화
+        if (playerRigidBody != null)
+            playerRigidBody.velocity = Vector2.zero;
+
+        // 애니메이터 초기화 (남아있는 트리거 제거)
+        if (playerAnimator != null)
+        {
+            playerAnimator.ResetTrigger("Attack");
+            playerAnimator.ResetTrigger("dash");
+            playerAnimator.SetBool("isMove", false);
+            playerAnimator.SetBool("isGround", false);
+
+            if (!isDead)
+                playerAnimator.ResetTrigger("Die");
+        }
+    }
 }
