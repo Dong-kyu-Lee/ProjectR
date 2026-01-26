@@ -49,6 +49,7 @@ public class StartSceneManager : MonoBehaviour
             GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
         else
             GameManager.Instance.prologue.StartPrologue();
+        // GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
     }
 
     // 게임 종료 버튼에 의해 호출되는 이벤트 함수
