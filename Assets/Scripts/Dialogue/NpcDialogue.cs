@@ -46,6 +46,16 @@ public class NpcDialogue : MonoBehaviour
         }
     }
 
+    // 대화를 강제로 시작하는 함수 (외부에서 호출 가능; TimeLineManager)
+    public void RunDialogue()
+    {
+        if (runner == null || graph == null) return;
+        if (!runner.IsRunning)
+        {
+            runner.Run(graph, HandleDialogueEvent);
+        }
+    }
+
     // 러너가 "OpenUpgrade" 같은 키를 보내면 여기서 받아서 처리
     private void HandleDialogueEvent(string key)
     {

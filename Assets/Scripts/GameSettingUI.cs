@@ -67,6 +67,10 @@ public class GameSettingUI : MonoBehaviour
     // 로비 버튼 클릭 시 로비 씬으로 이동
     public void OnClickLobbyButton()
     {
+        if(SceneManager.GetActiveScene().name == "StartScene")
+        {
+            return; // 시작 화면에서는 로비 버튼 비활성화
+        }
         animator.SetBool("isOpen", false);
         background.SetActive(false);
         fakePanel1.SetActive(false);

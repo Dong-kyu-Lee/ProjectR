@@ -24,9 +24,9 @@ public class EndSceneManager : MonoBehaviour
     [SerializeField]
     private GameObject[] itemImages;
     private Color original;
-    private string statusFormat = "{0}\n\n{1}\n\n{2}\n\n{3}\n\n{4}\n\n{5}\n\n{6}\n\n{7}";
+    private string statusFormat = "{0}\n\n{1}\n\n{2}\n\n{3}\n\n{4}\n\n{5}\n\n{6}";
     // 0 : Level, 1 : Damage, 2. Additional Damage, 3. Critical Percent, 4. Critical Damage
-    // 5. Damage Reduction, 6. Additional Damage Reduction, 7. Attack Speed
+    // 5. Damage Reduction, 6. Attack Speed
 
     private void Awake()
     {
@@ -60,7 +60,6 @@ public class EndSceneManager : MonoBehaviour
                 (playerStatus.CriticalPercent * 100).ToString("F1") + "%",
                 (playerStatus.CriticalDamage * 100).ToString("F1") + "%",
                 (playerStatus.DamageReduction * 100).ToString("F1") + "%",
-                (playerStatus.AdditionalDamageReduction * 100).ToString("F1") + "%",
                 playerStatus.AttackSpeed.ToString("F2") + " s"
                 );
         }
