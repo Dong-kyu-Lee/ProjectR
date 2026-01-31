@@ -34,6 +34,11 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private CharacterUIManager CharacterUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
 
+    // 레벨 및 경험치 UI 연결 변수
+    [SerializeField] private Slider expBar;
+    [SerializeField] private Text levelText; // 레벨 표시용 텍스트
+    [SerializeField] private Text expText;
+
     public SkillCoolTime skillCoolTimeUI;
     public PlayerStatus playerStatus;
 
@@ -46,7 +51,7 @@ public class InGameUIManager : MonoBehaviour
     // 워프에 닿았을 때 E 키를 누르면 실행할 함수
     private Action warpAction;
 
-    // [신규] UIConnector가 호출하여 CharacterInfo를 연결해주는 함수
+    // UIConnector가 호출하여 CharacterInfo를 연결해주는 함수
     public void SetCharacterInfoUI(CharacterInfo info)
     {
         this.characterInfoUI = info;
@@ -145,6 +150,20 @@ public class InGameUIManager : MonoBehaviour
 
         CheckGold();
         UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
+
+        // 초기 레벨 및 경험치 UI 갱신
+        if (playerStatus != null)
+        {
+            int currentLevel = (int)playerStatus.Level;
+            int maxExp = 100;
+            if (LevelUp.requiredExp != null && LevelUp.requiredExp.Length > currentLevel)
+            {
+                maxExp = LevelUp.requiredExp[currentLevel];
+            }
+
+            UpdateLevelUI(currentLevel);
+            UpdateExpUI(playerStatus.Exp, maxExp);
+        }
     }
 
     private void Update()
@@ -224,14 +243,12 @@ public class InGameUIManager : MonoBehaviour
     {
         if (ui == null) return;
 
-        //스택 최상단이라면 Pop()
         if (uiStack.Count > 0 && uiStack.Peek() == ui)
         {
             uiStack.Pop();
         }
         else
         {
-            //중간에 있는 경우 제거 후 재정렬
             Stack<GameObject> tempStack = new Stack<GameObject>(uiStack);
             uiStack.Clear();
             foreach (GameObject go in tempStack)
@@ -265,6 +282,29 @@ public class InGameUIManager : MonoBehaviour
 
         HpBarSlider.value = targetValue;
         hpTxt.text = $"{(int)targetHp}/{(int)maxHp}";
+    }
+
+    // 경험치 UI 업데이트
+    public void UpdateExpUI(float currentExp, float maxExp)
+    {
+        if (expBar != null)
+        {
+            expBar.value = (maxExp > 0) ? (currentExp / maxExp) : 0;
+        }
+
+        if (expText != null)
+        {
+            expText.text = $"{(int)currentExp} / {(int)maxExp}";
+        }
+    }
+
+    // 레벨 텍스트 업데이트
+    public void UpdateLevelUI(int level)
+    {
+        if (levelText != null)
+        {
+            levelText.text = "Lv." + level;
+        }
     }
 
     public void CheckGold()
