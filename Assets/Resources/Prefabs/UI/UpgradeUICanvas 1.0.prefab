@@ -955,7 +955,6 @@ GameObject:
   - component: {fileID: 4656230874468605395}
   - component: {fileID: 4656230874468605394}
   - component: {fileID: 2087058580178677599}
-  - component: {fileID: 729179776973590457}
   m_Layer: 5
   m_Name: UpgradeUICanvas 1.0
   m_TagString: Untagged
@@ -1097,18 +1096,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageTextPrefab: {fileID: 7110952912640582271, guid: 80a8d1e2599269b4ea1332fdb92fd3c2, type: 3}
   activeDamageTexts: 0
---- !u!114 &729179776973590457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4656230874468605397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5053f3c609426c3438a817d94497040c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4656230874485188836
 GameObject:
   m_ObjectHideFlags: 0
@@ -6729,6 +6716,7 @@ GameObject:
   - component: {fileID: 4656230876305775772}
   - component: {fileID: 4656230876305775773}
   - component: {fileID: 7893794065145939891}
+  - component: {fileID: 4784071842248574591}
   m_Layer: 5
   m_Name: UpgradeStatusUI
   m_TagString: Untagged
@@ -6846,6 +6834,18 @@ MonoBehaviour:
   dexterityEffect: {fileID: 8721383420354850312}
   mysteryEffect: {fileID: 3348866984837480870}
   curseEffect: {fileID: 1275756919}
+--- !u!114 &4784071842248574591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4656230876305775747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5053f3c609426c3438a817d94497040c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4656230876370628393
 GameObject:
   m_ObjectHideFlags: 0

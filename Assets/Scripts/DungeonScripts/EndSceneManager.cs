@@ -60,7 +60,6 @@ public class EndSceneManager : MonoBehaviour
                 (playerStatus.CriticalPercent * 100).ToString("F1") + "%",
                 (playerStatus.CriticalDamage * 100).ToString("F1") + "%",
                 (playerStatus.DamageReduction * 100).ToString("F1") + "%",
-                (playerStatus.AdditionalDamageReduction * 100).ToString("F1") + "%",
                 playerStatus.TotalAttackSpeed.ToString("F2") + " s"
                 );
         }
