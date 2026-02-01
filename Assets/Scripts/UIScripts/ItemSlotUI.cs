@@ -50,14 +50,31 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         slotIndex = indexNumber;
 
         //버튼과 설명창 연결
-        slotButton = itemSlotImage.GetComponent<Button>();
-        if (slotButton != null)
+        if (itemSlotImage != null)
         {
-            explainUI = FindObjectOfType<InventoryItemExplain>();
-            slotButton.onClick.AddListener(() => explainUI.OnItemSlotClicked(nowItemData));
-        }
+            slotButton = itemSlotImage.GetComponent<Button>();
+            if (slotButton != null)
+            {
+                // 이벤트 중복 등록 방지
+                slotButton.onClick.RemoveAllListeners();
 
-        isInitialized = true;
+                slotButton.onClick.AddListener(() =>
+                {
+                    if (explainUI == null)
+                        explainUI = FindObjectOfType<InventoryItemExplain>(true);
+
+                    if (explainUI != null && nowItemData != null)
+                    {
+                        explainUI.OnItemSlotClicked(nowItemData);
+                    }
+                    else
+                    {
+                        Debug.Log("아이템 설명 연결이 안됨");
+                    }
+                });
+            }
+            isInitialized = true;
+        }
     }
 
     //자신의 아이템 데이터를 삽입하고 이미지와 갯수 텍스트를 설정 하는 메서드

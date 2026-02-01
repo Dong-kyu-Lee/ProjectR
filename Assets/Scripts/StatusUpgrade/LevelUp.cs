@@ -35,6 +35,13 @@ public class LevelUp : MonoBehaviour
         upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
         upgradeSystem = transform.GetComponentInChildren<UpgradeSystem>(true);
         statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
+        //UI갱신용
+        if (InGameUIManager.Instance != null && playerStatus != null)
+        {
+            int maxExp = requiredExp[(int)playerStatus.Level];
+            InGameUIManager.Instance.UpdateExpUI(playerStatus.Exp, maxExp);
+            InGameUIManager.Instance.UpdateLevelUI((int)playerStatus.Level);
+        }
     }
 
     // 경험치 통 정의.
@@ -54,9 +61,25 @@ public class LevelUp : MonoBehaviour
     // 경험치 증가.
     public void IncreaseExp(float value)
     {
+        if (playerStatus == null)
+        {
+            playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+            if (playerStatus == null) return;
+        }
         if (playerStatus.Level < maxlevel)
         {
             playerStatus.Exp += value;
+
+            if (InGameUIManager.Instance != null)
+            {
+                int maxExp = requiredExp[(int)playerStatus.Level];
+                InGameUIManager.Instance.UpdateExpUI(playerStatus.Exp, maxExp);
+            }
+            else
+            {
+                Debug.Log("InGameUIManager가 할당되지 않음");
+            }
+
             if (playerStatus.Exp > requiredExp[(int)playerStatus.Level])
             {
                 UpLevel();
@@ -65,6 +88,10 @@ public class LevelUp : MonoBehaviour
         else
         {
             playerStatus.Exp = 0;
+            if (InGameUIManager.Instance != null)
+            {
+                InGameUIManager.Instance.UpdateExpUI(0, 1);
+            }
         }
     }
 
@@ -80,6 +107,12 @@ public class LevelUp : MonoBehaviour
 
         playerStatus.Exp -= requiredExp[(int)playerStatus.Level - 1];
 
+        if (InGameUIManager.Instance != null)
+        {
+            InGameUIManager.Instance.UpdateLevelUI((int)playerStatus.Level);
+            InGameUIManager.Instance.UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
+        }
+
         if (playerStatus.Level == maxlevel) playerStatus.Exp = 0;
         if (playerStatus.Exp > requiredExp[(int)playerStatus.Level] && playerStatus.Level < maxlevel)
         {
@@ -87,6 +120,12 @@ public class LevelUp : MonoBehaviour
         }
 
         statusValueText.SetupValueText(upgradeStatus);
+
+        if (InGameUIManager.Instance != null && playerStatus.Level < maxlevel)
+        {
+            int maxExp = requiredExp[(int)playerStatus.Level];
+            InGameUIManager.Instance.UpdateExpUI(playerStatus.Exp, maxExp);
+        }
     }
 
     // 레벨 초기화.
@@ -97,5 +136,12 @@ public class LevelUp : MonoBehaviour
         playerStatus.MaxHp -= (playerStatus.Level - 1) * 5;
         playerStatus.Level = 1;
         playerStatus.Exp = 0;
+
+        if (InGameUIManager.Instance != null)
+        {
+            InGameUIManager.Instance.UpdateLevelUI(1);
+            InGameUIManager.Instance.UpdateExpUI(0, requiredExp[1]);
+            InGameUIManager.Instance.UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
+        }
     }
 }

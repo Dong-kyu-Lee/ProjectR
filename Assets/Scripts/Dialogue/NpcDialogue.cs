@@ -12,6 +12,10 @@ public class NpcDialogue : MonoBehaviour
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     [SerializeField] private string playerTag = "Player";
 
+    // 중복 작용 제한 용도
+    [Header("상호작용 제한 (옵션)")]
+    [SerializeField] private GameObject blockingUI;
+
     // ▼ 핵심: 이벤트 키와 실제 행동을 연결하는 구조체
     [System.Serializable]
     public struct DialogueEvent
@@ -39,9 +43,22 @@ public class NpcDialogue : MonoBehaviour
     {
         if (!inRange || runner == null || graph == null) return;
 
+        // 중복 입력 방지
+        if (blockingUI != null && blockingUI.activeSelf) return;
+
         if (Input.GetKeyDown(interactKey) && !runner.IsRunning)
         {
             // ▼ Run 함수를 호출할 때, "이벤트 처리 함수(HandleDialogueEvent)"를 같이 넘겨줍니다.
+            runner.Run(graph, HandleDialogueEvent);
+        }
+    }
+
+    // 대화를 강제로 시작하는 함수 (외부에서 호출 가능; TimeLineManager)
+    public void RunDialogue()
+    {
+        if (runner == null || graph == null) return;
+        if (!runner.IsRunning)
+        {
             runner.Run(graph, HandleDialogueEvent);
         }
     }
