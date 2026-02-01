@@ -17,6 +17,8 @@ public class CharacterSelect : MonoBehaviour
     CM_LobbyScene vcam;
     [SerializeField]
     Transform prologueSpawnPoint;
+    //UI 초상화
+    [SerializeField] private CharacterPortraitHandler portraitHandler;
 
     private void Awake()
     {
@@ -69,6 +71,11 @@ public class CharacterSelect : MonoBehaviour
 
         SetMannequin(GameManager.Instance.CurrentCharacterType);
         vcam?.SetFollowTarget(GameManager.Instance.CurrentPlayer.transform);
+
+        if (portraitHandler != null)
+        {
+            portraitHandler.ChangePortrait(GameManager.Instance.CurrentCharacterType);
+        }
     }
 
     public void SelectCharacter(CharacterType type, Vector3 spawnPosition)
@@ -84,6 +91,11 @@ public class CharacterSelect : MonoBehaviour
             Resources.Load<GameObject>(GameManager.Instance.characterPrefabPaths[prevCharacterType])
             , new Vector3(0, 0, 0), Quaternion.identity);
         characters[(int)prevCharacterType].SetActive(false);
+
+        if (portraitHandler != null)
+        {
+            portraitHandler.ChangePortrait(type);
+        }
 
         GameManager.Instance.CurrentPlayer.SetActive(true);
         // 카메라 설정
