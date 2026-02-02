@@ -14,12 +14,12 @@ public class LiberationUI : MonoBehaviour
         liberationUI.SetActive(false);
     }
 
-    public void OpenUI()
+    private void OnEnable()
     {
-        liberationUI.SetActive(true);
         liberationSystem.SyncSteadfiteText();
         SaveManager.Instance.SyncFromLiberationData();
     }
+
     public void CloseUIOnclick()
     {
         if (liberationUI != null) liberationUI.SetActive(false);

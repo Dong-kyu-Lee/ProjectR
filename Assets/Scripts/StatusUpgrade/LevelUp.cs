@@ -44,11 +44,6 @@ public class LevelUp : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        Debug.Log(playerStatus.Level + "레벨 " + playerStatus.Exp + "/" + requiredExp[(int)playerStatus.Level]);
-    }
-
     // 경험치 통 정의.
     static LevelUp()
     {

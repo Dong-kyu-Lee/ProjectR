@@ -148,7 +148,7 @@ public class Status : MonoBehaviour
             if (CalcReceiveDamage.Instance.induranceEffect7 && !CalcDamage.Instance.IsOnCooldown("InduranceEffect7"))
             {
                 receiveDamage = 0;
-                StartCoroutine(CalcDamage.Instance.Cooldown("InduranceEffect7", 20f));
+                CalcDamage.Instance.StartCooldown("InduranceEffect7", 20f);
             }
             // 인내 16레벨.
             if (CalcReceiveDamage.Instance.induranceEffect16 && !CalcDamage.Instance.IsOnCooldown("InduranceEffect16"))
@@ -156,7 +156,7 @@ public class Status : MonoBehaviour
                 float damageReductionValue = damage - receiveDamage;
                 attacker.GetComponent<EnemyStatus>().TakeTrueDamage(damageReductionValue * 10);
                 CalcDamage.Instance.StackDexterityEffect16(attacker);
-                StartCoroutine(CalcDamage.Instance.Cooldown("InduranceEffect16", 2f));
+                CalcDamage.Instance.StartCooldown("InduranceEffect16", 2f);
             }
         }
 

@@ -29,6 +29,7 @@ public abstract class Buff
         set
         {
             currentDuration = value;
+            if (currentDuration > maxDuration) currentDuration = maxDuration;
         }
     }
 

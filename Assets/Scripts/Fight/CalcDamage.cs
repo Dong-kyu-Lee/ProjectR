@@ -159,7 +159,7 @@ public class CalcDamage : MonoBehaviour
                 damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
                 enemy.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
                 AdditionalEffect(enemy);
-                StartCoroutine(Cooldown("ForceEffect4", 4f));
+                StartCooldown("ForceEffect4", 4f);
             }
             else
             {
@@ -167,7 +167,7 @@ public class CalcDamage : MonoBehaviour
                 damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
                 enemy.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
                 AdditionalEffect(enemy);
-                StartCoroutine(Cooldown("ForceEffect4", 5f));
+                StartCooldown("ForceEffect4", 5f);
             }
         }
 
@@ -178,7 +178,7 @@ public class CalcDamage : MonoBehaviour
             damage = CheckCritical(damage, ref ignoreDamageReduction, ref isCritical);
             enemy.GetComponent<Status>().TakeDamage(player, damage, ignoreDamageReduction, isCritical);
             AdditionalEffect(enemy);
-            StartCoroutine(Cooldown("DexterityEffect10", 0.5f));
+            StartCooldown("DexterityEffect10", 0.5f);
         }
     }
 
@@ -218,23 +218,18 @@ public class CalcDamage : MonoBehaviour
     }
 
     // 쿨타임 계산.
-    public IEnumerator Cooldown(string skillName, float cooldown)
+    public void StartCooldown(string skillName, float cooldown)
     {
-        skillCooldowns[skillName] = cooldown;
-
-        while (skillCooldowns[skillName] > 0)
-        {
-            skillCooldowns[skillName] -= Time.deltaTime;
-            yield return null;
-        }
-
-        skillCooldowns[skillName] = 0;
+        skillCooldowns[skillName] = Time.time + cooldown;
     }
 
     // 쿨타임 확인.
     public bool IsOnCooldown(string skillName)
     {
-        return skillCooldowns.ContainsKey(skillName) && skillCooldowns[skillName] > 0;
+        if (!skillCooldowns.ContainsKey(skillName))
+            return false;
+
+        return Time.time < skillCooldowns[skillName];
     }
 
     // 공격의 크리티컬 여부 확인.
@@ -249,7 +244,7 @@ public class CalcDamage : MonoBehaviour
         {
             IncCritical = true;
             playerBuffManager.ActivateBuff(BuffType.Critical7, 1.0f); // 치명 7레벨 버프.
-            StartCoroutine(Cooldown("CriticalEffect7", 20f));
+            StartCooldown("CriticalEffect7", 20f);
         }
         if (IncCritical)
         {

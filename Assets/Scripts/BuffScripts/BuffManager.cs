@@ -91,7 +91,7 @@ public class BuffManager : MonoBehaviour
     private IEnumerator StartBuffEffect(Buff buff)
     {
         BuffType type = GetBuffTypeFromBuff(buff);
-        // 매 2초마다 버프 효과를 적용하고 지속시간을 감소시킵니다.
+        // 매 1초마다 버프 효과를 적용하고 지속시간을 감소시킵니다.
         while (buff.CurrentDuration > 0)
         {
             if (buff.TargetObject() == "Enemy" && CalcDamage.Instance.curseEffect16 && (type == BuffType.Burn || type == BuffType.Poison))

@@ -21,6 +21,8 @@ public abstract class PlayerControllerBase : MonoBehaviour
     protected Camera playerCamera;
     [SerializeField]
     protected GameObject rendererObject;
+    [SerializeField]
+    protected GrenadeController GrenadeController;
     protected PlayerStatus playerStatus;
     protected IAbilityV2 characterAbility; // 고유 능력 위임 객체
 

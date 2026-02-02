@@ -24,11 +24,6 @@ public class UpgradeUI : MonoBehaviour
         upgradeStatusUI = transform.GetChild(0).gameObject;
     }
 
-    void Update()
-    {
-        SetActiveUI();
-    }
-
     public void SetActiveUI()
     {
         if (Input.GetKeyDown(KeyCode.O))

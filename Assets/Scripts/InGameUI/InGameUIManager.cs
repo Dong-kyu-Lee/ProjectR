@@ -32,6 +32,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private BuffToolTipUI tooltipUI;
     [SerializeField] private Image PlayerHead;
     [SerializeField] private CharacterUIManager CharacterUI;
+    [SerializeField] private UpgradeUI upgradeUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
 
     // 레벨 및 경험치 UI 연결 변수
@@ -91,6 +92,12 @@ public class InGameUIManager : MonoBehaviour
         if (GameManager.Instance.CurrentPlayer != null)
         {
             OnPlayerChanged();
+        }
+
+        if (upgradeUI == null)
+        {
+            upgradeUI = FindObjectOfType<UpgradeUI>(true);
+            if (upgradeUI == null) Debug.LogWarning("UpgradeUI를 찾을 수 없습니다.");
         }
 
         if (gameSettingUI == null) gameSettingUI = FindObjectOfType<GameSettingUI>();
@@ -188,6 +195,11 @@ public class InGameUIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && warpUIText.IsActive())
         {
             warpAction?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            upgradeUI.SetActiveUI();
         }
     }
 
