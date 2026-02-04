@@ -31,17 +31,7 @@ public class LevelUp : MonoBehaviour
 
     private void Start()
     {
-        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
-        upgradeSystem = transform.GetComponentInChildren<UpgradeSystem>(true);
-        statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
-        //UI갱신용
-        if (InGameUIManager.Instance != null && playerStatus != null)
-        {
-            int maxExp = requiredExp[(int)playerStatus.Level];
-            InGameUIManager.Instance.UpdateExpUI(playerStatus.Exp, maxExp);
-            InGameUIManager.Instance.UpdateLevelUI((int)playerStatus.Level);
-        }
+        StartCoroutine(InitPlayerStatus());
     }
 
     // 경험치 통 정의.
@@ -142,6 +132,24 @@ public class LevelUp : MonoBehaviour
             InGameUIManager.Instance.UpdateLevelUI(1);
             InGameUIManager.Instance.UpdateExpUI(0, requiredExp[1]);
             InGameUIManager.Instance.UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
+        }
+    }
+
+    private IEnumerator InitPlayerStatus()
+    {
+        // 플레이어가 확실히 준비될 때까지 대기
+        yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null);
+
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        upgradeSystem = transform.GetComponentInChildren<UpgradeSystem>(true);
+        statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
+        //UI갱신용
+        if (InGameUIManager.Instance != null && playerStatus != null)
+        {
+            int maxExp = requiredExp[(int)playerStatus.Level];
+            InGameUIManager.Instance.UpdateExpUI(playerStatus.Exp, maxExp);
+            InGameUIManager.Instance.UpdateLevelUI((int)playerStatus.Level);
         }
     }
 }

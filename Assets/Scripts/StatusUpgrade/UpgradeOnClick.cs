@@ -12,9 +12,7 @@ public class UpgradeOnClick : MonoBehaviour
 
     private void Start()
     {
-        statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
-        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
-        levelup = transform.GetComponent<LevelUp>();
+        StartCoroutine(InitPlayerStatus());
     }
 
     // 경험치 증가 온클릭.
@@ -33,5 +31,15 @@ public class UpgradeOnClick : MonoBehaviour
     public void ResetLevelOnClick()
     {
         levelup.ResetLevel();
+    }
+
+    private IEnumerator InitPlayerStatus()
+    {
+        // 플레이어가 확실히 준비될 때까지 대기
+        yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null);
+
+        statusValueText = transform.GetComponentInChildren<StatusValueText>(true);
+        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        levelup = transform.GetComponent<LevelUp>();
     }
 }
