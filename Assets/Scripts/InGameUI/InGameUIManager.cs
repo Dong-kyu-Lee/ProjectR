@@ -85,6 +85,11 @@ public class InGameUIManager : MonoBehaviour
 
         if (checkUI != null)
             checkUI.SetActive(false);
+
+        if (CharacterUI == null)
+        {
+            CharacterUI = FindObjectOfType<CharacterUIManager>();
+        }
     }
 
     private void Start()
@@ -136,19 +141,20 @@ public class InGameUIManager : MonoBehaviour
         if (characterInfoUI != null)
         {
             characterInfoUI.EnableUI();
-            CharacterUI?.InitUIForCurrentPlayer();
-            characterInfoUI.DisableUI();
 
-            InventoryUI invUI = characterInfoUI.GetComponentInChildren<InventoryUI>(true);
-
-            if (invUI != null)
+            if (CharacterUI != null)
             {
-                invUI.Init();
+                CharacterUI.InitUIForCurrentPlayer();
             }
             else
             {
-                Debug.LogWarning("CharacterInfo 하위에서 InventoryUI를 찾을 수 없음");
+                Debug.LogError("CharacterUIManager가 연결되지 않음. Inspector를 확인하세요.");
             }
+
+            characterInfoUI.DisableUI();
+
+            InventoryUI invUI = characterInfoUI.GetComponentInChildren<InventoryUI>(true);
+            if (invUI != null) invUI.Init();
         }
         else
         {
