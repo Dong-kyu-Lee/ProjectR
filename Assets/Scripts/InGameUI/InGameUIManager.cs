@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -52,6 +53,16 @@ public class InGameUIManager : MonoBehaviour
 
     //열린 UI들을 관리하는 스택 (최근 열린 순서대로 저장)
     private Stack<GameObject> uiStack = new Stack<GameObject>();
+
+    public bool IsUIActive
+    {
+        get
+        {
+            // uiStack이 null이면 꺼진 것으로 간주
+            if (uiStack == null) return false;
+            return uiStack.Count > 0;
+        }
+    }
 
     // 워프에 닿았을 때 E 키를 누르면 실행할 함수
     private Action warpAction;
@@ -226,6 +237,24 @@ public class InGameUIManager : MonoBehaviour
         {
             upgradeUI.SetActiveUI();
         }
+
+        //if (uiStack.Count == 0)
+        //{
+        //    // 스택이 비어있을 때 (공격 가능 상태)
+        //    Debug.Log($"<color=green>[UI Status] 스택 비어있음 (공격 가능) - Frame: {Time.frameCount}</color>");
+        //}
+        //else
+        //{
+        //    // 스택에 무언가 있을 때 (공격 불가 상태)
+        //    string msg = $"<color=red>[UI Status] 공격 차단됨! (UI 개수: {uiStack.Count})</color> >> ";
+
+        //    foreach (var ui in uiStack)
+        //    {
+        //        if (ui != null) msg += $"[{ui.name}] ";
+        //        else msg += "[Destroyed UI] ";
+        //    }
+        //    Debug.Log(msg);
+        //}
     }
 
     // ESC 키 로직 분리
