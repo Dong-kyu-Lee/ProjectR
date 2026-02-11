@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class GameSettingUI : MonoBehaviour
 {
-    Animator animator;
+    [SerializeField] Animator animator;
     [SerializeField] GameObject background;
     [SerializeField] GameObject fakePanel1;
     [SerializeField] GameObject fakePanel2;
@@ -31,7 +31,6 @@ public class GameSettingUI : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(this.gameObject);
-        animator = GetComponent<Animator>();
         original = lobbyButtonText.color;
     }
 
