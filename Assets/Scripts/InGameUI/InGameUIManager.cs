@@ -30,8 +30,12 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private Slider HpBarSlider;
     [SerializeField] private Text hpTxt;
     [SerializeField] private BuffToolTipUI tooltipUI;
+
     [SerializeField] private Image PlayerHead;
     [SerializeField] private CharacterUIManager CharacterUI;
+    [SerializeField] private Sprite blacksmithHeadSprite;
+    [SerializeField] private Sprite bartenderHeadSprite;
+
     [SerializeField] private UpgradeUI upgradeUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
 
@@ -128,6 +132,21 @@ public class InGameUIManager : MonoBehaviour
             yield return null; // 없으면 다음 프레임까지 대기
             if (GameManager.Instance.CurrentPlayer != null)
                 playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        }
+
+        if (PlayerHead != null)
+        {
+            // 플레이어 이름에 "Blacksmith"가 포함되어 있으면 대장장이 얼굴로
+            if (GameManager.Instance.CurrentPlayer.name.Contains("Blacksmith"))
+            {
+                if (blacksmithHeadSprite != null)
+                    PlayerHead.sprite = blacksmithHeadSprite;
+            }
+            else // 아니면 바텐더 얼굴로 (기본값)
+            {
+                if (bartenderHeadSprite != null)
+                    PlayerHead.sprite = bartenderHeadSprite;
+            }
         }
 
         // UI 연결 대기
@@ -416,6 +435,15 @@ public class InGameUIManager : MonoBehaviour
         else
         {
             rootCanvas.enabled = true;
+
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
+                GameManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
+
+                // 로비 등으로 돌아왔을 때 상태 갱신을 위해 한 번 호출
+                OnPlayerChanged();
+            }
         }
     }
 }
