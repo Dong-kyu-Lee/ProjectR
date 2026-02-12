@@ -17,9 +17,6 @@ public class Dexterity13Buff : Buff
         PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
 
         playerStatus.AdditionalAttackSpeed += atkSpeedIncGap;
-        Debug.Log("현재 레벨" + currentBuffLevel);
-        Debug.Log("지속시간" + currentDuration);
-        Debug.Log(playerStatus.TotalAttackSpeed);
     }
 
     //적용된 버프를 해제하는 함수. 각 스탯마다 누적된 값을 계산해 감소하는 식
