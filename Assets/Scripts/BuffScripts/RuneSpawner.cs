@@ -118,9 +118,10 @@ public class RuneSpawner : MonoBehaviour
     // 룬을 생성.
     public void TrySpawnRune(Vector3 spawnPosition)
     {
-        if (runePrefab != null && Random.value <= spawnChance)
+        if (runePrefab != null && Random.value <= spawnChance && !CalcDamage.Instance.IsOnCooldown("RuneSpawn"))
         {
             Instantiate(runePrefab, spawnPosition, Quaternion.identity);
+            CalcDamage.Instance.StartCooldown("RuneSpawn", 10f);
         }
     }
 
