@@ -138,7 +138,12 @@ public class GameManager : MonoBehaviour
                 // 업그레이드UI는 생성
                 ResetUpgradeUI();
                 // 플레이어 오브젝트 제거
-                if (playerObject != null) Destroy(playerObject);
+                if (playerObject != null)
+                {
+                    Destroy(playerObject);
+                    playerObject = null; // 명시적으로 비워줍니다.
+                }
+                isFirstPlayerCreated = false;
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
                 // 게임 결과 초기화

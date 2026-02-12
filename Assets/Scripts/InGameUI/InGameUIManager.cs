@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -30,8 +31,12 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private Slider HpBarSlider;
     [SerializeField] private Text hpTxt;
     [SerializeField] private BuffToolTipUI tooltipUI;
+
     [SerializeField] private Image PlayerHead;
     [SerializeField] private CharacterUIManager CharacterUI;
+    [SerializeField] private Sprite blacksmithHeadSprite;
+    [SerializeField] private Sprite bartenderHeadSprite;
+
     [SerializeField] private UpgradeUI upgradeUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
 
@@ -48,6 +53,16 @@ public class InGameUIManager : MonoBehaviour
 
     //열린 UI들을 관리하는 스택 (최근 열린 순서대로 저장)
     private Stack<GameObject> uiStack = new Stack<GameObject>();
+
+    public bool IsUIActive
+    {
+        get
+        {
+            // uiStack이 null이면 꺼진 것으로 간주
+            if (uiStack == null) return false;
+            return uiStack.Count > 0;
+        }
+    }
 
     // 워프에 닿았을 때 E 키를 누르면 실행할 함수
     private Action warpAction;
@@ -85,6 +100,11 @@ public class InGameUIManager : MonoBehaviour
 
         if (checkUI != null)
             checkUI.SetActive(false);
+
+        if (CharacterUI == null)
+        {
+            CharacterUI = FindObjectOfType<CharacterUIManager>();
+        }
     }
 
     private void Start()
@@ -125,6 +145,21 @@ public class InGameUIManager : MonoBehaviour
                 playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         }
 
+        if (PlayerHead != null)
+        {
+            // 플레이어 이름에 "Blacksmith"가 포함되어 있으면 대장장이 얼굴로
+            if (GameManager.Instance.CurrentPlayer.name.Contains("Blacksmith"))
+            {
+                if (blacksmithHeadSprite != null)
+                    PlayerHead.sprite = blacksmithHeadSprite;
+            }
+            else // 아니면 바텐더 얼굴로 (기본값)
+            {
+                if (bartenderHeadSprite != null)
+                    PlayerHead.sprite = bartenderHeadSprite;
+            }
+        }
+
         // UI 연결 대기
         float timeOut = 3.0f; // 최대 3초 대기
         while (characterInfoUI == null && timeOut > 0)
@@ -136,19 +171,20 @@ public class InGameUIManager : MonoBehaviour
         if (characterInfoUI != null)
         {
             characterInfoUI.EnableUI();
-            CharacterUI?.InitUIForCurrentPlayer();
-            characterInfoUI.DisableUI();
 
-            InventoryUI invUI = characterInfoUI.GetComponentInChildren<InventoryUI>(true);
-
-            if (invUI != null)
+            if (CharacterUI != null)
             {
-                invUI.Init();
+                CharacterUI.InitUIForCurrentPlayer();
             }
             else
             {
-                Debug.LogWarning("CharacterInfo 하위에서 InventoryUI를 찾을 수 없음");
+                Debug.LogError("CharacterUIManager가 연결되지 않음. Inspector를 확인하세요.");
             }
+
+            characterInfoUI.DisableUI();
+
+            InventoryUI invUI = characterInfoUI.GetComponentInChildren<InventoryUI>(true);
+            if (invUI != null) invUI.Init();
         }
         else
         {
@@ -201,6 +237,24 @@ public class InGameUIManager : MonoBehaviour
         {
             upgradeUI.SetActiveUI();
         }
+
+        //if (uiStack.Count == 0)
+        //{
+        //    // 스택이 비어있을 때 (공격 가능 상태)
+        //    Debug.Log($"<color=green>[UI Status] 스택 비어있음 (공격 가능) - Frame: {Time.frameCount}</color>");
+        //}
+        //else
+        //{
+        //    // 스택에 무언가 있을 때 (공격 불가 상태)
+        //    string msg = $"<color=red>[UI Status] 공격 차단됨! (UI 개수: {uiStack.Count})</color> >> ";
+
+        //    foreach (var ui in uiStack)
+        //    {
+        //        if (ui != null) msg += $"[{ui.name}] ";
+        //        else msg += "[Destroyed UI] ";
+        //    }
+        //    Debug.Log(msg);
+        //}
     }
 
     // ESC 키 로직 분리
@@ -410,6 +464,15 @@ public class InGameUIManager : MonoBehaviour
         else
         {
             rootCanvas.enabled = true;
+
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
+                GameManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
+
+                // 로비 등으로 돌아왔을 때 상태 갱신을 위해 한 번 호출
+                OnPlayerChanged();
+            }
         }
     }
 }

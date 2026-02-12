@@ -861,6 +861,7 @@ GameObject:
   - component: {fileID: 4063412946138282427}
   - component: {fileID: 4063412946138282424}
   - component: {fileID: 4063412946138282425}
+  - component: {fileID: 1946662649005973553}
   m_Layer: 5
   m_Name: LiberationBackGround
   m_TagString: Untagged
@@ -931,6 +932,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.2
+--- !u!114 &1946662649005973553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4063412946138282406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5053f3c609426c3438a817d94497040c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4063412946237073438
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,7 +1113,6 @@ GameObject:
   - component: {fileID: 4063412946360646985}
   - component: {fileID: 4063412946360647030}
   - component: {fileID: 4063412946360647031}
-  - component: {fileID: -3281514635660104707}
   m_Layer: 5
   m_Name: LiberationUI
   m_TagString: Untagged
@@ -1205,18 +1217,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   liberationUI: {fileID: 4063412946138282406}
   liberationSystem: {fileID: 4063412945404748619}
---- !u!114 &-3281514635660104707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4063412946360647028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5053f3c609426c3438a817d94497040c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4063412946783202374
 GameObject:
   m_ObjectHideFlags: 0

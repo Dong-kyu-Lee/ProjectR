@@ -7,11 +7,12 @@ using UnityEngine.UI;
 
 public class GameSettingUI : MonoBehaviour
 {
-    Animator animator;
+    [SerializeField] Animator animator;
     [SerializeField] GameObject background;
     [SerializeField] GameObject fakePanel1;
     [SerializeField] GameObject fakePanel2;
     [SerializeField] GameObject Panel;
+    [SerializeField] private GameObject menuContainer;
     Color original;
     bool isOpen = false;
 
@@ -30,7 +31,6 @@ public class GameSettingUI : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(this.gameObject);
-        animator = GetComponent<Animator>();
         original = lobbyButtonText.color;
     }
 
@@ -41,6 +41,7 @@ public class GameSettingUI : MonoBehaviour
         {
             animator.gameObject.SetActive(true);
             animator.SetBool("isOpen", true);
+            menuContainer.SetActive(true);
             background.SetActive(true);
             fakePanel1.SetActive(true);
             fakePanel2.SetActive(true);
@@ -54,6 +55,7 @@ public class GameSettingUI : MonoBehaviour
         else
         {
             animator.SetBool("isOpen", false);
+            menuContainer.SetActive(false);
             background.SetActive(false);
             fakePanel1.SetActive(false);
             fakePanel2.SetActive(false);
@@ -72,6 +74,7 @@ public class GameSettingUI : MonoBehaviour
             return; // 시작 화면에서는 로비 버튼 비활성화
         }
         animator.SetBool("isOpen", false);
+        menuContainer.SetActive(false);
         background.SetActive(false);
         fakePanel1.SetActive(false);
         fakePanel2.SetActive(false);
