@@ -5,16 +5,34 @@ using UnityEngine.UI;
 public class SkillCoolTime : MonoBehaviour
 {
     [SerializeField] public GameObject hideImg;
+    [SerializeField] private Image originalIcon;
 
-    private Image imageComponent;
+    private Image cooldownImageComponent;
     private Coroutine cooldownCoroutine;
 
     private void Awake()
     {
         if (hideImg != null)
         {
-            imageComponent = hideImg.GetComponent<Image>();
+            cooldownImageComponent = hideImg.GetComponent<Image>();
             hideImg.SetActive(false);
+        }
+    }
+
+    public void SetSkillIcon(Sprite newIcon)
+    {
+        if (newIcon == null) return;
+
+        // 밝은 아이콘 교체
+        if (originalIcon != null)
+        {
+            originalIcon.sprite = newIcon;
+        }
+
+        // 어두운 쿨타임 배경 아이콘 교체
+        if (cooldownImageComponent != null)
+        {
+            cooldownImageComponent.sprite = newIcon;
         }
     }
 
@@ -27,7 +45,7 @@ public class SkillCoolTime : MonoBehaviour
         if (cooldownCoroutine != null) StopCoroutine(cooldownCoroutine);
 
         hideImg.SetActive(true);
-        if (imageComponent != null) imageComponent.fillAmount = 1f;
+        if (cooldownImageComponent != null) cooldownImageComponent.fillAmount = 1f;
 
         cooldownCoroutine = StartCoroutine(CooldownRoutine(time));
     }
@@ -37,7 +55,7 @@ public class SkillCoolTime : MonoBehaviour
     {
         if (cooldownCoroutine != null) StopCoroutine(cooldownCoroutine);
         if (hideImg != null) hideImg.SetActive(false);
-        if (imageComponent != null) imageComponent.fillAmount = 0f;
+        if (cooldownImageComponent != null) cooldownImageComponent.fillAmount = 0f;
     }
 
     // 실질적으로 그림을 그리는 코루틴
@@ -47,12 +65,12 @@ public class SkillCoolTime : MonoBehaviour
         while (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
-            if (imageComponent != null)
-                imageComponent.fillAmount = currentTime / time;
+            if (cooldownImageComponent != null)
+                cooldownImageComponent.fillAmount = currentTime / time;
             yield return null;
         }
 
         if (hideImg != null) hideImg.SetActive(false);
-        if (imageComponent != null) imageComponent.fillAmount = 0f;
+        if (cooldownImageComponent != null) cooldownImageComponent.fillAmount = 0f;
     }
 }

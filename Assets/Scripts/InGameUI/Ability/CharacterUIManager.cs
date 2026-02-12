@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class CharacterUIManager : MonoBehaviour
 {
+    [Header("UI Panels")]
     [SerializeField] private GameObject blacksmithUI;
     [SerializeField] private GameObject bartenderUI;
 
+    [Header("Skill Icons")]
+    [SerializeField] private Sprite blacksmithIcon;
+    [SerializeField] private Sprite bartenderIcon;
+
+    [SerializeField] private SkillCoolTime skillCoolTimeManager;
+
     private Dictionary<string, GameObject> uiMap;
+    private Dictionary<string, Sprite> iconMap;
 
     void Awake()
     {
@@ -15,6 +23,12 @@ public class CharacterUIManager : MonoBehaviour
         {
             { "Blacksmith", blacksmithUI },
             { "Bartender", bartenderUI }
+        };
+
+        iconMap = new Dictionary<string, Sprite>
+        {
+            { "Blacksmith", blacksmithIcon },
+            { "Bartender", bartenderIcon }
         };
 
         foreach (var kvp in uiMap)
@@ -50,6 +64,15 @@ public class CharacterUIManager : MonoBehaviour
         else
         {
             Debug.LogWarning("해당 UI 프리팹 없음");
+        }
+
+        if (iconMap.TryGetValue(characterType, out Sprite targetIcon))
+        {
+            if (skillCoolTimeManager != null)
+            {
+                skillCoolTimeManager.SetSkillIcon(targetIcon); // 아이콘 교체
+                skillCoolTimeManager.ResetCooldownUI();        // 쿨타임 UI 초기화
+            }
         }
     }
 

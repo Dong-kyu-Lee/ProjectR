@@ -70,7 +70,8 @@ public class DialogueRunner : MonoBehaviour
         {
             if (Input.GetKeyDown(nextKey) || (useMouseClick && Input.GetMouseButtonDown(0)))
             {
-                if (!ui.TrySkipTyping()) break;
+                if(ui.isActiveAndEnabled == true)
+                    if (!ui.TrySkipTyping()) break;
             }
             yield return null;
         }

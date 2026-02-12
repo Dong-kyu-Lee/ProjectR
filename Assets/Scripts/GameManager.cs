@@ -53,8 +53,6 @@ public class GameManager : MonoBehaviour
     private GameObject inventoryUI; // [참고] 통합 프리펩 사용 시 더 이상 직접 할당되지 않음 (inGameUI 내부에 포함됨)
     [SerializeField]
     private GameObject inGameUI;
-    [SerializeField]
-    private GameObject testUI; // 테스트용 UI
 
     // 임시 변수 : 게임 시작 후 플레이어 최초 생성인지 여부 확인용
     // CharacterSelect에서 게임 시작 후 최초로 Start에서 플레이어 생성
@@ -137,8 +135,15 @@ public class GameManager : MonoBehaviour
                 SaveManager.Instance.SaveCurrentData();
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
+                // 업그레이드UI는 생성
+                ResetUpgradeUI();
                 // 플레이어 오브젝트 제거
-                if (playerObject != null) Destroy(playerObject);
+                if (playerObject != null)
+                {
+                    Destroy(playerObject);
+                    playerObject = null; // 명시적으로 비워줍니다.
+                }
+                isFirstPlayerCreated = false;
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
                 // 게임 결과 초기화
@@ -192,7 +197,7 @@ public class GameManager : MonoBehaviour
     public void InGameUIGenerateForSceneTest()
     {
         // 던전에서 사용되는 UI 생성
-        upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
+        if (upgradeUI == null) upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UpgradeUICanvas 1.0"));
 
         // 통합 프리펩 생성
         GameObject integratedObj = Instantiate(Resources.Load<GameObject>("Prefabs/UI/GamePlayUI"));
@@ -207,12 +212,6 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(upgradeUI);
-
-        if (testUI != null)
-        {
-            testUI = Instantiate(DungeonTestHelper.Instance.testUI);
-            DontDestroyOnLoad(testUI);
-        }
     }
 
     // 플레이어 사망 시, PlayerControllerBase에서 호출되는 함수
@@ -266,14 +265,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 로비 씬에 입장할 때 기존 Upgrade UI를 지우고 새로 생성
+    private void ResetUpgradeUI()
+    {
+        if(upgradeUI) Destroy(upgradeUI);
+        upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
+    }
+
     // 인게임에 사용되는 UI의 존재를 확인하고 없으면 생성하는 함수
     private void CreateUI()
     {
-        if (upgradeUI == null)
+        /*if (upgradeUI == null)
         {
-            upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
+            upgradeUI = GameObject.FindObjectOfType<UpgradeUI>()?.gameObject;
+            // upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
             DontDestroyOnLoad(upgradeUI);
-        }
+        }*/
 
         if (inGameUI == null)
         {
@@ -288,12 +295,6 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("GamePlayUI를 찾을 수 없음");
             }
         }
-
-        if (testUI != null)
-        {
-            testUI = Instantiate(DungeonTestHelper.Instance.testUI);
-            DontDestroyOnLoad(testUI);
-        }
     }
 
     // 인게임에 사용되는 UI 제거 함수
@@ -303,7 +304,6 @@ public class GameManager : MonoBehaviour
 
 
         if (inGameUI != null) Destroy(inGameUI);
-        if (testUI != null) Destroy(testUI);
     }
 
     // 인게임에 활성화/비활성화 할 UI 설정
@@ -312,7 +312,6 @@ public class GameManager : MonoBehaviour
         if (upgradeUI != null) upgradeUI.SetActive(isActive);
 
         if (inGameUI != null) inGameUI.SetActive(isActive);
-        if (testUI != null) testUI.SetActive(isActive);
     }
 
     // 인게임 UI 활성화 함수

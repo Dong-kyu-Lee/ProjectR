@@ -25,6 +25,8 @@ public class DungeonMapUI : MonoBehaviour
 
     private void OnDestroy()
     {
+        if(DungeonFlowManager.Instance == null || DungeonFlowManager.Instance.GetCurrentStage() == null)
+            return;
         DungeonFlowManager.Instance.GetCurrentStage().onDungeonReset?.RemoveListener(RemoveRoomImages);
     }
 

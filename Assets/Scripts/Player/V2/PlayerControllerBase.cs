@@ -81,7 +81,9 @@ public abstract class PlayerControllerBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && enableDash && IsMovingHorizontally())
             StartCoroutine(Dash());
 
-        if (Input.GetMouseButtonDown(0) && enableAttack && !isDashing)
+        bool isUIActive = InGameUIManager.Instance != null && InGameUIManager.Instance.IsUIActive;
+
+        if (Input.GetMouseButtonDown(0) && enableAttack && !isDashing && !isUIActive)
         {
             // 1) 클릭 시 조준 벡터 계산
             var aim = GetAimDirection2D(horizontalOnly: false);
