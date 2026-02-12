@@ -52,7 +52,7 @@ public class RuneSpawner : MonoBehaviour
         BuffManager playerBuffManager = GameManager.Instance.CurrentPlayer.GetComponent<BuffManager>();
         playerBuffManager.ActivateBuff(buffType, 60f);
 
-        StartCoroutine(CalcDamage.Instance.Cooldown("MysteryEffect7", 30f));
+        CalcDamage.Instance.StartCooldown("MysteryEffect7", 30f);
     }
 
     // 기본 버프 타입들.

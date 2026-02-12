@@ -127,7 +127,7 @@ public class CalcReceiveDamage : MonoBehaviour
                 {
                     BuffManager enemyBuffManager = targetStatus.GetComponent<BuffManager>();
                     enemyBuffManager.ActivateDeBuff(BuffType.Curse, 10f);
-                    StartCoroutine(CalcDamage.Instance.Cooldown("CurseEffect1", 2f));
+                    CalcDamage.Instance.StartCooldown("CurseEffect1", 2f);
                 }
             }
         }

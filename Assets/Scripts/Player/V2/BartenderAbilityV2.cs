@@ -58,7 +58,7 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
 
         float cooldown = AbilityManager.Instance.bartenderAbility[5] ? 12f : 20f;
 
-        StartCoroutine(CalcDamage.Instance.Cooldown("BartenderAbility", cooldown));
+        CalcDamage.Instance.StartCooldown("BartenderAbility", cooldown);
 
         if (InGameUIManager.Instance != null && InGameUIManager.Instance.skillCoolTimeUI != null)
         {

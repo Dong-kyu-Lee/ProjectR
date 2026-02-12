@@ -21,6 +21,8 @@ public abstract class PlayerControllerBase : MonoBehaviour
     protected Camera playerCamera;
     [SerializeField]
     protected GameObject rendererObject;
+    [SerializeField]
+    protected GrenadeController GrenadeController;
     protected PlayerStatus playerStatus;
     protected IAbilityV2 characterAbility; // 고유 능력 위임 객체
 
@@ -79,7 +81,9 @@ public abstract class PlayerControllerBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && enableDash && IsMovingHorizontally())
             StartCoroutine(Dash());
 
-        if (Input.GetMouseButtonDown(0) && enableAttack && !isDashing)
+        bool isUIActive = InGameUIManager.Instance != null && InGameUIManager.Instance.IsUIActive;
+
+        if (Input.GetMouseButtonDown(0) && enableAttack && !isDashing && !isUIActive)
         {
             // 1) 클릭 시 조준 벡터 계산
             var aim = GetAimDirection2D(horizontalOnly: false);

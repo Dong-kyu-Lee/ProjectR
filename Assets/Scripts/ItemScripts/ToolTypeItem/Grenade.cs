@@ -6,10 +6,7 @@ public abstract class Grenade : MonoBehaviour
 {
     [SerializeField]
     protected float timeToExplode = 5.0f;     //폭발 시간
-    [SerializeField]
-    protected float explosionRadius = 5f;
     public float TimeToExplode => timeToExplode;
-    public float ExplosionRadius => explosionRadius;
 
 
     private void Start()
@@ -24,5 +21,4 @@ public abstract class Grenade : MonoBehaviour
     }
 
     protected abstract void Explode();
-    
 }
