@@ -192,8 +192,8 @@ public class BuffFactory : MonoBehaviour
         {
             try
             {
-                Buff newBuff = constructor(0, target);
-                newBuff.CurrentDuration = duration;
+                Buff newBuff = constructor(duration, target);
+                //newBuff.CurrentDuration = duration;
                 Debug.Log($"BuffFactory: 버프 [{type}] 생성 완료, 지속 시간: {newBuff.CurrentDuration}");
                 return newBuff;
             }

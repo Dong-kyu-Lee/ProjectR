@@ -29,7 +29,7 @@ public abstract class Buff
         set
         {
             currentDuration = value;
-            if (currentDuration > maxDuration) currentDuration = maxDuration;
+            if (currentDuration > MaxDuration) currentDuration = MaxDuration;
         }
     }
 
@@ -52,7 +52,7 @@ public abstract class Buff
 
     public Buff(float duration, GameObject target)
     {
-        maxDuration = duration;
+        maxDuration = 300f;
         currentDuration = duration;
         targetObject = target;
     }

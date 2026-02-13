@@ -159,6 +159,7 @@ public class Status : MonoBehaviour
                 CalcDamage.Instance.StartCooldown("InduranceEffect16", 2f);
             }
         }
+        HitImpact();
 
         CalcReceiveDamage.Instance.TakeDamageQueue(receiveDamage, isCritical, gameObject);
         Hp -= receiveDamage;
@@ -166,6 +167,11 @@ public class Status : MonoBehaviour
         OnHpChange();
 
         GameManager.Instance.SetMaximumDamage(receiveDamage);
+    }
+
+    protected virtual void HitImpact()
+    {
+
     }
 
     // 고정 피해를 받음.

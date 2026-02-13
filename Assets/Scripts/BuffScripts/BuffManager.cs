@@ -30,7 +30,8 @@ public class BuffManager : MonoBehaviour
         if (ActiveBuffDict.ContainsKey(type))
         {
             ActiveBuffDict[type].BuffOverlap(duration);
-            Debug.Log($"지속시간 갱신 {ActiveBuffDict[type].CurrentDuration}");
+            Debug.Log($"[{type}] 지속시간 갱신 {ActiveBuffDict[type].CurrentDuration}");
+            Debug.Log($"최대 지속시간 {ActiveBuffDict[type].MaxDuration}");
         }
         else
         {

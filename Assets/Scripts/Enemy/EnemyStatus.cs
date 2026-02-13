@@ -9,6 +9,9 @@ public class EnemyStatus : Status
     private EnemyData enemyData;
     private EnemyLoot enemyLoot;
 
+    [SerializeField]
+    private bool isBoss;
+
     public EnemyData EnemyStatusData { get { return enemyData; } }
 
     void Awake()
@@ -28,6 +31,15 @@ public class EnemyStatus : Status
     void Start()
     {
         
+    }
+
+    protected override void HitImpact()
+    {
+        if (isBoss)
+        {
+            Vector2 spawnPosition = GetComponent<CapsuleCollider2D>().bounds.min;
+            RuneSpawner.Instance.TrySpawnRune(spawnPosition + Vector2.up);
+        }
     }
 
     protected override void Dead()
