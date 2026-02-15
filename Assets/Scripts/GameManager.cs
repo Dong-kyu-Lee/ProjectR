@@ -94,6 +94,13 @@ public class GameManager : MonoBehaviour
         instance.sound.Init();
         // 프롤로그 매니저 추가
         prologue = gameObject.AddComponent<PrologueManager>();
+
+        SceneManager.sceneLoaded += FindUpgradeUI;
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= FindUpgradeUI;
     }
 
     public void SetCurrentPlayer(GameObject value, CharacterType type, Vector3 spawnPosition)
@@ -135,8 +142,6 @@ public class GameManager : MonoBehaviour
                 SaveManager.Instance.SaveCurrentData();
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
-                // 업그레이드UI는 생성
-                ResetUpgradeUI();
                 // 플레이어 오브젝트 제거
                 if (playerObject != null)
                 {
@@ -265,13 +270,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 로비 씬에 입장할 때 기존 Upgrade UI를 지우고 새로 생성
-    private void ResetUpgradeUI()
-    {
-        if(upgradeUI) Destroy(upgradeUI);
-        upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
-    }
-
     // 인게임에 사용되는 UI의 존재를 확인하고 없으면 생성하는 함수
     private void CreateUI()
     {
@@ -302,7 +300,6 @@ public class GameManager : MonoBehaviour
     {
         if (upgradeUI != null) Destroy(upgradeUI);
 
-
         if (inGameUI != null) Destroy(inGameUI);
     }
 
@@ -319,5 +316,14 @@ public class GameManager : MonoBehaviour
     public void SetActiveInGameUI()
     {
         if (inGameUI != null) inGameUI.SetActive(true);
+    }
+
+    // LobbyScene에 입장했을 때, UpgradeUI를 찾아 할당하는 함수
+    private void FindUpgradeUI(Scene scene, LoadSceneMode mode)
+    {
+        if (upgradeUI == null)
+        {
+            upgradeUI = GameObject.FindObjectOfType<UpgradeUI>()?.gameObject;
+        }
     }
 }
