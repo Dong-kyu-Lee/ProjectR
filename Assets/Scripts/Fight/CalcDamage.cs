@@ -10,7 +10,10 @@ public class CalcDamage : MonoBehaviour
     private BuffManager playerBuffManager;
     private GameObject player;
 
-    public bool fightState;
+    // 전투 상태가 끝나는 시간
+    private float fightEndTime = -1f;
+    // 전투 상태 확인 변수
+    public bool IsInFight => Time.time < fightEndTime;
 
     public bool forceEffect4;
     public bool forceEffect7;
@@ -44,7 +47,7 @@ public class CalcDamage : MonoBehaviour
     public float additionalDebuffTime = 0f;
     public float curseEffect10_IncreaseDebuffDamage;
 
-    public bool isCritical;
+    private bool isCritical;
 
     private static CalcDamage instance;
 
@@ -118,30 +121,8 @@ public class CalcDamage : MonoBehaviour
     // 전투 중 상태 확인(임시).
     public void CheckFightState()
     {
-        if (!fightState)
-        {
-            StartCoroutine(FightState(10f));
-        }
-        else
-        {
-            StopCoroutine(FightState(10f));
-            StartCoroutine(FightState(10f));
-        }
-    }
-
-    // 전투 상태(임시).
-    IEnumerator FightState(float time)
-    {
-        float fightStateTime = time;
-        fightState = true;
         if (forceEffect16) playerBuffManager.ActivateBuff(BuffType.Force16, 10.0f);
-        while (fightStateTime > 0)
-        {
-            fightStateTime -= Time.deltaTime;
-            yield return null;
-        }
-
-        fightState = false;
+        fightEndTime = Time.time + 10f;
     }
 
     // 추가 공격.
@@ -299,6 +280,41 @@ public class CalcDamage : MonoBehaviour
             playerStatus.DebuffDamage -= curseEffect10_IncreaseDebuffDamage;
             curseEffect10_IncreaseDebuffDamage = 0;
         }
+    }
+
+    // 효과 변수 전체 초기화
+    public void ResetAllEffect()
+    {
+        forceEffect4 = false;
+        forceEffect7 = false;
+        forceEffect13 = false;
+        forceEffect16 = false;
+
+        criticalEffect4 = false;
+        criticalEffect7 = false;
+        criticalEffect10 = false;
+        criticalEffect13 = false;
+        criticalEffect16 = false;
+
+        dexterityEffect4 = false;
+        dexterityEffect7 = false;
+        dexterityEffect10 = false;
+        dexterityEffect13 = false;
+        dexterityEffect16 = false;
+        dexterityEffect16_Stack = 0;
+
+        mysteryEffect7 = false;
+        mysteryEffect13 = false;
+        mysteryEffect16 = false;
+
+        additionalBuffTime = 0f;
+
+        curseEffect4 = false;
+        curseEffect10 = false;
+        curseEffect13 = false;
+        curseEffect16 = false;
+
+        additionalDebuffTime = 0f;
     }
 }
     
