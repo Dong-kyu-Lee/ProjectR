@@ -10,6 +10,7 @@ public enum CharacterType
 
 public class CharacterSelect : MonoBehaviour
 {
+    // Mannequin과 CharacterType에 해당하는 캐릭터 종류의 순서가 같아야 함.
     GameObject[] characters = new GameObject[System.Enum.GetValues(typeof(CharacterType)).Length];
     [SerializeField]
     Mannequin[] mannequins;
@@ -36,7 +37,7 @@ public class CharacterSelect : MonoBehaviour
         GameManager.Sound.Play("Sounds/BGM/LobbySceneBGM", Sound.Bgm);
 
         // 캐릭터 생성
-        for (int i = 0; i < characters.Length; i++)
+        for (int i = 0; i < mannequins.Length; i++)
         {
             CharacterType type = (CharacterType)i;
             // if(type == GameManager.Instance.CurrentCharacterType)

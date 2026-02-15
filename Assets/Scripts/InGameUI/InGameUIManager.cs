@@ -235,7 +235,8 @@ public class InGameUIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.O))
         {
-            upgradeUI.SetActiveUI();
+            if(upgradeUI != null) upgradeUI.SetActiveUI();
+            else upgradeUI = FindObjectOfType<UpgradeUI>(true);
         }
 
         //if (uiStack.Count == 0)
