@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 390c9cb42fd7fb84a8a9c2e7259073f4
+guid: 5220f92c4638bf44a860c27ece1930b2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,54 +105,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: blacksmith_s_0
+      name: Attack_OneHanded_1_0
       rect:
         serializedVersion: 2
-        x: 90
-        y: 36
-        width: 63
-        height: 165
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2f8218aab7ea75d41b9ecfc6c7db7289
-      internalID: 79445920
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: blacksmith_s_1
-      rect:
-        serializedVersion: 2
-        x: 330
-        y: 34
-        width: 63
-        height: 162
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 80408d63e3b911d4c8c89f9d718ec0f6
-      internalID: 884417981
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: blacksmith_s_2
-      rect:
-        serializedVersion: 2
-        x: 570
-        y: 36
-        width: 63
+        x: 103
+        y: 73
+        width: 94
         height: 159
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -161,19 +119,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1145bc956894b3a428e942109b4032d4
-      internalID: 1005324352
+      spriteID: 57fc9a147d802314dbffcda10c3006c7
+      internalID: 828112631
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: blacksmith_s_3
+      name: Attack_OneHanded_1_1
       rect:
         serializedVersion: 2
-        x: 810
-        y: 36
-        width: 63
+        x: 404
+        y: 73
+        width: 92
         height: 159
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -182,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f15bba362b401504484172fbbccdc04f
-      internalID: -2030425762
+      spriteID: eb6d3d3d3285c7e44aa3f574355a9115
+      internalID: 1315243634
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: blacksmith_s_4
+      name: Attack_OneHanded_1_2
       rect:
         serializedVersion: 2
-        x: 1050
-        y: 36
-        width: 63
-        height: 162
+        x: 659
+        y: 73
+        width: 141
+        height: 154
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,20 +161,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 693ddc6a3a2c18f42a146494609cbab4
-      internalID: -927371143
+      spriteID: a31625c5190ae8449b5353404b74d358
+      internalID: 907668882
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: blacksmith_s_5
+      name: Attack_OneHanded_1_3
       rect:
         serializedVersion: 2
-        x: 1289
-        y: 36
-        width: 63
-        height: 165
+        x: 971
+        y: 110
+        width: 17
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,8 +182,155 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63c8aa7a3b1df674e8bf52de340a343c
-      internalID: 2146135992
+      spriteID: 2b705dc8455e37f4aa39f14d838b0918
+      internalID: -497836220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack_OneHanded_1_4
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 73
+        width: 123
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f14f66f7a41a0a43bd2e63b10c3e811
+      internalID: 1615839219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack_OneHanded_1_5
+      rect:
+        serializedVersion: 2
+        x: 1282
+        y: 115
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a2524aacc8e5774fa94ee47bcc8cacd
+      internalID: 656612058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack_OneHanded_1_6
+      rect:
+        serializedVersion: 2
+        x: 1295
+        y: 73
+        width: 104
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 098c6dcf5abf51f4cbdec9c8802b222a
+      internalID: -181490847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack_OneHanded_1_7
+      rect:
+        serializedVersion: 2
+        x: 1597
+        y: 73
+        width: 103
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28683802d0640504a9bd1c36027251f8
+      internalID: -696903331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack_OneHanded_1_8
+      rect:
+        serializedVersion: 2
+        x: 1898
+        y: 73
+        width: 101
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cbda8541dc31a54d8c5d0b33b3a9414
+      internalID: -709283781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack_OneHanded_1_9
+      rect:
+        serializedVersion: 2
+        x: 2197
+        y: 73
+        width: 103
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e2ba6802b789b04b9c0548eadf8477e
+      internalID: 1540887761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack_OneHanded_1_10
+      rect:
+        serializedVersion: 2
+        x: 2498
+        y: 73
+        width: 101
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 060d44a564534d447b5ac066f8552993
+      internalID: 63887882
       vertices: []
       indices: 
       edges: []
@@ -241,12 +346,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      blacksmith_s_0: 79445920
-      blacksmith_s_1: 884417981
-      blacksmith_s_2: 1005324352
-      blacksmith_s_3: -2030425762
-      blacksmith_s_4: -927371143
-      blacksmith_s_5: 2146135992
+      Attack_OneHanded_1_0: 828112631
+      Attack_OneHanded_1_1: 1315243634
+      Attack_OneHanded_1_10: 63887882
+      Attack_OneHanded_1_2: 907668882
+      Attack_OneHanded_1_3: -497836220
+      Attack_OneHanded_1_4: 1615839219
+      Attack_OneHanded_1_5: 656612058
+      Attack_OneHanded_1_6: -181490847
+      Attack_OneHanded_1_7: -696903331
+      Attack_OneHanded_1_8: -709283781
+      Attack_OneHanded_1_9: 1540887761
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
