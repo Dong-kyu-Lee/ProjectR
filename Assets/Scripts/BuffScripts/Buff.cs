@@ -12,6 +12,7 @@ public abstract class Buff
     protected int currentBuffLevel = 0;     //현재 버프 레벨 (0 ~ maxBuffLevel - 1 의 값을 가짐)
     protected int maxBuffLevel = 3;         //최대 버프 레벨
     protected bool isDebuff = false;
+    protected float lastTickTime; //마지막으로 틱이 실행된 시간
 
     public BuffType BuffType { get; protected set; }
     public float MaxDuration
@@ -49,7 +50,14 @@ public abstract class Buff
             currentBuffLevel = (value < 0) ? 0 : value;
         }
     }
-
+    public float LastTickTime
+    {
+        get { return lastTickTime; }
+        set
+        {
+            lastTickTime = value;
+        }
+    }
     public Buff(float duration, GameObject target)
     {
         maxDuration = 300f;
@@ -81,7 +89,7 @@ public abstract class Buff
     //버프가 지속되는 동안 해야할 일을 정의하는 메서드
     public virtual void DoActionOnActivate(float tickDuration = 1.0f)
     {
-        CurrentDuration -= tickDuration;
+        //CurrentDuration -= tickDuration;
         //버프 적용 주기가 1.0초인 버프가 0.2초 남았는데도 로직에 의해 효과를 한번 더 받는 경우를 고려해야할 필요가 있음.
         //버프 지속 시간들이 항상 버프 적용 주기의 배수임을 보장하면 이 부분은 고려 안해도 됨.
         /*if(currentDuration > 1.0f)
