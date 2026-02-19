@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BuffManager : MonoBehaviour
@@ -12,6 +13,46 @@ public class BuffManager : MonoBehaviour
     private void Awake()
     {
         col = GetComponent<CapsuleCollider>();
+    }
+
+    private void Update()
+    {
+        if (ActiveBuffDict.Count == 0) return;
+
+        float currentTime = Time.time;
+        var keys = ActiveBuffDict.Keys.ToList();
+
+        foreach (var type in keys)
+        {
+            Buff buff = ActiveBuffDict[type];
+
+            // 지속시간 감소
+            buff.CurrentDuration -= Time.deltaTime;
+
+            // 종료 체크
+            if (buff.CurrentDuration <= 0)
+            {
+                buff.RemoveBuffEffect();
+                ActiveBuffDict.Remove(type);
+                Debug.Log($"버프 [{type}] 만료.");
+                return;
+            }
+
+            // 틱 주기 계산
+            float tickInterval = buff.BuffEffectTick;
+            if (buff.TargetObject() == "Enemy" && CalcDamage.Instance.curseEffect16 &&
+               (type == BuffType.Burn || type == BuffType.Poison))
+            {
+                tickInterval /= 2f;
+            }
+
+            // 틱 실행
+            if (Time.time >= buff.LastTickTime + tickInterval)
+            {
+                buff.DoActionOnActivate(tickInterval);
+                buff.LastTickTime += tickInterval;
+            }
+        }
     }
 
     public Buff GenerateBuff(BuffType type, float duration, GameObject target)
@@ -38,7 +79,7 @@ public class BuffManager : MonoBehaviour
             Buff newBuff = GenerateBuff(type, duration, gameObject);
             ActiveBuffDict.Add(type, newBuff);
             newBuff.ApplyBuffEffect();
-            StartCoroutine(StartBuffEffect(newBuff));
+            StartBuffEffect(newBuff);
             Debug.Log($"버프[{type}]적용");
         }
     }
@@ -60,7 +101,7 @@ public class BuffManager : MonoBehaviour
             Buff newBuff = GenerateBuff(type, duration, gameObject);
             ActiveBuffDict.Add(type, newBuff);
             newBuff.ApplyBuffEffect();
-            StartCoroutine(StartBuffEffect(newBuff));
+            StartBuffEffect(newBuff);
             Debug.Log($"버프[{type}]적용");
         }
     }
@@ -89,30 +130,11 @@ public class BuffManager : MonoBehaviour
         }
     }
 
-    private IEnumerator StartBuffEffect(Buff buff)
+    private void StartBuffEffect(Buff buff)
     {
         BuffType type = GetBuffTypeFromBuff(buff);
-        // 매 1초마다 버프 효과를 적용하고 지속시간을 감소시킵니다.
-        while (buff.CurrentDuration > 0)
-        {
-            if (buff.TargetObject() == "Enemy" && CalcDamage.Instance.curseEffect16 && (type == BuffType.Burn || type == BuffType.Poison))
-            {
-                buff.DoActionOnActivate(buff.BuffEffectTick / 2);
-                yield return new WaitForSeconds(buff.BuffEffectTick / 2);
-            }
-            else
-            {
-                buff.DoActionOnActivate(buff.BuffEffectTick);
-                yield return new WaitForSeconds(buff.BuffEffectTick);
-            }
-        }
-        buff.RemoveBuffEffect();
-
-        if (ActiveBuffDict.ContainsKey(type))
-        {
-            ActiveBuffDict.Remove(type);
-        }
-        Debug.Log($"버프 [{type}] 지속시간 만료되어 제거됨.");
+        buff.LastTickTime = Time.time; // 현재 시간으로 초기화
+        ActiveBuffDict[type] = buff;
     }
 
     private BuffType GetBuffTypeFromBuff(Buff buff)

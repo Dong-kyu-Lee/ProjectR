@@ -13,10 +13,34 @@ public class UpgradeSystem : MonoBehaviour
 
     private void Start()
     {
-        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        ResetPlayerInfo();
         statusEffect = GetComponent<StatusEffect>();
         statusValueText = transform.GetComponent<StatusValueText>();
+    }
+    private void Update()
+    {
+        Debug.Log(upgradeStatus.Force);
+    }
+
+    void OnEnable()
+    {
+        // 리스너 등록
+        GameManager.Instance.OnPlayerCharacterChanged.AddListener(ResetPlayerInfo);
+    }
+
+    void OnDisable()
+    {
+        // 리스너 해제 (메모리 누수 방지)
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(ResetPlayerInfo);
+    }
+
+    public void ResetPlayerInfo()
+    {
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        CheckUnlockAll();
+        Debug.Log("캐릭터 정보 초기화");
     }
 
     // 스킬 포인트 사용, 업그레이드 스테이터스 증가.
@@ -82,13 +106,19 @@ public class UpgradeSystem : MonoBehaviour
 
         upgradeStatus.Force = upgradeStatus.Indurance = upgradeStatus.Critical = upgradeStatus.Dexterity = upgradeStatus.Mystery = upgradeStatus.Curse = 0;
         upgradeStatus.StatPoint = 0;
+        CheckUnlockAll();
+        statusValueText.SetupValueText(upgradeStatus);
+    }
+
+    // 모든 특수 효과 해금 여부 확인
+    private void CheckUnlockAll()
+    {
         CheckUnlock("force", upgradeStatus.Force);
         CheckUnlock("indurance", upgradeStatus.Indurance);
         CheckUnlock("critical", upgradeStatus.Critical);
         CheckUnlock("dexterity", upgradeStatus.Dexterity);
         CheckUnlock("mystery", upgradeStatus.Mystery);
         CheckUnlock("curse", upgradeStatus.Curse);
-        statusValueText.SetupValueText(upgradeStatus);
     }
 
     // 특수 효과 해금 여부 확인.

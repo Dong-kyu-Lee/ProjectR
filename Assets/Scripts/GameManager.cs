@@ -189,6 +189,8 @@ public class GameManager : MonoBehaviour
                 if (playerObject != null) playerObject.SetActive(false);
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
+                // 업그레이드 능력 초기화
+                CalcDamage.Instance.ResetAllEffect();
                 break;
         }
         if (isAsync)
