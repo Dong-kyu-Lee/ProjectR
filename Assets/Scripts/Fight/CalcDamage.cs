@@ -315,6 +315,8 @@ public class CalcDamage : MonoBehaviour
         curseEffect16 = false;
 
         additionalDebuffTime = 0f;
+
+        CalcReceiveDamage.Instance.ResetInduranceEffect();
     }
 }
     

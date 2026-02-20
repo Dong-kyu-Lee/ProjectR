@@ -50,6 +50,18 @@ public class CalcReceiveDamage : MonoBehaviour
         SetPlayer(GameObject.FindWithTag("Player"));
     }
 
+    public void ResetInduranceEffect()
+    {
+        induranceEffect10_IncreaseDamage = 0f;
+        induranceEffect13_Reduction = 0f;
+
+        induranceEffect4 = false;
+        induranceEffect7 = false;
+        induranceEffect10 = false;
+        induranceEffect13 = false;
+        induranceEffect16 = false;
+    }
+
     public void SetPlayer(GameObject newPlayer)
     {
         player = newPlayer;
