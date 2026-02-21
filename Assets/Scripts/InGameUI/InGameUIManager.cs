@@ -211,6 +211,10 @@ public class InGameUIManager : MonoBehaviour
 
     private void Update()
     {
+        //엔딩 씬이거나 플레이어가 사망한 상태라면 UI 단축키 입력 차단
+        if (SceneManager.GetActiveScene().name == "EndScene") return;
+        if (playerStatus != null && playerStatus.Hp <= 0) return;
+
         //ESC 입력 처리
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -456,15 +460,25 @@ public class InGameUIManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (rootCanvas == null) return;
+        // 씬 이동 시, 팝업 패널들을 닫고 UI 스택을 비움
+        if (characterInfoUI != null) 
+            characterInfoUI.gameObject.SetActive(false);
+        if (gameSettingUI != null) 
+            gameSettingUI.gameObject.SetActive(false);
+        if (upgradeUI != null) 
+            upgradeUI.gameObject.SetActive(false);
+        
+        uiStack.Clear();
 
         if (scene.name == "EndScene")
         {
-            rootCanvas.enabled = false;
+            // GamePlayUI off
+            if (rootCanvas != null) rootCanvas.enabled = false;
         }
         else
         {
-            rootCanvas.enabled = true;
+            // 로비로 돌아오면 GamePlayUI on
+            if (rootCanvas != null) rootCanvas.enabled = true;
 
             if (GameManager.Instance != null)
             {
