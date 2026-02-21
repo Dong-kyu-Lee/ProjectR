@@ -33,14 +33,6 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
         isInputLocked = false;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q) && !isInputLocked)
-        {
-            Activate();
-        }
-    }
-
     // 능력 발동 처리
     public void Activate()
     {
@@ -67,6 +59,17 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
 
         onAbilityUpdated?.Invoke();
     }
+
+    public void ResetAbility()
+    {
+        bartenderBottles.Clear();
+        isInputLocked = false;
+
+        onAbilityUpdated?.Invoke();
+
+        Debug.Log("바텐더 스킬: 들고 있던 병 및 입력 잠금 초기화 완료");
+    }
+
     private void UnlockInput()
     {
         isInputLocked = false;

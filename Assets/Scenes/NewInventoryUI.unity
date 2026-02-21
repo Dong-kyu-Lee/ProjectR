@@ -1039,6 +1039,7 @@ MonoBehaviour:
   graph: {fileID: 11400000, guid: c1f29f97316f89b40aafa10f95d953b0, type: 2}
   interactKey: 101
   playerTag: Player
+  blockingUI: {fileID: 0}
   dialogueEvents:
   - eventKey: OpenUpgrade
     action:
@@ -1576,7 +1577,6 @@ MonoBehaviour:
   upgradeUI: {fileID: 0}
   inventoryUI: {fileID: 0}
   inGameUI: {fileID: 1585572836}
-  testUI: {fileID: 0}
   isFirstPlayerCreated: 0
   totalKillCount: 0
   maximumDamage: 0
@@ -2168,6 +2168,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1373783946182002011, guid: a12bb8dd55718fa4fbc85bac974e845b, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6464320128467688752, guid: a12bb8dd55718fa4fbc85bac974e845b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6464320128467688752, guid: a12bb8dd55718fa4fbc85bac974e845b, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8002760979977136296, guid: a12bb8dd55718fa4fbc85bac974e845b, type: 3}

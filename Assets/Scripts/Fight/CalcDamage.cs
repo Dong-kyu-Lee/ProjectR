@@ -213,6 +213,21 @@ public class CalcDamage : MonoBehaviour
         return Time.time < skillCooldowns[skillName];
     }
 
+    // 특정 스킬의 쿨타임을 강제 초기화
+    public void ResetCooldown(string skillName)
+    {
+        if (skillCooldowns.ContainsKey(skillName))
+        {
+            skillCooldowns.Remove(skillName);
+        }
+    }
+
+    // 모든 스킬 및 효과의 쿨타임을 초기화
+    public void ResetAllCooldowns()
+    {
+        skillCooldowns.Clear();
+    }
+
     // 공격의 크리티컬 여부 확인.
     public float CheckCritical(float damage, ref float ignoreDamageReduction, ref bool isCritical)
     {
