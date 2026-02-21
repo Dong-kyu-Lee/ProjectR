@@ -41,6 +41,8 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     private const float destroyChance = 0.05f;
 
+    // 현재 사용 중인 무기 데이터의 복사본
+    private BlacksmithWeaponData runtimeWeaponData;
     void Awake()
     {
         playerStatus = GetComponent<PlayerStatus>();
@@ -52,13 +54,16 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         {
             isActivated = true;
             int idx = Random.Range(1, 3);
-            curWeaponData = weaponDataList[idx];
-            curWeaponData.Rank = 1;
-            curWeaponData.EnchantLevel = 0;
+            SetRuntimeWeaponData(weaponDataList[idx]);
+            
+            runtimeWeaponData.Rank = 1;
+            runtimeWeaponData.EnchantLevel = 0;
             enchantLevel = 0;
+
             ApplyWeaponBonus();
             ApplyWeaponAnimator();
-            Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
+            
+            Debug.Log("CurWeapon : " + runtimeWeaponData.WeaponName);
             onAbilityUpdated.Invoke();
         }
     }
@@ -69,6 +74,16 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         Initialize();
         Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
         onAbilityUpdated.Invoke();
+    }
+
+    public void ResetAbility()
+    {
+        RemoveWeaponBonus();
+        Initialize();
+
+        onAbilityUpdated?.Invoke();
+
+        Debug.Log("대장장이 스킬: 무기 및 강화 상태 초기화 완료");
     }
 
     public void EnchantWeapon()
@@ -204,6 +219,21 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             ApplyWeaponAnimator();
         }
 
+    }
+
+    void SetRuntimeWeaponData(BlacksmithWeaponData sourceData)
+    {
+        if (sourceData == null) return;
+
+        // 이전에 생성된 런타임 데이터가 있다면 메모리 누수 방지를 위해 파괴
+        if (runtimeWeaponData != null)
+        {
+            Destroy(runtimeWeaponData);
+        }
+
+        // 새 복사본을 만들어 런타임용으로 사용
+        runtimeWeaponData = Instantiate(sourceData);
+        curWeaponData = runtimeWeaponData; // 인스펙터 확인용으로도 동기화
     }
 
     float GetSuccessRate(int level)
