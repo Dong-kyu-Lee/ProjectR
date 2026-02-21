@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GrenadeController : MonoBehaviour
@@ -60,8 +61,12 @@ public class GrenadeController : MonoBehaviour
     // 속도 계산
     private Vector2 CalculateVelocity()
     {
-        // 2D 마우스 위치 계산
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // 마우스 입력 위치 계산
+        Vector3 mouseInput = Input.mousePosition;
+        mouseInput.z = Mathf.Abs(Camera.main.transform.position.z);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(mouseInput);
+
+        // 마우스 방향 계산
         Vector2 direction = ((Vector2)mousePos - (Vector2)transform.position).normalized;
 
         // 마우스 방향으로 힘을 가함
