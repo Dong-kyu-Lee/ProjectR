@@ -33,6 +33,9 @@ public class InventoryUI : MonoBehaviour
         {
             playerInventory.MyInventoryUI = this;
             InitiateAllItemsSlots();
+
+            RefreshInventoryUI();
+
             playerInventory.UpdateQuickSlotReference();
         }
         else
