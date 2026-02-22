@@ -463,11 +463,19 @@ public class InGameUIManager : MonoBehaviour
         // 씬 이동 시, 팝업 패널들을 닫고 UI 스택을 비움
         if (characterInfoUI != null) 
             characterInfoUI.gameObject.SetActive(false);
-        if (gameSettingUI != null) 
-            gameSettingUI.gameObject.SetActive(false);
-        if (upgradeUI != null) 
-            upgradeUI.gameObject.SetActive(false);
-        
+
+        if (gameSettingUI != null)
+        {
+            Transform menuContainer = gameSettingUI.transform.Find("MenuContainer");
+            if (menuContainer != null) menuContainer.gameObject.SetActive(false);
+        }
+
+        if (upgradeUI != null)
+        {
+            Transform upgradeStatus = upgradeUI.transform.Find("UpgradeStatusUI");
+            if (upgradeStatus != null) upgradeStatus.gameObject.SetActive(false);
+        }
+
         uiStack.Clear();
 
         if (scene.name == "EndScene")
