@@ -242,24 +242,6 @@ public class InGameUIManager : MonoBehaviour
             if(upgradeUI != null) upgradeUI.SetActiveUI();
             else upgradeUI = FindObjectOfType<UpgradeUI>(true);
         }
-
-        //if (uiStack.Count == 0)
-        //{
-        //    // 스택이 비어있을 때 (공격 가능 상태)
-        //    Debug.Log($"<color=green>[UI Status] 스택 비어있음 (공격 가능) - Frame: {Time.frameCount}</color>");
-        //}
-        //else
-        //{
-        //    // 스택에 무언가 있을 때 (공격 불가 상태)
-        //    string msg = $"<color=red>[UI Status] 공격 차단됨! (UI 개수: {uiStack.Count})</color> >> ";
-
-        //    foreach (var ui in uiStack)
-        //    {
-        //        if (ui != null) msg += $"[{ui.name}] ";
-        //        else msg += "[Destroyed UI] ";
-        //    }
-        //    Debug.Log(msg);
-        //}
     }
 
     // ESC 키 로직 분리
