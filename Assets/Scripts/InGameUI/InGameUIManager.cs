@@ -242,24 +242,6 @@ public class InGameUIManager : MonoBehaviour
             if(upgradeUI != null) upgradeUI.SetActiveUI();
             else upgradeUI = FindObjectOfType<UpgradeUI>(true);
         }
-
-        //if (uiStack.Count == 0)
-        //{
-        //    // 스택이 비어있을 때 (공격 가능 상태)
-        //    Debug.Log($"<color=green>[UI Status] 스택 비어있음 (공격 가능) - Frame: {Time.frameCount}</color>");
-        //}
-        //else
-        //{
-        //    // 스택에 무언가 있을 때 (공격 불가 상태)
-        //    string msg = $"<color=red>[UI Status] 공격 차단됨! (UI 개수: {uiStack.Count})</color> >> ";
-
-        //    foreach (var ui in uiStack)
-        //    {
-        //        if (ui != null) msg += $"[{ui.name}] ";
-        //        else msg += "[Destroyed UI] ";
-        //    }
-        //    Debug.Log(msg);
-        //}
     }
 
     // ESC 키 로직 분리
@@ -463,11 +445,19 @@ public class InGameUIManager : MonoBehaviour
         // 씬 이동 시, 팝업 패널들을 닫고 UI 스택을 비움
         if (characterInfoUI != null) 
             characterInfoUI.gameObject.SetActive(false);
-        if (gameSettingUI != null) 
-            gameSettingUI.gameObject.SetActive(false);
-        if (upgradeUI != null) 
-            upgradeUI.gameObject.SetActive(false);
-        
+
+        if (gameSettingUI != null)
+        {
+            Transform menuContainer = gameSettingUI.transform.Find("MenuContainer");
+            if (menuContainer != null) menuContainer.gameObject.SetActive(false);
+        }
+
+        if (upgradeUI != null)
+        {
+            Transform upgradeStatus = upgradeUI.transform.Find("UpgradeStatusUI");
+            if (upgradeStatus != null) upgradeStatus.gameObject.SetActive(false);
+        }
+
         uiStack.Clear();
 
         if (scene.name == "EndScene")
