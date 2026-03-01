@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class HitBox : MonoBehaviour
+{
+    [SerializeField]
+    protected BoxCollider2D hitBoxCol;
+    [SerializeField]
+    protected float damage;
+
+    protected GameObject enemy;
+
+    protected bool isHit;
+
+    private void Awake()
+    {
+        enemy = gameObject.transform.parent.gameObject;
+        float statusDamage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
+
+        if (statusDamage != 0)
+        {
+            damage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
+        }
+    }
+
+    void Update()
+    {
+        
+    }
+
+    private void OnEnable()
+    {
+        isHit = false;
+        StartCoroutine(HitBoxCoroutine());
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") && !isHit)
+        {
+            isHit = true;
+            PlayerControllerBase pcb = collision.gameObject.GetComponent<PlayerControllerBase>();
+            if (pcb == null || !pcb.IsInvincible)
+            {
+                collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
+            }
+        }
+    }
+
+    IEnumerator HitBoxCoroutine()
+    {
+        if (gameObject.activeSelf == true)
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            gameObject.SetActive(false);
+        }
+    }
+}

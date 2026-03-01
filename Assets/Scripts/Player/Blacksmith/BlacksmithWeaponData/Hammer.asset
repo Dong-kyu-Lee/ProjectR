@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c7ec113cdaa184c9299dcf913be6f1, type: 3}
+  m_Name: Hammer
+  m_EditorClassIdentifier: 
+  weaponName: "\uD504\uB85C\uD1A0\uD0C0\uC785\uB9DD\uCE58"
+  weaponType: 1
+  rank: 1
+  enchantLevel: 3
+  weaponSprite: {fileID: 1741498624, guid: f4e05d6501c0a5f42a3170fc7cea964b, type: 3}
+  additionalDamage: 2
+  additionalAttackSpeed: 0
+  weaponStyle: 1
+  animatorOverride: {fileID: 9100000, guid: 39f1d0a3dd117db4fa11d4286e9b29ec, type: 2}

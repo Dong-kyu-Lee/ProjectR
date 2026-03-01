@@ -1,0 +1,150 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UpgradeSystem : MonoBehaviour
+{
+    private HashSet<string> unlockedEffects = new HashSet<string>();  // 중복 실행 방지용.
+
+    private PlayerStatus playerStatus;
+    private UpgradeStatus upgradeStatus;
+    private StatusEffect statusEffect;
+    private StatusValueText statusValueText;
+
+    private void Start()
+    {
+        ResetPlayerInfo();
+        statusEffect = GetComponent<StatusEffect>();
+        statusValueText = transform.GetComponent<StatusValueText>();
+    }
+    private void Update()
+    {
+        Debug.Log(upgradeStatus.Force);
+    }
+
+    void OnEnable()
+    {
+        // 리스너 등록
+        GameManager.Instance.OnPlayerCharacterChanged.AddListener(ResetPlayerInfo);
+    }
+
+    void OnDisable()
+    {
+        // 리스너 해제 (메모리 누수 방지)
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(ResetPlayerInfo);
+    }
+
+    public void ResetPlayerInfo()
+    {
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        CheckUnlockAll();
+        Debug.Log("캐릭터 정보 초기화");
+    }
+
+    // 스킬 포인트 사용, 업그레이드 스테이터스 증가.
+    public void IncreaseStat(string statName)
+    {
+        if (upgradeStatus.StatPoint <= 0)
+        {
+            Debug.Log("스킬포인트가 없습니다.");
+            return;
+        }
+
+        switch (statName)
+        {
+            case "force":
+                upgradeStatus.Force++;
+                playerStatus.Damage += 2;
+                CheckUnlock("force", upgradeStatus.Force);
+                break;
+            case "indurance":
+                playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance * 0.01f;
+                upgradeStatus.Indurance++;
+                playerStatus.AdditionalDamageReduction += upgradeStatus.Indurance * 0.01f;
+                CheckUnlock("indurance", upgradeStatus.Indurance);
+                break;
+            case "critical":
+                upgradeStatus.Critical++;
+                playerStatus.CriticalPercent += 0.02f;
+                CheckUnlock("critical", upgradeStatus.Critical);
+                break;
+            case "dexterity":
+                upgradeStatus.Dexterity++;
+                playerStatus.AdditionalAttackSpeed += 0.02f;
+                CheckUnlock("dexterity", upgradeStatus.Dexterity);
+                break;
+            case "mystery":
+                upgradeStatus.Mystery++;
+                playerStatus.BuffDuration += 0.02f;
+                CheckUnlock("mystery", upgradeStatus.Mystery);
+                break;
+            case "curse":
+                upgradeStatus.Curse++;
+                playerStatus.DebuffDamage += 0.03f;
+                CheckUnlock("curse", upgradeStatus.Curse);
+                break;
+            default:
+                Debug.Log("잘못된 스테이터스 이름");
+                return;
+        }
+
+        upgradeStatus.StatPoint--;
+        statusValueText.SetupValueText(upgradeStatus);
+    }
+
+    // 스테이터스 초기화.
+    public void ResetStat()
+    {
+        playerStatus.Damage -= upgradeStatus.Force * 2;
+        playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance * 0.01f;
+        playerStatus.CriticalPercent -= upgradeStatus.Critical * 0.02f;
+        playerStatus.AdditionalAttackSpeed -= upgradeStatus.Dexterity * 0.02f;
+        playerStatus.BuffDuration -= upgradeStatus.Mystery * 0.02f;
+        playerStatus.DebuffDamage -= upgradeStatus.Curse * 0.03f;
+
+        upgradeStatus.Force = upgradeStatus.Indurance = upgradeStatus.Critical = upgradeStatus.Dexterity = upgradeStatus.Mystery = upgradeStatus.Curse = 0;
+        upgradeStatus.StatPoint = 0;
+        CheckUnlockAll();
+        statusValueText.SetupValueText(upgradeStatus);
+    }
+
+    // 모든 특수 효과 해금 여부 확인
+    private void CheckUnlockAll()
+    {
+        CheckUnlock("force", upgradeStatus.Force);
+        CheckUnlock("indurance", upgradeStatus.Indurance);
+        CheckUnlock("critical", upgradeStatus.Critical);
+        CheckUnlock("dexterity", upgradeStatus.Dexterity);
+        CheckUnlock("mystery", upgradeStatus.Mystery);
+        CheckUnlock("curse", upgradeStatus.Curse);
+    }
+
+    // 특수 효과 해금 여부 확인.
+    private void CheckUnlock(string statName, int statValue)
+    {
+        int[] unlockPoints = { 1, 4, 7, 10, 13, 16 };
+
+        foreach (int point in unlockPoints)
+        {
+            if (statValue >= point && !unlockedEffects.Contains($"{statName}_{point}"))
+            {
+                statusEffect.EnableEffect(statName, point);
+                unlockedEffects.Add($"{statName}_{point}");
+            }
+
+            if (statValue < point && unlockedEffects.Contains($"{statName}_{point}"))
+            {
+                statusEffect.DisableEffect(statName, point);
+                unlockedEffects.Remove($"{statName}_{point}");
+            }
+        }
+    }
+
+    // 스탯 증가 온클릭.
+    public void IncreaseStatOnClick(string statName)
+    {
+        IncreaseStat(statName);
+    }
+}
