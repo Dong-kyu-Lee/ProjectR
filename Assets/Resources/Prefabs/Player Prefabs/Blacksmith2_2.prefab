@@ -167,7 +167,7 @@ MonoBehaviour:
   inventorySlots: []
   maxEquipSlot: 6
   equipmentItemSlot: []
-  dummyItemData: {fileID: 11400000, guid: 83e492d9e1536f047842e36a04a86f6b, type: 2}
+  dummyItemData: {fileID: 0}
   dummyInventoryItemData: {fileID: 0}
   myInventoryUI: {fileID: 0}
 --- !u!1 &3771677880208089936
@@ -442,6 +442,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 4669721966189678149}
   playerCamera: {fileID: 3991872296796565435}
   rendererObject: {fileID: 7663576975768946401}
+  GrenadeController: {fileID: 0}
   groundCheck: {fileID: 1440969402445902639}
   groundLayer:
     serializedVersion: 2
@@ -459,6 +460,7 @@ MonoBehaviour:
   dustInterval: 0.3
   attackPoint: {fileID: 3981629379849105235}
   attackRange: 2
+  comboLimitTime: 1.2
 --- !u!114 &901635999839254759
 MonoBehaviour:
   m_ObjectHideFlags: 0

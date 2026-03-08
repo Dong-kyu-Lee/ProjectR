@@ -9,11 +9,31 @@ public class BlacksmithControllerV2 : PlayerControllerBase
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange = 1.5f;
 
+    private int comboStep = 0;
+    private float lastAttackTime = 0f;
+    [SerializeField] private float comboLimitTime = 1.5f; // 콤보를 이어가기 위한 유효 시간
+
     protected override void Start()
     {
         base.Start();
         blacksmithAbility = GetComponent<BlacksmithAbilityV2>();
         characterAbility = blacksmithAbility;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        // 현재 공격 속도에 비례한 '최소 공격 모션 시간'
+        float currentActionTime = attackCoolTimeA / playerStatus.TotalAttackSpeed;
+
+        // 이 시간 안에 다음 클릭을 해야 콤보가 유지됨 (모션 시간 + 여유 시간)
+        float dynamicComboLimit = currentActionTime + 0.35f;
+
+        if (comboStep > 0 && Time.time - lastAttackTime > dynamicComboLimit)
+        {
+            ResetCombo();
+        }
     }
 
     protected override IEnumerator Attack()
@@ -39,8 +59,23 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         bool aimRight = sx > 0f;
         if (aimRight != sr.flipX) Flip(sx);
 
+        // 무기 스타일에 따른 최대 콤보 수 결정
+        int maxCombo = 2; // 기본값
+        if (blacksmithAbility != null && blacksmithAbility.CurWeaponData != null)
+        {
+            maxCombo = blacksmithAbility.CurWeaponData.WeaponStyle == WeaponStyle.OneHanded ? 2 : 4;
+        }
+
+        // 콤보 인덱스 증가 및 순환
+        comboStep++;
+        if (comboStep > maxCombo) comboStep = 1;
+        lastAttackTime = Time.time;
+
         if (playerAnimator != null)
+        {
+            playerAnimator.SetInteger("ComboStep", comboStep);
             playerAnimator.SetTrigger("Attack");
+        }
 
         if (attackPoint == null)
         {
@@ -65,13 +100,27 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         }
 
     Cooldown:
-        yield return new WaitForSeconds(attackCoolTimeA);
+        float currentActionTime = attackCoolTimeA / playerStatus.TotalAttackSpeed;
+        yield return new WaitForSeconds(currentActionTime);
+
         isAttaking = false;
-        yield return new WaitForSeconds(1f / playerStatus.TotalAttackSpeed - attackCoolTimeA);
         enableAttack = true;
     }
 
+    private void ResetCombo()
+    {
+        comboStep = 0;
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetInteger("ComboStep", 0);
+        }
+    }
 
+    public override void ResetPlayerState()
+    {
+        base.ResetPlayerState();
+        ResetCombo();
+    }
 
 
     private void OnDrawGizmosSelected()
