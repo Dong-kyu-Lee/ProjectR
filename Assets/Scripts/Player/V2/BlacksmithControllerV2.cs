@@ -9,6 +9,9 @@ public class BlacksmithControllerV2 : PlayerControllerBase
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange = 1.5f;
 
+    [SerializeField] private float attackStepForce = 7f;     // 공격 시 앞으로 전진하는 속도
+    [SerializeField] private float attackDeceleration = 15f; // 전진 후 멈추는 감속도 (높을수록 빨리 멈춤)
+
     private int comboStep = 0;
     private float lastAttackTime = 0f;
     [SerializeField] private float comboLimitTime = 1.5f; // 콤보를 이어가기 위한 유효 시간
@@ -24,15 +27,32 @@ public class BlacksmithControllerV2 : PlayerControllerBase
     {
         base.Update();
 
-        // 현재 공격 속도에 비례한 '최소 공격 모션 시간'
-        float currentActionTime = attackCoolTimeA / playerStatus.TotalAttackSpeed;
-
-        // 이 시간 안에 다음 클릭을 해야 콤보가 유지됨 (모션 시간 + 여유 시간)
-        float dynamicComboLimit = currentActionTime + 0.35f;
-
-        if (comboStep > 0 && Time.time - lastAttackTime > dynamicComboLimit)
+        // 현재 플레이어의 공격 속도를 애니메이터 배속 파라미터에 전달
+        if (playerAnimator != null)
         {
-            ResetCombo();
+            playerAnimator.SetFloat("AnimAttackSpeed", playerStatus.TotalAttackSpeed);
+        }
+    }
+
+    protected override void FixedUpdate()
+    {
+        if (isPause || isDead) return;
+
+        JumpCheck();
+
+        // 대장장이는 공격 중일 때 일반 키보드 이동을 하지 않음
+        if (isAttaking && isGround)
+        {
+            // 공격 코루틴에서 부여한 x축 오프셋 속도를 부드럽게 감속시켜
+            // 얼음판처럼 미끄러지지 않고 묵직하게 정지하도록 처리
+            Vector2 vel = playerRigidBody.velocity;
+            vel.x = Mathf.Lerp(vel.x, 0, Time.fixedDeltaTime * attackDeceleration);
+            playerRigidBody.velocity = vel;
+        }
+        else
+        {
+            // 공격 중이 아닐 때만 부모 클래스의 일반 이동 실행
+            base.FixedUpdate();
         }
     }
 
@@ -59,6 +79,11 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         bool aimRight = sx > 0f;
         if (aimRight != sr.flipX) Flip(sx);
 
+        if (isGround)
+        {
+            playerRigidBody.velocity = new Vector2(sx * attackStepForce, playerRigidBody.velocity.y);
+        }
+
         // 무기 스타일에 따른 최대 콤보 수 결정
         int maxCombo = 2; // 기본값
         if (blacksmithAbility != null && blacksmithAbility.CurWeaponData != null)
@@ -73,6 +98,7 @@ public class BlacksmithControllerV2 : PlayerControllerBase
 
         if (playerAnimator != null)
         {
+            playerAnimator.ResetTrigger("Attack");
             playerAnimator.SetInteger("ComboStep", comboStep);
             playerAnimator.SetTrigger("Attack");
         }
@@ -100,11 +126,22 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         }
 
     Cooldown:
-        float currentActionTime = attackCoolTimeA / playerStatus.TotalAttackSpeed;
-        yield return new WaitForSeconds(currentActionTime);
+        float fullActionTime = attackCoolTimeA / playerStatus.TotalAttackSpeed;
 
-        isAttaking = false;
+        // 공격 애니메이션의 70% 지점까지만 대기 (선입력 타이밍 조절)
+        float cancelTime = fullActionTime * 0.7f;
+        yield return new WaitForSeconds(cancelTime);
+
+        // 이 시점부터 다음 콤보 입력을 미리 허용
         enableAttack = true;
+
+        yield return new WaitForSeconds(fullActionTime - cancelTime);
+
+        if (Time.time - lastAttackTime >= fullActionTime * 0.9f)
+        {
+            isAttaking = false;
+            ResetCombo();
+        }
     }
 
     private void ResetCombo()
