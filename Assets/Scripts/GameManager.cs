@@ -114,6 +114,7 @@ public class GameManager : MonoBehaviour
         playerObject = value;
         currentCharacterType = type;
         playerObject.transform.position = spawnPosition;
+        playerObject.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2; // 로비 씬에서 다른 캐릭터와 겹치지 않기 위함
         DontDestroyOnLoad(playerObject);
         OnPlayerCharacterChanged?.Invoke();
     }
@@ -244,6 +245,7 @@ public class GameManager : MonoBehaviour
         }
         currentCharacterType = startCharacterType;
         playerObject.SetActive(false);
+        playerObject.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2; // 로비 씬에서 다른 캐릭터와 겹치지 않기 위함
         DontDestroyOnLoad(playerObject);
 
         OnPlayerCharacterChanged?.Invoke();
