@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public enum CharacterType
@@ -99,6 +100,7 @@ public class CharacterSelect : MonoBehaviour
         }
 
         GameManager.Instance.CurrentPlayer.SetActive(true);
+        GameManager.Instance.CurrentPlayer.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
         // 카메라 설정
         vcam?.SetFollowTarget(GameManager.Instance.CurrentPlayer.transform);
     }
