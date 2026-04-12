@@ -7,6 +7,7 @@ public abstract class Buff
 {
     protected float maxDuration = 300.0f;            //최대 버프 지속시간
     protected float currentDuration = 0.0f;         //현재 버프 지속시간
+    protected float initialDuration = 0f;           //생성 및 갱신 초기 버프 지속시간
     protected float buffEffectTick = 1.0f;          //다음 버프 효과 적용시간 까지의 간격
     public Dictionary<string, float> currentBuffValue = new Dictionary<string, float>();
     protected GameObject targetObject;              //버프 적용 대상
@@ -32,6 +33,15 @@ public abstract class Buff
         {
             currentDuration = value;
             if (currentDuration > MaxDuration) currentDuration = MaxDuration;
+        }
+    }
+    public float InitialDuration
+    {
+        get { return initialDuration; }
+        set
+        {
+            initialDuration = value;
+            if (initialDuration > MaxDuration) initialDuration = MaxDuration;
         }
     }
 
@@ -93,6 +103,7 @@ public abstract class Buff
         }
         else RenewBuffEffect();
         CurrentDuration += duration;
+        initialDuration = currentDuration;
     }
 
     //버프가 지속되는 동안 해야할 일을 정의하는 메서드

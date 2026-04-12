@@ -28,9 +28,6 @@ public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Buff buffData;
     private BuffToolTipUI tooltip;
 
-    private float buffStartTime;
-    private float buffDuration;
-
     private void Awake()
     {
         foreach (BuffSpriteEntry entry in buffSpriteEntries)
@@ -59,10 +56,8 @@ public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         Debug.Log($"[BuffIconUI] Initialize 호출됨: {buffData.BuffType}");
         SetSprites();
 
-        buffStartTime = Time.time;
-        buffDuration = buffData.MaxDuration;
-
         iconImage.fillAmount = 1f;
+        buffData.InitialDuration = buffData.CurrentDuration;
 
         if (!buffData.IsDebuff) baseImage.color = Color.green;
         else baseImage.color = Color.red;
@@ -90,20 +85,19 @@ public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             iconImage.sprite = sprite;
         }
-
+        /*
         if (cooldownOverlay != null)
         {
             cooldownOverlay.sprite = sprite;
-        }
+        }*/
     }
     private void UpdateUI()
     {
-        if (buffData == null || buffDuration <= 0f) return;
+        if (buffData == null) return;
 
-        float elapsed = Time.time - buffStartTime;
-        float fill = Mathf.Clamp01(1f - (elapsed / buffDuration));
+        float fill = Mathf.Clamp01(1f - (buffData.CurrentDuration / buffData.InitialDuration));
 
-        iconImage.fillAmount = fill;
+        cooldownOverlay.fillAmount = fill;
     }
 
     // 마우스를 올렸을 때 툴팁 확인
