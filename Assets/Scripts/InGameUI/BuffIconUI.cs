@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 [System.Serializable]
 public struct BuffSpriteEntry
@@ -19,6 +20,8 @@ public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Image cooldownOverlay;
     [SerializeField]
     private Image baseImage;
+    [SerializeField]
+    private TextMeshProUGUI buffStackText;
 
     [Header("버프 종류별 스프라이트")]
     [SerializeField] 
@@ -96,6 +99,8 @@ public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (buffData == null) return;
 
         float fill = Mathf.Clamp01(1f - (buffData.CurrentDuration / buffData.InitialDuration));
+        if (buffData.CurrentBuffLevel == 0) buffStackText.text = "";
+        else buffStackText.text = (buffData.CurrentBuffLevel + 1).ToString();
 
         cooldownOverlay.fillAmount = fill;
     }

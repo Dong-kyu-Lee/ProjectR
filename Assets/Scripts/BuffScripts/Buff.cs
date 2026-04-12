@@ -58,7 +58,7 @@ public abstract class Buff
         get { return currentBuffLevel; }
         set
         {
-            currentBuffLevel = (value < 0) ? 0 : value;
+            currentBuffLevel = (value <= 0) ? 0 : value;
         }
     }
     public float LastTickTime
