@@ -36,7 +36,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
     public float dashFactor = 1f;
     public float dashTime = 0.2f;
     public float dashCoolTime = 0.5f;
-    public float attackCoolTimeA = 0.5f;
+    public float attackCoolTimeA = 0.767f;
     public float projectileSpawnOffset = 1f;
 
     protected bool enableJump = true;

@@ -8848,6 +8848,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blacksmith2_2
       objectReference: {fileID: 0}
+    - target: {fileID: 7459506341598998705, guid: 586719ff637244645be795af1e845ac4, type: 3}
+      propertyPath: attackCoolTimeA
+      value: 0.767
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 586719ff637244645be795af1e845ac4, type: 3}
 --- !u!1001 &1794582940
@@ -9663,7 +9667,13 @@ MonoBehaviour:
   tooltipUI: {fileID: 0}
   PlayerHead: {fileID: 0}
   CharacterUI: {fileID: 0}
+  blacksmithHeadSprite: {fileID: 0}
+  bartenderHeadSprite: {fileID: 0}
+  upgradeUI: {fileID: 0}
   warpUIText: {fileID: 0}
+  expBar: {fileID: 0}
+  levelText: {fileID: 0}
+  expText: {fileID: 0}
   skillCoolTimeUI: {fileID: 0}
   playerStatus: {fileID: 0}
   characterInfoUI: {fileID: 0}
