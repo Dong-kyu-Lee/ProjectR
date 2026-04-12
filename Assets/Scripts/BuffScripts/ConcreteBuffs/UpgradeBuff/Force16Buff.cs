@@ -17,6 +17,7 @@ public class Force16Buff : Buff
         PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
 
         playerStatus.AdditionalDamage += atkDmgPerInc;
+        currentBuffValue["atkDmgInc"] = atkDmgPerInc * (currentBuffLevel + 1);
     }
 
     //적용된 버프를 해제하는 함수. 각 스탯마다 누적된 값을 계산해 감소하는 식

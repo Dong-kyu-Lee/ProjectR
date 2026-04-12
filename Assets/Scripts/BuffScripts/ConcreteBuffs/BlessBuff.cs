@@ -18,6 +18,7 @@ public class BlessBuff : Buff
         if (targetStatus == null) return;
 
         targetStatus.Hp += healAmount[currentBuffLevel];
+        currentBuffValue["healAmount"] = healAmount[currentBuffLevel];
     }
 
     //대상에게 도트힐을 제공하는 메서드. 해당 버프는 ApplyBuffEffect()를 대신해 기능함

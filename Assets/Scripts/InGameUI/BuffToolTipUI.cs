@@ -21,50 +21,54 @@ public class BuffToolTipUI : MonoBehaviour
         isVisible = false;
     }
 
-    public void ShowTooltip(BuffType type, Sprite sprite)
+    public void ShowTooltip(Buff buff, Sprite sprite)
     {
         gameObject.SetActive(true);
-        buffNameText.text = type.ToString();
-        buffDescriptionText.text = GetBuffDescription(type);
+        buffNameText.text = buff.BuffType.ToString();
+        buffDescriptionText.text = GetBuffDescription(buff);
         buffImage.sprite = sprite;
 
         gameObject.SetActive(true);
         isVisible = true;
     }
-    private string GetBuffDescription(BuffType buffType)
+    private string GetBuffDescription(Buff buff)
     {
-        switch (buffType)
+        switch (buff.BuffType)
         {
             case BuffType.AttackDamageIncrease:
-                return "공격력이 증가합니다.";
+                return $"추가 피해량 +{buff.currentBuffValue["atkDmgInc"] * 100}%";
             case BuffType.DamageReductionIncrease:
-                return "받는 피해가 감소합니다.";
+                return $"피해량 감소 +{buff.currentBuffValue["damageReduceInc"] * 100}%";
             case BuffType.Bless:
-                return "축복을 받아 다양한 능력이 향상됩니다.";
+                return $"{buff.BuffEffectTick}초당 체력 +{buff.currentBuffValue["healAmount"]} 회복";
             case BuffType.Raging:
-                return "광분 상태로 공격이 더욱 거칠어집니다.";
+                return $"추가 피해량 +{buff.currentBuffValue["atkDmgInc"] * 100}%, 치명타 확률 +{buff.currentBuffValue["critPerInc"] * 100}%, " +
+                       $"치명타 피해량 +{buff.currentBuffValue["critDmgInc"] * 100}%, 피해 감소량 {buff.currentBuffValue["damageReduceInc"] * 100}%";
             case BuffType.CritDamageIncrease:
-                return "치명타 피해량이 증가합니다.";
+                return $"치명타 피해량 +{buff.currentBuffValue["critDmgInc"] * 100}%";
             case BuffType.CritPercentIncrease:
-                return "치명타 확률이 증가합니다.";
+                return $"치명타 확률 +{buff.currentBuffValue["critPerInc"] * 100}%";
             case BuffType.PriceAdditionalIncrease:
-                return "탐욕스런 마음이 커져 획득 재화량이 증가합니다.";
+                return $"재화 획득량 +{buff.currentBuffValue["priceInc"] * 100}%";
             case BuffType.AttackSpeedIncrease:
-                return "공격 속도가 증가합니다.";
+                return $"공격 속도 +{buff.currentBuffValue["atkSpdInc"] * 100}%";
             case BuffType.MoveSpeedIncrease:
-                return "이동 속도가 증가합니다.";
+                return $"이동 속도 +{buff.currentBuffValue["moveSpdInc"] * 100}%";
             case BuffType.ExtremeSpeed:
-                return "극한의 속도를 얻게 됩니다.";
+                return $"공격 속도 +{buff.currentBuffValue["atkSpdInc"] * 100}%, 이동 속도 +{buff.currentBuffValue["moveSpdInc"] * 100}%";
             case BuffType.EagleEye:
-                return "매의 눈처럼 정확도가 증가합니다.";
+                return $"치명타 확률 +{buff.currentBuffValue["critPerInc"] * 100}%, 치명타 피해량 +{buff.currentBuffValue["critDmgInc"] * 100}%";
             case BuffType.BulkUp:
-                return "근육이 팽창하며 능력이 상승합니다.";
+                return $"추가 피해량 +{buff.currentBuffValue["atkDmgInc"] * 100}%, 피해 감소량 +{buff.currentBuffValue["damageReduceInc"] * 100}%";
             case BuffType.IronBody:
-                return "단단한 육체로 피해를 견딥니다.";
+                return $"추가 피해량 +{buff.currentBuffValue["atkDmgInc"] * 100}%, 공격 속도 {buff.currentBuffValue["atkSpdInc"] * 100}%, " +
+                       $"이동 속도 {buff.currentBuffValue["moveSpdInc"] * 100}%";
+            case BuffType.Destruction:
+                return $"피해량 +{buff.currentBuffValue["atkDmgInc"]}";
             case BuffType.Reflection:
-                return "일부 피해를 반사합니다.";
+                return "받는 모든 피해 반사";
             case BuffType.Invincible:
-                return "일정 시간 동안 무적 상태가 됩니다.";
+                return "받는 모든 피해 면역";
 
             case BuffType.Poison:
                 return "중독되어 주기적으로 피해를 입습니다.";
@@ -72,6 +76,8 @@ public class BuffToolTipUI : MonoBehaviour
                 return "화상으로 인해 주기적으로 피해를 입습니다.";
             case BuffType.Freeze:
                 return "빙결되어 이동이 느려지거나 멈춥니다.";
+            case BuffType.Curse:
+                return "저주에 걸려 받는 피해가 증가합니다.";
             case BuffType.Slow:
                 return "이동 속도가 감소합니다.";
             case BuffType.Sleep:
@@ -90,17 +96,17 @@ public class BuffToolTipUI : MonoBehaviour
                 return "혼란에 빠져 방향이 바뀔 수 있습니다.";
 
             case BuffType.Force7:
-                return "무력 스탯이 상승합니다.";
+                return $"피해량 +{buff.currentBuffValue["atkDmgInc"]}";
             case BuffType.Force16:
-                return "무력 스탯이 크게 상승합니다.";
+                return $"추가 피해량 +{buff.currentBuffValue["atkDmgInc"] * 100}%";
             case BuffType.Critical4:
-                return "치명타 스탯이 소폭 상승합니다.";
+                return $"이동 속도 +{buff.currentBuffValue["atkDmgInc"] * 100}%";
             case BuffType.Critical7:
-                return "치명타 스탯이 상승합니다.";
+                return $"치명타 확률 +{buff.currentBuffValue["critPerInc"] * 100}%";
             case BuffType.Dexterity7:
-                return "재주 스탯이 소폭 상승합니다.";
+                return $"피해량 +{buff.currentBuffValue["atkDmgInc"]}";
             case BuffType.Dexterity13:
-                return "재주 스탯이 크게 상승합니다.";
+                return $"공격 속도 +{buff.currentBuffValue["atkSpdInc"] * 100}%";
 
             default:
                 return "설명 없음";

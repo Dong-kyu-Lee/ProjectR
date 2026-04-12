@@ -10,13 +10,15 @@ public struct BuffSpriteEntry
     public Sprite sprite;
 }
 
-public class BuffIconUI : MonoBehaviour, IPointerClickHandler
+public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("이미지 컴포넌트")]
     [SerializeField] 
     private Image iconImage;
     [SerializeField] 
     private Image cooldownOverlay;
+    [SerializeField]
+    private Image baseImage;
 
     [Header("버프 종류별 스프라이트")]
     [SerializeField] 
@@ -40,6 +42,12 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    private void OnDisable()
+    {
+        if (tooltip.gameObject.activeSelf)
+            tooltip.gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         UpdateUI();
@@ -55,6 +63,9 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
         buffDuration = buffData.MaxDuration;
 
         iconImage.fillAmount = 1f;
+
+        if (!buffData.IsDebuff) baseImage.color = Color.green;
+        else baseImage.color = Color.red;
 
         //포션용
         if (buffData.BuffType.ToString().StartsWith("Potion_"))
@@ -95,7 +106,26 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
         iconImage.fillAmount = fill;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    // 마우스를 올렸을 때 툴팁 확인
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (tooltip != null)
+        {
+            if (!tooltip.gameObject.activeSelf)
+                tooltip.gameObject.SetActive(true);
+            ShowBuffDetail();// 디버깅용 코드 -> 추후 제거 예정
+            tooltip.ShowTooltip(buffData, iconImage.sprite);
+        }
+    }
+
+    // 마우스를 뗐을 때 실행
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (tooltip.gameObject.activeSelf)
+            tooltip.gameObject.SetActive(false);
+    }
+
+    /*public void OnPointerClick(PointerEventData eventData)
     {
         if (tooltip != null)
         {
@@ -104,7 +134,7 @@ public class BuffIconUI : MonoBehaviour, IPointerClickHandler
             ShowBuffDetail();// 디버깅용 코드 -> 추후 제거 예정
             tooltip.ShowTooltip(buffData.BuffType, iconImage.sprite);
         }
-    }
+    }*/
 
     public void SetTooltipReference(BuffToolTipUI tooltipUI)
     {

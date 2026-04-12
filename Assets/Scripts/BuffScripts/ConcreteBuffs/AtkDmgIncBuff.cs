@@ -20,6 +20,7 @@ public class AtkDmgIncBuff : Buff
         if (targetStatus == null) return;
 
         targetStatus.AdditionalDamage += atkDmgIncGap[currentBuffLevel];
+        currentBuffValue["atkDmgInc"] = GetCurrentSumOfArray(atkDmgIncGap);
     }
 
     //적용된 버프를 해제하는 함수. currentBuffLevel까지 해당하는 간격 값을 합산한 후 감소하는 식

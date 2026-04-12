@@ -41,6 +41,7 @@ public class Status : MonoBehaviour
         set
         {
             hp = value;
+            if (hp > maxHp) hp = maxHp;
             if (hp <= 0f)
             {
                 hp = 0f;
