@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<CharacterType, string> characterPrefabPaths = new Dictionary<CharacterType, string>()
     {
         { CharacterType.Bartender, "Prefabs/Player Prefabs/Bartender2_1 Variant" },
-        { CharacterType.Blacksmith, "Prefabs/Player Prefabs/Blacksmith2_1" },
+        { CharacterType.Blacksmith, "Prefabs/Player Prefabs/Blacksmith2_2" },
     };
 
     // 게임 결과 관련 변수
@@ -149,7 +149,6 @@ public class GameManager : MonoBehaviour
                     Destroy(playerObject);
                     playerObject = null; // 명시적으로 비워줍니다.
                 }
-                isFirstPlayerCreated = false;
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
                 // 게임 결과 초기화
