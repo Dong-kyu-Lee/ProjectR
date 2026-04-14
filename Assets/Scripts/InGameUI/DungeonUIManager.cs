@@ -59,17 +59,7 @@ public class DungeonUIManager : MonoBehaviour
 
     public void SwitchBigMinimapAndFullmap()
     {
-        if(isBigMinimapActive)
-        {
-            // 큰 미니맵을 비활성화
-            isBigMinimapActive = false;
-            bigMinimap.SetActive(false);
-        }
-        else
-        {
-            // 큰 미니맵을 활성화
-            isBigMinimapActive = true;
-            bigMinimap.SetActive(true);
-        }
+        isBigMinimapActive = !isBigMinimapActive;
+        bigMinimap.SetActive(isBigMinimapActive);
     }
 }

@@ -40,7 +40,7 @@ public class MissionUI : MonoBehaviour
         // 이동 미션일 때 방향 화살표 업데이트
         if (currentMissionKind == MissionKind.MOVE_TO_POINT)
         {
-            if(Mathf.Abs((targetPoint-GameManager.Instance.CurrentPlayer.transform.position).magnitude) < 3)
+            if ((targetPoint - GameManager.Instance.CurrentPlayer.transform.position).sqrMagnitude < 9f)
             {
                 directionArrow.gameObject.SetActive(false);
                 return;
