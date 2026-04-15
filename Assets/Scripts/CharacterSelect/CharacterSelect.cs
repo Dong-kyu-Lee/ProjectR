@@ -99,6 +99,7 @@ public class CharacterSelect : MonoBehaviour
         }
 
         GameManager.Instance.CurrentPlayer.SetActive(true);
+        GameManager.Instance.CurrentPlayer.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
         // 카메라 설정
         vcam?.SetFollowTarget(GameManager.Instance.CurrentPlayer.transform);
     }

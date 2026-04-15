@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1606278214930236917
 Transform:
   m_ObjectHideFlags: 0
@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 1067828335753958515}
   - component: {fileID: 7459506341598998705}
   - component: {fileID: 901635999839254759}
+  - component: {fileID: 7843821254398941025}
   m_Layer: 6
   m_Name: Blacksmith2_2
   m_TagString: Player
@@ -446,7 +447,7 @@ MonoBehaviour:
   groundCheck: {fileID: 1440969402445902639}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 4375
+    m_Bits: 4358
   jumpPower: 1200
   moveFactor: 100
   dashFactor: 1
@@ -460,6 +461,8 @@ MonoBehaviour:
   dustInterval: 0.3
   attackPoint: {fileID: 3981629379849105235}
   attackRange: 2
+  attackStepForce: 7
+  attackDeceleration: 15
   comboLimitTime: 1.2
 --- !u!114 &901635999839254759
 MonoBehaviour:
@@ -473,6 +476,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d4eebf266f2c10478ed65ec285773c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7843821254398941025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5991675828630517409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8658cfd451b90764cb4764ca9f5c6ce5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapIconObject: {fileID: 0}
+  iconSprite: {fileID: 1726539183, guid: 44168ef17beb46d4397aa423b9f037e2, type: 3}
+  iconScale: 10
 --- !u!1 &7663576975768946401
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,13 +40,19 @@ public class MissionUI : MonoBehaviour
         // 이동 미션일 때 방향 화살표 업데이트
         if (currentMissionKind == MissionKind.MOVE_TO_POINT)
         {
+            if ((targetPoint - GameManager.Instance.CurrentPlayer.transform.position).sqrMagnitude < 9f)
+            {
+                directionArrow.gameObject.SetActive(false);
+                return;
+            }
+            directionArrow.gameObject.SetActive(true);
             Vector3 dir = targetPoint - GameManager.Instance.CurrentPlayer.transform.position;
             dir.Normalize();
             Debug.DrawLine(GameManager.Instance.CurrentPlayer.transform.position, targetPoint, Color.red);
             directionArrow.rectTransform.up = dir;
             Vector3 screenPos = Camera.main.WorldToScreenPoint(GameManager.Instance.CurrentPlayer.transform.position);
             Vector3 arrowPos = Vector3.zero;
-            // TODO : 화살표 위치 범위 조정 필요
+            
             directionArrow.rectTransform.position = screenPos + dir*300;
         }
     }
