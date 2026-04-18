@@ -418,7 +418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &225552490
 RectTransform:
   m_ObjectHideFlags: 0
@@ -773,7 +773,6 @@ MonoBehaviour:
   gap: 10
   mapParent: {fileID: 904623785}
   roomImagePrefab: {fileID: 2889936612306462361, guid: a74b5f95ba414ad4288fcfacc00699e9, type: 3}
-  bigMinimap: {fileID: 225552489}
   roomList: []
 --- !u!114 &602148626
 MonoBehaviour:
@@ -1165,9 +1164,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 602148625}
-        m_TargetAssemblyTypeName: DungeonMapUI, Assembly-CSharp
-        m_MethodName: SwitchBigminimapAndFullmap
+      - m_Target: {fileID: 1480816311}
+        m_TargetAssemblyTypeName: DungeonUIManager, Assembly-CSharp
+        m_MethodName: SwitchBigMinimapAndFullmap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3182,6 +3181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fullMap: {fileID: 602148623}
   minimap: {fileID: 304418220}
+  bigMinimap: {fileID: 225552489}
   missionUI: {fileID: 607709247}
 --- !u!1 &1493791342
 GameObject:

@@ -5,10 +5,14 @@ using UnityEngine.EventSystems;
 
 public class DungeonUIManager : MonoBehaviour
 {
-    public GameObject fullMap;
-    public GameObject minimap;
-    private bool isFullMapOpen;
+    [SerializeField] private GameObject fullMap;
+    public GameObject FullMap{get { return fullMap;} }
+    [SerializeField] private GameObject minimap;
+    [SerializeField] private GameObject bigMinimap; // FullMap에서 확대된 현재 방 UI
     public MissionUI missionUI; // Stage에서 미션 관련 기능 접근 시 사용
+
+    private bool isFullMapOpen;
+    private bool isBigMinimapActive = false; // 큰 미니맵 활성화 여부
 
     void Start()
     {
@@ -32,7 +36,9 @@ public class DungeonUIManager : MonoBehaviour
         {
             fullMap.SetActive(true);
             minimap.SetActive(false);
+            bigMinimap.SetActive(true);
             isFullMapOpen = true;
+            isBigMinimapActive = true;
         }
     }
 
@@ -49,5 +55,11 @@ public class DungeonUIManager : MonoBehaviour
             }
             isFullMapOpen=false;
         }
+    }
+
+    public void SwitchBigMinimapAndFullmap()
+    {
+        isBigMinimapActive = !isBigMinimapActive;
+        bigMinimap.SetActive(isBigMinimapActive);
     }
 }
