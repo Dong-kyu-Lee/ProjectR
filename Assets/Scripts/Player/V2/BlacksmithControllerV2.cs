@@ -31,6 +31,9 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         if (playerAnimator != null)
         {
             playerAnimator.SetFloat("AnimAttackSpeed", playerStatus.TotalAttackSpeed);
+
+            // 점프/낙하 애니메이션을 위해 현재 Y축 속도를 애니메이터로 전달
+            playerAnimator.SetFloat("yVelocity", playerRigidBody.velocity.y);
         }
     }
 
