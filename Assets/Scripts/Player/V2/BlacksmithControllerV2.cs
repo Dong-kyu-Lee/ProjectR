@@ -31,6 +31,9 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         if (playerAnimator != null)
         {
             playerAnimator.SetFloat("AnimAttackSpeed", playerStatus.TotalAttackSpeed);
+
+            // 점프/낙하 애니메이션을 위해 현재 Y축 속도를 애니메이터로 전달
+            playerAnimator.SetFloat("yVelocity", playerRigidBody.velocity.y);
         }
     }
 
@@ -113,6 +116,16 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         {
             if (hit.CompareTag("Enemy"))
             {
+                // 등 뒤에 있는 적 판정 무시하기
+                // 적과 나의 X 좌표 차이 계산 (적이 내 오른쪽에 있으면 양수, 왼쪽에 있으면 음수)
+                float distanceX = hit.transform.position.x - transform.position.x;
+
+                // 두 값을 곱해서 음수(-)가 나오면 적이 내 공격 방향 반대(등 뒤)에 있다는 뜻
+                if (distanceX * sx < -0.2f)
+                {
+                    continue; // 데미지를 주지 않고 다음 적 검사로 넘어감
+                }
+
                 float damage = playerStatus.TotalDamage;
                 float ignoreReduction = playerStatus.IgnoreDamageReduction;
                 bool isCritical = false;
@@ -125,6 +138,21 @@ public class BlacksmithControllerV2 : PlayerControllerBase
                 CalcDamage.Instance.CheckAddtionalDamage(hit.gameObject);
                 CalcDamage.Instance.AdditionalEffect(hit.gameObject);
                 CalcDamage.Instance.CheckFightState();
+
+                // 타격 성공 시 적에게 무기 데이터에 따른 경직 부여
+                Enemy hitEnemy = hit.GetComponent<Enemy>();
+                if (hitEnemy != null)
+                {
+                    float currentStunTime = 0.3f; // 기본값
+
+                    // 현재 장착된 무기 데이터가 있다면 그 무기의 경직 시간을 가져옴
+                    if (blacksmithAbility != null && blacksmithAbility.CurWeaponData != null)
+                    {
+                        currentStunTime = blacksmithAbility.CurWeaponData.HitStunDuration;
+                    }
+
+                    hitEnemy.ApplyHitStun(currentStunTime);
+                }
             }
         }
 

@@ -23,6 +23,8 @@ public class BlacksmithWeaponData : ScriptableObject
     [SerializeField] private WeaponStyle weaponStyle;
     [SerializeField] private RuntimeAnimatorController animatorOverride;
 
+    [SerializeField] private float hitStunDuration = 0.3f;
+
     public string WeaponName => weaponName;
     public int WeaponType => weaponType;
     public int Rank { get => rank; set => rank = value; }
@@ -35,6 +37,8 @@ public class BlacksmithWeaponData : ScriptableObject
 
     public WeaponStyle WeaponStyle => weaponStyle;
     public RuntimeAnimatorController AnimatorOverride => animatorOverride;
+
+    public float HitStunDuration => hitStunDuration;
 
     public float GetEffectiveDamage()
     {

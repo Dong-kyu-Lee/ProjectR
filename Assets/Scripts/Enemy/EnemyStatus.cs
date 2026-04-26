@@ -12,6 +12,8 @@ public class EnemyStatus : Status
     [SerializeField]
     private bool isBoss;
 
+    public bool IsBoss => isBoss;
+
     public EnemyData EnemyStatusData { get { return enemyData; } }
 
     void Awake()
