@@ -5,6 +5,7 @@ using UnityEngine;
 public class AbilityManager : MonoBehaviour
 {
     public bool[] bartenderAbility = new bool[6];
+    public bool[] blacksmithAbility = new bool[6];
 
     private static AbilityManager instance;
 
@@ -39,7 +40,17 @@ public class AbilityManager : MonoBehaviour
 
     public void SetAbiltiy(string characterName, int point, bool enable)
     {
-        bartenderAbility[point] = enable;
+        switch (characterName)
+        {
+            case "bartender":
+                bartenderAbility[point] = enable;
+                break;
+            case "blacksmith":
+                blacksmithAbility[point] = enable;
+                break;
+            default:
+                break;
+        }
         SaveManager.Instance.SaveAbility(characterName, point, enable);
     }
 

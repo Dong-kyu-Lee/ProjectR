@@ -14,6 +14,7 @@ public class SaveData
 public class LiberationData
 {
     public BartenderAbilityData bartenderAbilityData = new BartenderAbilityData();
+    public BlackSmithAbilityData blackSmithAbilityData = new BlackSmithAbilityData();
 
     [SerializeField] private int steadfite;
     public int Steadfite { get { return steadfite; } set { steadfite = value; } }
@@ -23,6 +24,12 @@ public class LiberationData
 public class BartenderAbilityData
 {
     public bool[] bartenderAbility = new bool[6];
+}
+
+[System.Serializable]
+public class BlackSmithAbilityData
+{
+    public bool[] blackSmithAbility = new bool[6];
 }
 
 public static class SaveSystem
@@ -86,6 +93,10 @@ public class SaveManager : MonoBehaviour
             case "bartender":
                 saveData.liberationData.bartenderAbilityData.bartenderAbility[point] = enable;
                 SaveCurrentData();
+                break;
+            case "blacksmith":
+                saveData.liberationData.blackSmithAbilityData.blackSmithAbility[point] = enable;
+                SaveCurrentData(); 
                 break;
             default:
                 break;

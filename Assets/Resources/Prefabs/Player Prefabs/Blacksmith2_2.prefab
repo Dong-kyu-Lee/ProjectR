@@ -354,6 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb850f9f87cb7e4ea782edefb8e8963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialDuration: 0
 --- !u!61 &2886936181360919197
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -444,6 +445,7 @@ MonoBehaviour:
   playerCamera: {fileID: 3991872296796565435}
   rendererObject: {fileID: 7663576975768946401}
   GrenadeController: {fileID: 0}
+  playerName: blacksmith
   groundCheck: {fileID: 1440969402445902639}
   groundLayer:
     serializedVersion: 2

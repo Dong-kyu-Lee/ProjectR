@@ -1,17 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static LiberationUI;
 using static PlayerObj;
+
+[System.Serializable]
+public class LiberationAbilityDesc
+{
+    public string abilityDesc;
+    public int abilityPrice;
+}
 
 public class LiberationSystem : MonoBehaviour
 {
     [SerializeField] private PlayerStatus playerStatus;
     [SerializeField] private Text currentSteadfiteText;
 
-    public string characterName;
+    public string playerName;
     public int currentAbility = -1;
     [SerializeField] private LiberationDesc[] liberationDesc = new LiberationDesc[6];
+
+    [Header("바텐더 능력")]
+    public List<LiberationAbilityDesc> bartenderAbilities = new List<LiberationAbilityDesc>(6);
+
+    [Header("대장장이 능력")]
+    public List<LiberationAbilityDesc> blacksmithAbilities = new List<LiberationAbilityDesc>(6);
 
     private void Awake()
     {
@@ -20,9 +36,13 @@ public class LiberationSystem : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.Instance.CurrentPlayer == null)
+        {
+            Debug.LogError("CurrentPlayer가 아직 비어있습니다!");
+        }
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        characterName = "bartender";
-        SyncLiberationColor();
+        playerName = GameManager.Instance.CurrentPlayer.GetComponent<PlayerControllerBase>().playerName;
+        SyncLiberationData(playerName);
     }
 
     public void SyncSteadfiteText()
@@ -41,15 +61,15 @@ public class LiberationSystem : MonoBehaviour
         {
             Debug.Log("이미 활성화된 능력입니다.");
         }
-        else if (SaveManager.Instance.GetSteadfite() < liberationDesc[currentAbility].abilityPrice)
+        else if (SaveManager.Instance.GetSteadfite() < liberationDesc[currentAbility].AbilityPrice)
         {
             Debug.Log("능력을 해방하기 위한 단석이 부족합니다.");
         }
         else
         {
-            SaveManager.Instance.AddSteadfite(-liberationDesc[currentAbility].abilityPrice);
+            SaveManager.Instance.AddSteadfite(-liberationDesc[currentAbility].AbilityPrice);
             currentSteadfiteText.text = SaveManager.Instance.GetSteadfite().ToString();
-            EnableLiberationEffect(characterName, currentAbility);
+            EnableLiberationEffect(playerName, currentAbility);
         }
     }
 
@@ -62,13 +82,23 @@ public class LiberationSystem : MonoBehaviour
         }
     }
 
-    // 바텐더의 해방 효과 연동.
-    public void SyncLiberationColor()
+    // 현재 플레이어의 해방 효과 연동.
+    public void SyncLiberationData(string characterName)
     {
         for (int point = 0; point <= 5; point++)
         {
-            if (AbilityManager.Instance.bartenderAbility[point]) liberationDesc[point].defaultColor = Color.white;
-            else liberationDesc[point].defaultColor = new Color(100f / 255f, 100f / 255f, 100f / 255f);
+            switch (characterName)
+            {
+                case "bartender":
+                    if (AbilityManager.Instance.bartenderAbility[point]) liberationDesc[point].defaultColor = Color.white;
+                    else liberationDesc[point].defaultColor = new Color(100f / 255f, 100f / 255f, 100f / 255f); // 회색
+                    liberationDesc[point].SetAbilityDesc("");
+                    break;
+                case "blacksmith":
+                    if (AbilityManager.Instance.blacksmithAbility[point]) liberationDesc[point].defaultColor = Color.white;
+                    else liberationDesc[point].defaultColor = new Color(100f / 255f, 100f / 255f, 100f / 255f); // 회색
+                    break;
+            }
             liberationDesc[point].image.color = liberationDesc[point].defaultColor;
         }
     }
