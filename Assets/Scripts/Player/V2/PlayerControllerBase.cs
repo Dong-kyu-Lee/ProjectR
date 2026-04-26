@@ -417,17 +417,5 @@ public abstract class PlayerControllerBase : MonoBehaviour
             if (!isDead)
                 playerAnimator.ResetTrigger("Die");
         }
-        //ResetCharacterAbilityAndCooldowns();
-    }
-    protected virtual void ResetCharacterAbilityAndCooldowns()
-    {
-        // IAbilityV2를 구현한 각 캐릭터의 고유 스킬 데이터 초기화
-        characterAbility?.ResetAbility();
-
-        // CalcDamage에서 관리하는 모든 쿨타임 강제 리셋
-        if (CalcDamage.Instance != null)
-        {
-            CalcDamage.Instance.ResetAllCooldowns();
-        }
     }
 }
