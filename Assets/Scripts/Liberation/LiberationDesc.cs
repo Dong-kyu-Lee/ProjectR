@@ -12,9 +12,7 @@ public class LiberationDesc : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private Text abilityPriceText;
     [SerializeField] private int abilityIndex;
     private string abilityDesc;
-    public string AbilityDesc { get { return abilityDesc; } set { abilityDesc = value; } }
     private int abilityPrice;
-    public int AbilityPrice { get { return abilityPrice; } set { abilityPrice = value; } }
     public Image image;
     public GameObject steadfiteImage;
     public Color defaultColor;
@@ -51,9 +49,10 @@ public class LiberationDesc : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (abilityPriceText != null) abilityPriceText.text = "";
     }
 
-    public void SetAbilityDesc(string abilityDes)
+    public void SetAbilityDesc(string abilityDes, int abilityPri)
     {
         abilityDesc = abilityDes;
+        abilityPrice = abilityPri;
     }
 
     private void OnDisable()

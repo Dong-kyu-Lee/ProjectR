@@ -174,6 +174,12 @@ public class PlayerStatus : Status
         baseMoveSpeed = MoveSpeed;
     }
 
+    private void Start()
+    {
+        string playerName = GameManager.Instance.CurrentPlayer.GetComponent<PlayerControllerBase>().playerName;
+        if (playerName == "blacksmith") DamageReduction = 0.3f;
+    }
+
     private void Update()
     {
         if (slowDebuffs.Count == 0) return;

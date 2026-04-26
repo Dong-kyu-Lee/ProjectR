@@ -1,11 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static LiberationUI;
-using static PlayerObj;
 
 [System.Serializable]
 public class LiberationAbilityDesc
@@ -21,7 +16,7 @@ public class LiberationSystem : MonoBehaviour
 
     public string playerName;
     public int currentAbility = -1;
-    [SerializeField] private LiberationDesc[] liberationDesc = new LiberationDesc[6];
+   [SerializeField] private LiberationDesc[] liberationDesc = new LiberationDesc[6];
 
     [Header("바텐더 능력")]
     public List<LiberationAbilityDesc> bartenderAbilities = new List<LiberationAbilityDesc>(6);
@@ -57,19 +52,40 @@ public class LiberationSystem : MonoBehaviour
 
     public void EnableLiberationOnClick()
     {
-        if (AbilityManager.Instance.bartenderAbility[currentAbility])
+        switch (playerName)
         {
-            Debug.Log("이미 활성화된 능력입니다.");
-        }
-        else if (SaveManager.Instance.GetSteadfite() < liberationDesc[currentAbility].AbilityPrice)
-        {
-            Debug.Log("능력을 해방하기 위한 단석이 부족합니다.");
-        }
-        else
-        {
-            SaveManager.Instance.AddSteadfite(-liberationDesc[currentAbility].AbilityPrice);
-            currentSteadfiteText.text = SaveManager.Instance.GetSteadfite().ToString();
-            EnableLiberationEffect(playerName, currentAbility);
+            case "bartender":
+                if (AbilityManager.Instance.bartenderAbility[currentAbility])
+                {
+                    Debug.Log("이미 활성화된 능력입니다.");
+                }
+                else if (SaveManager.Instance.GetSteadfite() < bartenderAbilities[currentAbility].abilityPrice)
+                {
+                    Debug.Log("능력을 해방하기 위한 단석이 부족합니다.");
+                }
+                else
+                {
+                    SaveManager.Instance.AddSteadfite(-bartenderAbilities[currentAbility].abilityPrice);
+                    currentSteadfiteText.text = SaveManager.Instance.GetSteadfite().ToString();
+                    EnableLiberationEffect(playerName, currentAbility);
+                }
+                break;
+            case "blacksmith":
+                if (AbilityManager.Instance.blacksmithAbility[currentAbility])
+                {
+                    Debug.Log("이미 활성화된 능력입니다.");
+                }
+                else if (SaveManager.Instance.GetSteadfite() < blacksmithAbilities[currentAbility].abilityPrice)
+                {
+                    Debug.Log("능력을 해방하기 위한 단석이 부족합니다.");
+                }
+                else
+                {
+                    SaveManager.Instance.AddSteadfite(-blacksmithAbilities[currentAbility].abilityPrice);
+                    currentSteadfiteText.text = SaveManager.Instance.GetSteadfite().ToString();
+                    EnableLiberationEffect(playerName, currentAbility);
+                }
+                break;
         }
     }
 
@@ -92,11 +108,12 @@ public class LiberationSystem : MonoBehaviour
                 case "bartender":
                     if (AbilityManager.Instance.bartenderAbility[point]) liberationDesc[point].defaultColor = Color.white;
                     else liberationDesc[point].defaultColor = new Color(100f / 255f, 100f / 255f, 100f / 255f); // 회색
-                    liberationDesc[point].SetAbilityDesc("");
+                    liberationDesc[point].SetAbilityDesc(bartenderAbilities[point].abilityDesc, bartenderAbilities[point].abilityPrice);
                     break;
                 case "blacksmith":
                     if (AbilityManager.Instance.blacksmithAbility[point]) liberationDesc[point].defaultColor = Color.white;
                     else liberationDesc[point].defaultColor = new Color(100f / 255f, 100f / 255f, 100f / 255f); // 회색
+                    liberationDesc[point].SetAbilityDesc(blacksmithAbilities[point].abilityDesc, blacksmithAbilities[point].abilityPrice);
                     break;
             }
             liberationDesc[point].image.color = liberationDesc[point].defaultColor;
@@ -108,7 +125,7 @@ public class LiberationSystem : MonoBehaviour
     {
         liberationDesc[point].defaultColor = Color.white;
         liberationDesc[point].image.color = liberationDesc[point].defaultColor;
-        AbilityManager.Instance.SetAbiltiy(characterName, point, true);
+        AbilityManager.Instance.SetAbility(characterName, point, true);
     }
 
     // 해방 특수 효과 비활성화.
@@ -116,6 +133,6 @@ public class LiberationSystem : MonoBehaviour
     {
         liberationDesc[point].defaultColor = new Color(100f / 255f, 100f / 255f, 100f / 255f);
         liberationDesc[point].image.color = liberationDesc[point].defaultColor;
-        AbilityManager.Instance.SetAbiltiy(characterName, point, false);
+        AbilityManager.Instance.SetAbility(characterName, point, false);
     }
 }

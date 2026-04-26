@@ -122,7 +122,8 @@ public class SaveManager : MonoBehaviour
     {
         for(int i = 0; i <= 5; i++)
         {
-            AbilityManager.Instance.SyncAbility(i, saveData.liberationData.bartenderAbilityData.bartenderAbility[i]);
+            AbilityManager.Instance.SetAbility("bartender", i, saveData.liberationData.bartenderAbilityData.bartenderAbility[i]);
+            AbilityManager.Instance.SetAbility("blacksmith", i, saveData.liberationData.blackSmithAbilityData.blackSmithAbility[i]);
         }
     }
 }

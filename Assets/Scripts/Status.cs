@@ -142,7 +142,7 @@ public class Status : MonoBehaviour
             // 인내 4레벨.
             if (CalcReceiveDamage.Instance.induranceEffect4)
             {
-                receiveDamage -= 1 + 10 * damageReduction;
+                receiveDamage -= 2;
                 if (receiveDamage < 0) receiveDamage = 0;
             }
             // 인내 7레벨.
