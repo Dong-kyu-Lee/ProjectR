@@ -66,6 +66,7 @@ public class DialogueRunner : MonoBehaviour
 
     private IEnumerator WaitForInput()
     {
+        yield return null; // 이전 프레임의 클릭 입력이 중복 감지되는 것을 방지
         while (true)
         {
             if (Input.GetKeyDown(nextKey) || (useMouseClick && Input.GetMouseButtonDown(0)))
