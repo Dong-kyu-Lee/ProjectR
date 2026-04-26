@@ -417,7 +417,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
             if (!isDead)
                 playerAnimator.ResetTrigger("Die");
         }
-        ResetCharacterAbilityAndCooldowns();
+        //ResetCharacterAbilityAndCooldowns();
     }
     protected virtual void ResetCharacterAbilityAndCooldowns()
     {

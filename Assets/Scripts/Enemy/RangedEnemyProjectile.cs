@@ -51,7 +51,6 @@ public class RangedEnemyProjectile : MonoBehaviour
             GetComponent<Collider2D>().enabled = false;
             if (collision.TryGetComponent<Status>(out var status))
             {
-                // 데미지 적용
                 status.TakeDamage(enemy, damage, 0, false);
             }
             // 데미지를 줬으면 파괴

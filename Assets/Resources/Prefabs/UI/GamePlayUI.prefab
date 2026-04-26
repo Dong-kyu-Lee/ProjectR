@@ -627,6 +627,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3446786700082131656, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
+      propertyPath: characterNameText
+      value: 
+      objectReference: {fileID: 8292732970368911773}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
 --- !u!114 &4695820583302056218 stripped
@@ -643,6 +647,11 @@ MonoBehaviour:
 --- !u!224 &8292732970054736051 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2155572197220426593, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
+  m_PrefabInstance: {fileID: 7998276171173231570}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8292732970368911773 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2155572197408780879, guid: d3e2f45e4a8331c4aabcdb7ac757715b, type: 3}
   m_PrefabInstance: {fileID: 7998276171173231570}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7998276171843797848
