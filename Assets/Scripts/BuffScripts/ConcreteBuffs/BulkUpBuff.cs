@@ -26,6 +26,9 @@ public class BulkUpBuff : Buff
             targetStatus.AdditionalDamageReduction += damageReduceIncGap[currentBuffLevel];
         }
         else targetStatus.AdditionalDamageReduction += damageReduceIncGap[currentBuffLevel];
+
+        currentBuffValue["atkDmgInc"] = GetCurrentSumOfArray(attackDamageIncGap);
+        currentBuffValue["damageReduceInc"] = damageReduceIncGap[currentBuffLevel];
     }
 
     //적용된 버프를 해제하는 함수. currentBuffLevel까지 해당하는 간격 값을 합산한 후 감소하는 식

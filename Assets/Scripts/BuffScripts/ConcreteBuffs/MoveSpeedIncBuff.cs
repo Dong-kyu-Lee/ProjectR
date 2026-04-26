@@ -19,6 +19,7 @@ public class MoveSpeedIncBuff : Buff
         if (targetStatus == null) return;
 
         targetStatus.AdditionalMoveSpeed += moveSpeedIncGap[currentBuffLevel];
+        currentBuffValue["moveSpdInc"] = GetCurrentSumOfArray(moveSpeedIncGap);
     }
 
     //적용된 버프를 해제하는 함수. currentBuffLevel까지 해당하는 간격 값을 합산한 후 증감하는 식

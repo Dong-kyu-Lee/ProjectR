@@ -32,6 +32,11 @@ public class RagingBuff : Buff
             targetStatus.AdditionalDamageReduction += damageReduceIncGap[currentBuffLevel];
         }
         else targetStatus.AdditionalDamageReduction += damageReduceIncGap[currentBuffLevel];
+
+        currentBuffValue["atkDmgInc"] = GetCurrentSumOfArray(atkDmgIncGap);
+        currentBuffValue["critDmgInc"] = GetCurrentSumOfArray(critDmgIncGap);
+        currentBuffValue["critPerInc"] = GetCurrentSumOfArray(critPerIncGap);
+        currentBuffValue["damageReduceInc"] = damageReduceIncGap[currentBuffLevel];
     }
 
     //적용된 버프를 해제하는 함수. 각 스탯마다 누적된 값을 계산해 감소하는 식

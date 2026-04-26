@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CharacterInfo : MonoBehaviour
 {
-    public GameObject characterName;
+    public GameObject characterNameText;
     public GameObject statusTextPref;
     public GameObject statusParentObj;
     [SerializeField]
@@ -45,7 +45,6 @@ public class CharacterInfo : MonoBehaviour
 
         DisableUI();
     }
-
     private void OnEnable()
     {
         // 플레이어가 있을 때만 초기화 진행
@@ -201,11 +200,21 @@ public class CharacterInfo : MonoBehaviour
         }
 
         // 캐릭터 이름 (나중에 캐릭터별로 분기하고 싶으면 여기서 처리)
-        if (characterName != null)
+        if (characterNameText != null)
         {
-            var nameText = characterName.GetComponent<Text>();
-            if (nameText != null)
-                nameText.text = "바텐더";
+            string playerName = GameManager.Instance?.CurrentPlayer?.GetComponent<PlayerControllerBase>()?.playerName;
+            if (characterNameText.TryGetComponent<Text>(out var nameText))
+            {
+                switch (playerName)
+                {
+                    case "bartender":
+                        nameText.text = "바텐더";
+                        break;
+                    case "blacksmith":
+                        nameText.text = "대장장이";
+                        break;
+                }
+            }
         }
 
         // ====== 실제 스탯 표시 ======

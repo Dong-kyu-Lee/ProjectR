@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,7 @@ public class BuffManager : MonoBehaviour
 {
     // 활성화된 버프들을 BuffType을 키로 하여 저장.
     public Dictionary<BuffType, Buff> ActiveBuffDict = new Dictionary<BuffType, Buff>();
-
-    private Collider col;
-
-    private void Awake()
-    {
-        col = GetComponent<CapsuleCollider>();
-    }
+    public float initialDuration = 0f;                //버프 생성 및 갱신 시 처음 버프 지속시간
 
     private void Update()
     {

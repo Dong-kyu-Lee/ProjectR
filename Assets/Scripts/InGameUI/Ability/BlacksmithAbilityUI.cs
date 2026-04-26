@@ -13,6 +13,9 @@ public class BlacksmithAbilityUI : AbilityUIBase
     [SerializeField] private Button enchantButton;
     [SerializeField] private Button destroyButton;
 
+    [SerializeField] private Text soulShardAmountText;
+    [SerializeField] private Image soulShardFill;
+
     private BlacksmithAbilityV2 blacksmithAbility;
 
     public override void BindAbility(IAbilityV2 ability)
@@ -34,6 +37,9 @@ public class BlacksmithAbilityUI : AbilityUIBase
 
         weaponNameText.text = weaponData.WeaponName;
         weaponImage.sprite = weaponData.WeaponSprite;
+
+        soulShardAmountText.text = $"{blacksmithAbility.UpgradeChance}개";
+        soulShardFill.fillAmount = blacksmithAbility.SoulShard / 200f;
 
         if (blacksmithAbility.IsActivated)
         {

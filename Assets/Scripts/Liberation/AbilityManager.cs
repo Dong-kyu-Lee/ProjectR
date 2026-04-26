@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerObj;
 
 public class AbilityManager : MonoBehaviour
 {
     public bool[] bartenderAbility = new bool[6];
+    public bool[] blacksmithAbility = new bool[6];
+
+    private BlacksmithAbilityV2 blacksmith;
+
+    private const float requireSoulShard = 200f;
 
     private static AbilityManager instance;
 
@@ -37,14 +43,49 @@ public class AbilityManager : MonoBehaviour
         }
     }
 
-    public void SetAbiltiy(string characterName, int point, bool enable)
+    public void SetAbility(string characterName, int point, bool enable)
     {
-        bartenderAbility[point] = enable;
+        switch (characterName)
+        {
+            case "bartender":
+                bartenderAbility[point] = enable;
+                break;
+            case "blacksmith":
+                blacksmithAbility[point] = enable;
+                break;
+            default:
+                break;
+        }
         SaveManager.Instance.SaveAbility(characterName, point, enable);
     }
 
-    public void SyncAbility(int point, bool enable)
+    public void IncreaseSoulShard(float value)
     {
-        bartenderAbility[point] = enable;
+        GameObject player = GameManager.Instance.CurrentPlayer;
+        string playerName = player.GetComponent<PlayerControllerBase>().playerName;
+
+        if (playerName == "blacksmith") blacksmith = player.GetComponent<BlacksmithAbilityV2>();
+        else return;
+
+        if (blacksmithAbility[2]) value *= 1.5f;
+        blacksmith.SoulShard += value;
+        blacksmith.onAbilityUpdated.Invoke();
+
+        if (blacksmith.SoulShard >= requireSoulShard)
+        {
+            IncreaseUpgradeChance();
+        }
+    }
+
+    private void IncreaseUpgradeChance()
+    {
+        blacksmith.UpgradeChance++;
+        blacksmith.SoulShard -= requireSoulShard;
+        blacksmith.onAbilityUpdated.Invoke();
+
+        if (blacksmith.SoulShard >= requireSoulShard)
+        {
+            IncreaseUpgradeChance();
+        }
     }
 }

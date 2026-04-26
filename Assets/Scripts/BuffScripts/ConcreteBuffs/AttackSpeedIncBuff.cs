@@ -20,6 +20,7 @@ public class AttackSpeedIncBuff : Buff
         if (targetStatus == null) return;
 
         targetStatus.AdditionalAttackSpeed += attackSpeedIncGap[currentBuffLevel];
+        currentBuffValue["atkSpdInc"] = GetCurrentSumOfArray(attackSpeedIncGap);
     }
 
 

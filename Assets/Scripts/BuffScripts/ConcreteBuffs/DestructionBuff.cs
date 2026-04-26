@@ -19,6 +19,7 @@ public class DestructionBuff : Buff
         if (targetStatus == null) return;
 
         targetStatus.Damage += atkDmgInc;
+        currentBuffValue["atkDmgInc"] = atkDmgInc;
     }
 
     //적용된 버프를 해제하는 함수. currentBuffLevel까지 해당하는 간격 값을 합산한 후 감소하는 식

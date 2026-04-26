@@ -24,6 +24,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
     protected GameObject rendererObject;
     [SerializeField]
     protected GrenadeController GrenadeController;
+    public string playerName;
     protected PlayerStatus playerStatus;
     protected IAbilityV2 characterAbility; // 고유 능력 위임 객체
 
@@ -416,7 +417,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
             if (!isDead)
                 playerAnimator.ResetTrigger("Die");
         }
-        ResetCharacterAbilityAndCooldowns();
+        //ResetCharacterAbilityAndCooldowns();
     }
     protected virtual void ResetCharacterAbilityAndCooldowns()
     {

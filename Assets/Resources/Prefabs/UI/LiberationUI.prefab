@@ -170,9 +170,7 @@ MonoBehaviour:
   abilityText: {fileID: 4063412947407339564}
   abilityPriceText: {fileID: 4063412945861975648}
   abilityIndex: 5
-  abilityDesc: "\uC220 \uC81C\uC870\uC758 \uCFE8\uD0C0\uC784\uC774 \uAC10\uC18C\uD55C\uB2E4."
-  abilityPrice: 200
-  image: {fileID: 0}
+  image: {fileID: 4063412945377134826}
   steadfiteImage: {fileID: 2417093984486104832}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
 --- !u!114 &4063412945377134824
@@ -325,10 +323,7 @@ MonoBehaviour:
   abilityText: {fileID: 4063412947407339564}
   abilityPriceText: {fileID: 4063412945861975648}
   abilityIndex: 4
-  abilityDesc: "\uC220 \uC81C\uC870\uC2DC \uD68D\uB4DD\uD558 \uB514\uBC84\uD504 \uC220\uBCD1\uC774
-    20\uAC1C\uB85C \uC99D\uAC00\uD55C\uB2E4."
-  abilityPrice: 200
-  image: {fileID: 0}
+  image: {fileID: 4063412945401874680}
   steadfiteImage: {fileID: 2417093984486104832}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
 --- !u!114 &4063412945401874662
@@ -444,7 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStatus: {fileID: 0}
   currentSteadfiteText: {fileID: 4063412946783202393}
-  characterName: bartender
+  playerName: 
   currentAbility: 0
   liberationDesc:
   - {fileID: 4063412947370488913}
@@ -453,6 +448,41 @@ MonoBehaviour:
   - {fileID: 4063412945946151020}
   - {fileID: 4063412945401874681}
   - {fileID: 4063412945377134827}
+  bartenderAbilities:
+  - abilityDesc: "\uC220\uBCD1 \uD22C\uCC99\uC758 \uD22C\uC0AC\uCCB4\uAC00 2\uAC1C\uB85C
+      \uC99D\uAC00\uD55C\uB2E4."
+    abilityPrice: 400
+  - abilityDesc: "\uC220\uBCD1 \uD22C\uCC99\uC758 \uD3ED\uBC1C \uBC94\uC704\uAC00
+      3\uBC30\uB85C \uC99D\uAC00\uD55C\uB2E4."
+    abilityPrice: 300
+  - abilityDesc: "\uC801\uC744 \uB9CC\uCDE8 \uC0C1\uD0DC\uB85C \uBE60\uC9C0\uAC8C
+      \uD558\uBA74 \uD070 \uB514\uBC84\uD504 \uD53C\uD574\uB97C \uC900\uB2E4."
+    abilityPrice: 200
+  - abilityDesc: "30\uCD08\uB9C8\uB2E4 \uD55C\uBC88 \uD2B9\uBCC4\uD55C \uC220\uC744
+      \uB9C8\uC154 \uB79C\uB364 \uBC84\uD504\uB97C \uD68D\uB4DD\uD55C\uB2E4."
+    abilityPrice: 300
+  - abilityDesc: "\uC220 \uC81C\uC870 \uC2DC \uD68D\uB4DD\uD558\uB294 \uB514\uBC84\uD504
+      \uC220\uBCD1\uC774 20\uAC1C\uB85C \uC99D\uAC00\uD55C\uB2E4."
+    abilityPrice: 200
+  - abilityDesc: "\uC220 \uC81C\uC870\uC758 \uCFE8\uD0C0\uC784\uC774 12\uCD08\uB85C
+      \uAC10\uC18C\uD55C\uB2E4."
+    abilityPrice: 200
+  blacksmithAbilities:
+  - abilityDesc: "\uBB34\uAE30 \uAC15\uD654\uC758 \uD655\uB960\uC774 30% \uC99D\uAC00\uD55C\uB2E4."
+    abilityPrice: 300
+  - abilityDesc: "\uBB34\uAE30 \uC131\uC7A5 \uC2E4\uD328 \uC2DC \uD30C\uAD34 \uD655\uB960\uC774
+      50% \uAC10\uC18C\uD55C\uB2E4."
+    abilityPrice: 300
+  - abilityDesc: "\uC601\uD63C\uC758 \uD30C\uD3B8\uC758 \uC218\uAE09\uB7C9\uC774
+      50% \uC99D\uAC00\uD55C\uB2E4."
+    abilityPrice: 200
+  - abilityDesc: "\uBB34\uAE30\uC758 \uAE30\uBCF8 \uACF5\uACA9\uC73C\uB85C \uC785\uD78C
+      \uD53C\uD574\uC758 5%\uB97C \uD68C\uBCF5\uD55C\uB2E4."
+    abilityPrice: 300
+  - abilityDesc: 
+    abilityPrice: 0
+  - abilityDesc: 
+    abilityPrice: 0
 --- !u!1 &4063412945662099853
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,10 +818,7 @@ MonoBehaviour:
   abilityText: {fileID: 4063412947407339564}
   abilityPriceText: {fileID: 4063412945861975648}
   abilityIndex: 3
-  abilityDesc: "\uC220 \uC81C\uC870\uC2DC \uD2B9\uBCC4\uD55C \uC220\uC744 \uC81C\uC870\uD558\uC5EC
-    \uBC84\uD504 \uD558\uB098\uB97C \uD68D\uB4DD\uD55C\uB2E4."
-  abilityPrice: 200
-  image: {fileID: 0}
+  image: {fileID: 4063412945946151023}
   steadfiteImage: {fileID: 2417093984486104832}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
 --- !u!114 &4063412945946151021
@@ -862,6 +889,7 @@ GameObject:
   - component: {fileID: 4063412946138282424}
   - component: {fileID: 4063412946138282425}
   - component: {fileID: 1946662649005973553}
+  - component: {fileID: 1694888452023493763}
   m_Layer: 5
   m_Name: LiberationBackGround
   m_TagString: Untagged
@@ -942,6 +970,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5053f3c609426c3438a817d94497040c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1694888452023493763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4063412946138282406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c88801a88298424f8a98e04ddd76fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4063412946237073438
@@ -1038,10 +1078,7 @@ MonoBehaviour:
   abilityText: {fileID: 4063412947407339564}
   abilityPriceText: {fileID: 4063412945861975648}
   abilityIndex: 2
-  abilityDesc: "\uC801\uC744 \uB9CC\uCDE8 \uC0C1\uD0DC\uC5D0 \uBE60\uC9C0\uAC8C \uD558\uBA74
-    \uD070 \uB514\uBC84\uD504 \uD53C\uD574\uB97C \uC900\uB2E4."
-  abilityPrice: 300
-  image: {fileID: 0}
+  image: {fileID: 4063412946237073426}
   steadfiteImage: {fileID: 2417093984486104832}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
 --- !u!114 &4063412946237073424
@@ -1217,6 +1254,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   liberationUI: {fileID: 4063412946138282406}
   liberationSystem: {fileID: 4063412945404748619}
+  liberationOnEnable: {fileID: 1694888452023493763}
+  playerNameText: {fileID: 4063412945835133917}
+  playerImage: {fileID: 4063412946853086726}
+  spriteList:
+  - playerName: bartender
+    sprite: {fileID: 1486278653, guid: 9fea3ed1039c5574797be87d5801f3e4, type: 3}
+  - playerName: blacksmith
+    sprite: {fileID: 237323604, guid: 3344899dc685e464f8f676bd0d5319a1, type: 3}
 --- !u!1 &4063412946783202374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1333,7 +1378,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 160}
-  m_SizeDelta: {x: 126, y: 316}
+  m_SizeDelta: {x: 126, y: 330}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4063412946853086745
 CanvasRenderer:
@@ -1363,7 +1408,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1486278653, guid: 9fea3ed1039c5574797be87d5801f3e4, type: 3}
+  m_Sprite: {fileID: 237323604, guid: 3344899dc685e464f8f676bd0d5319a1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1467,10 +1512,7 @@ MonoBehaviour:
   abilityText: {fileID: 4063412947407339564}
   abilityPriceText: {fileID: 4063412945861975648}
   abilityIndex: 1
-  abilityDesc: "\uC220\uBCD1 \uD22C\uCC99\uC758 \uD3ED\uBC1C \uBC94\uC704\uAC00 3\uBC30\uB85C
-    \uB298\uC5B4\uB09C\uB2E4."
-  abilityPrice: 200
-  image: {fileID: 0}
+  image: {fileID: 4063412946878932251}
   steadfiteImage: {fileID: 2417093984486104832}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
 --- !u!114 &4063412946878932249
@@ -1623,10 +1665,7 @@ MonoBehaviour:
   abilityText: {fileID: 4063412947407339564}
   abilityPriceText: {fileID: 4063412945861975648}
   abilityIndex: 0
-  abilityDesc: "\uC220\uBCD1 \uD22C\uCC99\uC758 \uD22C\uC0AC\uCCB4\uAC00 2\uAC1C\uB85C
-    \uC99D\uAC00\uD55C\uB2E4."
-  abilityPrice: 400
-  image: {fileID: 0}
+  image: {fileID: 4063412947370488912}
   steadfiteImage: {fileID: 2417093984486104832}
   defaultColor: {r: 0.10980392, g: 0.1254902, b: 0.14117648, a: 0}
 --- !u!114 &4063412947370488926

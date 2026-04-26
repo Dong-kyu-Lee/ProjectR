@@ -14,6 +14,12 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     private PlayerStatus playerStatus;
 
+    private float soulShard;
+    public float SoulShard { get { return soulShard; } set { soulShard = value; } }
+
+    private int upgradeChance;
+    public int UpgradeChance { get { return upgradeChance; } set { upgradeChance = value; } }
+
     private float lastAppliedDamage = 0f;
     private float lastAppliedAttackSpeed = 0f;
 
@@ -26,20 +32,20 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     private List<float> enchantSuccessRates = new()
     {
-        1.0f, 0.95f, 0.9f,0.85f, 0.8f, 0.75f, 0.7f, 0.65f, 0.6f, 0.5f
+        1.0f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f
     };
 
     private Dictionary<int, float> gradeMultipliers = new()
     {
-        { 1, 1.0f }, { 2, 0.9f }, { 3, 0.8f }, { 4, 0.7f }
+        { 1, 1.0f }, { 2, 0.9f }, { 3, 0.8f }, { 4, 0.1f }
     };
 
     private Dictionary<int, float> gradeUpgradeChances = new()
     {
-        { 1, 0.8f }, { 2, 0.6f }, { 3, 0.4f }
+        { 1, 0.7f }, { 2, 0.5f }, { 3, 0.3f }
     };
 
-    private const float destroyChance = 0.05f;
+    private const float destroyChance = 0.3f;
 
     // 현재 사용 중인 무기 데이터의 복사본
     private BlacksmithWeaponData runtimeWeaponData;
@@ -88,7 +94,21 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     public void EnchantWeapon()
     {
-        if (enchantLevel >= 9)
+        if (upgradeChance <= 0) 
+        {
+            Debug.Log("강화 가능 횟수 부족");
+            return;
+        }
+
+        if (curWeaponData.Rank >= 4 && enchantLevel >= 5)
+        {
+            Debug.Log("최대 강화 단계에 도달하였습니다.");
+            return;
+        }
+
+        upgradeChance--;
+
+        if (enchantLevel >= 5)
         {
             TryUpgradeGrade();
             return;
@@ -97,6 +117,11 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         float baseProb = GetSuccessRate(enchantLevel);
         float gradeMultiplier = GetGradeMultiplier(curWeaponData.Rank);
         float finalSuccessRate = baseProb * gradeMultiplier;
+        if (AbilityManager.Instance.blacksmithAbility[0])
+        {
+            finalSuccessRate *= 1.3f;
+            if (finalSuccessRate >= 1f) finalSuccessRate = 1f;
+        }
         float prob = Random.Range(0f, 1f);
 
         Debug.Log($"[강화 시도] 등급: {GetGradeName(curWeaponData.Rank)}, 단계: {enchantLevel}, 확률: {finalSuccessRate * 100f}% → {prob}");
@@ -148,7 +173,9 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     void TryDestroyWeapon()
     {
         float roll = Random.Range(0f, 1f);
-        if (roll <= destroyChance)
+        float finalDestroyChance = destroyChance;
+        if (AbilityManager.Instance.blacksmithAbility[1]) finalDestroyChance *= 0.5f;
+        if (roll <= finalDestroyChance)
         {
             Debug.Log("장비 파괴됨! 초기화");
             Deactivate();

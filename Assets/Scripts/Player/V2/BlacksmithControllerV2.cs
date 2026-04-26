@@ -133,8 +133,11 @@ public class BlacksmithControllerV2 : PlayerControllerBase
                 damage = CalcDamage.Instance.CheckCritical(damage, ref ignoreReduction, ref isCritical);
                 hit.GetComponent<Status>()?.TakeDamage(gameObject, damage, ignoreReduction, isCritical);
 
+                if (AbilityManager.Instance.blacksmithAbility[3]) playerStatus.Hp += damage * 0.02f;
+
                 CalcDamage.Instance.CheckAddtionalDamage(hit.gameObject);
                 CalcDamage.Instance.AdditionalEffect(hit.gameObject);
+                CalcDamage.Instance.CheckFightState();
 
                 // 타격 성공 시 적에게 무기 데이터에 따른 경직 부여
                 Enemy hitEnemy = hit.GetComponent<Enemy>();
