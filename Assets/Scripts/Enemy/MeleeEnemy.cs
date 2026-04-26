@@ -44,4 +44,13 @@ public class MeleeEnemy : Enemy
         hitBoxObj.SetActive(true);
     }
 
+    public override void CancelAttack()
+    {
+        base.CancelAttack();
+        if (hitBoxObj != null)
+        {
+            hitBoxObj.SetActive(false);
+        }
+    }
+
 }

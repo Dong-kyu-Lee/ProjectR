@@ -51,5 +51,6 @@ public class AttackState : IState
     public void Exit()
     {
         isAttacking = false;
+        enemy.isAttacking = false;
     }
 }
