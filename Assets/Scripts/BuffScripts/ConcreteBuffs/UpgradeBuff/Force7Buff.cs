@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Force7Buff : Buff
 {
-    private float atkDmgInc = 20f;     //피해량 증가량
-
+    private float[] atkDmgIncGap = { 20f, 20f, 20f };     //피해량 증가량
     public Force7Buff(float duration, GameObject target) : base(duration, target)
     {
         this.BuffType = BuffType.Force7;
@@ -16,7 +15,9 @@ public class Force7Buff : Buff
     {
         PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
 
-        playerStatus.Damage += atkDmgInc;
+        playerStatus.Damage += atkDmgIncGap[currentBuffLevel];
+
+        currentBuffValue["atkDmgInc"] = GetCurrentSumOfArray(atkDmgIncGap);
     }
 
     //적용된 버프를 해제하는 함수. 각 스탯마다 누적된 값을 계산해 감소하는 식
@@ -24,6 +25,6 @@ public class Force7Buff : Buff
     {
         PlayerStatus playerStatus = targetObject.GetComponent<PlayerStatus>();
 
-        playerStatus.Damage -= atkDmgInc * (currentBuffLevel + 1);
+        playerStatus.Damage -= GetCurrentSumOfArray(atkDmgIncGap);
     }
 }

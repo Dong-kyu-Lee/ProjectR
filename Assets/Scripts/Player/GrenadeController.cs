@@ -6,7 +6,7 @@ using UnityEngine;
 public class GrenadeController : MonoBehaviour
 {
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private GameObject grenadePrefab;
+    private GameObject grenadePrefab;
 
     public int resolution = 10;
     public float launchForce = 15f;

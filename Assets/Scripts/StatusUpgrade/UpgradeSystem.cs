@@ -17,10 +17,6 @@ public class UpgradeSystem : MonoBehaviour
         statusEffect = GetComponent<StatusEffect>();
         statusValueText = transform.GetComponent<StatusValueText>();
     }
-    private void Update()
-    {
-        Debug.Log(upgradeStatus.Force);
-    }
 
     void OnEnable()
     {

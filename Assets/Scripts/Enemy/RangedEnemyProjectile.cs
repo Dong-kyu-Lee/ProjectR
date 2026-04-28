@@ -27,6 +27,7 @@ public class RangedEnemyProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (isDamaged) return;
         // 1. 벽/땅 충돌 처리 (레이어 이름 확인)
         if (collision.gameObject.layer == LayerMask.NameToLayer("GroundTile"))
         {
@@ -46,15 +47,12 @@ public class RangedEnemyProjectile : MonoBehaviour
         // 비트 연산으로 레이어 체크
         if (((1 << collision.gameObject.layer) & targetLayer) != 0)
         {
-            var playerStatus = collision.gameObject.GetComponent<PlayerStatus>();
-
-            if (playerStatus != null && !isDamaged)
+            isDamaged = true;
+            GetComponent<Collider2D>().enabled = false;
+            if (collision.TryGetComponent<Status>(out var status))
             {
-                // 데미지 적용
-                collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
-                isDamaged = true;
+                status.TakeDamage(enemy, damage, 0, false);
             }
-
             // 데미지를 줬으면 파괴
             Destroy(gameObject);
         }

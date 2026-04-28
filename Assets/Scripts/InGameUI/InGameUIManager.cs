@@ -254,7 +254,7 @@ public class InGameUIManager : MonoBehaviour
 
             DungeonUIManager dungeonManager = FindObjectOfType<DungeonUIManager>();
 
-            if (dungeonManager != null && topUI == dungeonManager.fullMap)
+            if (dungeonManager != null && topUI == dungeonManager.FullMap)
             {
                 dungeonManager.CloseFullMap();
             }

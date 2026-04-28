@@ -1,6 +1,6 @@
 public enum BuffType
 {
-    None,                       //Hp회복용
+    None,                       
 
     AttackDamageIncrease,       //공격력 증가
     DamageReductionIncrease,    //피해 감소량 증가

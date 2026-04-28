@@ -96,11 +96,14 @@ public class Enemy : MonoBehaviour
 
     public void StartAttack()
     {
-        if (!StateMachine.isDead && !isAttacking)
+        // 적이 죽었거나, 이미 공격 중이거나, 현재 경직(Stun) 상태라면 공격 실행 금지
+        if (StateMachine.isDead || isAttacking || StateMachine.CurrentState == StateMachine.stunState)
         {
-            StateMachine.TransitionTo(StateMachine.attackState);
-            Attack();
+            return;
         }
+
+        StateMachine.TransitionTo(StateMachine.attackState);
+        Attack();
     }
 
     public virtual void Attack()
@@ -166,5 +169,37 @@ public class Enemy : MonoBehaviour
     public virtual void ShootProjectile()
     {
 
+    }
+
+    public void ApplyHitStun(float duration)
+    {
+        if (enemyStatus != null && (enemyStatus.IsBoss || enemyStatus.Hp <= 0)) return;
+
+        // 실행 중이던 공격 판정(Melee의 Hitbox 대기 등) 코루틴 강제 정지
+        StopAllCoroutines();
+
+        // AI 상태 머신 내부의 대기(Idle, Attack Delay) 코루틴 정지
+        if (StateMachine != null) StateMachine.StopAllCoroutines();
+
+        // 애니메이터에 큐(Queue)로 들어가 대기 중인 공격 트리거를 캔슬
+        if (enemyAnimator != null)
+        {
+            enemyAnimator.ResetTrigger("Attack");
+        }
+
+        // 켜져있는 무기 히트박스 등을 끔 (CancelAttack은 이전 답변에서 만든 가상 함수)
+        CancelAttack();
+
+        // StunState로 경직 시간 전달 후 상태 강제 전환!
+        if (StateMachine != null && StateMachine.stunState is StunState stun)
+        {
+            stun.SetDuration(duration);
+            StateMachine.TransitionTo(StateMachine.stunState);
+        }
+    }
+
+    public virtual void CancelAttack()
+    {
+        isAttacking = false;
     }
 }

@@ -18,6 +18,7 @@ public class Critical4Buff : Buff
         if (targetStatus == null) return;
 
         targetStatus.AdditionalMoveSpeed += moveSpeedInc;
+        currentBuffValue["moveSpdInc"] = moveSpeedInc;
     }
 
     //적용된 버프를 해제하는 함수. 각 스탯마다 누적된 값을 계산해 감소하는 식

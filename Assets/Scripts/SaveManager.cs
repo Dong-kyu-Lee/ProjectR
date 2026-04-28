@@ -14,6 +14,7 @@ public class SaveData
 public class LiberationData
 {
     public BartenderAbilityData bartenderAbilityData = new BartenderAbilityData();
+    public BlackSmithAbilityData blackSmithAbilityData = new BlackSmithAbilityData();
 
     [SerializeField] private int steadfite;
     public int Steadfite { get { return steadfite; } set { steadfite = value; } }
@@ -23,6 +24,12 @@ public class LiberationData
 public class BartenderAbilityData
 {
     public bool[] bartenderAbility = new bool[6];
+}
+
+[System.Serializable]
+public class BlackSmithAbilityData
+{
+    public bool[] blackSmithAbility = new bool[6];
 }
 
 public static class SaveSystem
@@ -87,6 +94,10 @@ public class SaveManager : MonoBehaviour
                 saveData.liberationData.bartenderAbilityData.bartenderAbility[point] = enable;
                 SaveCurrentData();
                 break;
+            case "blacksmith":
+                saveData.liberationData.blackSmithAbilityData.blackSmithAbility[point] = enable;
+                SaveCurrentData(); 
+                break;
             default:
                 break;
         }
@@ -111,7 +122,8 @@ public class SaveManager : MonoBehaviour
     {
         for(int i = 0; i <= 5; i++)
         {
-            AbilityManager.Instance.SyncAbility(i, saveData.liberationData.bartenderAbilityData.bartenderAbility[i]);
+            AbilityManager.Instance.SetAbility("bartender", i, saveData.liberationData.bartenderAbilityData.bartenderAbility[i]);
+            AbilityManager.Instance.SetAbility("blacksmith", i, saveData.liberationData.blackSmithAbilityData.blackSmithAbility[i]);
         }
     }
 }

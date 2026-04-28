@@ -12,6 +12,8 @@ public class EnemyStatus : Status
     [SerializeField]
     private bool isBoss;
 
+    public bool IsBoss => isBoss;
+
     public EnemyData EnemyStatusData { get { return enemyData; } }
 
     void Awake()
@@ -47,8 +49,17 @@ public class EnemyStatus : Status
         if (isDead) return;
         isDead = true;
 
+        // 물리 연산 제외 (적 타격 불가능)
+        GetComponent<Collider2D>().enabled = false;
+        if (TryGetComponent<Rigidbody2D>(out var rb))
+        {
+            rb.velocity = Vector2.zero;
+            rb.simulated = false;   
+        }
+
         EnemyAIController enemyAIController = GetComponent<Enemy>().StateMachine;
         LevelUp.Instance?.IncreaseExp(enemyData.ExpValue);
+        AbilityManager.Instance?.IncreaseSoulShard(enemyData.SoulShardValue);
         enemyLoot.DropLoot();
         Vector2 spawnPosition = GetComponent<CapsuleCollider2D>().bounds.min;
         RuneSpawner.Instance.TrySpawnRune(spawnPosition + Vector2.up);

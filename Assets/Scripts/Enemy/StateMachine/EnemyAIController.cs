@@ -11,6 +11,7 @@ public class EnemyAIController : MonoBehaviour
     public IState chaseState;
     public IState attackState;
     public IState deadState;
+    public IState stunState;
 
     public bool isChasing = false;
     public bool isDead;
@@ -21,6 +22,7 @@ public class EnemyAIController : MonoBehaviour
         this.wanderState = new WanderState(enemy);
         this.chaseState = new ChaseState(enemy);
         this.deadState = new DeadState(enemy);
+        this.stunState = new StunState(enemy);
 
         // 공격 전략 주입
         if (enemy is DebuffMeleeEnemy)

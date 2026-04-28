@@ -13,6 +13,7 @@ public class CurseDeBuff : Buff
         maxDuration = 10;
         maxBuffLevel = 5;
         totalDamageTaken = 0;
+        isDebuff = true;
         if (CalcDamage.Instance.curseEffect13) damageTakenInc = 0.1f;
     }
 

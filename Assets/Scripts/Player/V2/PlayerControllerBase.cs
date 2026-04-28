@@ -24,6 +24,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
     protected GameObject rendererObject;
     [SerializeField]
     protected GrenadeController GrenadeController;
+    public string playerName;
     protected PlayerStatus playerStatus;
     protected IAbilityV2 characterAbility; // 고유 능력 위임 객체
 
@@ -36,7 +37,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
     public float dashFactor = 1f;
     public float dashTime = 0.2f;
     public float dashCoolTime = 0.5f;
-    public float attackCoolTimeA = 0.5f;
+    public float attackCoolTimeA = 0.767f;
     public float projectileSpawnOffset = 1f;
 
     protected bool enableJump = true;
@@ -415,18 +416,6 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
             if (!isDead)
                 playerAnimator.ResetTrigger("Die");
-        }
-        ResetCharacterAbilityAndCooldowns();
-    }
-    protected virtual void ResetCharacterAbilityAndCooldowns()
-    {
-        // IAbilityV2를 구현한 각 캐릭터의 고유 스킬 데이터 초기화
-        characterAbility?.ResetAbility();
-
-        // CalcDamage에서 관리하는 모든 쿨타임 강제 리셋
-        if (CalcDamage.Instance != null)
-        {
-            CalcDamage.Instance.ResetAllCooldowns();
         }
     }
 }

@@ -35,4 +35,8 @@ public class UpgradeUI : MonoBehaviour
             }
         }
     }
+    public void CloseButton()
+    {
+        upgradeStatusUI.SetActive(false);
+    }
 }

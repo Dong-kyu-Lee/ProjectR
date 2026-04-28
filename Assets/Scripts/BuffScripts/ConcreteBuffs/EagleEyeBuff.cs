@@ -21,6 +21,8 @@ public class EagleEyeBuff : Buff
 
         targetStatus.CriticalPercent += critPercentIncGap[currentBuffLevel];
         targetStatus.CriticalDamage += critDamageIncGap[currentBuffLevel];
+        currentBuffValue["critPerInc"] = GetCurrentSumOfArray(critPercentIncGap);
+        currentBuffValue["critDmgInc"] = GetCurrentSumOfArray(critDamageIncGap);
     }
 
     //적용된 버프를 해제하는 함수. currentBuffLevel까지 해당하는 간격 값을 합산한 후 감소하는 식

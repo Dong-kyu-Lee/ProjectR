@@ -34,6 +34,19 @@ public class LevelUp : MonoBehaviour
         StartCoroutine(InitPlayerStatus());
     }
 
+    void OnEnable()
+    {
+        // 리스너 등록
+        GameManager.Instance.OnPlayerCharacterChanged.AddListener(ResetPlayerInfo);
+    }
+
+    void OnDisable()
+    {
+        // 리스너 해제 (메모리 누수 방지)
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(ResetPlayerInfo);
+    }
+
     // 경험치 통 정의.
     static LevelUp()
     {
@@ -151,5 +164,12 @@ public class LevelUp : MonoBehaviour
             InGameUIManager.Instance.UpdateExpUI(playerStatus.Exp, maxExp);
             InGameUIManager.Instance.UpdateLevelUI((int)playerStatus.Level);
         }
+    }
+
+    public void ResetPlayerInfo()
+    {
+        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        Debug.Log("캐릭터 정보 초기화");
     }
 }
