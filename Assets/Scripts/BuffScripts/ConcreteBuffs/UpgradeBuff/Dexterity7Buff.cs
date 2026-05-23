@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Dexterity7Buff : Buff
 {
-    private float atkDmgIncGap = 1f;     //피해량 증가량
+    private float atkDmgIncGap = 0.5f;     //피해량 증가량
 
     public Dexterity7Buff(float duration, GameObject target) : base(duration, target)
     {

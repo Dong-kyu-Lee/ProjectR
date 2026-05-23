@@ -6,6 +6,7 @@ public class InvincibleBuff : Buff
 {
     public InvincibleBuff(float totalDuration, GameObject target) : base(totalDuration, target) {
         this.BuffType = BuffType.Invincible;
+        maxBuffLevel = 1;
         maxDuration = 5;
     }
 

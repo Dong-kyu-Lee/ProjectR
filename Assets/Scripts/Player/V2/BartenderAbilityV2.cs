@@ -42,7 +42,6 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
         }
         isInputLocked = true;
         Invoke("UnlockInput", 0.1f);
-
         bartenderBottles.Clear();
 
         int count = AbilityManager.Instance.bartenderAbility[4] ? 20 : 10;
@@ -83,7 +82,7 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
             bartenderBottles.Enqueue(randomBottle);;
             // Debug.Log("병 추가 : " + randomBottle);
         }
-        if (AbilityManager.Instance.bartenderAbility[4]) BartenderGainBuff();
+        if (AbilityManager.Instance.bartenderAbility[3]) BartenderGainBuff();
         onAbilityUpdated.Invoke();
     }
 
