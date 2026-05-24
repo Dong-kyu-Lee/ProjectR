@@ -44,7 +44,7 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         JumpCheck();
 
         // 대장장이는 공격 중일 때 일반 키보드 이동을 하지 않음
-        if (isAttaking && isGround)
+        if (isAttaking && isGround && !isDashing)
         {
             // 공격 코루틴에서 부여한 x축 오프셋 속도를 부드럽게 감속시켜
             // 얼음판처럼 미끄러지지 않고 묵직하게 정지하도록 처리
