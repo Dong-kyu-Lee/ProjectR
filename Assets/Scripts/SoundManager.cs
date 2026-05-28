@@ -7,31 +7,65 @@ public enum Sound
     Bgm, Effect, MaxCount,
 }
 
-public class SoundManager
+public class SoundManager : MonoBehaviour
 {
+    private static SoundManager instance;
+    public static SoundManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<SoundManager>();
+                if (instance == null)
+                {
+                    GameObject go = new GameObject { name = "SoundManager" };
+                    instance = go.AddComponent<SoundManager>();
+                }
+                instance.Init();
+            }
+            return instance;
+        }
+    }
+
     AudioSource[] audioSources = new AudioSource[(int)Sound.MaxCount];
 
     // Effect 오디오를 캐싱할 딕셔너리
     Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            Init();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    // 사운드 매니저 초기화
     public void Init()
     {
-        GameObject root = GameObject.Find("@Sound");
+        GameObject root = this.gameObject;
         if (root == null)
         {
-            root = new GameObject("@Sound");
+            root = new GameObject("SoundManager");
             Object.DontDestroyOnLoad(root);
-
-            string[] soundNames = System.Enum.GetNames(typeof(Sound));
-            for (int i = 0; i < soundNames.Length-1; i++)
-            {
-                GameObject go = new GameObject { name = soundNames[i] };
-                audioSources[i] = go.AddComponent<AudioSource>();
-                go.transform.parent = root.transform;
-            }
-            // BGM의 경우 반복재생하도록 함
-            audioSources[(int)Sound.Bgm].loop = true;
         }
+
+        string[] soundNames = System.Enum.GetNames(typeof(Sound));
+        for (int i = 0; i < soundNames.Length-1; i++)
+        {
+            GameObject go = new GameObject { name = soundNames[i] };
+            audioSources[i] = go.AddComponent<AudioSource>();
+            go.transform.parent = root.transform;
+        }
+        // BGM의 경우 반복재생하도록 함
+        audioSources[(int)Sound.Bgm].loop = true;
 
         audioSources[(int)Sound.Bgm].volume = 0.3f;
         audioSources[(int)Sound.Effect].volume = 0.3f;

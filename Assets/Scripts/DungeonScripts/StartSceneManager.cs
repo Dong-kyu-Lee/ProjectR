@@ -18,7 +18,7 @@ public class StartSceneManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Sound.Play("Sounds/BGM/StartSceneBGM", Sound.Bgm);
+        SoundManager.Instance.Play("Sounds/BGM/StartSceneBGM", Sound.Bgm);
     }
 
     void Update()

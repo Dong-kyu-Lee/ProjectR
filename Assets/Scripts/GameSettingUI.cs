@@ -47,8 +47,8 @@ public class GameSettingUI : MonoBehaviour
             fakePanel2.SetActive(true);
             Panel.SetActive(true);
             // 현재 BGM 및 SFX 볼륨 값을 슬라이더에 반영
-            bgmSlider.value = GameManager.Sound.GetBgmVolume();
-            sfxSlider.value = GameManager.Sound.GetEffectVolume();
+            bgmSlider.value = SoundManager.Instance.GetBgmVolume();
+            sfxSlider.value = SoundManager.Instance.GetEffectVolume();
             fullScreenToggle.isOn = Screen.fullScreen;
             isOpen = true;
         }
@@ -121,12 +121,12 @@ public class GameSettingUI : MonoBehaviour
     // BGM 및 SFX 볼륨 슬라이더 값 변경 시 호출되는 함수
     public void OnBGMVolumeChanged()
     {
-        GameManager.Sound.SetBgmVolume(bgmSlider.value);
+        SoundManager.Instance.SetBgmVolume(bgmSlider.value);
     }
 
     public void OnSFXVolumeChanged()
     {
-        GameManager.Sound.SetEffectVolume(sfxSlider.value);
+        SoundManager.Instance.SetEffectVolume(sfxSlider.value);
     }
 
     // 전체 화면 여부를 나타내는 토글 값 변경 시 호출되는 함수(true: 전체 화면, false: 창 모드)

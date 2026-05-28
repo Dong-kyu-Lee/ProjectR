@@ -21,8 +21,8 @@ public class SoundTest : MonoBehaviour
         if(isEntered == false && collision.CompareTag("Player"))
         {
             isEntered = true;
-            GameManager.Sound.Play("Sounds/BGM/BGM1", Sound.Bgm);
-            GameManager.Sound.Play(ac1);
+            SoundManager.Instance.Play("Sounds/BGM/BGM1", Sound.Bgm);
+            SoundManager.Instance.Play(ac1);
         }
     }
 }

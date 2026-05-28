@@ -359,6 +359,50 @@ MonoBehaviour:
   testRoomPrefabs:
   - {fileID: 8464257247955686885, guid: c94a3865172df5e4a9f2f1af86cba378, type: 3}
   testSceneName: 
+--- !u!1 &129002915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 129002917}
+  - component: {fileID: 129002916}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &129002916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129002915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd7a5d3cef03e34091f4abf2fe8962c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &129002917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129002915}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &134855871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,7 +1239,6 @@ MonoBehaviour:
   upgradeUI: {fileID: 0}
   inventoryUI: {fileID: 0}
   inGameUI: {fileID: 0}
-  testUI: {fileID: 0}
   isFirstPlayerCreated: 0
   totalKillCount: 0
   maximumDamage: 0
