@@ -2,12 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CharacterType
-{
-    Bartender,
-    Blacksmith,
-}
-
 public class CharacterSelect : MonoBehaviour
 {
     // Mannequin과 CharacterType에 해당하는 캐릭터 종류의 순서가 같아야 함.
