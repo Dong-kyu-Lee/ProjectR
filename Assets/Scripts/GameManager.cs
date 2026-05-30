@@ -12,7 +12,6 @@ public enum SceneType
 
 public class GameManager : MonoBehaviour
 {
-    #region Member Variables
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -65,12 +64,6 @@ public class GameManager : MonoBehaviour
         { CharacterType.Blacksmith, "Prefabs/Player Prefabs/Blacksmith2_2" },
     };
 
-    
-
-    // 프롤로그 관리
-    public PrologueManager prologue;
-    #endregion
-
     private void Awake()
     {
         // 싱글톤 초기화
@@ -83,9 +76,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject); // 중복된 GameManager 제거
         }
-        // 프롤로그 매니저 추가
-        prologue = gameObject.AddComponent<PrologueManager>();
-
         SceneManager.sceneLoaded += FindUpgradeUI;
     }
 

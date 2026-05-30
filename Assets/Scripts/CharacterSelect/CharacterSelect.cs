@@ -12,6 +12,7 @@ public class CharacterSelect : MonoBehaviour
     CM_LobbyScene vcam;
     [SerializeField]
     Transform prologueSpawnPoint;
+
     //UI 초상화
     [SerializeField] private CharacterPortraitHandler portraitHandler;
 
@@ -51,9 +52,10 @@ public class CharacterSelect : MonoBehaviour
         }
         // 플레이어 오브젝트 생성 위치 결정(프롤로그 완료 여부에 따름)
         Vector3 spawnPosition;
-        if (GameManager.Instance.prologue.hasSeenPrologue == false) { 
+        if (PlayerPrefs.GetInt("HasSeenPrologue") == 0) { 
             spawnPosition = prologueSpawnPoint.position;
-            GameManager.Instance.prologue.EndPrologue();
+            PlayerPrefs.SetInt("HasSeenPrologue", 1);
+            PlayerPrefs.Save();
         }
         else { spawnPosition = mannequins[(int)GameManager.Instance.CurrentCharacterType].transform.position; }
         // 현재 플레이어 오브젝트 설정(생성할 캐릭터 오브젝트, 타입, 위치)
