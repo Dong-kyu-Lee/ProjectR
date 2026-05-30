@@ -84,7 +84,7 @@ public class GameSettingUI : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name != "LobbyScene")
         {
-            GameManager.Instance.PlayTimeStop();
+            GameStatisticsTracker.Instance.PlayTimeStop();
             GameManager.Instance.PlayerDead();
         }
     }

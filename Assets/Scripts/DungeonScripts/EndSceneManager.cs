@@ -64,9 +64,9 @@ public class EndSceneManager : MonoBehaviour
                 );
         }
         // 기타 결과 변수 설정
-        killCount.text = GameManager.Instance.totalKillCount.ToString();
-        maximumDamage.text = GameManager.Instance.maximumDamage.ToString();
-        playTime.text = GameManager.Instance.totalPlayTimeInSeconds.ToString(@"hh\:mm\:ss");
+        killCount.text = GameStatisticsTracker.Instance.TotalKillCount.ToString();
+        maximumDamage.text = GameStatisticsTracker.Instance.MaximumDamage.ToString();
+        playTime.text = GameStatisticsTracker.Instance.TotalPlayTimeInSeconds.ToString(@"hh\:mm\:ss");
         // BGM 재생
         SoundManager.Instance.Play("Sounds/BGM/EndSceneBGM", Sound.Bgm);
     }

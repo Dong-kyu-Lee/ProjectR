@@ -167,7 +167,7 @@ public class Status : MonoBehaviour
 
         OnHpChange();
 
-        GameManager.Instance.SetMaximumDamage(receiveDamage);
+        GameStatisticsTracker.Instance.SetMaximumDamage(receiveDamage);
     }
 
     protected virtual void HitImpact()
