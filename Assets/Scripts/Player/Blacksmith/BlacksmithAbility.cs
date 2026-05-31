@@ -22,22 +22,22 @@ public class BlacksmithAbility : MonoBehaviour, IAbility
     public UnityEvent onAbilityUpdated;
 
     List<float> enchantSuccessRates = new List<float> {
-        1.0f, 0.95f, 0.9f, 0.85f, 0.8f, 0.75f, 0.7f, 0.65f, 0.6f, 0.5f
+        1.0f, 0.9f, 0.8f, 0.7f, 0.6f
     };
 
     Dictionary<int, float> gradeMultipliers = new Dictionary<int, float>
     {
-        {1, 1.0f}, {2, 0.9f}, {3, 0.8f}, {4, 0.7f}
+        {1, 1.0f}, {2, 0.9f}, {3, 0.8f}, {4, 0.1f}
     };
 
     Dictionary<int, float> gradeUpgradeChances = new Dictionary<int, float>
     {
-        {1, 0.8f},
-        {2, 0.6f},
-        {3, 0.4f}
+        {1, 0.7f},
+        {2, 0.5f},
+        {3, 0.3f}
     };
 
-    const float destroyChance = 0.05f;
+    const float destroyChance = 0.3f;
 
     public void Activate()
     {
@@ -60,7 +60,7 @@ public class BlacksmithAbility : MonoBehaviour, IAbility
 
     public void EnchantWeapon()
     {
-        if (enchantLevel >= 9)
+        if (enchantLevel >= 5)
         {
             TryUpgradeGrade();
             return;
@@ -78,9 +78,9 @@ public class BlacksmithAbility : MonoBehaviour, IAbility
         {
             Debug.Log("강화 성공!");
             ++enchantLevel;
-            if (enchantLevel >= 9)
+            if (enchantLevel >= 5)
             {
-                Debug.Log("9강 달성! 장비 성장 가능!");
+                Debug.Log("5강 달성! 장비 성장 가능!");
             }
         }
         else

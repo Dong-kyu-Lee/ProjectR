@@ -14,6 +14,8 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     private PlayerStatus playerStatus;
 
+    private BuffManager playerBuffManager;
+
     private float soulShard;
     public float SoulShard { get { return soulShard; } set { soulShard = value; } }
 
@@ -21,6 +23,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     public int UpgradeChance { get { return upgradeChance; } set { upgradeChance = value; } }
 
     private float lastAppliedDamage = 0f;
+    private float lastAppliedAdditionalDamage = 0f;
     private float lastAppliedAttackSpeed = 0f;
 
     public bool IsActivated => isActivated;
@@ -52,6 +55,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     void Awake()
     {
         playerStatus = GetComponent<PlayerStatus>();
+        playerBuffManager = GetComponent<BuffManager>();
     }
 
     public void Activate()
@@ -71,6 +75,15 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             
             Debug.Log("CurWeapon : " + runtimeWeaponData.WeaponName);
             onAbilityUpdated.Invoke();
+        }
+        else
+        {
+            if (AbilityManager.Instance.blacksmithAbility[5] && !CalcDamage.Instance.IsOnCooldown("blackSmithInvincible"))
+            {
+                playerBuffManager.ActivateBuff(BuffType.Invincible, 1f);
+                CalcDamage.Instance.StartCooldown("blackSmithInvincible", 5f);
+            }
+            EnchantWeapon();
         }
     }
 
@@ -198,26 +211,34 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         Debug.Log("총 데미지 수치 : " + playerStatus.TotalDamage);
     }
 
-    // 현재 공격속도는 가산되지 않도록 처리
+    // 무기 강화를 통한 스테이터스 상승
     void ApplyWeaponBonus()
     {
-        float bonusDamage = curWeaponData.GetEffectiveDamage();
-        float bonusAttackSpeed = curWeaponData.GetEffectiveAttackSpeed();
+        int multiplier = 1;
+        if (AbilityManager.Instance.blacksmithAbility[4]) multiplier = 2;
 
-        playerStatus.AdditionalDamage += bonusDamage;
+        float bonusDamage = curWeaponData.GetEffectiveDamage() * multiplier;
+        float bonusAdditionalDamage = curWeaponData.GetEffectiveAdditionalDamage() * multiplier;
+        float bonusAttackSpeed = curWeaponData.GetEffectiveAttackSpeed() * multiplier;
+
+        playerStatus.Damage += bonusDamage;
+        playerStatus.AdditionalDamage += bonusAdditionalDamage;
         playerStatus.AdditionalAttackSpeed += bonusAttackSpeed;
 
         lastAppliedDamage = bonusDamage;
+        lastAppliedAdditionalDamage = bonusAdditionalDamage;
         lastAppliedAttackSpeed = bonusAttackSpeed;
     }
 
-
+    // 무기 강화를 통한 스테이터스 상승 초기화
     void RemoveWeaponBonus()
     {
-        playerStatus.AdditionalDamage -= lastAppliedDamage;
+        playerStatus.Damage -= lastAppliedDamage;
+        playerStatus.AdditionalDamage -= lastAppliedAdditionalDamage;
         playerStatus.AdditionalAttackSpeed -= lastAppliedAttackSpeed;
 
         lastAppliedDamage = 0f;
+        lastAppliedAdditionalDamage = 0f;
         lastAppliedAttackSpeed = 0f;
     }
 

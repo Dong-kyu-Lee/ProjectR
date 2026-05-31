@@ -17,6 +17,7 @@ public class BlacksmithWeaponData : ScriptableObject
     [SerializeField] private int enchantLevel;
     [SerializeField] private Sprite weaponSprite;
 
+    [SerializeField] private float weaponDamage;
     [SerializeField] private float additionalDamage;
     [SerializeField] private float additionalAttackSpeed;
 
@@ -30,6 +31,7 @@ public class BlacksmithWeaponData : ScriptableObject
     public int Rank { get => rank; set => rank = value; }
     public int EnchantLevel { get => enchantLevel; set => enchantLevel = value; }
 
+    public float WeaponDamage => weaponDamage;
     public float AdditionalDamage => additionalDamage;
     public float AdditionalAttackSpeed => additionalAttackSpeed;
 
@@ -42,11 +44,18 @@ public class BlacksmithWeaponData : ScriptableObject
 
     public float GetEffectiveDamage()
     {
-        return additionalDamage + enchantLevel * 0.1f;
+        return weaponDamage + (rank - 1) * 5f + enchantLevel * 1f;
+    }
+
+    public float GetEffectiveAdditionalDamage()
+    {
+        if (weaponStyle == WeaponStyle.TwoHanded) return additionalDamage + (rank - 1) * 0.05f;
+        else return additionalDamage;
     }
 
     public float GetEffectiveAttackSpeed()
     {
-        return additionalAttackSpeed + enchantLevel * 0.02f;
+        if (weaponStyle == WeaponStyle.OneHanded) return additionalAttackSpeed + (rank - 1) * 0.1f;
+        else return additionalAttackSpeed;
     }
 }
