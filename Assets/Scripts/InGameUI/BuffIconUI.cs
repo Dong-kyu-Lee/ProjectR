@@ -14,18 +14,13 @@ public struct BuffSpriteEntry
 public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("이미지 컴포넌트")]
-    [SerializeField] 
-    private Image iconImage;
-    [SerializeField] 
-    private Image cooldownOverlay;
-    [SerializeField]
-    private Image baseImage;
-    [SerializeField]
-    private TextMeshProUGUI buffStackText;
+    [SerializeField] private Image iconImage;
+    [SerializeField] private Image cooldownOverlay;
+    [SerializeField] private Image baseImage;
+    [SerializeField] private TextMeshProUGUI buffStackText;
 
     [Header("버프 종류별 스프라이트")]
-    [SerializeField] 
-    private List<BuffSpriteEntry> buffSpriteEntries = new List<BuffSpriteEntry>();
+    [SerializeField] private List<BuffSpriteEntry> buffSpriteEntries = new List<BuffSpriteEntry>();
 
     private Dictionary<BuffType, Sprite> buffSpriteDictionary = new Dictionary<BuffType, Sprite>();
     private Buff buffData;
@@ -44,8 +39,8 @@ public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OnDisable()
     {
-        if (tooltip.gameObject.activeSelf)
-            tooltip.gameObject.SetActive(false);
+        if (tooltip != null && tooltip.gameObject.activeSelf)
+            tooltip.Hide(); // 직접 비활성화 대신 캡슐화된 메서드 사용
     }
 
     private void Update()
@@ -62,11 +57,10 @@ public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         iconImage.fillAmount = 1f;
         buffData.InitialDuration = buffData.CurrentDuration;
 
-        if (!buffData.IsDebuff) baseImage.color = Color.green;
-        else baseImage.color = Color.red;
+        baseImage.color = buffData.IsDebuff ? Color.red : Color.green;
 
-        //포션용
-        if (buffData.BuffType.ToString().StartsWith("Potion_"))
+        // [수정/개선] GC 부하를 일으키던 ToString().StartsWith()를 헬퍼 클래스로 이관
+        if (BuffUIDataHelper.IsPotionBuff(buffData.BuffType))
         {
             iconImage.color = new Color(1f, 1f, 1f, 0.6f); // 반투명 표시
             cooldownOverlay.color = new Color(1f, 1f, 1f, 0.6f);
@@ -78,6 +72,7 @@ public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         buffData = newBuffData;
         UpdateUI();
     }
+
     private void SetSprites()
     {
         if (buffData == null || !buffSpriteDictionary.ContainsKey(buffData.BuffType)) return;
@@ -88,64 +83,37 @@ public class BuffIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             iconImage.sprite = sprite;
         }
-        /*
-        if (cooldownOverlay != null)
-        {
-            cooldownOverlay.sprite = sprite;
-        }*/
     }
+
     private void UpdateUI()
     {
         if (buffData == null) return;
 
         float fill = Mathf.Clamp01(1f - (buffData.CurrentDuration / buffData.InitialDuration));
-        if (buffData.CurrentBuffLevel == 0) buffStackText.text = "";
-        else buffStackText.text = (buffData.CurrentBuffLevel + 1).ToString();
-
+        
+        buffStackText.text = buffData.CurrentBuffLevel == 0 ? "" : (buffData.CurrentBuffLevel + 1).ToString();
         cooldownOverlay.fillAmount = fill;
     }
 
-    // 마우스를 올렸을 때 툴팁 확인
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (tooltip != null)
         {
-            if (!tooltip.gameObject.activeSelf)
-                tooltip.gameObject.SetActive(true);
-            ShowBuffDetail();// 디버깅용 코드 -> 추후 제거 예정
+            // 디버깅용 메서드(ShowBuffDetail) 호출 제거하여 깔끔하게 정리
             tooltip.ShowTooltip(buffData, iconImage.sprite);
         }
     }
 
-    // 마우스를 뗐을 때 실행
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (tooltip.gameObject.activeSelf)
-            tooltip.gameObject.SetActive(false);
-    }
-
-    /*public void OnPointerClick(PointerEventData eventData)
-    {
-        if (tooltip != null)
+        if (tooltip != null && tooltip.IsVisible())
         {
-            if (!tooltip.gameObject.activeSelf)
-                tooltip.gameObject.SetActive(true);
-            ShowBuffDetail();// 디버깅용 코드 -> 추후 제거 예정
-            tooltip.ShowTooltip(buffData.BuffType, iconImage.sprite);
+            tooltip.Hide();
         }
-    }*/
+    }
 
     public void SetTooltipReference(BuffToolTipUI tooltipUI)
     {
         tooltip = tooltipUI;
-    }
-
-    private void ShowBuffDetail() // 디버깅용 코드 -> 추후 제거 예정
-    {
-        if (buffData == null) return;
-
-        Debug.Log("버프 상세 정보: " + buffData.GetType().Name +
-                  "\n지속시간: " + buffData.CurrentDuration + " / " + buffData.MaxDuration +
-                  "\n레벨: " + (buffData.CurrentBuffLevel + 1));
     }
 }
