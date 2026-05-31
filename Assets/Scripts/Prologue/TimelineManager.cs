@@ -13,7 +13,7 @@ public class TimelineManager : MonoBehaviour
 
     private void Start()
     {
-        if(prologue == null) prologue = GameObject.FindObjectOfType<PrologueManager>()?.GetComponent<PrologueManager>();
+        if(prologue == null) prologue = FindObjectOfType<PrologueManager>();
     }
 
     public void PauseTimeline()

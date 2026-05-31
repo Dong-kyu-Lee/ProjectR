@@ -27,6 +27,7 @@ public class SoundManager : MonoBehaviour
             return instance;
         }
     }
+    private bool isInstantiated = false;
 
     AudioSource[] audioSources = new AudioSource[(int)Sound.MaxCount];
 
@@ -41,7 +42,7 @@ public class SoundManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             Init();
         }
-        else
+        else if(instance != this)
         {
             Destroy(gameObject);
         }
@@ -50,6 +51,9 @@ public class SoundManager : MonoBehaviour
     // 사운드 매니저 초기화
     public void Init()
     {
+        if (isInstantiated) return;
+        isInstantiated = true;
+
         GameObject root = this.gameObject;
         if (root == null)
         {

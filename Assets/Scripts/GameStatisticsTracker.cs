@@ -32,7 +32,7 @@ public class GameStatisticsTracker
     private DateTime playStartTime;
     private bool isPlayTimeRunning = false;
 
-    public GameStatisticsTracker()
+    private GameStatisticsTracker()
     {
         if(instance != null) Debug.LogError("GameStatisticsTracker 인스턴스가 이미 존재합니다.");
         else instance = this;
