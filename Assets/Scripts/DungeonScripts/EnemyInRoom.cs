@@ -126,7 +126,7 @@ public class EnemyInRoom : MonoBehaviour
         killCount++;
         roomInstance.SetMissionKillCountText(killCount, totalEnemyCount);
         // 적 처치 수 카운트
-        GameManager.Instance.totalKillCount++;
+        GameStatisticsTracker.Instance.AddTotalKillCount(1);
 
         // 각 웨이브의 적을 전부 처치했을 때 실행되는 조건문
         if (firstIdx >= firstEnemyList.Count)

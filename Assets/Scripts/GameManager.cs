@@ -12,7 +12,6 @@ public enum SceneType
 
 public class GameManager : MonoBehaviour
 {
-    #region Member Variables
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -31,9 +30,6 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-
-    SoundManager sound = new SoundManager();
-    public static SoundManager Sound { get { return instance.sound; } }
 
     public UnityEvent OnPlayerCharacterChanged = new UnityEvent();
 
@@ -68,17 +64,6 @@ public class GameManager : MonoBehaviour
         { CharacterType.Blacksmith, "Prefabs/Player Prefabs/Blacksmith2_2" },
     };
 
-    // 게임 결과 관련 변수
-    public TimeSpan totalPlayTimeInSeconds; // 총 플레이 시간(초)
-    public int totalKillCount = 0; // 총 처치한 적 수
-    public float maximumDamage = 0;
-    private DateTime playStartTime;
-    private bool isPlayTimeRunning = false;
-
-    // 프롤로그 관리
-    public PrologueManager prologue;
-    #endregion
-
     private void Awake()
     {
         // 싱글톤 초기화
@@ -91,10 +76,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject); // 중복된 GameManager 제거
         }
-        instance.sound.Init();
-        // 프롤로그 매니저 추가
-        prologue = gameObject.AddComponent<PrologueManager>();
-
         SceneManager.sceneLoaded += FindUpgradeUI;
     }
 
@@ -128,7 +109,7 @@ public class GameManager : MonoBehaviour
     /* SceneKey : 이동할 씬의 종류를 나타내는 열거형 , sceneName : 이동할 씬의 이름 */
     public void MoveScene(SceneType key, string sceneName, bool isAsync = false)
     {
-        sound.Clear();
+        SoundManager.Instance.Clear();
         // 해당 key의 씬으로 이동 시 필요한 코드 실행
         switch (key)
         {
@@ -152,9 +133,7 @@ public class GameManager : MonoBehaviour
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
                 // 게임 결과 초기화
-                totalPlayTimeInSeconds = TimeSpan.Zero;
-                totalKillCount = 0;
-                maximumDamage = 0;
+                GameStatisticsTracker.Instance.ResetStatistics();
                 break;
             case SceneType.Normal:
                 // 던전에서 사용되는 UI 생성
@@ -228,7 +207,7 @@ public class GameManager : MonoBehaviour
         DungeonFlowManager.Instance.ResetStages();
         // 플레이어를 엔딩 씬으로 이동
         MoveScene(SceneType.EndScene, "EndScene");
-        PlayTimeStop();
+        GameStatisticsTracker.Instance.PlayTimeStop();
     }
 
     public void CreateFirstPlayer()
@@ -248,29 +227,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(playerObject);
 
         OnPlayerCharacterChanged?.Invoke();
-    }
-
-    // 플레이 시간 측정 시작/종료 함수
-    public void PlayTimeStart()
-    {
-        if (isPlayTimeRunning) return;
-        playStartTime = DateTime.Now;
-        isPlayTimeRunning = true;
-    }
-
-    public void PlayTimeStop()
-    {
-        if (!isPlayTimeRunning) return;
-        totalPlayTimeInSeconds = DateTime.Now - playStartTime;
-        isPlayTimeRunning = false;
-    }
-
-    public void SetMaximumDamage(float damage)
-    {
-        if (damage > maximumDamage)
-        {
-            maximumDamage = damage;
-        }
     }
 
     // 인게임에 사용되는 UI의 존재를 확인하고 없으면 생성하는 함수
