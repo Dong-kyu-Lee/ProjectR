@@ -3025,7 +3025,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4063412946138282406, guid: 7e2903de261475247a098793333eaf60, type: 3}
   m_PrefabInstance: {fileID: 821343885}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &826126569
+--- !u!43 &821526649
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3412,7 +3412,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931196272}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -4430,8 +4430,8 @@ MonoBehaviour:
   - {x: -39.5, y: 8.49997, z: 0}
   - {x: -39.499973, y: -4.5, z: 0}
   m_ShapePathHash: 646088660
-  m_Mesh: {fileID: 826126569}
-  m_InstanceId: 50278
+  m_Mesh: {fileID: 821526649}
+  m_InstanceId: 42496
   m_LocalBounds:
     m_Center: {x: -16.500015, y: 2, z: 0}
     m_Extent: {x: 22.999985, y: 6.5, z: 0}
