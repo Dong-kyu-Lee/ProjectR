@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StartSceneManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class StartSceneManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Sound.Play("Sounds/BGM/StartSceneBGM", Sound.Bgm);
+        SoundManager.Instance.Play("Sounds/BGM/StartSceneBGM", Sound.Bgm);
     }
 
     void Update()
@@ -45,11 +46,10 @@ public class StartSceneManager : MonoBehaviour
     // 게임 시작 화면에서 Start 버튼에 의해 호출되는 이벤트 함수
     public void StartGame()
     {
-        if (GameManager.Instance.prologue.hasSeenPrologue == true)
-            GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
+        if(PlayerPrefs.HasKey("HasSeenPrologue") == false || PlayerPrefs.GetInt("HasSeenPrologue") == 0)
+            SceneManager.LoadScene("Prologue");
         else
-            GameManager.Instance.prologue.StartPrologue();
-        // GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
+            GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
     }
 
     // 게임 종료 버튼에 의해 호출되는 이벤트 함수

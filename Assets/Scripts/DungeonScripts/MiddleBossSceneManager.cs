@@ -36,7 +36,7 @@ public class MiddleBossSceneManager : MonoBehaviour
             middleBoss.SetActive(false);
             finishSpot.SetActive(true);
             finishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
-            GameManager.Sound.Play("Sounds/BGM/MiddleBossBGM", Sound.Bgm);
+            SoundManager.Instance.Play("Sounds/BGM/MiddleBossBGM", Sound.Bgm);
             return;
         }
         // 컷씬이 수행되지 않았다면 아래 코드 수행 (중간보스전 시작)
@@ -48,7 +48,7 @@ public class MiddleBossSceneManager : MonoBehaviour
 
         StartCoroutine(MiddleBossActivateCoroutine());
         // BGM 재생
-        GameManager.Sound.Play("Sounds/BGM/MiddleBossBGM", Sound.Bgm);
+        SoundManager.Instance.Play("Sounds/BGM/MiddleBossBGM", Sound.Bgm);
     }
 
     void Update()

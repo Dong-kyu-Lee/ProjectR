@@ -16,7 +16,7 @@ public class DungeonUIManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.Sound.Play("Sounds/BGM/NormalDungeonBGM", Sound.Bgm);
+        SoundManager.Instance.Play("Sounds/BGM/NormalDungeonBGM", Sound.Bgm);
     }
 
     void Update()

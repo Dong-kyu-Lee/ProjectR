@@ -168,11 +168,20 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 지면 감지
     protected void JumpCheck()
     {
-        enableJump = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        bool isHittingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
+        if (playerRigidBody.velocity.y > 0.05f)
+        {
+            isHittingGround = false;
+        }
+
+        enableJump = isHittingGround;
         isGround = enableJump;
 
-        playerAnimator.SetBool("isGround", isGround);
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetBool("isGround", isGround);
+        }
     }
 
     // 대시 처리
