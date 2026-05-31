@@ -13,19 +13,19 @@ public class PrologueSound : MonoBehaviour
     void Start()
     {
         if (GameManager.Instance == null) Debug.Log("GameManager Instance is null");
-        GameManager.Sound.Play(firstBGM, Sound.Bgm);
+        SoundManager.Instance.Play(firstBGM, Sound.Bgm);
     }
 
     public void PlaySecondBGM()
     {
-        GameManager.Sound.Play(secondBGM, Sound.Bgm);
+        SoundManager.Instance.Play(secondBGM, Sound.Bgm);
     }
     public void PlayThunderSound()
     {
-        GameManager.Sound.Play(thunderSound, Sound.Effect);
+        SoundManager.Instance.Play(thunderSound, Sound.Effect);
     }
     public void StopBGM()
     {
-        GameManager.Sound.Clear();
+        SoundManager.Instance.Clear();
     }
 }

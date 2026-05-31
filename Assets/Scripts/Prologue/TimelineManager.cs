@@ -8,6 +8,13 @@ public class TimelineManager : MonoBehaviour
     [SerializeField] PlayableDirector director;
     [SerializeField] GameObject conversationUI;
     [SerializeField] NpcDialogue npcDialogue;
+    [SerializeField] PrologueManager prologue;
+
+
+    private void Start()
+    {
+        if(prologue == null) prologue = FindObjectOfType<PrologueManager>();
+    }
 
     public void PauseTimeline()
     {
@@ -33,6 +40,6 @@ public class TimelineManager : MonoBehaviour
     public void EndPrologue()
     {
         Debug.Log("End Prologue from TimelineManager");
-        GameManager.Instance.prologue.CompleteCutScene();
+        prologue.CompleteCutScene();
     }
 }
