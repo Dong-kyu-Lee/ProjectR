@@ -31,8 +31,8 @@ public class MiddleBossSceneManager : MonoBehaviour
         if(StorySystem.Instance.GetStoryState(StoryID.Temp_Middle_Boss) == StoryState.Completed)
         {
             GameManager.Instance.SetActiveInGameUI(); // 인게임 UI 활성화
-            GameManager.Instance.PlacePlayerObject(playerSpawnPosition.transform.position);
-            GameManager.Instance.CurrentPlayer.SetActive(true);
+            PlayerManager.Instance.PlacePlayerObject(playerSpawnPosition.transform.position);
+            PlayerManager.Instance.CurrentPlayer.SetActive(true);
             middleBoss.SetActive(false);
             finishSpot.SetActive(true);
             finishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
@@ -40,9 +40,9 @@ public class MiddleBossSceneManager : MonoBehaviour
             return;
         }
         // 컷씬이 수행되지 않았다면 아래 코드 수행 (중간보스전 시작)
-        GameManager.Instance.PlacePlayerObject(playerSpawnPosition.transform.position);
-        GameManager.Instance.CurrentPlayer.SetActive(true);
-        middleBossCam.Follow = GameManager.Instance.CurrentPlayer.transform;
+        PlayerManager.Instance.PlacePlayerObject(playerSpawnPosition.transform.position);
+        PlayerManager.Instance.CurrentPlayer.SetActive(true);
+        middleBossCam.Follow = PlayerManager.Instance.CurrentPlayer.transform;
         finishSpot.SetActive(false);
         middleBoss.SetActive(false);
 

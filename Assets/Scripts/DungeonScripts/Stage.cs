@@ -86,11 +86,11 @@ public class Stage : MonoBehaviour
     private void CreateDungeon()
     {
         // 던전 생성 전, 플레이어 추락 방지를 위해 플레이어 비활성화
-        GameManager.Instance.CurrentPlayer.SetActive(false);
+        PlayerManager.Instance.CurrentPlayer.SetActive(false);
         // 던전 생성
         DungeonFlowManager.Instance.DungeonCreator.CreateDungeon(stageData, out playerSpawnPosition, out finishSpotPosition);
         // 테스트 플레이어 생성
-        GameManager.Instance.PlacePlayerObject(playerSpawnPosition);
+        PlayerManager.Instance.PlacePlayerObject(playerSpawnPosition);
         // 도착 위치 생성
         currentFinishSpot = Instantiate(DungeonFlowManager.Instance.finishSpotPrefab, finishSpotPosition, transform.rotation);
         Debug.Log("Finish Spot 생성됨. 닫힌 상태");
@@ -165,7 +165,7 @@ public class Stage : MonoBehaviour
     private IEnumerator PlayerActivateDelay()
     {
         yield return new WaitForSeconds(1f);
-        GameManager.Instance.CurrentPlayer.SetActive(true);
+        PlayerManager.Instance.CurrentPlayer.SetActive(true);
     }
 
     private void MoveToDungeonAndCreate()
