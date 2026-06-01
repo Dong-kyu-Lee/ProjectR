@@ -52,7 +52,7 @@ public class UpgradeSystem : MonoBehaviour
         {
             case "force":
                 upgradeStatus.Force++;
-                playerStatus.Damage += 2;
+                playerStatus.Damage++;
                 CheckUnlock("force", upgradeStatus.Force);
                 break;
             case "indurance":
@@ -93,7 +93,7 @@ public class UpgradeSystem : MonoBehaviour
     // 스테이터스 초기화.
     public void ResetStat()
     {
-        playerStatus.Damage -= upgradeStatus.Force * 2;
+        playerStatus.Damage -= upgradeStatus.Force * 1;
         playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance * 0.01f;
         playerStatus.CriticalPercent -= upgradeStatus.Critical * 0.02f;
         playerStatus.AdditionalAttackSpeed -= upgradeStatus.Dexterity * 0.02f;
