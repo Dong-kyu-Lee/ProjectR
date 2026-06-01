@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject inGameUI;
 
+    public event Action<SceneType> OnSceneChanged;
+
     private void Awake()
     {
         // 싱글톤 초기화
@@ -75,7 +77,7 @@ public class GameManager : MonoBehaviour
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
                 // 플레이어 오브젝트 제거
-                PlayerManager.Instance.TempDestroyPlayer();
+                // PlayerManager.Instance.TempDestroyPlayer();
                 DungeonFlowManager.Instance.ResetStages();
                 break;
             case SceneType.LobbyScene:
@@ -83,7 +85,7 @@ public class GameManager : MonoBehaviour
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
                 // 플레이어 오브젝트 제거
-                PlayerManager.Instance.TempDestroyPlayer();
+                // PlayerManager.Instance.TempDestroyPlayer();
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
                 // 게임 결과 초기화
@@ -97,7 +99,7 @@ public class GameManager : MonoBehaviour
             case SceneType.MiddleBoss:
                 CreateUI();
                 SetActiveUI(true);
-                PlayerManager.Instance.CurrentPlayer.SetActive(false);
+                // PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 break;
             case SceneType.Shop:
                 CreateUI();
@@ -106,20 +108,20 @@ public class GameManager : MonoBehaviour
             case SceneType.FinalBossScene:
                 CreateUI();
                 SetActiveUI(true);
-                PlayerManager.Instance.CurrentPlayer.SetActive(false);
+                // PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 break;
             case SceneType.TestScene:
                 break;
             case SceneType.StoryScene:
                 SetActiveUI(false);
                 // 플레이어 오브젝트 비활성화
-                if (PlayerManager.Instance.CurrentPlayer != null) PlayerManager.Instance.CurrentPlayer.SetActive(false);
+                // if (PlayerManager.Instance.CurrentPlayer != null) PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 break;
             case SceneType.EndScene:
                 // 업그레이드UI & 인벤토리 UI 비활성화
                 SetActiveUI(false);
                 // 플레이어 오브젝트 비활성화
-                if (PlayerManager.Instance.CurrentPlayer != null) PlayerManager.Instance.CurrentPlayer.SetActive(false);
+                // if (PlayerManager.Instance.CurrentPlayer != null) PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
                 // 업그레이드 능력 초기화
@@ -131,6 +133,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadSceneAsync(sceneName);
         }
         else SceneManager.LoadScene(sceneName);
+        OnSceneChanged?.Invoke(key);
     }
 
     // 테스트 씬에서 작동할 던전 씬 UI 생성 함수
