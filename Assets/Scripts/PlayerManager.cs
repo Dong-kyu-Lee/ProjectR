@@ -136,7 +136,16 @@ public class PlayerManager : MonoBehaviour
 
     private void OnSceneChanged(SceneType newScene)
     {
-        if (newScene.IsReturnScene()) { Destroy(playerObject); return; }
-        if (newScene.IsPlayerDeactivatedScene()) { playerObject.SetActive(false); }
+        if (newScene.IsReturnScene()) 
+        { 
+            Destroy(playerObject); 
+            return; }
+        if (newScene.IsPlayerDeactivatedScene()) 
+        { 
+            if(playerObject != null)
+            {
+                playerObject.SetActive(false);
+            }
+        }
     }
 }
