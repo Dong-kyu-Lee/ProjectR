@@ -30,18 +30,12 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-
-    public UnityEvent OnPlayerCharacterChanged = new UnityEvent();
-
-    [SerializeField]
-    private GameObject playerObject;
     // 시작 캐릭터 타입(임시).
     // TODO : 추후 기존 저장된 데이터에서 불러오도록 대체할 예정
-    public CharacterType startCharacterType;
 
-    private CharacterType currentCharacterType;
-    public CharacterType CurrentCharacterType { get => currentCharacterType; }
-    public GameObject CurrentPlayer { get => playerObject; }
+    // 현재 플레이어 타입, 오브젝트 리턴(리팩토링 중 의존성 문제로 지울 예정. 잠시 PlayerManager에서 참조)
+    public CharacterType CurrentCharacterType { get => PlayerManager.Instance.CurrentCharacterType; }
+    public GameObject CurrentPlayer { get => PlayerManager.Instance.CurrentPlayer; }
 
     [SerializeField]
     private GameObject upgradeUI;
@@ -50,19 +44,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject inGameUI;
 
-    // 임시 변수 : 게임 시작 후 플레이어 최초 생성인지 여부 확인용
-    // CharacterSelect에서 게임 시작 후 최초로 Start에서 플레이어 생성
-    // 이유 : 원래 StartSceneManager에서 플레이어를 생성했으나, StartScene에서 플레이어를 생성하고 씬 이동을 하면
-    // 생성된 플레이어의 PlayerStatus에서 InGameUIManager.Instance를 참조할 때 null 참조 오류가 발생함
-    // 래서 LobbyScene에 위치한 CharacterSelect에서 최초 플레이어를 생성하도록 변경함
-    public bool isFirstPlayerCreated = false;
-
-    // 캐릭터 프리팹 경로 매핑 - Define 클래스로 이동 예정
-    public Dictionary<CharacterType, string> characterPrefabPaths = new Dictionary<CharacterType, string>()
-    {
-        { CharacterType.Bartender, "Prefabs/Player Prefabs/Bartender2_1 Variant" },
-        { CharacterType.Blacksmith, "Prefabs/Player Prefabs/Blacksmith2_2" },
-    };
+    public event Action<SceneType> OnSceneChanged;
 
     private void Awake()
     {
@@ -84,28 +66,6 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= FindUpgradeUI;
     }
 
-    public void SetCurrentPlayer(GameObject value, CharacterType type, Vector3 spawnPosition)
-    {
-        if (value == null)
-        {
-            Debug.LogError("SetCurrentPlayer: value is null");
-            return;
-        }
-        Destroy(playerObject); // 이전 플레이어 오브젝트 제거
-        playerObject = value;
-        currentCharacterType = type;
-        playerObject.transform.position = spawnPosition;
-        playerObject.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2; // 로비 씬에서 다른 캐릭터와 겹치지 않기 위함
-        DontDestroyOnLoad(playerObject);
-        OnPlayerCharacterChanged?.Invoke();
-    }
-
-    // 플레이어 오브젝트를 지정된 시작 지점(position)에 배치하는 함수
-    public void PlacePlayerObject(Vector3 position)
-    {
-        playerObject.transform.position = position;
-    }
-
     /* SceneKey : 이동할 씬의 종류를 나타내는 열거형 , sceneName : 이동할 씬의 이름 */
     public void MoveScene(SceneType key, string sceneName, bool isAsync = false)
     {
@@ -117,7 +77,7 @@ public class GameManager : MonoBehaviour
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
                 // 플레이어 오브젝트 제거
-                Destroy(playerObject);
+                // PlayerManager.Instance.TempDestroyPlayer();
                 DungeonFlowManager.Instance.ResetStages();
                 break;
             case SceneType.LobbyScene:
@@ -125,11 +85,7 @@ public class GameManager : MonoBehaviour
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
                 // 플레이어 오브젝트 제거
-                if (playerObject != null)
-                {
-                    Destroy(playerObject);
-                    playerObject = null; // 명시적으로 비워줍니다.
-                }
+                // PlayerManager.Instance.TempDestroyPlayer();
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
                 // 게임 결과 초기화
@@ -143,7 +99,7 @@ public class GameManager : MonoBehaviour
             case SceneType.MiddleBoss:
                 CreateUI();
                 SetActiveUI(true);
-                playerObject.SetActive(false);
+                // PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 break;
             case SceneType.Shop:
                 CreateUI();
@@ -152,20 +108,20 @@ public class GameManager : MonoBehaviour
             case SceneType.FinalBossScene:
                 CreateUI();
                 SetActiveUI(true);
-                playerObject.SetActive(false);
+                // PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 break;
             case SceneType.TestScene:
                 break;
             case SceneType.StoryScene:
                 SetActiveUI(false);
                 // 플레이어 오브젝트 비활성화
-                if (playerObject != null) playerObject.SetActive(false);
+                // if (PlayerManager.Instance.CurrentPlayer != null) PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 break;
             case SceneType.EndScene:
                 // 업그레이드UI & 인벤토리 UI 비활성화
                 SetActiveUI(false);
                 // 플레이어 오브젝트 비활성화
-                if (playerObject != null) playerObject.SetActive(false);
+                // if (PlayerManager.Instance.CurrentPlayer != null) PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 // 스토리 초기화
                 StorySystem.Instance.ResetStory();
                 // 업그레이드 능력 초기화
@@ -177,6 +133,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadSceneAsync(sceneName);
         }
         else SceneManager.LoadScene(sceneName);
+        OnSceneChanged?.Invoke(key);
     }
 
     // 테스트 씬에서 작동할 던전 씬 UI 생성 함수
@@ -198,35 +155,6 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(upgradeUI);
-    }
-
-    // 플레이어 사망 시, PlayerControllerBase에서 호출되는 함수
-    public void PlayerDead()
-    {
-        // 스테이지 흐름 초기화
-        DungeonFlowManager.Instance.ResetStages();
-        // 플레이어를 엔딩 씬으로 이동
-        MoveScene(SceneType.EndScene, "EndScene");
-        GameStatisticsTracker.Instance.PlayTimeStop();
-    }
-
-    public void CreateFirstPlayer()
-    {
-        playerObject = Instantiate(
-            Resources.Load<GameObject>(characterPrefabPaths[startCharacterType]),
-            Vector3.zero,
-            Quaternion.identity);
-        if (playerObject == null)
-        {
-            Debug.LogError($"CreateFirstPlayer: Player prefab not found at path: {characterPrefabPaths[startCharacterType]}");
-            return;
-        }
-        currentCharacterType = startCharacterType;
-        playerObject.SetActive(false);
-        playerObject.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2; // 로비 씬에서 다른 캐릭터와 겹치지 않기 위함
-        DontDestroyOnLoad(playerObject);
-
-        OnPlayerCharacterChanged?.Invoke();
     }
 
     // 인게임에 사용되는 UI의 존재를 확인하고 없으면 생성하는 함수

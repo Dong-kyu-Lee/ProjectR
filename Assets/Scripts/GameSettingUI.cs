@@ -85,7 +85,7 @@ public class GameSettingUI : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "LobbyScene")
         {
             GameStatisticsTracker.Instance.PlayTimeStop();
-            GameManager.Instance.PlayerDead();
+            PlayerManager.Instance.PlayerDead();
         }
     }
     // 마우스 포인터가 로비 버튼 위에 올라갔을 때, 노란색으로 하이라이트
