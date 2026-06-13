@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -16,12 +17,16 @@ public class GameSettingUI : MonoBehaviour
     Color original;
     bool isOpen = false;
 
+    [SerializeField] TextMeshProUGUI lobbyButtonText;
+    [SerializeField] TextMeshProUGUI exitButtonText;
+    
     [Header("Sound Setting UI")]
-    public TextMeshProUGUI lobbyButtonText;
-    public TextMeshProUGUI exitButtonText;
-    public Slider bgmSlider;
-    public Slider sfxSlider;
-    public Toggle fullScreenToggle;
+    [SerializeField] Slider bgmSlider;
+    [SerializeField] Slider sfxSlider;
+
+    [SerializeField] Toggle fullScreenToggle;
+
+    private GameSettingsSaver gameSettingsSaver;
 
     void Awake()
     {
@@ -30,6 +35,7 @@ public class GameSettingUI : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+        gameSettingsSaver = new GameSettingsSaver();
         DontDestroyOnLoad(this.gameObject);
         original = lobbyButtonText.color;
     }
@@ -122,17 +128,20 @@ public class GameSettingUI : MonoBehaviour
     public void OnBGMVolumeChanged()
     {
         SoundManager.Instance.SetBgmVolume(bgmSlider.value);
+        gameSettingsSaver.SaveBGMValue(bgmSlider.value);
     }
 
     public void OnSFXVolumeChanged()
     {
         SoundManager.Instance.SetEffectVolume(sfxSlider.value);
+        gameSettingsSaver.SaveSFXValue(sfxSlider.value);
     }
 
     // 전체 화면 여부를 나타내는 토글 값 변경 시 호출되는 함수(true: 전체 화면, false: 창 모드)
     public void OnFullScreenToggleChanged()
     {
         Screen.fullScreen = fullScreenToggle.isOn;
+        gameSettingsSaver.SaveFullScreen(fullScreenToggle.isOn);
     }
 
     // 애니메이션이 끝났을 때 GameSettingUI Animation event에 의해 호출되는 함수
