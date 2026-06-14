@@ -20,6 +20,10 @@ public class StartSceneManager : MonoBehaviour
     private void Start()
     {
         SoundManager.Instance.Play("Sounds/BGM/StartSceneBGM", Sound.Bgm);
+        GameSettingsSaver gameSettingsSaver = new GameSettingsSaver();
+        SoundManager.Instance.SetBgmVolume(gameSettingsSaver.GetBGMValue());
+        SoundManager.Instance.SetEffectVolume(gameSettingsSaver.GetSFXValue());
+        Screen.fullScreen = gameSettingsSaver.GetFullScreen();
     }
 
     void Update()
