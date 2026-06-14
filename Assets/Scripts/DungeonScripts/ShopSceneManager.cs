@@ -17,8 +17,8 @@ public class ShopSceneManager : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.PlacePlayerObject(playerSpawnPosition.transform.position);
-        GameManager.Instance.CurrentPlayer.SetActive(true);
+        PlayerManager.Instance.PlacePlayerObject(playerSpawnPosition.transform.position);
+        PlayerManager.Instance.CurrentPlayer.SetActive(true);
         finishSpot.GetComponent<FinishSpot>().isWaveEnd = true;
     }
 }

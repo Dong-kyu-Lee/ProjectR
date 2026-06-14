@@ -1212,6 +1212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1103382022}
   - component: {fileID: 1103382021}
+  - component: {fileID: 1103382023}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1231,15 +1232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c39a6242a4668418d0eb3fa1a0a1c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnPlayerCharacterChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  playerObject: {fileID: 0}
-  startCharacterType: 0
   upgradeUI: {fileID: 0}
   inventoryUI: {fileID: 0}
   inGameUI: {fileID: 0}
-  isFirstPlayerCreated: 0
 --- !u!4 &1103382022
 Transform:
   m_ObjectHideFlags: 0
@@ -1255,6 +1250,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1103382023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103382020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0adfb71dbd7f7964baef040058f9a533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 0}
+  characterDatabase: {fileID: 11400000, guid: f0eacdda1e647f34ea5b2579c07313c7, type: 2}
+  OnPlayerCharacterChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1129502601
 GameObject:
   m_ObjectHideFlags: 0

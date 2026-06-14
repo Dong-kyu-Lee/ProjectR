@@ -34,7 +34,16 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private CharacterDatabase characterDatabase;
     private CharacterType currentCharacterType;
+    private CharacterType startCharacterType;
     public CharacterType CurrentCharacterType { get => currentCharacterType; }
+
+    // CharacterSelect에서 게임 시작 후 최초로 Start에서 플레이어 생성
+    // 이유 : 원래 StartSceneManager에서 플레이어를 생성했으나, StartScene에서 플레이어를 생성하고 씬 이동을 하면
+    // 생성된 플레이어의 PlayerStatus에서 InGameUIManager.Instance를 참조할 때 null 참조 오류가 발생함
+    // 그래서 LobbyScene에 위치한 CharacterSelect에서 최초 플레이어를 생성하도록 변경함
+    private bool isFirstPlayerCreated = false;
+    public bool IsFirstPlayerCreated { get => isFirstPlayerCreated; }
+
     // 플레이어 캐릭터 변경 시 이벤트
     public UnityEvent OnPlayerCharacterChanged = new UnityEvent();
 
@@ -48,11 +57,19 @@ public class PlayerManager : MonoBehaviour
         {
             Destroy(gameObject.GetComponent<PlayerManager>());
         }
+        GameManager.Instance.OnSceneChanged -= OnSceneChanged; // 중복 구독 방지
+        GameManager.Instance.OnSceneChanged += OnSceneChanged;
     }
 
-    void Update()
+    void OnDestroy()
     {
-        
+        GameManager.Instance.OnSceneChanged -= OnSceneChanged;
+    }
+
+    public GameObject GetCharacterPrefab(CharacterType type)
+    {
+        CharacterData data = characterDatabase.characterDataList[(int)type];
+        return data.characterPrefab;
     }
 
     public void SetCurrentPlayer(GameObject value, CharacterType type, Vector3 spawnPosition)
@@ -71,13 +88,64 @@ public class PlayerManager : MonoBehaviour
         OnPlayerCharacterChanged?.Invoke();
     }
 
+    // 플레이어 오브젝트를 지정된 시작 지점(position)에 배치하는 함수
+    public void PlacePlayerObject(Vector3 position)
+    {
+        playerObject.transform.position = position;
+    }
+
     // 플레이어 사망 시, PlayerControllerBase에서 호출되는 함수
     public void PlayerDead()
     {
         // 스테이지 흐름 초기화
         DungeonFlowManager.Instance.ResetStages();
         // 플레이어를 엔딩 씬으로 이동
-        // MoveScene(SceneType.EndScene, "EndScene");
-        // PlayTimeStop();
+        GameManager.Instance.MoveScene(SceneType.EndScene, "EndScene");
+        GameStatisticsTracker.Instance.PlayTimeStop();
+    }
+
+    // 임시 함수 : 플레이어 오브젝트 제거
+    public void TempDestroyPlayer()
+    {
+        if(playerObject != null)
+        {
+            Destroy(playerObject);
+            playerObject = null;
+        }
+    }
+
+    public void CreateFirstPlayer()
+    {
+        playerObject = Instantiate(
+            characterDatabase.characterDataList[(int)startCharacterType].characterPrefab,
+            Vector3.zero,
+            Quaternion.identity
+        );
+        if (playerObject == null)
+        {
+            return;
+        }
+        currentCharacterType = startCharacterType;
+        playerObject.SetActive(false);
+        playerObject.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2; // 로비 씬에서 다른 캐릭터와 겹치지 않기 위함
+        DontDestroyOnLoad(playerObject);
+
+        OnPlayerCharacterChanged?.Invoke();
+        isFirstPlayerCreated = true;
+    }
+
+    private void OnSceneChanged(SceneType newScene)
+    {
+        if (newScene.IsReturnScene()) 
+        { 
+            Destroy(playerObject); 
+            return; }
+        if (newScene.IsPlayerDeactivatedScene()) 
+        { 
+            if(playerObject != null)
+            {
+                playerObject.SetActive(false);
+            }
+        }
     }
 }

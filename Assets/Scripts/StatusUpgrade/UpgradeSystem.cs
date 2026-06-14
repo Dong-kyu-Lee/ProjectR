@@ -21,20 +21,20 @@ public class UpgradeSystem : MonoBehaviour
     void OnEnable()
     {
         // 리스너 등록
-        GameManager.Instance.OnPlayerCharacterChanged.AddListener(ResetPlayerInfo);
+        PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(ResetPlayerInfo);
     }
 
     void OnDisable()
     {
         // 리스너 해제 (메모리 누수 방지)
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(ResetPlayerInfo);
+        if (PlayerManager.Instance != null)
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(ResetPlayerInfo);
     }
 
     public void ResetPlayerInfo()
     {
-        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+        playerStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        upgradeStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
         CheckUnlockAll();
         Debug.Log("캐릭터 정보 초기화");
     }
@@ -52,7 +52,7 @@ public class UpgradeSystem : MonoBehaviour
         {
             case "force":
                 upgradeStatus.Force++;
-                playerStatus.Damage += 2;
+                playerStatus.Damage++;
                 CheckUnlock("force", upgradeStatus.Force);
                 break;
             case "indurance":
@@ -93,7 +93,7 @@ public class UpgradeSystem : MonoBehaviour
     // 스테이터스 초기화.
     public void ResetStat()
     {
-        playerStatus.Damage -= upgradeStatus.Force * 2;
+        playerStatus.Damage -= upgradeStatus.Force * 1;
         playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance * 0.01f;
         playerStatus.CriticalPercent -= upgradeStatus.Critical * 0.02f;
         playerStatus.AdditionalAttackSpeed -= upgradeStatus.Dexterity * 0.02f;

@@ -425,18 +425,18 @@ public class InGameUIManager : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        if (GameManager.Instance != null)
+        if (PlayerManager.Instance != null)
         {
-            GameManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
+            PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
         }
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        if (GameManager.Instance != null)
+        if (PlayerManager.Instance != null)
         {
-            GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
         }
     }
 
@@ -470,10 +470,10 @@ public class InGameUIManager : MonoBehaviour
             // 로비로 돌아오면 GamePlayUI on
             if (rootCanvas != null) rootCanvas.enabled = true;
 
-            if (GameManager.Instance != null)
+            if (PlayerManager.Instance != null)
             {
-                GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
-                GameManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
+                PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
+                PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
 
                 // 로비 등으로 돌아왔을 때 상태 갱신을 위해 한 번 호출
                 OnPlayerChanged();

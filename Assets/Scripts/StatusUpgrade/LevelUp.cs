@@ -37,14 +37,14 @@ public class LevelUp : MonoBehaviour
     void OnEnable()
     {
         // 리스너 등록
-        GameManager.Instance.OnPlayerCharacterChanged.AddListener(ResetPlayerInfo);
+        PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(ResetPlayerInfo);
     }
 
     void OnDisable()
     {
         // 리스너 해제 (메모리 누수 방지)
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnPlayerCharacterChanged.RemoveListener(ResetPlayerInfo);
+        if (PlayerManager.Instance != null)
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(ResetPlayerInfo);
     }
 
     // 경험치 통 정의.

@@ -240,7 +240,7 @@ public class CalcDamage : MonoBehaviour
         {
             IncCritical = true;
             playerBuffManager.ActivateBuff(BuffType.Critical7, 1.0f); // 치명 7레벨 버프.
-            StartCooldown("CriticalEffect7", 20f);
+            StartCooldown("CriticalEffect7", 10f);
         }
         if (IncCritical)
         {

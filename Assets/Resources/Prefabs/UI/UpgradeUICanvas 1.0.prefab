@@ -1418,7 +1418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statusEffectName: "\uC7AC\uC8FC Lv13"
   statusEffectDesc: "\uC801\uC5D0\uAC8C \uACF5\uACA9 \uC801\uC911 \uC2DC \uACF5\uACA9\uC18D\uB3C4\uAC00
-    2% \uC99D\uAC00\uD55C\uB2E4. (\uC9C0\uC18D\uC2DC\uAC04 3\uCD08 / \uCD5C\uB300
+    1% \uC99D\uAC00\uD55C\uB2E4. (\uC9C0\uC18D\uC2DC\uAC04 3\uCD08 / \uCD5C\uB300
     50\uC2A4\uD0DD)"
 --- !u!1 &4656230874560511206
 GameObject:
@@ -1529,7 +1529,7 @@ MonoBehaviour:
   statusEffectName: "\uBB34\uB825 Lv16"
   statusEffectDesc: "\uC804\uD22C \uC911 2\uCD08\uB9C8\uB2E4 \uCD94\uAC00 \uD53C\uD574\uB7C9\uC774
     5% \uC99D\uAC00\uD55C\uB2E4. (\uC9C0\uC18D\uC2DC\uAC04 8\uCD08 / \uCD5C\uB300
-    8\uC2A4\uD0DD)"
+    6\uC2A4\uD0DD)"
 --- !u!1 &4656230874588581753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,7 +1638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statusEffectName: "\uCE58\uBA85 Lv7"
   statusEffectDesc: "\uC801 \uD0C0\uACA9 \uC2DC 1\uCD08\uB3D9\uC548 \uCE58\uBA85\uD0C0
-    \uD655\uB960\uC774 100% \uC99D\uAC00\uD55C\uB2E4. (\uCFE8\uD0C0\uC784 20\uCD08)"
+    \uD655\uB960\uC774 100% \uC99D\uAC00\uD55C\uB2E4. (\uCFE8\uD0C0\uC784 10\uCD08)"
 --- !u!1 &4656230874674024126
 GameObject:
   m_ObjectHideFlags: 0
@@ -2015,7 +2015,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uBB34\uB825 1\uB2F9 \uD53C\uD574\uB7C9 2 \uC99D\uAC00"
+  m_Text: "\uBB34\uB825 1\uB2F9 \uD53C\uD574\uB7C9 1 \uC99D\uAC00"
 --- !u!1 &4656230874755776577
 GameObject:
   m_ObjectHideFlags: 0
@@ -3887,7 +3887,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statusEffectName: "\uC7AC\uC8FC Lv7"
   statusEffectDesc: "\uC801\uC5D0\uAC8C \uACF5\uACA9 \uC801\uC911 \uC2DC \uD53C\uD574\uB7C9\uC774
-    1 \uC99D\uAC00\uD55C\uB2E4. (\uC9C0\uC18D\uC2DC\uAC04 3\uCD08 / \uCD5C\uB300
+    0.5 \uC99D\uAC00\uD55C\uB2E4. (\uC9C0\uC18D\uC2DC\uAC04 3\uCD08 / \uCD5C\uB300
     50\uC2A4\uD0DD)"
 --- !u!1 &4656230875374885618
 GameObject:
@@ -4187,7 +4187,7 @@ MonoBehaviour:
   statusEffectName: "\uC2E0\uBE44 Lv7"
   statusEffectDesc: "\uC77C\uC815 \uC2DC\uAC04\uB9C8\uB2E4 \uC790\uC2E0\uC5D0\uAC8C
     \uB8EC\uC5D0\uC11C \uD68D\uB4DD\uD560 \uC218 \uC788\uB294 \uBC84\uD504\uB97C
-    \uC81C\uACF5\uD55C\uB2E4. (\uCFE8\uD0C0\uC784 30\uCD08)"
+    \uC81C\uACF5\uD55C\uB2E4. (\uCFE8\uD0C0\uC784 60\uCD08)"
 --- !u!1 &4656230875477356782
 GameObject:
   m_ObjectHideFlags: 0
@@ -6428,8 +6428,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statusEffectName: "\uBB34\uB825 Lv7"
-  statusEffectDesc: "\uC801 \uCC98\uCE58 \uC2DC \uD53C\uD574\uB7C9\uC774 20 \uC99D\uAC00\uD55C\uB2E4.
-    (\uC9C0\uC18D\uC2DC\uAC04 20\uCD08 / \uCD5C\uB300 3\uC2A4\uD0DD)"
+  statusEffectDesc: "\uC801 \uCC98\uCE58 \uC2DC \uD53C\uD574\uB7C9\uC774 5 \uC99D\uAC00\uD55C\uB2E4.
+    (\uC9C0\uC18D\uC2DC\uAC04 20\uCD08 / \uCD5C\uB300 4\uC2A4\uD0DD)"
 --- !u!1 &4656230876011058642
 GameObject:
   m_ObjectHideFlags: 0
@@ -7518,7 +7518,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statusEffectName: "\uC778\uB0B4 Lv16"
   statusEffectDesc: "\uD53C\uD574 \uAC10\uC18C\uB7C9\uACFC \uAD00\uB828\uB418\uC5B4
-    \uAC10\uC18C\uB41C \uD53C\uD574\uC758 1000%\uB97C \uC801\uC5D0\uAC8C \uBC18\uC0AC\uD55C\uB2E4."
+    \uAC10\uC18C\uB41C \uD53C\uD574\uB97C \uC99D\uD3ED\uD558\uC5EC \uC801\uC5D0\uAC8C
+    \uBC18\uC0AC\uD55C\uB2E4."
 --- !u!1 &4656230876523040104
 GameObject:
   m_ObjectHideFlags: 0
@@ -8085,8 +8086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statusEffectName: "\uC778\uB0B4 Lv4"
-  statusEffectDesc: "\uBAA8\uB4E0 \uBC1B\uB294 \uD53C\uD574\uAC00 2(+\uD53C\uD574\uB7C9
-    \uAC10\uC18C 1%\uB2F9 0.2) \uAC10\uC18C\uD55C\uB2E4."
+  statusEffectDesc: "\uBAA8\uB4E0 \uBC1B\uB294 \uD53C\uD574\uAC00 2 \uAC10\uC18C\uD55C\uB2E4."
 --- !u!1 &4840506402246965476
 GameObject:
   m_ObjectHideFlags: 0
