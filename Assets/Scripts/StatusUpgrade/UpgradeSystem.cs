@@ -44,7 +44,7 @@ public class UpgradeSystem : MonoBehaviour
     {
         if (upgradeStatus.StatPoint <= 0)
         {
-            Debug.Log("스킬포인트가 없습니다.");
+            InGameUIManager.Instance.ShowStatus($"스탯포인트가 부족합니다.");
             return;
         }
 

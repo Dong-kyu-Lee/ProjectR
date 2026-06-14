@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI; // Text, Slider 사용을 위해 필요
+using TMPro; // TextMeshProUGUI 사용을 위해 필요
 
 public class InGameUIManager : MonoBehaviour
 {
@@ -22,12 +24,30 @@ public class InGameUIManager : MonoBehaviour
 
     [Header("UI References")]
     [SerializeField] private GameObject checkUI;
-    public CharacterUIManager CharacterUI;
-    public CharacterInfo characterInfoUI;
-    public GameSettingUI gameSettingUI;
+    
+    // UI 필드들
+    [SerializeField] private Text goldText;
+    [SerializeField] private Slider HpBarSlider;
+    [SerializeField] private Text hpTxt;
+    [SerializeField] private BuffToolTipUI tooltipUI;
+    [SerializeField] private Image PlayerHead;
+    [SerializeField] private CharacterUIManager CharacterUI;
+    [SerializeField] private Sprite blacksmithHeadSprite;
+    [SerializeField] private Sprite bartenderHeadSprite;
     [SerializeField] private UpgradeUI upgradeUI;
+    [SerializeField] private TextMeshProUGUI warpUIText;
+
+    // 레벨 및 경험치 UI
+    [SerializeField] private Slider expBar;
+    [SerializeField] private Text levelText; 
+    [SerializeField] private Text expText;
+
+    private MessageManager messageManager;
 
     public SkillCoolTime skillCoolTimeUI;
+    public PlayerStatus playerStatus;
+    public CharacterInfo characterInfoUI;
+    public GameSettingUI gameSettingUI;
 
     public bool IsUIActive
     {
@@ -71,9 +91,20 @@ public class InGameUIManager : MonoBehaviour
 
         rootCanvas = GetComponentInParent<Canvas>();
 
-        if (gameSettingUI == null) gameSettingUI = FindObjectOfType<GameSettingUI>(true);
-        if (CharacterUI == null) CharacterUI = FindObjectOfType<CharacterUIManager>(true);
+        if (gameSettingUI == null)
+        {
+            gameSettingUI = FindObjectOfType<GameSettingUI>(true);
+            if (gameSettingUI == null) Debug.LogWarning("GameSettingUI를 찾을 수 없습니다.");
+        }
+
         if (checkUI != null) checkUI.SetActive(false);
+
+        if (CharacterUI == null)
+        {
+            CharacterUI = FindObjectOfType<CharacterUIManager>();
+        }
+
+        messageManager = GetComponent<MessageManager>();
     }
 
     private void Start()
@@ -85,13 +116,11 @@ public class InGameUIManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "EndScene") return;
 
-        // 인벤토리 (I 키)
         if (Input.GetKeyDown(KeyCode.I))
         {
             if (characterInfoUI != null) characterInfoUI.ToggleInventoryUI();
         }
 
-        // 업그레이드 (O 키)
         if (Input.GetKeyDown(KeyCode.O))
         {
             if (upgradeUI != null) upgradeUI.SetActiveUI();
@@ -106,7 +135,6 @@ public class InGameUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // GameManager의 새로운 씬 변경 이벤트 구독
         if (GameManager.Instance != null) GameManager.Instance.OnSceneChanged += OnSceneChanged;
     }
 
@@ -117,7 +145,8 @@ public class InGameUIManager : MonoBehaviour
 
     private void OnSceneChanged(SceneType sceneType)
     {
-        if (characterInfoUI != null) characterInfoUI.gameObject.SetActive(false);
+        if (characterInfoUI != null)
+            characterInfoUI.gameObject.SetActive(false);
 
         if (gameSettingUI != null)
         {
@@ -144,7 +173,7 @@ public class InGameUIManager : MonoBehaviour
     }
 
     // =====================================================================
-    // [Wrapper 함수들] 코드가 깨지지 않도록 연결해주는 역할만 수행
+    // [Wrapper 함수들] 기존 로직 유지 및 신규 기능 통합
     // =====================================================================
 
     // 1. PlayerStatusUI 연결 다리
@@ -160,4 +189,13 @@ public class InGameUIManager : MonoBehaviour
     // 3. InteractionUI 연결 다리
     public void ShowWarpUI(string message, Action action) { if (InteractionUI.Instance != null) InteractionUI.Instance.ShowWarpUI(message, action); }
     public void HideWarpUI() { if (InteractionUI.Instance != null) InteractionUI.Instance.HideWarpUI(); }
+
+    // 4. 메시지 시스템 연결 다리
+    public void ShowStatus(string msg, float delay = 2f)
+    {
+        if (messageManager != null)
+        {
+            messageManager.ShowMessage(msg, delay);
+        }
+    }
 }
