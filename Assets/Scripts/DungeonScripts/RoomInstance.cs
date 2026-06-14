@@ -21,6 +21,9 @@ public class RoomInstance : MonoBehaviour
     public Action onFirstWaveEnd;
     public Action onSecondWaveEnd;
 
+    // [추가] 외부에서 방 상태 변화를 구독할 수 있는 이벤트
+    public event Action<RoomState> OnRoomStateChanged;
+
     void Start()
     {
         onFirstWaveEnd += FirstWaveEnd;
@@ -30,11 +33,11 @@ public class RoomInstance : MonoBehaviour
 
     private void OnDestroy()
     {
-        for(int i = 0; i < dynamicElements.Count; ++i)
+        for (int i = 0; i < dynamicElements.Count; ++i)
         {
             Destroy(dynamicElements[i]);
         }
-        if(boxObject != null)
+        if (boxObject != null)
         {
             Destroy(boxObject);
         }
@@ -55,8 +58,12 @@ public class RoomInstance : MonoBehaviour
                     // first wave 적 생성
                     enemyInRoom.ActivateEnemies(false);
                 }
+
                 // 방 상태 변경
                 roomState = RoomState.Start;
+
+                // [추가] 방 상태가 Start로 변했음을 외부(UI 등)에 알림
+                OnRoomStateChanged?.Invoke(roomState);
 
                 // 적 처치 미션 시작
                 stage.GetMissionUI.StartMission("모든 적을 처치하세요.", enemyInRoom.killCount, enemyInRoom.totalEnemyCount);
@@ -79,6 +86,10 @@ public class RoomInstance : MonoBehaviour
     {
         // 방 상태 변경
         roomState = RoomState.Cleared;
+
+        // [추가] 방 상태가 Cleared로 변했음을 외부에 알림
+        OnRoomStateChanged?.Invoke(roomState);
+
         // 현재 방 문 열기
         Vector3 arrivePos = gate.OpenGate(true);
         // 다음 방 문 열기
@@ -88,14 +99,18 @@ public class RoomInstance : MonoBehaviour
     public void ResetRoomState()
     {
         isFirstWaveEnded = false;
+
         roomState = RoomState.Default;
+
+        // [추가] 던전 초기화 등으로 인해 방 상태가 Default로 변했음을 알림
+        OnRoomStateChanged?.Invoke(roomState);
     }
 
     public void SetDynamicElements(GameObject dynamicElements)
     {
-        for(int i = 0; i < dynamicElements.transform.childCount; ++i)
+        for (int i = 0; i < dynamicElements.transform.childCount; ++i)
         {
-            GameObject element = Instantiate(dynamicElements.transform.GetChild(i).gameObject, 
+            GameObject element = Instantiate(dynamicElements.transform.GetChild(i).gameObject,
                 transform.position + dynamicElements.transform.GetChild(i).localPosition, Quaternion.identity, transform);
             this.dynamicElements.Add(element);
         }

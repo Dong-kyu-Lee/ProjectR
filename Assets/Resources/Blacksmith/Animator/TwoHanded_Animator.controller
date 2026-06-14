@@ -75,6 +75,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: isGround
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMove
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5455004679290049599}
   m_Solo: 0
@@ -361,10 +364,10 @@ AnimatorStateMachine:
     m_Position: {x: 1010, y: 330, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3824163069441001972}
-    m_Position: {x: 390, y: -80, z: 0}
+    m_Position: {x: 680, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4127510561514328289}
-    m_Position: {x: 760, y: -100, z: 0}
+    m_Position: {x: 390, y: -80, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -4568450794454977859}
@@ -616,6 +619,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isGround
+    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: isMove
     m_EventTreshold: 0

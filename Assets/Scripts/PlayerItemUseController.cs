@@ -17,7 +17,9 @@ public class PlayerItemUseController : MonoBehaviour
 
     private void Awake()
     {
-        myInventory = transform.GetChild(0).GetComponent<Inventory>();
+        // [수정/제거] myInventory = transform.GetChild(0).GetComponent<Inventory>();
+        // [추가] 계층 구조(순서)가 변경되어도 안전하게 Inventory 컴포넌트를 가져오도록 수정
+        myInventory = GetComponentInChildren<Inventory>();
     }
     private void Update()
     {
@@ -45,5 +47,4 @@ public class PlayerItemUseController : MonoBehaviour
             Destroy(itemHit.transform.gameObject);
         }
     }
-
 }
