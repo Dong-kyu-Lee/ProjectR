@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI; // Text, Slider 사용을 위해 필요
-using TMPro; // TextMeshProUGUI 사용을 위해 필요
+using UnityEngine.UI;
+using TMPro;
 
 public class InGameUIManager : MonoBehaviour
 {
@@ -24,14 +24,13 @@ public class InGameUIManager : MonoBehaviour
 
     [Header("UI References")]
     [SerializeField] private GameObject checkUI;
-    
+
     // UI 필드들
     [SerializeField] private Text goldText;
     [SerializeField] private Slider HpBarSlider;
     [SerializeField] private Text hpTxt;
     [SerializeField] private BuffToolTipUI tooltipUI;
     [SerializeField] private Image PlayerHead;
-    [SerializeField] private CharacterUIManager CharacterUI;
     [SerializeField] private Sprite blacksmithHeadSprite;
     [SerializeField] private Sprite bartenderHeadSprite;
     [SerializeField] private UpgradeUI upgradeUI;
@@ -46,6 +45,7 @@ public class InGameUIManager : MonoBehaviour
 
     public SkillCoolTime skillCoolTimeUI;
     public PlayerStatus playerStatus;
+    public CharacterUIManager CharacterUI;
     public CharacterInfo characterInfoUI;
     public GameSettingUI gameSettingUI;
 
