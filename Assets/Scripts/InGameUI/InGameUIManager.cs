@@ -40,6 +40,8 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private UpgradeUI upgradeUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
 
+    private MessageManager messageManager;
+
     // 레벨 및 경험치 UI 연결 변수
     [SerializeField] private Slider expBar;
     [SerializeField] private Text levelText; // 레벨 표시용 텍스트
@@ -105,6 +107,8 @@ public class InGameUIManager : MonoBehaviour
         {
             CharacterUI = FindObjectOfType<CharacterUIManager>();
         }
+
+        messageManager = GetComponent<MessageManager>();
     }
 
     private void Start()
@@ -443,7 +447,7 @@ public class InGameUIManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 씬 이동 시, 팝업 패널들을 닫고 UI 스택을 비움
-        if (characterInfoUI != null) 
+        if (characterInfoUI != null)
             characterInfoUI.gameObject.SetActive(false);
 
         if (gameSettingUI != null)
@@ -478,6 +482,13 @@ public class InGameUIManager : MonoBehaviour
                 // 로비 등으로 돌아왔을 때 상태 갱신을 위해 한 번 호출
                 OnPlayerChanged();
             }
+        }
+    }
+    public void ShowStatus(string msg, float delay = 2f)
+    {
+        if (messageManager != null)
+        {
+            messageManager.ShowMessage(msg, delay);
         }
     }
 }

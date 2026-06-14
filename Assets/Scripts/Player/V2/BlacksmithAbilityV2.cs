@@ -72,8 +72,8 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
             ApplyWeaponBonus();
             ApplyWeaponAnimator();
-            
-            Debug.Log("CurWeapon : " + runtimeWeaponData.WeaponName);
+
+            InGameUIManager.Instance.ShowStatus($"무기 주조 완료! 현재 무기 : {runtimeWeaponData.WeaponName}");
             onAbilityUpdated.Invoke();
         }
         else
@@ -109,13 +109,13 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     {
         if (upgradeChance <= 0) 
         {
-            Debug.Log("강화 가능 횟수 부족");
+            InGameUIManager.Instance.ShowStatus("강화 가능 횟수가 부족합니다.");
             return;
         }
 
         if (curWeaponData.Rank >= 4 && enchantLevel >= 5)
         {
-            Debug.Log("최대 강화 단계에 도달하였습니다.");
+            InGameUIManager.Instance.ShowStatus("최대 강화 단계에 도달했습니다.");
             return;
         }
 
@@ -141,14 +141,14 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
         if (prob <= finalSuccessRate)
         {
-            Debug.Log("강화 성공!");
             ++enchantLevel;
             ++curWeaponData.EnchantLevel;
+            InGameUIManager.Instance.ShowStatus($"강화 성공! 현재 등급 : {GetGradeName(curWeaponData.Rank)}, 단계 : {enchantLevel}");
             RefreshWeaponBonus(); // 강화 수치 반영
         }
         else
         {
-            Debug.Log("강화 실패...");
+            InGameUIManager.Instance.ShowStatus("강화 실패...");
         }
 
         onAbilityUpdated.Invoke();
@@ -172,11 +172,10 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             enchantLevel = 0;
             curWeaponData.EnchantLevel = 0;
             RefreshWeaponBonus(); // 성장 반영
-            Debug.Log($"장비 성장 완료! 새로운 등급: {GetGradeName(curWeaponData.Rank)}");
+            InGameUIManager.Instance.ShowStatus($"장비 성장 완료! 새로운 등급: {GetGradeName(curWeaponData.Rank)}");
         }
         else
         {
-            Debug.Log("성장 실패...");
             TryDestroyWeapon();
         }
 
@@ -190,12 +189,12 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         if (AbilityManager.Instance.blacksmithAbility[1]) finalDestroyChance *= 0.5f;
         if (roll <= finalDestroyChance)
         {
-            Debug.Log("장비 파괴됨! 초기화");
+            InGameUIManager.Instance.ShowStatus("등급 성장 실패... 장비가 파괴되었습니다.");
             Deactivate();
         }
         else
         {
-            Debug.Log("장비는 살아남았지만 강화 수치는 초기화됨");
+            InGameUIManager.Instance.ShowStatus("등급 성장 실패... 장비 단계가 초기화되었습니다.");
             curWeaponData.EnchantLevel = 0;
             enchantLevel = 0;
             RefreshWeaponBonus();
