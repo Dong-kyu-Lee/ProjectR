@@ -38,6 +38,7 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
     {
         if (CalcDamage.Instance.IsOnCooldown("BartenderAbility"))
         {
+            InGameUIManager.Instance.ShowStatus("아직 능력을 사용할 수 없습니다.");
             return;
         }
         isInputLocked = true;
@@ -82,6 +83,7 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
             bartenderBottles.Enqueue(randomBottle);;
             // Debug.Log("병 추가 : " + randomBottle);
         }
+        InGameUIManager.Instance.ShowStatus("술 제조가 완료되었습니다.");
         if (AbilityManager.Instance.bartenderAbility[3]) BartenderGainBuff();
         onAbilityUpdated.Invoke();
     }

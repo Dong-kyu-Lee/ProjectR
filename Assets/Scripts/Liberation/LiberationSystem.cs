@@ -57,33 +57,35 @@ public class LiberationSystem : MonoBehaviour
             case "bartender":
                 if (AbilityManager.Instance.bartenderAbility[currentAbility])
                 {
-                    Debug.Log("이미 활성화된 능력입니다.");
+                    InGameUIManager.Instance.ShowStatus($"이미 활성화된 능력입니다.");
                 }
                 else if (SaveManager.Instance.GetSteadfite() < bartenderAbilities[currentAbility].abilityPrice)
                 {
-                    Debug.Log("능력을 해방하기 위한 단석이 부족합니다.");
+                    InGameUIManager.Instance.ShowStatus($"능력을 해방하기 위한 단석이 부족합니다.");
                 }
                 else
                 {
                     SaveManager.Instance.AddSteadfite(-bartenderAbilities[currentAbility].abilityPrice);
                     currentSteadfiteText.text = SaveManager.Instance.GetSteadfite().ToString();
                     EnableLiberationEffect(playerName, currentAbility);
+                    InGameUIManager.Instance.ShowStatus($"바텐더 능력 {currentAbility + 1} 활성 완료!");
                 }
                 break;
             case "blacksmith":
                 if (AbilityManager.Instance.blacksmithAbility[currentAbility])
                 {
-                    Debug.Log("이미 활성화된 능력입니다.");
+                    InGameUIManager.Instance.ShowStatus($"이미 활성화된 능력입니다.");
                 }
                 else if (SaveManager.Instance.GetSteadfite() < blacksmithAbilities[currentAbility].abilityPrice)
                 {
-                    Debug.Log("능력을 해방하기 위한 단석이 부족합니다.");
+                    InGameUIManager.Instance.ShowStatus($"능력을 해방하기 위한 단석이 부족합니다.");
                 }
                 else
                 {
                     SaveManager.Instance.AddSteadfite(-blacksmithAbilities[currentAbility].abilityPrice);
                     currentSteadfiteText.text = SaveManager.Instance.GetSteadfite().ToString();
                     EnableLiberationEffect(playerName, currentAbility);
+                    InGameUIManager.Instance.ShowStatus($"대장장이 능력 {currentAbility + 1} 활성 완료!");
                 }
                 break;
         }

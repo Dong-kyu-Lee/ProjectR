@@ -25,6 +25,7 @@ public class InGameUIManager : MonoBehaviour
     public CharacterUIManager CharacterUI;
     public CharacterInfo characterInfoUI;
     public GameSettingUI gameSettingUI;
+    private MessageManager messageManager;
     [SerializeField] private UpgradeUI upgradeUI;
 
     public SkillCoolTime skillCoolTimeUI;
@@ -74,6 +75,8 @@ public class InGameUIManager : MonoBehaviour
         if (gameSettingUI == null) gameSettingUI = FindObjectOfType<GameSettingUI>(true);
         if (CharacterUI == null) CharacterUI = FindObjectOfType<CharacterUIManager>(true);
         if (checkUI != null) checkUI.SetActive(false);
+
+        messageManager = GetComponent<MessageManager>();
     }
 
     private void Start()
@@ -140,6 +143,14 @@ public class InGameUIManager : MonoBehaviour
         else
         {
             if (rootCanvas != null) rootCanvas.enabled = true;
+        }
+    }
+
+    public void ShowStatus(string msg, float delay = 2f)
+    {
+        if (messageManager != null)
+        {
+            messageManager.ShowMessage(msg, delay);
         }
     }
 
