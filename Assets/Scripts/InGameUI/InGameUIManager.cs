@@ -1,12 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using TMPro;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class InGameUIManager : MonoBehaviour
 {
@@ -18,59 +12,44 @@ public class InGameUIManager : MonoBehaviour
             if (instance == null)
             {
                 instance = FindObjectOfType<InGameUIManager>();
-                if (instance == null)
-                    Debug.LogError("InGameUIManager가 씬에 존재하지 않습니다.");
+                if (instance == null) Debug.LogError("InGameUIManager가 씬에 존재하지 않습니다.");
             }
             return instance;
         }
     }
+
     private Canvas rootCanvas;
 
+    [Header("UI References")]
     [SerializeField] private GameObject checkUI;
-    [SerializeField] private Text goldText;
-    [SerializeField] private Slider HpBarSlider;
-    [SerializeField] private Text hpTxt;
-    [SerializeField] private BuffToolTipUI tooltipUI;
-
-    [SerializeField] private Image PlayerHead;
-    [SerializeField] private CharacterUIManager CharacterUI;
-    [SerializeField] private Sprite blacksmithHeadSprite;
-    [SerializeField] private Sprite bartenderHeadSprite;
-
-    [SerializeField] private UpgradeUI upgradeUI;
-    [SerializeField] private TextMeshProUGUI warpUIText;
-
-    // 레벨 및 경험치 UI 연결 변수
-    [SerializeField] private Slider expBar;
-    [SerializeField] private Text levelText; // 레벨 표시용 텍스트
-    [SerializeField] private Text expText;
-
-    public SkillCoolTime skillCoolTimeUI;
-    public PlayerStatus playerStatus;
-
+    public CharacterUIManager CharacterUI;
     public CharacterInfo characterInfoUI;
     public GameSettingUI gameSettingUI;
+    [SerializeField] private UpgradeUI upgradeUI;
 
-    //열린 UI들을 관리하는 스택 (최근 열린 순서대로 저장)
-    private Stack<GameObject> uiStack = new Stack<GameObject>();
+    public SkillCoolTime skillCoolTimeUI;
 
     public bool IsUIActive
     {
         get
         {
-            // uiStack이 null이면 꺼진 것으로 간주
-            if (uiStack == null) return false;
-            return uiStack.Count > 0;
+            if (UIStackManager.Instance != null) return UIStackManager.Instance.IsUIActive;
+            return false;
         }
     }
 
-    // 워프에 닿았을 때 E 키를 누르면 실행할 함수
-    private Action warpAction;
-
-    // UIConnector가 호출하여 CharacterInfo를 연결해주는 함수
     public void SetCharacterInfoUI(CharacterInfo info)
     {
         this.characterInfoUI = info;
+        if (characterInfoUI != null)
+        {
+            characterInfoUI.EnableUI();
+            if (CharacterUI != null) CharacterUI.InitUIForCurrentPlayer();
+            characterInfoUI.DisableUI();
+
+            InventoryUI invUI = characterInfoUI.GetComponentInChildren<InventoryUI>(true);
+            if (invUI != null) invUI.Init();
+        }
     }
 
     private void Awake()
@@ -92,359 +71,53 @@ public class InGameUIManager : MonoBehaviour
 
         rootCanvas = GetComponentInParent<Canvas>();
 
-        if (gameSettingUI == null)
-        {
-            gameSettingUI = FindObjectOfType<GameSettingUI>(true);
-            if (gameSettingUI == null) Debug.LogWarning("GameSettingUI를 찾을 수 없습니다.");
-        }
-
-        if (checkUI != null)
-            checkUI.SetActive(false);
-
-        if (CharacterUI == null)
-        {
-            CharacterUI = FindObjectOfType<CharacterUIManager>();
-        }
+        if (gameSettingUI == null) gameSettingUI = FindObjectOfType<GameSettingUI>(true);
+        if (CharacterUI == null) CharacterUI = FindObjectOfType<CharacterUIManager>(true);
+        if (checkUI != null) checkUI.SetActive(false);
     }
 
     private void Start()
     {
-        if (GameManager.Instance.CurrentPlayer != null)
-        {
-            OnPlayerChanged();
-        }
-
-        if (upgradeUI == null)
-        {
-            upgradeUI = FindObjectOfType<UpgradeUI>(true);
-            if (upgradeUI == null) Debug.LogWarning("UpgradeUI를 찾을 수 없습니다.");
-        }
-
-        if (gameSettingUI == null) gameSettingUI = FindObjectOfType<GameSettingUI>();
-    }
-
-    // 플레이어가 변경/생성되었을 때 실행되는 함수
-    public void OnPlayerChanged()
-    {
-        // 기존 코루틴 중단 후 재시작 (중복 실행 방지)
-        StopAllCoroutines();
-        StartCoroutine(InitPlayerStatus());
-    }
-
-    private IEnumerator InitPlayerStatus()
-    {
-        // 플레이어가 확실히 준비될 때까지 대기
-        yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null);
-
-        // PlayerStatus 컴포넌트 찾기
-        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        while (playerStatus == null)
-        {
-            yield return null; // 없으면 다음 프레임까지 대기
-            if (GameManager.Instance.CurrentPlayer != null)
-                playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        }
-
-        if (PlayerHead != null)
-        {
-            // 플레이어 이름에 "Blacksmith"가 포함되어 있으면 대장장이 얼굴로
-            if (GameManager.Instance.CurrentPlayer.name.Contains("Blacksmith"))
-            {
-                if (blacksmithHeadSprite != null)
-                    PlayerHead.sprite = blacksmithHeadSprite;
-            }
-            else // 아니면 바텐더 얼굴로 (기본값)
-            {
-                if (bartenderHeadSprite != null)
-                    PlayerHead.sprite = bartenderHeadSprite;
-            }
-        }
-
-        // UI 연결 대기
-        float timeOut = 3.0f; // 최대 3초 대기
-        while (characterInfoUI == null && timeOut > 0)
-        {
-            timeOut -= Time.deltaTime;
-            yield return null;
-        }
-
-        if (characterInfoUI != null)
-        {
-            characterInfoUI.EnableUI();
-
-            if (CharacterUI != null)
-            {
-                CharacterUI.InitUIForCurrentPlayer();
-            }
-            else
-            {
-                Debug.LogError("CharacterUIManager가 연결되지 않음. Inspector를 확인하세요.");
-            }
-
-            characterInfoUI.DisableUI();
-
-            InventoryUI invUI = characterInfoUI.GetComponentInChildren<InventoryUI>(true);
-            if (invUI != null) invUI.Init();
-        }
-        else
-        {
-            Debug.LogWarning("CharacterInfo가 연결되지 않음");
-        }
-
-        CheckGold();
-        UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
-
-        // 초기 레벨 및 경험치 UI 갱신
-        if (playerStatus != null)
-        {
-            int currentLevel = (int)playerStatus.Level;
-            int maxExp = 100;
-            if (LevelUp.requiredExp != null && LevelUp.requiredExp.Length > currentLevel)
-            {
-                maxExp = LevelUp.requiredExp[currentLevel];
-            }
-
-            UpdateLevelUI(currentLevel);
-            UpdateExpUI(playerStatus.Exp, maxExp);
-        }
+        if (upgradeUI == null) upgradeUI = FindObjectOfType<UpgradeUI>(true);
     }
 
     private void Update()
     {
-        //엔딩 씬이거나 플레이어가 사망한 상태라면 UI 단축키 입력 차단
         if (SceneManager.GetActiveScene().name == "EndScene") return;
-        if (playerStatus != null && playerStatus.Hp <= 0) return;
-
-        //ESC 입력 처리
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            HandleEscapeInput();
-        }
 
         // 인벤토리 (I 키)
         if (Input.GetKeyDown(KeyCode.I))
         {
-
-            if (characterInfoUI != null)
-            {
-                characterInfoUI.ToggleInventoryUI();
-            }
+            if (characterInfoUI != null) characterInfoUI.ToggleInventoryUI();
         }
 
-        // 워프 상호작용 (E 키)
-        if (Input.GetKeyDown(KeyCode.E) && warpUIText.IsActive())
-        {
-            warpAction?.Invoke();
-        }
-
+        // 업그레이드 (O 키)
         if (Input.GetKeyDown(KeyCode.O))
         {
-            if(upgradeUI != null) upgradeUI.SetActiveUI();
+            if (upgradeUI != null) upgradeUI.SetActiveUI();
             else upgradeUI = FindObjectOfType<UpgradeUI>(true);
         }
     }
 
-    // ESC 키 로직 분리
-    private void HandleEscapeInput()
-    {
-        // 스택에 쌓인 UI가 있다면 닫기
-        if (uiStack.Count > 0)
-        {
-            GameObject topUI = uiStack.Peek();
-
-            DungeonUIManager dungeonManager = FindObjectOfType<DungeonUIManager>();
-
-            if (dungeonManager != null && topUI == dungeonManager.FullMap)
-            {
-                dungeonManager.CloseFullMap();
-            }
-            // GameSettingUI 처리
-            else if (topUI.GetComponentInParent<GameSettingUI>() != null)
-            {
-                topUI.GetComponentInParent<GameSettingUI>().OpenCloseSettingUI();
-            }
-            // 그 외 일반 UI
-            else
-            {
-                topUI.SetActive(false);
-                if (uiStack.Count > 0 && uiStack.Peek() == topUI) uiStack.Pop();
-            }
-            return;
-        }
-
-        // 아무 창도 없으면 설정창 열기
-        if (gameSettingUI != null)
-        {
-            gameSettingUI.OpenCloseSettingUI();
-        }
-    }
-
-    //UI 열릴 때 호출
-    public void RegisterUI(GameObject ui)
-    {
-        if (ui == null) return;
-
-        //이미 스택에 있는 경우 중복 등록 방지
-        if (!uiStack.Contains(ui))
-        {
-            uiStack.Push(ui);
-        }
-    }
-
-    //UI 닫힐 때 호출
-    public void UnregisterUI(GameObject ui)
-    {
-        if (ui == null) return;
-
-        if (uiStack.Count > 0 && uiStack.Peek() == ui)
-        {
-            uiStack.Pop();
-        }
-        else
-        {
-            Stack<GameObject> tempStack = new Stack<GameObject>(uiStack);
-            uiStack.Clear();
-            foreach (GameObject go in tempStack)
-            {
-                if (go != ui)
-                    uiStack.Push(go);
-            }
-        }
-    }
-
-    public void UpdateHpSmooth(float targetHp, float maxHp)
-    {
-        StartCoroutine(SmoothHpBar(targetHp, maxHp));
-    }
-
-    IEnumerator SmoothHpBar(float targetHp, float maxHp)
-    {
-        float duration = 0.2f;
-        float elapsed = 0f;
-        float startValue = HpBarSlider.value;
-        float targetValue = (float)targetHp / maxHp;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float currentValue = Mathf.Lerp(startValue, targetValue, elapsed / duration);
-            HpBarSlider.value = currentValue;
-            hpTxt.text = $"{(int)(currentValue * maxHp)}/{(int)maxHp}";
-            yield return null;
-        }
-
-        HpBarSlider.value = targetValue;
-        hpTxt.text = $"{(int)targetHp}/{(int)maxHp}";
-    }
-
-    // 경험치 UI 업데이트
-    public void UpdateExpUI(float currentExp, float maxExp)
-    {
-        if (expBar != null)
-        {
-            expBar.value = (maxExp > 0) ? (currentExp / maxExp) : 0;
-        }
-
-        if (expText != null)
-        {
-            expText.text = $"{(int)currentExp} / {(int)maxExp}";
-        }
-    }
-
-    // 레벨 텍스트 업데이트
-    public void UpdateLevelUI(int level)
-    {
-        if (levelText != null)
-        {
-            levelText.text = "Lv." + level;
-        }
-    }
-
-    public void CheckGold()
-    {
-        if (playerStatus != null && goldText != null)
-        {
-            goldText.text = playerStatus.Gold.ToString();
-        }
-    }
-
-    private void Damage(float damage)
-    {
-        if (playerStatus.MaxHp == 0 || playerStatus.Hp <= 0)
-            return;
-
-        playerStatus.Hp -= damage;
-        UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
-
-        if (playerStatus.Hp <= 0)
-        {
-            //사망 처리
-        }
-    }
-
-    public void FirstToLobby()
-    {
-        checkUI.SetActive(true);
-    }
-
-    public void ToLobby()
-    {
-        checkUI.SetActive(false);
-        SceneManager.LoadScene("Lobby + UpgradeScene");
-    }
-
-    public void ExitButton()
-    {
-        Application.Quit();
-    }
-
-    public void CancelButton()
-    {
-        checkUI.SetActive(false);
-    }
-
-    // 워프에 닿았을 때 UI 표시
-    // message : 표시할 메시지
-    // action : E 키를 눌렀을 때 실행할 함수
-    public void ShowWarpUI(string message, Action action)
-    {
-        if (warpUIText != null)
-        {
-            warpUIText.text = message;
-            warpAction = action;
-            warpUIText.gameObject.SetActive(true);
-        }
-    }
-
-    public void HideWarpUI()
-    {
-        warpUIText.gameObject.SetActive(false);
-        warpAction = null;
-    }
+    public void FirstToLobby() { checkUI.SetActive(true); }
+    public void ToLobby() { checkUI.SetActive(false); GameManager.Instance.MoveScene(SceneType.LobbyScene, "Lobby + UpgradeScene"); }
+    public void ExitButton() { Application.Quit(); }
+    public void CancelButton() { checkUI.SetActive(false); }
 
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        if (PlayerManager.Instance != null)
-        {
-            PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
-        }
+        // GameManager의 새로운 씬 변경 이벤트 구독
+        if (GameManager.Instance != null) GameManager.Instance.OnSceneChanged += OnSceneChanged;
     }
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-        if (PlayerManager.Instance != null)
-        {
-            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
-        }
+        if (GameManager.Instance != null) GameManager.Instance.OnSceneChanged -= OnSceneChanged;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneChanged(SceneType sceneType)
     {
-        // 씬 이동 시, 팝업 패널들을 닫고 UI 스택을 비움
-        if (characterInfoUI != null) 
-            characterInfoUI.gameObject.SetActive(false);
+        if (characterInfoUI != null) characterInfoUI.gameObject.SetActive(false);
 
         if (gameSettingUI != null)
         {
@@ -458,26 +131,33 @@ public class InGameUIManager : MonoBehaviour
             if (upgradeStatus != null) upgradeStatus.gameObject.SetActive(false);
         }
 
-        uiStack.Clear();
+        if (UIStackManager.Instance != null) UIStackManager.Instance.ClearStack();
 
-        if (scene.name == "EndScene")
+        if (sceneType == SceneType.EndScene)
         {
-            // GamePlayUI off
             if (rootCanvas != null) rootCanvas.enabled = false;
         }
         else
         {
-            // 로비로 돌아오면 GamePlayUI on
             if (rootCanvas != null) rootCanvas.enabled = true;
-
-            if (PlayerManager.Instance != null)
-            {
-                PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(OnPlayerChanged);
-                PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
-
-                // 로비 등으로 돌아왔을 때 상태 갱신을 위해 한 번 호출
-                OnPlayerChanged();
-            }
         }
     }
+
+    // =====================================================================
+    // [Wrapper 함수들] 코드가 깨지지 않도록 연결해주는 역할만 수행
+    // =====================================================================
+
+    // 1. PlayerStatusUI 연결 다리
+    public void CheckGold() { if (PlayerStatusUI.Instance != null) PlayerStatusUI.Instance.CheckGold(); }
+    public void UpdateHpSmooth(float targetHp, float maxHp) { if (PlayerStatusUI.Instance != null) PlayerStatusUI.Instance.UpdateHpSmooth(targetHp, maxHp); }
+    public void UpdateExpUI(float currentExp, float maxExp) { if (PlayerStatusUI.Instance != null) PlayerStatusUI.Instance.UpdateExpUI(currentExp, maxExp); }
+    public void UpdateLevelUI(int level) { if (PlayerStatusUI.Instance != null) PlayerStatusUI.Instance.UpdateLevelUI(level); }
+
+    // 2. UIStackManager 연결 다리
+    public void RegisterUI(GameObject ui) { if (UIStackManager.Instance != null) UIStackManager.Instance.RegisterUI(ui); }
+    public void UnregisterUI(GameObject ui) { if (UIStackManager.Instance != null) UIStackManager.Instance.UnregisterUI(ui); }
+
+    // 3. InteractionUI 연결 다리
+    public void ShowWarpUI(string message, Action action) { if (InteractionUI.Instance != null) InteractionUI.Instance.ShowWarpUI(message, action); }
+    public void HideWarpUI() { if (InteractionUI.Instance != null) InteractionUI.Instance.HideWarpUI(); }
 }
