@@ -39,8 +39,21 @@ public class CharacterUIManager : MonoBehaviour
 
     private void Start()
     {
+        // PlayerManager의 캐릭터 교체 이벤트를 스스로 구독하도록 변경
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(InitUIForCurrentPlayer);
+        }
+
         InitUIForCurrentPlayer();
-        // GameManager.Instance.OnPlayerCharacterChanged.AddListener(InitUIForCurrentPlayer);
+    }
+
+    private void OnDestroy()
+    {
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(InitUIForCurrentPlayer);
+        }
     }
 
     public void SetActiveUI(string characterType, IAbilityV2 ability)
@@ -78,6 +91,8 @@ public class CharacterUIManager : MonoBehaviour
 
     public void InitUIForCurrentPlayer()
     {
+        // 잦은 교체로 인해 코루틴이 여러 개 겹쳐서 실행되는 것을 방지
+        StopAllCoroutines();
         StartCoroutine(WaitAndBind());
     }
 
@@ -85,13 +100,14 @@ public class CharacterUIManager : MonoBehaviour
     {
         yield return new WaitUntil(() =>
         {
-            var player = GameManager.Instance.CurrentPlayer;
+            // 안전하게 새로운 코어인 PlayerManager를 참조
+            var player = PlayerManager.Instance.CurrentPlayer;
             if (player == null) return false;
             var controller = player.GetComponent<PlayerControllerBase>();
             return controller != null && controller.GetCharacterAbility() != null;
         });
 
-        var player = GameManager.Instance.CurrentPlayer;
+        var player = PlayerManager.Instance.CurrentPlayer;
         var controller = player.GetComponent<PlayerControllerBase>();
 
         string characterType = player.name.Contains("Blacksmith") ? "Blacksmith" : "Bartender";
