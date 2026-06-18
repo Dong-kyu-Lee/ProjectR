@@ -37,10 +37,7 @@ public class PlayerManager : MonoBehaviour
     private CharacterType startCharacterType;
     public CharacterType CurrentCharacterType { get => currentCharacterType; }
 
-    // CharacterSelect에서 게임 시작 후 최초로 Start에서 플레이어 생성
-    // 이유 : 원래 StartSceneManager에서 플레이어를 생성했으나, StartScene에서 플레이어를 생성하고 씬 이동을 하면
-    // 생성된 플레이어의 PlayerStatus에서 InGameUIManager.Instance를 참조할 때 null 참조 오류가 발생함
-    // 그래서 LobbyScene에 위치한 CharacterSelect에서 최초 플레이어를 생성하도록 변경함
+    // 플레이어 오브젝트가 최초로 생성되었는지 여부를 나타내는 변수
     private bool isFirstPlayerCreated = false;
     public bool IsFirstPlayerCreated { get => isFirstPlayerCreated; }
 
@@ -107,26 +104,6 @@ public class PlayerManager : MonoBehaviour
             Destroy(playerObject);
             playerObject = null;
         }
-    }
-
-    public void CreateFirstPlayer()
-    {
-        playerObject = Instantiate(
-            characterDatabase.characterDataList[(int)startCharacterType].characterPrefab,
-            Vector3.zero,
-            Quaternion.identity
-        );
-        if (playerObject == null)
-        {
-            return;
-        }
-        currentCharacterType = startCharacterType;
-        playerObject.SetActive(false);
-        playerObject.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2; // 로비 씬에서 다른 캐릭터와 겹치지 않기 위함
-        DontDestroyOnLoad(playerObject);
-
-        OnPlayerCharacterChanged?.Invoke();
-        isFirstPlayerCreated = true;
     }
 
     private void OnSceneChanged(SceneType newScene)

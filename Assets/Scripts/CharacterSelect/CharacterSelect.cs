@@ -16,19 +16,8 @@ public class CharacterSelect : MonoBehaviour
     //UI 초상화
     [SerializeField] private CharacterPortraitHandler portraitHandler;
 
-    private void Awake()
-    {
-        
-    }
-
     void Start()
     {
-        if (PlayerManager.Instance.IsFirstPlayerCreated == false)
-        {
-            // 최초 플레이어 생성
-            PlayerManager.Instance.CreateFirstPlayer();
-        }
-        
         // BGM 재생
         SoundManager.Instance.Play("Sounds/BGM/LobbySceneBGM", Sound.Bgm);
 
