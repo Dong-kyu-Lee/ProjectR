@@ -61,11 +61,6 @@ public class PlayerManager : MonoBehaviour
         GameManager.Instance.OnSceneChanged += OnSceneChanged;
     }
 
-    void OnDestroy()
-    {
-        GameManager.Instance.OnSceneChanged -= OnSceneChanged;
-    }
-
     public GameObject GetCharacterPrefab(CharacterType type)
     {
         CharacterData data = characterDatabase.characterDataList[(int)type];
