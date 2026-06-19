@@ -48,7 +48,23 @@ public class Inventory : MonoBehaviour
     public int MaxInventorySlot => maxInventorySlot;
     public int MaxEquipSlot => maxEquipSlot;
     public EquipmentItemData[] EquipmentItemSlot => equipmentItemSlot;
-    public InventoryUI MyInventoryUI { get => myInventoryUI; set => myInventoryUI = value; }
+    public InventoryUI MyInventoryUI
+    {
+        get
+        {
+            if (myInventoryUI == null)
+            {
+                // 1. 매니저와 CharacterInfo가 씬에 존재하는지 확인
+                if (InGameUIManager.Instance != null && InGameUIManager.Instance.characterInfoUI != null)
+                {
+                    // 2. 씬 전체가 아닌 CharacterInfo 하위 계층에서만 InventoryUI를 빠르게 탐색
+                    myInventoryUI = InGameUIManager.Instance.characterInfoUI.GetComponentInChildren<InventoryUI>(true);
+                }
+            }
+            return myInventoryUI;
+        }
+        set => myInventoryUI = value;
+    }
 
     private void Awake()
     {
@@ -85,7 +101,10 @@ public class Inventory : MonoBehaviour
         {
             ConsumableItemData consumable = slot.itemData as ConsumableItemData;
 
-            consumable.ActivateItemEffect(playerStatus);
+            if (playerStatus != null)
+            {
+                consumable.ActivateItemEffect(playerStatus);
+            }
             slot.count--;
 
             if (slot.count <= 0)
@@ -93,10 +112,10 @@ public class Inventory : MonoBehaviour
                 slot.Clear(dummyInventoryItemData);
             }
 
-            myInventoryUI.RefreshInventoryUI();
-        }
-        else
-        {
+            if (myInventoryUI != null)
+            {
+                myInventoryUI.RefreshInventoryUI();
+            }
         }
     }
 
@@ -168,7 +187,11 @@ public class Inventory : MonoBehaviour
         if (isRemoved)
         {
             UpdateQuickSlotReference();
-            myInventoryUI.RefreshInventoryUI();
+
+            if (myInventoryUI != null)
+            {
+                myInventoryUI.RefreshInventoryUI();
+            }
 
             // 스탯 갱신 알림
             OnStatusChanged?.Invoke();
@@ -186,7 +209,10 @@ public class Inventory : MonoBehaviour
             if (newAmount <= item.MaxAmount)
             {
                 slot.count = newAmount;
-                myInventoryUI.UpdateExistingItemSlot(item, newAmount);
+                if (myInventoryUI != null)
+                {
+                    myInventoryUI.UpdateExistingItemSlot(item, newAmount);
+                }
                 return true;
             }
             else
@@ -203,7 +229,10 @@ public class Inventory : MonoBehaviour
                 inventorySlots[i].itemData = item;
                 inventorySlots[i].count = amount;
 
-                myInventoryUI.RefreshInventoryUI();
+                if (myInventoryUI != null)
+                {
+                    myInventoryUI.RefreshInventoryUI();
+                }
                 return true;
             }
         }
@@ -220,7 +249,11 @@ public class Inventory : MonoBehaviour
             if (equipmentItemSlot[i].ItemType == ItemType.DUMMY)
             {
                 LoadEquipmentItem(item, i);
-                myInventoryUI.SetEquippedItemSlotData(item);
+
+                if (myInventoryUI != null)
+                {
+                    myInventoryUI.SetEquippedItemSlotData(item);
+                }
                 return true;
             }
         }
@@ -231,7 +264,11 @@ public class Inventory : MonoBehaviour
     public void LoadEquipmentItem(EquipmentItemData item, int idx = 0)
     {
         equipmentItemSlot[idx] = item;
-        equipmentItemSlot[idx].EquipItem(playerStatus);   // 장비 장착 효과 적용
+
+        if (playerStatus != null)
+        {
+            equipmentItemSlot[idx].EquipItem(playerStatus);   // 장비 장착 효과 적용
+        }
 
         // 장비 장착으로 스탯이 변했음을 알림
         OnStatusChanged?.Invoke();
@@ -256,7 +293,10 @@ public class Inventory : MonoBehaviour
     {
         if (AddItemToInventory_NoRefresh(item, amount))
         {
-            myInventoryUI.RefreshInventoryUI();
+            if (myInventoryUI != null)
+            {
+                myInventoryUI.RefreshInventoryUI();
+            }
             return true;
         }
         return false;
@@ -279,8 +319,12 @@ public class Inventory : MonoBehaviour
             // 데이터 이동
             inventorySlots[invSlotIdx].itemData = itemToUnload;
             inventorySlots[invSlotIdx].count = 1;
+
             // 장비칸 비우기
-            itemToUnload.UnEquipItem(playerStatus);
+            if (playerStatus != null)
+            {
+                itemToUnload.UnEquipItem(playerStatus);
+            }
             equipmentItemSlot[equipSlotIdx] = dummyItemData;
 
             OnStatusChanged?.Invoke();
@@ -303,9 +347,16 @@ public class Inventory : MonoBehaviour
 
         if (addedToInventory)
         {
-            itemToUnload.UnEquipItem(playerStatus);   // 장비 장착 효과 해제
+            if (playerStatus != null)
+            {
+                itemToUnload.UnEquipItem(playerStatus);   // 장비 장착 효과 해제
+            }
             equipmentItemSlot[idx] = dummyItemData;
-            myInventoryUI.RefreshInventoryUI();
+
+            if (myInventoryUI != null)
+            {
+                myInventoryUI.RefreshInventoryUI();
+            }
 
             // 장비 해제로 스탯이 변했음을 알림
             OnStatusChanged?.Invoke();
@@ -343,7 +394,10 @@ public class Inventory : MonoBehaviour
         if (myInventoryUI == null) return;
         if (inventorySlots == null || inventorySlots.Count == 0)
         {
-            myInventoryUI.QuickSlotImg.DeleteItemData();
+            if (myInventoryUI.QuickSlotImg != null)
+            {
+                myInventoryUI.QuickSlotImg.DeleteItemData();
+            }
             return;
         }
         var firstSlotData = inventorySlots[0];
@@ -352,7 +406,10 @@ public class Inventory : MonoBehaviour
 
         if (data == null || data.ItemType != ItemType.CONSUMABLE || amount <= 0)
         {
-            myInventoryUI.QuickSlotImg.DeleteItemData();
+            if (myInventoryUI.QuickSlotImg != null)
+            {
+                myInventoryUI.QuickSlotImg.DeleteItemData();
+            }
             return;
         }
         myInventoryUI.SetQuickSLotItemData(data, amount);
@@ -369,18 +426,22 @@ public class Inventory : MonoBehaviour
         EquipmentItemData inventoryItemData = invSlot.itemData as EquipmentItemData;
 
         // 기존 장비 해제
-        if (equippedItem != null && equippedItem.ItemType != ItemType.DUMMY)
+        if (equippedItem != null && equippedItem.ItemType != ItemType.DUMMY && playerStatus != null)
             equippedItem.UnEquipItem(playerStatus);
 
         // 새로운 장비 장착
         equipmentItemSlot[equippedSlotIdx] = inventoryItemData;
-        inventoryItemData.EquipItem(playerStatus);
+        if (inventoryItemData != null && playerStatus != null)
+            inventoryItemData.EquipItem(playerStatus);
 
         // 인벤토리 슬롯을 기존 장비로 교체
         invSlot.itemData = equippedItem;
         invSlot.count = (equippedItem.ItemType == ItemType.DUMMY) ? 0 : 1;
 
-        myInventoryUI.RefreshInventoryUI();
+        if (myInventoryUI != null)
+        {
+            myInventoryUI.RefreshInventoryUI();
+        }
 
         // 장비 교체로 스탯이 변했음을 알림
         OnStatusChanged?.Invoke();
@@ -394,7 +455,11 @@ public class Inventory : MonoBehaviour
         EquipmentItemData temp = equipmentItemSlot[idx1];
         equipmentItemSlot[idx1] = equipmentItemSlot[idx2];
         equipmentItemSlot[idx2] = temp;
-        myInventoryUI.RefreshInventoryUI();
+
+        if (myInventoryUI != null)
+        {
+            myInventoryUI.RefreshInventoryUI();
+        }
     }
 
     // 인벤토리 데이터 슬롯 2개를 스왑하는 함수
@@ -423,7 +488,10 @@ public class Inventory : MonoBehaviour
 
         // 장비 장착
         equipmentItemSlot[equipSlotIdx] = equipData;
-        equipData.EquipItem(playerStatus);
+        if (equipData != null && playerStatus != null)
+        {
+            equipData.EquipItem(playerStatus);
+        }
 
         // 인벤토리에서 해당 아이템 제거
         invSlot.Clear(dummyInventoryItemData);
@@ -433,7 +501,11 @@ public class Inventory : MonoBehaviour
     public void LoadEquipmentItemFromInventory(int inventorySlotIdx, int equipSlotIdx)
     {
         LoadEqFromInv_NoRefresh(inventorySlotIdx, equipSlotIdx);
-        myInventoryUI.RefreshInventoryUI();
+
+        if (myInventoryUI != null)
+        {
+            myInventoryUI.RefreshInventoryUI();
+        }
 
         // 드래그를 통해 장비를 장착했으므로 스탯 갱신 알림
         OnStatusChanged?.Invoke();
