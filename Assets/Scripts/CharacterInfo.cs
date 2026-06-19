@@ -69,6 +69,14 @@ public class CharacterInfo : MonoBehaviour
         if (characterInfo != null) characterInfo.SetActive(false);
     }
 
+    private void OnDestroy()
+    {
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(LinkPlayerAndUI);
+        }
+    }
+
     // UI 활성화
     public void EnableUI()
     {
