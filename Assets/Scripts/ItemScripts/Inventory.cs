@@ -42,12 +42,14 @@ public class Inventory : MonoBehaviour
     // 그 외
     [SerializeField] private EquipmentItemData dummyItemData;        // 더미데이터. 칸이 비어있음을 나타낼 때 사용함
     [SerializeField] private BasicItemData dummyInventoryItemData; // 인벤토리용 더미
-    [SerializeField] private InventoryUI myInventoryUI;            // 인벤토리 UI. Init()이 호출될 때 참조 연결됨.
+    [SerializeField] private InventoryUI myInventoryUI;            // 인벤토리 UI 내부 필드
 
     public List<InventorySlot> InventorySlots => inventorySlots;
     public int MaxInventorySlot => maxInventorySlot;
     public int MaxEquipSlot => maxEquipSlot;
     public EquipmentItemData[] EquipmentItemSlot => equipmentItemSlot;
+
+    // 씬 전체 탐색 대신 싱글톤 매니저를 통한 특정 계층 탐색
     public InventoryUI MyInventoryUI
     {
         get
@@ -112,9 +114,9 @@ public class Inventory : MonoBehaviour
                 slot.Clear(dummyInventoryItemData);
             }
 
-            if (myInventoryUI != null)
+            if (MyInventoryUI != null)
             {
-                myInventoryUI.RefreshInventoryUI();
+                MyInventoryUI.RefreshInventoryUI();
             }
         }
     }
@@ -188,9 +190,9 @@ public class Inventory : MonoBehaviour
         {
             UpdateQuickSlotReference();
 
-            if (myInventoryUI != null)
+            if (MyInventoryUI != null)
             {
-                myInventoryUI.RefreshInventoryUI();
+                MyInventoryUI.RefreshInventoryUI();
             }
 
             // 스탯 갱신 알림
@@ -201,43 +203,46 @@ public class Inventory : MonoBehaviour
     // 획득한 소모품 아이템 데이터를 인벤토리에 추가하는 메서드
     private bool AddConsumableItem(ConsumableItemData item, int amount)
     {
-        //이미 같은 아이템이 있을 경우 수량만 증가
-        var slot = inventorySlots.FirstOrDefault(s => s.itemData == item);
-        if (slot != null)
+        int remainingAmount = amount;
+
+        // 1. 이미 존재하는 동일 아이템 슬롯들에 먼저 채워넣기
+        foreach (var slot in inventorySlots)
         {
-            int newAmount = slot.count + amount;
-            if (newAmount <= item.MaxAmount)
+            if (slot.itemData == item && slot.count < item.MaxAmount)
             {
-                slot.count = newAmount;
-                if (myInventoryUI != null)
+                int space = item.MaxAmount - slot.count; // 슬롯에 남은 빈자리
+                if (remainingAmount <= space)
                 {
-                    myInventoryUI.UpdateExistingItemSlot(item, newAmount);
+                    slot.count += remainingAmount;
+                    if (MyInventoryUI != null) MyInventoryUI.UpdateExistingItemSlot(item, slot.count);
+                    return true; // 다 채워넣었으므로 종료
                 }
-                return true;
-            }
-            else
-            {
-                return false;
+                else
+                {
+                    slot.count = item.MaxAmount; // 이 슬롯은 꽉 채움
+                    remainingAmount -= space;    // 남은 수량 갱신
+                    if (MyInventoryUI != null) MyInventoryUI.UpdateExistingItemSlot(item, slot.count);
+                }
             }
         }
 
-        // 빈 슬롯(DUMMY)을 찾아 교체
-        for (int i = 0; i < inventorySlots.Count; i++)
+        // 2. 남은 수량이 있다면 빈 슬롯(DUMMY)을 찾아 교체
+        if (remainingAmount > 0)
         {
-            if (inventorySlots[i].itemData.ItemType == ItemType.DUMMY)
+            for (int i = 0; i < inventorySlots.Count; i++)
             {
-                inventorySlots[i].itemData = item;
-                inventorySlots[i].count = amount;
-
-                if (myInventoryUI != null)
+                if (inventorySlots[i].itemData.ItemType == ItemType.DUMMY)
                 {
-                    myInventoryUI.RefreshInventoryUI();
+                    inventorySlots[i].itemData = item;
+                    inventorySlots[i].count = remainingAmount;
+
+                    if (MyInventoryUI != null) MyInventoryUI.RefreshInventoryUI();
+                    return true;
                 }
-                return true;
             }
         }
 
-        // 인벤토리가 가득 찼을 경우
+        // 인벤토리가 완전히 가득 찼을 경우
         return false;
     }
 
@@ -250,9 +255,9 @@ public class Inventory : MonoBehaviour
             {
                 LoadEquipmentItem(item, i);
 
-                if (myInventoryUI != null)
+                if (MyInventoryUI != null)
                 {
-                    myInventoryUI.SetEquippedItemSlotData(item);
+                    MyInventoryUI.SetEquippedItemSlotData(item);
                 }
                 return true;
             }
@@ -293,9 +298,9 @@ public class Inventory : MonoBehaviour
     {
         if (AddItemToInventory_NoRefresh(item, amount))
         {
-            if (myInventoryUI != null)
+            if (MyInventoryUI != null)
             {
-                myInventoryUI.RefreshInventoryUI();
+                MyInventoryUI.RefreshInventoryUI();
             }
             return true;
         }
@@ -353,9 +358,9 @@ public class Inventory : MonoBehaviour
             }
             equipmentItemSlot[idx] = dummyItemData;
 
-            if (myInventoryUI != null)
+            if (MyInventoryUI != null)
             {
-                myInventoryUI.RefreshInventoryUI();
+                MyInventoryUI.RefreshInventoryUI();
             }
 
             // 장비 해제로 스탯이 변했음을 알림
@@ -363,7 +368,6 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            //실패
             return;
         }
     }
@@ -391,12 +395,12 @@ public class Inventory : MonoBehaviour
     // 인벤토리 1번(0-index) 슬롯을 '퀵슬롯'처럼 참조해 UI를 갱신
     public void UpdateQuickSlotReference()
     {
-        if (myInventoryUI == null) return;
+        if (MyInventoryUI == null) return;
         if (inventorySlots == null || inventorySlots.Count == 0)
         {
-            if (myInventoryUI.QuickSlotImg != null)
+            if (MyInventoryUI.QuickSlotImg != null)
             {
-                myInventoryUI.QuickSlotImg.DeleteItemData();
+                MyInventoryUI.QuickSlotImg.DeleteItemData();
             }
             return;
         }
@@ -406,13 +410,13 @@ public class Inventory : MonoBehaviour
 
         if (data == null || data.ItemType != ItemType.CONSUMABLE || amount <= 0)
         {
-            if (myInventoryUI.QuickSlotImg != null)
+            if (MyInventoryUI.QuickSlotImg != null)
             {
-                myInventoryUI.QuickSlotImg.DeleteItemData();
+                MyInventoryUI.QuickSlotImg.DeleteItemData();
             }
             return;
         }
-        myInventoryUI.SetQuickSLotItemData(data, amount);
+        MyInventoryUI.SetQuickSLotItemData(data, amount);
     }
 
     // 인벤토리에 있는 장비와 장착칸의 장비 데이터를 서로 교체하는 함수
@@ -429,18 +433,20 @@ public class Inventory : MonoBehaviour
         if (equippedItem != null && equippedItem.ItemType != ItemType.DUMMY && playerStatus != null)
             equippedItem.UnEquipItem(playerStatus);
 
-        // 새로운 장비 장착
-        equipmentItemSlot[equippedSlotIdx] = inventoryItemData;
+        // [방어 코드 적용] 새로운 장비 장착 (null이면 dummyItemData 삽입)
+        equipmentItemSlot[equippedSlotIdx] = inventoryItemData ?? dummyItemData;
         if (inventoryItemData != null && playerStatus != null)
+        {
             inventoryItemData.EquipItem(playerStatus);
+        }
 
         // 인벤토리 슬롯을 기존 장비로 교체
         invSlot.itemData = equippedItem;
         invSlot.count = (equippedItem.ItemType == ItemType.DUMMY) ? 0 : 1;
 
-        if (myInventoryUI != null)
+        if (MyInventoryUI != null)
         {
-            myInventoryUI.RefreshInventoryUI();
+            MyInventoryUI.RefreshInventoryUI();
         }
 
         // 장비 교체로 스탯이 변했음을 알림
@@ -456,9 +462,9 @@ public class Inventory : MonoBehaviour
         equipmentItemSlot[idx1] = equipmentItemSlot[idx2];
         equipmentItemSlot[idx2] = temp;
 
-        if (myInventoryUI != null)
+        if (MyInventoryUI != null)
         {
-            myInventoryUI.RefreshInventoryUI();
+            MyInventoryUI.RefreshInventoryUI();
         }
     }
 
@@ -486,8 +492,8 @@ public class Inventory : MonoBehaviour
         InventorySlot invSlot = inventorySlots[inventorySlotIdx];
         EquipmentItemData equipData = invSlot.itemData as EquipmentItemData;
 
-        // 장비 장착
-        equipmentItemSlot[equipSlotIdx] = equipData;
+        // [방어 코드 적용] 장비 장착 (null이면 dummyItemData 삽입)
+        equipmentItemSlot[equipSlotIdx] = equipData ?? dummyItemData;
         if (equipData != null && playerStatus != null)
         {
             equipData.EquipItem(playerStatus);
@@ -502,9 +508,9 @@ public class Inventory : MonoBehaviour
     {
         LoadEqFromInv_NoRefresh(inventorySlotIdx, equipSlotIdx);
 
-        if (myInventoryUI != null)
+        if (MyInventoryUI != null)
         {
-            myInventoryUI.RefreshInventoryUI();
+            MyInventoryUI.RefreshInventoryUI();
         }
 
         // 드래그를 통해 장비를 장착했으므로 스탯 갱신 알림
