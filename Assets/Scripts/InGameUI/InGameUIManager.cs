@@ -172,6 +172,14 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
+    public void ShowStatus(string msg, float delay = 2f)
+    {
+        if (messageManager != null)
+        {
+            messageManager.ShowMessage(msg, delay);
+        }
+    }
+
     // =====================================================================
     // [Wrapper 함수들] 기존 로직 유지 및 신규 기능 통합
     // =====================================================================
