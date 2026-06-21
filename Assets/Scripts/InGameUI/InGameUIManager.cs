@@ -38,7 +38,7 @@ public class InGameUIManager : MonoBehaviour
 
     // 레벨 및 경험치 UI
     [SerializeField] private Slider expBar;
-    [SerializeField] private Text levelText; 
+    [SerializeField] private Text levelText;
     [SerializeField] private Text expText;
 
     private MessageManager messageManager;
@@ -169,14 +169,6 @@ public class InGameUIManager : MonoBehaviour
         else
         {
             if (rootCanvas != null) rootCanvas.enabled = true;
-        }
-    }
-
-    public void ShowStatus(string msg, float delay = 2f)
-    {
-        if (messageManager != null)
-        {
-            messageManager.ShowMessage(msg, delay);
         }
     }
 
