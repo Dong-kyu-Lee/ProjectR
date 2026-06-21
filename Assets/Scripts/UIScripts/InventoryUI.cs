@@ -20,6 +20,11 @@ public class InventoryUI : MonoBehaviour
 
     public void Init()
     {
+        if (InGameUIManager.Instance != null && InGameUIManager.Instance.transform.root != this.transform.root)
+        {
+            return;
+        }
+
         if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null)
         {
             return;

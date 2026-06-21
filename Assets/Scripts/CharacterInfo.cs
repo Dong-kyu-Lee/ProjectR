@@ -27,24 +27,29 @@ public class CharacterInfo : MonoBehaviour
             Debug.LogWarning("CharacterInfo 오브젝트가 Inspector에 할당되지 않았습니다!");
         }
 
-        // 플레이어가 없으면 초기화 중단
-        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null)
+        // 닫기 버튼 리스너 등록 및 초기 비활성화는 플레이어 생성 여부와 무관하게 항상 실행
+        if (closeButton != null)
         {
-            return;
+            closeButton.onClick.RemoveAllListeners();
+            closeButton.onClick.AddListener(DisableUI);
         }
 
-        Init();
-        SetStatus();
-
-        // InventoryUI 초기화 안전장치
-        InventoryUI invUI = transform.GetComponentInChildren<InventoryUI>();
-        if (invUI != null) invUI.Init();
-
-        if (closeButton != null)
-            closeButton.onClick.AddListener(DisableUI);
-
         DisableUI();
+
+        // 플레이어 캐릭터가 변경되거나 최초 스폰될 때 연동되도록 이벤트 구독
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(LinkPlayerAndUI);
+            PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(LinkPlayerAndUI);
+        }
+
+        // 만약 Awake 시점에 이미 플레이어가 씬에 로드되어 있다면 즉시 연동
+        if (GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
+        {
+            LinkPlayerAndUI();
+        }
     }
+
     private void OnEnable()
     {
         // 플레이어가 있을 때만 초기화 진행
@@ -64,6 +69,14 @@ public class CharacterInfo : MonoBehaviour
         if (characterInfo != null) characterInfo.SetActive(false);
     }
 
+    private void OnDestroy()
+    {
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(LinkPlayerAndUI);
+        }
+    }
+
     // UI 활성화
     public void EnableUI()
     {
@@ -75,6 +88,20 @@ public class CharacterInfo : MonoBehaviour
     public void DisableUI()
     {
         if (characterInfo != null) characterInfo.SetActive(false);
+    }
+
+    // 플레이어가 준비되었을 때 UI 컴포넌트와 플레이어 데이터를 직접 연결하는 핵심 함수
+    private void LinkPlayerAndUI()
+    {
+        Init();
+        SetStatus();
+
+        // 자식이 비활성화 상태여도 탐색할 수 있도록 true 인자값 추가
+        InventoryUI invUI = transform.GetComponentInChildren<InventoryUI>(true);
+        if (invUI != null)
+        {
+            invUI.Init();
+        }
     }
 
     private void RefreshStatusUI()
@@ -157,7 +184,6 @@ public class CharacterInfo : MonoBehaviour
         }
     }
 
-
     // 세팅 전 초기화
     void Init()
     {
@@ -179,15 +205,12 @@ public class CharacterInfo : MonoBehaviour
         }
     }
 
-
     // 스테이터스 세팅
     void SetStatus()
     {
         // 플레이어 없으면 리턴
         if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
 
-        // RefreshStatusUI / Init 에서 이미 playerStatus 세팅 시도하니까
-        // 여기서는 한 번만 더 확인하고, 없으면 그냥 리턴
         if (playerStatus == null)
         {
             playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
@@ -199,7 +222,7 @@ public class CharacterInfo : MonoBehaviour
             }
         }
 
-        // 캐릭터 이름 (나중에 캐릭터별로 분기하고 싶으면 여기서 처리)
+        // 캐릭터 이름 처리
         if (characterNameText != null)
         {
             string playerName = GameManager.Instance?.CurrentPlayer?.GetComponent<PlayerControllerBase>()?.playerName;
@@ -221,7 +244,6 @@ public class CharacterInfo : MonoBehaviour
         float additionalDamageValue =
             Mathf.Round(playerStatus.Damage * playerStatus.AdditionalDamage * 100f) / 100f;
 
-        // 필요하면 경험치/HP 라인도 추가 가능
         AddStatusLine($"레벨 : {playerStatus.Level}");
         AddStatusLine($"체력 : {playerStatus.Hp} / {playerStatus.MaxHp}");
         AddStatusLine($"경험치 : {playerStatus.Exp} / {LevelUp.requiredExp[(int)playerStatus.Level]}");
@@ -242,7 +264,6 @@ public class CharacterInfo : MonoBehaviour
         AddStatusLine($"디버프 피해량 : {Mathf.Round(playerStatus.DebuffDamage * 100f)}%");
         AddStatusLine($"재화 획득량 : {Mathf.Round(playerStatus.PriceAdditional * 100f)}%");
     }
-
 
     private void AddStatusLine(string text)
     {

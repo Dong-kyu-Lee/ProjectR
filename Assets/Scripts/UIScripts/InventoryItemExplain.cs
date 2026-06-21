@@ -95,7 +95,7 @@ public class InventoryItemExplain : MonoBehaviour
                 itemGradeText.text = itemData.ItemGrade.ToString();
             }
         }
-       if (discardButton != null) discardButton.interactable = true;
+        if (discardButton != null) discardButton.interactable = true;
     }
 
     private void ClearPanel()
@@ -122,20 +122,14 @@ public class InventoryItemExplain : MonoBehaviour
         {
             if (GameManager.Instance != null && GameManager.Instance.CurrentPlayer != null)
             {
-                playerInventory = GameManager.Instance.CurrentPlayer.GetComponent<Inventory>();
+                // 최상위가 아닌 자식 오브젝트에서 안전하게 Inventory 탐색
+                playerInventory = GameManager.Instance.CurrentPlayer.GetComponentInChildren<Inventory>();
             }
         }
 
         // 인벤토리가 있다면 삭제 진행
         if (playerInventory != null)
         {
-            // 장비라면 장착 해제 먼저
-            if (currentItemData is EquipmentItemData equipData)
-            {
-                PlayerStatus status = playerInventory.GetComponent<PlayerStatus>();
-                if (status != null) equipData.UnEquipItem(status);
-            }
-
             // 인벤토리 리스트에서 삭제 요청
             playerInventory.RemoveItem(currentItemData);
 

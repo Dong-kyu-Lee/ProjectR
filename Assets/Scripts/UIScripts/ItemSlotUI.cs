@@ -38,14 +38,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         parentUI = parent.GetComponent<InventoryUI>();
         nowItemData = dummyItemData;
 
-        itemSlotImage = transform
-            .GetComponentsInChildren<Image>(true)
-            .FirstOrDefault(img => img.gameObject.name == "ItemImg");
-
-        itemCountText = transform
-            .GetComponentsInChildren<Text>(true)
-            .FirstOrDefault(txt => txt.gameObject.name == "ItemCountText");
-
         itemSlotImage.sprite = nowItemData.ItemSprite;
         slotIndex = indexNumber;
 
