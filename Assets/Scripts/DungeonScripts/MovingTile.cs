@@ -25,7 +25,7 @@ public class MovingTile : MonoBehaviour
         if(rb2D != null) rb2D.isKinematic = true;
     }
 
-    /*void Update()
+    void Update()
     {
         // 물리 미사용 시
         transform.position = Vector3.MoveTowards(
@@ -35,24 +35,7 @@ public class MovingTile : MonoBehaviour
         );
 
         CheckTargetUpdate();
-    }*/
-
-
-    // 물리 사용 시 (FixedUpdate에서 처리)
-    void FixedUpdate()
-    {
-        if (rb2D != null)
-        {
-            Vector3 newPos = Vector3.MoveTowards(
-                rb2D.position,
-                currentTarget,
-                speed * Time.fixedDeltaTime
-            );
-            rb2D.MovePosition(newPos);
-        }
-        CheckTargetUpdate();
     }
-
 
     void CheckTargetUpdate()
     {

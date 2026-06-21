@@ -16,21 +16,12 @@ public class CharacterSelect : MonoBehaviour
     //UI 초상화
     [SerializeField] private CharacterPortraitHandler portraitHandler;
 
-    private void Awake()
-    {
-        if (PlayerManager.Instance.IsFirstPlayerCreated == false)
-        {
-            // 최초 플레이어 생성
-            PlayerManager.Instance.CreateFirstPlayer();
-        }
-    }
-
     void Start()
     {
         // BGM 재생
         SoundManager.Instance.Play("Sounds/BGM/LobbySceneBGM", Sound.Bgm);
 
-        // 캐릭터 생성
+        // 모든 캐릭터 씬에 생성
         for (int i = 0; i < mannequins.Length; i++)
         {
             CharacterType type = (CharacterType)i;
@@ -48,15 +39,16 @@ public class CharacterSelect : MonoBehaviour
                 Debug.LogError($"Character prefab not found for type: {type}");
             }
         }
-        // 플레이어 오브젝트 생성 위치 결정(프롤로그 완료 여부에 따름)
-        Vector3 spawnPosition;
+
+        // 현재 플레이어 오브젝트 설정(생성할 캐릭터 오브젝트, 타입, 위치)
+        Vector3 spawnPosition; // 플레이어 오브젝트 생성 위치 결정(프롤로그 완료 여부에 따름)
         if (PlayerPrefs.GetInt("HasSeenPrologue") == 0) { 
             spawnPosition = prologueSpawnPoint.position;
             PlayerPrefs.SetInt("HasSeenPrologue", 1);
             PlayerPrefs.Save();
         }
         else { spawnPosition = mannequins[(int)GameManager.Instance.CurrentCharacterType].transform.position; }
-        // 현재 플레이어 오브젝트 설정(생성할 캐릭터 오브젝트, 타입, 위치)
+        // 선택한 캐릭터를 CurrentPlayer로 설정하고 위치 지정
         PlayerManager.Instance.SetCurrentPlayer(
             characters[(int)PlayerManager.Instance.CurrentCharacterType],
             PlayerManager.Instance.CurrentCharacterType,

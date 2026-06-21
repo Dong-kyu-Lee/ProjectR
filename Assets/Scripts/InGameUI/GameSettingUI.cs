@@ -26,7 +26,6 @@ public class GameSettingUI : MonoBehaviour
 
     [SerializeField] Toggle fullScreenToggle;
 
-    private GameSettingsSaver gameSettingsSaver;
 
     void Awake()
     {
@@ -35,7 +34,7 @@ public class GameSettingUI : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
-        gameSettingsSaver = new GameSettingsSaver();
+        // gameSettingsSaver = new GameSettingsSaver();
         DontDestroyOnLoad(this.gameObject);
         original = lobbyButtonText.color;
     }
@@ -43,7 +42,7 @@ public class GameSettingUI : MonoBehaviour
     // 설정 UI 열기/닫기 함수
     public void OpenCloseSettingUI()
     {
-        if(isOpen == false)
+        if(isOpen == false) // Open
         {
             animator.gameObject.SetActive(true);
             animator.SetBool("isOpen", true);
@@ -58,7 +57,7 @@ public class GameSettingUI : MonoBehaviour
             fullScreenToggle.isOn = Screen.fullScreen;
             isOpen = true;
         }
-        else
+        else // Close
         {
             animator.SetBool("isOpen", false);
             menuContainer.SetActive(false);
@@ -68,6 +67,8 @@ public class GameSettingUI : MonoBehaviour
             Panel.SetActive(false);
             Time.timeScale = 1f;
             isOpen = false;
+            // 게임 세팅 값 저장
+            GameSettingsSaver.SaveSounds();
         }
     }
 
@@ -87,6 +88,8 @@ public class GameSettingUI : MonoBehaviour
         Panel.SetActive(false);
         Time.timeScale = 1f;
         isOpen = false;
+        // 게임 세팅 값 저장
+        GameSettingsSaver.SaveSounds();
 
         if (SceneManager.GetActiveScene().name != "LobbyScene")
         {
@@ -128,20 +131,20 @@ public class GameSettingUI : MonoBehaviour
     public void OnBGMVolumeChanged()
     {
         SoundManager.Instance.SetBgmVolume(bgmSlider.value);
-        gameSettingsSaver.SaveBGMValue(bgmSlider.value);
+        GameSettingsSaver.SetBGMValue(bgmSlider.value);
     }
 
     public void OnSFXVolumeChanged()
     {
         SoundManager.Instance.SetEffectVolume(sfxSlider.value);
-        gameSettingsSaver.SaveSFXValue(sfxSlider.value);
+        GameSettingsSaver.SetSFXValue(sfxSlider.value);
     }
 
     // 전체 화면 여부를 나타내는 토글 값 변경 시 호출되는 함수(true: 전체 화면, false: 창 모드)
     public void OnFullScreenToggleChanged()
     {
         Screen.fullScreen = fullScreenToggle.isOn;
-        gameSettingsSaver.SaveFullScreen(fullScreenToggle.isOn);
+        GameSettingsSaver.SetFullScreen(fullScreenToggle.isOn);
     }
 
     // 애니메이션이 끝났을 때 GameSettingUI Animation event에 의해 호출되는 함수
