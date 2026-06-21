@@ -280,17 +280,31 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 사망 처리
     public virtual void Dead()
     {
+        if (isDead) return;
+
+        isDead = true;
+
+        StopAllCoroutines();
         StartCoroutine(DeadCoroutine());
     }
 
     protected virtual IEnumerator DeadCoroutine()
     {
-        isDead = true;
         playerRigidBody.velocity = Vector2.zero;
-        playerAnimator.SetTrigger("Die");
+
+        if (playerAnimator != null)
+        {
+            playerAnimator.ResetTrigger("Attack");
+            playerAnimator.ResetTrigger("dash");
+            playerAnimator.SetBool("isMove", false);
+            playerAnimator.SetBool("isGround", false);
+
+            playerAnimator.SetTrigger("Die");
+        }
+
         yield return new WaitForSeconds(1.5f);
+
         PlayerManager.Instance.PlayerDead();
-        //gameObject.SetActive(false);
     }
 
     public IAbilityV2 GetCharacterAbility()
