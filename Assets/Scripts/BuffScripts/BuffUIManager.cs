@@ -48,11 +48,11 @@ public class BuffUIManager : MonoBehaviour
         }
 
         // G키 테스트 코드
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            BuffType[] buffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
-            buffManager.ActivateBuff(buffTypes[Random.Range(0, buffTypes.Length)], 10f);
-        }
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    BuffType[] buffTypes = (BuffType[])System.Enum.GetValues(typeof(BuffType));
+        //    buffManager.ActivateBuff(buffTypes[Random.Range(0, buffTypes.Length)], 10f);
+        //}
 
         UpdateBuffUI();
     }
