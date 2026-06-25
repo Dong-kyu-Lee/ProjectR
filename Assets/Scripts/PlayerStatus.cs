@@ -23,6 +23,9 @@ public class PlayerStatus : Status
     private List<SlowDebuff> slowDebuffs = new();
     private float baseMoveSpeed;
 
+    // 안전 구역 안내 메시지를 한 번만 띄우기 위한 스위치
+    private bool hasShownSafeZoneMessage = false;
+
     public float Level { get { return level; } set { level = value; } }
     public float CriticalPercent { get { return criticalPercent; } set { criticalPercent = value; } }
     public float CriticalDamage { get { return criticalDamage; } set { criticalDamage = (value < 0.0f) ? 0 : value; } }
@@ -93,11 +96,33 @@ public class PlayerStatus : Status
         }
     }
 
+    // 체력이 깎이기 전에 씬을 검사하여 무시합니다.
     public override float Hp
     {
         get { return base.Hp; }
         set
         {
+            string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+            // 1. 로비나 연습장 씬일 경우
+            if (currentScene == "LobbyScene" || currentScene == "UpgradeTestScene")
+            {
+                // 체력이 현재보다 깎이는 상황(데미지를 입음)인지 확인
+                if (value < base.Hp)
+                {
+                    // 안내 메시지를 아직 안 띄웠다면 최초 1회 출력
+                    if (!hasShownSafeZoneMessage && InGameUIManager.Instance != null)
+                    {
+                        InGameUIManager.Instance.ShowStatus("안전 구역에서는 체력이 감소하지 않습니다.");
+                        hasShownSafeZoneMessage = true;
+                    }
+
+                    // 체력 감소를 무시하고 강제 종료 (UI에는 이미 데미지가 뜬 상태)
+                    return;
+                }
+            }
+
+            // 2. 그 외의 경우 (실전 던전이거나, 체력이 회복되는 경우) 정상 적용
             base.Hp = value;
             if (base.Hp <= 0f)
             {

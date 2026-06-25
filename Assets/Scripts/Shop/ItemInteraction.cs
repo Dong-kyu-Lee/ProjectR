@@ -9,8 +9,6 @@ public class ItemInteraction : MonoBehaviour
 
     private void Awake()
     {
-        inventory = FindObjectOfType<Inventory>();
-
         string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "ShopScene")
         {
@@ -33,6 +31,23 @@ public class ItemInteraction : MonoBehaviour
                 }
                 else
                 {
+                    // PlayerManager를 통해 현재 플레이어의 인벤토리를 가져옵니다.
+                    if (inventory == null)
+                    {
+                        if (PlayerManager.Instance != null && PlayerManager.Instance.CurrentPlayer != null)
+                        {
+                            // 하이어라키 구조에 맞게 자식 오브젝트에서 Inventory 컴포넌트를 탐색
+                            inventory = PlayerManager.Instance.CurrentPlayer.GetComponentInChildren<Inventory>();
+                        }
+                    }
+
+                    // 연결 실패 방어 코드
+                    if (inventory == null)
+                    {
+                        Debug.LogWarning("인벤토리를 찾을 수 없어 아이템을 획득할 수 없습니다.");
+                        return;
+                    }
+
                     BasicItemData item = itemExplain.item;
                     if (item == null) return;
 
@@ -60,13 +75,7 @@ public class ItemInteraction : MonoBehaviour
                         itemExplain.HideUI();
                         Destroy(gameObject);
                     }
-                    else
-                    {
-                        //실패
-                        return;
-                    }
                 }
-
             }
         }
     }
