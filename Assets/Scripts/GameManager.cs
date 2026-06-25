@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-    // 시작 캐릭터 타입(임시).
-    // TODO : 추후 기존 저장된 데이터에서 불러오도록 대체할 예정
 
     // 현재 플레이어 타입, 오브젝트 리턴(리팩토링 중 의존성 문제로 지울 예정. 잠시 PlayerManager에서 참조)
     public CharacterType CurrentCharacterType { get => PlayerManager.Instance.CurrentCharacterType; }
@@ -160,13 +158,6 @@ public class GameManager : MonoBehaviour
     // 인게임에 사용되는 UI의 존재를 확인하고 없으면 생성하는 함수
     private void CreateUI()
     {
-        /*if (upgradeUI == null)
-        {
-            upgradeUI = GameObject.FindObjectOfType<UpgradeUI>()?.gameObject;
-            // upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
-            DontDestroyOnLoad(upgradeUI);
-        }*/
-
         if (inGameUI == null)
         {
             GameObject integratedObj = Instantiate(Resources.Load<GameObject>("Prefabs/UI/GamePlayUI"));
