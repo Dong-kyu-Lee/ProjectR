@@ -68,6 +68,8 @@ public class RandomBox : MonoBehaviour
     private int maxDropCount = 4;
     [SerializeField]
     private float itemSpacing = 1.0f;
+    [SerializeField]
+    private GameObject ConversationObj;
 
     // 드랍된 아이템들을 추적/관리하는 리스트
     private List<GameObject> spawnedItems = new List<GameObject>();
@@ -149,6 +151,8 @@ public class RandomBox : MonoBehaviour
 
         IsOpened = true; // 애니메이션 재생
         DropItem();      // 아이템 생성
+        ConversationObj.SetActive(false);
+
     }
 
     //박스 등급 결정 및 애니메이션 교체 로직
