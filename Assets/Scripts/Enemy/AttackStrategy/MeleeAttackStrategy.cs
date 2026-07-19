@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class MeleeAttackStrategy : IAttackStrategy
 {
+    public EnemyAttackTiming Timing
+    {
+        get { return new EnemyAttackTiming(0.3f, 0.1f, 0.6f, true, false, false); }
+    }
+
     public void ExecuteAttack(Enemy enemy)
     {
         float hitOffsetX = 0.6f;

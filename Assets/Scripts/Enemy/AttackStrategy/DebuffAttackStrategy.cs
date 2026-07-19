@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class DebuffAttackStrategy : IAttackStrategy
 {
+    public EnemyAttackTiming Timing
+    {
+        get { return new EnemyAttackTiming(0.3f, 0.1f, 0.7f, true, false, false); }
+    }
+
     public void ExecuteAttack(Enemy enemy)
     {
         enemy.EnemyAnimator.SetTrigger("Attack");

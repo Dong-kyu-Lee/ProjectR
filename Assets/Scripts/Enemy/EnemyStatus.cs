@@ -41,7 +41,10 @@ public class EnemyStatus : Status
         {
             Vector2 spawnPosition = GetComponent<CapsuleCollider2D>().bounds.min;
             RuneSpawner.Instance.TrySpawnRune(spawnPosition + Vector2.up);
+            return;
         }
+
+        GetComponent<Enemy>()?.TryInterruptAttack();
     }
 
     protected override void Dead()

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class QueenProjectileStrategy : IAttackStrategy
 {
+    public EnemyAttackTiming Timing
+    {
+        get { return EnemyAttackTiming.Immediate; }
+    }
+
     public void ExecuteAttack(Enemy enemy)
     {
         // 들어온 enemy가 QueenBossEnemy인지 확인하고 전용 함수 호출

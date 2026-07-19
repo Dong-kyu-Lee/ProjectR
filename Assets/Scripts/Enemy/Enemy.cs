@@ -38,6 +38,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private LayerMask groundLayer;
 
+    [SerializeField]
+    private float hitStunDurationOnInterrupt = 0.15f;
+
     public bool isAttacking = false;
 
     public event Action OnEdgeDetected;
@@ -58,6 +61,9 @@ public class Enemy : MonoBehaviour
     public bool IsEdgeDetected { get; private set; }
 
     protected IAttackStrategy attackStrategy;
+
+    public EnemyAttackPhase CurrentAttackPhase { get; private set; } = EnemyAttackPhase.None;
+    public bool CanInterruptCurrentAttack { get; private set; }
 
     protected virtual void Awake()
     {
@@ -147,6 +153,27 @@ public class Enemy : MonoBehaviour
         attackStrategy = strategy;
     }
 
+    public void SetAttackPhase(EnemyAttackPhase phase, bool canInterrupt)
+    {
+        CurrentAttackPhase = phase;
+        CanInterruptCurrentAttack = canInterrupt;
+    }
+
+    public bool TryInterruptAttack()
+    {
+        return TryInterruptAttack(hitStunDurationOnInterrupt);
+    }
+
+    public bool TryInterruptAttack(float stunDuration)
+    {
+        if (enemyStatus != null && enemyStatus.IsBoss) return false;
+        if (StateMachine == null || StateMachine.CurrentState != StateMachine.attackState) return false;
+        if (!CanInterruptCurrentAttack) return false;
+
+        ApplyHitStun(stunDuration);
+        return true;
+    }
+
     public void FacePlayer()
     {
         if (PlayerTransform == null) return;
@@ -189,6 +216,7 @@ public class Enemy : MonoBehaviour
 
         // 켜져있는 무기 히트박스 등을 끔 (CancelAttack은 이전 답변에서 만든 가상 함수)
         CancelAttack();
+        SetAttackPhase(EnemyAttackPhase.None, false);
 
         // StunState로 경직 시간 전달 후 상태 강제 전환!
         if (StateMachine != null && StateMachine.stunState is StunState stun)
@@ -201,5 +229,6 @@ public class Enemy : MonoBehaviour
     public virtual void CancelAttack()
     {
         isAttacking = false;
+        SetAttackPhase(EnemyAttackPhase.None, false);
     }
 }
