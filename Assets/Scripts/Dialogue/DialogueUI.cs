@@ -39,6 +39,14 @@ public class DialogueUI : MonoBehaviour
 
     public void Close()
     {
+        // 진행 중인 타이핑이 있으면 정리 (대화 강제 중단 대응)
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
+        isTyping = false;
+
         rootPanel.SetActive(false);
     }
 
