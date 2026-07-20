@@ -14,6 +14,11 @@ public class EnemySpawner : MonoBehaviour
 
     public GameObject GetRandomEnemyPrefab1()
     {
+        if (enemyPrefabPath == null)
+        {
+            Debug.LogError("enemyPrefabPath가 할당되지 않았습니다.", this);
+            return null;
+        }
         if (enemyList1.Count == 0)
         {
             Debug.LogWarning("enemyList1이 비어 있습니다.");
@@ -30,6 +35,11 @@ public class EnemySpawner : MonoBehaviour
 
     public GameObject GetRandomEnemyPrefab2()
     {
+        if (enemyPrefabPath == null)
+        {
+            Debug.LogError("enemyPrefabPath가 할당되지 않았습니다.", this);
+            return null;
+        }
         if (enemyList2.Count == 0)
         {
             Debug.LogWarning("enemyList2가 비어 있습니다.");

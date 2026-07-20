@@ -19,7 +19,7 @@ namespace Define.Enemy
     
     // 스포너의 인스펙터 창에서 적 종류만 선택하기 위한 데이터 클래스
     [System.Serializable]
-    public class NormalEnemyData
+    public struct NormalEnemyData
     {
         public NormalEnemyType enemyType;
     }
