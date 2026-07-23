@@ -12,3 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e634f20f914553343a3084824d28c196, type: 3}
   m_Name: EnemyPrefabPath
   m_EditorClassIdentifier: 
+  normalEnemyMappings:
+  - enemyType: 0
+    prefab: {fileID: 7154700476304014582, guid: ccf36d70f958cf1409487598c05b9da5, type: 3}
+  - enemyType: 1
+    prefab: {fileID: 7154700476304014582, guid: 4aae8608690ec0244a1406536d6d703e, type: 3}
+  - enemyType: 2
+    prefab: {fileID: 7154700476304014582, guid: 9b556d724c2e0444faccb39789803164, type: 3}
+  middleBossMappings:
+  - enemyType: 0
+    prefab: {fileID: 7154700476304014582, guid: 6f1ca7acc27de2c4591f62a44de36a06, type: 3}
+  finalBossMappings:
+  - enemyType: 0
+    prefab: {fileID: 7154700476304014582, guid: 2f4155215d93ee24da89f5b9bd17c8af, type: 3}
