@@ -25,10 +25,12 @@ public class PrologueManager : MonoBehaviour
         }
     }
 
-    // 프롤로그 컷씬이 완료되었을 때 호출되는 함수
+    // 프롤로그 컷씬이 완료되었을 때 호출되는 함수 (스킵 포함)
     public void CompleteCutScene()
     {
         hasSeenPrologue = true;
+        PlayerPrefs.SetInt("HasSeenPrologue", 1);
+        PlayerPrefs.Save();
         GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
     }
 }
