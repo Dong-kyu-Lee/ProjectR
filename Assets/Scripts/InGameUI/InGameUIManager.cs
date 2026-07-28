@@ -30,9 +30,12 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private Slider HpBarSlider;
     [SerializeField] private Text hpTxt;
     [SerializeField] private BuffToolTipUI tooltipUI;
-    [SerializeField] private Image PlayerHead;
-    [SerializeField] private Sprite blacksmithHeadSprite;
-    [SerializeField] private Sprite bartenderHeadSprite;
+
+    //CharacterData로 데이터 이전
+    //[SerializeField] private Image PlayerHead;
+    //[SerializeField] private Sprite blacksmithHeadSprite;
+    //[SerializeField] private Sprite bartenderHeadSprite;
+    
     [SerializeField] private UpgradeUI upgradeUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
 
