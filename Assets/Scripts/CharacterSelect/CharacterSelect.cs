@@ -41,11 +41,13 @@ public class CharacterSelect : MonoBehaviour
         }
 
         // 현재 플레이어 오브젝트 설정(생성할 캐릭터 오브젝트, 타입, 위치)
-        Vector3 spawnPosition; // 플레이어 오브젝트 생성 위치 결정(프롤로그 완료 여부에 따름)
-        if (PlayerPrefs.GetInt("HasSeenPrologue") == 0) { 
+        Vector3 spawnPosition; // 플레이어 오브젝트 생성 위치 결정(최초 로비 진입 여부에 따름)
+        // 최초 로비 진입 연출용 위치. 소비 여부를 일회성 스토리 기록(json)으로 판단한다.
+        // 프롤로그 완료 플래그와 분리해야 한다. 프롤로그는 로비 도착 전에 이미 완료 처리되기 때문이다.
+        if (!StorySystem.Instance.IsSingleUseStoryCompleted(StoryID.FirstLobbyEntry))
+        {
             spawnPosition = prologueSpawnPoint.position;
-            PlayerPrefs.SetInt("HasSeenPrologue", 1);
-            PlayerPrefs.Save();
+            StorySystem.Instance.CompleteSingleUseStory(StoryID.FirstLobbyEntry);
         }
         else { spawnPosition = mannequins[(int)GameManager.Instance.CurrentCharacterType].transform.position; }
         // 선택한 캐릭터를 CurrentPlayer로 설정하고 위치 지정
