@@ -44,6 +44,10 @@ public class GameManager : MonoBehaviour
 
     public event Action<SceneType> OnSceneChanged;
 
+    // 마지막으로 MoveScene에 전달된 씬 타입. 스토리 씬에서 던전으로 복귀할 때
+    // "어떤 타입의 씬으로 돌아갈지"를 결정하기 위해 StorySystem이 참조한다.
+    public SceneType CurrentSceneType { get; private set; }
+
     private void Awake()
     {
         // 싱글톤 초기화
@@ -126,6 +130,7 @@ public class GameManager : MonoBehaviour
                 CalcDamage.Instance.ResetAllEffect();
                 break;
         }
+        CurrentSceneType = key;
         if (isAsync)
         {
             SceneManager.LoadSceneAsync(sceneName);

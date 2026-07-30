@@ -11,18 +11,17 @@ public static class DataManager
     public static SingleUseStory LoadSingleUseStoryData()
     {
         string path = Path.Combine(Application.persistentDataPath, singleUseStoryPath);
-        if (!File.Exists(path))
+        // 최초 실행에는 파일이 없는 것이 정상. 완료 기록이 생기는 시점에 저장된다.
+        if (!File.Exists(path)) return new SingleUseStory();
+
+        var data = JsonUtility.FromJson<SingleUseStory>(File.ReadAllText(path));
+        if (data == null)
         {
-            Debug.LogWarning($"File not found at path: {path}");
-            SaveSingleUseStoryData(new SingleUseStory()); // 기본 데이터 저장
+            Debug.LogError($"Failed to parse single-use story data at path: {path}");
+            return new SingleUseStory();
         }
-        if(!File.Exists(path))
-        {
-            Debug.LogError($"File still not found at path: {path}");
-            return new SingleUseStory(); // 빈 데이터 반환
-        }
-        string json = File.ReadAllText(path);
-        return JsonUtility.FromJson<SingleUseStory>(json);
+        if (data.stories == null) data.stories = new List<StoryData>();
+        return data;
     }
 
     // 일회성 스토리 json 데이터 저장하기
