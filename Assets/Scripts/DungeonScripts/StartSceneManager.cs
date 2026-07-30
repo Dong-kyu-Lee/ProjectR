@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class StartSceneManager : MonoBehaviour
 {
@@ -49,10 +48,11 @@ public class StartSceneManager : MonoBehaviour
     // 게임 시작 화면에서 Start 버튼에 의해 호출되는 이벤트 함수
     public void StartGame()
     {
-        if(PlayerPrefs.HasKey("HasSeenPrologue") == false || PlayerPrefs.GetInt("HasSeenPrologue") == 0)
-            SceneManager.LoadScene("Prologue");
-        else
-            GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
+        // 프롤로그는 일회성 스토리이므로 재생 여부 판단(json 조회)과 씬 이동을 StorySystem에 맡긴다.
+        if (StorySystem.Instance.StartStory(StoryID.Prologue)) return;
+
+        // 이미 프롤로그를 본 경우 곧바로 로비로 이동
+        GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
     }
 
     // 게임 종료 버튼에 의해 호출되는 이벤트 함수

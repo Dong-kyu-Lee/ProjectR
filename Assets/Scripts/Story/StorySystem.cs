@@ -39,7 +39,7 @@ public class StorySystem : MonoBehaviour
     {
         Init();
 
-        // 일회성 스토리 로드/기본값 처리를 전담 매니저에 위임
+        // 일회성 스토리의 영구 기록(json) 로드/조회/저장을 전담 매니저에 위임
         singleUseStories = new SingleUseStoryManager();
 
         // 스토리 등록: 원본 에셋을 통째로 복제해 런타임 상태를 원본과 분리한다.
@@ -57,6 +57,13 @@ public class StorySystem : MonoBehaviour
                 continue;
             }
             storyContainer.Add(source.storyID, Instantiate(source));
+        }
+
+        // 일회성 스토리는 json이 진실의 원천 -> 저장된 완료 여부를 런타임 상태에 반영
+        foreach (var story in storyContainer.Values)
+        {
+            if (story.isSingleUse && singleUseStories.IsCompleted(story.storyID))
+                story.storyState = StoryState.Completed;
         }
     }
 
@@ -76,28 +83,35 @@ public class StorySystem : MonoBehaviour
 
     // 새로운 스토리 시작 처리
     // 플레이어의 상호작용에 의해서 호출됨(ex. NPC 대화, 보스 처치)
-    public void StartStory(StoryID storyID)
+    // 실제로 스토리 씬으로 진입하면 true, 진입하지 않으면 false를 반환한다.
+    // (호출자가 "스토리를 건너뛴 경우"의 흐름을 이어서 처리할 수 있게 한다.)
+    public bool StartStory(StoryID storyID)
     {
         // 스토리가 딕셔너리에 존재하는지 확인
-        if (!storyContainer.ContainsKey(storyID))
+        if (!storyContainer.TryGetValue(storyID, out var story))
         {
             Debug.LogError($"Story '{storyID}' does not exist.");
-            return;
+            return false;
         }
+        // 이미 완료한 일회성 스토리는 재생하지 않는다. (정상 흐름이므로 에러가 아니다)
+        // 아래 상태 검사보다 반드시 앞에 와야 한다. 완료된 일회성 스토리는 Available이 아니기 때문이다.
+        if (story.isSingleUse && singleUseStories.IsCompleted(storyID))
+            return false;
         // 현재 스토리가 Available 상태인지 확인 (상태 머신 + nextStoryID 체인이 진행 순서를 통제)
-        if (storyContainer[storyID].storyState != StoryState.Available)
+        if (story.storyState != StoryState.Available)
         {
             Debug.LogError($"Story '{storyID}' is not available to start.");
-            return;
+            return false;
         }
         // 스토리 상태를 In_Progress로 변경
-        storyContainer[storyID].storyState = StoryState.In_Progress;
+        story.storyState = StoryState.In_Progress;
 
         // 스토리 씬으로 떠나기 전에 복귀에 필요한 현재 씬 정보를 저장
         previousDungeonScene = SceneManager.GetActiveScene().name;
         previousSceneType = GameManager.Instance.CurrentSceneType;
-        currentStoryScene = storyContainer[storyID].sceneToLoad;
+        currentStoryScene = story.sceneToLoad;
         GameManager.Instance.MoveScene(SceneType.StoryScene, currentStoryScene);
+        return true;
     }
 
     // 스토리 완료 처리
@@ -110,18 +124,25 @@ public class StorySystem : MonoBehaviour
             return;
         }
         // 스토리 상태를 Completed로 변경
-        storyContainer[storyID].storyState = StoryState.Completed;
+        var story = storyContainer[storyID];
+        story.storyState = StoryState.Completed;
+        // 일회성 스토리는 완료 시점에 즉시 영구 기록 (다시 재생되지 않도록)
+        if (story.isSingleUse) singleUseStories.Complete(storyID);
         // 다음 스토리가 있다면 상태를 Available로 변경 (선행 스토리 -> 후행 스토리 해금)
-        foreach (var nextStory in storyContainer[storyID].nextStoryID)
+        foreach (var nextStory in story.nextStoryID)
         {
             if (storyContainer.ContainsKey(nextStory) && storyContainer[nextStory].storyState == StoryState.Locked)
             {
                 storyContainer[nextStory].storyState = StoryState.Available;
             }
         }
-        // 떠나온 던전 씬으로 복귀. 나갈 때와 동일하게 GameManager를 경유하여
+        // 기본은 떠나온 던전 씬으로 복귀. 고정 목적지가 지정된 스토리(ex. 프롤로그)는 그쪽으로 나간다.
+        // 어느 경우든 나갈 때와 동일하게 GameManager를 경유하여
         // 씬 타입별 복구(UI 생성/활성화 등)를 시스템이 일관되게 처리하도록 한다.
-        GameManager.Instance.MoveScene(previousSceneType, previousDungeonScene);
+        if (story.useFixedReturnScene)
+            GameManager.Instance.MoveScene(story.returnSceneType, story.returnSceneName);
+        else
+            GameManager.Instance.MoveScene(previousSceneType, previousDungeonScene);
     }
 
     // 플레이어가 죽으면 스토리 진행을 "작성된 초기 상태"로 되돌린다.
@@ -131,7 +152,10 @@ public class StorySystem : MonoBehaviour
     {
         foreach (var source in stories)
         {
-            if (source != null && storyContainer.TryGetValue(source.storyID, out var story))
+            // 일회성 스토리의 완료 여부는 json이 관리하므로 초기화 대상이 아니다.
+            if (source == null || source.isSingleUse) continue;
+
+            if (storyContainer.TryGetValue(source.storyID, out var story))
             {
                 story.storyState = source.storyState;
             }
@@ -139,15 +163,16 @@ public class StorySystem : MonoBehaviour
     }
 
     // 일회성 스토리 완료 처리 (전담 매니저에 위임)
-    public void CompleteSingleUseStory(string storyName)
+    // 컷씬 씬이 없는 순수 플래그성 일회성 연출(ex. 최초 로비 진입)에 사용한다.
+    public void CompleteSingleUseStory(StoryID storyID)
     {
-        singleUseStories.Complete(storyName);
+        singleUseStories.Complete(storyID);
     }
 
     // 일회성 스토리 완료 여부 조회 (전담 매니저에 위임)
-    public bool IsSingleUseStoryCompleted(string storyName)
+    public bool IsSingleUseStoryCompleted(StoryID storyID)
     {
-        return singleUseStories.IsCompleted(storyName);
+        return singleUseStories.IsCompleted(storyID);
     }
 
     public StoryState GetStoryState(StoryID storyID)

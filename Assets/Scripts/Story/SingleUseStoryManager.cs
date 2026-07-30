@@ -1,7 +1,8 @@
 using UnityEngine;
 
-// 일회성 스토리(프롤로그 등)의 로드/조회/저장만 담당한다.
-// StorySystem에서 이 책임을 분리하여 응집도를 높이고, 기본값 키를 한곳에서 관리한다.
+// 일회성 스토리(프롤로그 등)의 완료 여부를 json에 영구 기록/조회한다.
+// 저장 데이터는 "완료된 일회성 스토리 집합"이며, 항목이 없으면 미완료로 간주한다.
+// (기본값을 미리 심어둘 필요가 없어 일회성 스토리를 추가해도 기존 저장 파일과 호환된다.)
 public class SingleUseStoryManager
 {
     private SingleUseStory data;
@@ -9,46 +10,28 @@ public class SingleUseStoryManager
     public SingleUseStoryManager()
     {
         data = DataManager.LoadSingleUseStoryData();
-
-        // 저장된 데이터가 없으면 기본 일회성 스토리 목록을 만들어 저장
-        if (data.stories.Count == 0)
-        {
-            data.stories.Add(new StoryData { name = SingleUseStoryKeys.Prologue, value = false });
-            data.stories.Add(new StoryData { name = SingleUseStoryKeys.InLobby, value = false });
-            DataManager.SaveSingleUseStoryData(data);
-        }
     }
 
     // 해당 일회성 스토리를 이미 완료했는지 여부
-    public bool IsCompleted(string storyName)
+    public bool IsCompleted(StoryID storyID)
     {
-        var story = data.stories.Find(s => s.name == storyName);
-        if (story == null)
-        {
-            Debug.LogError($"Single-use story '{storyName}' not found.");
-            return false;
-        }
-        return story.value;
+        var story = data.stories.Find(s => s.name == storyID.ToString());
+        return story != null && story.value;
     }
 
     // 일회성 스토리 완료 처리 후 즉시 저장
-    public void Complete(string storyName)
+    public void Complete(StoryID storyID)
     {
-        var story = data.stories.Find(s => s.name == storyName);
+        var story = data.stories.Find(s => s.name == storyID.ToString());
         if (story == null)
         {
-            Debug.LogError($"Single-use story '{storyName}' not found.");
-            return;
+            story = new StoryData { name = storyID.ToString() };
+            data.stories.Add(story);
         }
+        if (story.value) return; // 이미 기록됨 -> 불필요한 파일 쓰기 방지
+
         story.value = true;
-        Debug.Log($"Single-use story '{storyName}' marked as completed.");
+        Debug.Log($"Single-use story '{storyID}' marked as completed.");
         DataManager.SaveSingleUseStoryData(data);
     }
-}
-
-// 일회성 스토리 키(매직 스트링 제거). 저장 데이터의 name 값과 일치해야 한다.
-public static class SingleUseStoryKeys
-{
-    public const string Prologue = "Prologue";
-    public const string InLobby = "In Lobby";
 }
