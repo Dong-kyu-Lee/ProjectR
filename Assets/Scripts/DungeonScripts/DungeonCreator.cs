@@ -172,57 +172,75 @@ public class DungeonCreator : MonoBehaviour
     {
         // Background Tilemap 그리기
         Tilemap bTilemap = room.backgroundTilemap;
-        for(int i = 0; i < bTilemap.size.y; ++i)
+        if(bTilemap != null) 
         {
-            for(int j = 0; j < bTilemap.size.x; ++j)
+            for(int i = 0; i < bTilemap.size.y; ++i)
             {
-                backgroundTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
-                    bTilemap.GetTile(new Vector3Int(j, i, 0)));
+                for(int j = 0; j < bTilemap.size.x; ++j)
+                {
+                    backgroundTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
+                        bTilemap.GetTile(new Vector3Int(j, i, 0)));
+                }
             }
         }
         // Background Decoration Tilemap 그리기
         Tilemap bdTilemap = room.backgroundDecoTilemap;
-        for (int i = 0; i < bdTilemap.size.y; ++i)
+        if(bdTilemap != null)
         {
-            for (int j = 0; j < bdTilemap.size.x; ++j)
+            for (int i = 0; i < bdTilemap.size.y; ++i)
             {
-                TileBase tile = bdTilemap.GetTile(new Vector3Int(j, i, 0));
-                // 타일의 변형 메트릭스 가져오기
-                Matrix4x4 transforMatrix = bdTilemap.GetTransformMatrix(new Vector3Int(j, i, 0));
-                // 타일 배치
-                backgroundDecoTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0), tile);
-                // 타일의 변형 메트릭스를 적용하여 타일 설정
-                backgroundDecoTilemap.SetTransformMatrix(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0), transforMatrix);
+                for (int j = 0; j < bdTilemap.size.x; ++j)
+                {
+                    TileBase tile = bdTilemap.GetTile(new Vector3Int(j, i, 0));
+                    // 타일의 변형 메트릭스 가져오기
+                    Matrix4x4 transforMatrix = bdTilemap.GetTransformMatrix(new Vector3Int(j, i, 0));
+                    // 타일 배치
+                    backgroundDecoTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0), tile);
+                    // 타일의 변형 메트릭스를 적용하여 타일 설정
+                    backgroundDecoTilemap.SetTransformMatrix(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0), transforMatrix);
+                }
             }
         }
+
         // Ground Tilemap 그리기
         Tilemap gTilemap = room.groundTilemap;
-        for (int i = 0; i < gTilemap.size.y; ++i)
+        if(gTilemap != null)
         {
-            for (int j = 0; j < gTilemap.size.x; ++j)
+            for (int i = 0; i < gTilemap.size.y; ++i)
             {
-                groundTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
-                    gTilemap.GetTile(new Vector3Int(j, i, 0)));
+                for (int j = 0; j < gTilemap.size.x; ++j)
+                {
+                    groundTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
+                        gTilemap.GetTile(new Vector3Int(j, i, 0)));
+                }
             }
         }
+
         // Floating Tilemap 그리기
         Tilemap fTilemap = room.floatingTilemap;
-        for (int i = 0; i < fTilemap.size.y; ++i)
+        if(fTilemap != null)
         {
-            for (int j = 0; j < fTilemap.size.x; ++j)
+            for (int i = 0; i < fTilemap.size.y; ++i)
             {
-                floatingTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
-                    fTilemap.GetTile(new Vector3Int(j, i, 0)));
+                for (int j = 0; j < fTilemap.size.x; ++j)
+                {
+                    floatingTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
+                        fTilemap.GetTile(new Vector3Int(j, i, 0)));
+                }
             }
         }
+
         // Decoration Tilemap 그리기
         Tilemap dTilemap = room.decorationTilemap;
-        for (int i = 0; i < dTilemap.size.y; ++i)
+        if(dTilemap != null)
         {
-            for (int j = 0; j < dTilemap.size.x; ++j)
+            for (int i = 0; i < dTilemap.size.y; ++i)
             {
-                decorationTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
-                    dTilemap.GetTile(new Vector3Int(j, i, 0)));
+                for (int j = 0; j < dTilemap.size.x; ++j)
+                {
+                    decorationTilemap.SetTile(new Vector3Int(roomPosition.x + j, roomPosition.y + i, 0),
+                        dTilemap.GetTile(new Vector3Int(j, i, 0)));
+                }
             }
         }
 
@@ -245,11 +263,11 @@ public class DungeonCreator : MonoBehaviour
 
     public void RemoveAllRooms()
     {
-        backgroundTilemap.ClearAllTiles();
-        backgroundDecoTilemap.ClearAllTiles();
-        groundTilemap.ClearAllTiles();
-        floatingTilemap.ClearAllTiles();
-        decorationTilemap.ClearAllTiles();
+        backgroundTilemap?.ClearAllTiles();
+        backgroundDecoTilemap?.ClearAllTiles();
+        groundTilemap?.ClearAllTiles();
+        floatingTilemap?.ClearAllTiles();
+        decorationTilemap?.ClearAllTiles();
 
         foreach (var room in roomInstanceDic)
         {
