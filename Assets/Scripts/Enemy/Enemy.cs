@@ -44,6 +44,21 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float attackRetryDelayAfterInterrupt = 0.6f;
 
+    [SerializeField]
+    private bool hasSuperArmor;
+
+    [SerializeField]
+    private float maxPoise = 1f;
+
+    [SerializeField]
+    private float poiseDamagePerHit = 1f;
+
+    [SerializeField]
+    private float poiseRecoveryDelay = 1.5f;
+
+    [SerializeField]
+    private float poiseRecoveryPerSecond = 1f;
+
     public bool isAttacking = false;
 
     public event Action OnEdgeDetected;
@@ -69,10 +84,13 @@ public class Enemy : MonoBehaviour
     public bool CanInterruptCurrentAttack { get; private set; }
 
     private float nextAttackAllowedTime;
+    private float currentPoise;
+    private float lastPoiseDamageTime = float.NegativeInfinity;
 
     protected virtual void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
+        currentPoise = Mathf.Max(1f, maxPoise);
     }
 
     void Start()
@@ -84,6 +102,7 @@ public class Enemy : MonoBehaviour
     {
         FlipX();
         CheckPlatformEdge();
+        RecoverPoise();
     }
 
     protected void FlipX()
@@ -171,12 +190,22 @@ public class Enemy : MonoBehaviour
 
     public bool TryInterruptAttack()
     {
-        return TryInterruptAttack(hitStunDurationOnInterrupt);
+        return TryInterruptAttack(hitStunDurationOnInterrupt, poiseDamagePerHit);
     }
 
     public bool TryInterruptAttack(float stunDuration)
     {
+        return TryInterruptAttack(stunDuration, poiseDamagePerHit);
+    }
+
+    public bool TryInterruptAttack(float stunDuration, float poiseDamage)
+    {
         if (enemyStatus != null && enemyStatus.IsBoss)
+        {
+            return false;
+        }
+
+        if (hasSuperArmor)
         {
             return false;
         }
@@ -196,6 +225,12 @@ public class Enemy : MonoBehaviour
             return false;
         }
 
+        if (!ConsumePoise(poiseDamage))
+        {
+            return false;
+        }
+
+        ResetPoise();
         DelayNextAttack(attackRetryDelayAfterInterrupt);
         ApplyHitStun(stunDuration);
         return true;
@@ -204,6 +239,27 @@ public class Enemy : MonoBehaviour
     public void DelayNextAttack(float delay)
     {
         nextAttackAllowedTime = Mathf.Max(nextAttackAllowedTime, Time.time + delay);
+    }
+
+    private bool ConsumePoise(float poiseDamage)
+    {
+        lastPoiseDamageTime = Time.time;
+        currentPoise -= Mathf.Max(0f, poiseDamage);
+
+        return currentPoise <= 0f;
+    }
+
+    private void ResetPoise()
+    {
+        currentPoise = Mathf.Max(1f, maxPoise);
+    }
+
+    private void RecoverPoise()
+    {
+        if (currentPoise >= maxPoise) return;
+        if (Time.time < lastPoiseDamageTime + poiseRecoveryDelay) return;
+
+        currentPoise = Mathf.Min(maxPoise, currentPoise + poiseRecoveryPerSecond * Time.fixedDeltaTime);
     }
 
     public void FacePlayer()
