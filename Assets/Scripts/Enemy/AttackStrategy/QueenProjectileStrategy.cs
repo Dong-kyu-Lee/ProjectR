@@ -9,6 +9,11 @@ public class QueenProjectileStrategy : IAttackStrategy
         get { return EnemyAttackTiming.Immediate; }
     }
 
+    public void BeginAttack(Enemy enemy)
+    {
+
+    }
+
     public void ExecuteAttack(Enemy enemy)
     {
         // 들어온 enemy가 QueenBossEnemy인지 확인하고 전용 함수 호출

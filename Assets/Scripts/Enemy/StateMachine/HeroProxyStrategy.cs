@@ -9,6 +9,11 @@ public class HeroProxyStrategy : IAttackStrategy
         get { return EnemyAttackTiming.Immediate; }
     }
 
+    public void BeginAttack(Enemy enemy)
+    {
+
+    }
+
     public void ExecuteAttack(Enemy enemy)
     {
         if (enemy is HeroBossEnemy hero)

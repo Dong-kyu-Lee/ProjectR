@@ -58,6 +58,7 @@ public struct EnemyAttackTiming
 public interface IAttackStrategy
 {
     EnemyAttackTiming Timing { get; }
+    void BeginAttack(Enemy enemy);
     void ExecuteAttack(Enemy enemy);
 }
 

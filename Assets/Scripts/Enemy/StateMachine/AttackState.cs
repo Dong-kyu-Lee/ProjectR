@@ -66,6 +66,7 @@ public class AttackState : IState
         timing = timing.WithMinimumTotalTime(applyAttackTime);
 
         enemy.SetAttackPhase(EnemyAttackPhase.Windup, timing.interruptibleDuringWindup);
+        attackStrategy.BeginAttack(enemy);
         if (timing.windupTime > 0f)
         {
             yield return new WaitForSeconds(timing.windupTime);

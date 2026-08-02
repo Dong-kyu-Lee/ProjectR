@@ -41,6 +41,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float hitStunDurationOnInterrupt = 0.15f;
 
+    [SerializeField]
+    private float attackRetryDelayAfterInterrupt = 0.6f;
+
     public bool isAttacking = false;
 
     public event Action OnEdgeDetected;
@@ -64,6 +67,8 @@ public class Enemy : MonoBehaviour
 
     public EnemyAttackPhase CurrentAttackPhase { get; private set; } = EnemyAttackPhase.None;
     public bool CanInterruptCurrentAttack { get; private set; }
+
+    private float nextAttackAllowedTime;
 
     protected virtual void Awake()
     {
@@ -104,6 +109,11 @@ public class Enemy : MonoBehaviour
     {
         // 적이 죽었거나, 이미 공격 중이거나, 현재 경직(Stun) 상태라면 공격 실행 금지
         if (StateMachine.isDead || isAttacking || StateMachine.CurrentState == StateMachine.stunState)
+        {
+            return;
+        }
+
+        if (Time.time < nextAttackAllowedTime)
         {
             return;
         }
@@ -166,12 +176,34 @@ public class Enemy : MonoBehaviour
 
     public bool TryInterruptAttack(float stunDuration)
     {
-        if (enemyStatus != null && enemyStatus.IsBoss) return false;
-        if (StateMachine == null || StateMachine.CurrentState != StateMachine.attackState) return false;
-        if (!CanInterruptCurrentAttack) return false;
+        if (enemyStatus != null && enemyStatus.IsBoss)
+        {
+            return false;
+        }
 
+        if (StateMachine == null)
+        {
+            return false;
+        }
+
+        if (StateMachine.CurrentState != StateMachine.attackState)
+        {
+            return false;
+        }
+
+        if (!CanInterruptCurrentAttack)
+        {
+            return false;
+        }
+
+        DelayNextAttack(attackRetryDelayAfterInterrupt);
         ApplyHitStun(stunDuration);
         return true;
+    }
+
+    public void DelayNextAttack(float delay)
+    {
+        nextAttackAllowedTime = Mathf.Max(nextAttackAllowedTime, Time.time + delay);
     }
 
     public void FacePlayer()

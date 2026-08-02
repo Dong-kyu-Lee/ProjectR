@@ -14,6 +14,11 @@ public class RandomCompositeStrategy : IAttackStrategy
         get { return EnemyAttackTiming.Immediate; }
     }
 
+    public void BeginAttack(Enemy enemy)
+    {
+
+    }
+
     public RandomCompositeStrategy(Enemy enemy, List<IAttackStrategy> strategies)
     {
         this.enemy = enemy;

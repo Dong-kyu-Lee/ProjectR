@@ -6,7 +6,17 @@ public class MeleeAttackStrategy : IAttackStrategy
 {
     public EnemyAttackTiming Timing
     {
-        get { return new EnemyAttackTiming(0.3f, 0.1f, 0.6f, true, false, false); }
+        get { return new EnemyAttackTiming(0.85f, 0.1f, 0.6f, true, false, false); }
+    }
+
+    public void BeginAttack(Enemy enemy)
+    {
+        if (enemy is BossEnemy) return;
+
+        if (enemy.EnemyAnimator != null)
+        {
+            enemy.EnemyAnimator.SetTrigger("Attack");
+        }
     }
 
     public void ExecuteAttack(Enemy enemy)
@@ -21,7 +31,12 @@ public class MeleeAttackStrategy : IAttackStrategy
         }
         else if (enemy is MeleeEnemy meleeEnemy)
         {
-            meleeEnemy.PerformAttack();
+            float meleeHitOffsetX = 0.35f;
+
+            if (meleeEnemy.hitBoxObj == null) return;
+
+            meleeEnemy.hitBoxObj.transform.localPosition = new Vector2(-meleeHitOffsetX, 0.3f);
+            meleeEnemy.hitBoxObj.SetActive(true);
         }
     }
 }
