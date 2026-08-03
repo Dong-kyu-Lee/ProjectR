@@ -86,6 +86,12 @@ public class CharacterSelectManager : MonoBehaviour
                 }
             }
         }
+        // 다른 UI 켜기
+        if (InGameUIManager.Instance != null)
+        {
+            InGameUIManager.Instance.SetCanvasActive(true);
+        }
+
         // 4. 카메라를 조작할 플레이어로 연결
         vcam.SetFollowTarget(PlayerManager.Instance.CurrentPlayer.transform);
 
@@ -119,6 +125,12 @@ public class CharacterSelectManager : MonoBehaviour
         foreach (var obj in selectableCharacterObjects)
         {
             if (obj != null) obj.SetActive(true);
+        }
+
+        // 인게임 UI 숨기기
+        if (InGameUIManager.Instance != null)
+        {
+            InGameUIManager.Instance.SetCanvasActive(false);
         }
 
         // 3. 카메라를 초기 중앙 위치로 이동

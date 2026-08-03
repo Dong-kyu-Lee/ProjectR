@@ -201,4 +201,11 @@ public class InGameUIManager : MonoBehaviour
             messageManager.ShowMessage(msg, delay);
         }
     }
+    public void SetCanvasActive(bool isActive)
+    {
+        if (rootCanvas != null)
+        {
+            rootCanvas.enabled = isActive;
+        }
+    }
 }
