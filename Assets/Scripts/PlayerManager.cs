@@ -63,6 +63,10 @@ public class PlayerManager : MonoBehaviour
         CharacterData data = characterDatabase.characterDataList[(int)type];
         return data.characterPrefab;
     }
+    public CharacterData GetCharacterData(CharacterType type)
+    {
+        return characterDatabase.characterDataList[(int)type];
+    }
 
     public void SetCurrentPlayer(GameObject value, CharacterType type, Vector3 spawnPosition)
     {
