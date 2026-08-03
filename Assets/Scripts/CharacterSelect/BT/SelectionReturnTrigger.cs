@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 public class SelectionReturnTrigger : MonoBehaviour
 {
+    [Header("이 구역의 주인")]
+    public CharacterType ownerCharacterType;
+
     private bool isPlayerNear = false;
 
     private void Update()
@@ -22,8 +23,12 @@ public class SelectionReturnTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            isPlayerNear = true;
-            if (CharacterSelectUI.Instance != null) CharacterSelectUI.Instance.SetText("'E' 키를 눌러 캐릭터 변경");
+            // 현재 조작 중인 플레이어의 타입이 이 구역의 주인과 일치할 때만 작동
+            if (PlayerManager.Instance.CurrentCharacterType == ownerCharacterType)
+            {
+                isPlayerNear = true;
+                if (CharacterSelectUI.Instance != null) CharacterSelectUI.Instance.SetText("'E' 키를 눌러 캐릭터 변경");
+            }
         }
     }
 
@@ -31,8 +36,12 @@ public class SelectionReturnTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            isPlayerNear = false;
-            if (CharacterSelectUI.Instance != null) CharacterSelectUI.Instance.HideText();
+            // 나갈 때도 타입이 일치할 때만 UI 텍스트를 숨김 처리
+            if (PlayerManager.Instance.CurrentCharacterType == ownerCharacterType)
+            {
+                isPlayerNear = false;
+                if (CharacterSelectUI.Instance != null) CharacterSelectUI.Instance.HideText();
+            }
         }
     }
 }
