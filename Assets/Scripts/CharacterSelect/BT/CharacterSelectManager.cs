@@ -72,9 +72,20 @@ public class CharacterSelectManager : MonoBehaviour
         // 3. 로비에 서 있던 대기용 캐릭터들 숨기기
         foreach (var obj in selectableCharacterObjects)
         {
-            if (obj != null) obj.SetActive(false);
+            if (obj != null)
+            {
+                SelectableCharacter selectable = obj.GetComponent<SelectableCharacter>();
+                // 선택한 캐릭터의 원본(마네킹)만 숨겨서 자리를 비우고, 나머지는 켜둠
+                if (selectable != null && selectable.characterType == currentPreviewType)
+                {
+                    obj.SetActive(false);
+                }
+                else
+                {
+                    obj.SetActive(true);
+                }
+            }
         }
-
         // 4. 카메라를 조작할 플레이어로 연결
         vcam.SetFollowTarget(PlayerManager.Instance.CurrentPlayer.transform);
 
