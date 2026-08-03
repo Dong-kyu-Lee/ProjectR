@@ -35,7 +35,10 @@ public class CharacterSelectUI : MonoBehaviour
     [Header("우측 패널 UI 요소 (스킬)")]
     [SerializeField] private Image skillIconImage;
     [SerializeField] private Text skillDescriptionText;
-    [SerializeField] private VideoPlayer skillVideoPlayer; // 영상이 없다면 비워둬도 됨
+    [SerializeField] private VideoPlayer skillVideoPlayer;
+
+    [Header("확대 비디오 UI")]
+    [SerializeField] private GameObject largeVideoPanel;
 
     private Vector2 leftPanelHiddenPos;
     private Vector2 leftPanelShownPos;
@@ -124,12 +127,32 @@ public class CharacterSelectUI : MonoBehaviour
 
         if (skillVideoPlayer != null) skillVideoPlayer.Stop();
 
+        if (largeVideoPanel != null) largeVideoPanel.SetActive(false);
+
         if (leftPanel != null && rightPanel != null)
         {
             if (panelCoroutine != null) StopCoroutine(panelCoroutine);
             panelCoroutine = StartCoroutine(SlidePanels(leftPanelHiddenPos, rightPanelHiddenPos));
         }
     }
+
+    public void OpenLargeVideo()
+    {
+        // 영상이 있을 때만 확대 창을 켬
+        if (largeVideoPanel != null && skillVideoPlayer.clip != null)
+        {
+            largeVideoPanel.SetActive(true);
+        }
+    }
+
+    public void CloseLargeVideo()
+    {
+        if (largeVideoPanel != null)
+        {
+            largeVideoPanel.SetActive(false);
+        }
+    }
+
 
     private IEnumerator SlidePanels(Vector2 leftTarget, Vector2 rightTarget)
     {
