@@ -32,13 +32,18 @@ public class TimelineManager : MonoBehaviour
         if (director != null) director.stopped -= OnDirectorStopped;
     }
 
+    // 시그널에 의해 호출
     public void PauseTimeline()
     {
+        // 스킵으로 건너뛴 구간의 시그널이 뒤늦게 도착해 다시 정지시키는 것을 방지
+        if (isSkipping || isEnded) return;
+
         Debug.Log("Pausing Timeline");
         director.Pause();
         conversationUI.SetActive(true);
     }
 
+    // 시그널에 의해 호출
     public void ResumeTimeline()
     {
         Debug.Log("Resuming Timeline");
@@ -46,8 +51,12 @@ public class TimelineManager : MonoBehaviour
         conversationUI.SetActive(false);
     }
 
+    // 시그널에 의해 호출
     public void StartDialogue()
     {
+        // 스킵 이후에는 건너뛴 구간의 대화를 다시 시작하지 않는다
+        if (isSkipping || isEnded) return;
+
         Debug.Log("Start Dialogue from TimelineManager");
         conversationUI.SetActive(true);
         npcDialogue.RunDialogue();
@@ -78,7 +87,7 @@ public class TimelineManager : MonoBehaviour
 
         director.time = target;
         director.Evaluate();    // 해당 시점의 오브젝트 상태를 즉시 반영
-        director.Play();        // 대화 중에는 Pause 상태이므로 반드시 다시 Play
+        ResumeTimeline();        // 대화 중에는 Pause 상태이므로 반드시 다시 Play
     }
 
     private void OnDirectorStopped(PlayableDirector _) => EndPrologue();
