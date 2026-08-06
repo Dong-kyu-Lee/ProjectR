@@ -29,6 +29,7 @@ public class DungeonCreator : MonoBehaviour
 
     [SerializeField]
     private GameObject roomInstancePrefab;
+    private GameObject backgroundImageInstance; // 현재 스테이지의 배경 이미지 오브젝트
     private Dictionary<Vector3, GameObject> roomInstanceDic = new Dictionary<Vector3, GameObject>();
     private List<Tuple<RoomNode, Room>> roomTupleList = new List<Tuple<RoomNode, Room>>();
 
@@ -55,6 +56,7 @@ public class DungeonCreator : MonoBehaviour
     public void CreateDungeon(StageData stageData, out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
         RemoveAllRooms();
+        CreateBackgroundImage(stageData);
 
         DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(numberOfRooms);
         var roomNodes = dungeonStructure.GetDungeonStructure();
@@ -98,13 +100,39 @@ public class DungeonCreator : MonoBehaviour
             // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
             DungeonFlowManager.Instance.GetCurrentStage().AddRoomInstance(roomInstanceDic[generatePosition].GetComponent<RoomInstance>());
 
-            if (i == 0) playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
+            // 이 방이 배경 타일 대신 배경 이미지를 사용하는지 전달
+            roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetUseSpriteBackground(currentRoom.UseSpriteBackground);
+
+            if (i == 0)
+            {
+                playerSpawnPosition = generatePosition + currentRoom.playerSpawnPosition.position;
+                // 첫 방은 플레이어가 트리거에 진입하기 전이므로 배경을 미리 맞춰 둠
+                if (BGImageMove.Instance != null)
+                    BGImageMove.Instance.MoveToRoom(generatePosition, currentRoom.UseSpriteBackground, true);
+            }
             else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
         }
         // 그림자 영역 생성
         StartCoroutine(ShadowCasterGenerate());
 
         UpdateWarpPosition();
+    }
+
+    // 스테이지에 지정된 배경 이미지 오브젝트를 생성하는 함수
+    // 배경 타일을 사용하는 스테이지는 backgroundImagePrefab이 비어 있으므로 아무것도 생성하지 않는다.
+    private void CreateBackgroundImage(StageData stageData)
+    {
+        if (backgroundImageInstance != null)
+        {
+            // 새 배경이 생성되는 프레임에 이전 배경이 겹쳐 보이지 않도록 먼저 숨김
+            backgroundImageInstance.SetActive(false);
+            Destroy(backgroundImageInstance);
+            backgroundImageInstance = null;
+        }
+
+        if (stageData.backgroundImagePrefab == null) return;
+
+        backgroundImageInstance = Instantiate(stageData.backgroundImagePrefab);
     }
 
     private IEnumerator ShadowCasterGenerate()
@@ -171,8 +199,9 @@ public class DungeonCreator : MonoBehaviour
     private void DrawRoom(Vector3Int roomPosition, Room room, bool[] openNeededGate)
     {
         // Background Tilemap 그리기
+        // 배경 이미지를 사용하는 방은 배경 타일을 그리지 않음(비활성 타일맵도 GetTile은 동작하므로 명시적으로 막아야 함)
         Tilemap bTilemap = room.backgroundTilemap;
-        if(bTilemap != null) 
+        if(bTilemap != null && room.UseSpriteBackground == false)
         {
             for(int i = 0; i < bTilemap.size.y; ++i)
             {

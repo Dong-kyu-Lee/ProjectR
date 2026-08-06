@@ -22,6 +22,7 @@ public class RoomInstance : MonoBehaviour
     [SerializeField] private GameObject boxObject;
     private Stage stage; // 이 방이 속한 스테이지
     private GameObject cameraBoundary;
+    private bool useSpriteBackground; // 이 방이 배경 타일 대신 배경 이미지를 사용하는지 여부
 
     void Start()
     {
@@ -78,6 +79,10 @@ public class RoomInstance : MonoBehaviour
     {
         if(cameraBoundary != null) cameraBoundary.transform.position = transform.position + new Vector3(19.5f, 19.5f, 0);
         else Debug.Log("cameraBoundary is null");
+
+        // 배경 이미지를 현재 방 뒤로 이동
+        if (BGImageMove.Instance != null)
+            BGImageMove.Instance.MoveToRoom(transform.position, useSpriteBackground);
     }
 
     // 첫번재 웨이브의 적들을 모두 처치했을 때 실행되는 함수
@@ -138,6 +143,12 @@ public class RoomInstance : MonoBehaviour
                 transform.position + lights.transform.GetChild(i).localPosition, lights.transform.GetChild(i).gameObject.transform.rotation, transform);
             this.dynamicElements.Add(element);
         }
+    }
+
+    // 이 방이 배경 이미지를 사용하는지 여부를 설정하는 함수
+    public void SetUseSpriteBackground(bool use)
+    {
+        useSpriteBackground = use;
     }
 
     // RoomInstance가 속한 Stage 참조를 설정하는 함수
