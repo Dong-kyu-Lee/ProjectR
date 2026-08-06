@@ -8,27 +8,27 @@ public enum RoomState { Default, Start, Cleared };
 // 생성된 방에 대한 조작을 관리하는 클래스
 public class RoomInstance : MonoBehaviour
 {
-    private RoomState roomState = RoomState.Default;
-    private bool isFirstWaveEnded = false;
-
     public RoomState GetRoomState { get => roomState; }
-    public Gate gate;
-    public EnemyInRoom enemyInRoom;
-    public List<GameObject> dynamicElements;
-    public GameObject boxObject;
-    private Stage stage; // 이 방이 속한 스테이지
-
     public Action onFirstWaveEnd;
     public Action onSecondWaveEnd;
+    public event Action<RoomState> OnRoomStateChanged; // 외부에서 방 상태 변화를 구독할 수 있는 이벤트
+    public Gate GetGate { get => gate; }
 
-    // [추가] 외부에서 방 상태 변화를 구독할 수 있는 이벤트
-    public event Action<RoomState> OnRoomStateChanged;
+    private RoomState roomState = RoomState.Default;
+    private bool isFirstWaveEnded = false;
+    [SerializeField] private Gate gate;
+    [SerializeField] private EnemyInRoom enemyInRoom;
+    [SerializeField] private List<GameObject> dynamicElements;
+    [SerializeField] private GameObject boxObject;
+    private Stage stage; // 이 방이 속한 스테이지
+    private GameObject cameraBoundary;
 
     void Start()
     {
         onFirstWaveEnd += FirstWaveEnd;
         onSecondWaveEnd += SecondWaveEnd;
         dynamicElements = new List<GameObject>();
+        cameraBoundary = FindObjectOfType<PolygonCollider2D>().gameObject;
     }
 
     private void OnDestroy()
@@ -62,15 +62,22 @@ public class RoomInstance : MonoBehaviour
                 // 방 상태 변경
                 roomState = RoomState.Start;
 
-                // [추가] 방 상태가 Start로 변했음을 외부(UI 등)에 알림
+                // 방 상태가 Start로 변했음을 외부(UI 등)에 알림
                 OnRoomStateChanged?.Invoke(roomState);
 
                 // 적 처치 미션 시작
                 stage.GetMissionUI.StartMission("모든 적을 처치하세요.", enemyInRoom.killCount, enemyInRoom.totalEnemyCount);
             }
-            // 카메라 경계 현재 방 위치로 이동
-            DungeonFlowManager.Instance.DungeonCreator.cameraBoundary.transform.position = transform.position + new Vector3(19.5f, 19.5f, 0);
+            MoveRoom();
         }
+    }
+
+    // 방을 이동할 때 변경되는 요소들 호출 : 카메라 경계, 배경 이미지 이동
+    // 플레이어의 방 이동은 워프(Warp.cs)와 직접 이동으로 처리됨.
+    private void MoveRoom()
+    {
+        if(cameraBoundary != null) cameraBoundary.transform.position = transform.position + new Vector3(19.5f, 19.5f, 0);
+        else Debug.Log("cameraBoundary is null");
     }
 
     // 첫번재 웨이브의 적들을 모두 처치했을 때 실행되는 함수
@@ -87,7 +94,7 @@ public class RoomInstance : MonoBehaviour
         // 방 상태 변경
         roomState = RoomState.Cleared;
 
-        // [추가] 방 상태가 Cleared로 변했음을 외부에 알림
+        // 방 상태가 Cleared로 변했음을 외부에 알림
         OnRoomStateChanged?.Invoke(roomState);
 
         // 현재 방 문 열기
@@ -102,7 +109,7 @@ public class RoomInstance : MonoBehaviour
 
         roomState = RoomState.Default;
 
-        // [추가] 던전 초기화 등으로 인해 방 상태가 Default로 변했음을 알림
+        // 던전 초기화 등으로 인해 방 상태가 Default로 변했음을 알림
         OnRoomStateChanged?.Invoke(roomState);
     }
 

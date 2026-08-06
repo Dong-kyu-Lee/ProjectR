@@ -134,7 +134,7 @@ public class Stage : MonoBehaviour
         {
             if (index != roomList.Count - 1)
             {
-                roomList[index + 1].gate.OpenGate(false);
+                roomList[index + 1].GetGate.OpenGate(false);
                 if (arrivePos != Vector3.zero) // 워프를 통한 이동인 경우
                     missionUI.StartMission("다음 방으로 이동하세요.", arrivePos);
                 else // 통로를 통한 이동인 경우, 다음 방의 중심 좌표를 목표 위치로 설정
