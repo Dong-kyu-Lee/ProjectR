@@ -57,6 +57,8 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
             InGameUIManager.Instance.skillCoolTimeUI.TriggerCooldown(cooldown);
         }
 
+        SoundManager.Instance.Play("Sounds/inventory/bottle", Sound.Effect, 1.5f);
+
         onAbilityUpdated?.Invoke();
     }
 

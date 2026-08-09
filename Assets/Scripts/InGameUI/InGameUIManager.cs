@@ -199,11 +199,11 @@ public class InGameUIManager : MonoBehaviour
     public void HideWarpUI() { if (InteractionUI.Instance != null) InteractionUI.Instance.HideWarpUI(); }
 
     // 4. 메시지 시스템 연결 다리
-    public void ShowStatus(string msg, float delay = 2f)
+    /*public void ShowStatus(string msg, float delay = 2f)
     {
         if (messageManager != null)
         {
             messageManager.ShowMessage(msg, delay);
         }
-    }
+    }*/
 }

@@ -73,6 +73,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             ApplyWeaponBonus();
             ApplyWeaponAnimator();
 
+            SoundManager.Instance.Play("Sounds/inventory/chainmail1", Sound.Effect, 1.0f);
             InGameUIManager.Instance.ShowStatus($"무기 주조 완료! 현재 무기 : {runtimeWeaponData.WeaponName}");
             onAbilityUpdated.Invoke();
         }
@@ -139,6 +140,8 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
         Debug.Log($"[강화 시도] 등급: {GetGradeName(curWeaponData.Rank)}, 단계: {enchantLevel}, 확률: {finalSuccessRate * 100f}% → {prob}");
 
+        SoundManager.Instance.Play("Sounds/battle/WeaponEnhance", Sound.Effect, 1.5f);
+
         if (prob <= finalSuccessRate)
         {
             ++enchantLevel;
@@ -172,6 +175,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             enchantLevel = 0;
             curWeaponData.EnchantLevel = 0;
             RefreshWeaponBonus(); // 성장 반영
+            SoundManager.Instance.Play("Sounds/battle/WeaponEnhance", Sound.Effect, 1.2f);
             InGameUIManager.Instance.ShowStatus($"장비 성장 완료! 새로운 등급: {GetGradeName(curWeaponData.Rank)}");
         }
         else
@@ -190,11 +194,13 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         if (roll <= finalDestroyChance)
         {
             InGameUIManager.Instance.ShowStatus("등급 성장 실패... 장비가 파괴되었습니다.");
+            SoundManager.Instance.Play("Sounds/battle/WeaponDestroyed", Sound.Effect, 1.0f);
             Deactivate();
         }
         else
         {
             InGameUIManager.Instance.ShowStatus("등급 성장 실패... 장비 단계가 초기화되었습니다.");
+            SoundManager.Instance.Play("Sounds/battle/WeaponDestroyed", Sound.Effect, 1.5f);
             curWeaponData.EnchantLevel = 0;
             enchantLevel = 0;
             RefreshWeaponBonus();

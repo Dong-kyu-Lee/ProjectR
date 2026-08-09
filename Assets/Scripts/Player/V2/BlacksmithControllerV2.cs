@@ -87,6 +87,10 @@ public class BlacksmithControllerV2 : PlayerControllerBase
             playerRigidBody.velocity = new Vector2(sx * attackStepForce, playerRigidBody.velocity.y);
         }
 
+        // 사운드
+        if (blacksmithAbility.CurWeaponData.WeaponStyle == WeaponStyle.OneHanded) SoundManager.Instance.Play("Sounds/battle/swing", Sound.Effect, 0.4f);
+        else if (blacksmithAbility.CurWeaponData.WeaponStyle == WeaponStyle.TwoHanded) SoundManager.Instance.Play("Sounds/battle/swing3", Sound.Effect, 0.4f);
+
         // 무기 스타일에 따른 최대 콤보 수 결정
         int maxCombo = 2; // 기본값
         if (blacksmithAbility != null && blacksmithAbility.CurWeaponData != null)
