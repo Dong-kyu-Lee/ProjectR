@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-    // 시작 캐릭터 타입(임시).
-    // TODO : 추후 기존 저장된 데이터에서 불러오도록 대체할 예정
 
     // 현재 플레이어 타입, 오브젝트 리턴(리팩토링 중 의존성 문제로 지울 예정. 잠시 PlayerManager에서 참조)
     public CharacterType CurrentCharacterType { get => PlayerManager.Instance.CurrentCharacterType; }
@@ -45,6 +43,10 @@ public class GameManager : MonoBehaviour
     private GameObject inGameUI;
 
     public event Action<SceneType> OnSceneChanged;
+
+    // 마지막으로 MoveScene에 전달된 씬 타입. 스토리 씬에서 던전으로 복귀할 때
+    // "어떤 타입의 씬으로 돌아갈지"를 결정하기 위해 StorySystem이 참조한다.
+    public SceneType CurrentSceneType { get; private set; }
 
     private void Awake()
     {
@@ -128,6 +130,7 @@ public class GameManager : MonoBehaviour
                 CalcDamage.Instance.ResetAllEffect();
                 break;
         }
+        CurrentSceneType = key;
         if (isAsync)
         {
             SceneManager.LoadSceneAsync(sceneName);
@@ -160,13 +163,6 @@ public class GameManager : MonoBehaviour
     // 인게임에 사용되는 UI의 존재를 확인하고 없으면 생성하는 함수
     private void CreateUI()
     {
-        /*if (upgradeUI == null)
-        {
-            upgradeUI = GameObject.FindObjectOfType<UpgradeUI>()?.gameObject;
-            // upgradeUI = Instantiate(Resources.Load<GameObject>("Prefabs/UI/UpgradeUICanvas 1.0"));
-            DontDestroyOnLoad(upgradeUI);
-        }*/
-
         if (inGameUI == null)
         {
             GameObject integratedObj = Instantiate(Resources.Load<GameObject>("Prefabs/UI/GamePlayUI"));

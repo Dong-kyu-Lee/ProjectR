@@ -30,15 +30,18 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private Slider HpBarSlider;
     [SerializeField] private Text hpTxt;
     [SerializeField] private BuffToolTipUI tooltipUI;
-    [SerializeField] private Image PlayerHead;
-    [SerializeField] private Sprite blacksmithHeadSprite;
-    [SerializeField] private Sprite bartenderHeadSprite;
+
+    //CharacterData로 데이터 이전
+    //[SerializeField] private Image PlayerHead;
+    //[SerializeField] private Sprite blacksmithHeadSprite;
+    //[SerializeField] private Sprite bartenderHeadSprite;
+    
     [SerializeField] private UpgradeUI upgradeUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
 
     // 레벨 및 경험치 UI
     [SerializeField] private Slider expBar;
-    [SerializeField] private Text levelText; 
+    [SerializeField] private Text levelText;
     [SerializeField] private Text expText;
 
     private MessageManager messageManager;
@@ -172,14 +175,6 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
-    public void ShowStatus(string msg, float delay = 2f)
-    {
-        if (messageManager != null)
-        {
-            messageManager.ShowMessage(msg, delay);
-        }
-    }
-
     // =====================================================================
     // [Wrapper 함수들] 기존 로직 유지 및 신규 기능 통합
     // =====================================================================
@@ -199,11 +194,18 @@ public class InGameUIManager : MonoBehaviour
     public void HideWarpUI() { if (InteractionUI.Instance != null) InteractionUI.Instance.HideWarpUI(); }
 
     // 4. 메시지 시스템 연결 다리
-    /*public void ShowStatus(string msg, float delay = 2f)
+    public void ShowStatus(string msg, float delay = 2f)
     {
         if (messageManager != null)
         {
             messageManager.ShowMessage(msg, delay);
         }
-    }*/
+    }
+    public void SetCanvasActive(bool isActive)
+    {
+        if (rootCanvas != null)
+        {
+            rootCanvas.enabled = isActive;
+        }
+    }
 }

@@ -516,4 +516,39 @@ public class Inventory : MonoBehaviour
         // 드래그를 통해 장비를 장착했으므로 스탯 갱신 알림
         OnStatusChanged?.Invoke();
     }
+    // 연습장에서 획득한 투척 아이템을 모두 제거하는 함수 (던전 진입 전 호출용)
+    public void ClearAllThrowableItems()
+    {
+        bool isRemoved = false;
+
+        for (int i = 0; i < inventorySlots.Count; i++)
+        {
+            InventorySlot slot = inventorySlots[i];
+
+            // 데이터가 있고, 소모품이며, 투척류인 경우
+            if (slot.itemData != null && slot.itemData.ItemType == ItemType.CONSUMABLE)
+            {
+                ConsumableItemData consumable = slot.itemData as ConsumableItemData;
+                if (consumable != null && consumable.kind == ConsumableKind.Throwable)
+                {
+                    // 슬롯 비우기
+                    slot.Clear(dummyInventoryItemData);
+                    isRemoved = true;
+                }
+            }
+        }
+
+        // 삭제된 내역이 있다면 UI 전체 갱신
+        if (isRemoved)
+        {
+            UpdateQuickSlotReference();
+
+            if (MyInventoryUI != null)
+            {
+                MyInventoryUI.RefreshInventoryUI();
+            }
+
+            Debug.Log("[Inventory] 던전 진입을 위해 투척 아이템이 모두 초기화되었습니다.");
+        }
+    }
 }

@@ -12,11 +12,6 @@ public class BuffToolTipUI : MonoBehaviour
 
     private bool isVisible = false;
 
-    private void Awake()
-    {
-        gameObject.SetActive(false);
-    }
-
     private void OnDisable()
     {
         isVisible = false;

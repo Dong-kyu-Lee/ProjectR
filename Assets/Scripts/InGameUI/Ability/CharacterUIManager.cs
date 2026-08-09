@@ -9,29 +9,18 @@ public class CharacterUIManager : MonoBehaviour
     [SerializeField] private GameObject blacksmithUI;
     [SerializeField] private GameObject bartenderUI;
 
-    [Header("Skill Icons")]
-    [SerializeField] private Sprite blacksmithIcon;
-    [SerializeField] private Sprite bartenderIcon;
-
     [SerializeField] private SkillCoolTime skillCoolTimeManager;
 
-    private Dictionary<string, GameObject> uiMap;
-    private Dictionary<string, Sprite> iconMap;
+    private Dictionary<CharacterType, GameObject> uiMap;
 
     [SerializeField] private SkillIcon skillIcon;
 
     void Awake()
     {
-        uiMap = new Dictionary<string, GameObject>
+        uiMap = new Dictionary<CharacterType, GameObject>
         {
-            { "Blacksmith", blacksmithUI },
-            { "Bartender", bartenderUI }
-        };
-
-        iconMap = new Dictionary<string, Sprite>
-        {
-            { "Blacksmith", blacksmithIcon },
-            { "Bartender", bartenderIcon }
+            { CharacterType.Blacksmith, blacksmithUI },
+            { CharacterType.Bartender, bartenderUI }
         };
 
         foreach (var kvp in uiMap)
@@ -42,7 +31,6 @@ public class CharacterUIManager : MonoBehaviour
 
     private void Start()
     {
-        // PlayerManager의 캐릭터 교체 이벤트를 스스로 구독하도록 변경
         if (PlayerManager.Instance != null)
         {
             PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(InitUIForCurrentPlayer);
@@ -59,7 +47,8 @@ public class CharacterUIManager : MonoBehaviour
         }
     }
 
-    public void SetActiveUI(string characterType, IAbilityV2 ability)
+    // 매개변수 string을 CharacterType으로 변경
+    public void SetActiveUI(CharacterType characterType, IAbilityV2 ability)
     {
         // 모든 UI 비활성화
         foreach (var kvp in uiMap)
@@ -82,19 +71,21 @@ public class CharacterUIManager : MonoBehaviour
             Debug.LogWarning("해당 UI 프리팹 없음");
         }
 
-        if (iconMap.TryGetValue(characterType, out Sprite targetIcon))
+        if (skillCoolTimeManager != null)
         {
-            if (skillCoolTimeManager != null)
+            CharacterData data = PlayerManager.Instance.GetCharacterData(characterType);
+
+            // 데이터베이스에 아이콘이 할당되어 있을 때만 적용 (안전장치)
+            if (data.skillIcon != null)
             {
-                skillCoolTimeManager.SetSkillIcon(targetIcon); // 아이콘 교체
-                skillCoolTimeManager.ResetCooldownUI();        // 쿨타임 UI 초기화
+                skillCoolTimeManager.SetSkillIcon(data.skillIcon);
             }
+            skillCoolTimeManager.ResetCooldownUI();
         }
     }
 
     public void InitUIForCurrentPlayer()
     {
-        // 잦은 교체로 인해 코루틴이 여러 개 겹쳐서 실행되는 것을 방지
         StopAllCoroutines();
         StartCoroutine(WaitAndBind());
     }
@@ -103,7 +94,6 @@ public class CharacterUIManager : MonoBehaviour
     {
         yield return new WaitUntil(() =>
         {
-            // 안전하게 새로운 코어인 PlayerManager를 참조
             var player = PlayerManager.Instance.CurrentPlayer;
             if (player == null) return false;
             var controller = player.GetComponent<PlayerControllerBase>();
@@ -113,7 +103,7 @@ public class CharacterUIManager : MonoBehaviour
         var player = PlayerManager.Instance.CurrentPlayer;
         var controller = player.GetComponent<PlayerControllerBase>();
 
-        string characterType = player.name.Contains("Blacksmith") ? "Blacksmith" : "Bartender";
-        SetActiveUI(characterType, controller.GetCharacterAbility());
+        CharacterType currentType = PlayerManager.Instance.CurrentCharacterType;
+        SetActiveUI(currentType, controller.GetCharacterAbility());
     }
 }

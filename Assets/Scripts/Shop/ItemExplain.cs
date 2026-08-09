@@ -10,60 +10,80 @@ public class ItemExplain : MonoBehaviour
     [SerializeField]
     SpriteRenderer spriteRenderer;
     [SerializeField]
-    TextMeshPro itemExTxt;      //부연설명
+    TextMeshPro howToGetItemTxt;
     [SerializeField]
-    TextMeshPro itemEffectTxt;  //효과
+    TextMeshPro itemExTxt;      // 부연설명
     [SerializeField]
-    TextMeshPro itemPriceTxt;  //가격
+    TextMeshPro itemEffectTxt;  // 효과
     [SerializeField]
-    TextMeshPro itemName;   //아이템 이름
+    TextMeshPro itemPriceTxt;   // 가격
+    [SerializeField]
+    TextMeshPro itemName;       // 아이템 이름
     [SerializeField]
     TextMeshPro itemGradeTxt;   // 등급
     [SerializeField]
-    public BasicItemData item;  //아이템
-
+    public BasicItemData item;  // 아이템
 
     private void Awake()
     {
-        itemExplainUI.SetActive(false);
+        // 묶어둔 함수를 사용하여 초기화
+        SetUIActive(false);
     }
+
+    private void Start()
+    {
+        if (item != null && item.ItemName != "None" && spriteRenderer != null)
+        {
+            spriteRenderer.sprite = item.ItemSprite;
+        }
+    }
+
     public bool IsActive()
     {
         return itemExplainUI.activeSelf;
     }
+
     public void HideUI()
     {
-        itemExplainUI.SetActive(false);
+        SetUIActive(false);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
-            if (item.ItemName != "None")
+            if (item != null && item.ItemName != "None")
             {
                 ChangeInfo();
-                itemExplainUI.SetActive(true);
+                SetUIActive(true); // 같이 켜짐
             }
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            itemExplainUI.SetActive(false);
+            SetUIActive(false); // 같이 꺼짐
         }
     }
+
     public void ChangeInfo()
     {
-        // 기본 정보 - 이미지, 이름, 효과, 설명, 등급, 가격
-        spriteRenderer.sprite = item.ItemSprite;
-        itemName.text = item.ItemName;
-        itemEffectTxt.text = item.ItemDescription;
-        itemExTxt.text = item.ItemExplain;
-        itemGradeTxt.text = item.ItemGrade.ToString();
-        if (itemPriceTxt != null)
-        {
-            itemPriceTxt.text = $"{item.ItemPrice} G";
-        }
+        if (spriteRenderer != null) spriteRenderer.sprite = item.ItemSprite;
+        if (itemName != null) itemName.text = item.ItemName;
+        if (itemEffectTxt != null) itemEffectTxt.text = item.ItemDescription;
+        if (itemExTxt != null) itemExTxt.text = item.ItemExplain;
+        if (itemGradeTxt != null) itemGradeTxt.text = item.ItemGrade.ToString();
+        if (itemPriceTxt != null) itemPriceTxt.text = $"{item.ItemPrice} G";
+    }
+
+    private void SetUIActive(bool isActive)
+    {
+        if (itemExplainUI != null)
+            itemExplainUI.SetActive(isActive);
+
+        if (howToGetItemTxt != null)
+            howToGetItemTxt.gameObject.SetActive(isActive);
     }
 }

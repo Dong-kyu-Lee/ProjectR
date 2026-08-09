@@ -25,10 +25,6 @@ public class BartenderAbilityV2 : MonoBehaviour, IAbilityV2
 
     private void OnEnable()
     {
-        if (InGameUIManager.Instance != null && InGameUIManager.Instance.skillCoolTimeUI != null)
-        {
-            InGameUIManager.Instance.skillCoolTimeUI.ResetCooldownUI();
-        }
         // 활성화될 때 입력 잠금 해제
         isInputLocked = false;
     }

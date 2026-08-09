@@ -440,5 +440,17 @@ public abstract class PlayerControllerBase : MonoBehaviour
             if (!isDead)
                 playerAnimator.ResetTrigger("Die");
         }
+
+        // 모든 스킬의 쿨타임을 초기화하여 씬 전환/재시작 시 버그 방지
+        if (CalcDamage.Instance != null)
+        {
+            CalcDamage.Instance.ResetAllCooldowns(); // 내부 쿨타임 전체 초기화
+        }
+
+        // 모든 캐릭터 공통으로 스킬 쿨타임 UI(그림자)도 초기화
+        if (InGameUIManager.Instance != null && InGameUIManager.Instance.skillCoolTimeUI != null)
+        {
+            InGameUIManager.Instance.skillCoolTimeUI.ResetCooldownUI();
+        }
     }
 }
