@@ -26,8 +26,6 @@ public class PlayerStatusUI : MonoBehaviour
 
     [Header("Portrait")]
     [SerializeField] private Image playerHead;
-    [SerializeField] private Sprite blacksmithHeadSprite;
-    [SerializeField] private Sprite bartenderHeadSprite;
 
     private PlayerStatus playerStatus;
 
@@ -38,7 +36,6 @@ public class PlayerStatusUI : MonoBehaviour
 
     private void Start()
     {
-        // PlayerManager의 캐릭터 교체 이벤트 구독
         if (PlayerManager.Instance != null)
         {
             PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(OnPlayerChanged);
@@ -60,7 +57,6 @@ public class PlayerStatusUI : MonoBehaviour
 
     private IEnumerator InitPlayerStatus()
     {
-        // 플레이어 객체가 생성될 때까지 대기
         yield return new WaitUntil(() => PlayerManager.Instance != null && PlayerManager.Instance.CurrentPlayer != null);
 
         playerStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
@@ -71,23 +67,20 @@ public class PlayerStatusUI : MonoBehaviour
                 playerStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         }
 
-        // 초상화 업데이트
+        // CharacterDatabase에서 초상화(Portrait Icon) 가져오기
         if (playerHead != null)
         {
-            if (PlayerManager.Instance.CurrentPlayer.name.Contains("Blacksmith"))
-                playerHead.sprite = blacksmithHeadSprite;
-            else
-                playerHead.sprite = bartenderHeadSprite;
+            CharacterType currentType = PlayerManager.Instance.CurrentCharacterType;
+            CharacterData data = PlayerManager.Instance.GetCharacterData(currentType);
+            playerHead.sprite = data.portraitIcon;
         }
 
         CheckGold();
         UpdateHpSmooth(playerStatus.Hp, playerStatus.MaxHp);
 
-        // 초기 레벨 및 경험치 업데이트
         int currentLevel = (int)playerStatus.Level;
         int maxExp = 100;
 
-        // LevelUp 클래스의 static 배열(requiredExp) 참조
         if (LevelUp.requiredExp != null && LevelUp.requiredExp.Length > currentLevel)
             maxExp = LevelUp.requiredExp[currentLevel];
 

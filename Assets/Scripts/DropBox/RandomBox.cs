@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 #region 드롭 확률 테이블 클래스
@@ -39,6 +40,9 @@ public class BoxGradeSprite
 
 public class RandomBox : MonoBehaviour
 {
+    [Header("상호작용 텍스트")]
+    [SerializeField]
+    private TextMeshPro howToOpenBox;
     [Header("비주얼 및 참조")]
     public Animator animator;
     public SpriteRenderer spriteRenderer;
@@ -103,6 +107,11 @@ public class RandomBox : MonoBehaviour
         IsOpened = false;
         canOpen = false;
 
+        if (howToOpenBox != null)
+        {
+            howToOpenBox.gameObject.SetActive(false);
+        }
+
         DetermineBoxGrade(); // 등급 결정 및 애니메이션 교체
     }
 
@@ -134,6 +143,10 @@ public class RandomBox : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             canOpen = true;
+            if (!IsOpened && howToOpenBox != null)
+            {
+                howToOpenBox.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -142,6 +155,10 @@ public class RandomBox : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             canOpen = false;
+            if (howToOpenBox != null)
+            {
+                howToOpenBox.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -152,6 +169,11 @@ public class RandomBox : MonoBehaviour
         IsOpened = true; // 애니메이션 재생
         DropItem();      // 아이템 생성
         ConversationObj.SetActive(false);
+
+        if (howToOpenBox != null)
+        {
+            howToOpenBox.gameObject.SetActive(false);
+        }
 
     }
 

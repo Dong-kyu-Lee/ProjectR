@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Windows;
-using Input = UnityEngine.Input;
 
 // 모든 캐릭터의 고유 능력을 추상화하는 인터페이스
 public interface IAbilityV2
@@ -30,9 +27,19 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
     public Transform groundCheck;
     public LayerMask groundLayer;
-    protected float groundCheckRadius = 0.2f;
+    [SerializeField] private Vector2 groundCheckSize = new Vector2(0.7f, 0.15f);
 
     public float jumpPower;
+
+    [Header("Jump Feel")]
+    [SerializeField, Range(0.1f, 1f)] private float jumpCutMultiplier = 0.5f;
+    [SerializeField, Min(1f)] private float fallGravityMultiplier = 1.5f;
+    [SerializeField, Min(0f)] private float coyoteTime = 0.1f;
+    [SerializeField, Min(0f)] private float jumpBufferTime = 0.1f;
+
+    [Header("Drop Through Platform")]
+    [SerializeField, Min(0f)] private float dropThroughDuration = 0.2f;
+    [SerializeField, Min(0f)] private float dropThroughSpeed = 2f;
     public float moveFactor = 100f;
     public float dashFactor = 1f;
     public float dashTime = 0.2f;
@@ -47,6 +54,25 @@ public abstract class PlayerControllerBase : MonoBehaviour
     protected bool isPause = false;
     protected bool isDead = false;
     protected bool isGround = false;
+
+    private float lastGroundedTime = float.NegativeInfinity;
+    private float lastJumpPressedTime = float.NegativeInfinity;
+    private Collider2D currentGroundCollider;
+    private Coroutine dropThroughCoroutine;
+
+    private struct IgnoredCollision
+    {
+        public Collider2D PlayerCollider;
+        public Collider2D PlatformCollider;
+
+        public IgnoredCollision(Collider2D playerCollider, Collider2D platformCollider)
+        {
+            PlayerCollider = playerCollider;
+            PlatformCollider = platformCollider;
+        }
+    }
+
+    private readonly List<IgnoredCollision> ignoredDropThroughCollisions = new List<IgnoredCollision>();
 
     private Vector2 _queuedAimDir;
     private bool _hasQueuedAim;
@@ -77,8 +103,26 @@ public abstract class PlayerControllerBase : MonoBehaviour
     {
         if (isPause || isDead) return;
 
-        if (Input.GetKeyDown(KeyCode.Space) && enableJump)
-            Jump();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (IsPressingDown() && TryStartDropThrough())
+            {
+                lastJumpPressedTime = float.NegativeInfinity;
+            }
+            else
+            {
+                lastJumpPressedTime = Time.time;
+                TryConsumeBufferedJump();
+            }
+        }
+
+        // 상승 중 점프 키를 놓으면 상승 속도를 잘라 짧은 점프를 만든다.
+        if (Input.GetKeyUp(KeyCode.Space) && playerRigidBody.velocity.y > 0f)
+        {
+            Vector2 velocity = playerRigidBody.velocity;
+            velocity.y *= jumpCutMultiplier;
+            playerRigidBody.velocity = velocity;
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && enableDash && IsMovingHorizontally())
             StartCoroutine(Dash());
@@ -112,6 +156,17 @@ public abstract class PlayerControllerBase : MonoBehaviour
         if (isPause || isDead) return;
         PlayerMove();
         JumpCheck();
+        TryConsumeBufferedJump();
+        ApplyAdditionalFallGravity();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck == null)
+            return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
     }
 
     // 좌우 이동 처리
@@ -162,13 +217,29 @@ public abstract class PlayerControllerBase : MonoBehaviour
     protected virtual void Jump()
     {
         enableJump = false;
-        playerRigidBody.AddForce(new Vector2(0f, jumpPower));
+        isGround = false;
+
+        // 기존 AddForce(jumpPower)의 결과를 유지하되, 프레임에 힘이 누적되는 대신
+        // 계산된 초기 속도를 직접 지정해 점프 높이가 안정적으로 나오게 한다.
+        float jumpVelocity = jumpPower * Time.fixedDeltaTime / playerRigidBody.mass;
+        playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, jumpVelocity);
+
+        if (playerAnimator != null)
+            playerAnimator.SetBool("isGround", false);
     }
 
     // 지면 감지
     protected void JumpCheck()
     {
-        bool isHittingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        // 캐릭터 발 너비에 가까운 얕은 박스로 검사해 발판 가장자리에서도
+        // 실제 Collider가 지지되는 동안 지상 상태를 유지한다.
+        currentGroundCollider = Physics2D.OverlapBox(
+            groundCheck.position,
+            groundCheckSize,
+            0f,
+            groundLayer
+        );
+        bool isHittingGround = currentGroundCollider != null && dropThroughCoroutine == null;
 
         if (playerRigidBody.velocity.y > 0.05f)
         {
@@ -178,10 +249,113 @@ public abstract class PlayerControllerBase : MonoBehaviour
         enableJump = isHittingGround;
         isGround = enableJump;
 
+        if (isGround)
+            lastGroundedTime = Time.time;
+
         if (playerAnimator != null)
         {
             playerAnimator.SetBool("isGround", isGround);
         }
+    }
+
+    private void TryConsumeBufferedJump()
+    {
+        bool hasBufferedInput = Time.time - lastJumpPressedTime <= jumpBufferTime;
+        bool isWithinCoyoteTime = Time.time - lastGroundedTime <= coyoteTime;
+
+        if (!hasBufferedInput || (!enableJump && !isWithinCoyoteTime) || dropThroughCoroutine != null)
+            return;
+
+        lastJumpPressedTime = float.NegativeInfinity;
+        lastGroundedTime = float.NegativeInfinity;
+        Jump();
+    }
+
+    private void ApplyAdditionalFallGravity()
+    {
+        if (playerRigidBody.velocity.y >= 0f || fallGravityMultiplier <= 1f)
+            return;
+
+        Vector2 extraGravity = Physics2D.gravity
+            * playerRigidBody.gravityScale
+            * (fallGravityMultiplier - 1f)
+            * Time.fixedDeltaTime;
+        playerRigidBody.velocity += extraGravity;
+    }
+
+    private bool IsPressingDown()
+    {
+        return Input.GetKey(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < -0.5f;
+    }
+
+    private bool TryStartDropThrough()
+    {
+        if (!isGround || currentGroundCollider == null || !IsOneWayPlatform(currentGroundCollider))
+            return false;
+
+        if (dropThroughCoroutine != null)
+            StopCoroutine(dropThroughCoroutine);
+
+        dropThroughCoroutine = StartCoroutine(DropThroughPlatform(currentGroundCollider));
+        return true;
+    }
+
+    private bool IsOneWayPlatform(Collider2D platformCollider)
+    {
+        if (platformCollider.GetComponent<PlatformEffector2D>() != null)
+            return true;
+
+        Rigidbody2D attachedBody = platformCollider.attachedRigidbody;
+        return attachedBody != null && attachedBody.GetComponent<PlatformEffector2D>() != null;
+    }
+
+    private IEnumerator DropThroughPlatform(Collider2D platformCollider)
+    {
+        RestoreDropThroughCollisions();
+
+        Collider2D[] playerColliders = GetComponents<Collider2D>();
+        foreach (Collider2D playerCollider in playerColliders)
+        {
+            if (!playerCollider.enabled || playerCollider.isTrigger)
+                continue;
+
+            Physics2D.IgnoreCollision(playerCollider, platformCollider, true);
+            ignoredDropThroughCollisions.Add(new IgnoredCollision(playerCollider, platformCollider));
+        }
+
+        enableJump = false;
+        isGround = false;
+        currentGroundCollider = null;
+        lastGroundedTime = float.NegativeInfinity;
+
+        Vector2 velocity = playerRigidBody.velocity;
+        velocity.y = Mathf.Min(velocity.y, -dropThroughSpeed);
+        playerRigidBody.velocity = velocity;
+
+        if (playerAnimator != null)
+            playerAnimator.SetBool("isGround", false);
+
+        yield return new WaitForSeconds(dropThroughDuration);
+
+        RestoreDropThroughCollisions();
+        dropThroughCoroutine = null;
+    }
+
+    private void RestoreDropThroughCollisions()
+    {
+        foreach (IgnoredCollision ignoredCollision in ignoredDropThroughCollisions)
+        {
+            if (ignoredCollision.PlayerCollider != null && ignoredCollision.PlatformCollider != null)
+            {
+                Physics2D.IgnoreCollision(
+                    ignoredCollision.PlayerCollider,
+                    ignoredCollision.PlatformCollider,
+                    false
+                );
+            }
+        }
+
+        ignoredDropThroughCollisions.Clear();
     }
 
     // 대시 처리
@@ -401,6 +575,8 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
     protected virtual void OnDisable()
     {
+        RestoreDropThroughCollisions();
+        dropThroughCoroutine = null;
         StopAllCoroutines();
 
         // 물리 속도 즉시 정지 (관성 제거)
@@ -410,6 +586,13 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
     public virtual void ResetPlayerState()
     {
+        if (dropThroughCoroutine != null)
+        {
+            StopCoroutine(dropThroughCoroutine);
+            dropThroughCoroutine = null;
+        }
+        RestoreDropThroughCollisions();
+
         // 제어 변수 초기화
         enableJump = true;
         enableDash = true;
@@ -420,6 +603,10 @@ public abstract class PlayerControllerBase : MonoBehaviour
         isDashing = false;
         isInvincible = false;
         isPause = false;
+        isGround = false;
+        currentGroundCollider = null;
+        lastGroundedTime = float.NegativeInfinity;
+        lastJumpPressedTime = float.NegativeInfinity;
         _hasQueuedAim = false;
 
         // 대시 중에 비활성화 되었을 경우 계수를 원래대로 복구
