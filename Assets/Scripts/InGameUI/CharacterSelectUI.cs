@@ -45,6 +45,10 @@ public class CharacterSelectUI : MonoBehaviour
     [Header("확대 비디오 UI")]
     [SerializeField] private GameObject largeVideoPanel;
 
+    [Header("확대 일러스트 UI")]
+    [SerializeField] private GameObject largeIllustrationPanel;
+    [SerializeField] private Image largeIllustrationImage;
+
     private Vector2 leftPanelHiddenPos;
     private Vector2 leftPanelShownPos;
     private Vector2 rightPanelHiddenPos;
@@ -144,6 +148,8 @@ public class CharacterSelectUI : MonoBehaviour
         if (skillVideoPlayer != null) skillVideoPlayer.Stop();
         if (largeVideoPanel != null) largeVideoPanel.SetActive(false);
 
+        if (largeIllustrationPanel != null) largeIllustrationPanel.SetActive(false);
+
         if (leftPanel != null && rightPanel != null)
         {
             if (panelCoroutine != null) StopCoroutine(panelCoroutine);
@@ -163,6 +169,26 @@ public class CharacterSelectUI : MonoBehaviour
     {
         if (largeVideoPanel != null) largeVideoPanel.SetActive(false);
     }
+
+    public void OpenLargeIllustration()
+    {
+        // 원본 이미지가 존재할 때만 팝업을 켬
+        if (largeIllustrationPanel != null && characterIllustrationImage != null && characterIllustrationImage.sprite != null)
+        {
+            // 팝업 창의 이미지 컴포넌트에 현재 보고 있는 캐릭터의 일러스트를 그대로 복사해줌
+            if (largeIllustrationImage != null)
+            {
+                largeIllustrationImage.sprite = characterIllustrationImage.sprite;
+            }
+            largeIllustrationPanel.SetActive(true);
+        }
+    }
+
+    public void CloseLargeIllustration()
+    {
+        if (largeIllustrationPanel != null) largeIllustrationPanel.SetActive(false);
+    }
+
 
     private IEnumerator SlidePanels(Vector2 leftTarget, Vector2 rightTarget)
     {
