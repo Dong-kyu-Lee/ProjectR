@@ -30,11 +30,6 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private Slider HpBarSlider;
     [SerializeField] private Text hpTxt;
     [SerializeField] private BuffToolTipUI tooltipUI;
-
-    //CharacterData로 데이터 이전
-    //[SerializeField] private Image PlayerHead;
-    //[SerializeField] private Sprite blacksmithHeadSprite;
-    //[SerializeField] private Sprite bartenderHeadSprite;
     
     [SerializeField] private UpgradeUI upgradeUI;
     [SerializeField] private TextMeshProUGUI warpUIText;
@@ -119,6 +114,8 @@ public class InGameUIManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "EndScene") return;
 
+        if (rootCanvas != null && !rootCanvas.enabled) return;
+
         if (Input.GetKeyDown(KeyCode.I))
         {
             if (characterInfoUI != null) characterInfoUI.ToggleInventoryUI();
@@ -174,10 +171,6 @@ public class InGameUIManager : MonoBehaviour
             if (rootCanvas != null) rootCanvas.enabled = true;
         }
     }
-
-    // =====================================================================
-    // [Wrapper 함수들] 기존 로직 유지 및 신규 기능 통합
-    // =====================================================================
 
     // 1. PlayerStatusUI 연결 다리
     public void CheckGold() { if (PlayerStatusUI.Instance != null) PlayerStatusUI.Instance.CheckGold(); }
