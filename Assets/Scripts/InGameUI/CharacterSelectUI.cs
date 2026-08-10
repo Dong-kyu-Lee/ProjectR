@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video; // 비디오 플레이어 접근용
+using UnityEngine.Video;
 
 public class CharacterSelectUI : MonoBehaviour
 {
@@ -22,7 +22,12 @@ public class CharacterSelectUI : MonoBehaviour
     [Header("상세 정보 패널 (좌/우)")]
     [SerializeField] private RectTransform leftPanel;
     [SerializeField] private RectTransform rightPanel;
-    [SerializeField] private float slideDuration = 0.3f; // 스르륵 나타나는 시간
+    [SerializeField] private float slideDuration = 0.3f;
+
+    // [신규 추가] 상단 안내 배너 UI
+    [Header("상단 안내 배너 UI")]
+    [SerializeField] private RectTransform topBannerPanel;
+    [SerializeField] private float bannerSlideDuration = 0.4f;
 
     [Header("UI Stack System")]
     [SerializeField] private CharacterSelectEscHandler escHandler;
@@ -40,19 +45,27 @@ public class CharacterSelectUI : MonoBehaviour
     [Header("확대 비디오 UI")]
     [SerializeField] private GameObject largeVideoPanel;
 
+    [Header("확대 일러스트 UI")]
+    [SerializeField] private GameObject largeIllustrationPanel;
+    [SerializeField] private Image largeIllustrationImage;
+
     private Vector2 leftPanelHiddenPos;
     private Vector2 leftPanelShownPos;
     private Vector2 rightPanelHiddenPos;
     private Vector2 rightPanelShownPos;
 
+    // 배너 위치 기억용 변수
+    private Vector2 topBannerHiddenPos;
+    private Vector2 topBannerShownPos;
+
     private Coroutine panelCoroutine;
+    private Coroutine bannerCoroutine; // 배너 코루틴
 
     void Start()
     {
         if (instance == null) instance = this;
         if (uiText == null) uiText = GetComponentInChildren<TextMeshProUGUI>();
 
-        // 시작할 때 패널들의 현재 위치를 '보여지는 위치'로 저장하고 화면 밖으로 밀어냄
         if (leftPanel != null && rightPanel != null)
         {
             leftPanelShownPos = leftPanel.anchoredPosition;
@@ -63,9 +76,17 @@ public class CharacterSelectUI : MonoBehaviour
             rightPanelHiddenPos = new Vector2(rightPanelShownPos.x + 1000f, rightPanelShownPos.y);
             rightPanel.anchoredPosition = rightPanelHiddenPos;
         }
+
+        // [신규 추가] 상단 배너 초기 위치 설정
+        if (topBannerPanel != null)
+        {
+            topBannerShownPos = topBannerPanel.anchoredPosition;
+            // Y축으로 300만큼 올려서 화면 밖으로 숨김 (해상도에 따라 수치 조절 가능)
+            topBannerHiddenPos = new Vector2(topBannerShownPos.x, topBannerShownPos.y + 300f);
+            topBannerPanel.anchoredPosition = topBannerHiddenPos;
+        }
     }
 
-    // 기존 기능 유지 ('E' 키 안내 텍스트)
     public void SetText(string text)
     {
         if (uiText != null && !uiText.gameObject.activeInHierarchy) uiText.gameObject.SetActive(true);
@@ -77,7 +98,6 @@ public class CharacterSelectUI : MonoBehaviour
         if (uiText != null && uiText.gameObject.activeInHierarchy) uiText.gameObject.SetActive(false);
     }
 
-    // 패널 띄우고 데이터 채우기
     public void ShowDetailPanels(CharacterType type)
     {
         if (escHandler != null) escHandler.gameObject.SetActive(true);
@@ -126,8 +146,9 @@ public class CharacterSelectUI : MonoBehaviour
         }
 
         if (skillVideoPlayer != null) skillVideoPlayer.Stop();
-
         if (largeVideoPanel != null) largeVideoPanel.SetActive(false);
+
+        if (largeIllustrationPanel != null) largeIllustrationPanel.SetActive(false);
 
         if (leftPanel != null && rightPanel != null)
         {
@@ -138,7 +159,6 @@ public class CharacterSelectUI : MonoBehaviour
 
     public void OpenLargeVideo()
     {
-        // 영상이 있을 때만 확대 창을 켬
         if (largeVideoPanel != null && skillVideoPlayer.clip != null)
         {
             largeVideoPanel.SetActive(true);
@@ -147,10 +167,26 @@ public class CharacterSelectUI : MonoBehaviour
 
     public void CloseLargeVideo()
     {
-        if (largeVideoPanel != null)
+        if (largeVideoPanel != null) largeVideoPanel.SetActive(false);
+    }
+
+    public void OpenLargeIllustration()
+    {
+        // 원본 이미지가 존재할 때만 팝업을 켬
+        if (largeIllustrationPanel != null && characterIllustrationImage != null && characterIllustrationImage.sprite != null)
         {
-            largeVideoPanel.SetActive(false);
+            // 팝업 창의 이미지 컴포넌트에 현재 보고 있는 캐릭터의 일러스트를 그대로 복사해줌
+            if (largeIllustrationImage != null)
+            {
+                largeIllustrationImage.sprite = characterIllustrationImage.sprite;
+            }
+            largeIllustrationPanel.SetActive(true);
         }
+    }
+
+    public void CloseLargeIllustration()
+    {
+        if (largeIllustrationPanel != null) largeIllustrationPanel.SetActive(false);
     }
 
 
@@ -164,7 +200,7 @@ public class CharacterSelectUI : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = elapsed / slideDuration;
-            t = t * (2f - t); // 부드러운 감속 효과 (Ease Out)
+            t = t * (2f - t);
 
             leftPanel.anchoredPosition = Vector2.Lerp(leftStart, leftTarget, t);
             rightPanel.anchoredPosition = Vector2.Lerp(rightStart, rightTarget, t);
@@ -174,5 +210,37 @@ public class CharacterSelectUI : MonoBehaviour
 
         leftPanel.anchoredPosition = leftTarget;
         rightPanel.anchoredPosition = rightTarget;
+    }
+
+    // 상단 배너 슬라이딩 함수
+    public void ShowTopBanner()
+    {
+        if (topBannerPanel == null) return;
+        if (bannerCoroutine != null) StopCoroutine(bannerCoroutine);
+        bannerCoroutine = StartCoroutine(SlideBanner(topBannerShownPos));
+    }
+
+    public void HideTopBanner()
+    {
+        if (topBannerPanel == null) return;
+        if (bannerCoroutine != null) StopCoroutine(bannerCoroutine);
+        bannerCoroutine = StartCoroutine(SlideBanner(topBannerHiddenPos));
+    }
+
+    private IEnumerator SlideBanner(Vector2 targetPos)
+    {
+        float elapsed = 0f;
+        Vector2 startPos = topBannerPanel.anchoredPosition;
+
+        while (elapsed < bannerSlideDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / bannerSlideDuration;
+            t = t * (2f - t);
+
+            topBannerPanel.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
+            yield return null;
+        }
+        topBannerPanel.anchoredPosition = targetPos;
     }
 }
