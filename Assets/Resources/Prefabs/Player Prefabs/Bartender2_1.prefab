@@ -395,8 +395,15 @@ MonoBehaviour:
   groundCheck: {fileID: 1440969402445902639}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 4375
+    m_Bits: 4352
+  groundCheckSize: {x: 0.7, y: 0.15}
   jumpPower: 1200
+  jumpCutMultiplier: 0.5
+  fallGravityMultiplier: 1.5
+  coyoteTime: 0.1
+  jumpBufferTime: 0.1
+  dropThroughDuration: 0.2
+  dropThroughSpeed: 2
   moveFactor: 100
   dashFactor: 1
   dashTime: 0.2
