@@ -16,7 +16,6 @@ public class DungeonFlowManager : MonoBehaviour
 
     [Header("Needed Objects")]
     public GameObject finishSpotPrefab;
-    [SerializeField] private DungeonCreator dungeonCreator;
 
     private readonly List<GameObject> stages = new List<GameObject>();           // 이번 판의 스테이지 오브젝트
     private readonly List<StageData> selectedStageDatas = new List<StageData>(); // 이번 판에 확정된 StageData
@@ -27,19 +26,6 @@ public class DungeonFlowManager : MonoBehaviour
     public int CurrentStageNumber { get => currentStageIndex + 1; }   // UI 표시용 (1-based)
     public bool IsLastStage { get => currentStageIndex >= stages.Count - 1; }
     public IReadOnlyList<StageData> SelectedStageDatas { get => selectedStageDatas; }
-
-    public DungeonCreator DungeonCreator
-    {
-        get
-        {
-            if (dungeonCreator == null)
-            {
-                dungeonCreator = FindObjectOfType<DungeonCreator>();
-                if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
-            }
-            return dungeonCreator;
-        }
-    }
 
     private static DungeonFlowManager instance;
     public static DungeonFlowManager Instance
@@ -91,9 +77,6 @@ public class DungeonFlowManager : MonoBehaviour
     private void OnNewStageStarted(Scene scene, LoadSceneMode mode)
     {
         if (scene.name != "DungeonGenerate") return;
-
-        dungeonCreator = FindObjectOfType<DungeonCreator>();
-        if (dungeonCreator == null) Debug.LogError("No Dungeon Creator");
 
         if (stages.Count == 0)
         {
