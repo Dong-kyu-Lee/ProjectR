@@ -20,6 +20,9 @@ public class CharacterInfo : MonoBehaviour
 
     private Inventory cachedInventory;
 
+    [Header("캐릭터 이미지 UI")]
+    [SerializeField] private Image centerCharacterImage;
+
     private void Awake()
     {
         if (characterInfo == null)
@@ -57,6 +60,25 @@ public class CharacterInfo : MonoBehaviour
         {
             Init();
             SetStatus();
+            UpdateCharacterImage();
+        }
+    }
+
+    private void UpdateCharacterImage()
+    {
+        // 1. 플레이어 매니저가 존재하는지 안전 검사
+        if (PlayerManager.Instance == null) return;
+
+        // 2. 현재 선택된 캐릭터 타입 가져오기
+        CharacterType currentType = PlayerManager.Instance.CurrentCharacterType;
+
+        // 3. 타입에 맞는 캐릭터 데이터 가져오기
+        CharacterData data = PlayerManager.Instance.GetCharacterData(currentType);
+
+        // 4. 가운데 UI 이미지 교체하기
+        if (centerCharacterImage != null && data.inventoryImage != null)
+        {
+            centerCharacterImage.sprite = data.inventoryImage;
         }
     }
 

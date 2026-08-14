@@ -16,6 +16,11 @@ public class UIStackManager : MonoBehaviour
     // 열린 UI들을 관리하는 스택 (최근 열린 순서대로 저장)
     private Stack<GameObject> uiStack = new Stack<GameObject>();
 
+    [Header("Debug: 실시간 스택 확인용")]
+    [SerializeField]
+    [Tooltip("인덱스 0이 가장 마지막에 켜진(최상단) UI입니다.")]
+    private List<GameObject> debugUIStackList = new List<GameObject>();
+
     public bool IsUIActive => uiStack != null && uiStack.Count > 0;
 
     private void Awake()
@@ -30,6 +35,14 @@ public class UIStackManager : MonoBehaviour
         {
             HandleEscapeInput();
         }
+    }
+
+    // 인스펙터 확인용 리스트를 갱신하는 헬퍼 함수
+    private void UpdateDebugList()
+    {
+        debugUIStackList.Clear();
+        // 스택의 ToArray()는 가장 최근에 들어간(Peek) 요소부터 순서대로 배열을 반환합니다.
+        debugUIStackList.AddRange(uiStack.ToArray());
     }
 
     // ESC 키 로직 분리
@@ -55,7 +68,11 @@ public class UIStackManager : MonoBehaviour
             else
             {
                 topUI.SetActive(false);
-                if (uiStack.Count > 0 && uiStack.Peek() == topUI) uiStack.Pop();
+                if (uiStack.Count > 0 && uiStack.Peek() == topUI)
+                {
+                    uiStack.Pop();
+                    UpdateDebugList(); // 디버깅 리스트 갱신
+                }
             }
             return;
         }
@@ -77,6 +94,7 @@ public class UIStackManager : MonoBehaviour
         if (!uiStack.Contains(ui))
         {
             uiStack.Push(ui);
+            UpdateDebugList(); // 디버깅 리스트 갱신
         }
     }
 
@@ -98,11 +116,14 @@ public class UIStackManager : MonoBehaviour
                 if (go != ui) uiStack.Push(go);
             }
         }
+
+        UpdateDebugList(); // 디버깅 리스트 갱신
     }
 
     // 씬 전환 시 스택 초기화용
     public void ClearStack()
     {
         uiStack.Clear();
+        UpdateDebugList(); // 디버깅 리스트 갱신
     }
 }

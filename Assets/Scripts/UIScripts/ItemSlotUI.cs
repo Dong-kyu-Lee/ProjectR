@@ -32,8 +32,11 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private bool isInitialized = false;
     public bool IsInitialized => isInitialized;
 
+    // 더블 클릭(중복 실행) 방지용 타이머
+    private float lastRightClickTime = 0f;
+
     //자신의 슬롯의 초기화 함수
-    public virtual void Init(GameObject parent, int indexNumber) // virtual 추가
+    public virtual void Init(GameObject parent, int indexNumber)
     {
         parentUI = parent.GetComponent<InventoryUI>();
         nowItemData = dummyItemData;
@@ -47,24 +50,21 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             slotButton = itemSlotImage.GetComponent<Button>();
             if (slotButton != null)
             {
-                // 이벤트 중복 등록 방지
+                // 기존 Button의 좌클릭 이벤트를 모두 지우고 클릭 중계기(Forwarder)에서 한 번에 처리합니다.
                 slotButton.onClick.RemoveAllListeners();
-
-                slotButton.onClick.AddListener(() =>
-                {
-                    if (explainUI == null)
-                        explainUI = FindObjectOfType<InventoryItemExplain>(true);
-
-                    if (explainUI != null && nowItemData != null)
-                    {
-                        explainUI.OnItemSlotClicked(nowItemData);
-                    }
-                    else
-                    {
-                        Debug.Log("아이템 설명 연결이 안됨");
-                    }
-                });
             }
+
+            // [해결의 핵심] EventTrigger 대신, 드래그를 방해하지 않는 커스텀 클릭 중계기를 붙여줍니다.
+            EventTrigger trigger = itemSlotImage.gameObject.GetComponent<EventTrigger>();
+            if (trigger != null) Destroy(trigger); // 혹시 남아있는 악성 EventTrigger 파괴
+
+            SlotClickForwarder forwarder = itemSlotImage.gameObject.GetComponent<SlotClickForwarder>();
+            if (forwarder == null)
+            {
+                forwarder = itemSlotImage.gameObject.AddComponent<SlotClickForwarder>();
+            }
+            forwarder.parentSlot = this; // 자식(이미지)이 부모(현재 스크립트)를 기억하게 연결
+
             isInitialized = true;
         }
     }
@@ -80,15 +80,10 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         if (itemCountText != null)
         {
-            // 소비 아이템인 경우에만 수량 표시
             if (nowItemData.ItemType == ItemType.CONSUMABLE)
-            {
-                itemCountText.text = itemCount > 1 ? itemCount.ToString() : ""; // (수량 1개일 때 표기 안 함)
-            }
+                itemCountText.text = itemCount > 1 ? itemCount.ToString() : "";
             else
-            {
                 itemCountText.text = "";
-            }
         }
     }
 
@@ -106,15 +101,10 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         if (itemCountText != null)
         {
-            // 소비 아이템인 경우에만 수량 표시
             if (nowItemData.ItemType == ItemType.CONSUMABLE)
-            {
                 itemCountText.text = itemCount > 1 ? itemCount.ToString() : "";
-            }
             else
-            {
                 itemCountText.text = "";
-            }
         }
     }
 
@@ -127,7 +117,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     }
 
     //아이템 슬롯 UI의 데이터들 끼리 Swap하는 함수.
-    //SetItemData()를 사용했기에 이미지와 아이템 갯수 텍스트까지 같이 업데이트
     public void SwapItemData(ItemSlotUI targetSlot)
     {
         if (targetSlot == null) return;
@@ -140,9 +129,9 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     //자기 자신인 아이템 슬롯이 Drag가 시작되었을 때 호출되는 함수
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (nowItemData.ItemType == ItemType.DUMMY) return;  //자신이 비어있는 칸일 경우 드래그 안되게 방지
+        if (nowItemData.ItemType == ItemType.DUMMY) return;
 
-        parentUI.PreviewSlotUI.gameObject.SetActive(true);  //미리보기 Slot 활성화 및 이미지와 갯수 텍스트 설정
+        parentUI.PreviewSlotUI.gameObject.SetActive(true);
         parentUI.PreviewSlotUI.SetItemData(nowItemData, itemCount);
     }
 
@@ -153,18 +142,16 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     }
 
     //다른 슬롯에서 출발해서 자신의 슬롯 위에 Drop이 되었을 때 호출.
-    //EquipmentSlotUI 클래스가 이 함수를 재정의함.
     public virtual void OnDrop(PointerEventData eventData)
     {
         ItemSlotUI targetSlotUI = eventData.pointerDrag.GetComponent<ItemSlotUI>();
 
-        // 유효성 검사
         if (targetSlotUI == null || targetSlotUI == this || parentUI.PlayerInventory == null) return;
         if (targetSlotUI.NowItemData.ItemType == ItemType.DUMMY) return;
 
         bool needsRefresh = false;
 
-        //장비창에서 인벤토리로 드롭된 경우
+        // 장비창에서 인벤토리로 드롭된 경우 (정리해주신 조건 3, 5 완벽 대응)
         if (targetSlotUI is EquipmentSlotUI)
         {
             switch (nowItemData.ItemType)
@@ -172,7 +159,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                 case ItemType.EQUIPMENT:
                     parentUI.PlayerInventory.SwapEquippedItemWithInventory(
                         targetSlotUI.SlotIndex, this.slotIndex);
-                    needsRefresh = true; // 스왑 후 UI 갱신 필요
+                    needsRefresh = true;
                     break;
 
                 case ItemType.DUMMY:
@@ -182,8 +169,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                     break;
             }
         }
-        // 인벤토리 칸끼리 스왑
-        else
+        else // 인벤토리 안에서 자리 바꾸기
         {
             parentUI.PlayerInventory.SwapInventorySlots(slotIndex, targetSlotUI.SlotIndex);
             needsRefresh = true;
@@ -203,14 +189,56 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
+        if (nowItemData == null || nowItemData.ItemType == ItemType.DUMMY) return;
+
+        if (explainUI == null)
+            explainUI = FindObjectOfType<InventoryItemExplain>(true);
+
+        // [좌클릭] : 아이템 상세 정보 표시 (정리 조건 6 대응)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            if (nowItemData != null && nowItemData.ItemType == ItemType.CONSUMABLE)
+            if (explainUI != null)
             {
-                // 퀵슬롯은 인벤토리 첫 번째 칸을 참조하므로, 직접 사용만 수행
-                // 퀵슬롯(0번)이 아닌 '자기 자신(slotIndex)'의 아이템을 사용
-                parentUI.PlayerInventory.UseInventoryItem(slotIndex);
+                explainUI.ShowPanel(nowItemData);
             }
+        }
+        // [우클릭] : 타입에 따른 분기 (비교 OR 사용) (정리 조건 7 대응)
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            // 더블 클릭 방지
+            if (Time.time - lastRightClickTime < 0.1f) return;
+            lastRightClickTime = Time.time;
+
+            if (nowItemData.ItemType == ItemType.CONSUMABLE)
+            {
+                //parentUI.PlayerInventory.UseInventoryItem(slotIndex);
+                return;
+            }
+            else if (nowItemData.ItemType == ItemType.EQUIPMENT)
+            {
+                EquipmentItemData equipData = nowItemData as EquipmentItemData;
+                if (equipData != null && explainUI != null)
+                {
+                    explainUI.AddCompareItem(equipData);
+                }
+            }
+        }
+    }
+}
+
+// =========================================================================
+// [새로 추가된 클래스] 자식 오브젝트의 클릭 이벤트를 부모로 넘겨주는 중계기 역할을 합니다.
+// IPointerClickHandler만 상속받기 때문에 드래그 이벤트(Drag/Drop)를 절대 방해하지 않습니다!
+// =========================================================================
+public class SlotClickForwarder : MonoBehaviour, IPointerClickHandler
+{
+    public ItemSlotUI parentSlot;
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (parentSlot != null)
+        {
+            parentSlot.OnPointerClick(eventData);
         }
     }
 }

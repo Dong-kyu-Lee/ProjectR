@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 6184987225422999488}
   - component: {fileID: 5159083280069061969}
   m_Layer: 5
-  m_Name: ItemImg
+  m_Name: TestInventoryItemImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -709,7 +709,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DefaultDescription
+  m_Text: "\uC544\uC774\uD15C\uC744 \uC120\uD0DD\uD574 \uC8FC\uC138\uC694."
 --- !u!1 &2155572196723641778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,13 +1536,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb58138452e58847ac83346c201492d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterNameText: {fileID: 0}
+  characterNameText: {fileID: 2155572197408780879}
   statusTextPref: {fileID: 5530336742706271555, guid: 2aebc3a8aee99684ca85ccd00032d1c5, type: 3}
   statusParentObj: {fileID: 2155572198328935886}
   characterInfo: {fileID: 2155572197000175933}
   playerStatus: {fileID: 0}
   closeButton: {fileID: 8119947918190574660}
   statusContent: {fileID: 2155572198328935884}
+  centerCharacterImage: {fileID: 5070616240373871662}
 --- !u!114 &3642519707951874357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1648,10 +1649,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572198606723583}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572198427126926}
 --- !u!61 &2155572197048704358
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2374,7 +2375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 11400000, guid: a3a49d66d27a5024590799e1a17d14af, type: 2}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
   itemSlotImage: {fileID: 2155572197186948660}
   parentUI: {fileID: 2155572198484553982}
   itemCountText: {fileID: 2155572197476093389}
@@ -2551,10 +2552,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572196901994270}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572197776141194}
 --- !u!61 &2155572197390673939
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3378,10 +3379,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572197615915954}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572197859975715}
 --- !u!61 &2155572197620319528
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3501,10 +3502,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572197108029371}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572197732089857}
 --- !u!61 &2155572197635462501
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3909,7 +3910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 11400000, guid: a3a49d66d27a5024590799e1a17d14af, type: 2}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
   itemSlotImage: {fileID: 2155572197202998379}
   parentUI: {fileID: 2155572198484553982}
   itemCountText: {fileID: 2155572197934164266}
@@ -4086,10 +4087,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572196942032676}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572197205853235}
 --- !u!61 &2155572197751575877
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4421,7 +4422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 11400000, guid: a3a49d66d27a5024590799e1a17d14af, type: 2}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
   itemSlotImage: {fileID: 2155572197844177659}
   parentUI: {fileID: 2155572198484553982}
   itemCountText: {fileID: 2155572197096484350}
@@ -4955,7 +4956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 11400000, guid: a3a49d66d27a5024590799e1a17d14af, type: 2}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
   itemSlotImage: {fileID: 2155572197805413916}
   parentUI: {fileID: 2155572198484553982}
   itemCountText: {fileID: 2155572198412958127}
@@ -5220,7 +5221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 11400000, guid: a3a49d66d27a5024590799e1a17d14af, type: 2}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
   itemSlotImage: {fileID: 2155572198500579550}
   parentUI: {fileID: 2155572198484553982}
   itemCountText: {fileID: 2155572196912632682}
@@ -5317,10 +5318,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572198787423587}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572198340970976}
 --- !u!61 &2155572198202628376
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5440,10 +5441,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572198764880656}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572198225869926}
 --- !u!61 &2155572198225004861
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5605,7 +5606,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 10
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -5786,10 +5787,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572197617474382}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572197572300047}
 --- !u!61 &2155572198364848322
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5909,10 +5910,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572198427826938}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572197301518091}
 --- !u!61 &2155572198366715143
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6112,10 +6113,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572196890868419}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572197458251641}
 --- !u!61 &2155572198417944683
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6541,26 +6542,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipSlotParentObj: {fileID: 2155572197847547533}
   equipSlotImgs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2155572197671170967}
+  - {fileID: 2155572198051172487}
+  - {fileID: 2155572198144936380}
+  - {fileID: 2155572197843040318}
+  - {fileID: 2155572197258153380}
+  - {fileID: 2155572198602054612}
   inventorySlotParentObj: {fileID: 2155572197667722019}
   inventorySlotImgs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2155572198624002573}
+  - {fileID: 2155572198364848327}
+  - {fileID: 2155572197048704363}
+  - {fileID: 2155572198225004862}
+  - {fileID: 2155572197620319533}
+  - {fileID: 2155572198417944684}
+  - {fileID: 2155572198712921898}
+  - {fileID: 2155572198366715144}
+  - {fileID: 2155572198836738571}
+  - {fileID: 2155572197390673940}
+  - {fileID: 2155572198202628381}
+  - {fileID: 2155572197751575874}
   quickSlotImg: {fileID: 2155572197635462497}
   previewSlotUI: {fileID: 2155572197594494293}
   playerInventory: {fileID: 0}
@@ -6985,7 +6986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 11400000, guid: a3a49d66d27a5024590799e1a17d14af, type: 2}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
   itemSlotImage: {fileID: 2155572198471915387}
   parentUI: {fileID: 2155572198484553982}
   itemCountText: {fileID: 2155572198523344100}
@@ -7216,10 +7217,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572196723641776}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572196993041035}
 --- !u!61 &2155572198624002568
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7580,10 +7581,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572197661115902}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572196826520380}
 --- !u!61 &2155572198712921897
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7969,10 +7970,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 0}
-  itemSlotImage: {fileID: 0}
-  parentUI: {fileID: 0}
-  itemCountText: {fileID: 0}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
+  itemSlotImage: {fileID: 2155572198660884957}
+  parentUI: {fileID: 2155572198484553982}
+  itemCountText: {fileID: 2155572197641483859}
 --- !u!61 &2155572198836738566
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8561,7 +8562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 11400000, guid: a3a49d66d27a5024590799e1a17d14af, type: 2}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
   itemSlotImage: {fileID: 6184987225422999488}
   parentUI: {fileID: 2155572198484553982}
   itemCountText: {fileID: 5190374548677082869}
@@ -8602,7 +8603,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 60}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3414456463956287547
 CanvasRenderer:
@@ -8866,7 +8867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
-  nowItemData: {fileID: 11400000, guid: a3a49d66d27a5024590799e1a17d14af, type: 2}
+  nowItemData: {fileID: 11400000, guid: d25a39027f07fc24bb0c50d751a90491, type: 2}
   itemSlotImage: {fileID: 1755559392487496707}
   parentUI: {fileID: 2155572198484553982}
   itemCountText: {fileID: 8171167590352745710}
@@ -8963,7 +8964,7 @@ GameObject:
   - component: {fileID: 1755559392487496707}
   - component: {fileID: 3175136778157728740}
   m_Layer: 5
-  m_Name: ItemImg
+  m_Name: TestEquipmentItemimg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9095,7 +9096,7 @@ GameObject:
   - component: {fileID: 9210552473808180773}
   - component: {fileID: 4183289221496191867}
   m_Layer: 5
-  m_Name: Panel (1)
+  m_Name: HowToUsePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9566,9 +9567,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 12800000, guid: 889787f713e30c84889c0ea94dcf20d0, type: 3}
     - target: {fileID: 4674599202155844887, guid: 398bd759bed50dd469f17f32cc6ed63d, type: 3}
+      propertyPath: compareImage1
+      value: 
+      objectReference: {fileID: 6184987225422999488}
+    - target: {fileID: 4674599202155844887, guid: 398bd759bed50dd469f17f32cc6ed63d, type: 3}
+      propertyPath: compareImage2
+      value: 
+      objectReference: {fileID: 1755559392487496707}
+    - target: {fileID: 4674599202155844887, guid: 398bd759bed50dd469f17f32cc6ed63d, type: 3}
       propertyPath: discardButton
       value: 
       objectReference: {fileID: 1302416386}
+    - target: {fileID: 4674599202155844887, guid: 398bd759bed50dd469f17f32cc6ed63d, type: 3}
+      propertyPath: compareResultText
+      value: 
+      objectReference: {fileID: 1866013682417012465}
     - target: {fileID: 5327106578626162502, guid: 398bd759bed50dd469f17f32cc6ed63d, type: 3}
       propertyPath: m_SizeDelta.x
       value: 313.32
