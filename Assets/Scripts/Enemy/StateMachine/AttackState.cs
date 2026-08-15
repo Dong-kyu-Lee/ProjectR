@@ -62,7 +62,7 @@ public class AttackState : IState
     private IEnumerator AttackRoutine()
     {
         float applyAttackTime = Mathf.Max(attackTime, minAttackTime);
-        EnemyAttackTiming timing = enemy.EnemyStatus.IsBoss ? EnemyAttackTiming.Immediate : attackStrategy.Timing;
+        EnemyAttackTiming timing = enemy.EnemyStatus.IsBoss ? EnemyAttackTiming.Immediate : enemy.GetAttackTiming(attackStrategy);
         timing = timing.WithMinimumTotalTime(applyAttackTime);
 
         enemy.SetAttackPhase(EnemyAttackPhase.Windup, timing.interruptibleDuringWindup);

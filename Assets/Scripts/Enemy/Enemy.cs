@@ -45,6 +45,9 @@ public class Enemy : MonoBehaviour
     private float attackRetryDelayAfterInterrupt = 0.6f;
 
     [SerializeField]
+    private EnemyAttackProfile attackProfile;
+
+    [SerializeField]
     private bool hasSuperArmor;
 
     [SerializeField]
@@ -90,7 +93,7 @@ public class Enemy : MonoBehaviour
     protected virtual void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
-        currentPoise = Mathf.Max(1f, maxPoise);
+        currentPoise = MaxPoise;
     }
 
     void Start()
@@ -182,6 +185,16 @@ public class Enemy : MonoBehaviour
         attackStrategy = strategy;
     }
 
+    public EnemyAttackTiming GetAttackTiming(IAttackStrategy strategy)
+    {
+        if (attackProfile != null)
+        {
+            return attackProfile.Timing;
+        }
+
+        return strategy.Timing;
+    }
+
     public void SetAttackPhase(EnemyAttackPhase phase, bool canInterrupt)
     {
         CurrentAttackPhase = phase;
@@ -190,12 +203,12 @@ public class Enemy : MonoBehaviour
 
     public bool TryInterruptAttack()
     {
-        return TryInterruptAttack(hitStunDurationOnInterrupt, poiseDamagePerHit);
+        return TryInterruptAttack(HitStunDurationOnInterrupt, PoiseDamagePerHit);
     }
 
     public bool TryInterruptAttack(float stunDuration)
     {
-        return TryInterruptAttack(stunDuration, poiseDamagePerHit);
+        return TryInterruptAttack(stunDuration, PoiseDamagePerHit);
     }
 
     public bool TryInterruptAttack(float stunDuration, float poiseDamage)
@@ -205,7 +218,7 @@ public class Enemy : MonoBehaviour
             return false;
         }
 
-        if (hasSuperArmor)
+        if (HasSuperArmor)
         {
             return false;
         }
@@ -231,7 +244,7 @@ public class Enemy : MonoBehaviour
         }
 
         ResetPoise();
-        DelayNextAttack(attackRetryDelayAfterInterrupt);
+        DelayNextAttack(AttackRetryDelayAfterInterrupt);
         ApplyHitStun(stunDuration);
         return true;
     }
@@ -251,15 +264,52 @@ public class Enemy : MonoBehaviour
 
     private void ResetPoise()
     {
-        currentPoise = Mathf.Max(1f, maxPoise);
+        currentPoise = MaxPoise;
     }
 
     private void RecoverPoise()
     {
-        if (currentPoise >= maxPoise) return;
-        if (Time.time < lastPoiseDamageTime + poiseRecoveryDelay) return;
+        float targetPoise = MaxPoise;
 
-        currentPoise = Mathf.Min(maxPoise, currentPoise + poiseRecoveryPerSecond * Time.fixedDeltaTime);
+        if (currentPoise >= targetPoise) return;
+        if (Time.time < lastPoiseDamageTime + PoiseRecoveryDelay) return;
+
+        currentPoise = Mathf.Min(targetPoise, currentPoise + PoiseRecoveryPerSecond * Time.fixedDeltaTime);
+    }
+
+    private float HitStunDurationOnInterrupt
+    {
+        get { return attackProfile != null ? attackProfile.HitStunDurationOnInterrupt : Mathf.Max(0f, hitStunDurationOnInterrupt); }
+    }
+
+    private float AttackRetryDelayAfterInterrupt
+    {
+        get { return attackProfile != null ? attackProfile.AttackRetryDelayAfterInterrupt : Mathf.Max(0f, attackRetryDelayAfterInterrupt); }
+    }
+
+    private bool HasSuperArmor
+    {
+        get { return attackProfile != null ? attackProfile.HasSuperArmor : hasSuperArmor; }
+    }
+
+    private float MaxPoise
+    {
+        get { return attackProfile != null ? attackProfile.MaxPoise : Mathf.Max(1f, maxPoise); }
+    }
+
+    private float PoiseDamagePerHit
+    {
+        get { return attackProfile != null ? attackProfile.PoiseDamagePerHit : Mathf.Max(0f, poiseDamagePerHit); }
+    }
+
+    private float PoiseRecoveryDelay
+    {
+        get { return attackProfile != null ? attackProfile.PoiseRecoveryDelay : Mathf.Max(0f, poiseRecoveryDelay); }
+    }
+
+    private float PoiseRecoveryPerSecond
+    {
+        get { return attackProfile != null ? attackProfile.PoiseRecoveryPerSecond : Mathf.Max(0f, poiseRecoveryPerSecond); }
     }
 
     public void FacePlayer()
