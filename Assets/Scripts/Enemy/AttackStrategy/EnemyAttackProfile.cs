@@ -42,6 +42,9 @@ public class EnemyAttackProfile : ScriptableObject
     [SerializeField]
     private float poiseRecoveryPerSecond = 1f;
 
+    [SerializeField]
+    private string[] attackSoundPaths;
+
     public EnemyAttackTiming Timing
     {
         get
@@ -63,4 +66,5 @@ public class EnemyAttackProfile : ScriptableObject
     public float PoiseDamagePerHit { get { return Mathf.Max(0f, poiseDamagePerHit); } }
     public float PoiseRecoveryDelay { get { return Mathf.Max(0f, poiseRecoveryDelay); } }
     public float PoiseRecoveryPerSecond { get { return Mathf.Max(0f, poiseRecoveryPerSecond); } }
+    public string[] AttackSoundPaths { get { return attackSoundPaths; } }
 }

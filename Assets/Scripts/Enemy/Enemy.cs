@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private const string DefaultMeleeAttackSoundPath1 = "Sounds/battle/swing";
+    private const string DefaultMeleeAttackSoundPath2 = "Sounds/battle/swing2";
+
     [SerializeField]
     protected EnemyStatus enemyStatus;
 
@@ -89,11 +92,13 @@ public class Enemy : MonoBehaviour
     private float nextAttackAllowedTime;
     private float currentPoise;
     private float lastPoiseDamageTime = float.NegativeInfinity;
+    private bool attackSoundPlayedThisAttack;
 
     protected virtual void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
         currentPoise = MaxPoise;
+        RegisterAnimationEventRelay();
     }
 
     void Start()
@@ -193,6 +198,53 @@ public class Enemy : MonoBehaviour
         }
 
         return strategy.Timing;
+    }
+
+    public void ResetAttackSoundPlayback()
+    {
+        attackSoundPlayedThisAttack = false;
+    }
+
+    public bool PlayAttackSound()
+    {
+        if (attackProfile == null) return false;
+
+        string[] attackSoundPaths = attackProfile.AttackSoundPaths;
+        if (attackSoundPaths == null || attackSoundPaths.Length == 0) return false;
+
+        string attackSoundPath = attackSoundPaths[UnityEngine.Random.Range(0, attackSoundPaths.Length)];
+        return PlayAttackSound(attackSoundPath);
+    }
+
+    public bool PlayAttackSound(string attackSoundPath)
+    {
+        if (attackSoundPlayedThisAttack) return true;
+        if (string.IsNullOrEmpty(attackSoundPath)) return false;
+
+        SoundManager.Instance.Play(attackSoundPath, Sound.Effect);
+        attackSoundPlayedThisAttack = true;
+        return true;
+    }
+
+    public void PlayMeleeAttackSoundFromAnimation()
+    {
+        if (PlayAttackSound()) return;
+
+        string soundPath = UnityEngine.Random.value < 0.5f ? DefaultMeleeAttackSoundPath1 : DefaultMeleeAttackSoundPath2;
+        PlayAttackSound(soundPath);
+    }
+
+    private void RegisterAnimationEventRelay()
+    {
+        if (enemyAnimator == null) return;
+
+        EnemyAnimationEventRelay relay = enemyAnimator.GetComponent<EnemyAnimationEventRelay>();
+        if (relay == null)
+        {
+            relay = enemyAnimator.gameObject.AddComponent<EnemyAnimationEventRelay>();
+        }
+
+        relay.Initialize(this);
     }
 
     public void SetAttackPhase(EnemyAttackPhase phase, bool canInterrupt)

@@ -64,6 +64,7 @@ public class AttackState : IState
         float applyAttackTime = Mathf.Max(attackTime, minAttackTime);
         EnemyAttackTiming timing = enemy.EnemyStatus.IsBoss ? EnemyAttackTiming.Immediate : enemy.GetAttackTiming(attackStrategy);
         timing = timing.WithMinimumTotalTime(applyAttackTime);
+        enemy.ResetAttackSoundPlayback();
 
         enemy.SetAttackPhase(EnemyAttackPhase.Windup, timing.interruptibleDuringWindup);
         attackStrategy.BeginAttack(enemy);
@@ -78,6 +79,11 @@ public class AttackState : IState
         }
 
         enemy.SetAttackPhase(EnemyAttackPhase.Active, timing.interruptibleDuringActive);
+        if (!(enemy is MeleeEnemy))
+        {
+            enemy.PlayAttackSound();
+        }
+
         attackStrategy.ExecuteAttack(enemy);
         if (timing.activeTime > 0f)
         {

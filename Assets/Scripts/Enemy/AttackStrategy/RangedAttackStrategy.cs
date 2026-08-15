@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RangedAttackStrategy : IAttackStrategy
 {
+    private const string DefaultRangedAttackSoundPath = "Sounds/battle/queen_magic_2";
+
     public EnemyAttackTiming Timing
     {
         get { return new EnemyAttackTiming(0.8f, 0.1f, 0.65f, true, false, false); }
@@ -25,6 +27,7 @@ public class RangedAttackStrategy : IAttackStrategy
                 boss.ShootProjectile();
                 break;
             case RangedEnemy rangedEnemy:
+                rangedEnemy.PlayAttackSound(DefaultRangedAttackSoundPath);
                 rangedEnemy.StartCoroutine(rangedEnemy.EnableRangeAttack());
                 break;
         }
