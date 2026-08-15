@@ -54,7 +54,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                 slotButton.onClick.RemoveAllListeners();
             }
 
-            // [해결의 핵심] EventTrigger 대신, 드래그를 방해하지 않는 커스텀 클릭 중계기를 붙여줍니다.
+            // EventTrigger 대신, 드래그를 방해하지 않는 커스텀 클릭 중계기를 붙여줍니다.
             EventTrigger trigger = itemSlotImage.gameObject.GetComponent<EventTrigger>();
             if (trigger != null) Destroy(trigger); // 혹시 남아있는 악성 EventTrigger 파괴
 
@@ -151,7 +151,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
         bool needsRefresh = false;
 
-        // 장비창에서 인벤토리로 드롭된 경우 (정리해주신 조건 3, 5 완벽 대응)
+        // 장비창에서 인벤토리로 드롭된 경우
         if (targetSlotUI is EquipmentSlotUI)
         {
             switch (nowItemData.ItemType)
@@ -194,7 +194,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         if (explainUI == null)
             explainUI = FindObjectOfType<InventoryItemExplain>(true);
 
-        // [좌클릭] : 아이템 상세 정보 표시 (정리 조건 6 대응)
+        // [좌클릭] : 아이템 상세 정보 표시
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             if (explainUI != null)
@@ -202,7 +202,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                 explainUI.ShowPanel(nowItemData);
             }
         }
-        // [우클릭] : 타입에 따른 분기 (비교 OR 사용) (정리 조건 7 대응)
+        // [우클릭] : 타입에 따른 분기 (비교 OR 사용)
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
             // 더블 클릭 방지
@@ -219,17 +219,15 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                 EquipmentItemData equipData = nowItemData as EquipmentItemData;
                 if (equipData != null && explainUI != null)
                 {
-                    explainUI.AddCompareItem(equipData);
+                    bool isEquippedItem = this is EquipmentSlotUI;
+                    explainUI.AddCompareItem(equipData, isEquippedItem);
                 }
             }
         }
     }
 }
 
-// =========================================================================
-// [새로 추가된 클래스] 자식 오브젝트의 클릭 이벤트를 부모로 넘겨주는 중계기 역할을 합니다.
-// IPointerClickHandler만 상속받기 때문에 드래그 이벤트(Drag/Drop)를 절대 방해하지 않습니다!
-// =========================================================================
+// [새로 추가된 클래스] 자식 오브젝트의 클릭 이벤트를 부모로 넘겨주는 중계기 역할
 public class SlotClickForwarder : MonoBehaviour, IPointerClickHandler
 {
     public ItemSlotUI parentSlot;
