@@ -12,9 +12,25 @@ public class EnemyStatus : Status
     [SerializeField]
     private bool isBoss;
 
+    [SerializeField]
+    private Color hitFlashColor = Color.red;
+
+    [SerializeField]
+    private float hitFlashDuration = 0.08f;
+
+    [SerializeField]
+    private int hitFlashCount = 2;
+
+    [SerializeField]
+    private float hitFlashInterval = 0.05f;
+
     public bool IsBoss => isBoss;
 
     public EnemyData EnemyStatusData { get { return enemyData; } }
+
+    private SpriteRenderer[] spriteRenderers;
+    private Color[] originalColors;
+    private Coroutine hitFlashCoroutine;
 
     void Awake()
     {
@@ -28,6 +44,7 @@ public class EnemyStatus : Status
         AdditionalAttackSpeed = 0;
         AdditionalMoveSpeed = 0;
         enemyLoot = transform.GetComponent<EnemyLoot>();
+        CacheSpriteRenderers();
     }
 
     void Start()
@@ -37,6 +54,8 @@ public class EnemyStatus : Status
 
     protected override void HitImpact()
     {
+        PlayHitFlash();
+
         if (isBoss)
         {
             Vector2 spawnPosition = GetComponent<CapsuleCollider2D>().bounds.min;
@@ -45,6 +64,72 @@ public class EnemyStatus : Status
         }
 
         GetComponent<Enemy>()?.TryInterruptAttack();
+    }
+
+    private void CacheSpriteRenderers()
+    {
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        originalColors = new Color[spriteRenderers.Length];
+
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            originalColors[i] = spriteRenderers[i].color;
+        }
+    }
+
+    private void PlayHitFlash()
+    {
+        if (spriteRenderers == null || spriteRenderers.Length == 0) return;
+
+        if (hitFlashCoroutine != null)
+        {
+            StopCoroutine(hitFlashCoroutine);
+            RestoreOriginalColors();
+        }
+
+        hitFlashCoroutine = StartCoroutine(HitFlashCoroutine());
+    }
+
+    private IEnumerator HitFlashCoroutine()
+    {
+        int repeatCount = Mathf.Max(1, hitFlashCount);
+
+        for (int i = 0; i < repeatCount; i++)
+        {
+            SetSpriteColors(hitFlashColor);
+            yield return new WaitForSeconds(hitFlashDuration);
+
+            RestoreOriginalColors();
+
+            if (i < repeatCount - 1 && hitFlashInterval > 0f)
+            {
+                yield return new WaitForSeconds(hitFlashInterval);
+            }
+        }
+
+        hitFlashCoroutine = null;
+    }
+
+    private void SetSpriteColors(Color color)
+    {
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            if (spriteRenderers[i] != null)
+            {
+                spriteRenderers[i].color = color;
+            }
+        }
+    }
+
+    private void RestoreOriginalColors()
+    {
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            if (spriteRenderers[i] != null)
+            {
+                spriteRenderers[i].color = originalColors[i];
+            }
+        }
     }
 
     protected override void Dead()
