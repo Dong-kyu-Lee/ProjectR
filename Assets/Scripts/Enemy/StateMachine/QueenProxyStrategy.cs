@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class QueenProxyStrategy : IAttackStrategy
 {
+    public EnemyAttackTiming Timing
+    {
+        get { return EnemyAttackTiming.Immediate; }
+    }
+
+    public void BeginAttack(Enemy enemy)
+    {
+
+    }
+
     public void ExecuteAttack(Enemy enemy)
     {
         // 보스라면 현재 장착된 전략(RunCurrentStrategy)을 실행하도록 위임

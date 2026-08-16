@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    private const string DefaultMeleeAttackSoundPath1 = "Sounds/battle/swing";
+    private const string DefaultMeleeAttackSoundPath2 = "Sounds/battle/swing2";
+
     [SerializeField]
     protected EnemyStatus enemyStatus;
 
@@ -38,6 +41,30 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private LayerMask groundLayer;
 
+    [SerializeField]
+    private float hitStunDurationOnInterrupt = 0.15f;
+
+    [SerializeField]
+    private float attackRetryDelayAfterInterrupt = 0.6f;
+
+    [SerializeField]
+    private EnemyAttackProfile attackProfile;
+
+    [SerializeField]
+    private bool hasSuperArmor;
+
+    [SerializeField]
+    private float maxPoise = 1f;
+
+    [SerializeField]
+    private float poiseDamagePerHit = 1f;
+
+    [SerializeField]
+    private float poiseRecoveryDelay = 1.5f;
+
+    [SerializeField]
+    private float poiseRecoveryPerSecond = 1f;
+
     public bool isAttacking = false;
 
     public event Action OnEdgeDetected;
@@ -59,9 +86,19 @@ public class Enemy : MonoBehaviour
 
     protected IAttackStrategy attackStrategy;
 
+    public EnemyAttackPhase CurrentAttackPhase { get; private set; } = EnemyAttackPhase.None;
+    public bool CanInterruptCurrentAttack { get; private set; }
+
+    private float nextAttackAllowedTime;
+    private float currentPoise;
+    private float lastPoiseDamageTime = float.NegativeInfinity;
+    private bool attackSoundPlayedThisAttack;
+
     protected virtual void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
+        currentPoise = MaxPoise;
+        RegisterAnimationEventRelay();
     }
 
     void Start()
@@ -73,6 +110,7 @@ public class Enemy : MonoBehaviour
     {
         FlipX();
         CheckPlatformEdge();
+        RecoverPoise();
     }
 
     protected void FlipX()
@@ -98,6 +136,11 @@ public class Enemy : MonoBehaviour
     {
         // 적이 죽었거나, 이미 공격 중이거나, 현재 경직(Stun) 상태라면 공격 실행 금지
         if (StateMachine.isDead || isAttacking || StateMachine.CurrentState == StateMachine.stunState)
+        {
+            return;
+        }
+
+        if (Time.time < nextAttackAllowedTime)
         {
             return;
         }
@@ -147,6 +190,180 @@ public class Enemy : MonoBehaviour
         attackStrategy = strategy;
     }
 
+    public EnemyAttackTiming GetAttackTiming(IAttackStrategy strategy)
+    {
+        if (attackProfile != null)
+        {
+            return attackProfile.Timing;
+        }
+
+        return strategy.Timing;
+    }
+
+    public void ResetAttackSoundPlayback()
+    {
+        attackSoundPlayedThisAttack = false;
+    }
+
+    public bool PlayAttackSound()
+    {
+        if (attackProfile == null) return false;
+
+        string[] attackSoundPaths = attackProfile.AttackSoundPaths;
+        if (attackSoundPaths == null || attackSoundPaths.Length == 0) return false;
+
+        string attackSoundPath = attackSoundPaths[UnityEngine.Random.Range(0, attackSoundPaths.Length)];
+        return PlayAttackSound(attackSoundPath);
+    }
+
+    public bool PlayAttackSound(string attackSoundPath)
+    {
+        if (attackSoundPlayedThisAttack) return true;
+        if (string.IsNullOrEmpty(attackSoundPath)) return false;
+
+        SoundManager.Instance.Play(attackSoundPath, Sound.Effect);
+        attackSoundPlayedThisAttack = true;
+        return true;
+    }
+
+    public void PlayMeleeAttackSoundFromAnimation()
+    {
+        if (PlayAttackSound()) return;
+
+        string soundPath = UnityEngine.Random.value < 0.5f ? DefaultMeleeAttackSoundPath1 : DefaultMeleeAttackSoundPath2;
+        PlayAttackSound(soundPath);
+    }
+
+    private void RegisterAnimationEventRelay()
+    {
+        if (enemyAnimator == null) return;
+
+        EnemyAnimationEventRelay relay = enemyAnimator.GetComponent<EnemyAnimationEventRelay>();
+        if (relay == null)
+        {
+            relay = enemyAnimator.gameObject.AddComponent<EnemyAnimationEventRelay>();
+        }
+
+        relay.Initialize(this);
+    }
+
+    public void SetAttackPhase(EnemyAttackPhase phase, bool canInterrupt)
+    {
+        CurrentAttackPhase = phase;
+        CanInterruptCurrentAttack = canInterrupt;
+    }
+
+    public bool TryInterruptAttack()
+    {
+        return TryInterruptAttack(HitStunDurationOnInterrupt, PoiseDamagePerHit);
+    }
+
+    public bool TryInterruptAttack(float stunDuration)
+    {
+        return TryInterruptAttack(stunDuration, PoiseDamagePerHit);
+    }
+
+    public bool TryInterruptAttack(float stunDuration, float poiseDamage)
+    {
+        if (enemyStatus != null && enemyStatus.IsBoss)
+        {
+            return false;
+        }
+
+        if (HasSuperArmor)
+        {
+            return false;
+        }
+
+        if (StateMachine == null)
+        {
+            return false;
+        }
+
+        if (StateMachine.CurrentState != StateMachine.attackState)
+        {
+            return false;
+        }
+
+        if (!CanInterruptCurrentAttack)
+        {
+            return false;
+        }
+
+        if (!ConsumePoise(poiseDamage))
+        {
+            return false;
+        }
+
+        ResetPoise();
+        DelayNextAttack(AttackRetryDelayAfterInterrupt);
+        ApplyHitStun(stunDuration);
+        return true;
+    }
+
+    public void DelayNextAttack(float delay)
+    {
+        nextAttackAllowedTime = Mathf.Max(nextAttackAllowedTime, Time.time + delay);
+    }
+
+    private bool ConsumePoise(float poiseDamage)
+    {
+        lastPoiseDamageTime = Time.time;
+        currentPoise -= Mathf.Max(0f, poiseDamage);
+
+        return currentPoise <= 0f;
+    }
+
+    private void ResetPoise()
+    {
+        currentPoise = MaxPoise;
+    }
+
+    private void RecoverPoise()
+    {
+        float targetPoise = MaxPoise;
+
+        if (currentPoise >= targetPoise) return;
+        if (Time.time < lastPoiseDamageTime + PoiseRecoveryDelay) return;
+
+        currentPoise = Mathf.Min(targetPoise, currentPoise + PoiseRecoveryPerSecond * Time.fixedDeltaTime);
+    }
+
+    private float HitStunDurationOnInterrupt
+    {
+        get { return attackProfile != null ? attackProfile.HitStunDurationOnInterrupt : Mathf.Max(0f, hitStunDurationOnInterrupt); }
+    }
+
+    private float AttackRetryDelayAfterInterrupt
+    {
+        get { return attackProfile != null ? attackProfile.AttackRetryDelayAfterInterrupt : Mathf.Max(0f, attackRetryDelayAfterInterrupt); }
+    }
+
+    private bool HasSuperArmor
+    {
+        get { return attackProfile != null ? attackProfile.HasSuperArmor : hasSuperArmor; }
+    }
+
+    private float MaxPoise
+    {
+        get { return attackProfile != null ? attackProfile.MaxPoise : Mathf.Max(1f, maxPoise); }
+    }
+
+    private float PoiseDamagePerHit
+    {
+        get { return attackProfile != null ? attackProfile.PoiseDamagePerHit : Mathf.Max(0f, poiseDamagePerHit); }
+    }
+
+    private float PoiseRecoveryDelay
+    {
+        get { return attackProfile != null ? attackProfile.PoiseRecoveryDelay : Mathf.Max(0f, poiseRecoveryDelay); }
+    }
+
+    private float PoiseRecoveryPerSecond
+    {
+        get { return attackProfile != null ? attackProfile.PoiseRecoveryPerSecond : Mathf.Max(0f, poiseRecoveryPerSecond); }
+    }
+
     public void FacePlayer()
     {
         if (PlayerTransform == null) return;
@@ -189,6 +406,7 @@ public class Enemy : MonoBehaviour
 
         // 켜져있는 무기 히트박스 등을 끔 (CancelAttack은 이전 답변에서 만든 가상 함수)
         CancelAttack();
+        SetAttackPhase(EnemyAttackPhase.None, false);
 
         // StunState로 경직 시간 전달 후 상태 강제 전환!
         if (StateMachine != null && StateMachine.stunState is StunState stun)
@@ -201,5 +419,6 @@ public class Enemy : MonoBehaviour
     public virtual void CancelAttack()
     {
         isAttacking = false;
+        SetAttackPhase(EnemyAttackPhase.None, false);
     }
 }

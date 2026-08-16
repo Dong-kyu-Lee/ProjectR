@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce3db052c9548d4913df3bc2f21e647, type: 3}
+  m_Name: RangedAttackProfile
+  m_EditorClassIdentifier: 
+  windupTime: 0.8
+  activeTime: 0.1
+  recoveryTime: 0.6
+  interruptibleDuringWindup: 1
+  interruptibleDuringActive: 0
+  interruptibleDuringRecovery: 0
+  hitStunDurationOnInterrupt: 0.15
+  attackRetryDelayAfterInterrupt: 0.6
+  hasSuperArmor: 0
+  maxPoise: 1
+  poiseDamagePerHit: 1
+  poiseRecoveryDelay: 1.5
+  poiseRecoveryPerSecond: 1
+  attackSoundPaths:
+  - Sounds/battle/queen_magic_2
