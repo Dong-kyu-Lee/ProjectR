@@ -8,6 +8,9 @@ public class CharacterSelectManager : MonoBehaviour
 
     public bool IsSelectionMode { get; private set; } = true;
 
+    // [신규 추가] 현재 상세 정보(좌우 패널)를 보고 있는 중인지 확인하는 변수
+    public bool IsViewingDetails { get; private set; } = false;
+
     [Header("Camera & Spawn Settings")]
     [SerializeField] private CM_LobbyScene vcam;
     [SerializeField] private Transform defaultCameraTarget; // 전체 캐릭터가 보이는 로비 중앙 위치
@@ -16,8 +19,6 @@ public class CharacterSelectManager : MonoBehaviour
 
     [Header("Lobby Characters")]
     [SerializeField] private GameObject[] selectableCharacterObjects; // 로비에 서 있는 대기용 캐릭터 프리팹들
-
-    // [SerializeField] private CharacterPortraitHandler portraitHandler; (필요한 경우 추후 연결)
 
     private CharacterType currentPreviewType; // 현재 화면에 확대된 캐릭터 타입
 
@@ -37,19 +38,22 @@ public class CharacterSelectManager : MonoBehaviour
     {
         if (!IsSelectionMode) return;
 
+        IsViewingDetails = true; // [추가] 상세 보기 진입
         currentPreviewType = type;
 
         // 1. 카메라 타겟을 클릭한 캐릭터로 변경
         vcam.SetFollowTarget(characterTransform);
+        vcam.SetZoom(true);
 
-        vcam.SetZoom(true); 
-        CharacterSelectUI.Instance.ShowDetailPanels(type); 
+        CharacterSelectUI.Instance.ShowDetailPanels(type);
+        CharacterSelectUI.Instance.HideTopBanner(); // [추가] 캐릭터를 누르면 배너 위로 숨기기
     }
 
     // [선택하기] 버튼 클릭 시 호출
     public void ConfirmSelection()
     {
         IsSelectionMode = false;
+        IsViewingDetails = false; // [추가] 상태 초기화
 
         // 1. 스폰 위치 결정
         Vector3 spawnPosition;
@@ -95,25 +99,28 @@ public class CharacterSelectManager : MonoBehaviour
         // 4. 카메라를 조작할 플레이어로 연결
         vcam.SetFollowTarget(PlayerManager.Instance.CurrentPlayer.transform);
 
-
         vcam.SetZoom(false);
         CharacterSelectUI.Instance.HideDetailPanels();
+        CharacterSelectUI.Instance.HideTopBanner(); // [추가] 선택 확정 시 배너 완벽히 숨김
     }
 
     // [X] (취소) 버튼 누를 시 호출
     public void CancelSelection()
     {
+        IsViewingDetails = false; // [추가] 상세 보기 취소
+
         vcam.SetFollowTarget(defaultCameraTarget);
-
-
         vcam.SetZoom(false);
+
         CharacterSelectUI.Instance.HideDetailPanels();
+        CharacterSelectUI.Instance.ShowTopBanner(); // [추가] 선택 창으로 돌아오므로 배너 다시 내림
     }
 
     // 'E' 키를 눌러 캐릭터 선택 창으로 복귀할 때 호출
     public void EnterSelectionMode()
     {
         IsSelectionMode = true;
+        IsViewingDetails = false; // [추가] 상태 초기화
 
         // 1. 기존 조작하던 플레이어 캐릭터 비활성화
         if (PlayerManager.Instance.CurrentPlayer != null)
@@ -140,5 +147,8 @@ public class CharacterSelectManager : MonoBehaviour
         }
 
         vcam.SetZoom(false);
+
+        if (CharacterSelectUI.Instance != null)
+            CharacterSelectUI.Instance.ShowTopBanner(); // [추가] 선택 창 진입 시 배너 내림
     }
 }
