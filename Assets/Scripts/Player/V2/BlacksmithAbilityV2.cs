@@ -73,7 +73,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             ApplyWeaponBonus();
             ApplyWeaponAnimator();
 
-            SoundManager.Instance.Play("Sounds/inventory/chainmail1", Sound.AttackEffect, 1.0f);
+            SoundManager.Instance.Play("Sounds/inventory/chainmail1", Sound.Blacksmith_Enhance, 1.0f);
             InGameUIManager.Instance.ShowStatus($"무기 주조 완료! 현재 무기 : {runtimeWeaponData.WeaponName}");
             onAbilityUpdated.Invoke();
         }
