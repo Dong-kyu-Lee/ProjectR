@@ -88,8 +88,8 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         }
 
         // 사운드
-        if (blacksmithAbility.CurWeaponData.WeaponStyle == WeaponStyle.OneHanded) SoundManager.Instance.Play("Sounds/battle/swing", Sound.Effect, 0.4f);
-        else if (blacksmithAbility.CurWeaponData.WeaponStyle == WeaponStyle.TwoHanded) SoundManager.Instance.Play("Sounds/battle/swing3", Sound.Effect, 0.4f);
+        if (blacksmithAbility.CurWeaponData.WeaponStyle == WeaponStyle.OneHanded) SoundManager.Instance.Play("Sounds/battle/swing", Sound.AttackEffect, 0.4f);
+        else if (blacksmithAbility.CurWeaponData.WeaponStyle == WeaponStyle.TwoHanded) SoundManager.Instance.Play("Sounds/battle/swing3", Sound.AttackEffect, 0.4f);
 
         // 무기 스타일에 따른 최대 콤보 수 결정
         int maxCombo = 2; // 기본값

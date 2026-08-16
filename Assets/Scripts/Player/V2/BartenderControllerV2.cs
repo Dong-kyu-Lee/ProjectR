@@ -56,7 +56,7 @@ public class BartenderControllerV2 : PlayerControllerBase
             bartenderAbility = GetComponent<BartenderAbilityV2>();
 
         // 사운드
-        SoundManager.Instance.Play("Sounds/battle/swing2", Sound.Effect, 0.7f);
+        SoundManager.Instance.Play("Sounds/battle/swing2", Sound.AttackEffect, 0.7f);
 
         // 발사
         Vector3 spawnPos = transform.position + (Vector3)direction * projectileSpawnOffset;
