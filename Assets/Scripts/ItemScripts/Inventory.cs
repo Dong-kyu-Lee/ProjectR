@@ -468,6 +468,19 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    // 장비칸에 빈 공간(DUMMY)이 하나라도 존재하는지 확인하는 함수
+    public bool HasEmptyEquipmentSlot()
+    {
+        for (int i = 0; i < equipmentItemSlot.Length; i++)
+        {
+            if (equipmentItemSlot[i] == null || equipmentItemSlot[i].ItemType == ItemType.DUMMY)
+            {
+                return true; // 빈 공간 있음
+            }
+        }
+        return false; // 6칸 모두 꽉 참
+    }
+
     // 인벤토리 데이터 슬롯 2개를 스왑하는 함수
     public void SwapInventorySlots(int indexA, int indexB)
     {

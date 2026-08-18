@@ -21,10 +21,7 @@ public class QuickSlotUI : ItemSlotUI
     // 퀵슬롯 클릭 = 아이템 사용
     public override void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            inventory.UseQuickSlotItem();
-        }
+        return;
     }
 
     // Inventory.UpdateQuickSlotReference()가 호출하면 여기서 UI 갱신
