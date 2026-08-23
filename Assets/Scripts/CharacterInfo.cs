@@ -19,6 +19,10 @@ public class CharacterInfo : MonoBehaviour
     [SerializeField] private Transform leftStatusContent;  // 1열: 기본 스탯
     [SerializeField] private Transform rightStatusContent; // 2열: 치명타 등 세부 스탯
 
+    [Header("스탯 포인트 UI")]
+    [SerializeField] private Button enhanceButton;
+    private UpgradeStatus upgradeStatus;
+
     List<GameObject> statusObjList = new List<GameObject>();
 
     private Inventory cachedInventory;
@@ -37,6 +41,13 @@ public class CharacterInfo : MonoBehaviour
         {
             closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(DisableUI);
+        }
+
+        // 강화 버튼 이벤트 리스너 등록
+        if (enhanceButton != null)
+        {
+            enhanceButton.onClick.RemoveAllListeners();
+            enhanceButton.onClick.AddListener(OnClickEnhanceButton);
         }
 
         DisableUI();
@@ -115,7 +126,7 @@ public class CharacterInfo : MonoBehaviour
         }
     }
 
-    private void RefreshStatusUI()
+    public void RefreshStatusUI()
     {
         if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
 
@@ -132,6 +143,9 @@ public class CharacterInfo : MonoBehaviour
         var ps = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
         if (ps != null)
             playerStatus = ps;
+
+        // UpgradeStatus 컴포넌트 캐싱
+        upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
 
         if (cachedInventory != null)
         {
@@ -167,10 +181,7 @@ public class CharacterInfo : MonoBehaviour
 
         InventoryUI inventoryUI = GetComponentInChildren<InventoryUI>(true);
 
-        if (inventoryUI == null)
-        {
-            return;
-        }
+        if (inventoryUI == null) return;
 
         GameObject panelRoot = characterInfo;
         if (panelRoot != null)
@@ -201,8 +212,13 @@ public class CharacterInfo : MonoBehaviour
         if (playerStatus == null || playerStatus.gameObject != GameManager.Instance.CurrentPlayer)
         {
             playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-            if (playerStatus == null)
-                Debug.Log("PlayerStatus 없음");
+            if (playerStatus == null) Debug.Log("PlayerStatus 없음");
+        }
+
+        // 초기화 시 UpgradeStatus 확보 보장
+        if (upgradeStatus == null || upgradeStatus.gameObject != GameManager.Instance.CurrentPlayer)
+        {
+            upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
         }
     }
 
@@ -233,24 +249,23 @@ public class CharacterInfo : MonoBehaviour
             }
         }
 
-        float additionalDamageValue =
-            Mathf.Round(playerStatus.Damage * playerStatus.AdditionalDamage * 100f) / 100f;
+        float additionalDamageValue = Mathf.Round(playerStatus.Damage * playerStatus.AdditionalDamage * 100f) / 100f;
 
-        // 1열: 기본 스테이터스 (Left)
+        // 1열: 기본 스테이터스
         AddStatusLine($"레벨 : {playerStatus.Level}", leftStatusContent);
         AddStatusLine($"체력 : {playerStatus.Hp} / {playerStatus.MaxHp}", leftStatusContent);
         AddStatusLine($"경험치 : {playerStatus.Exp} / {LevelUp.requiredExp[(int)playerStatus.Level]}", leftStatusContent);
-        AddStatusLine(
-            $"피해량 : {playerStatus.TotalDamage}(" +
-            $"{playerStatus.Damage}+" +
-            $"<color=yellow>{additionalDamageValue}</color>" +
-            $"<color=black>)</color>",
-            leftStatusContent
-        );
+        AddStatusLine($"피해량 : {playerStatus.TotalDamage}({playerStatus.Damage}+<color=yellow>{additionalDamageValue}</color><color=black>)</color>", leftStatusContent);
         AddStatusLine($"공격속도 : {Mathf.Round(playerStatus.TotalAttackSpeed * 100) / 100}", leftStatusContent);
         AddStatusLine($"이동속도 : {100 + Mathf.Round(playerStatus.AdditionalMoveSpeed * 100f)}%", leftStatusContent);
+        if (upgradeStatus != null)
+        {
+            int sp = upgradeStatus.StatPoint;
+            string colorHex = sp > 0 ? "red" : "black";
+            AddStatusLine($"남은 스탯포인트 : <color={colorHex}>{sp}</color>", leftStatusContent);
+        }
 
-        // 2열: 치명타, 피해감소 등 세부 스테이터스 (Right)
+        // 2열: 세부 스테이터스
         AddStatusLine($"추가 피해량 : {Mathf.Round(playerStatus.AdditionalDamage * 100f)}%", rightStatusContent);
         AddStatusLine($"치명타 확률 : {Mathf.Round(playerStatus.CriticalPercent * 100f)}%", rightStatusContent);
         AddStatusLine($"치명타 피해량 : {Mathf.Round(playerStatus.CriticalDamage * 100f)}%", rightStatusContent);
@@ -261,16 +276,30 @@ public class CharacterInfo : MonoBehaviour
         AddStatusLine($"재화 획득량 : {Mathf.Round(playerStatus.PriceAdditional * 100f)}%", rightStatusContent);
     }
 
-    // 어떤 부모 Transform에 생성할지 매개변수(parentContent)를 추가로 받습니다.
     private void AddStatusLine(string text, Transform parentContent)
     {
         if (parentContent == null || statusTextPref == null) return;
 
         var go = Instantiate(statusTextPref, parentContent);
         var tmp = go.GetComponent<Text>();
-        if (tmp != null)
-            tmp.text = text;
+        if (tmp != null) tmp.text = text;
 
         statusObjList.Add(go);
+    }
+
+    // 강화 버튼 클릭 시 실행될 메서드
+    private void OnClickEnhanceButton()
+    {
+        // 1. 인벤토리 완전히 닫기
+        if (characterInfo != null && characterInfo.activeSelf)
+        {
+            ToggleInventoryUI();
+        }
+
+        // 2. 스탯 투자 창 열기
+        if (UpgradeUI.Instance != null)
+        {
+            UpgradeUI.Instance.OpenUI();
+        }
     }
 }
