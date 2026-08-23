@@ -101,6 +101,9 @@ public class LevelUp : MonoBehaviour
     // 레벨 업.
     public void UpLevel()
     {
+        var levelUpEffect = GameManager.Instance.CurrentPlayer.GetComponentInChildren<LevelUpEffectSystem>(true);
+        if (levelUpEffect != null) levelUpEffect.Play();
+
         playerStatus.Level++;
         upgradeStatus.StatPoint++;
 
