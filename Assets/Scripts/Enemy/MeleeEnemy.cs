@@ -37,8 +37,10 @@ public class MeleeEnemy : Enemy
 
     IEnumerator EnableHitbox()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return null;
         float hitOffsetX = 0.35f;
+
+        if (hitBoxObj == null) yield break;
 
         hitBoxObj.transform.localPosition = new Vector2(-hitOffsetX, 0.3f);
         hitBoxObj.SetActive(true);

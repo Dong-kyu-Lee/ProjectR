@@ -32,6 +32,10 @@ public class QueenBossEnemy : Enemy
     private float lastAttackTime = 0f;                    // 마지막 공격 시간 저장
     private bool isPatternRunning = false;                // 현재 코루틴이 돌고 있는지 여부
 
+    private const string SingleAttackSoundPath1 = "Sounds/battle/queen_magic_1";
+    private const string SingleAttackSoundPath2 = "Sounds/battle/queen_magic_2";
+    private const string PatternAttackSoundPath = "Sounds/battle/queen_magic_3";
+
     [Header("Detection Settings")]
     [SerializeField] private float detectRange = 8.0f;
 
@@ -130,6 +134,7 @@ public class QueenBossEnemy : Enemy
         yield return new WaitForSeconds(0.3f); // 선딜레이 (모션)
 
         Vector2 dir = GetTargetDirection();
+        PlaySingleAttackSound();
         CreateProjectile(GetTargetDirection());
 
         yield return new WaitForSeconds(1f); // 후딜레이
@@ -155,6 +160,7 @@ public class QueenBossEnemy : Enemy
         // [1] 중앙 발사
         // 위치: firePoint에서 centerDir 방향으로 radius만큼 떨어진 곳
         Vector3 centerPos = firePoint.position + (Vector3)(centerDir * fanSpawnRadius);
+        PlayPatternAttackSound();
         CreateProjectile(centerPos, centerDir);
 
         // [2] 위쪽 발사 (+각도)
@@ -192,6 +198,7 @@ public class QueenBossEnemy : Enemy
             Vector3 spawnPos = firePoint.position + new Vector3(0, randomY, 0);
 
             // 3. 위치를 지정하여 생성하는 함수 호출
+            PlayPatternAttackSound();
             CreateProjectile(spawnPos, dir);
 
             yield return new WaitForSeconds(rapidFireDelay);
@@ -256,6 +263,17 @@ public class QueenBossEnemy : Enemy
         {
             rb.velocity = direction * 5f; // 투사체 속도 (필요시 변수화)
         }
+    }
+
+    private void PlaySingleAttackSound()
+    {
+        string soundPath = Random.value < 0.5f ? SingleAttackSoundPath1 : SingleAttackSoundPath2;
+        SoundManager.Instance.Play(soundPath, Sound.Effect);
+    }
+
+    private void PlayPatternAttackSound()
+    {
+        SoundManager.Instance.Play(PatternAttackSoundPath, Sound.Effect);
     }
 
     // 위치 지정 함수 (부채꼴 패턴용)
