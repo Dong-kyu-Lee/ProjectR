@@ -21,7 +21,8 @@ public class UpgradeSystem : MonoBehaviour
     void OnEnable()
     {
         // 리스너 등록
-        PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(ResetPlayerInfo);
+        if (PlayerManager.Instance != null)
+            PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(ResetPlayerInfo);
     }
 
     void OnDisable()
@@ -33,18 +34,26 @@ public class UpgradeSystem : MonoBehaviour
 
     public void ResetPlayerInfo()
     {
-        playerStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
-        upgradeStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
-        CheckUnlockAll();
-        Debug.Log("캐릭터 정보 초기화");
+        if (PlayerManager.Instance != null && PlayerManager.Instance.CurrentPlayer != null)
+        {
+            playerStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+            upgradeStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
+            CheckUnlockAll();
+            Debug.Log("캐릭터 정보 초기화");
+        }
     }
 
     // 스킬 포인트 사용, 업그레이드 스테이터스 증가.
     public void IncreaseStat(string statName)
     {
+        if (upgradeStatus == null) return;
+
         if (upgradeStatus.StatPoint <= 0)
         {
-            InGameUIManager.Instance.ShowStatus($"스탯포인트가 부족합니다.");
+            if (InGameUIManager.Instance != null)
+            {
+                InGameUIManager.Instance.ShowStatus($"스탯포인트가 부족합니다.");
+            }
             return;
         }
 
@@ -87,12 +96,19 @@ public class UpgradeSystem : MonoBehaviour
         }
 
         upgradeStatus.StatPoint--;
-        statusValueText.SetupValueText(upgradeStatus);
+        
+        if (statusValueText != null)
+            statusValueText.SetupValueText(upgradeStatus);
+
+        // 스탯 증가 후 인벤토리 실시간 동기화
+        SyncCharacterInfoUI();
     }
 
     // 스테이터스 초기화.
     public void ResetStat()
     {
+        if (playerStatus == null || upgradeStatus == null) return;
+
         playerStatus.Damage -= upgradeStatus.Force * 1;
         playerStatus.AdditionalDamageReduction -= upgradeStatus.Indurance * 0.01f;
         playerStatus.CriticalPercent -= upgradeStatus.Critical * 0.02f;
@@ -103,7 +119,34 @@ public class UpgradeSystem : MonoBehaviour
         upgradeStatus.Force = upgradeStatus.Indurance = upgradeStatus.Critical = upgradeStatus.Dexterity = upgradeStatus.Mystery = upgradeStatus.Curse = 0;
         upgradeStatus.StatPoint = 0;
         CheckUnlockAll();
-        statusValueText.SetupValueText(upgradeStatus);
+        
+        if (statusValueText != null)
+            statusValueText.SetupValueText(upgradeStatus);
+
+        // 스탯 초기화 후 인벤토리 실시간 동기화
+        SyncCharacterInfoUI();
+    }
+
+    // 인벤토리가 열려있는지 확인하고 실시간으로 UI를 새로고침 해주는 함수
+    private void SyncCharacterInfoUI()
+    {
+        if (InGameUIManager.Instance != null && InGameUIManager.Instance.characterInfoUI != null)
+        {
+            // 인벤토리(CharacterInfo)가 활성화되어 있을 때만 갱신
+            if (InGameUIManager.Instance.characterInfoUI.gameObject.activeInHierarchy)
+            {
+                InGameUIManager.Instance.characterInfoUI.RefreshStatusUI();
+            }
+        }
+        else
+        {
+            // Inspector 누락 등을 대비한 안전장치
+            CharacterInfo charInfo = FindObjectOfType<CharacterInfo>();
+            if (charInfo != null && charInfo.gameObject.activeInHierarchy)
+            {
+                charInfo.RefreshStatusUI();
+            }
+        }
     }
 
     // 모든 특수 효과 해금 여부 확인

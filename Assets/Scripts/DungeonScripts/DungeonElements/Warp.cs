@@ -25,7 +25,9 @@ public class Warp : MonoBehaviour
         if (collision.CompareTag("Player") && !isPlayerTriggered)
         {
             isPlayerTriggered = true;
-            // 플레이어가 워프에 닿았을 때, 플레이어를 워프 위치로 이동
+            // 플레이어가 워프에 닿았을 때 다음 기능 수행
+            // 1. 워프 이동 텍스트 메시지 출력 ("E" 키를 눌러 다음 방으로 이동)
+            // 2. 'E'키로 상호작용 시 플레이어를 다음 방으로 이동
             InGameUIManager.Instance.ShowWarpUI(message,
                 () => { 
                     GameManager.Instance.CurrentPlayer.transform.position = warpPoint;

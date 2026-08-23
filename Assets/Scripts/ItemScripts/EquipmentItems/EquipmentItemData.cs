@@ -41,6 +41,16 @@ public class EquipmentItemData : BasicItemData
     [Tooltip("적의 방어력을 무시하는 비율 (예: 0.05 = 5% 무시)")]
     [SerializeField] private float ignoreDamageReduction = 0.0f;
 
+    public float Damage => damage;
+    public float AdditionalDamage => additionalDamage;
+    public float CriticalPercent => criticalPercent;
+    public float CriticalDamage => criticalDamage;
+    public float AdditionalDamageReduction => additionalDamageReduction;
+    public float AttackSpeed => attackSpeed;
+    public float AdditionalMoveSpeed => additionalmoveSpeed;
+    public float PriceAdditional => priceAdditional;
+    public float IgnoreDamageReduction => ignoreDamageReduction;
+
     public void EquipItem(PlayerStatus player)
     {
         if (player == null) return;
