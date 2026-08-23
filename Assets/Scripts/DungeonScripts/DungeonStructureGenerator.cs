@@ -12,6 +12,9 @@ public class DungeonStructureGenerator
     private HashSet<Tuple<int, int>> visitedSet; // 방문한 방의 위치를 저장하는 Set
     private readonly short[] dx = { 1, -1, 0, 0 };
     private readonly short[] dy = { 0, 0, 1, -1 };
+    // dx/dy와 같은 순서(오른쪽, 왼쪽, 위, 아래)의 방향별 선택 가중치. (가로로 뻗은 던전을 만들기 위함)
+    // 값을 키울수록 해당 방향이 앞쪽 순서로 뽑힐 확률이 올라간다. (모두 1 이상이어야 함)
+    private readonly int[] directionWeights = { 3, 3, 1, 1 };
 
     public DungeonStructureGenerator(int roomCount)
     {
@@ -64,15 +67,13 @@ public class DungeonStructureGenerator
             return true;
         }
         
-        // random 값은 0~3까지의 랜덤한 정수를 가지는데, 각각의 가중치는 다음과 같다.
-        // 0 : 20%, 1 : 30%, 2 : 20%, 3 : 30%
-        int[] weightedValues = { 0, 1, 1, 3, 3, 0, 2, 2, 1, 3 };
-        int random = weightedValues[Random.Range(0, weightedValues.Length)];
+        int[] directionOrder = GetShuffledDirections();
 
         for (int k = 0; k < 4; ++k)
         {
-            int ni = i + dy[(k + random) % 4];
-            int nj = j + dx[(k + random) % 4];
+            int direction = directionOrder[k];
+            int ni = i + dy[direction];
+            int nj = j + dx[direction];
 
             if (!visitedSet.Contains(new Tuple<int, int>(ni, nj)))
             {
@@ -86,5 +87,39 @@ public class DungeonStructureGenerator
         visitedSet.Remove(new Tuple<int, int>(i, j));
         path.RemoveAt(path.Count - 1);
         return false;
+    }
+
+    // directionWeights를 기반으로 4방향(dx/dy의 인덱스)의 탐색 순서를 섞어 반환한다.
+    // 가중치가 클수록 앞쪽 순서에 뽑힐 확률이 높은 비복원 가중치 추출 방식이다.
+    private int[] GetShuffledDirections()
+    {
+        int[] order = { 0, 1, 2, 3 };
+        int remainWeight = 0;
+        for (int k = 0; k < order.Length; ++k)
+        {
+            remainWeight += directionWeights[order[k]];
+        }
+
+        // order[k]에 k번째로 탐색할 방향을 확정시킨다. 아직 뽑히지 않은 방향은 order[k] 뒤쪽에 남는다.
+        // 마지막 하나는 자동으로 결정되므로 order.Length - 1번만 반복한다.
+        for (int k = 0; k < order.Length - 1; ++k)
+        {
+            int pick = Random.Range(0, remainWeight);
+            int index = k;
+            while (index < order.Length - 1 && pick >= directionWeights[order[index]])
+            {
+                pick -= directionWeights[order[index]];
+                ++index;
+            }
+
+            // 뽑힌 방향을 k번째 자리로 옮기고, 원래 k번째에 있던 방향은 후보로 되돌린다.
+            int picked = order[index];
+            order[index] = order[k];
+            order[k] = picked;
+
+            remainWeight -= directionWeights[picked];
+        }
+
+        return order;
     }
 }

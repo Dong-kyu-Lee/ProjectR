@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class CharacterUIManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class CharacterUIManager : MonoBehaviour
     [SerializeField] private SkillCoolTime skillCoolTimeManager;
 
     private Dictionary<CharacterType, GameObject> uiMap;
+
+    [SerializeField] private SkillIcon skillIcon;
 
     void Awake()
     {

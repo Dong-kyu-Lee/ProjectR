@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ public class SkillCoolTime : MonoBehaviour
 {
     [SerializeField] public GameObject hideImg;
     [SerializeField] private Image originalIcon;
+    [SerializeField] private TextMeshProUGUI skillCooldownText;
 
     private Image cooldownImageComponent;
     private Coroutine cooldownCoroutine;
@@ -17,6 +19,7 @@ public class SkillCoolTime : MonoBehaviour
             cooldownImageComponent = hideImg.GetComponent<Image>();
             hideImg.SetActive(false);
         }
+        skillCooldownText.text = "";
     }
 
     public void SetSkillIcon(Sprite newIcon)
@@ -56,6 +59,7 @@ public class SkillCoolTime : MonoBehaviour
         if (cooldownCoroutine != null) StopCoroutine(cooldownCoroutine);
         if (hideImg != null) hideImg.SetActive(false);
         if (cooldownImageComponent != null) cooldownImageComponent.fillAmount = 0f;
+        skillCooldownText.text = "";
     }
 
     // 실질적으로 그림을 그리는 코루틴
@@ -64,11 +68,13 @@ public class SkillCoolTime : MonoBehaviour
         float currentTime = time;
         while (currentTime > 0)
         {
+            skillCooldownText.SetText("{0}", Mathf.RoundToInt(currentTime));
             currentTime -= Time.deltaTime;
             if (cooldownImageComponent != null)
                 cooldownImageComponent.fillAmount = currentTime / time;
             yield return null;
         }
+        skillCooldownText.text = "";
 
         if (hideImg != null) hideImg.SetActive(false);
         if (cooldownImageComponent != null) cooldownImageComponent.fillAmount = 0f;
