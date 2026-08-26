@@ -10,6 +10,9 @@ public class Reroll : MonoBehaviour
     [SerializeField]
     private TextMeshPro rerollCostTxt;
 
+    [SerializeField]
+    private TextMeshPro howToReroll;
+
     private int rerollCoast;
     public bool inRoll = false;
     private bool canReroll;
@@ -20,6 +23,10 @@ public class Reroll : MonoBehaviour
     {
         rerollCoast = 50;
         UpdateRerollText();
+        if (howToReroll != null)
+        {
+            howToReroll.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -52,6 +59,11 @@ public class Reroll : MonoBehaviour
         {
             inRoll = true;
 
+            if (howToReroll != null)
+            {
+                howToReroll.gameObject.SetActive(true);
+            }
+
             // PlayerManager 싱글톤을 이용하여 현재 플레이어의 PlayerStatus 컴포넌트를 가져옵니다.
             if (PlayerManager.Instance.CurrentPlayer != null)
             {
@@ -71,6 +83,11 @@ public class Reroll : MonoBehaviour
         {
             inRoll = false;
             playerStatus = null; // 범위를 벗어나면 참조를 해제하여 안전하게 관리합니다.
+
+            if (howToReroll != null)
+            {
+                howToReroll.gameObject.SetActive(false);
+            }
         }
     }
 

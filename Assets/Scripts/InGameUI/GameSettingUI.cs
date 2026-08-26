@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class GameSettingUI : MonoBehaviour
 {
+    [SerializeField] Button closeButton;
     [SerializeField] Animator animator;
     [SerializeField] GameObject background;
     [SerializeField] GameObject fakePanel1;
@@ -51,6 +52,7 @@ public class GameSettingUI : MonoBehaviour
             fakePanel1.SetActive(true);
             fakePanel2.SetActive(true);
             Panel.SetActive(true);
+            closeButton.gameObject.SetActive(true);
             // 현재 BGM 및 SFX 볼륨 값을 슬라이더에 반영
             bgmSlider.value = SoundManager.Instance.GetBgmVolume();
             sfxSlider.value = SoundManager.Instance.GetEffectVolume();
@@ -65,6 +67,7 @@ public class GameSettingUI : MonoBehaviour
             fakePanel1.SetActive(false);
             fakePanel2.SetActive(false);
             Panel.SetActive(false);
+            closeButton.gameObject.SetActive(false);
             Time.timeScale = 1f;
             isOpen = false;
             // 게임 세팅 값 저장

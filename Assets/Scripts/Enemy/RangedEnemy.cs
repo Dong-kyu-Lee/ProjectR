@@ -26,6 +26,8 @@ public class RangedEnemy : Enemy
 
     public Vector2 SetTargetDir()
     {
+        if (PlayerTransform == null || firePoint == null) return Vector2.zero;
+
         Vector2 direction = (PlayerTransform.position - firePoint.position).normalized;
         float speed = 10f; // 원하는 발사 속도
 
@@ -35,7 +37,7 @@ public class RangedEnemy : Enemy
     public IEnumerator EnableRangeAttack()
     {
         projDirection = SetTargetDir();
-        yield return new WaitForSeconds(0.35f);
+        yield return null;
         ShootProjectile();
     }
 

@@ -72,11 +72,9 @@ public class Stage : MonoBehaviour
                 GameManager.Instance.MoveScene(SceneType.FinalBossScene, "TempFinalBoss");
                 break;
             case StageFlow.FinalBoss:
-                // Demo 버전 - End Scene으로 이동
-                GameStatisticsTracker.Instance.PlayTimeStop();
-                GameManager.Instance.MoveScene(SceneType.EndScene, "EndScene");
-                // 다음 스테이지로 이동
-                // DungeonFlowManager.Instance.ChangeStage();
+                // 이 스테이지의 마지막 구역까지 클리어 -> 다음 스테이지로 이동
+                // 마지막 스테이지였는지 판단과 EndScene 이동은 DungeonFlowManager가 처리한다.
+                DungeonFlowManager.Instance.ChangeStage();
                 break;
         }
         if (currentArea != StageFlow.FinalBoss)
@@ -88,7 +86,13 @@ public class Stage : MonoBehaviour
         // 던전 생성 전, 플레이어 추락 방지를 위해 플레이어 비활성화
         PlayerManager.Instance.CurrentPlayer.SetActive(false);
         // 던전 생성
-        DungeonFlowManager.Instance.DungeonCreator.CreateDungeon(stageData, out playerSpawnPosition, out finishSpotPosition);
+        DungeonCreator dungeonCreator = FindObjectOfType<DungeonCreator>();
+        if (dungeonCreator == null)
+        {
+            Debug.LogError("DungeonCreator를 찾을 수 없음");
+            return;
+        }
+        dungeonCreator.CreateDungeon(stageData, out playerSpawnPosition, out finishSpotPosition);
         // 테스트 플레이어 생성
         PlayerManager.Instance.PlacePlayerObject(playerSpawnPosition);
         // 도착 위치 생성
@@ -134,7 +138,7 @@ public class Stage : MonoBehaviour
         {
             if (index != roomList.Count - 1)
             {
-                roomList[index + 1].gate.OpenGate(false);
+                roomList[index + 1].GetGate.OpenGate(false);
                 if (arrivePos != Vector3.zero) // 워프를 통한 이동인 경우
                     missionUI.StartMission("다음 방으로 이동하세요.", arrivePos);
                 else // 통로를 통한 이동인 경우, 다음 방의 중심 좌표를 목표 위치로 설정

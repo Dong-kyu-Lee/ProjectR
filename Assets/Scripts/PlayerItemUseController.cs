@@ -17,16 +17,25 @@ public class PlayerItemUseController : MonoBehaviour
 
     private void Awake()
     {
-        // [수정/제거] myInventory = transform.GetChild(0).GetComponent<Inventory>();
-        // [추가] 계층 구조(순서)가 변경되어도 안전하게 Inventory 컴포넌트를 가져오도록 수정
+        // 계층 구조(순서)가 변경되어도 안전하게 Inventory 컴포넌트를 가져오도록 수정
         myInventory = GetComponentInChildren<Inventory>();
     }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(1))    //퀵슬롯에 등록된 아이템 사용
         {
+            // InGameUIManager를 통해 CharacterInfo(인벤토리)가 켜져 있는지 확인
+            if (InGameUIManager.Instance != null &&
+                InGameUIManager.Instance.characterInfoUI != null &&
+                InGameUIManager.Instance.characterInfoUI.gameObject.activeInHierarchy)
+            {
+                return; // 인벤토리가 켜져 있다면 퀵슬롯 사용을 무시합니다.
+            }
+
             myInventory.UseQuickSlotItem();
         }
+
         if (Input.GetKeyDown(KeyCode.E))    //아이템 획득
         {
             TryTakeNearItem();

@@ -23,6 +23,10 @@ public class Room : MonoBehaviour
     public Transform finishSpotPosition;
     public Transform warpPosition;
 
+    // 배경 타일맵이 없거나 비활성인 방은 배경 스프라이트 이미지를 배경으로 사용한다.
+    public bool UseSpriteBackground
+        => backgroundTilemap == null || backgroundTilemap.gameObject.activeSelf == false;
+
     [Header("Gate")]
     public bool isUpOpenable;
     public bool isDownOpenable;

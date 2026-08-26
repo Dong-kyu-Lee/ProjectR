@@ -346,7 +346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3260529182925472828
 Transform:
   m_ObjectHideFlags: 0
@@ -431,6 +431,14 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 4096
+  hitStunDurationOnInterrupt: 0.15
+  attackRetryDelayAfterInterrupt: 0.6
+  attackProfile: {fileID: 0}
+  hasSuperArmor: 0
+  maxPoise: 1
+  poiseDamagePerHit: 1
+  poiseRecoveryDelay: 1.5
+  poiseRecoveryPerSecond: 1
   isAttacking: 0
   deadDelayTime: 1.5
   projectilePrefab: {fileID: 6555752719577843000, guid: 81099c7faf1f9c045832df6748690b81, type: 3}
@@ -456,6 +464,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 50944ec083c376f4fb440c67b93184dc, type: 2}
   isBoss: 1
+  hitFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  hitFlashDuration: 0.08
+  hitFlashCount: 2
+  hitFlashInterval: 0.05
 --- !u!114 &8641209375698975346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,6 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb850f9f87cb7e4ea782edefb8e8963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialDuration: 0
 --- !u!1 &7413816408706172057
 GameObject:
   m_ObjectHideFlags: 0

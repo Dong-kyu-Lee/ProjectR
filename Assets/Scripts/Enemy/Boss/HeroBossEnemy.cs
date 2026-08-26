@@ -29,6 +29,10 @@ public class HeroBossEnemy : Enemy
     private float lastAttackTime = 0f;
     private bool isPatternRunning = false;
 
+    private const string Attack1SoundPath = "Sounds/battle/hero_attack_1";
+    private const string Attack2SoundPath = "Sounds/battle/hero_attack_2";
+    private const string Attack3SoundPath = "Sounds/battle/hero_attack_3";
+
     protected override void Awake()
     {
         base.Awake();
@@ -164,6 +168,7 @@ public class HeroBossEnemy : Enemy
         // 1타
         FacePlayer(); // 공격 전 방향 보정
         enemyAnimator.SetTrigger("Attack1");
+        PlayAttackSound(1);
 
         // 전진 효과 (Rigidbody에 힘을 줌)
         Vector2 dir = (transform.rotation.y == 0 ? Vector2.right : Vector2.left);
@@ -176,6 +181,7 @@ public class HeroBossEnemy : Enemy
         // 2타
         FacePlayer();
         enemyAnimator.SetTrigger("Attack2");
+        PlayAttackSound(2);
         enemyRigidbody.AddForce(dir * 5f, ForceMode2D.Impulse); // 2타는 더 크게 전진
 
         yield return new WaitForSeconds(0.2f);
@@ -210,6 +216,7 @@ public class HeroBossEnemy : Enemy
 
         FacePlayer();
         enemyAnimator.SetTrigger("Attack1");
+        PlayAttackSound(1);
         yield return new WaitForSeconds(0.2f);
         StartCoroutine(ActivateHitBox(0.2f));
         yield return new WaitForSeconds(0.5f);
@@ -287,6 +294,7 @@ public class HeroBossEnemy : Enemy
             // 4. 공격 및 히트박스
             FacePlayer();
             enemyAnimator.SetTrigger(triggers[i % 3]);
+            PlayAttackSound(i % 3 + 1);
             StartCoroutine(ActivateHitBox(actualDuration + 0.1f));
 
             // 5. Lerp 이동 (고속 이동 복구)
@@ -317,6 +325,22 @@ public class HeroBossEnemy : Enemy
         hitBoxObj.SetActive(true);
         yield return new WaitForSeconds(duration);
         hitBoxObj.SetActive(false);
+    }
+
+    private void PlayAttackSound(int attackIndex)
+    {
+        switch (attackIndex)
+        {
+            case 1:
+                SoundManager.Instance.Play(Attack1SoundPath, Sound.Effect);
+                break;
+            case 2:
+                SoundManager.Instance.Play(Attack2SoundPath, Sound.Effect);
+                break;
+            case 3:
+                SoundManager.Instance.Play(Attack3SoundPath, Sound.Effect);
+                break;
+        }
     }
 
     private void FinishAttack()

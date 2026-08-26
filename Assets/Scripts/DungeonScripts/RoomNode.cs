@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public enum OpenedGate
-{
-    Up, Right, Down, Left
-}
-
 public class RoomNode
 {
     private Vector2Int roomPosition;
