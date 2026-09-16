@@ -80,4 +80,12 @@ public class BlacksmithAbilityUI : AbilityUIBase
             _ => "-"
         };
     }
+
+    private void OnDestroy()
+    {
+        if (blacksmithAbility != null)
+        {
+            blacksmithAbility.onAbilityUpdated.RemoveListener(UpdateUI);
+        }
+    }
 }

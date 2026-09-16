@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class UpgradeUI : MonoBehaviour
 {
-    private static UpgradeUI Instance;
+    public static UpgradeUI Instance { get; private set; }
     private GameObject upgradeStatusUI;
 
     private void Awake()
@@ -35,6 +35,16 @@ public class UpgradeUI : MonoBehaviour
             }
         }
     }
+
+    // 외부(인벤토리 버튼 등)에서 스탯 창을 강제로 열어주는 함수
+    public void OpenUI()
+    {
+        if (upgradeStatusUI != null)
+        {
+            upgradeStatusUI.SetActive(true);
+        }
+    }
+
     public void CloseButton()
     {
         upgradeStatusUI.SetActive(false);

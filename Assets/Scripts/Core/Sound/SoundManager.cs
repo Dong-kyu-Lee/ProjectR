@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Sound
 {
-    Bgm, Effect, MaxCount,
+    Bgm, Effect, AttackEffect, Blacksmith_Enhance, MaxCount,
 }
 
 public class SoundManager : MonoBehaviour
@@ -28,6 +28,9 @@ public class SoundManager : MonoBehaviour
         }
     }
     private bool isInstantiated = false;
+
+    [SerializeField] private float defaultVolume = 0.3f;
+    private float effectVolume = 0.3f;
 
     AudioSource[] audioSources = new AudioSource[(int)Sound.MaxCount];
 
@@ -71,8 +74,10 @@ public class SoundManager : MonoBehaviour
         // BGM의 경우 반복재생하도록 함
         audioSources[(int)Sound.Bgm].loop = true;
 
-        audioSources[(int)Sound.Bgm].volume = 0.3f;
-        audioSources[(int)Sound.Effect].volume = 0.3f;
+        audioSources[(int)Sound.Bgm].volume = defaultVolume;
+        audioSources[(int)Sound.Effect].volume = defaultVolume;
+        audioSources[(int)Sound.AttackEffect].volume = defaultVolume;
+        audioSources[(int)Sound.Blacksmith_Enhance].volume = defaultVolume;
     }
 
     // 사운드 경로를 받아 해당 사운드를 재생
@@ -99,7 +104,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            AudioSource audioSource = audioSources[(int)Sound.Effect];
+            AudioSource audioSource = audioSources[(int)type];
             audioSource.pitch = pitch;
             audioSource.PlayOneShot(audioClip);
         }
@@ -149,15 +154,26 @@ public class SoundManager : MonoBehaviour
     }
     public float GetEffectVolume()
     {
-        return audioSources[(int)Sound.Effect].volume;
+        return effectVolume;
     }
 
     public void SetBgmVolume(float volume)
     {
         audioSources[(int)Sound.Bgm].volume = volume;
     }
+
+    // 이펙트 볼륨을 해당 크기로 설정
     public void SetEffectVolume(float volume)
     {
-        audioSources[(int)Sound.Effect].volume = volume;
+        effectVolume = volume;
+
+        // 0번(Bgm)을 제외하고 1번부터 MaxCount 전까지의 모든 효과음 볼륨 변경
+        for (int i = 1; i < (int)Sound.MaxCount; i++)
+        {
+            if (audioSources[i] != null)
+            {
+                audioSources[i].volume = effectVolume;
+            }
+        }
     }
 }
