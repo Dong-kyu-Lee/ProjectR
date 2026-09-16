@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-
 // 어떤 씬에서 어떤 BGM을 재생할지 결정하는 클래스
 // 예외적으로 프롤로그, 스토리 관련 씬은 해당 씬의 TimeLine이 BGM을 재생함.
 public class BGMSelector : MonoBehaviour
@@ -22,6 +20,9 @@ public class BGMSelector : MonoBehaviour
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneChanged;
+        // 이 컴포넌트가 생성된 씬에 해당하는 BGM을 찾아 재생(기본적으로 StartScene에 BGM을 틀기 위함)
+        Scene currentScene = SceneManager.GetActiveScene();
+        OnSceneChanged(currentScene, LoadSceneMode.Single);
     }
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode)

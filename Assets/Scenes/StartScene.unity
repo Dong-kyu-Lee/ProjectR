@@ -389,6 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd7a5d3cef03e34091f4abf2fe8962c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultVolume: 0.3
 --- !u!4 &129002917
 Transform:
   m_ObjectHideFlags: 0
@@ -420,6 +421,16 @@ MonoBehaviour:
   - sceneName: StartScene
     bgm: {fileID: 8300000, guid: 5ef8f0aeacbbfca4ab9425c81935805a, type: 3}
   - sceneName: LobbyScene
+    bgm: {fileID: 8300000, guid: fa3a24f8f2d284f4e8a9a660ecdb20a6, type: 3}
+  - sceneName: DungeonGenerate
+    bgm: {fileID: 8300000, guid: e00695be262afcc438e1575b538e711f, type: 3}
+  - sceneName: TempMiddleBoss
+    bgm: {fileID: 8300000, guid: bd3fed00f80a0a344988a273ebb78ab7, type: 3}
+  - sceneName: TempFinalBoss
+    bgm: {fileID: 8300000, guid: 33c35474010229c48bb9324e64974bdc, type: 3}
+  - sceneName: EndScene
+    bgm: {fileID: 8300000, guid: 13c0adee0fb5f4349b9c876cffbec286, type: 3}
+  - sceneName: ShopScene
     bgm: {fileID: 8300000, guid: fa3a24f8f2d284f4e8a9a660ecdb20a6, type: 3}
 --- !u!1 &134855871
 GameObject:
