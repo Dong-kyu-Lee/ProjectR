@@ -67,8 +67,6 @@ public class EndSceneManager : MonoBehaviour
         killCount.text = GameStatisticsTracker.Instance.TotalKillCount.ToString();
         maximumDamage.text = GameStatisticsTracker.Instance.MaximumDamage.ToString();
         playTime.text = GameStatisticsTracker.Instance.TotalPlayTimeInSeconds.ToString(@"hh\:mm\:ss");
-        // BGM 재생
-        SoundManager.Instance.Play("Sounds/BGM/EndSceneBGM", Sound.Bgm);
     }
 
     void Update()
