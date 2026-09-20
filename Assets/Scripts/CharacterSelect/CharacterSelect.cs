@@ -18,9 +18,6 @@ public class CharacterSelect : MonoBehaviour
 
     void Start()
     {
-        // BGM 재생
-        SoundManager.Instance.Play("Sounds/BGM/LobbySceneBGM", Sound.Bgm);
-
         // 모든 캐릭터 씬에 생성
         for (int i = 0; i < mannequins.Length; i++)
         {

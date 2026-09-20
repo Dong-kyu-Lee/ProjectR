@@ -21,7 +21,6 @@ public abstract class BossStorySceneManager : MonoBehaviour
 
     // 자식이 채워 넣는 차이점
     protected abstract StoryID TargetStoryID { get; }
-    protected abstract string BgmPath { get; }
     protected virtual float ActivateDelay => 2f;
     protected virtual float DeadDelay => 2f;
 
@@ -34,7 +33,6 @@ public abstract class BossStorySceneManager : MonoBehaviour
         }
 
         PlacePlayer();
-        SoundManager.Instance.Play(BgmPath, Sound.Bgm);
 
         // 이미 컷씬을 본 경우(Completed): 보스 스킵, 클리어 상태로 배치하고 피니시 스팟 활성화
         if (StorySystem.Instance.GetStoryState(TargetStoryID) == StoryState.Completed)
