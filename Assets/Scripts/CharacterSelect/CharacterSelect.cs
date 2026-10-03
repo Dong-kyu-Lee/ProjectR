@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterSelect : MonoBehaviour
 {
     // Mannequin과 CharacterType에 해당하는 캐릭터 종류의 순서가 같아야 함.
-    GameObject[] characters = new GameObject[System.Enum.GetValues(typeof(CharacterType)).Length];
+    GameObject[] characters = new GameObject[System.Enum.GetValues(typeof(Define.CharacterType)).Length];
     [SerializeField]
     Mannequin[] mannequins;
     [SerializeField]
@@ -21,7 +21,7 @@ public class CharacterSelect : MonoBehaviour
         // 모든 캐릭터 씬에 생성
         for (int i = 0; i < mannequins.Length; i++)
         {
-            CharacterType type = (CharacterType)i;
+            Define.CharacterType type = (Define.CharacterType)i;
             // if(type == GameManager.Instance.CurrentCharacterType)
             //    continue; // 현재 플레이어 캐릭터는 생성하지 않음
 
@@ -64,12 +64,12 @@ public class CharacterSelect : MonoBehaviour
         }
     }
 
-    public void SelectCharacter(CharacterType type, Vector3 spawnPosition)
+    public void SelectCharacter(Define.CharacterType type, Vector3 spawnPosition)
     {
         // 캐릭터 선택 시 해당 마네킹 비활성화
         SetMannequin(type);
 
-        CharacterType prevCharacterType = PlayerManager.Instance.CurrentCharacterType;
+        Define.CharacterType prevCharacterType = PlayerManager.Instance.CurrentCharacterType;
         // 현재 플레이어 오브젝트 삭제하고 해당 캐릭터 오브젝트를 생성(DontDestroyOnLoad 해제를 위함)
         PlayerManager.Instance.SetCurrentPlayer(characters[(int)type], type, spawnPosition);
         // 이전 캐릭터 오브젝트 생성(SetCurrentPlayer 내부에서 이전 캐릭터 오브젝트 삭제)
@@ -91,7 +91,7 @@ public class CharacterSelect : MonoBehaviour
         vcam?.SetFollowTarget(PlayerManager.Instance.CurrentPlayer.transform);
     }
 
-    private void SetMannequin(CharacterType type)
+    private void SetMannequin(Define.CharacterType type)
     {
         for (int i = 0; i < mannequins.Length; i++)
         {

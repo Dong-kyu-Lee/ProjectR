@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestWarpPoint : MonoBehaviour
 {
-    public SceneType sceneType;
+    public Define.SceneType sceneType;
     public string sceneName;
     private bool isTriggered = false;
     private SpriteRenderer spriteRenderer;

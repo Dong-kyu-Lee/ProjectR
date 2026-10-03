@@ -5,11 +5,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System;
 
-public enum SceneType
-{
-    StartScene, LobbyScene, Normal, MiddleBoss, Shop, FinalBossScene, TestScene, StoryScene, EndScene,
-}
-
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
@@ -32,7 +27,7 @@ public class GameManager : MonoBehaviour
     }
 
     // 현재 플레이어 타입, 오브젝트 리턴(리팩토링 중 의존성 문제로 지울 예정. 잠시 PlayerManager에서 참조)
-    public CharacterType CurrentCharacterType { get => PlayerManager.Instance.CurrentCharacterType; }
+    public Define.CharacterType CurrentCharacterType { get => PlayerManager.Instance.CurrentCharacterType; }
     public GameObject CurrentPlayer { get => PlayerManager.Instance.CurrentPlayer; }
 
     [SerializeField]
@@ -42,11 +37,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject inGameUI;
 
-    public event Action<SceneType> OnSceneChanged;
+    public event Action<Define.SceneType> OnSceneChanged;
 
     // 마지막으로 MoveScene에 전달된 씬 타입. 스토리 씬에서 던전으로 복귀할 때
     // "어떤 타입의 씬으로 돌아갈지"를 결정하기 위해 StorySystem이 참조한다.
-    public SceneType CurrentSceneType { get; private set; }
+    public Define.SceneType CurrentSceneType { get; private set; }
 
     private void Awake()
     {
@@ -69,20 +64,20 @@ public class GameManager : MonoBehaviour
     }
 
     /* SceneKey : 이동할 씬의 종류를 나타내는 열거형 , sceneName : 이동할 씬의 이름 */
-    public void MoveScene(SceneType key, string sceneName, bool isAsync = false)
+    public void MoveScene(Define.SceneType key, string sceneName, bool isAsync = false)
     {
         SoundManager.Instance.Clear();
         // 해당 key의 씬으로 이동 시 필요한 코드 실행
         switch (key)
         {
-            case SceneType.StartScene:
+            case Define.SceneType.StartScene:
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
                 // 플레이어 오브젝트 제거
                 // PlayerManager.Instance.TempDestroyPlayer();
                 DungeonFlowManager.Instance.ResetStages();
                 break;
-            case SceneType.LobbyScene:
+            case Define.SceneType.LobbyScene:
                 SaveManager.Instance.SaveCurrentData();
                 // 업그레이드UI & 인벤토리 UI 제거
                 DestroyUI();
@@ -93,33 +88,33 @@ public class GameManager : MonoBehaviour
                 // 게임 결과 초기화
                 GameStatisticsTracker.Instance.ResetStatistics();
                 break;
-            case SceneType.Normal:
+            case Define.SceneType.Normal:
                 // 던전에서 사용되는 UI 생성
                 CreateUI();
                 SetActiveUI(true);
                 break;
-            case SceneType.MiddleBoss:
+            case Define.SceneType.MiddleBoss:
                 CreateUI();
                 SetActiveUI(true);
                 // PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 break;
-            case SceneType.Shop:
+            case Define.SceneType.Shop:
                 CreateUI();
                 SetActiveUI(true);
                 break;
-            case SceneType.FinalBossScene:
+            case Define.SceneType.FinalBossScene:
                 CreateUI();
                 SetActiveUI(true);
                 // PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 break;
-            case SceneType.TestScene:
+            case Define.SceneType.TestScene:
                 break;
-            case SceneType.StoryScene:
+            case Define.SceneType.StoryScene:
                 SetActiveUI(false);
                 // 플레이어 오브젝트 비활성화
                 // if (PlayerManager.Instance.CurrentPlayer != null) PlayerManager.Instance.CurrentPlayer.SetActive(false);
                 break;
-            case SceneType.EndScene:
+            case Define.SceneType.EndScene:
                 // 업그레이드UI & 인벤토리 UI 비활성화
                 SetActiveUI(false);
                 // 플레이어 오브젝트 비활성화

@@ -129,7 +129,7 @@ public class InGameUIManager : MonoBehaviour
     }
 
     public void FirstToLobby() { checkUI.SetActive(true); }
-    public void ToLobby() { checkUI.SetActive(false); GameManager.Instance.MoveScene(SceneType.LobbyScene, "Lobby + UpgradeScene"); }
+    public void ToLobby() { checkUI.SetActive(false); GameManager.Instance.MoveScene(Define.SceneType.LobbyScene, "Lobby + UpgradeScene"); }
     public void ExitButton() { Application.Quit(); }
     public void CancelButton() { checkUI.SetActive(false); }
 
@@ -143,7 +143,7 @@ public class InGameUIManager : MonoBehaviour
         if (GameManager.Instance != null) GameManager.Instance.OnSceneChanged -= OnSceneChanged;
     }
 
-    private void OnSceneChanged(SceneType sceneType)
+    private void OnSceneChanged(Define.SceneType sceneType)
     {
         if (characterInfoUI != null)
             characterInfoUI.gameObject.SetActive(false);
@@ -162,7 +162,7 @@ public class InGameUIManager : MonoBehaviour
 
         if (UIStackManager.Instance != null) UIStackManager.Instance.ClearStack();
 
-        if (sceneType == SceneType.EndScene)
+        if (sceneType == Define.SceneType.EndScene)
         {
             if (rootCanvas != null) rootCanvas.enabled = false;
         }

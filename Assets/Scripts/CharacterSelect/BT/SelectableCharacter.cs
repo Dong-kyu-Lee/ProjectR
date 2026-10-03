@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class SelectableCharacter : MonoBehaviour
 {
     [Header("캐릭터 설정")]
-    public CharacterType characterType;
+    public Define.CharacterType characterType;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     [Header("하이라이트 효과 설정")]

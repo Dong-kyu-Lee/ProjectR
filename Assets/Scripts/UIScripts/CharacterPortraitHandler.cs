@@ -8,16 +8,16 @@ public class CharacterPortraitHandler : MonoBehaviour
     [SerializeField] private Sprite blacksmithSprite;
 
     // CharacterSelect에서 호출할 함수
-    public void ChangePortrait(CharacterType type)
+    public void ChangePortrait(Define.CharacterType type)
     {
         if (portraitImage == null) portraitImage = GetComponent<Image>();
 
         switch (type)
         {
-            case CharacterType.Bartender:
+            case Define.CharacterType.Bartender:
                 portraitImage.sprite = bartenderSprite;
                 break;
-            case CharacterType.Blacksmith:
+            case Define.CharacterType.Blacksmith:
                 portraitImage.sprite = blacksmithSprite;
                 break;
         }

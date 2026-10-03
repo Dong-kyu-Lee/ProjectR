@@ -165,14 +165,14 @@ public class DungeonFlowManager : MonoBehaviour
 
         currentStageIndex++;
         isSceneChanged = true;
-        GameManager.Instance.MoveScene(SceneType.Normal, "DungeonGenerate");
+        GameManager.Instance.MoveScene(Define.SceneType.Normal, "DungeonGenerate");
     }
 
     // 한 판의 모든 스테이지를 클리어했을 때 호출되는 함수
     private void OnAllStagesCleared()
     {
         GameStatisticsTracker.Instance.PlayTimeStop();
-        GameManager.Instance.MoveScene(SceneType.EndScene, "EndScene");
+        GameManager.Instance.MoveScene(Define.SceneType.EndScene, "EndScene");
     }
 
     public Stage GetCurrentStage()

@@ -101,7 +101,7 @@ public class CharacterSelectUI : MonoBehaviour
     }
 
     // 패널 띄우고 데이터 채우기
-    public void ShowDetailPanels(CharacterType type)
+    public void ShowDetailPanels(Define.CharacterType type)
     {
         // 패널이 나타나기 시작하면 클릭 등 상호작용 활성화
         SetPanelsInteractable(true);
