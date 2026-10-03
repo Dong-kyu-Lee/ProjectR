@@ -1,4 +1,3 @@
-using System;
 using UnityEngine.Events;
 using System.Collections.Generic;
 using UnityEngine;
@@ -117,7 +116,7 @@ public class HealingObject : MonoBehaviour
         // 회복 이펙트, 사운드 등을 인스펙터에서 연결
         onUsed?.Invoke();
         
-        InGameUIManager.Instance?.ShowStatus(" 분수대의 힘으로 체력을 회복했습니다.");
+        InGameUIManager.Instance?.ShowStatus(" 영원의 화로 힘으로 체력을 회복했습니다.");
 
     }
 
