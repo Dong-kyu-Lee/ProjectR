@@ -7,10 +7,6 @@ using Random = UnityEngine.Random;
 
 public class DungeonCreator : MonoBehaviour
 {
-    [Header("Fixed Room Setting")]
-    public int numberOfRooms;
-    public int dungeonBoxCount;
-
     [Header("Needed Objects")]
     public RoomContainer roomContainer;
     public GameObject cameraBoundary;
@@ -42,12 +38,6 @@ public class DungeonCreator : MonoBehaviour
         }
         // DungeonFlowManager.Instance.onDungeonCreatorReady.Invoke();
 
-        if(DungeonTestHelper.Instance != null)
-        {
-            numberOfRooms = DungeonTestHelper.Instance.numberOfRooms;
-            dungeonBoxCount = DungeonTestHelper.Instance.dungeonBoxCount;
-        }
-
         if (cameraBoundary != null)
             cameraBoundary.transform.position = new Vector3(19.5f, 19.5f, 0);
     }
@@ -58,14 +48,14 @@ public class DungeonCreator : MonoBehaviour
         RemoveAllRooms();
         CreateBackgroundImage(stageData);
 
-        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(numberOfRooms);
+        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(stageData.numberOfRooms);
         var roomNodes = dungeonStructure.GetDungeonStructure();
 
         playerSpawnPosition = new Vector3();
         finishSpotPosition = new Vector3();
 
         // 상자를 생성할 방 인덱스를 정하는 함수
-        List<int> roomIndexForBoxes = GetRandomNumbers(roomNodes.Count, dungeonBoxCount);
+        List<int> roomIndexForBoxes = GetRandomNumbers(roomNodes.Count, stageData.dungeonBoxCount);
 
         // 랜덤으로 방 프리팹을 선택해 방과 그 구성요소 생성
         for (int i = 0; i < roomNodes.Count; ++i)

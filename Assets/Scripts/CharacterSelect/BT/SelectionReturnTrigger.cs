@@ -4,7 +4,7 @@ using UnityEngine;
 public class SelectionReturnTrigger : MonoBehaviour
 {
     [Header("이 구역의 주인")]
-    public CharacterType ownerCharacterType;
+    public Define.CharacterType ownerCharacterType;
 
     private bool isPlayerNear = false;
 

@@ -10,7 +10,7 @@ public class StartSceneManager : MonoBehaviour
     public GameObject background;
     public GameObject frontBackground;
     // 게임 최초 시작 시 생성할 플레이어 캐릭터 타입
-    public CharacterType initialCharacterType;
+    public Define.CharacterType initialCharacterType;
 
     [SerializeField] private TextMeshProUGUI startBtnText;
     [SerializeField] private TextMeshProUGUI exitBtnText;
@@ -49,7 +49,7 @@ public class StartSceneManager : MonoBehaviour
         if (StorySystem.Instance.StartStory(StoryID.Prologue)) return;
 
         // 이미 프롤로그를 본 경우 곧바로 로비로 이동
-        GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
+        GameManager.Instance.MoveScene(Define.SceneType.LobbyScene, "LobbyScene");
     }
 
     // 게임 종료 버튼에 의해 호출되는 이벤트 함수

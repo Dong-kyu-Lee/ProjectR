@@ -5,10 +5,6 @@ using UnityEngine;
 // 던전 테스트를 위한 헬퍼 클래스
 public class DungeonTestHelper : MonoBehaviour
 {
-    [Header("Dungeon Test Settings")]
-    public int numberOfRooms = 3;
-    public int dungeonBoxCount = 2;
-
     [Header("UI Test")]
     public GameObject testUI; // 이곳에 던전 씬에서 테스트할 UI를 할당하세요.
 

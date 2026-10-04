@@ -33,9 +33,9 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField]
     private CharacterDatabase characterDatabase;
-    private CharacterType currentCharacterType;
-    private CharacterType startCharacterType;
-    public CharacterType CurrentCharacterType { get => currentCharacterType; }
+    private Define.CharacterType currentCharacterType;
+    private Define.CharacterType startCharacterType;
+    public Define.CharacterType CurrentCharacterType { get => currentCharacterType; }
 
     // 플레이어 오브젝트가 최초로 생성되었는지 여부를 나타내는 변수
     private bool isFirstPlayerCreated = false;
@@ -58,17 +58,17 @@ public class PlayerManager : MonoBehaviour
         GameManager.Instance.OnSceneChanged += OnSceneChanged;
     }
 
-    public GameObject GetCharacterPrefab(CharacterType type)
+    public GameObject GetCharacterPrefab(Define.CharacterType type)
     {
         CharacterData data = characterDatabase.characterDataList[(int)type];
         return data.characterPrefab;
     }
-    public CharacterData GetCharacterData(CharacterType type)
+    public CharacterData GetCharacterData(Define.CharacterType type)
     {
         return characterDatabase.characterDataList[(int)type];
     }
 
-    public void SetCurrentPlayer(GameObject value, CharacterType type, Vector3 spawnPosition)
+    public void SetCurrentPlayer(GameObject value, Define.CharacterType type, Vector3 spawnPosition)
     {
         if (value == null)
         {
@@ -96,7 +96,7 @@ public class PlayerManager : MonoBehaviour
         // 스테이지 흐름 초기화
         DungeonFlowManager.Instance.ResetStages();
         // 플레이어를 엔딩 씬으로 이동
-        GameManager.Instance.MoveScene(SceneType.EndScene, "EndScene");
+        GameManager.Instance.MoveScene(Define.SceneType.EndScene, "EndScene");
         GameStatisticsTracker.Instance.PlayTimeStop();
     }
 
@@ -110,7 +110,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void OnSceneChanged(SceneType newScene)
+    private void OnSceneChanged(Define.SceneType newScene)
     {
         if (newScene.IsReturnScene()) 
         { 

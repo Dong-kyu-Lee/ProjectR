@@ -52,7 +52,7 @@ public class FinishSpot : MonoBehaviour
                                 Debug.Log("[FinishSpot] 던전 진입 전 몸에 묻은 모든 버프/디버프를 제거했습니다.");
                             }
 
-                            GameManager.Instance.MoveScene(SceneType.Normal, "DungeonGenerate");
+                            GameManager.Instance.MoveScene(Define.SceneType.Normal, "DungeonGenerate");
                         }
                         else
                         {
