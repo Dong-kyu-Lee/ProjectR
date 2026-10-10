@@ -13,6 +13,10 @@ public class DungeonUIManager : MonoBehaviour
 
     private bool isFullMapOpen;
     private bool isBigMinimapActive = false; // 큰 미니맵 활성화 여부
+    public bool IsBigMinimapActive => isBigMinimapActive;
+
+    // 확대된 현재 방(true) / 던전 전체 구조(false) 전환 시 발행. 버튼 아이콘 동기화에 사용
+    public event System.Action<bool> OnBigMinimapChanged;
 
     void Start()
     {
@@ -21,6 +25,12 @@ public class DungeonUIManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (!isFullMapOpen) ShowFullMap();              // 닫혀 있으면 열기 (확대된 현재 방)
+            else SwitchBigMinimapAndFullmap();              // 열려 있으면 확대 방 ↔ 던전 전체 구조 전환
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isFullMapOpen) // 지도가 열려있다면
@@ -34,11 +44,13 @@ public class DungeonUIManager : MonoBehaviour
     {
         if (fullMap != null)
         {
+            // fullMap 활성화 시 자식(MinimapButton)이 OnEnable에서 상태를 읽으므로 먼저 갱신
+            isFullMapOpen = true;
+            isBigMinimapActive = true;
             fullMap.SetActive(true);
             minimap.SetActive(false);
             bigMinimap.SetActive(true);
-            isFullMapOpen = true;
-            isBigMinimapActive = true;
+            OnBigMinimapChanged?.Invoke(isBigMinimapActive);
         }
     }
 
@@ -61,5 +73,6 @@ public class DungeonUIManager : MonoBehaviour
     {
         isBigMinimapActive = !isBigMinimapActive;
         bigMinimap.SetActive(isBigMinimapActive);
+        OnBigMinimapChanged?.Invoke(isBigMinimapActive);
     }
 }
