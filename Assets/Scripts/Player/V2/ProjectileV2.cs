@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 // 플레이어의 투사체. 적과 충돌 시 데미지를 입히고, 바텐더 전용 병 효과를 적용한다.
@@ -22,33 +21,40 @@ public class ProjectileV2 : MonoBehaviour
     public float explosionRadius;
     public LayerMask enemyLayer;
 
-    private Vector2 velocity;
+    [Header("Throw")]
+    [SerializeField, Min(0f)] private float speedMultiplier = 18f;
+    [SerializeField, Min(0f)] private float gravityScale = 2f;
+    [SerializeField] private float initialUpwardVelocity = 4f;
+    [SerializeField, Min(0.1f)] private float lifetime = 3f;
 
-    // 투사체 이동 속도 배율
-    [SerializeField] private float speedMultiplier = 15f;
-    // 포물선 궤적을 위해 Rigidbody2D의 중력 비율
-    [SerializeField] private float gravityScale = 2f;
-    // 초기 상승 속도. 수치가 클수록 더 높은 호를 형성
-    [SerializeField] private float initialUpwardVelocity = 1.2f;
+    public float Lifetime => lifetime;
+    public Vector2 Gravity => Physics2D.gravity * gravityScale;
 
-    // 발사 속도 설정 (Velocity 속성으로 외부에서 설정 
+    // 기존 호출부는 방향을 전달한다. 읽을 때는 실제 물리 속도를 반환한다.
     public Vector2 Velocity
     {
-        get => velocity;
+        get => projectileRigidbody.velocity;
         set
         {
-            // 중력 적용
             projectileRigidbody.gravityScale = gravityScale;
-            // 수평 속도는 방향 벡터의 x성분에 speedMultiplier를 곱해 지정
-            // 수직 속도는 initialUpwardVelocity만큼 추가하여 포물선 궤적 형성.
-            projectileRigidbody.velocity = new Vector2(value.x * speedMultiplier,
-                                                       value.y * speedMultiplier + initialUpwardVelocity);
+            projectileRigidbody.velocity = GetLaunchVelocity(value);
         }
+    }
+
+    // 미리보기와 실제 투척이 같은 초기 속도를 사용한다.
+    public Vector2 GetLaunchVelocity(Vector2 direction)
+    {
+        return direction.normalized * speedMultiplier + Vector2.up * initialUpwardVelocity;
+    }
+
+    public static Vector2 GetSecondThrowDirection(Vector2 direction)
+    {
+        return (direction.normalized + Vector2.up * 0.2f).normalized;
     }
 
     private void Start()
     {
-        Destroy(gameObject, 1f); // 수명 제한
+        Destroy(gameObject, lifetime);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
