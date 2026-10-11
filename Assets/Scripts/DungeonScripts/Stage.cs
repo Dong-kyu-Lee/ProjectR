@@ -59,17 +59,17 @@ public class Stage : MonoBehaviour
                 CreateDungeon();
                 break;
             case StageFlow.Normal2:
-                GameManager.Instance.MoveScene(SceneType.MiddleBoss, "TempMiddleBoss");
+                GameManager.Instance.MoveScene(Define.SceneType.MiddleBoss, "TempMiddleBoss");
                 break;
             case StageFlow.MiddleBoss:
                 RemoveDungeon();
                 MoveToDungeonAndCreate();
                 break;
             case StageFlow.Normal3:
-                GameManager.Instance.MoveScene(SceneType.Shop, "ShopScene");
+                GameManager.Instance.MoveScene(Define.SceneType.Shop, "ShopScene");
                 break;
             case StageFlow.Shop:
-                GameManager.Instance.MoveScene(SceneType.FinalBossScene, "TempFinalBoss");
+                GameManager.Instance.MoveScene(Define.SceneType.FinalBossScene, "TempFinalBoss");
                 break;
             case StageFlow.FinalBoss:
                 // 이 스테이지의 마지막 구역까지 클리어 -> 다음 스테이지로 이동
@@ -175,7 +175,7 @@ public class Stage : MonoBehaviour
     private void MoveToDungeonAndCreate()
     {
         SceneManager.sceneLoaded += OnDungeonSceneLoaded;
-        GameManager.Instance.MoveScene(SceneType.Normal, "DungeonGenerate", true);
+        GameManager.Instance.MoveScene(Define.SceneType.Normal, "DungeonGenerate", true);
     }
 
     private void OnDungeonSceneLoaded(Scene scene, LoadSceneMode mode)

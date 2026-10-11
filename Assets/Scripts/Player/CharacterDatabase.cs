@@ -15,7 +15,7 @@ public class CharacterDatabase : ScriptableObject
 [System.Serializable]
 public struct CharacterData
 {
-    public CharacterType characterType;
+    public Define.CharacterType characterType;
     public GameObject characterPrefab;
 
     [Header("UI 이미지 리소스")]
@@ -34,10 +34,4 @@ public struct CharacterData
 
     [TextArea(3, 5)]
     public string skillDescription;     // 추상화된 스킬 설명 (예: "자원을 소모하여 넓은 범위의 적을 타격합니다")
-}
-
-public enum CharacterType
-{
-    Bartender,
-    Blacksmith,
 }

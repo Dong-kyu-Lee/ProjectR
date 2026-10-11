@@ -70,7 +70,7 @@ public class PlayerStatusUI : MonoBehaviour
         // CharacterDatabase에서 초상화(Portrait Icon) 가져오기
         if (playerHead != null)
         {
-            CharacterType currentType = PlayerManager.Instance.CurrentCharacterType;
+            Define.CharacterType currentType = PlayerManager.Instance.CurrentCharacterType;
             CharacterData data = PlayerManager.Instance.GetCharacterData(currentType);
             playerHead.sprite = data.portraitIcon;
         }
