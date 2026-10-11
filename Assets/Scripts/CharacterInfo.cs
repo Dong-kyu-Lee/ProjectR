@@ -77,7 +77,7 @@ public class CharacterInfo : MonoBehaviour
     private void UpdateCharacterImage()
     {
         if (PlayerManager.Instance == null) return;
-        CharacterType currentType = PlayerManager.Instance.CurrentCharacterType;
+        Define.CharacterType currentType = PlayerManager.Instance.CurrentCharacterType;
         CharacterData data = PlayerManager.Instance.GetCharacterData(currentType);
 
         if (centerCharacterImage != null && data.inventoryImage != null)

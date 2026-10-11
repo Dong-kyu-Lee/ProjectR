@@ -30,7 +30,7 @@ public class SoundManager : MonoBehaviour
     private bool isInstantiated = false;
 
     [SerializeField] private float defaultVolume = 0.3f;
-    private float effectVolume = 0.3f;
+    private float effectVolume = 0.3f; // 모든 이펙트 볼륨을 통제하는 변수
 
     AudioSource[] audioSources = new AudioSource[(int)Sound.MaxCount];
 
@@ -74,10 +74,12 @@ public class SoundManager : MonoBehaviour
         // BGM의 경우 반복재생하도록 함
         audioSources[(int)Sound.Bgm].loop = true;
 
-        audioSources[(int)Sound.Bgm].volume = defaultVolume;
-        audioSources[(int)Sound.Effect].volume = defaultVolume;
-        audioSources[(int)Sound.AttackEffect].volume = defaultVolume;
-        audioSources[(int)Sound.Blacksmith_Enhance].volume = defaultVolume;
+        SetBgmVolume(GameSettingsSaver.GetBGMValue());
+        SetEffectVolume(GameSettingsSaver.GetSFXValue());
+        // audioSources[(int)Sound.Bgm].volume = defaultVolume;
+        // audioSources[(int)Sound.Effect].volume = defaultVolume;
+        // audioSources[(int)Sound.AttackEffect].volume = defaultVolume;
+        // audioSources[(int)Sound.Blacksmith_Enhance].volume = defaultVolume;
     }
 
     // 사운드 경로를 받아 해당 사운드를 재생

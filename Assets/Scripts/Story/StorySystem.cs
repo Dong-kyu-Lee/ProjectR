@@ -32,7 +32,7 @@ public class StorySystem : MonoBehaviour
     private SingleUseStoryManager singleUseStories;
 
     private string previousDungeonScene; // 스토리 씬 이동 전 던전 씬 이름
-    private SceneType previousSceneType;  // 스토리 씬 이동 전 씬 타입 (복귀 시 사용)
+    private Define.SceneType previousSceneType;  // 스토리 씬 이동 전 씬 타입 (복귀 시 사용)
     private string currentStoryScene;     // 현재 진행중인 스토리 씬 이름
 
     void Awake()
@@ -110,7 +110,7 @@ public class StorySystem : MonoBehaviour
         previousDungeonScene = SceneManager.GetActiveScene().name;
         previousSceneType = GameManager.Instance.CurrentSceneType;
         currentStoryScene = story.sceneToLoad;
-        GameManager.Instance.MoveScene(SceneType.StoryScene, currentStoryScene);
+        GameManager.Instance.MoveScene(Define.SceneType.StoryScene, currentStoryScene);
         return true;
     }
 

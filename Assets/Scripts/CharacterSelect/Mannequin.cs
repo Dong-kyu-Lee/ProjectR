@@ -5,7 +5,7 @@ using UnityEngine;
 public class Mannequin : MonoBehaviour
 {
     bool isPlayerNear = false;
-    public CharacterType characterType;
+    public Define.CharacterType characterType;
     public CharacterSelect characterSelect;
     public string characterName;
 

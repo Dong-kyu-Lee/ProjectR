@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Define.Enemy;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -9,8 +8,8 @@ public class EnemySpawner : MonoBehaviour
     private EnemyPrefabPath enemyPrefabPath;
 
     [Header("Enemy Spawn Lists")]
-    [SerializeField] private List<NormalEnemyData> enemyList1; 
-    [SerializeField] private List<NormalEnemyData> enemyList2; 
+    [SerializeField] private List<Define.NormalEnemyType> enemyList1; 
+    [SerializeField] private List<Define.NormalEnemyType> enemyList2; 
 
     public GameObject GetRandomEnemyPrefab1()
     {
@@ -27,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
 
         // 1. 랜덤하게 적 종류(Data)를 선택
         int randomIndex = Random.Range(0, enemyList1.Count);
-        NormalEnemyType selectedType = enemyList1[randomIndex].enemyType;
+        Define.NormalEnemyType selectedType = enemyList1[randomIndex];
 
         // 2. ScriptableObject를 통해 Enum에 대응하는 실제 프리팹을 가져옴
         return enemyPrefabPath.GetNormalEnemyPrefab(selectedType);
@@ -47,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         int randomIndex = Random.Range(0, enemyList2.Count);
-        NormalEnemyType selectedType = enemyList2[randomIndex].enemyType;
+        Define.NormalEnemyType selectedType = enemyList2[randomIndex];
 
         return enemyPrefabPath.GetNormalEnemyPrefab(selectedType);
     }

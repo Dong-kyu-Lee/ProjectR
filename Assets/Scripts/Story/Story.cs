@@ -29,6 +29,6 @@ public class Story : ScriptableObject
     public bool isSingleUse;
     // 진입 전 씬으로 복귀하지 않고 고정된 씬으로 나가는 스토리(ex. 프롤로그 -> 로비)
     public bool useFixedReturnScene;
-    public SceneType returnSceneType = SceneType.LobbyScene;
+    public Define.SceneType returnSceneType = Define.SceneType.LobbyScene;
     public string returnSceneName = "LobbyScene";
 }

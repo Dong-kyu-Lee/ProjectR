@@ -67,8 +67,6 @@ public class EndSceneManager : MonoBehaviour
         killCount.text = GameStatisticsTracker.Instance.TotalKillCount.ToString();
         maximumDamage.text = GameStatisticsTracker.Instance.MaximumDamage.ToString();
         playTime.text = GameStatisticsTracker.Instance.TotalPlayTimeInSeconds.ToString(@"hh\:mm\:ss");
-        // BGM 재생
-        SoundManager.Instance.Play("Sounds/BGM/EndSceneBGM", Sound.Bgm);
     }
 
     void Update()
@@ -104,7 +102,7 @@ public class EndSceneManager : MonoBehaviour
     {
         // 스테이지 흐름 초기화
         DungeonFlowManager.Instance.ResetStages();
-        GameManager.Instance.MoveScene(SceneType.LobbyScene, "LobbyScene");
+        GameManager.Instance.MoveScene(Define.SceneType.LobbyScene, "LobbyScene");
     }
 
     // 마우스 포인터가 로비 버튼 위에 올라갔을 때, 노란색으로 하이라이트
