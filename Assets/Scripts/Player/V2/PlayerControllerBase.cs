@@ -132,27 +132,27 @@ public abstract class PlayerControllerBase : MonoBehaviour
             StartCoroutine(Dash());
 
         bool isUIActive = InGameUIManager.Instance != null && InGameUIManager.Instance.IsUIActive;
-
-        if (Input.GetMouseButtonDown(0) && enableAttack && !isDashing && !isUIActive)
-        {
-            // 1) 클릭 시 조준 벡터 계산
-            var aim = GetAimDirection2D(horizontalOnly: false);
-
-            // 2) 현재 바라보는 방향과 반대면 먼저 플립
-            bool facingRight = rendererObject.GetComponent<SpriteRenderer>().flipX;
-            bool aimRight = aim.x > 0f;
-            if (aim.x != 0f && (aimRight != facingRight))
-                Flip(aim.x);
-
-            // 3) 공격 코루틴에서 같은 벡터를 쓰도록 큐에 저장
-            _queuedAimDir = aim;
-            _hasQueuedAim = true;
-
-            StartCoroutine(Attack());
-        }
+        HandleAttackInput(isUIActive);
 
         if (Input.GetKeyDown(KeyCode.Q))
             UseCharacterAbility();
+    }
+
+    // 기본 캐릭터는 누르는 순간 공격하고, 바텐더는 입력 처리를 재정의한다.
+    protected virtual void HandleAttackInput(bool isUIActive)
+    {
+        if (Input.GetMouseButtonDown(0) && enableAttack && !isDashing && !isUIActive)
+        {
+            StartAimedAttack(GetAimDirection2D(horizontalOnly: false));
+        }
+    }
+
+    protected void StartAimedAttack(Vector2 aim)
+    {
+        if (aim.x != 0f) Flip(aim.x);
+        _queuedAimDir = aim;
+        _hasQueuedAim = true;
+        StartCoroutine(Attack());
     }
 
     protected virtual void FixedUpdate()
@@ -571,10 +571,28 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
     protected Camera GetActiveCamera()
     {
-        var cam = Camera.main;
-        if (cam == null) cam = Camera.current;
-        if (cam == null && Camera.allCamerasCount > 0) cam = Camera.allCameras[0];
-        return cam;
+        Camera mainCamera = Camera.main;
+        if (IsAimCamera(mainCamera)) return mainCamera;
+        if (IsAimCamera(playerCamera)) return playerCamera;
+
+        // Camera.current는 렌더링용 카메라이므로 입력 좌표 변환에 사용하지 않는다.
+        // 태그가 없는 테스트 씬에서도 미니맵/Scene View/비활성 카메라는 제외한다.
+        Camera fallback = null;
+        foreach (Camera candidate in Camera.allCameras)
+        {
+            if (!IsAimCamera(candidate)) continue;
+            if (fallback == null || candidate.depth > fallback.depth)
+                fallback = candidate;
+        }
+        return fallback;
+    }
+
+    private bool IsAimCamera(Camera candidate)
+    {
+        return candidate != null && candidate.isActiveAndEnabled
+            && candidate.cameraType == CameraType.Game
+            && candidate.targetTexture == null
+            && (candidate.cullingMask & (1 << gameObject.layer)) != 0;
     }
 
     protected SpriteRenderer GetSprite()
