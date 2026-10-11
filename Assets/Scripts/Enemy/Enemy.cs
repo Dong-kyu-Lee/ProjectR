@@ -94,6 +94,8 @@ public class Enemy : MonoBehaviour
     private float lastPoiseDamageTime = float.NegativeInfinity;
     private bool attackSoundPlayedThisAttack;
 
+    public bool IsPlayerInAttackRange = false;
+
     protected virtual void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();

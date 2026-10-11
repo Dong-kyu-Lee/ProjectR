@@ -5,7 +5,6 @@ using UnityEngine;
 public class AttackScanner : MonoBehaviour
 {
     private Enemy enemy;
-    private bool playerInRange;
 
     private void Awake()
     {
@@ -16,7 +15,7 @@ public class AttackScanner : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerInRange = true;
+            enemy.IsPlayerInAttackRange = true;
             TryStartAttack();
         }
     }
@@ -25,7 +24,7 @@ public class AttackScanner : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerInRange = true;
+            enemy.IsPlayerInAttackRange = true;
             TryStartAttack();
         }
     }
@@ -34,7 +33,7 @@ public class AttackScanner : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerInRange = false;
+            enemy.IsPlayerInAttackRange = false;
         }
     }
 

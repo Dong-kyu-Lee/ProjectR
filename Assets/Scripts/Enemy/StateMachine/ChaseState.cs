@@ -37,7 +37,7 @@ public class ChaseState : IState
             if (absDx > stopDistance)
             {
                 float dir = Mathf.Sign(dx);
-                enemy.Rigidbody.velocity = new Vector2(dir * enemy.Speed, enemy.Rigidbody.velocity.y);
+                enemy.Rigidbody.velocity = new Vector2(dir * enemy.EnemyStatus.TotalMoveSpeed, enemy.Rigidbody.velocity.y);
             }
             else
             {

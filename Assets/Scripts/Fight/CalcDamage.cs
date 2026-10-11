@@ -79,16 +79,29 @@ public class CalcDamage : MonoBehaviour
             Destroy(gameObject); // 중복된 CalcDamage 제거
         }
 
-        SetPlayer(GameObject.FindWithTag("Player"));
         additionalDebuffTime = 0;
         additionalBuffTime = 0;
     }
 
-    public void SetPlayer(GameObject newPlayer)
+    void Start()
     {
-        player = newPlayer;
-        playerStatus = player.GetComponent<PlayerStatus>();
-        playerBuffManager = player.GetComponent<BuffManager>();
+        SetPlayer();
+        PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(SetPlayer);
+    }
+
+    void OnDisable()
+    {
+        // 리스너 해제 (메모리 누수 방지)
+        if (PlayerManager.Instance != null)
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(SetPlayer);
+    }
+
+    public void SetPlayer()
+    {
+        if (playerStatus == null || playerStatus.gameObject != GameManager.Instance.CurrentPlayer)
+        {
+            playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        }
     }
 
     // 적 처치 시 획득하는 버프.
@@ -285,6 +298,8 @@ public class CalcDamage : MonoBehaviour
     // 저주 10레벨 디버프 피해량 증가.
     public void CurseEffect10_IncreaseDebuffDamage()
     {
+        if (playerStatus == null) return;
+
         if (curseEffect10)
         {
             playerStatus.DebuffDamage += playerStatus.TotalDamage * 0.005f - curseEffect10_IncreaseDebuffDamage;

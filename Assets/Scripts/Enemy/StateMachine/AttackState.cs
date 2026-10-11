@@ -29,16 +29,22 @@ public class AttackState : IState
             enemy.EnemyAnimator.SetBool("isMove", false);
         }
 
+        if (isAttacking || attackRoutine != null) return;
+
         if (!isAttacking)
         {
             isAttacking = true;
+            enemy.isAttacking = true;
             attackRoutine = enemy.StateMachine.StartCoroutine(AttackRoutine());
         }
     }
 
     public void Update(float delta)
     {
-
+        if (attackStrategy is KnightEnemyStrategy knightStrategy)
+        {
+            knightStrategy.UpdateAttacking(enemy);
+        }
     }
 
     public void FixedUpdate()
@@ -62,45 +68,74 @@ public class AttackState : IState
     private IEnumerator AttackRoutine()
     {
         float applyAttackTime = Mathf.Max(attackTime, minAttackTime);
-        EnemyAttackTiming timing = enemy.EnemyStatus.IsBoss ? EnemyAttackTiming.Immediate : enemy.GetAttackTiming(attackStrategy);
-        timing = timing.WithMinimumTotalTime(applyAttackTime);
         enemy.ResetAttackSoundPlayback();
 
-        enemy.SetAttackPhase(EnemyAttackPhase.Windup, timing.interruptibleDuringWindup);
         attackStrategy.BeginAttack(enemy);
-        if (timing.windupTime > 0f)
+
+        List<EnemyAttackTiming> timingsToExecute = new List<EnemyAttackTiming>();
+
+        if (attackStrategy is IComboAttackStrategy comboStrategy && comboStrategy.IsComboAttack)
         {
-            yield return new WaitForSeconds(timing.windupTime);
+            timingsToExecute.AddRange(comboStrategy.GetComboTimings());
+        }
+        else
+        {
+            EnemyAttackTiming singleTiming = enemy.EnemyStatus.IsBoss ? EnemyAttackTiming.Immediate : enemy.GetAttackTiming(attackStrategy);
+            singleTiming = singleTiming.WithMinimumTotalTime(applyAttackTime);
+            timingsToExecute.Add(singleTiming);
         }
 
-        if (enemy.StateMachine.CurrentState != enemy.StateMachine.attackState)
+        for (int i = 0; i < timingsToExecute.Count; i++)
         {
-            yield break;
-        }
+            if (attackStrategy is IComboAttackStrategy combo)
+            {
+                combo.SetCurrentComboIndex(i);
+            }
 
-        enemy.SetAttackPhase(EnemyAttackPhase.Active, timing.interruptibleDuringActive);
-        if (!(enemy is MeleeEnemy))
-        {
-            enemy.PlayAttackSound();
-        }
+            EnemyAttackTiming timing = timingsToExecute[i];
 
-        attackStrategy.ExecuteAttack(enemy);
-        if (timing.activeTime > 0f)
-        {
-            yield return new WaitForSeconds(timing.activeTime);
-        }
+            // 1. Windup
+            enemy.SetAttackPhase(EnemyAttackPhase.Windup, timing.interruptibleDuringWindup);
+            if (timing.windupTime > 0f)
+            {
+                yield return new WaitForSeconds(timing.windupTime);
+            }
 
-        if (enemy.StateMachine.CurrentState != enemy.StateMachine.attackState)
-        {
-            yield break;
-        }
+            if (enemy.StateMachine.CurrentState != enemy.StateMachine.attackState)
+            {
+                yield break;
+            }
 
-        enemy.SetAttackPhase(EnemyAttackPhase.Recovery, timing.interruptibleDuringRecovery);
-        if (timing.recoveryTime > 0f)
-        {
-            yield return new WaitForSeconds(timing.recoveryTime);
-        }
+            // 2. Active
+            enemy.SetAttackPhase(EnemyAttackPhase.Active, timing.interruptibleDuringActive);
+            if (!(enemy is MeleeEnemy))
+            {
+                enemy.PlayAttackSound();
+            }
 
+            attackStrategy.ExecuteAttack(enemy);
+            if (timing.activeTime > 0f)
+            {
+                yield return new WaitForSeconds(timing.activeTime);
+            }
+
+            if (enemy.StateMachine.CurrentState != enemy.StateMachine.attackState)
+            {
+                yield break;
+            }
+
+            // 3. Recovery
+            enemy.SetAttackPhase(EnemyAttackPhase.Recovery, timing.interruptibleDuringRecovery);
+            if (timing.recoveryTime > 0f)
+            {
+                yield return new WaitForSeconds(timing.recoveryTime);
+            }
+
+            if (enemy.StateMachine.CurrentState != enemy.StateMachine.attackState)
+            {
+                yield break;
+            }
+        }
         attackRoutine = null;
         isAttacking = false;
         enemy.isAttacking = false;

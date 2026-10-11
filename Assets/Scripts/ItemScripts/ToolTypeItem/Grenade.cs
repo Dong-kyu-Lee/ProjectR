@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Grenade : MonoBehaviour
 {
     [SerializeField]
-    protected float timeToExplode = 5.0f;     //폭발 시간
+    protected float timeToExplode = 4.0f;     //폭발 시간
     public float TimeToExplode => timeToExplode;
 
 

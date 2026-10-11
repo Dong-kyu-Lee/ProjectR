@@ -62,6 +62,13 @@ public interface IAttackStrategy
     void ExecuteAttack(Enemy enemy);
 }
 
+public interface IComboAttackStrategy
+{
+    bool IsComboAttack { get; }
+    List<EnemyAttackTiming> GetComboTimings();
+    void SetCurrentComboIndex(int index);
+}
+
 
 public class AttackStrategy : MonoBehaviour
 {

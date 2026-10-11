@@ -9,9 +9,25 @@ public class EnemyLoot : MonoBehaviour
     public LootTable lootTable;
     private PlayerStatus playerStatus;
 
-    private void Start()
+    void Start()
     {
-        playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        SetPlayer();
+        PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(SetPlayer);
+    }
+
+    void OnDisable()
+    {
+        // 리스너 해제 (메모리 누수 방지)
+        if (PlayerManager.Instance != null)
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(SetPlayer);
+    }
+
+    public void SetPlayer()
+    {
+        if (PlayerManager.Instance != null && PlayerManager.Instance.CurrentPlayer != null)
+        {
+            playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        }
     }
 
     // 루트테이블 아이템 드롭

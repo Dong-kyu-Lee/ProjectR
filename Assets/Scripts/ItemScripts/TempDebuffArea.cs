@@ -33,7 +33,7 @@ public class TempDebuffArea : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 대상 태그 확인 및 중복 등록 방지
-        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
             if (!activeDebuffs.ContainsKey(other.gameObject))
             {

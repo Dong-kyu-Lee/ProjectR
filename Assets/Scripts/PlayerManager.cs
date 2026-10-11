@@ -82,6 +82,7 @@ public class PlayerManager : MonoBehaviour
         playerObject.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2; // 로비 씬에서 다른 캐릭터와 겹치지 않기 위함
         DontDestroyOnLoad(playerObject);
         OnPlayerCharacterChanged?.Invoke();
+        Debug.Log("이벤트 발생!");
     }
 
     // 플레이어 오브젝트를 지정된 시작 지점(position)에 배치하는 함수
