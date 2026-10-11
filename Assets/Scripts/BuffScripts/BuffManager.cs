@@ -30,7 +30,7 @@ public class BuffManager : MonoBehaviour
                 buff.RemoveBuffEffect();
                 ActiveBuffDict.Remove(type);
                 Debug.Log($"버프 [{type}] 만료.");
-                return;
+                continue;
             }
 
             // 틱 주기 계산
@@ -142,7 +142,7 @@ public class BuffManager : MonoBehaviour
         return new List<Buff>(ActiveBuffDict.Values);
     }
 
-    public void ClearPotionBuffs()
+    /*public void ClearPotionBuffs()
     {
         List<BuffType> potionBuffsToRemove = new List<BuffType>();
 
@@ -159,6 +159,6 @@ public class BuffManager : MonoBehaviour
             DeactivateBuff(buffType);
             Debug.Log($"[BuffManager] 스테이지 전환으로 포션 버프 제거됨: {buffType}");
         }
-    }
+    }*/
 
 }

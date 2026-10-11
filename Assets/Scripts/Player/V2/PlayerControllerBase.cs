@@ -90,13 +90,13 @@ public abstract class PlayerControllerBase : MonoBehaviour
     [SerializeField] protected float dustInterval = 0.3f;   // 먼지 생성 간격
     private float dustTimer;
 
+    protected bool IsMovementDisabled => playerStatus != null && playerStatus.TotalMoveSpeed <= 0f;
+
     protected virtual void Start()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
         playerStatus = GetComponent<PlayerStatus>();
         characterAbility = GetComponent<IAbilityV2>();
-        CalcDamage.Instance.SetPlayer(this.gameObject);
-        CalcReceiveDamage.Instance.SetPlayer(this.gameObject);
     }
 
     protected virtual void Update()
@@ -105,14 +105,18 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (IsPressingDown() && TryStartDropThrough())
+            // 이동 불가 상태일 때는 하향 점프 및 일반 점프 입력 무시
+            if (!IsMovementDisabled)
             {
-                lastJumpPressedTime = float.NegativeInfinity;
-            }
-            else
-            {
-                lastJumpPressedTime = Time.time;
-                TryConsumeBufferedJump();
+                if (IsPressingDown() && TryStartDropThrough())
+                {
+                    lastJumpPressedTime = float.NegativeInfinity;
+                }
+                else
+                {
+                    lastJumpPressedTime = Time.time;
+                    TryConsumeBufferedJump();
+                }
             }
         }
 
@@ -124,7 +128,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
             playerRigidBody.velocity = velocity;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && enableDash && IsMovingHorizontally())
+        if (Input.GetKeyDown(KeyCode.LeftShift) && enableDash && !IsMovementDisabled && IsMovingHorizontally())
             StartCoroutine(Dash());
 
         bool isUIActive = InGameUIManager.Instance != null && InGameUIManager.Instance.IsUIActive;
@@ -174,6 +178,12 @@ public abstract class PlayerControllerBase : MonoBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
 
+        // 이동속도가 0 이하인 경우 이동 불가능
+        if (IsMovementDisabled)
+        {
+            inputX = 0f;
+        }
+
         Vector2 moveVector = new Vector2(
             inputX * playerStatus.TotalMoveSpeed * moveFactor * dashFactor * Time.deltaTime,
             playerRigidBody.velocity.y
@@ -181,7 +191,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
         playerRigidBody.velocity = moveVector;
 
 
-        bool isMoving = Mathf.Abs(inputX) > 0.01f;
+        bool isMoving = !IsMovementDisabled && Mathf.Abs(inputX) > 0.01f;
         playerAnimator.SetBool("isMove", isMoving);
 
         if (isMoving && isGround && !isDashing)
@@ -216,6 +226,8 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 점프 처리
     protected virtual void Jump()
     {
+        if (IsMovementDisabled) return;
+
         enableJump = false;
         isGround = false;
 
@@ -246,7 +258,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
             isHittingGround = false;
         }
 
-        enableJump = isHittingGround;
+        enableJump = isHittingGround && !IsMovementDisabled;
         isGround = enableJump;
 
         if (isGround)
@@ -260,6 +272,9 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
     private void TryConsumeBufferedJump()
     {
+        // 이동 불가 상태일 때는 버퍼 점프 실행 차단
+        if (IsMovementDisabled) return;
+
         bool hasBufferedInput = Time.time - lastJumpPressedTime <= jumpBufferTime;
         bool isWithinCoyoteTime = Time.time - lastGroundedTime <= coyoteTime;
 
@@ -290,7 +305,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
     private bool TryStartDropThrough()
     {
-        if (!isGround || currentGroundCollider == null || !IsOneWayPlatform(currentGroundCollider))
+        if (IsMovementDisabled || !isGround || currentGroundCollider == null || !IsOneWayPlatform(currentGroundCollider))
             return false;
 
         if (dropThroughCoroutine != null)
@@ -361,7 +376,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 대시 처리
     protected virtual IEnumerator Dash()
     {
-        if (isDashing || !enableDash || isDead || isPause || !IsMovingHorizontally())
+        if (isDashing || !enableDash || isDead || isPause || IsMovementDisabled || !IsMovingHorizontally())
             yield break;
 
         enableDash = false;
@@ -399,6 +414,8 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 수평 이동 중인지 판정 (입력 or 실제 속도 기준)
     protected bool IsMovingHorizontally()
     {
+        if (IsMovementDisabled) return false;
+
         // 입력으로 먼저 판단
         float inputX = Input.GetAxisRaw("Horizontal");
         if (Mathf.Abs(inputX) > 0.01f)

@@ -8,9 +8,9 @@ public class GrenadeController : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     private GameObject grenadePrefab;
 
-    public int resolution = 10;
-    public float launchForce = 15f;
-    public float gravity = -9.81f;
+    private int resolution = 10;
+    private float launchForce = 9f;
+    private float gravity = -9.81f;
 
     private bool isAiming = false;
 
@@ -58,7 +58,7 @@ public class GrenadeController : MonoBehaviour
 
         for (int i = 0; i < resolution; i++)
         {
-            float time = i * 0.015f;
+            float time = i * 0.025f;
             float x = startPos.x + velocity.x * time;
             float y = startPos.y + (velocity.y * time) + (0.5f * gravity * time * time);
 

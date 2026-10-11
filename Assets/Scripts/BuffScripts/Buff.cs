@@ -121,6 +121,8 @@ public abstract class Buff
     //현재 버프 레벨까지의 특정 스탯 증감 누적량을 계산해주는 함수
     protected float GetCurrentSumOfArray(float[] array)
     {
+        if (array == null || array.Length == 0) return 0f;
+
         float sum = 0.0f;
         for (int i = 0; i < currentBuffLevel + 1; i++)
         {

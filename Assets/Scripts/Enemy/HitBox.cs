@@ -9,20 +9,17 @@ public class HitBox : MonoBehaviour
     protected BoxCollider2D hitBoxCol;
     [SerializeField]
     protected float damage;
+    [SerializeField]
+    protected float damageMultiplier = 1f;
 
     protected GameObject enemy;
 
     protected bool isHit;
 
-    private void Awake()
+    private void Start()
     {
         enemy = gameObject.transform.parent.gameObject;
-        float statusDamage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
-
-        if (statusDamage != 0)
-        {
-            damage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
-        }
+        damage = gameObject.GetComponentInParent<EnemyStatus>().Damage;
     }
 
     void Update()
@@ -42,9 +39,11 @@ public class HitBox : MonoBehaviour
         {
             isHit = true;
             PlayerControllerBase pcb = collision.gameObject.GetComponent<PlayerControllerBase>();
+
+            float currentDamage = damage * damageMultiplier;
             if (pcb == null || !pcb.IsInvincible)
             {
-                collision.gameObject.GetComponent<Status>().TakeDamage(enemy, damage, 0, false);
+                collision.gameObject.GetComponent<Status>().TakeDamage(enemy, currentDamage, 0, false);
             }
         }
     }

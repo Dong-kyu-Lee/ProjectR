@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class CalcReceiveDamage : MonoBehaviour
 {
-    private GameObject player;
-    private PlayerStatus playerStatus;
+    public PlayerStatus playerStatus;
 
     public float induranceEffect10_IncreaseDamage;
     public float induranceEffect13_Reduction = 0f;
@@ -46,8 +45,6 @@ public class CalcReceiveDamage : MonoBehaviour
         {
             Destroy(gameObject); // 중복된 CalcReceiveDamage 제거
         }
-
-        SetPlayer(GameObject.FindWithTag("Player"));
     }
 
     public void ResetInduranceEffect()
@@ -62,10 +59,25 @@ public class CalcReceiveDamage : MonoBehaviour
         induranceEffect16 = false;
     }
 
-    public void SetPlayer(GameObject newPlayer)
+    void Start()
     {
-        player = newPlayer;
-        playerStatus = player.GetComponent<PlayerStatus>();
+        SetPlayer();
+        PlayerManager.Instance.OnPlayerCharacterChanged.AddListener(SetPlayer);
+    }
+
+    void OnDisable()
+    {
+        // 리스너 해제 (메모리 누수 방지)
+        if (PlayerManager.Instance != null)
+            PlayerManager.Instance.OnPlayerCharacterChanged.RemoveListener(SetPlayer);
+    }
+
+    public void SetPlayer()
+    {
+        if (PlayerManager.Instance != null && PlayerManager.Instance.CurrentPlayer != null)
+        {
+            playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+        }
     }
 
     private Dictionary<GameObject, Queue<float>> damageQueue = new Dictionary<GameObject, Queue<float>>();
@@ -130,7 +142,7 @@ public class CalcReceiveDamage : MonoBehaviour
         else
         {
             if (percentdmg) receiveDamage = (1 - targetStatus.DamageReduction) * damage * targetStatus.MaxHp;
-            else receiveDamage = (1 - targetStatus.DamageReduction) * damage * playerStatus.Level * (1 + playerStatus.DebuffDamage);
+            else receiveDamage = (1 - targetStatus.DamageReduction) * damage * (1 + playerStatus.Level * 0.1f) * (1 + playerStatus.DebuffDamage);
             receiveDamage *= (1 + targetStatus.DamageTaken);
 
             if (CalcDamage.Instance.curseEffect4)
@@ -143,7 +155,7 @@ public class CalcReceiveDamage : MonoBehaviour
                 }
             }
         }
-        CalcReceiveDamage.Instance.TakeDebuffDamageQueue(receiveDamage, targetStatus.gameObject);
+        TakeDebuffDamageQueue(receiveDamage, targetStatus.gameObject);
         targetStatus.Hp -= receiveDamage;
 
         if (targetStatus.CompareTag("Enemy"))
@@ -201,6 +213,8 @@ public class CalcReceiveDamage : MonoBehaviour
     // 인내 10레벨 피해량 증가.
     public void InduranceEffect10_IncreaseDamage()
     {
+        if (playerStatus == null) return;
+
         if (induranceEffect10)
         {
             playerStatus.AdditionalDamage -= induranceEffect10_IncreaseDamage;
@@ -217,6 +231,8 @@ public class CalcReceiveDamage : MonoBehaviour
     // 인내 13레벨 피해량 감소 증가.
     public void InduranceEffect13_IncreaseDamageReduction()
     {
+        if (playerStatus == null) return;
+
         if (induranceEffect13)
         {
             float hpRatio = playerStatus.Hp / playerStatus.MaxHp;
