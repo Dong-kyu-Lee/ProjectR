@@ -20,7 +20,7 @@ public class CharacterSelectManager : MonoBehaviour
     [Header("Lobby Characters")]
     [SerializeField] private GameObject[] selectableCharacterObjects; // 로비에 서 있는 대기용 캐릭터 프리팹들
 
-    private CharacterType currentPreviewType; // 현재 화면에 확대된 캐릭터 타입
+    private Define.CharacterType currentPreviewType; // 현재 화면에 확대된 캐릭터 타입
 
     void Awake()
     {
@@ -34,7 +34,7 @@ public class CharacterSelectManager : MonoBehaviour
     }
 
     // 마우스 클릭 시 호출됨 (줌인 및 상세 정보 띄우기)
-    public void SelectCharacter(CharacterType type, Transform characterTransform)
+    public void SelectCharacter(Define.CharacterType type, Transform characterTransform)
     {
         if (!IsSelectionMode) return;
 

@@ -57,6 +57,7 @@ public class GameSettingUI : MonoBehaviour
             bgmSlider.value = SoundManager.Instance.GetBgmVolume();
             sfxSlider.value = SoundManager.Instance.GetEffectVolume();
             fullScreenToggle.isOn = Screen.fullScreen;
+            Time.timeScale = 0f;
             isOpen = true;
         }
         else // Close
@@ -148,11 +149,5 @@ public class GameSettingUI : MonoBehaviour
     {
         Screen.fullScreen = fullScreenToggle.isOn;
         GameSettingsSaver.SetFullScreen(fullScreenToggle.isOn);
-    }
-
-    // 애니메이션이 끝났을 때 GameSettingUI Animation event에 의해 호출되는 함수
-    public void OnAnimationEnd()
-    {
-        Time.timeScale = 0f;
     }
 }

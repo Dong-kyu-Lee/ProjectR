@@ -2,6 +2,5 @@
 public class FinalBossSceneManager : BossStorySceneManager
 {
     protected override StoryID TargetStoryID => StoryID.Temp_Final_Boss;
-    protected override string BgmPath => "Sounds/BGM/FinalBossBGM";
     protected override float DeadDelay => 2.5f;
 }

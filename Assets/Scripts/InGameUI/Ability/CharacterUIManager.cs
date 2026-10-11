@@ -11,16 +11,16 @@ public class CharacterUIManager : MonoBehaviour
 
     [SerializeField] private SkillCoolTime skillCoolTimeManager;
 
-    private Dictionary<CharacterType, GameObject> uiMap;
+    private Dictionary<Define.CharacterType, GameObject> uiMap;
 
     [SerializeField] private SkillIcon skillIcon;
 
     void Awake()
     {
-        uiMap = new Dictionary<CharacterType, GameObject>
+        uiMap = new Dictionary<Define.CharacterType, GameObject>
         {
-            { CharacterType.Blacksmith, blacksmithUI },
-            { CharacterType.Bartender, bartenderUI }
+            { Define.CharacterType.Blacksmith, blacksmithUI },
+            { Define.CharacterType.Bartender, bartenderUI }
         };
 
         foreach (var kvp in uiMap)
@@ -48,7 +48,7 @@ public class CharacterUIManager : MonoBehaviour
     }
 
     // 매개변수 string을 CharacterType으로 변경
-    public void SetActiveUI(CharacterType characterType, IAbilityV2 ability)
+    public void SetActiveUI(Define.CharacterType characterType, IAbilityV2 ability)
     {
         // 모든 UI 비활성화
         foreach (var kvp in uiMap)
@@ -103,7 +103,7 @@ public class CharacterUIManager : MonoBehaviour
         var player = PlayerManager.Instance.CurrentPlayer;
         var controller = player.GetComponent<PlayerControllerBase>();
 
-        CharacterType currentType = PlayerManager.Instance.CurrentCharacterType;
+        Define.CharacterType currentType = PlayerManager.Instance.CurrentCharacterType;
         SetActiveUI(currentType, controller.GetCharacterAbility());
     }
 }
