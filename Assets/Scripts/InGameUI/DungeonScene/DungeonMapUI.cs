@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,13 +15,15 @@ public class DungeonMapUI : MonoBehaviour
     public GameObject mapParent; // 방 UI 이미지들이 배치될 부모 오브젝트
     public GameObject roomImagePrefab; // 방 UI 이미지 프리팹
     public List<GameObject> roomList = new List<GameObject>(); // 캔버스에 표시된 방 이미지들의 리스트
+    private List<RoomUIIcon> roomIconList = new List<RoomUIIcon>(); // roomList와 같은 인덱스의 방 아이콘 컴포넌트 리스트
+    // 방 상태 변화 이벤트에 구독한 (방, 핸들러) 목록. 던전 갱신/파괴 시 구독 해제에 사용
+    private List<(RoomInstance room, Action<RoomState> handler)> roomStateSubscriptions = new List<(RoomInstance, Action<RoomState>)>();
 
     private void Start()
     {
         Debug.Log("DungeonMapUI Start");
         DrawDungeonMap();
 
-        // [수정] null 참조 방지를 위한 방어적 코드 추가
         if (DungeonFlowManager.Instance != null && DungeonFlowManager.Instance.GetCurrentStage() != null)
         {
             DungeonFlowManager.Instance.GetCurrentStage().onDungeonReset?.AddListener(RemoveRoomImages);
@@ -29,13 +32,13 @@ public class DungeonMapUI : MonoBehaviour
 
     private void OnDestroy()
     {
+        UnsubscribeRoomStateEvents();
+
         if (DungeonFlowManager.Instance == null || DungeonFlowManager.Instance.GetCurrentStage() == null)
             return;
 
         DungeonFlowManager.Instance.GetCurrentStage().onDungeonReset?.RemoveListener(RemoveRoomImages);
     }
-
-    // [수정/제거] Update() 내부에서 매 프레임 모든 방 상태를 순회하며 색상을 갱신하던 로직 완전 제거
 
     // 방들의 배치를 Canvas에 그리드 형태로 표시하는 메서드
     private void DrawDungeonMap()
@@ -67,18 +70,22 @@ public class DungeonMapUI : MonoBehaviour
             roomImage.GetComponent<RectTransform>().anchoredPosition = uiRoomPos;
 
             roomList.Add(roomImage);
+            roomIconList.Add(roomImage.GetComponent<RoomUIIcon>());
 
             // 방 UI 위치의 가장 왼쪽 아래와 오른쪽 위 좌표를 구합니다.
             bottomLeft = Vector2.Min(bottomLeft, uiRoomPos);
             topRight = Vector2.Max(topRight, uiRoomPos);
 
-            // [추가] 1. 방을 처음 그릴 때 초기 색상 1회 설정
-            UpdateRoomColor(i, roomInfos[i].GetRoomState);
+            // 1. 방을 처음 그릴 때 초기 색상/아이콘 1회 설정
+            UpdateRoomUI(i, roomInfos[i].GetRoomState);
 
-            // [추가] 2. 해당 방의 상태 변화 이벤트 구독
+            // 2. 해당 방의 상태 변화 이벤트 구독
             // 클로저(Closure) 현상으로 인해 i값이 잘못 참조되는 것을 막기 위해 지역 변수 index에 복사해서 넘겨줍니다.
+            // 나중에 구독 해제할 수 있도록 핸들러를 저장해 둡니다.
             int index = i;
-            roomInfos[i].OnRoomStateChanged += (newState) => UpdateRoomColor(index, newState);
+            Action<RoomState> handler = (newState) => UpdateRoomUI(index, newState);
+            roomInfos[i].OnRoomStateChanged += handler;
+            roomStateSubscriptions.Add((roomInfos[i], handler));
         }
 
         // 방 UI 이미지를 map parent 가운데로 배치
@@ -91,7 +98,19 @@ public class DungeonMapUI : MonoBehaviour
         }
     }
 
-    // [추가] 전달받은 인덱스와 상태에 맞춰서 특정 UI 한 개의 색상만 갱신하는 메서드
+    // 전달받은 인덱스와 상태에 맞춰서 특정 방 UI의 색상과 아이콘을 갱신하는 메서드
+    private void UpdateRoomUI(int index, RoomState state)
+    {
+        if (index < 0 || index >= roomList.Count) return;
+
+        UpdateRoomColor(index, state);
+
+        RoomUIIcon roomIcon = roomIconList[index];
+        if (roomIcon != null)
+            roomIcon.SetIcon(state);
+    }
+
+    // 전달받은 인덱스와 상태에 맞춰서 특정 UI 한 개의 색상만 갱신하는 메서드
     public void UpdateRoomColor(int index, RoomState state)
     {
         if (index < 0 || index >= roomList.Count) return;
@@ -117,11 +136,24 @@ public class DungeonMapUI : MonoBehaviour
     private void RemoveRoomImages()
     {
         Debug.Log("RemoveRoomImages");
+        UnsubscribeRoomStateEvents();
         for (int i = 0; i < roomList.Count; i++)
         {
             Destroy(roomList[i]);
         }
         roomList.Clear();
+        roomIconList.Clear();
         DrawDungeonMap();
+    }
+
+    // 방 상태 변화 이벤트에 등록한 핸들러들을 모두 구독 해제하는 메서드
+    private void UnsubscribeRoomStateEvents()
+    {
+        foreach (var (room, handler) in roomStateSubscriptions)
+        {
+            if (room != null)
+                room.OnRoomStateChanged -= handler;
+        }
+        roomStateSubscriptions.Clear();
     }
 }
