@@ -99,7 +99,7 @@ public class BossEnemy : Enemy
         if (rb)
         {
             Vector2 dir = (PlayerTransform.position - firePoint.position).normalized;
-            rb.velocity = dir * 20f; // 투사체 속도
+            rb.linearVelocity = dir * 20f; // 투사체 속도
         }
     }
 

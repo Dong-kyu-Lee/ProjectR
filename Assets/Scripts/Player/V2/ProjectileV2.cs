@@ -33,11 +33,11 @@ public class ProjectileV2 : MonoBehaviour
     // 기존 호출부는 방향을 전달한다. 읽을 때는 실제 물리 속도를 반환한다.
     public Vector2 Velocity
     {
-        get => projectileRigidbody.velocity;
+        get => projectileRigidbody.linearVelocity;
         set
         {
             projectileRigidbody.gravityScale = gravityScale;
-            projectileRigidbody.velocity = GetLaunchVelocity(value);
+            projectileRigidbody.linearVelocity = GetLaunchVelocity(value);
         }
     }
 

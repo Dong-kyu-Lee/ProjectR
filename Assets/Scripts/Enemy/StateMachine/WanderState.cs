@@ -51,13 +51,13 @@ public class WanderState : IState
         enemy.OnEdgeDetected -= ChangeDirection;
 
         enemy.EnemyAnimator.SetBool("isMove", false);
-        enemy.Rigidbody.velocity = Vector2.zero;
+        enemy.Rigidbody.linearVelocity = Vector2.zero;
         direction = Vector2.zero;
     }
 
     void SetVelocity()
     {
-        enemy.Rigidbody.velocity = new Vector2(direction.x * enemy.Speed, enemy.Rigidbody.velocity.y);
+        enemy.Rigidbody.linearVelocity = new Vector2(direction.x * enemy.Speed, enemy.Rigidbody.linearVelocity.y);
     }
 
     private void ChangeDirection()

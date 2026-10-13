@@ -208,11 +208,11 @@ public class HeroBossEnemy : Enemy
 
         while (timer < dashTime)
         {
-            enemyRigidbody.velocity = new Vector2(dir.x * dashSpeed, enemyRigidbody.velocity.y);
+            enemyRigidbody.linearVelocity = new Vector2(dir.x * dashSpeed, enemyRigidbody.linearVelocity.y);
             timer += Time.deltaTime;
             yield return null;
         }
-        enemyRigidbody.velocity = Vector2.zero; // 정지
+        enemyRigidbody.linearVelocity = Vector2.zero; // 정지
 
         FacePlayer();
         enemyAnimator.SetTrigger("Attack1");

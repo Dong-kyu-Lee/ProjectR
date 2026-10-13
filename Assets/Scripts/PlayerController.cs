@@ -106,8 +106,8 @@ public class PlayerController : MonoBehaviour
     void PlayerMove()
     {
         moveVector.x = Input.GetAxis("Horizontal") * playerStatus.MoveSpeed * moveFactor * dashFactor * Time.deltaTime;
-        moveVector.y = playerRigidBody.velocity.y;
-        playerRigidBody.velocity = moveVector;
+        moveVector.y = playerRigidBody.linearVelocity.y;
+        playerRigidBody.linearVelocity = moveVector;
     }
 
     // 점프

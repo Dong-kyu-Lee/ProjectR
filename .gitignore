@@ -37,6 +37,7 @@ ExportedObj/
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -54,8 +55,11 @@ ExportedObj/
 .history/
 *.code-workspace
 
-# Claude Code 설정
-.claude/
+# Claude Code 설정 (공유 설정만 커밋, 개인 설정은 제외)
+.claude/*
+!.claude/settings.json
+!.claude/skills/
+.claude/settings.local.json
 
 # Unity3D generated meta files
 *.pidb.meta

@@ -261,7 +261,7 @@ public class QueenBossEnemy : Enemy
         Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.velocity = direction * 5f; // 투사체 속도 (필요시 변수화)
+            rb.linearVelocity = direction * 5f; // 투사체 속도 (필요시 변수화)
         }
     }
 
@@ -300,7 +300,7 @@ public class QueenBossEnemy : Enemy
         Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.velocity = direction * 5f; // 속도
+            rb.linearVelocity = direction * 5f; // 속도
         }
     }
 

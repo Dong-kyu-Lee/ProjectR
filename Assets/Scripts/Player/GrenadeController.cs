@@ -89,6 +89,6 @@ public class GrenadeController : MonoBehaviour
     {
         GameObject grenade = Instantiate(grenadePrefab, transform.position, Quaternion.identity);
         Rigidbody2D rb = grenade.GetComponent<Rigidbody2D>();
-        rb.velocity = CalculateVelocity();
+        rb.linearVelocity = CalculateVelocity();
     }
 }

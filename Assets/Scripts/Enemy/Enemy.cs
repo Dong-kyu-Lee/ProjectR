@@ -117,11 +117,11 @@ public class Enemy : MonoBehaviour
 
     protected void FlipX()
     {
-        if(enemyRigidbody.velocity.x >= 1f)
+        if(enemyRigidbody.linearVelocity.x >= 1f)
         {
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
-        else if(enemyRigidbody.velocity.x <= -1f)
+        else if(enemyRigidbody.linearVelocity.x <= -1f)
         {
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }

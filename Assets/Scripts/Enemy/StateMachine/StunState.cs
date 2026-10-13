@@ -23,7 +23,7 @@ public class StunState : IState
     public void Enter()
     {
         // 적의 물리 이동 정지
-        enemy.Rigidbody.velocity = Vector2.zero;
+        enemy.Rigidbody.linearVelocity = Vector2.zero;
 
         // 혹시 이동 애니메이션이 켜져있다면 끔
         if (enemy.EnemyAnimator != null)

@@ -105,7 +105,7 @@ public class BartenderTrajectoryPreview : MonoBehaviour
             ? circle.radius * Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y)) : 0f;
         Vector2 offset = circle != null ? Vector2.Scale(circle.offset, (Vector2)scale) : Vector2.zero;
         int projectileLayer = projectile.gameObject.layer;
-        float drag = projectile.projectileRigidbody.drag;
+        float drag = projectile.projectileRigidbody.linearDamping;
         float step = Time.fixedDeltaTime;
         int steps = Mathf.CeilToInt(projectile.Lifetime / step);
         Vector2 position = origin;

@@ -57,7 +57,7 @@ public class RangedEnemy : Enemy
             Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
             if (rb)
             {
-                rb.velocity = projDirection; // 투사체 속도
+                rb.linearVelocity = projDirection; // 투사체 속도
             }
 
             if (projDirection != Vector2.zero)

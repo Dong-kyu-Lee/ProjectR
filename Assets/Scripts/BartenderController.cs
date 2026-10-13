@@ -108,9 +108,9 @@ public class BartenderController : MonoBehaviour
     void PlayerMove()
     {
         moveVector.x = Input.GetAxis("Horizontal") * playerStatus.TotalMoveSpeed * moveFactor * dashFactor * Time.deltaTime;
-        moveVector.y = playerRigidBody.velocity.y;
-        playerRigidBody.velocity = moveVector;
-        if (playerRigidBody.velocity.x != 0f)
+        moveVector.y = playerRigidBody.linearVelocity.y;
+        playerRigidBody.linearVelocity = moveVector;
+        if (playerRigidBody.linearVelocity.x != 0f)
         {
             playerAnimator.SetBool("isMove", true);
             if (!isAttaking)
@@ -128,11 +128,11 @@ public class BartenderController : MonoBehaviour
     // 플레이어 좌우 이동에 따른 y축 회전
     void Flip()
     {
-        if (playerRigidBody.velocity.x > 0)
+        if (playerRigidBody.linearVelocity.x > 0)
         {
             rendererObject.GetComponent<SpriteRenderer>().flipX = true;
         }
-        else if (playerRigidBody.velocity.x < 0)
+        else if (playerRigidBody.linearVelocity.x < 0)
         {
             rendererObject.GetComponent<SpriteRenderer>().flipX = false;
         }
@@ -254,7 +254,7 @@ public class BartenderController : MonoBehaviour
         isAttaking = false;
         Debug.Log(isAttaking);
 
-        if (playerRigidBody.velocity.x != 0f)
+        if (playerRigidBody.linearVelocity.x != 0f)
         {
             Flip(); // 이동 중이었다면 방향 갱신
         }
@@ -271,7 +271,7 @@ public class BartenderController : MonoBehaviour
     IEnumerator DeadCoroutine()
     {
         isDead = true;
-        playerRigidBody.velocity = Vector2.zero;
+        playerRigidBody.linearVelocity = Vector2.zero;
         playerAnimator.SetTrigger("Die");
 
         yield return new WaitForSeconds(1.5f);

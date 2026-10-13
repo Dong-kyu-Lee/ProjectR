@@ -141,7 +141,7 @@ public class EnemyStatus : Status
         GetComponent<Collider2D>().enabled = false;
         if (TryGetComponent<Rigidbody2D>(out var rb))
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             rb.simulated = false;   
         }
 

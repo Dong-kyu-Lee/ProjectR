@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
         set
         {
             velocity = value;
-            projectileRigidbody.velocity = velocity * 50f;
+            projectileRigidbody.linearVelocity = velocity * 50f;
         }
     }
 

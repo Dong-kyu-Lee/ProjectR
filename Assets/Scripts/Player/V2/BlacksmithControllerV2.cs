@@ -33,7 +33,7 @@ public class BlacksmithControllerV2 : PlayerControllerBase
             playerAnimator.SetFloat("AnimAttackSpeed", playerStatus.TotalAttackSpeed);
 
             // 점프/낙하 애니메이션을 위해 현재 Y축 속도를 애니메이터로 전달
-            playerAnimator.SetFloat("yVelocity", playerRigidBody.velocity.y);
+            playerAnimator.SetFloat("yVelocity", playerRigidBody.linearVelocity.y);
         }
     }
 
@@ -48,9 +48,9 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         {
             // 공격 코루틴에서 부여한 x축 오프셋 속도를 부드럽게 감속시켜
             // 얼음판처럼 미끄러지지 않고 묵직하게 정지하도록 처리
-            Vector2 vel = playerRigidBody.velocity;
+            Vector2 vel = playerRigidBody.linearVelocity;
             vel.x = Mathf.Lerp(vel.x, 0, Time.fixedDeltaTime * attackDeceleration);
-            playerRigidBody.velocity = vel;
+            playerRigidBody.linearVelocity = vel;
         }
         else
         {
@@ -84,7 +84,7 @@ public class BlacksmithControllerV2 : PlayerControllerBase
 
         if (isGround)
         {
-            playerRigidBody.velocity = new Vector2(sx * attackStepForce, playerRigidBody.velocity.y);
+            playerRigidBody.linearVelocity = new Vector2(sx * attackStepForce, playerRigidBody.linearVelocity.y);
         }
 
         // 사운드

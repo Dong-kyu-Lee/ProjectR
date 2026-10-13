@@ -121,11 +121,11 @@ public abstract class PlayerControllerBase : MonoBehaviour
         }
 
         // 상승 중 점프 키를 놓으면 상승 속도를 잘라 짧은 점프를 만든다.
-        if (Input.GetKeyUp(KeyCode.Space) && playerRigidBody.velocity.y > 0f)
+        if (Input.GetKeyUp(KeyCode.Space) && playerRigidBody.linearVelocity.y > 0f)
         {
-            Vector2 velocity = playerRigidBody.velocity;
+            Vector2 velocity = playerRigidBody.linearVelocity;
             velocity.y *= jumpCutMultiplier;
-            playerRigidBody.velocity = velocity;
+            playerRigidBody.linearVelocity = velocity;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && enableDash && !IsMovementDisabled && IsMovingHorizontally())
@@ -186,9 +186,9 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
         Vector2 moveVector = new Vector2(
             inputX * playerStatus.TotalMoveSpeed * moveFactor * dashFactor * Time.deltaTime,
-            playerRigidBody.velocity.y
+            playerRigidBody.linearVelocity.y
         );
-        playerRigidBody.velocity = moveVector;
+        playerRigidBody.linearVelocity = moveVector;
 
 
         bool isMoving = !IsMovementDisabled && Mathf.Abs(inputX) > 0.01f;
@@ -234,7 +234,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
         // 기존 AddForce(jumpPower)의 결과를 유지하되, 프레임에 힘이 누적되는 대신
         // 계산된 초기 속도를 직접 지정해 점프 높이가 안정적으로 나오게 한다.
         float jumpVelocity = jumpPower * Time.fixedDeltaTime / playerRigidBody.mass;
-        playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, jumpVelocity);
+        playerRigidBody.linearVelocity = new Vector2(playerRigidBody.linearVelocity.x, jumpVelocity);
 
         if (playerAnimator != null)
             playerAnimator.SetBool("isGround", false);
@@ -253,7 +253,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
         );
         bool isHittingGround = currentGroundCollider != null && dropThroughCoroutine == null;
 
-        if (playerRigidBody.velocity.y > 0.05f)
+        if (playerRigidBody.linearVelocity.y > 0.05f)
         {
             isHittingGround = false;
         }
@@ -288,14 +288,14 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
     private void ApplyAdditionalFallGravity()
     {
-        if (playerRigidBody.velocity.y >= 0f || fallGravityMultiplier <= 1f)
+        if (playerRigidBody.linearVelocity.y >= 0f || fallGravityMultiplier <= 1f)
             return;
 
         Vector2 extraGravity = Physics2D.gravity
             * playerRigidBody.gravityScale
             * (fallGravityMultiplier - 1f)
             * Time.fixedDeltaTime;
-        playerRigidBody.velocity += extraGravity;
+        playerRigidBody.linearVelocity += extraGravity;
     }
 
     private bool IsPressingDown()
@@ -343,9 +343,9 @@ public abstract class PlayerControllerBase : MonoBehaviour
         currentGroundCollider = null;
         lastGroundedTime = float.NegativeInfinity;
 
-        Vector2 velocity = playerRigidBody.velocity;
+        Vector2 velocity = playerRigidBody.linearVelocity;
         velocity.y = Mathf.Min(velocity.y, -dropThroughSpeed);
-        playerRigidBody.velocity = velocity;
+        playerRigidBody.linearVelocity = velocity;
 
         if (playerAnimator != null)
             playerAnimator.SetBool("isGround", false);
@@ -422,7 +422,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
             return true;
 
         // 혹시 모를 외력(밀림 등)도 허용하고 싶으면 속도도 확인
-        if (playerRigidBody != null && Mathf.Abs(playerRigidBody.velocity.x) > 0.01f)
+        if (playerRigidBody != null && Mathf.Abs(playerRigidBody.linearVelocity.x) > 0.01f)
             return true;
 
         return false;
@@ -481,7 +481,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
     protected virtual IEnumerator DeadCoroutine()
     {
-        playerRigidBody.velocity = Vector2.zero;
+        playerRigidBody.linearVelocity = Vector2.zero;
 
         if (playerAnimator != null)
         {
@@ -616,7 +616,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
         // 물리 속도 즉시 정지 (관성 제거)
         if (playerRigidBody != null)
-            playerRigidBody.velocity = Vector2.zero;
+            playerRigidBody.linearVelocity = Vector2.zero;
     }
 
     public virtual void ResetPlayerState()
@@ -649,7 +649,7 @@ public abstract class PlayerControllerBase : MonoBehaviour
 
         // 물리 초기화
         if (playerRigidBody != null)
-            playerRigidBody.velocity = Vector2.zero;
+            playerRigidBody.linearVelocity = Vector2.zero;
 
         // 애니메이터 초기화 (남아있는 트리거 제거)
         if (playerAnimator != null)

@@ -37,32 +37,32 @@ public class ChaseState : IState
             if (absDx > stopDistance)
             {
                 float dir = Mathf.Sign(dx);
-                enemy.Rigidbody.velocity = new Vector2(dir * enemy.EnemyStatus.TotalMoveSpeed, enemy.Rigidbody.velocity.y);
+                enemy.Rigidbody.linearVelocity = new Vector2(dir * enemy.EnemyStatus.TotalMoveSpeed, enemy.Rigidbody.linearVelocity.y);
             }
             else
             {
                 // 사정거리 안에 들어오면 제자리 유지(공격 상태로 전환은 AttackRange 트리거가 담당)
-                enemy.Rigidbody.velocity = new Vector2(0f, enemy.Rigidbody.velocity.y);
+                enemy.Rigidbody.linearVelocity = new Vector2(0f, enemy.Rigidbody.linearVelocity.y);
             }
         }
         else
         {
-            enemy.Rigidbody.velocity = new Vector2(0f, enemy.Rigidbody.velocity.y);
+            enemy.Rigidbody.linearVelocity = new Vector2(0f, enemy.Rigidbody.linearVelocity.y);
         }
 
-        enemy.EnemyAnimator.SetBool("isMove", enemy.Rigidbody.velocity.magnitude > 0.1f);
+        enemy.EnemyAnimator.SetBool("isMove", enemy.Rigidbody.linearVelocity.magnitude > 0.1f);
     }
 
 
     public void Exit()
     {
         enemy.OnEdgeDetected -= StopAtEdge;
-        enemy.Rigidbody.velocity = Vector2.zero;
+        enemy.Rigidbody.linearVelocity = Vector2.zero;
     }
 
     private void StopAtEdge()
     {
         // 플랫폼 끝에 도달했을 때 정지
-        enemy.Rigidbody.velocity = Vector2.zero;
+        enemy.Rigidbody.linearVelocity = Vector2.zero;
     }
 }
