@@ -16,7 +16,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<PlayerManager>();
+                instance = FindFirstObjectByType<PlayerManager>();
                 if (instance == null)
                 {
                     Debug.LogWarning("PlayerManager 가 씬에 존재하지 않습니다. GameManager 오브젝트에 PlayerManager 컴포넌트를 추가합니다.");
