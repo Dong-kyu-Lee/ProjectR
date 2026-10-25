@@ -8,6 +8,9 @@ public class BlacksmithControllerV2 : PlayerControllerBase
 
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange = 1.5f;
+    [SerializeField, Min(0.1f)] private float attackHeight = 1.2f;
+
+    private static readonly int EnchantState = Animator.StringToHash("Base Layer.Enchant");
 
     [SerializeField] private float attackStepForce = 7f;     // 공격 시 앞으로 전진하는 속도
     [SerializeField] private float attackDeceleration = 15f; // 전진 후 멈추는 감속도 (높을수록 빨리 멈춤)
@@ -21,6 +24,7 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         base.Start();
         blacksmithAbility = GetComponent<BlacksmithAbilityV2>();
         characterAbility = blacksmithAbility;
+        blacksmithAbility.onEnchantPerformed.AddListener(PlayEnchantAnimation);
     }
 
     protected override void Update()
@@ -57,6 +61,30 @@ public class BlacksmithControllerV2 : PlayerControllerBase
             // 공격 중이 아닐 때만 부모 클래스의 일반 이동 실행
             base.FixedUpdate();
         }
+    }
+
+    private void LateUpdate()
+    {
+        if (isPause || isDead || !isAttaking) return;
+
+        // Animator가 이번 프레임의 상태와 전환을 평가한 뒤 이동 제한을 해제한다.
+        // 공격 입력 간격과 실제 모션 길이는 서로 다르므로 별도로 처리한다.
+        if (!IsAttackAnimationPlaying())
+        {
+            isAttaking = false;
+            ResetCombo();
+        }
+    }
+
+    private bool IsAttackAnimationPlaying()
+    {
+        if (playerAnimator == null || !playerAnimator.isActiveAndEnabled
+            || playerAnimator.runtimeAnimatorController == null) return false;
+
+        if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) return true;
+
+        return playerAnimator.IsInTransition(0)
+            && playerAnimator.GetNextAnimatorStateInfo(0).IsTag("Attack");
     }
 
     protected override IEnumerator Attack()
@@ -115,7 +143,8 @@ public class BlacksmithControllerV2 : PlayerControllerBase
             goto Cooldown;
         }
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
+        // 가로 사거리와 세로 높이를 분리해 다른 층의 적까지 맞지 않도록 한다.
+        Collider2D[] hits = Physics2D.OverlapBoxAll(attackPoint.position, GetAttackSize(), 0f);
         foreach (var hit in hits)
         {
             if (hit.CompareTag("Enemy"))
@@ -163,7 +192,7 @@ public class BlacksmithControllerV2 : PlayerControllerBase
     Cooldown:
         float fullActionTime = attackCoolTimeA / playerStatus.TotalAttackSpeed;
 
-        // 공격 애니메이션의 70% 지점까지만 대기 (선입력 타이밍 조절)
+        // 공격 간격의 70% 지점부터 재입력 허용 (실제 모션 종료와 별도)
         float cancelTime = fullActionTime * 0.7f;
         yield return new WaitForSeconds(cancelTime);
 
@@ -174,7 +203,7 @@ public class BlacksmithControllerV2 : PlayerControllerBase
 
         if (Time.time - lastAttackTime >= fullActionTime * 0.9f)
         {
-            isAttaking = false;
+            // 콤보만 정리하고, 이동 제한 해제는 LateUpdate에서 모션 종료에 맞춘다.
             ResetCombo();
         }
     }
@@ -186,6 +215,29 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         {
             playerAnimator.SetInteger("ComboStep", 0);
         }
+    }
+
+    private Vector2 GetAttackSize()
+    {
+        return new Vector2(attackRange * 2f, attackHeight);
+    }
+
+    private void PlayEnchantAnimation()
+    {
+        if (isDead || isPause || isDashing || !isGround || playerAnimator == null) return;
+        if (!playerAnimator.HasState(0, EnchantState)) return;
+
+        // 강화는 타격 판정이나 전진 없이 재생하며, 다음 행동으로 중단할 수 있다.
+        isAttaking = false;
+        ResetCombo();
+        playerAnimator.ResetTrigger("Attack");
+        playerAnimator.Play(EnchantState, 0, 0f);
+    }
+
+    private void OnDestroy()
+    {
+        if (blacksmithAbility != null)
+            blacksmithAbility.onEnchantPerformed.RemoveListener(PlayEnchantAnimation);
     }
 
     public override void ResetPlayerState()
@@ -200,7 +252,7 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         if (attackPoint != null)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+            Gizmos.DrawWireCube(attackPoint.position, GetAttackSize());
         }
     }
 }

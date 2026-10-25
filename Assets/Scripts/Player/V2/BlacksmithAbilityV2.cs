@@ -30,6 +30,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     public int EnchantLevel => enchantLevel;
 
     public UnityEvent onAbilityUpdated;
+    public UnityEvent onEnchantPerformed = new UnityEvent();
 
     public BlacksmithWeaponData CurWeaponData => curWeaponData;
 
@@ -125,6 +126,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         if (enchantLevel >= 5)
         {
             TryUpgradeGrade();
+            onEnchantPerformed?.Invoke();
             return;
         }
 
@@ -154,6 +156,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             InGameUIManager.Instance.ShowStatus("강화 실패...");
         }
 
+        onEnchantPerformed?.Invoke();
         onAbilityUpdated.Invoke();
     }
 
