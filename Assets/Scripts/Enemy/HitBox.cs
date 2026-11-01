@@ -44,6 +44,7 @@ public class HitBox : MonoBehaviour
             if (pcb == null || !pcb.IsInvincible)
             {
                 collision.gameObject.GetComponent<Status>().TakeDamage(enemy, currentDamage, 0, false);
+                enemy.GetComponent<Enemy>().ApplyDebuff(collision.gameObject);
             }
         }
     }

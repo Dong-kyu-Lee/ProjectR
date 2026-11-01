@@ -23,6 +23,7 @@ public class BurnDeBuff : Buff
         if (targetStatus == null) return;
 
         CalcReceiveDamage.Instance.TakeDebuffDamage(fireBustDmg, targetStatus, false);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject, true);
     }
 
     public override void RenewBuffEffect()
@@ -39,7 +40,7 @@ public class BurnDeBuff : Buff
         if (targetStatus == null) return;
 
         CalcReceiveDamage.Instance.TakeDebuffDamage(fireTickDmg, targetStatus, false);
-        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, true);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject, true);
     }
 
     public override void DoActionOnActivate(float tickDuration)

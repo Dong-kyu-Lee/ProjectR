@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BuffEffectManager : MonoBehaviour
@@ -31,6 +32,8 @@ public class BuffEffectManager : MonoBehaviour
         public GameObject effectPrefab;
     }
 
+    public Collider2D targetCollider;
+
     [SerializeField]
     private List<DebuffEffectEntry> buffEffectList;
 
@@ -55,57 +58,63 @@ public class BuffEffectManager : MonoBehaviour
     }
 
     // 버프 이펙트 실행
-    public void PlayBuffEffect(BuffType buffType, Vector3 position, bool isTick)
+    public void PlayBuffEffect(BuffType buffType, GameObject target, bool isTick)
     {
+        targetCollider = target.GetComponent<Collider2D>();
+        if (targetCollider == null)
+        {
+            Debug.LogError("Target Collider2D를 찾을 수 없습니다!");
+            return;
+        }
+
+        Bounds bounds = targetCollider.bounds;
+        Vector3 bottomPos = new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+        Vector3 middlePos = bounds.center;
+        Vector3 topPos = new Vector3(bounds.center.x, bounds.max.y, bounds.center.z);
+
+        // 등록되지 않은 버프 무시
+        if (!buffEffectDict.TryGetValue(buffType, out var buffPrefab))
+            return;
+
+        Vector3 spawnPosition = middlePos; // 기본: 중앙 기준
+
         // 틱일 경우
         if (isTick)
         {
-            // 등록되지 않은 버프 무시
-            if (!buffEffectDict.TryGetValue(buffType, out var buffPrefab))
-                return;
-
-            Vector3 spawnPosition = position; // 기본: 발바닥 기준
-
             // 버프 타입별 위치 보정
             switch (buffType)
             {
                 case BuffType.Burn:
+                    spawnPosition = bottomPos;
                     break;
-
                 case BuffType.Poison:
-                    spawnPosition.y += 1.2f;
+                    spawnPosition = middlePos;
                     break;
             }
 
-            Instantiate(buffPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(buffPrefab, spawnPosition, Quaternion.identity, target.transform);
         }
 
         // 버스트일 경우
         else
         {
-            // 등록되지 않은 버프 무시
-            if (!buffEffectDict.TryGetValue(buffType, out var buffPrefab))
-                return;
-
-            Vector3 spawnPosition = position; // 기본: 발바닥 기준
-
             // 버프 타입별 위치 보정
             switch (buffType)
             {
                 case BuffType.Drunken:
-                    spawnPosition.y += 1.2f;
+                    spawnPosition = topPos;
                     break;
 
                 case BuffType.Freeze:
-                    spawnPosition.y += 0.8f;
+                    spawnPosition = middlePos;
                     break;
 
                 case BuffType.Curse:
-                    spawnPosition.y += 0.7f;
+                    spawnPosition = middlePos;
                     break;
             }
 
-            Instantiate(buffPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(buffPrefab, spawnPosition, Quaternion.identity, target.transform);
         }
 
     }

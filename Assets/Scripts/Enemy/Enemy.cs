@@ -136,6 +136,7 @@ public class Enemy : MonoBehaviour
 
     public void StartAttack()
     {
+        enemyAnimator.ResetTrigger("Hit");
         // 적이 죽었거나, 이미 공격 중이거나, 현재 경직(Stun) 상태라면 공격 실행 금지
         if (StateMachine.isDead || isAttacking || StateMachine.CurrentState == StateMachine.stunState)
         {
@@ -300,6 +301,7 @@ public class Enemy : MonoBehaviour
         ResetPoise();
         DelayNextAttack(AttackRetryDelayAfterInterrupt);
         ApplyHitStun(stunDuration);
+        enemyAnimator.SetTrigger("Hit");
         return true;
     }
 
@@ -422,5 +424,10 @@ public class Enemy : MonoBehaviour
     {
         isAttacking = false;
         SetAttackPhase(EnemyAttackPhase.None, false);
+    }
+
+    public virtual void ApplyDebuff(GameObject target)
+    {
+
     }
 }

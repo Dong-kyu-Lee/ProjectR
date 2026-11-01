@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DebuffMeleeEnemy : MeleeEnemy
 {
+    public BuffType debuffType;
     public float debuffDuration = 3f;
-    public float debuffAmount = 0.5f;
 
     protected override void Awake()
     {
@@ -14,13 +14,12 @@ public class DebuffMeleeEnemy : MeleeEnemy
     }
 
     // HitBox 충돌 이벤트에서 호출될 수 있음
-    public void ApplyDebuff(GameObject target)
+    public override void ApplyDebuff(GameObject target)
     {
-        PlayerStatus status = target.GetComponent<PlayerStatus>();
-        if (status != null)
+        BuffManager playerBuffManager = target.GetComponent<BuffManager>();
+        if (playerBuffManager != null)
         {
-            //status.TakeDamage(this.gameObject, enemyStatus.EnemyStatusData.Atk, 0, false);
-            //status.ApplyDebuff(debuffAmount, debuffDuration);
+            playerBuffManager.ActivateDeBuff(debuffType, debuffDuration);
         }
     }
 }

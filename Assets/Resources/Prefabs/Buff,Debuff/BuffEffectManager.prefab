@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1447978930032663213}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.5648367, y: 1.3667783, z: 1392.5165}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1447978930032663212
 MonoBehaviour:
@@ -44,19 +44,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32617ded0d06ba479e96e183d9bea7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCollider: {fileID: 0}
   buffEffectList:
   - buffType: 24
     isTick: 1
-    effectPrefab: {fileID: 6853421000681367441, guid: 292cac2967771554b8cf43c4855d6c2b, type: 3}
+    effectPrefab: {fileID: 2304876946252917883, guid: 292cac2967771554b8cf43c4855d6c2b, type: 3}
   - buffType: 23
     isTick: 1
-    effectPrefab: {fileID: 128762709191539678, guid: fb1a2f368a06499459d2781f360960d3, type: 3}
+    effectPrefab: {fileID: 2550313435423627374, guid: fb1a2f368a06499459d2781f360960d3, type: 3}
   - buffType: 25
     isTick: 0
-    effectPrefab: {fileID: 190143440193139035, guid: 968f737d11ff16c4d87fab169a7218c0, type: 3}
+    effectPrefab: {fileID: 857868847084404727, guid: 49c3c1a7137a4dd41983a951323c8db5, type: 3}
   - buffType: 29
     isTick: 0
-    effectPrefab: {fileID: 806143146219414606, guid: 3cb2b43552d3ca6469e974d8fb995243, type: 3}
+    effectPrefab: {fileID: 3555862796901512027, guid: d55426e533a0e1341926dbd805fd3ddf, type: 3}
   - buffType: 34
     isTick: 0
-    effectPrefab: {fileID: 5963299753302017656, guid: d7912bd679a691c4f888533f7884a734, type: 3}
+    effectPrefab: {fileID: 8199672594737507136, guid: af09e787f6f828f448c8c310bb826ddd, type: 3}

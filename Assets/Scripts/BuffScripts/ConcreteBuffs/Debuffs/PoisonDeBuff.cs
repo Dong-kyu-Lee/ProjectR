@@ -19,7 +19,7 @@ public class PoisonDeBuff : Buff
         if (targetStatus == null) return;
 
         CalcReceiveDamage.Instance.TakeDebuffDamage(poisonDmg[currentBuffLevel], targetStatus, false);
-        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, true);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject, true);
     }
 
     public override void DoActionOnActivate(float tickDuration)
