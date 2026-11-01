@@ -5,12 +5,28 @@ using UnityEngine;
 public class BlacksmithControllerV2 : PlayerControllerBase
 {
     private BlacksmithAbilityV2 blacksmithAbility;
+    private bool enchantAnimationEnded;
+    private bool enchantAnimationCompleted;
 
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange = 1.5f;
     [SerializeField, Min(0.1f)] private float attackHeight = 1.2f;
 
     private static readonly int EnchantState = Animator.StringToHash("Base Layer.Enchant");
+
+    public float EnchantProgress
+    {
+        get
+        {
+            if (blacksmithAbility == null || !blacksmithAbility.IsEnchanting
+                || !IsEnchantAnimationPlaying()) return 0f;
+
+            var state = playerAnimator.GetCurrentAnimatorStateInfo(0);
+            if (state.fullPathHash != EnchantState)
+                state = playerAnimator.GetNextAnimatorStateInfo(0);
+            return Mathf.Clamp01(state.normalizedTime);
+        }
+    }
 
     [SerializeField] private float attackStepForce = 7f;     // 공격 시 앞으로 전진하는 속도
     [SerializeField] private float attackDeceleration = 15f; // 전진 후 멈추는 감속도 (높을수록 빨리 멈춤)
@@ -19,16 +35,26 @@ public class BlacksmithControllerV2 : PlayerControllerBase
     private float lastAttackTime = 0f;
     [SerializeField] private float comboLimitTime = 1.5f; // 콤보를 이어가기 위한 유효 시간
 
+    private void Awake()
+    {
+        blacksmithAbility = GetComponent<BlacksmithAbilityV2>();
+    }
+
     protected override void Start()
     {
         base.Start();
         blacksmithAbility = GetComponent<BlacksmithAbilityV2>();
         characterAbility = blacksmithAbility;
-        blacksmithAbility.onEnchantPerformed.AddListener(PlayEnchantAnimation);
+        BlacksmithEnchantProgressUI.AttachTo(blacksmithAbility);
     }
 
     protected override void Update()
     {
+        if (!isPause && !isDead && Time.timeScale > 0f
+            && blacksmithAbility != null && blacksmithAbility.IsEnchanting && HasEnchantCancelInput())
+        {
+            blacksmithAbility.CancelEnchant();
+        }
         base.Update();
 
         // 현재 플레이어의 공격 속도를 애니메이터 배속 파라미터에 전달
@@ -65,6 +91,29 @@ public class BlacksmithControllerV2 : PlayerControllerBase
 
     private void LateUpdate()
     {
+        if (blacksmithAbility != null && blacksmithAbility.IsEnchanting)
+        {
+            bool playing = IsEnchantAnimationPlaying();
+            if (enchantAnimationEnded)
+            {
+                bool completed = enchantAnimationCompleted;
+                enchantAnimationEnded = false;
+                enchantAnimationCompleted = false;
+                // 취소 직후 재시작했다면 이전 모션의 늦은 종료 신호는 무시한다.
+                if (!playing)
+                {
+                    // Animator 평가 도중 컨트롤러가 교체되지 않도록 완료 처리를 늦춘다.
+                    if (completed && !isDead) blacksmithAbility.CompleteEnchant();
+                    else blacksmithAbility.CancelEnchant();
+                }
+            }
+            else if (!playing)
+            {
+                // Animator.Play나 컨트롤러 교체로 종료 콜백 없이 모션이 바뀐 경우에도 정리한다.
+                blacksmithAbility.CancelEnchant();
+            }
+        }
+
         if (isPause || isDead || !isAttaking) return;
 
         // Animator가 이번 프레임의 상태와 전환을 평가한 뒤 이동 제한을 해제한다.
@@ -222,26 +271,74 @@ public class BlacksmithControllerV2 : PlayerControllerBase
         return new Vector2(attackRange * 2f, attackHeight);
     }
 
-    private void PlayEnchantAnimation()
+    private bool IsEnchantAnimationPlaying()
     {
-        if (isDead || isPause || isDashing || !isGround || playerAnimator == null) return;
-        if (!playerAnimator.HasState(0, EnchantState)) return;
-
-        // 강화는 타격 판정이나 전진 없이 재생하며, 다음 행동으로 중단할 수 있다.
-        isAttaking = false;
-        ResetCombo();
-        playerAnimator.ResetTrigger("Attack");
-        playerAnimator.Play(EnchantState, 0, 0f);
+        if (playerAnimator == null || !playerAnimator.isActiveAndEnabled
+            || playerAnimator.runtimeAnimatorController == null) return false;
+        return playerAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash == EnchantState
+            || (playerAnimator.IsInTransition(0)
+                && playerAnimator.GetNextAnimatorStateInfo(0).fullPathHash == EnchantState);
     }
 
-    private void OnDestroy()
+    private bool HasEnchantCancelInput()
     {
-        if (blacksmithAbility != null)
-            blacksmithAbility.onEnchantPerformed.RemoveListener(PlayEnchantAnimation);
+        bool attackInput = Input.GetMouseButtonDown(0)
+            && !IsPointerOverUI(Input.mousePosition)
+            && !(InGameUIManager.Instance != null && InGameUIManager.Instance.IsUIActive);
+        return Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.01f
+            || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftShift) || attackInput;
+    }
+
+    public bool TryStartEnchantAnimation()
+    {
+        if (!isActiveAndEnabled || isDead || isPause || isDashing || isAttaking || !isGround
+            || Time.timeScale <= 0f || playerAnimator == null || !playerAnimator.isActiveAndEnabled
+            || !playerAnimator.HasState(0, EnchantState) || HasEnchantCancelInput()) return false;
+
+        enchantAnimationEnded = false;
+        enchantAnimationCompleted = false;
+        ResetCombo();
+        playerAnimator.ResetTrigger("Attack");
+        playerAnimator.SetBool("isMove", false);
+        playerAnimator.Play(EnchantState, 0, 0f);
+        return true;
+    }
+
+    public void StopEnchantAnimation()
+    {
+        enchantAnimationEnded = false;
+        enchantAnimationCompleted = false;
+        if (playerAnimator == null || !playerAnimator.isActiveAndEnabled || isDead) return;
+
+        bool oneHanded = blacksmithAbility == null || blacksmithAbility.CurWeaponData == null
+            || blacksmithAbility.CurWeaponData.WeaponStyle == WeaponStyle.OneHanded;
+        string state = !isGround ? "Base Layer.Jump/Fall"
+            : oneHanded ? "Base Layer.Idle_OneHanded_V2" : "Base Layer.Idle_TwoHanded_V2";
+        playerAnimator.Play(state, 0, 0f);
+    }
+
+    public void NotifyEnchantAnimationEnded(bool completed)
+    {
+        if (blacksmithAbility == null || !blacksmithAbility.IsEnchanting) return;
+        enchantAnimationEnded = true;
+        enchantAnimationCompleted = completed;
+    }
+
+    protected override void OnDisable()
+    {
+        blacksmithAbility?.CancelEnchant();
+        base.OnDisable();
+    }
+
+    public override void Dead()
+    {
+        blacksmithAbility?.CancelEnchant();
+        base.Dead();
     }
 
     public override void ResetPlayerState()
     {
+        blacksmithAbility?.CancelEnchant();
         base.ResetPlayerState();
         ResetCombo();
     }
