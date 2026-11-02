@@ -56,7 +56,7 @@ public class FinishSpot : MonoBehaviour
                         }
                         else
                         {
-                            DungeonFlowManager.Instance.GetCurrentStage().LoadNextDungeon();
+                            DungeonFlowManager.Instance.GetCurrentStage()?.CompleteCurrentNode();
                         }
                         gameObject.SetActive(false);
                     });

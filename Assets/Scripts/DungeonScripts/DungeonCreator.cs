@@ -45,17 +45,23 @@ public class DungeonCreator : MonoBehaviour
     // 던전과 관련 요소를 씬에 생성하는 함수
     public void CreateDungeon(StageData stageData, out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
     {
+        CreateDungeon(stageData, stageData.numberOfRooms, stageData.dungeonBoxCount, out playerSpawnPosition, out finishSpotPosition);
+    }
+
+    // numberOfRooms, dungeonBoxCount : 스테이지 흐름 노드에서 StageData 기본값을 덮어쓴 값
+    public void CreateDungeon(StageData stageData, int numberOfRooms, int dungeonBoxCount, out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
+    {
         RemoveAllRooms();
         CreateBackgroundImage(stageData);
 
-        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(stageData.numberOfRooms);
+        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(numberOfRooms);
         var roomNodes = dungeonStructure.GetDungeonStructure();
 
         playerSpawnPosition = new Vector3();
         finishSpotPosition = new Vector3();
 
         // 상자를 생성할 방 인덱스를 정하는 함수
-        List<int> roomIndexForBoxes = GetRandomNumbers(roomNodes.Count, stageData.dungeonBoxCount);
+        List<int> roomIndexForBoxes = GetRandomNumbers(roomNodes.Count, dungeonBoxCount);
 
         // 랜덤으로 방 프리팹을 선택해 방과 그 구성요소 생성
         for (int i = 0; i < roomNodes.Count; ++i)
