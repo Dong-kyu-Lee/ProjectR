@@ -4,7 +4,6 @@ using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using static PlayerObj;
 
 public class LiberationUI : MonoBehaviour
 {
