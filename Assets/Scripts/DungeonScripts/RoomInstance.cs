@@ -23,6 +23,7 @@ public class RoomInstance : MonoBehaviour
     private Stage stage; // 이 방이 속한 스테이지
     private GameObject cameraBoundary;
     private bool useSpriteBackground; // 이 방이 배경 타일 대신 배경 이미지를 사용하는지 여부
+    private bool isHealRoom;
 
     void Start()
     {
@@ -48,6 +49,23 @@ public class RoomInstance : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            // 힐룸 추가 힐룸은 전투와 문 잠금을 생략하고, 입장 즉시 다음 방을 열기
+            // 플레이어에게 콜라이더가 여러 개 있어도 roomState가 중복 실행 막음
+            if (isHealRoom)
+            {
+                if (roomState == RoomState.Default)
+                {
+                    roomState = RoomState.Cleared;
+                    OnRoomStateChanged?.Invoke(roomState);
+
+                    Vector3 arrivePos = gate.OpenGate(true);
+                    stage.OpenNextRoom(this, arrivePos);
+                }
+
+                MoveRoom();
+                return;
+            }
+
             if (roomState == RoomState.Default)
             {
                 // 문 닫기
@@ -149,6 +167,12 @@ public class RoomInstance : MonoBehaviour
     public void SetUseSpriteBackground(bool use)
     {
         useSpriteBackground = use;
+    }
+
+    // 힐룸 추가: DungeonCreator가 생성된 방의 힐룸 여부를 전달
+    public void SetHealRoom(bool value)
+    {
+        isHealRoom = value;
     }
 
     // RoomInstance가 속한 Stage 참조를 설정하는 함수
