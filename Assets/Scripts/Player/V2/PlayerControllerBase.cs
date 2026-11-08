@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // 모든 캐릭터의 고유 능력을 추상화하는 인터페이스
 public interface IAbilityV2
@@ -141,10 +142,27 @@ public abstract class PlayerControllerBase : MonoBehaviour
     // 기본 캐릭터는 누르는 순간 공격하고, 바텐더는 입력 처리를 재정의한다.
     protected virtual void HandleAttackInput(bool isUIActive)
     {
-        if (Input.GetMouseButtonDown(0) && enableAttack && !isDashing && !isUIActive)
+        if (Input.GetMouseButtonDown(0) && enableAttack && !isDashing && !isUIActive
+            && !IsPointerOverUI(Input.mousePosition))
         {
             StartAimedAttack(GetAimDirection2D(horizontalOnly: false));
         }
+    }
+
+    protected bool IsPointerOverUI(Vector2 screenPosition)
+    {
+        var eventSystem = EventSystem.current;
+        if (eventSystem == null) return false;
+
+        // 캐시된 포인터 상태 대신 현재 좌표를 검사해 Update 실행 순서와 무관하게 막는다.
+        var eventData = new PointerEventData(eventSystem) { position = screenPosition };
+        var hits = new List<RaycastResult>();
+        eventSystem.RaycastAll(eventData, hits);
+        foreach (var hit in hits)
+        {
+            if (hit.module is UnityEngine.UI.GraphicRaycaster) return true;
+        }
+        return false;
     }
 
     protected void StartAimedAttack(Vector2 aim)

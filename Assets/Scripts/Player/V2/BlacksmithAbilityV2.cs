@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 {
@@ -13,6 +14,9 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     [SerializeField] private Animator playerAnimator;
 
     private PlayerStatus playerStatus;
+    private BlacksmithControllerV2 playerController;
+    private BlacksmithWeaponData enchantingWeapon;
+    private GameManager sceneChangeSource;
 
     private BuffManager playerBuffManager;
 
@@ -27,9 +31,11 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     private float lastAppliedAttackSpeed = 0f;
 
     public bool IsActivated => isActivated;
+    public bool IsEnchanting { get; private set; }
     public int EnchantLevel => enchantLevel;
 
     public UnityEvent onAbilityUpdated;
+    public UnityEvent onEnchantPerformed = new UnityEvent();
 
     public BlacksmithWeaponData CurWeaponData => curWeaponData;
 
@@ -56,6 +62,32 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
     {
         playerStatus = GetComponent<PlayerStatus>();
         playerBuffManager = GetComponent<BuffManager>();
+        playerController = GetComponent<BlacksmithControllerV2>();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
+        sceneChangeSource = FindObjectOfType<GameManager>();
+        if (sceneChangeSource != null) sceneChangeSource.OnSceneChanged += OnGameSceneChanged;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+        if (sceneChangeSource != null) sceneChangeSource.OnSceneChanged -= OnGameSceneChanged;
+        sceneChangeSource = null;
+        CancelEnchant();
+    }
+
+    private void OnActiveSceneChanged(Scene previous, Scene current)
+    {
+        CancelEnchant();
+    }
+
+    private void OnGameSceneChanged(Define.SceneType sceneType)
+    {
+        CancelEnchant();
     }
 
     public void Activate()
@@ -79,17 +111,13 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
         }
         else
         {
-            if (AbilityManager.Instance.blacksmithAbility[5] && !CalcDamage.Instance.IsOnCooldown("blackSmithInvincible"))
-            {
-                playerBuffManager.ActivateBuff(BuffType.Invincible, 1f);
-                CalcDamage.Instance.StartCooldown("blackSmithInvincible", 5f);
-            }
             EnchantWeapon();
         }
     }
 
     public void Deactivate()
     {
+        CancelEnchant();
         RemoveWeaponBonus();
         Initialize();
         Debug.Log("CurWeapon : " + curWeaponData.WeaponName);
@@ -98,6 +126,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     public void ResetAbility()
     {
+        CancelEnchant();
         RemoveWeaponBonus();
         Initialize();
 
@@ -108,6 +137,8 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     public void EnchantWeapon()
     {
+        if (IsEnchanting || !isActivated || curWeaponData == null) return;
+
         if (upgradeChance <= 0) 
         {
             InGameUIManager.Instance.ShowStatus("강화 가능 횟수가 부족합니다.");
@@ -120,11 +151,55 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             return;
         }
 
+        IsEnchanting = true;
+        enchantingWeapon = curWeaponData;
+        if (playerController == null || !playerController.TryStartEnchantAnimation())
+        {
+            IsEnchanting = false;
+            enchantingWeapon = null;
+            InGameUIManager.Instance.ShowStatus("지상에서 이동과 공격을 멈춘 뒤 강화할 수 있습니다.");
+            return;
+        }
+
+        // 취소 시에도 이미 발동한 무적 효과의 쿨타임은 되돌리지 않는다.
+        if (AbilityManager.Instance.blacksmithAbility[5] && !CalcDamage.Instance.IsOnCooldown("blackSmithInvincible"))
+        {
+            playerBuffManager.ActivateBuff(BuffType.Invincible, 1f);
+            CalcDamage.Instance.StartCooldown("blackSmithInvincible", 5f);
+        }
+        onAbilityUpdated?.Invoke();
+    }
+
+    public void CancelEnchant()
+    {
+        if (!IsEnchanting) return;
+
+        IsEnchanting = false;
+        enchantingWeapon = null;
+        playerController?.StopEnchantAnimation();
+        onAbilityUpdated?.Invoke();
+    }
+
+    public void CompleteEnchant()
+    {
+        if (!IsEnchanting) return;
+
+        var weapon = enchantingWeapon;
+        IsEnchanting = false;
+        enchantingWeapon = null;
+        if (!isActivated || curWeaponData != weapon || upgradeChance <= 0)
+        {
+            onAbilityUpdated?.Invoke();
+            return;
+        }
+
+        // 소모 및 확률 판정은 모션이 끝났을 때 한 번만 수행한다.
         upgradeChance--;
 
         if (enchantLevel >= 5)
         {
             TryUpgradeGrade();
+            onEnchantPerformed?.Invoke();
             return;
         }
 
@@ -154,6 +229,7 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
             InGameUIManager.Instance.ShowStatus("강화 실패...");
         }
 
+        onEnchantPerformed?.Invoke();
         onAbilityUpdated.Invoke();
     }
 
