@@ -14,6 +14,8 @@ public class HealingObject : MonoBehaviour
         "'<color=yellow>E</color>'키를 눌러 체력을 회복";
 
     [Header("사용 후 연출")] 
+    [Tooltip("화로의 자식으로 배치한 불꽃 오브젝트를 연결하세요. 회복 사용 후 비활성화됩니다.")]
+    [SerializeField] private GameObject healFire;
     [SerializeField] private Animator animator;
     [SerializeField] private string usedAnimationParameter = "IsUsed";
     [SerializeField] private UnityEvent onUsed;
@@ -105,6 +107,9 @@ public class HealingObject : MonoBehaviour
                 currentPlayerStatus.MaxHp);
         }
         
+        // 실제로 회복했을 때만 불꽃과 그 아래 파티클들을 함께 끈다.
+        TurnOffHealFire();
+
         HideInteractionUI();
         playerColliders.Clear();
 
@@ -118,6 +123,13 @@ public class HealingObject : MonoBehaviour
         
         InGameUIManager.Instance?.ShowStatus(" 영원의 화로 힘으로 체력을 회복했습니다.");
 
+    }
+
+    private void TurnOffHealFire()
+    {
+        // 이름으로 검색하지 않고 인스펙터에서 연결한 오브젝트를 끈다.
+        if (healFire != null)
+            healFire.SetActive(false);
     }
 
     private void OnDisable()
