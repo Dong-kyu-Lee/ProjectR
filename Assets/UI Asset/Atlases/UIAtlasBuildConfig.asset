@@ -1,0 +1,827 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0939595124634a54d84bc10ad97bf92e, type: 3}
+  m_Name: UIAtlasBuildConfig
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::UIAtlasBuildConfig
+  sharedAtlas: {fileID: 4343727234628468602, guid: 6ca70cef4eb0986408abbf53c1035800, type: 2}
+  includeBuildScenes: 1
+  buildSceneAtlas: {fileID: 4343727234628468602, guid: 6ca70cef4eb0986408abbf53c1035800, type: 2}
+  assetRules: []
+  dataTypeRules:
+  - dataType: {fileID: 11500000, guid: 27b0a08188b349a478371e925216cbb3, type: 3}
+    targetAtlas: {fileID: 4343727234628468602, guid: 74fdc1b4cee7e60408dc5fc2bd1b388b, type: 2}
+  - dataType: {fileID: 11500000, guid: 74da0f0c27bbf5c44a89d7085fc9e8da, type: 3}
+    targetAtlas: {fileID: 4343727234628468602, guid: 6ca70cef4eb0986408abbf53c1035800, type: 2}
+  - dataType: {fileID: 11500000, guid: 78ce6b0b6437cd1419e09874909e98cf, type: 3}
+    targetAtlas: {fileID: 4343727234628468602, guid: 6ca70cef4eb0986408abbf53c1035800, type: 2}
+  folderRules:
+  - folder: {fileID: 102900000, guid: 531f9c74f10cd0a4aa7b704c35f07afd, type: 3}
+    targetAtlas: {fileID: 4343727234628468602, guid: 6ca70cef4eb0986408abbf53c1035800, type: 2}
+  manualSprites: []
+  excludedSprites:
+  - {fileID: 102900000, guid: 023cc7382470eff40955bad325b5bde3, type: 3}
+  - {fileID: 2800000, guid: 5d3e5d26018fe7644a4a16e31cc0ab36, type: 3}
+  - {fileID: 21300000, guid: e003c1535e0559a42b064c0fefcf399f, type: 3}
+  - {fileID: 21300000, guid: ea27748b0b9f8e8468b1942eeb89f536, type: 3}
+  - {fileID: 21300000, guid: 49ec60fcae905eb46894a0f6fa6098f3, type: 3}
+  - {fileID: 21300000, guid: 8ff500fb7c31e0d44a4d7461a503cdb9, type: 3}
+  - {fileID: 21300000, guid: c834e50fd0d0a10478da66c9977c9d3d, type: 3}
+  - {fileID: 1486278653, guid: 9fea3ed1039c5574797be87d5801f3e4, type: 3}
+  - {fileID: 1027539917, guid: 13dde0153d70949458d1f93128eca40f, type: 3}
+  excludedFolders:
+  - {fileID: 102900000, guid: e922080e94b9f75409bd210f5250ab04, type: 3}
+  oversizedSpriteSize: 256
+  unusedSpriteFolders:
+  - {fileID: 102900000, guid: 1f13c576b6234d640aa58bf5df571afb, type: 3}
+  lastAppliedTime: 2026-11-09 17:37
+  lastAppliedSnapshots:
+  - atlas: {fileID: 4343727234628468602, guid: 6ca70cef4eb0986408abbf53c1035800, type: 2}
+    spriteKeys:
+    - 157cbc340d2b7e64ab85168e80e95550:4255777226033644358
+    - 7995650ceab2110479e63d9f2661568d:-64764944
+    - 3765a367fb48f9040bca18add088d6d3:5300179025838392481
+    - 3765a367fb48f9040bca18add088d6d3:6998131782875741384
+    - 3765a367fb48f9040bca18add088d6d3:2047483964318851028
+    - 89829637aa8cab447a62daa38af3dfbd:21300000
+    - 061aa3047b263cf4bb2dabddf3c895be:21300000
+    - 5752a38ed92956f429939311d10681ea:21300000
+    - b7eaef9807a7d8d4ca14c5ad44ef12bb:21300000
+    - 40261ac1fd2a7ce479236c4baaabd14c:21300000
+    - 3796b554a47c29848a5f02b3a692f710:21300000
+    - cbaa41f13488239488af1d07db352c11:21300000
+    - 6d430ea1509f2334f85fd58f26909743:21300000
+    - d520f7b733649f74cb39877d5ab00b6d:21300000
+    - a7d2a3c4d9cb51a42b96dc11f354ed6b:21300000
+    - 49ad422429802ba4994a53bc038f38fb:21300000
+    - f6916f33e2f6f0041bee742a268bb3f9:21300000
+    - bafe9f79b588c084084de730abf6169f:21300000
+    - 66782a1690cdff7468b748a201853773:21300000
+    - e4ae3c760c185634099e4fd022992256:21300000
+    - ff07b6cdb44969849aa55aa99bc5d812:21300000
+    - 6c7d8aeb7e9378b439cb6f56887c8f45:21300000
+    - 380909f802c48dc4d91e86ac38c60496:21300000
+    - 0d59892a1d2e0fa438c26c61fd7835a7:21300000
+    - cc326b472effc1546b0325bf07d4f0fd:21300000
+    - 4469bf413c24dc54e9d4e2934b208b6d:21300000
+    - 60fdc72d555233049b8fe52ef364a397:21300000
+    - 4561cf9a9b52c7343ad233ce61f1eb9f:21300000
+    - e9d6b6270cf906e4fb2e0a6bbf6ecee9:21300000
+    - 2a3825bb84ee0894ab1c1f8f4971da33:21300000
+    - fab4d0c337cb70848b0c209677bd11e4:21300000
+    - 991373467c5dd8e44aee183c776a711f:21300000
+    - 5c58c14ccada15045ad47241d4c8f56e:21300000
+    - 0e4480edd9f93214c8ecaa1767da86c8:21300000
+    - e89698bb286789c47b823b1d64334313:21300000
+    - 1de3067869c64ac48b1631f122ba70fd:21300000
+    - e3752981cdac52d489b480f2fcf41e7c:21300000
+    - 80573d08b0c4686438769d280439ae05:21300000
+    - 2a17250bb11308c429937f21b2837d38:21300000
+    - 7c8a245a548f3df49abb1668530559ef:21300000
+    - 5adf3f18281a0224f9310073c646d42e:21300000
+    - f4e05d6501c0a5f42a3170fc7cea964b:-252393165
+    - f4e05d6501c0a5f42a3170fc7cea964b:260680326
+    - f4e05d6501c0a5f42a3170fc7cea964b:1741498624
+    - f4e05d6501c0a5f42a3170fc7cea964b:377630479
+    - f4e05d6501c0a5f42a3170fc7cea964b:1887718961
+    - f4e05d6501c0a5f42a3170fc7cea964b:-810559684
+    - f4e05d6501c0a5f42a3170fc7cea964b:1199942458
+    - f4e05d6501c0a5f42a3170fc7cea964b:2126601645
+    - 8cbc717838bc8b240951d6740e6bb9d4:-1065962286
+    - 8cbc717838bc8b240951d6740e6bb9d4:-504217708
+    - 8cbc717838bc8b240951d6740e6bb9d4:-700110575
+    - 8cbc717838bc8b240951d6740e6bb9d4:-895075621
+    - 8cbc717838bc8b240951d6740e6bb9d4:1871652530
+    - 8cbc717838bc8b240951d6740e6bb9d4:-155452298
+    - 8cbc717838bc8b240951d6740e6bb9d4:1315972160
+    - 8cbc717838bc8b240951d6740e6bb9d4:1241768061
+    - 8cbc717838bc8b240951d6740e6bb9d4:1208476174
+    - 8cbc717838bc8b240951d6740e6bb9d4:-1886561882
+    - 8cbc717838bc8b240951d6740e6bb9d4:-1082884622
+    - 8cbc717838bc8b240951d6740e6bb9d4:-1842030189
+    - 8cbc717838bc8b240951d6740e6bb9d4:1789006830
+    - 51ad5be22ebcecc4bb160576e4586a49:21300000
+    - e40dae01b041fc1499381fbacf31e0e3:21300000
+    - f8eb0d57aa2ec854f9bce28e3da5c601:21300000
+    - 45d5774cb931da240b187d1dbd71f843:21300000
+    - 1b8b571aed81b704594e0a365911b2f9:21300000
+    - ffcf2d801f3907448bf217fca31ea035:21300000
+    - 0f17ef7cdc323ca4384a27e140a6a94f:21300000
+    - 4c105d3c53ccce84b8d44b6dcd4b6698:21300000
+    - 9647ce8cf65f5ff498b406128db94c11:1355217149
+    - 9647ce8cf65f5ff498b406128db94c11:564868480
+    - 9647ce8cf65f5ff498b406128db94c11:-1854659063
+    - 9647ce8cf65f5ff498b406128db94c11:-232279858
+    - eaaa687c5b044bc4d9a0c3039bf61f6e:21300000
+    - 97674d34c3046274f9cee23fa0f2aec1:704087163
+    - 97674d34c3046274f9cee23fa0f2aec1:1890379846
+    - 5a386f62d01f3504b9cb3f682577106f:21300000
+    - 91fb5f1ae29dbd247945d553b3e068a6:21300000
+    - b68b996e88942794aa4935f3b2d6e3fe:21300000
+    - 696bd3b2ae7e7d34f801d5fc3b8c0778:21300000
+    - 16480b0015ffb424d977852cc5ed312a:21300000
+    - dbddf4b1304b18f4882423d205557703:21300000
+    - 51939d564b0dae44995585c58c4509dc:21300000
+    - ada77d2eb2309e847aa796ecb28fce3f:21300000
+    - 951c89b78e7daac419a5e591d59fd7be:21300000
+    - 51c2330dec20a03439b00e7ab4823999:21300000
+    - 76234b4b4d6b84a45867272033120b9a:21300000
+    - f4c9834e8e886c446b81a8150f46fe5e:21300000
+    - 7f713d2ac44e5404baf5cf6f1dce0dae:21300000
+    - 596523f8d8661a3479b84dedcb77e63a:21300000
+    - 3b8c1c0b6c3acd64bb6e8b72d56ac656:21300000
+    - 3a0bb2692c8b9f4479a18211f65e34a6:-319430180
+    - 3a0bb2692c8b9f4479a18211f65e34a6:1656189245
+    - 3a0bb2692c8b9f4479a18211f65e34a6:1950791315
+    - 3a0bb2692c8b9f4479a18211f65e34a6:365430867
+    - 1d324a1828c0ebc42b6eb5a1d01cd1bd:-1509497571
+    - 7c9e15787b6391642981c6f74fdff8a1:-910961494
+    - 7c9e15787b6391642981c6f74fdff8a1:891842496
+    - 7c9e15787b6391642981c6f74fdff8a1:701465517
+    - 9fba3de480edfe74681481770b5dd576:21300000
+    - b91604b41cc7bb74db18d32655bf9212:21300000
+    - ab41f89bf5328bf4ebe8ed404f1542a9:21300000
+    - 9ae73cc8499d92b4cadf5de943bbfc92:21300000
+    - 56b3f530691a5514d97f5761217f4057:21300000
+    - b9b6d1769f5cc774594729ad016eb966:21300000
+    - c5166d02c90b0b4428dbcb840981bbe7:21300000
+    - c9c0b0102c41f1d42acf5e11b3156486:21300000
+    - b7c993edf5c6de342923a2c770fca48e:21300000
+    - b6f3374714cb57a48b662e17ad5c16d3:21300000
+    - 4ba3b40e67d1bad4590b6d32ca4feb87:1856002750
+    - a1b149734aed0eb49ad7caaf15856dcf:21300000
+    - 537aa108002f44a4e913022f025d201c:21300000
+    - 3dd2e07b275fc104499582a75da3b063:21300000
+    - cbd68466820f91940b406c2e57016851:21300000
+    - 4bfe9ab9515f54344b59da51db9ec5b0:1987771462
+    - 4bfe9ab9515f54344b59da51db9ec5b0:-709700518
+    - c68318e352fb98146980790bd2aa9018:21300000
+    - 9381cf51695a21b45ae254a341c20c8d:21300000
+    - a3b32792259c1aa438a174666e9c7db5:21300000
+    - 5b8cdfebabb5fa240a8e2074b4deb06e:21300000
+    - 8a81c9ac754f0b2438defbc685ea8ae2:21300000
+    - cbdd26266b5d72e449524880c50ebfca:21300000
+    estimatedArea: 361703
+    pageSizes:
+    - 1024x512
+  - atlas: {fileID: 4343727234628468602, guid: 74fdc1b4cee7e60408dc5fc2bd1b388b, type: 2}
+    spriteKeys:
+    - 090c02b15065b344fa95639aed387285:21300000
+    - 322ce8ca76c78fd4da7f431fcc94e610:21300000
+    - 03f36bdc2c5085f44b277e906ba72d2d:21300000
+    - 521d657e51c301940a216bca92a8bb72:21300000
+    - 7cf2464fc786bdb488ae22db89e156c9:21300000
+    - 5006964d372ef39449cbd4997bc832c8:21300000
+    - dd9a5b701c89e4144ab39e43074b7e35:21300000
+    - b58172f663012c34da116ad16dc9d7d5:21300000
+    - f1ab865984e5ddb499528d1bcc5e1fd5:21300000
+    - 26e70f253ceee904fbf83b0de63549a1:21300000
+    - a11f311ccae4a644ca08e29b822a90bb:21300000
+    - c6fcbfffbc6856a4bbfcec215b56398f:21300000
+    - 60c347973cf9453479eee5bbd1b351d0:21300000
+    - 25eb726a9a748f04bbaf1dfb7ca16554:21300000
+    - 5476cf65a1d763b4fac635502e0fa594:21300000
+    - f0fc5c13869a90f45a5d3226125bc92c:21300000
+    - 84b9b5531cedd30439f419403f70a661:21300000
+    - 47a57c0eaa8c51e4d9823d969eaefc9e:21300000
+    - 001b23c2ce9c90749979213ffb2f7d93:21300000
+    - 8a8a090295a9dd14bb3fc0a5993454ca:21300000
+    - 8e79edc8e7600f14bac02a8fa63b673c:21300000
+    - 15228e7bf661d454fac39b76f022045a:21300000
+    - 08f4b1f7c9970114b9a6ab3fc0e715c0:21300000
+    - d818f6b5e14c25549ba2e309ea25ef75:21300000
+    - 8bb0b790ab16f7744aa490104ed44f59:21300000
+    - 3e1bd3e45ba70f847abf8c9391079158:21300000
+    - 0e5c8376979cf094cad25d4a0e1bcef4:21300000
+    - 6415f05c04609d34b9fad3a66263f8d6:21300000
+    - 38298d47bd2f6b7498f7d60aab1848ac:21300000
+    - cfd7651c4aab3cd4c8ebe89d3b015098:21300000
+    - 2f18c61651e164b4baf3439de14e13fa:21300000
+    - e292ed36c369b1540847ed97d9ad23af:21300000
+    - 6a15bd05680c2b442a5aec8aff9dd31f:21300000
+    - 3b0778b2ed13cf8428807ad0f23aab4e:21300000
+    - 23faddf24413da64094b01810ecd9aac:21300000
+    - d241333e456b89f448b69572c02385df:21300000
+    - e0c7e2e47c21821428f7708caa5a33a6:21300000
+    - f0539d02274f38049b4df4417a609df5:21300000
+    - db478ffc3b1eace4f89b0a86db21cac6:21300000
+    - 878a6708bfa49cc45b151f6814c90b87:21300000
+    - e1e097a97aca2b04dafe71f416f717d1:21300000
+    - 250d8cc60b94b424ea46cab6d7d6cd78:21300000
+    - 830868e4c8878af4f804d515652757e5:21300000
+    - 0203650333bd95442a3e7f706e2be441:21300000
+    - 89271192b64499b40a32fa0cbe1f618e:21300000
+    - 2f60287439bca934890bb97aea1f2199:21300000
+    - 3fc557d379ed7bb45afbe22268ced5b5:21300000
+    - f75327112c6029e48a2a1418df49d7f9:21300000
+    - 2b6a7d3610816fa4c9a5012853522b25:21300000
+    - 8bb67da939d42e241b1a4729d19bb03e:21300000
+    - 8bbfdf55b1fa2664cb71c283ab387ded:21300000
+    - accbf4c7bc8f3674389034da6a6ed123:21300000
+    - f946509f219e09741bdce9fe9fa36d8e:21300000
+    - 3135b8f1edacd3142ac75289de566b16:21300000
+    - d70287934781b7e4db8dc1321cac4cfc:21300000
+    - 97b1cdbba53716e46bd2586999f46e08:21300000
+    - 7f2c6937576a4224f96acb06d16e50b7:21300000
+    - 169e0f67645553c47befd5a44eba4c59:21300000
+    - 2e4481acc15fbab4d8a8fa82187ab533:21300000
+    - ea9cbd19c0aab7f448d3e3780d427111:21300000
+    - 4a491ec3f2da07441aadc2cdf0e7ac1a:21300000
+    - 1ea9f4f5e1e23a74098a6f7012fc4fe9:21300000
+    - 2a1d5362e5270454aa1874d2ddea7aea:21300000
+    - 31800428f010f6d44b7a7be90cc7cb95:21300000
+    - ccb2cb4ee1198ad4aaa38836fb577fca:21300000
+    - 7332bb781ff440645a138a178974030b:21300000
+    - ff463ac15c5f165419aa5cc7a517abd0:21300000
+    - dda9689090f8f834aacc37132acb9043:21300000
+    - 5cd24166a42fe0c499880c151f776e0f:21300000
+    - 24d80fac7e3b8254c8acf1693f39e7b1:21300000
+    - 55d606cb49467a14fa9c6cdf23ebdc22:21300000
+    - b5024b544ec140d498a5d8d0fa2f0aac:21300000
+    - 12955a3f9ac5e894887314d5aa7fdd0d:21300000
+    - c2b143e72938fdc4d8bfebe6888d4304:21300000
+    - f7205e95b37525840a5774776b94af77:21300000
+    - 8776556d9d210954ca5a2b125991d05e:21300000
+    - 026281fecbe468240ad89ce3d9d9b262:21300000
+    - 984d04226f724a74e9d19e196986a775:21300000
+    - 7fe55d012c13eb048877ef22dc79e4a4:21300000
+    - af288f0fcd7ac6449afaecd402177c0b:21300000
+    - 3bcddbce7188de041b26778ffa55ba77:21300000
+    - 756f551c7c52d5a4d893a5dee364d18a:21300000
+    - b4eeb694c4448b040b49e4ba5023c5f6:21300000
+    - 601ec14fb846cd24d81949452ad54f12:21300000
+    - d37975a0d833c7343a5735c096bdded4:21300000
+    - 20dc0170b973082439b5358d83c7962d:21300000
+    - 43edf0ad02a553e44b62ee6eff3a0f18:21300000
+    - d2a0c8d24adb34843a40b9bc0a39ee0a:21300000
+    - d8b1012f52952b54eba5b20120a262db:21300000
+    - 0425e5b85b8e43441a822f9a3144a3c3:21300000
+    - 76504565ade33634d82404b298be3ca9:21300000
+    - 378c443e8d489bb4f99991cd812f6eeb:21300000
+    - 032bb3198248ea8489d7de4308487045:21300000
+    - 8da1d7d0c6871f2469118006bf2562ad:21300000
+    - 94a958ce240f73e42880a7095a25f9ad:21300000
+    - 02796d24f6f74da46a5a7875aa897acb:21300000
+    - 891b3ea00faef074caab2ff9034a8f4f:21300000
+    - c906cb473533e884f840d52584ae15dd:21300000
+    - 88a075a5903d3fe458cabc85975c6414:21300000
+    - b046c7ae1ed46924d8b5d1a584e3407d:21300000
+    - 814a399744fd27045a43919e4a607333:21300000
+    - 0e11cdebc5d417e47b32eda6afded997:21300000
+    - 966517d4f7fbb084e9f7dea0a46f65d9:21300000
+    - 255d7d88b9ebce3418570352d7791ba6:21300000
+    - 927854a3623ed8d4388db5e79f836324:21300000
+    - 23d8de95e4041554c826e51607c78a42:21300000
+    - 170fa808893f18a4aadff532f6b85e9b:21300000
+    - d9aadc856e47b364c85081793b8f7b9f:21300000
+    - c3a7549bad365f445bae3d94b4d590b5:21300000
+    - cc1227d75cad8ec4b84f607e647d4be4:21300000
+    - 266a631d6cccdd543aae920f7a4199ca:21300000
+    - c3c31e675999ccf4882c3502bd412bc8:21300000
+    - af23c03a88938e34fa25ffe000325dce:21300000
+    - 2f22508d2dd406c4594ec6c4ee9a354b:21300000
+    - 1023142186427774bb77e03e4b730fe0:21300000
+    - c72742687cfb766499440f5656667faf:21300000
+    - 33e935fbf732b1349b1f8531cf7f7723:21300000
+    - 06d312bff44850146a2d2e75215ecbde:21300000
+    - b948e0dda9f17f94e87372b557da34dd:21300000
+    - 83c4510d5595a8847ada9e1dcce7baec:21300000
+    - e14a60cfa12a4b242b9cdd5b8fb4ad9d:21300000
+    - 7f942b62ec98c844dabcb00892ee7b39:21300000
+    - 99ebec6e19d3cdd4e89021dbb0483853:21300000
+    - 11f7205cff2ffe146b6f6efd17d3b1f9:21300000
+    - 1b1bdd9f09823374389f8719723d8d23:21300000
+    - 5a8c1f4001cd832468f7ff36ac79a007:21300000
+    - b5252dbef35f6554e8fa6dc9722a7dbf:21300000
+    - efa4c8577244d654fb51148c3b1b0738:21300000
+    - 9506cf0b233422a47b694f6ea88270c4:21300000
+    - 87213d6de4ef2454bab5d095cef4a7da:21300000
+    - d53c66f45edb7aa4888c7e5bd9815163:21300000
+    - 38477a4d1afa98740bb27891e75b3ea3:21300000
+    - c33bf2252f083f940a8b5a655452364b:21300000
+    - cf7b36d2f6f04364a8b321e300fa932b:21300000
+    - cce0cf5175aab3743812c23575e79798:21300000
+    - eb0961276cf1d5148bfcc0d99e5729b2:21300000
+    - d2db38c8fc964974486e3812face6dd6:21300000
+    - 900a55d11ca49b843b6089432fba0f08:21300000
+    - e789284028e7d88468633343f73b2366:21300000
+    - 0d004f4dfbf2f29448bfc77e21e9a33e:21300000
+    - ad2ab28135d7acb4dbab6a22b3ff7a68:21300000
+    - 8e81a2a6e7a1dbf4298cd8a1af6099af:21300000
+    - 9876fb5914ac660488e76859a2ecb593:21300000
+    - 48b106f964bcc704db1175572b5c7def:21300000
+    - a813c0dc4a8942f48b4b51f75b84d4b8:21300000
+    - ab1174eb23a8ee744ba7b3d5501bf85c:21300000
+    - de698cfd0816648429659bc0735cdcd8:21300000
+    - ad0e81bf7e1be3e42bad5ffcdb587f96:21300000
+    - 00857eb2deffc6846a69d92915117444:21300000
+    - 3950c4c228a39a74597daf4ac8a7da92:21300000
+    - 61c145343fd6b2f41b11df56e2dcc972:21300000
+    - f919f7158ec2cb34691cc4d297a3b65f:21300000
+    - 2c576775698e99e448e8c171201d30e5:21300000
+    - 59657330dcb3544499c120128746d2d3:21300000
+    - c806cb9f1a16f7d4b87f30addf3431bc:21300000
+    - fa71a004c095fba4885d7c6e0e59dcfb:21300000
+    estimatedArea: 89856
+    pageSizes:
+    - 512x256
+  lastAppliedSceneTexturePaths:
+  - Assets/DungeonAssets/_PNG/Background_day1.png
+  - Assets/DungeonAssets/_PNG/Background_day2.png
+  - Assets/DungeonAssets/_PNG/Background_day3.png
+  - Assets/DungeonAssets/_PNG/Background_day4.png
+  - Assets/DungeonAssets/_PNG/Decoratives.png
+  - Assets/DungeonAssets/_PNG/MainLevBuild.png
+  - "Assets/DungeonAssets/\uD3EC\uD0C8/merge/Portal_00.png"
+  - "Assets/DungeonAssets/\uD3EC\uD0C8/merge/Portal_02.png"
+  - Assets/DungeonAssets2/Pixel Art Platformer - Village Props/Texture/TX Chest Animation.png
+  - Assets/DungeonAssets2/Pixel Art Platformer - Village Props/Texture/TX FX Torch
+    Flame.png
+  - Assets/DungeonAssets2/Pixel Art Platformer - Village Props/Texture/TX Tileset
+    Ground.png
+  - Assets/DungeonAssets2/Pixel Art Platformer - Village Props/Texture/TX Village
+    Props.png
+  - Assets/Effect Assets/Effect and FX/Effects 11/500.png
+  - Assets/Effect Assets/Effect and FX/Effects 11/501.png
+  - Assets/Effect Assets/Effect and FX/Effects 11/502.png
+  - Assets/Effect Assets/Effect and FX/Effects 11/503.png
+  - Assets/Effect Assets/Effect and FX/Effects 11/505.png
+  - Assets/Effect Assets/Effect and FX/Effects 11/512.png
+  - Assets/Effect Assets/Effect and FX/Effects 11/546.png
+  - Assets/PixelPlatformerSet2v.1.1/Anim/torchC1.png
+  - Assets/PixelPlatformerSet2v.1.1/Anim/torchC2.png
+  - Assets/PixelPlatformerSet2v.1.1/Anim/torchC3.png
+  - Assets/PixelPlatformerSet2v.1.1/Anim/torchC4.png
+  - "Assets/Resources/Bartender/Attack/\uD3C9\uBAA8\uC158_0000_01.png"
+  - "Assets/Resources/Bartender/Attack/\uD3C9\uBAA8\uC158_0001_02.png"
+  - "Assets/Resources/Bartender/Attack/\uD3C9\uBAA8\uC158_0002_03.png"
+  - "Assets/Resources/Bartender/Attack/\uD3C9\uBAA8\uC158_0003_04.png"
+  - "Assets/Resources/Bartender/Attack/\uD3C9\uBAA8\uC158_0004_05.png"
+  - Assets/Resources/Bartender/Dash/Dash.png
+  - Assets/Resources/Bartender/Dash/DashShadow.png
+  - Assets/Resources/Bartender/Idle/stand.png
+  - Assets/Resources/Bartender/Jump/air.png
+  - "Assets/Resources/Bartender/Projectile/\uD3C9_0000_01.png"
+  - "Assets/Resources/Bartender/Projectile/\uD3C9_0001_02.png"
+  - "Assets/Resources/Bartender/Projectile/\uD3C9_0002_03.png"
+  - "Assets/Resources/Bartender/Projectile/\uD3C9_0003_04.png"
+  - Assets/Resources/Bartender/Run/run.png
+  - Assets/Resources/Bartender/bartender_death.png
+  - "Assets/Resources/Bartender/\uBC14\uD150\uB354.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/M_01.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/M_02.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/M_03.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/M_04.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_01.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_02.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_03.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_04.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_05.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_06.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_07.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_08.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_09.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_10.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_11.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_12.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_13.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_14.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_15.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_16.png"
+  - "Assets/Resources/Bartender/\uC220 \uC81C\uC870 \uBAA8\uC158/P_17.png"
+  - Assets/Resources/Blacksmith/Dash/Dash.png
+  - Assets/Resources/Blacksmith/Dash/Dash_Shadow.png
+  - Assets/Resources/Blacksmith/Jump/JumpApex.png
+  - Assets/Resources/Blacksmith/Jump/JumpFall.png
+  - Assets/Resources/Blacksmith/Jump/JumpUp.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/1/Attack_OneHanded_1 1.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/1/Attack_OneHanded_1 2.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/1/Attack_OneHanded_1 3.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/1/Attack_OneHanded_1 4.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/1/Attack_OneHanded_1 5.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/1/Attack_OneHanded_1 6.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/1/Attack_OneHanded_1 7.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/1/Attack_OneHanded_1 8.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/2/Attack_OneHanded_2 0.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/2/Attack_OneHanded_2 1.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/2/Attack_OneHanded_2 2.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/2/Attack_OneHanded_2 3.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/2/Attack_OneHanded_2 4.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/2/Attack_OneHanded_2 5.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/2/Attack_OneHanded_2 6.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/2/Attack_OneHanded_2 7.png
+  - Assets/Resources/Blacksmith/OneHanded/Attack/2/Attack_OneHanded_2 8.png
+  - Assets/Resources/Blacksmith/OneHanded/Idle/Idle_OneHanded_V2.png
+  - Assets/Resources/Blacksmith/OneHanded/Run/1_0.png
+  - Assets/Resources/Blacksmith/OneHanded/Run/1_1.png
+  - Assets/Resources/Blacksmith/OneHanded/Run/1_2.png
+  - Assets/Resources/Blacksmith/OneHanded/Run/1_3.png
+  - Assets/Resources/Blacksmith/OneHanded/Run/1_4.png
+  - Assets/Resources/Blacksmith/OneHanded/Run/1_5.png
+  - Assets/Resources/Blacksmith/OneHanded/Run/1_6.png
+  - Assets/Resources/Blacksmith/OneHanded/Run/1_7.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/1/attack_2-1.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/2/attack_2-2.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/3/attack_2-3.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/4/attack_2-4_01.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/4/attack_2-4_02.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/4/attack_2-4_03.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/4/attack_2-4_04.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/4/attack_2-4_05.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/4/attack_2-4_06.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/4/attack_2-4_07.png
+  - Assets/Resources/Blacksmith/TwoHanded/Attack/4/attack_2-4_08.png
+  - Assets/Resources/Blacksmith/TwoHanded/Idle/Idle_TwoHanded_V2.png
+  - Assets/Resources/Blacksmith/TwoHanded/Run/run_2.png
+  - Assets/Resources/Blacksmith/blacksmith_death.png
+  - "Assets/Resources/Blacksmith/\uB300\uC7A5\uC7A5\uC774.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_00.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_01.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_02.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_03.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_04.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_05.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_06.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_07.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_08.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_09.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_10.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_11.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_12.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_13.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_14.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_15.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_16.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_17.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_18.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_19.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_20.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_21.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_22.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_23.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_24.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_25.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_26.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_27.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_28.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_29.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_30.png"
+  - "Assets/Resources/Blacksmith/\uB85C\uBE44\uBAA8\uC158/anvil_31.png"
+  - Assets/Resources/BossHero/Sprites/HeroKnight.png
+  - Assets/Resources/BossHero/Sprites/HeroKnight_DeathNoBlood.png
+  - Assets/Resources/BossQueen/Sprites/Attack.png
+  - Assets/Resources/BossQueen/Sprites/Death.png
+  - Assets/Resources/BossQueen/Sprites/Get hit.png
+  - Assets/Resources/BossQueen/Sprites/Idle.png
+  - Assets/Resources/BossQueen/Sprites/Projectile/Explode.png
+  - Assets/Resources/BossQueen/Sprites/Projectile/Moving.png
+  - Assets/Resources/BossQueen/Sprites/Run.png
+  - Assets/Resources/Map Images/01_Sprite/04_UI/UI_HPBar.png
+  - Assets/Resources/Map Images/01_Tilemap/Forest/ForestBackground.png
+  - Assets/Resources/Map Images/01_Tilemap/Forest/Tilemap_Forest.png
+  - Assets/Resources/Map Images/Tiles-export-export.png
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uBC14+\uBC30\uACBD.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uBC14_\uC6B0\uCE21.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uBC14_\uC88C\uCE21.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uBC14_\uC911\uC2EC.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uBCBD \uD328\uD134.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uC0F9\uB4E4\uB9AC\uC5D0.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uC220\uC794.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uC624\uD06C\uD1B5.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uC758\uC790.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uCD1B\uB300.png"
+  - "Assets/Resources/Map Images/\uB85C\uBE44 \uC18C\uC2A4/\uD14C\uC774\uBE14.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_00.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_01.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_02.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_03.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_04.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_05.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_06.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_07.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_08.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_09.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_10.png"
+  - "Assets/Resources/Map Images/\uC18C\uD658 \uC774\uD399\uD2B8/Summom_11.png"
+  - Assets/Resources/MouseImage/Arrow symbol.png
+  - "Assets/Resources/MouseImage/\uB9C8\uC6B0\uC2A4_\uC6B0\uD074\uB9AD.png"
+  - "Assets/Resources/MouseImage/\uB9C8\uC6B0\uC2A4_\uC88C\uD074\uB9AD.png"
+  - Assets/Resources/Prefabs/Player Prefabs/Dust/1.png
+  - Assets/Resources/Prefabs/Player Prefabs/Dust/2.png
+  - Assets/Resources/Prefabs/Player Prefabs/Dust/3.png
+  - Assets/Resources/Skeleton/Attack/Attack.png
+  - Assets/Resources/Skeleton/Die/1.png
+  - Assets/Resources/Skeleton/Die/2.png
+  - Assets/Resources/Skeleton/Die/3.png
+  - Assets/Resources/Skeleton/Die/4.png
+  - Assets/Resources/Skeleton/Die/5.png
+  - Assets/Resources/Skeleton/Walk/1.png
+  - Assets/Resources/Skeleton/Walk/Walk.png
+  - Assets/Resources/UI 1.png
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile000.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile001.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile002.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile003.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile004.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile005.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile006.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile007.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile122.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile140.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile158.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAC11\uC637/tile176.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile009.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile080.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile081.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile085.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile103.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile107.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile121.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile125.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile139.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile143.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile161.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile179.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile183.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile184.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile185.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile186.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile187.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile192.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uAE30\uD0C0/tile197.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB2E8\uAC80/tile014.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB2E8\uAC80/tile015.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB2E8\uAC80/tile032.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB2E8\uAC80/tile033.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile030.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile048.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile066.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile084.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile130.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile131.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile132.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile133.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile134.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile148.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile149.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile150.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile151.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB3C4\uB07C/tile152.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB85C\uBE0C/tile050.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB85C\uBE0C/tile068.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB85C\uBE0C/tile086.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB85C\uBE0C/tile104.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uBAA8\uC790/tile035.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uBAA8\uC790/tile053.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uBAA8\uC790/tile071.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uBAA8\uC790/tile089.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile142.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile157.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile160.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile162.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile163.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile164.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile165.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile175.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile178.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile180.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile181.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile182.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile193.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile194.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uB9C8\uBC95\uCC45/tile196.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBA54\uC774\uC2A4/tile135.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBA54\uC774\uC2A4/tile153.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBAA9\uAC78\uC774/tile022.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBAA9\uAC78\uC774/tile023.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBAA9\uAC78\uC774/tile024.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBAA9\uAC78\uC774/tile025.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBAA9\uAC78\uC774/tile026.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBAA9\uAC78\uC774/tile027.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile010.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile028.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile040.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile041.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile042.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile043.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile044.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile045.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile058.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile059.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile060.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile061.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile062.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile063.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile102.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile120.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile138.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC18\uC9C0/tile156.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC29\uD328/tile008.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC29\uD328/tile144.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC29\uD328/tile146.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC29\uD328/tile147.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBC29\uD328/tile195.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBCF4\uC11D/tile046.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBCF4\uC11D/tile064.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBCF4\uC11D/tile082.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBCF4\uC11D/tile100.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBCF4\uC11D/tile118.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBCF4\uC11D/tile136.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBCF4\uC11D/tile154.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uBCF4\uC11D/tile172.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile070.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile088.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile106.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile123.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile124.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile141.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile159.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile177.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile188.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile189.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2A4\uD0DC\uD504/tile190.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2E0\uBC1C/tile016.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2E0\uBC1C/tile017.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2E0\uBC1C/tile034.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC2E0\uBC1C/tile052.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC7A5\uAC80/tile076.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC7A5\uAC80/tile077.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC7A5\uAC80/tile112.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC7A5\uAC80/tile113.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC7A5\uAC80/tile114.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC7A5\uAC80/tile115.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC7A5\uAC80/tile116.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC7A5\uAC80/tile117.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uC7A5\uAC80/tile174.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD3ED\uD0C4/tile051.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD3ED\uD0C4/tile069.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD3ED\uD0C4/tile087.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD3ED\uD0C4/tile105.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile011.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile012.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile013.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile029.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile031.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile047.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile049.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile065.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile067.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile083.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile101.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile119.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile137.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile155.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile173.png"
+  - "Assets/Resources/\uC544\uC774\uD15C \uD3F4\uB354/\uD65C/tile191.png"
+  - Assets/StoryAssets/30+ Pixel Art Characters - NPC Character/30+ Pixel Art Characters
+    - NPC Character/GandalfHardcore characters pack 2/GandalfHardcore characters
+    sheet 1.png
+  - Assets/StoryAssets/Gothicvania-Town/Art/Environment/Background/background.png
+  - Assets/StoryAssets/Gothicvania-Town/Art/Environment/Background/middleground.png
+  - Assets/StoryAssets/knight_anims_redesign_1 (NEW)/knight_anims_redesign_1/knight_anims_redesign_labelled.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability01_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability02_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability03_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability04_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability05_Flip02.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability07_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability08_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability13_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability14_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability16_Flip02.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability18_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability20_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability21_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability22_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability24_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability25_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability27_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability28_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability29_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability30_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability31_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability33_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability37_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability38_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability39_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability40_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability41_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability42_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability44_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability45_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability46_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability48_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability50_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability52_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability53_Flip03.png
+  - Assets/UI Asset/Sprites_NonUsed/Skill Cards- Flip Animations/Skills face flip
+    - Solo Images/F_U_Card_Ability55_Flip03.png
+  - Assets/UI Asset/Sprites_Used/BuffImage/Others - Buffs.png
+  - Assets/UI Asset/Sprites_Used/BuffImage/Others - Status.png
+  - "Assets/UI Asset/Sprites_Used/BuffImage/\uACF5\uC18D.png"
+  - "Assets/UI Asset/Sprites_Used/BuffImage/\uACF5\uC18D2.png"
+  - "Assets/UI Asset/Sprites_Used/BuffImage/\uB9CC\uCDE8.png"
+  - "Assets/UI Asset/Sprites_Used/BuffImage/\uB9E4\uC758 \uB208.png"
+  - "Assets/UI Asset/Sprites_Used/BuffImage/\uBB34\uC801.png"
+  - "Assets/UI Asset/Sprites_Used/BuffImage/\uBC18\uC0AC.png"
+  - Assets/UI Asset/Sprites_Used/Gems/F_UI_Gems Tile Map 22x22.png
+  - Assets/UI Asset/Sprites_Used/Menu Buttons/F_UI_MenuButton_A1.png
+  - Assets/UI Asset/Sprites_Used/Menu Icons/F_UI_MenuIcons_Tile Map 16x16.png
+  - Assets/UI Asset/Sprites_Used/Minerals/Icon43.png
+  - Assets/UI Asset/Sprites_Used/Obj Icons Inventory/F_U_ObjectIcon Tile Map 22x22
+    1.png
+  - Assets/UI Asset/Sprites_Used/Panels/Frames/F_U_Detail8 - Copia.png
+  - Assets/UI Asset/Sprites_Used/Panels/Frames/F_U_Frame10.png
+  - Assets/UI Asset/Sprites_Used/Panels/Frames/F_U_Frame14.png
+  - Assets/UI Asset/Sprites_Used/Panels/Frames/F_U_Frame19.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Banner_B1.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Banner_B2.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Banner_B4.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Panel_A.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Panel_F.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Panel_G.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Panel_H.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Panel_I.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Panel_L.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Panel_M.png
+  - Assets/UI Asset/Sprites_Used/Panels/Panels/F_UI_Panel_N.png
+  - Assets/UI Asset/Sprites_Used/Panels/Slots/Slots Tilemap.png
+  - Assets/UI Asset/Sprites_Used/Panels/Titles/Title Tilemap.png
+  - Assets/UI Asset/Sprites_Used/Panels/UI_Result.png
+  - Assets/UI Asset/Sprites_Used/Pixel Items/S_ItemLightOutline_ChestRed_00.png
+  - Assets/UI Asset/Sprites_Used/Pixel Items/S_ItemLightOutline_CoinGold_00.png
+  - Assets/UI Asset/Sprites_Used/Pixel Items/S_ItemLightOutline_PotionBlue_00.png
+  - Assets/UI Asset/Sprites_Used/Pixel Items/S_ItemLightOutline_PotionGold_00.png
+  - Assets/UI Asset/Sprites_Used/Pixel Items/S_ItemLightOutline_PotionGreen_00.png
+  - Assets/UI Asset/Sprites_Used/Pixel Items/S_ItemLightOutline_PotionRed_00.png
+  - Assets/UI Asset/Sprites_Used/SkillIcon/BartenderSkill.png
+  - Assets/UI Asset/Sprites_Used/SkillIcon/BlackSmithSkill.png
+  - Assets/UI Asset/Sprites_Used/Skills Icons/F_UI_SkillsTileMap 22x22.png
+  - Assets/UI Asset/Sprites_Used/Slide Bar/F_UI_BlueBar.png
+  - Assets/UI Asset/Sprites_Used/Slide Bar/F_UI_GreenBar.png
+  - Assets/UI Asset/Sprites_Used/Slide Bar/F_UI_RedBar.png
+  - Assets/UI Asset/Sprites_Used/Slide Bar/F_UI_SlideBar_A1.png
+  - Assets/UI Asset/Sprites_Used/Slide Bar/F_UI_SlideBar_A2.png
+  - Assets/UI Asset/Sprites_Used/Slide Bar/F_UI_SlideBar_B5.png
+  - Assets/UI Asset/Sprites_Used/Slide Bar/F_UI_SlideBar_B6.png
+  - Assets/UI Asset/Sprites_Used/Slide Bar/Handles/F_U_SlidebarHandle_A1.png
+  - Assets/UI Asset/Sprites_Used/Switch/Handles tile.png
+  - Assets/UI Asset/Sprites_Used/direction.png
+  - "Assets/UI Asset/Sprites_Used/\uB2EB\uAE30.png"
+  - "Assets/UI Asset/Sprites_Used/\uBA38\uB9AC_\uB300\uC7A5\uC7A5\uC774/\uB300\uC7A5\uC7A5\uC774
+    \uBA38\uB9AC.png"
+  - "Assets/UI Asset/Sprites_Used/\uBA38\uB9AC_\uB300\uC7A5\uC7A5\uC774/\uB300\uC7A5\uC7A5\uC774
+    \uBA38\uB9AC_\uACE0\uD654\uC9C8.png"
+  - "Assets/UI Asset/Sprites_Used/\uBA38\uB9AC_\uBC14\uD150\uB354/\uBA38\uB9AC.png"
+  - "Assets/UI Asset/Sprites_Used/\uCD95\uC18C.png"
+  - "Assets/UI Asset/Sprites_Used/\uD655\uB300.png"
+  - Packages/com.unity.2d.animation/Editor/Assets/EditorIcons/Selected/Visibility_Tool@4x.png
+  - Packages/com.unity.2d.sprite/Editor/ObjectMenuCreation/DefaultAssets/Textures/v2/Square.png
+  - Packages/com.unity.cinemachine/Editor/EditorResources/cm_logo_sm.png
+  - Packages/com.unity.cinemachine/Gizmos/cm_logo.png
+  - Packages/com.unity.collab-proxy/Editor/Assets/Images/d_iconcheckedoutlocaloverlay@2x.png
+  - Packages/com.unity.ugui/Editor Resources/Gizmos/TMP - Font Asset Icon.psd
+  - Packages/com.unity.ugui/Editor Resources/Gizmos/TMP - Text Component Icon.psd
