@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using static PlayerObj;
 
 public abstract class ConsumableItemDataa : BasicItemData
 {
