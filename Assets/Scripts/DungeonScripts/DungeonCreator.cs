@@ -108,8 +108,6 @@ public class DungeonCreator : MonoBehaviour
             }
             else if (i == roomNodes.Count - 1) finishSpotPosition = generatePosition + currentRoom.finishSpotPosition.position;
         }
-        // 그림자 영역 생성
-        StartCoroutine(ShadowCasterGenerate());
 
         UpdateWarpPosition();
     }
@@ -129,12 +127,6 @@ public class DungeonCreator : MonoBehaviour
         if (stageData.backgroundImagePrefab == null) return;
 
         backgroundImageInstance = Instantiate(stageData.backgroundImagePrefab);
-    }
-
-    private IEnumerator ShadowCasterGenerate()
-    {
-        yield return null;
-        floatingTilemap.gameObject.GetComponent<ShadowCaster2DTileMap>()?.Generate();
     }
 
     // 방 오브젝트를 생성하는 함수
