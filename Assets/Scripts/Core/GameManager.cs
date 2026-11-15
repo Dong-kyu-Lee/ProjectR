@@ -43,6 +43,13 @@ public class GameManager : MonoBehaviour
     // "어떤 타입의 씬으로 돌아갈지"를 결정하기 위해 StorySystem이 참조한다.
     public Define.SceneType CurrentSceneType { get; private set; }
 
+#if UNITY_EDITOR
+    private string editorPendingScene;
+    private int editorSceneLoadedFrame = -1;
+    public bool IsSceneTransitionPendingForEditor =>
+        editorPendingScene != null || editorSceneLoadedFrame == Time.frameCount;
+#endif
+
     private void Awake()
     {
         // 싱글톤 초기화
@@ -126,6 +133,9 @@ public class GameManager : MonoBehaviour
                 break;
         }
         CurrentSceneType = key;
+#if UNITY_EDITOR
+        editorPendingScene = Application.CanStreamedLevelBeLoaded(sceneName) ? sceneName : null;
+#endif
         if (isAsync)
         {
             SceneManager.LoadSceneAsync(sceneName);
@@ -199,6 +209,13 @@ public class GameManager : MonoBehaviour
     // LobbyScene에 입장했을 때, UpgradeUI를 찾아 할당하는 함수
     private void FindUpgradeUI(Scene scene, LoadSceneMode mode)
     {
+#if UNITY_EDITOR
+        if (scene.name == editorPendingScene || scene.path == editorPendingScene)
+        {
+            editorPendingScene = null;
+            editorSceneLoadedFrame = Time.frameCount;
+        }
+#endif
         if (upgradeUI == null)
         {
             upgradeUI = GameObject.FindObjectOfType<UpgradeUI>()?.gameObject;

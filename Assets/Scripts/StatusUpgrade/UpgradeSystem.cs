@@ -38,7 +38,8 @@ public class UpgradeSystem : MonoBehaviour
         {
             playerStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
             upgradeStatus = PlayerManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
-            CheckUnlockAll();
+            if (statusEffect != null && upgradeStatus != null)
+                CheckUnlockAll();
             Debug.Log("캐릭터 정보 초기화");
         }
     }
@@ -186,4 +187,25 @@ public class UpgradeSystem : MonoBehaviour
     {
         IncreaseStat(statName);
     }
+
+#if UNITY_EDITOR
+    public void InvestStatPointForEditor(string statName)
+    {
+        // 성장 창을 한 번도 연 적이 없으면 효과 아이콘의 Awake를 먼저 실행한다.
+        bool restoreHidden = statusEffect == null && !gameObject.activeSelf;
+        if (restoreHidden) gameObject.SetActive(true);
+        try
+        {
+            ResetPlayerInfo();
+            statusEffect = GetComponent<StatusEffect>();
+            statusValueText = GetComponent<StatusValueText>();
+            statusEffect.BindPlayer(playerStatus);
+            IncreaseStat(statName);
+        }
+        finally
+        {
+            if (restoreHidden) gameObject.SetActive(false);
+        }
+    }
+#endif
 }

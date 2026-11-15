@@ -157,6 +157,23 @@ public class Stage : MonoBehaviour
         currentRoomIndex = -1;
     }
 
+#if UNITY_EDITOR
+    public void AdvanceAreaForEditor()
+    {
+        if (currentNode == null) return;
+
+        // 연속된 일반 던전 노드는 씬을 공유할 수 있으므로 기존 출구도 정리한다.
+        if (currentNode.type == StageNodeType.NormalDungeon && currentFinishSpot != null)
+        {
+            currentFinishSpot.SetActive(false);
+            Destroy(currentFinishSpot);
+            currentFinishSpot = null;
+        }
+
+        CompleteCurrentNode();
+    }
+#endif
+
     // roomList에 생성된 방을 추가하는 함수.
     // 던전 생성 시 DungeonCreator에서 생성한 RoomInstance를 Stage에 추가하기 위해 사용
     public void AddRoomInstance(RoomInstance currentRoom)
