@@ -16,6 +16,7 @@ public class RoomInstance : MonoBehaviour
 
     private RoomState roomState = RoomState.Default;
     private bool isFirstWaveEnded = false;
+    private bool isHealRoom;
     [SerializeField] private Gate gate;
     [SerializeField] private EnemyInRoom enemyInRoom;
     [SerializeField] private List<GameObject> dynamicElements;
@@ -48,6 +49,16 @@ public class RoomInstance : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            if (isHealRoom)
+            {
+                // 플레이어가 방에 들어왔을 때 실행합니다.
+                if (roomState == RoomState.Default)
+                    ClearRoom();
+
+                MoveRoom();
+                return;
+            }
+
             if (roomState == RoomState.Default)
             {
                 // 문 닫기
@@ -95,6 +106,11 @@ public class RoomInstance : MonoBehaviour
 
     // 두번째 웨이브의 적을을 모두 처치했을 때 실행되는 함수
     private void SecondWaveEnd()
+    {
+        ClearRoom();
+    }
+
+    private void ClearRoom()
     {
         // 방 상태 변경
         roomState = RoomState.Cleared;
@@ -149,6 +165,11 @@ public class RoomInstance : MonoBehaviour
     public void SetUseSpriteBackground(bool use)
     {
         useSpriteBackground = use;
+    }
+
+    public void SetHealRoom(bool value)
+    {
+        isHealRoom = value;
     }
 
     // RoomInstance가 속한 Stage 참조를 설정하는 함수
