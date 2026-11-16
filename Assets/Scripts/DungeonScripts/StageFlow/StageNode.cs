@@ -53,6 +53,8 @@ public class StageNode
     public int numberOfRoomsOverride = 0;
     [Tooltip("음수이면 StageData의 dungeonBoxCount 사용")]
     public int dungeonBoxCountOverride = -1;
+    [Tooltip("지정하면 일반 던전 끝에 힐룸을 한 개 추가")]
+    public Room healRoomPrefab;
 
     [Header("Boss")]
     [Tooltip("보스 처치 후 컷씬 재생 여부")]

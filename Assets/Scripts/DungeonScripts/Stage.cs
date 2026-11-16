@@ -134,7 +134,7 @@ public class Stage : MonoBehaviour
             return;
         }
         dungeonCreator.CreateDungeon(stageData, node.GetNumberOfRooms(stageData), node.GetDungeonBoxCount(stageData),
-            out playerSpawnPosition, out finishSpotPosition);
+            out playerSpawnPosition, out finishSpotPosition, node.healRoomPrefab);
         // 테스트 플레이어 생성
         PlayerManager.Instance.PlacePlayerObject(playerSpawnPosition);
         // 도착 위치 생성

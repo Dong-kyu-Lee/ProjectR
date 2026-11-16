@@ -49,55 +49,60 @@ public class DungeonCreator : MonoBehaviour
     }
 
     // numberOfRooms, dungeonBoxCount : 스테이지 흐름 노드에서 StageData 기본값을 덮어쓴 값
-    public void CreateDungeon(StageData stageData, int numberOfRooms, int dungeonBoxCount, out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition)
+    public void CreateDungeon(StageData stageData, int numberOfRooms, int dungeonBoxCount,
+        out Vector3 playerSpawnPosition, out Vector3 finishSpotPosition, Room healRoomPrefab = null)
     {
         RemoveAllRooms();
         CreateBackgroundImage(stageData);
 
-        DungeonStructureGenerator dungeonStructure = new DungeonStructureGenerator(numberOfRooms);
+        var testRoomPrefabs = DungeonTestHelper.Instance.testRoomPrefabs;
+        bool useTestRooms = testRoomPrefabs.Count > 0;
+        bool addHealRoom = healRoomPrefab != null && !useTestRooms;
+        var roomPrefabs = useTestRooms ? testRoomPrefabs : stageData.roomPrefabs;
+
+        // 경로에 힐룸을 포함해 앞 방과의 문이나 워프도 함께 생성.
+        var dungeonStructure = new DungeonStructureGenerator(numberOfRooms + (addHealRoom ? 1 : 0));
         var roomNodes = dungeonStructure.GetDungeonStructure();
 
         playerSpawnPosition = new Vector3();
         finishSpotPosition = new Vector3();
 
-        // 상자를 생성할 방 인덱스를 정하는 함수
-        List<int> roomIndexForBoxes = GetRandomNumbers(roomNodes.Count, dungeonBoxCount);
+        // 상자는 전투방 안에서만 추첨해 설정한 개수를 유지.
+        List<int> roomIndexForBoxes = GetRandomNumbers(numberOfRooms, dungeonBoxCount);
 
         // 랜덤으로 방 프리팹을 선택해 방과 그 구성요소 생성
         for (int i = 0; i < roomNodes.Count; ++i)
         {
             Vector3Int generatePosition = new Vector3Int(40 * roomNodes[i].RoomPosition.x, 40 * roomNodes[i].RoomPosition.y, 0);
-            Room currentRoom;
-            if(DungeonTestHelper.Instance.testRoomPrefabs.Count != 0)
-            {
-                // 테스트용 방 프리팹이 있다면 해당 방 프리팹을 사용
-                currentRoom = DungeonTestHelper.Instance.testRoomPrefabs[Random.Range(0, DungeonTestHelper.Instance.testRoomPrefabs.Count)].GetComponent<Room>();
-            }
-            else
-            {
-                // 일반적인 경우, RoomContainer에 있는 방 프리팹을 사용
-                currentRoom = stageData.roomPrefabs[Random.Range(0, stageData.roomPrefabs.Count)].GetComponent<Room>();
-            }
+            bool isHealRoom = addHealRoom && i == numberOfRooms;
+            Room currentRoom = isHealRoom
+                ? healRoomPrefab
+                : roomPrefabs[Random.Range(0, roomPrefabs.Count)].GetComponent<Room>();
             DrawRoom(generatePosition, currentRoom, roomNodes[i].OpenNeededGate);
             roomTupleList.Add(new Tuple<RoomNode, Room>(roomNodes[i], currentRoom));
 
             CreateRoomInstance(generatePosition, roomNodes[i].OpenNeededGate);
-            // 적 스포너 생성
-            roomInstanceDic[generatePosition].GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
-            // 맵의 동적 요소들 생성(ex. 움직이는 발판 등)
-            roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetDynamicElements(currentRoom.dynamicElements);
+            GameObject roomObject = roomInstanceDic[generatePosition];
+            RoomInstance roomInstance = roomObject.GetComponent<RoomInstance>();
+            roomInstance.SetHealRoom(isHealRoom);
+
+            if (!isHealRoom)
+                roomObject.GetComponent<EnemyInRoom>().SetEnemyTilemap(currentRoom, generatePosition);
+
+            // 힐룸의 화로도 프리팹의 동적 요소로 배치합니다.
+            roomInstance.SetDynamicElements(currentRoom.dynamicElements);
             // 라이팅 오브젝트 생성
-            roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetLightObjects(currentRoom.lightElements);
+            roomInstance.SetLightObjects(currentRoom.lightElements);
             // 상자 생성
             if(roomIndexForBoxes.Contains(i))
             {
-                roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetBoxObject(currentRoom.boxObject);
+                roomInstance.SetBoxObject(currentRoom.boxObject);
             }
             // DungeonFlowManager가 생성된 방을 추적할 수 있도록 방 정보를 추가함.
-            DungeonFlowManager.Instance.GetCurrentStage().AddRoomInstance(roomInstanceDic[generatePosition].GetComponent<RoomInstance>());
+            DungeonFlowManager.Instance.GetCurrentStage().AddRoomInstance(roomInstance);
 
             // 이 방이 배경 타일 대신 배경 이미지를 사용하는지 전달
-            roomInstanceDic[generatePosition].GetComponent<RoomInstance>().SetUseSpriteBackground(currentRoom.UseSpriteBackground);
+            roomInstance.SetUseSpriteBackground(currentRoom.UseSpriteBackground);
 
             if (i == 0)
             {
