@@ -138,8 +138,11 @@ public class EnemyStatus : Status
         isDead = true;
 
         OnHpChange();
+
         // 태그로 구별되는 모든 연산 제외
         gameObject.tag = "DeadEnemy";
+        int deadEnemyLayer = LayerMask.NameToLayer("DeadEnemy");
+        gameObject.layer = deadEnemyLayer;
 
         EnemyAIController enemyAIController = GetComponent<Enemy>().StateMachine;
         enemyAIController.TransitionTo(enemyAIController.deadState);
