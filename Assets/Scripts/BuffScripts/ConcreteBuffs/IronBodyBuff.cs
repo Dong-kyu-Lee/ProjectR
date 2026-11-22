@@ -44,6 +44,6 @@ public class IronBodyBuff : Buff
 
         targetStatus.AdditionalDamageReduction -= damageReduceIncGap[currentBuffLevel];
         targetStatus.AdditionalAttackSpeed -= GetCurrentSumOfArray(attackSpeedIncGap);
-        targetStatus.MoveSpeed -= GetCurrentSumOfArray(moveSpeedIncGap);
+        targetStatus.AdditionalMoveSpeed -= GetCurrentSumOfArray(moveSpeedIncGap);
     }
 }

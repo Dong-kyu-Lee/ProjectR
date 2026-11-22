@@ -104,7 +104,21 @@ public class Status : MonoBehaviour
 
     public float DamageTaken { get { return damageTaken; } set { damageTaken = value; } }
 
-    public bool Invincible { get { return invincible; } set { invincible = value; } }
+    public bool Invincible
+    {
+        get
+        {
+#if UNITY_EDITOR
+            if (InvincibleForEditor) return true;
+#endif
+            return invincible;
+        }
+        set { invincible = value; }
+    }
+
+#if UNITY_EDITOR
+    public bool InvincibleForEditor { get; set; }
+#endif
 
     private void Awake()
     {
@@ -135,7 +149,7 @@ public class Status : MonoBehaviour
         if (isDead) return;
 
         float receiveDamage = (1 - damageReduction * (1 - ignoreDamageReduction)) * damage * (1 + damageTaken);
-        if (invincible) receiveDamage = 0;
+        if (Invincible) receiveDamage = 0;
 
         if (gameObject.CompareTag("Player"))
         {
@@ -180,7 +194,7 @@ public class Status : MonoBehaviour
     {
         if (isDead) return;
 
-        if (invincible) damage = 0;
+        if (Invincible) damage = 0;
         damage *= (1 + damageTaken);
         CalcReceiveDamage.Instance.TakeTrueDamageQueue(damage, gameObject);
         Hp -= damage;

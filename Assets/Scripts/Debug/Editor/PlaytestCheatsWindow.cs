@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,9 @@ public sealed class PlaytestCheatsWindow : EditorWindow
     private int selectedStat;
     private int gold = 100;
     private int enchantCharges = 1;
+    private int bottleCount = 10;
+    private BuffType selectedBuff = BuffType.AttackDamageIncrease;
+    private float buffDuration = 10f;
 
     [MenuItem("Tools/ProjectR/Playtest Cheats")]
     private static void Open()
@@ -62,6 +66,7 @@ public sealed class PlaytestCheatsWindow : EditorWindow
             return;
 
         DrawGrowthControls(status);
+        DrawCombatControls(player, status, stage, scene);
         DrawResourceControls(player, status);
     }
 
@@ -182,6 +187,16 @@ public sealed class PlaytestCheatsWindow : EditorWindow
                 status.Gold += gold;
         }
 
+        if (player.TryGetComponent(out BartenderAbilityV2 bartender))
+        {
+            EditorGUILayout.LabelField("보유 특수 병", bartender.GetBottleCounts().ToString());
+            bottleCount = EditorGUILayout.IntField("지급 특수 병 수", bottleCount);
+            using var disabled = new EditorGUI.DisabledScope(bottleCount <= 0
+                || bottleCount > 10_000 - bartender.GetBottleCounts());
+            if (GUILayout.Button("바텐더 특수 병 지급"))
+                bartender.AddBartenderBottle(bottleCount);
+        }
+
         if (!player.TryGetComponent(out BlacksmithAbilityV2 blacksmith))
             return;
 
@@ -196,6 +211,85 @@ public sealed class PlaytestCheatsWindow : EditorWindow
                 blacksmith.onAbilityUpdated?.Invoke();
             }
         }
+    }
+
+    private void DrawCombatControls(GameObject player, PlayerStatus status, Stage stage, Scene scene)
+    {
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("전투 테스트", EditorStyles.boldLabel);
+        status.InvincibleForEditor = EditorGUILayout.Toggle("치트 무적", status.InvincibleForEditor);
+
+        DrawBuffControls(player.GetComponent<BuffManager>());
+
+        RoomInstance room = FindCurrentRoom(stage, scene, player.transform.position);
+        var enemies = room != null ? room.GetComponent<EnemyInRoom>() : null;
+        bool clearing = enemies != null && enemies.IsClearingForEditor;
+        EditorGUILayout.LabelField("현재 방", room != null ? room.name : "일반 던전 방 안에서 사용 가능");
+        using var disabled = new EditorGUI.DisabledScope(room == null || room.GetRoomState != RoomState.Start
+            || enemies == null || clearing || EditorApplication.isPaused || Time.timeScale <= 0f);
+        if (GUILayout.Button(clearing ? "현재 방의 웨이브 처치 중…" : "현재 방의 적 모두 처치"))
+            enemies.ClearRoomForEditor();
+    }
+
+    private void DrawBuffControls(BuffManager manager)
+    {
+        if (manager == null) return;
+
+        selectedBuff = (BuffType)EditorGUILayout.EnumPopup("버프 / 디버프", selectedBuff);
+        buffDuration = EditorGUILayout.FloatField("적용 지속시간 (초)", buffDuration);
+        using (new EditorGUI.DisabledScope(selectedBuff == BuffType.None
+            || !float.IsFinite(buffDuration) || buffDuration <= 0f))
+        {
+            if (GUILayout.Button("선택 효과 적용 / 중첩"))
+            {
+                var buff = manager.GenerateBuff(selectedBuff, buffDuration, manager.gameObject);
+                float duration = Mathf.Min(buffDuration, buff.MaxDuration);
+                if (buff.IsDebuff)
+                    manager.ActivateDeBuff(selectedBuff, duration);
+                else
+                    manager.ActivateBuff(selectedBuff, duration);
+
+                if (manager.ActiveBuffDict.TryGetValue(selectedBuff, out var active))
+                    active.CurrentDuration = Mathf.Min(active.CurrentDuration, active.MaxDuration);
+                RefreshCharacterInfo();
+            }
+        }
+        using (new EditorGUI.DisabledScope(!manager.ActiveBuffDict.ContainsKey(selectedBuff)))
+        {
+            if (GUILayout.Button("선택 효과 해제"))
+            {
+                manager.DeactivateBuff(selectedBuff);
+                RefreshCharacterInfo();
+            }
+        }
+        using (new EditorGUI.DisabledScope(manager.ActiveBuffDict.Count == 0))
+        {
+            if (GUILayout.Button("모든 버프 / 디버프 해제"))
+            {
+                foreach (var type in new List<BuffType>(manager.ActiveBuffDict.Keys))
+                    manager.DeactivateBuff(type);
+                RefreshCharacterInfo();
+            }
+        }
+
+        foreach (var buff in manager.GetActiveBuffs())
+            EditorGUILayout.LabelField(buff.BuffType.ToString(),
+                $"Lv. {buff.CurrentBuffLevel + 1} · {buff.CurrentDuration:0.0}초");
+    }
+
+    private static RoomInstance FindCurrentRoom(Stage stage, Scene scene, Vector3 position)
+    {
+        if (stage == null || !stage.isActiveAndEnabled || stage.CurrentNode == null
+            || stage.CurrentNode.type != StageNodeType.NormalDungeon
+            || (scene.name != stage.CurrentNode.SceneName && scene.path != stage.CurrentNode.SceneName))
+            return null;
+
+        foreach (var room in stage.roomList)
+        {
+            if (room != null && room.TryGetComponent(out Collider2D area) && area.OverlapPoint(position))
+                return room;
+        }
+        return null;
     }
 
     private static void RefreshCharacterInfo()

@@ -28,6 +28,6 @@ public class CritDmgIncBuff : Buff
         PlayerStatus targetStatus = targetObject.GetComponent<PlayerStatus>();
         if (targetStatus == null) return;
 
-        targetStatus.CriticalDamage -= critDmgIncGap[currentBuffLevel];
+        targetStatus.CriticalDamage -= GetCurrentSumOfArray(critDmgIncGap);
     }
 }
