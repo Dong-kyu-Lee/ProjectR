@@ -185,18 +185,20 @@ public class CalcReceiveDamage : MonoBehaviour
     }
 
     // 일정 시간 간격으로 큐에서 데미지 출력.
-    private IEnumerator ProcessDamageQueue(GameObject gameObject)
+    private IEnumerator ProcessDamageQueue(GameObject target)
     {
-        isProcessing[gameObject] = true;
+        isProcessing[target] = true;
 
-        while (damageQueue[gameObject].Count > 0)
+        while (damageQueue[target].Count > 0)
         {
-            float damage = damageQueue[gameObject].Dequeue();
-            float damageType = damageTypeQueue[gameObject].Dequeue();
+            float damage = damageQueue[target].Dequeue();
+            float damageType = damageTypeQueue[target].Dequeue();
+
+            if (target.CompareTag("DeadEnemy")) continue;
 
             GameObject damageTextObj = ObjectPoolManager.Instance.GetDamageText();
             DamageText damageTextComp = damageTextObj.GetComponent<DamageText>();
-            damageTextObj.transform.position = gameObject.transform.position;
+            damageTextObj.transform.position = target.transform.position;
             if (damageType == 0) damageTextComp.damageText.color = Color.white;
             else if (damageType == 1) damageTextComp.damageText.color = Color.red;
             else if (damageType == 2) damageTextComp.damageText.color = Color.yellow;
@@ -207,7 +209,7 @@ public class CalcReceiveDamage : MonoBehaviour
             yield return new WaitForSeconds(damageInterval);
         }
 
-        isProcessing[gameObject] = false;
+        isProcessing[target] = false;
     }
 
     // 인내 10레벨 피해량 증가.

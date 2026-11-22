@@ -10,7 +10,7 @@ public class KnightEnemy : Enemy
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform rendererTransform;
     [SerializeField] private GameObject hpBarCanvas;
-    [SerializeField] private float airAttackJumpHeight = 1f; // 상승할 높이
+    [SerializeField] private float airAttackJumpHeight; // 상승할 높이
 
     private Vector3 originalRendererLocalPos;
 

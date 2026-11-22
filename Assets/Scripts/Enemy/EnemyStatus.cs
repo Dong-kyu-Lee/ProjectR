@@ -137,20 +137,20 @@ public class EnemyStatus : Status
         if (isDead) return;
         isDead = true;
 
-        // 물리 연산 제외 (적 타격 불가능)
-        GetComponent<Collider2D>().enabled = false;
-        if (TryGetComponent<Rigidbody2D>(out var rb))
-        {
-            rb.linearVelocity = Vector2.zero;
-            rb.simulated = false;   
-        }
+        OnHpChange();
+
+        // 태그로 구별되는 모든 연산 제외
+        gameObject.tag = "DeadEnemy";
+        int deadEnemyLayer = LayerMask.NameToLayer("DeadEnemy");
+        gameObject.layer = deadEnemyLayer;
 
         EnemyAIController enemyAIController = GetComponent<Enemy>().StateMachine;
+        enemyAIController.TransitionTo(enemyAIController.deadState);
         LevelUp.Instance?.IncreaseExp(enemyData.ExpValue);
         AbilityManager.Instance?.IncreaseSoulShard(enemyData.SoulShardValue);
         enemyLoot.DropLoot();
+        CalcDamage.Instance.KillEnemyBuff();
         Vector2 spawnPosition = GetComponent<CapsuleCollider2D>().bounds.min;
         RuneSpawner.Instance.TrySpawnRune(spawnPosition + Vector2.up);
-        enemyAIController.TransitionTo(enemyAIController.deadState);
     }
 }

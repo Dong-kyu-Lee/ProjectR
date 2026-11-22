@@ -10,7 +10,10 @@ public class MeleeEnemy : Enemy
     protected override void Awake()
     {
         base.Awake();
-        SetAttackStrategy(new MeleeAttackStrategy());
+
+        // 공격 타이밍 설정.
+        EnemyAttackTiming timing = new EnemyAttackTiming(0.85f, 0.1f, 0.6f, true, false, false);
+        SetAttackStrategy(new MeleeAttackStrategy(timing));
     }
 
     void Start()

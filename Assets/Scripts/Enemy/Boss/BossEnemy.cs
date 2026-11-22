@@ -25,11 +25,13 @@ public class BossEnemy : Enemy
     public GameObject DebuffHitBox => debuffHitBox;
     public GameObject ProjectilePrefab => projectilePrefab;
     public Transform FirePoint => firePoint;
+    public EnemyAttackTiming meleeAttackTiming;
 
     protected override void Awake()
     {
         base.Awake();
-        SetAttackStrategy(new MeleeAttackStrategy());
+        meleeAttackTiming = new EnemyAttackTiming(0.85f, 0.1f, 0.6f, true, false, false);
+        SetAttackStrategy(new MeleeAttackStrategy(meleeAttackTiming));
     }
 
     void Start()
@@ -82,7 +84,7 @@ public class BossEnemy : Enemy
         Debug.Log("Phase 3 시작");
         var strategies = new List<IAttackStrategy>()
         {
-            new MeleeAttackStrategy(),
+            new MeleeAttackStrategy(meleeAttackTiming),
             new RangedAttackStrategy(),
             new DebuffAttackStrategy()
         };

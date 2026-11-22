@@ -22,7 +22,7 @@ public class FreezeDeBuff : Buff
 
         targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
         CalcReceiveDamage.Instance.TakeDebuffDamage(freezeBustDmg, targetStatus, false);
-        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, false);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject, false);
     }
 
     public override void RenewBuffEffect()
@@ -31,7 +31,7 @@ public class FreezeDeBuff : Buff
         if (targetStatus == null) return;
 
         CalcReceiveDamage.Instance.TakeDebuffDamage(freezeBustDmg, targetStatus, false);
-        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject.transform.position, false);
+        BuffEffectManager.Instance.PlayBuffEffect(this.BuffType, targetObject, false);
     }
 
     public override void RemoveBuffEffect()

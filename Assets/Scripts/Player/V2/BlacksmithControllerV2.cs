@@ -233,7 +233,7 @@ public class BlacksmithControllerV2 : PlayerControllerBase
                         currentStunTime = blacksmithAbility.CurWeaponData.HitStunDuration;
                     }
 
-                    hitEnemy.ApplyHitStun(currentStunTime);
+                    //hitEnemy.ApplyHitStun(currentStunTime);
                 }
             }
         }

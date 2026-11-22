@@ -45,6 +45,11 @@ public class EnemyAIController : MonoBehaviour
         {
             attackState = new AttackState(enemy, new KnightEnemyStrategy());
         }
+        else if (enemy is FlyingEnemy)
+        {
+            EnemyAttackTiming timing = new EnemyAttackTiming(0.6f, 0.1f, 0.7f, true, false, false);
+            attackState = new AttackState(enemy, new MeleeAttackStrategy(timing));
+        }
         else
         {
             attackState = new AttackState(enemy, new MeleeAttackStrategy());

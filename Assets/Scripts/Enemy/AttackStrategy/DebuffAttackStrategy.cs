@@ -6,7 +6,7 @@ public class DebuffAttackStrategy : IAttackStrategy
 {
     public EnemyAttackTiming Timing
     {
-        get { return new EnemyAttackTiming(0.85f, 0.1f, 0.7f, true, false, false); }
+        get { return new EnemyAttackTiming(0.85f, 0.1f, 1.0f, true, false, false); }
     }
 
     public void BeginAttack(Enemy enemy)
@@ -28,11 +28,11 @@ public class DebuffAttackStrategy : IAttackStrategy
         }
         else if (enemy is DebuffMeleeEnemy debuffEnemy)
         {
-            float hitOffsetX = 0.35f;
+            //float hitOffsetX = 0.35f;
 
             if (debuffEnemy.hitBoxObj == null) return;
 
-            debuffEnemy.hitBoxObj.transform.localPosition = new Vector2(-hitOffsetX, 0.3f);
+            // debuffEnemy.hitBoxObj.transform.localPosition = new Vector2(-hitOffsetX, 0.3f);
             debuffEnemy.hitBoxObj.SetActive(true);
         }
     }

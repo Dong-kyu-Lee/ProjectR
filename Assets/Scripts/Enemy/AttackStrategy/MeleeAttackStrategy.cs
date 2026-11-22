@@ -4,10 +4,20 @@ using UnityEngine;
 
 public class MeleeAttackStrategy : IAttackStrategy
 {
-    public EnemyAttackTiming Timing
+    private EnemyAttackTiming timing;
+
+    public MeleeAttackStrategy()
     {
-        get { return new EnemyAttackTiming(0.85f, 0.1f, 0.6f, true, false, false); }
+        this.timing = new EnemyAttackTiming(0.85f, 0.1f, 0.6f, true, false, false);
     }
+
+    // 생성자에서 타이밍을 외부(적 캐릭터의 상태값 등)로부터 전달받음
+    public MeleeAttackStrategy(EnemyAttackTiming timing)
+    {
+        this.timing = timing;
+    }
+
+    public EnemyAttackTiming Timing => timing;
 
     public void BeginAttack(Enemy enemy)
     {
@@ -37,6 +47,12 @@ public class MeleeAttackStrategy : IAttackStrategy
 
             meleeEnemy.hitBoxObj.transform.localPosition = new Vector2(-meleeHitOffsetX, 0.3f);
             meleeEnemy.hitBoxObj.SetActive(true);
+        }
+        else if (enemy is FlyingEnemy flyingEnemy)
+        {
+            if (flyingEnemy.hitBoxObj == null) return;
+
+            flyingEnemy.hitBoxObj.SetActive(true);
         }
     }
 }
