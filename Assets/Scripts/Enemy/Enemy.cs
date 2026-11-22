@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
     private LayerMask groundLayer;
 
     [SerializeField]
-    private float hitStunDurationOnInterrupt = 0.15f;
+    private float hitStunDurationOnInterrupt = 1f;
 
     [SerializeField]
     private float attackRetryDelayAfterInterrupt = 0.6f;
@@ -111,7 +111,10 @@ public class Enemy : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         FlipX();
-        CheckPlatformEdge();
+        if (this is not FlyingEnemy)
+        {
+            CheckPlatformEdge();
+        }
         RecoverPoise();
     }
 
@@ -175,10 +178,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Dead()
+    public virtual void Dead()
     {
-        CalcDamage.Instance.KillEnemyBuff();
         StartCoroutine(DeadCoroutine());
+        OnDeath();
+    }
+
+    public void OnDeath()
+    {
         onDeath?.Invoke(this);
     }
 
@@ -268,40 +275,17 @@ public class Enemy : MonoBehaviour
 
     public bool TryInterruptAttack(float stunDuration, float poiseDamage)
     {
-        if (enemyStatus != null && enemyStatus.IsBoss)
-        {
-            return false;
-        }
-
-        if (HasSuperArmor)
-        {
-            return false;
-        }
-
-        if (StateMachine == null)
-        {
-            return false;
-        }
-
-        if (StateMachine.CurrentState != StateMachine.attackState)
-        {
-            return false;
-        }
-
-        if (!CanInterruptCurrentAttack)
-        {
-            return false;
-        }
-
-        if (!ConsumePoise(poiseDamage))
-        {
-            return false;
-        }
+        if (enemyStatus != null && enemyStatus.IsBoss) return false;
+        if (HasSuperArmor) return false;
+        if (StateMachine == null) return false;
+        if (CurrentAttackPhase != EnemyAttackPhase.Windup) return false;
+        if (StateMachine.CurrentState != StateMachine.attackState) return false;
+        if (!CanInterruptCurrentAttack) return false;
+        if (!ConsumePoise(poiseDamage)) return false;
 
         ResetPoise();
         DelayNextAttack(AttackRetryDelayAfterInterrupt);
         ApplyHitStun(stunDuration);
-        enemyAnimator.SetTrigger("Hit");
         return true;
     }
 
@@ -395,6 +379,9 @@ public class Enemy : MonoBehaviour
     public void ApplyHitStun(float duration)
     {
         if (enemyStatus != null && (enemyStatus.IsBoss || enemyStatus.Hp <= 0)) return;
+
+        // 실행 중이던 애니메이션 중단
+        enemyAnimator.SetTrigger("Hit");
 
         // 실행 중이던 공격 판정(Melee의 Hitbox 대기 등) 코루틴 강제 정지
         StopAllCoroutines();

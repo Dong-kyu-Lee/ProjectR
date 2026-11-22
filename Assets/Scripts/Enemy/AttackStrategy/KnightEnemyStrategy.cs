@@ -16,10 +16,10 @@ public class KnightEnemyStrategy : IAttackStrategy, IComboAttackStrategy
     // 콤보 공격 타이밍 설정
     private readonly EnemyAttackTiming[] comboTimings = new EnemyAttackTiming[]
     {
-        new EnemyAttackTiming(0.42f, 0.16f, 0.16f, false, false, false), // 1타
-        new EnemyAttackTiming(0.1f, 0.16f, 0.08f, false, false, false), // 2타
-        new EnemyAttackTiming(0.09f, 0.16f, 0.5f, false, false, false), // 3타
-        new EnemyAttackTiming(0.17f, 0.16f, 0.84f, false, false, false) // 4타 (마지막 타격은 인터럽트 불가 등)
+        new EnemyAttackTiming(0.42f, 0.16f, 0.16f, true, false, false), // 1타
+        new EnemyAttackTiming(0.1f, 0.16f, 0.07f, true, false, false), // 2타
+        new EnemyAttackTiming(0.1f, 0.16f, 0.1f, true, false, false), // 3타
+        new EnemyAttackTiming(0.57f, 0.16f, 0.84f, true, false, false) // 4타
     };
 
     // 공중 공격 타이밍 설정
