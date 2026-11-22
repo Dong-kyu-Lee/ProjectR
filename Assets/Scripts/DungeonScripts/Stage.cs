@@ -23,6 +23,11 @@ public class Stage : MonoBehaviour
     private string pendingSceneName;
     private Action pendingOnSceneLoaded;
 
+#if UNITY_EDITOR
+    private string editorStartNodeId;
+    internal bool ForceDungeonReloadForEditor { get; private set; }
+#endif
+
     // 일반 던전 관리 변수
     private int currentRoomIndex = -1; // 현재 방 인덱스
     private GameObject currentFinishSpot; // 현재 일반 던전의 클리어 위치
@@ -55,7 +60,15 @@ public class Stage : MonoBehaviour
             Debug.LogError($"{gameObject.name}: 시작 노드가 없어 스테이지를 진행할 수 없음");
             return;
         }
-        EnterNode(graph.StartNode);
+        StageNode startNode = graph.StartNode;
+#if UNITY_EDITOR
+        if (editorStartNodeId != null)
+        {
+            startNode = graph.GetNode(editorStartNodeId) ?? startNode;
+            editorStartNodeId = null;
+        }
+#endif
+        EnterNode(startNode);
         GameStatisticsTracker.Instance.PlayTimeStart();
     }
 
@@ -113,7 +126,7 @@ public class Stage : MonoBehaviour
 
     private void OnPendingSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name != pendingSceneName) return;
+        if (scene.name != pendingSceneName && scene.path != pendingSceneName) return;
 
         SceneManager.sceneLoaded -= OnPendingSceneLoaded;
         Action onLoaded = pendingOnSceneLoaded;
@@ -124,6 +137,9 @@ public class Stage : MonoBehaviour
 
     public void CreateDungeon(StageNode node)
     {
+#if UNITY_EDITOR
+        ForceDungeonReloadForEditor = false;
+#endif
         // 던전 생성 전, 플레이어 추락 방지를 위해 플레이어 비활성화
         PlayerManager.Instance.CurrentPlayer.SetActive(false);
         // 던전 생성
@@ -158,6 +174,38 @@ public class Stage : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    public bool JumpToNodeForEditor(string nodeId, bool reloadDungeonScene = false)
+    {
+        var node = (graph ?? new StageGraph(stageData)).GetNode(nodeId);
+        if (node == null || !Application.CanStreamedLevelBeLoaded(node.SceneName)) return false;
+        ForceDungeonReloadForEditor = reloadDungeonScene;
+        if (graph == null)
+        {
+            // 비활성 상태로 생성된 스테이지는 Start에서 첫 구역을 선택한다.
+            editorStartNodeId = nodeId;
+            return true;
+        }
+
+        ExitNodeForEditor();
+        EnterNode(node);
+        return true;
+    }
+
+    public void ExitNodeForEditor()
+    {
+        StopAllCoroutines();
+        SceneManager.sceneLoaded -= OnPendingSceneLoaded;
+        pendingSceneName = null;
+        pendingOnSceneLoaded = null;
+        currentState?.Exit(this);
+        if (currentFinishSpot != null)
+        {
+            currentFinishSpot.SetActive(false);
+            Destroy(currentFinishSpot);
+            currentFinishSpot = null;
+        }
+    }
+
     public void AdvanceAreaForEditor()
     {
         if (currentNode == null) return;

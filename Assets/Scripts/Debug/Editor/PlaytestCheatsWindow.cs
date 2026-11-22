@@ -9,6 +9,7 @@ public sealed class PlaytestCheatsWindow : EditorWindow
         { "force", "indurance", "critical", "dexterity", "mystery", "curse" };
     private static readonly string[] StatLabels =
         { "무력", "인내", "치명", "재주", "신비", "저주" };
+    private static readonly string[] WeaponGradeLabels = { "C", "B", "A", "S" };
 
     private Vector2 scroll;
     private int experience = 100;
@@ -20,6 +21,15 @@ public sealed class PlaytestCheatsWindow : EditorWindow
     private int bottleCount = 10;
     private BuffType selectedBuff = BuffType.AttackDamageIncrease;
     private float buffDuration = 10f;
+    private BasicItemData itemToGrant;
+    private int itemAmount = 1;
+    private int weaponIndex = 1;
+    private int weaponRank = 1;
+    private int weaponLevel;
+    private int targetStageIndex;
+    private int targetNodeIndex;
+    private string grantMessage;
+    private float healthPercent = 50f;
 
     [MenuItem("Tools/ProjectR/Playtest Cheats")]
     private static void Open()
@@ -68,6 +78,7 @@ public sealed class PlaytestCheatsWindow : EditorWindow
         DrawGrowthControls(status);
         DrawCombatControls(player, status, stage, scene);
         DrawResourceControls(player, status);
+        DrawItemControls(player.GetComponentInChildren<Inventory>());
     }
 
     private static string GetUnavailableReason(GameManager game, GameObject player, PlayerStatus status)
@@ -84,7 +95,7 @@ public sealed class PlaytestCheatsWindow : EditorWindow
         return null;
     }
 
-    private static bool DrawStageControls(DungeonFlowManager flow, Stage stage, Scene scene)
+    private bool DrawStageControls(DungeonFlowManager flow, Stage stage, Scene scene)
     {
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("스테이지 이동", EditorStyles.boldLabel);
@@ -111,6 +122,35 @@ public sealed class PlaytestCheatsWindow : EditorWindow
             InGameUIManager.Instance?.HideWarpUI();
             flow.ChangeStage();
             return true;
+        }
+        if (flow == null || flow.StageCount == 0) return false;
+
+        var stageLabels = new string[flow.StageCount];
+        for (int i = 0; i < stageLabels.Length; i++)
+            stageLabels[i] = $"{i + 1} · {flow.SelectedStageDatas[i].name}";
+        targetStageIndex = Mathf.Clamp(targetStageIndex, 0, stageLabels.Length - 1);
+        int selectedStage = EditorGUILayout.Popup("이동할 스테이지", targetStageIndex, stageLabels);
+        if (selectedStage != targetStageIndex)
+        {
+            targetStageIndex = selectedStage;
+            targetNodeIndex = 0;
+        }
+        var nodes = new List<StageNode>(
+            new StageGraph(flow.SelectedStageDatas[targetStageIndex]).NodesForEditor);
+        if (nodes.Count == 0) return false;
+        var nodeLabels = new string[nodes.Count];
+        for (int i = 0; i < nodes.Count; i++)
+            nodeLabels[i] = $"{nodes[i].id} · {nodes[i].type}";
+        targetNodeIndex = Mathf.Clamp(targetNodeIndex, 0, nodes.Count - 1);
+        targetNodeIndex = EditorGUILayout.Popup("이동할 구역 / 보스", targetNodeIndex, nodeLabels);
+        using (new EditorGUI.DisabledScope(!Application.CanStreamedLevelBeLoaded(nodes[targetNodeIndex].SceneName)))
+        {
+            if (GUILayout.Button("선택 구역으로 바로 이동"))
+            {
+                InGameUIManager.Instance?.HideWarpUI();
+                flow.JumpToNodeForEditor(targetStageIndex + 1, nodes[targetNodeIndex].id);
+                return true;
+            }
         }
         return false;
     }
@@ -178,6 +218,12 @@ public sealed class PlaytestCheatsWindow : EditorWindow
             status.Hp = status.MaxHp;
             RefreshCharacterInfo();
         }
+        healthPercent = EditorGUILayout.Slider("지정할 체력 (%)", healthPercent, 0f, 100f);
+        if (GUILayout.Button(healthPercent == 0f ? "체력 0% 적용 · 사망" : "지정 비율로 체력 변경"))
+        {
+            status.SetHealthPercentForEditor(healthPercent);
+            RefreshCharacterInfo();
+        }
 
         EditorGUILayout.LabelField("보유 골드", status.Gold.ToString("0.##"));
         gold = EditorGUILayout.IntField("지급 골드", gold);
@@ -200,6 +246,7 @@ public sealed class PlaytestCheatsWindow : EditorWindow
         if (!player.TryGetComponent(out BlacksmithAbilityV2 blacksmith))
             return;
 
+        DrawBlacksmithWeaponControls(blacksmith);
         EditorGUILayout.LabelField("남은 강화 횟수", blacksmith.UpgradeChance.ToString());
         enchantCharges = EditorGUILayout.IntField("지급 강화 횟수", enchantCharges);
         // 이후 일반 플레이 중 횟수가 추가되어도 정수 범위를 넘지 않도록 한다.
@@ -210,6 +257,54 @@ public sealed class PlaytestCheatsWindow : EditorWindow
                 blacksmith.UpgradeChance += enchantCharges;
                 blacksmith.onAbilityUpdated?.Invoke();
             }
+        }
+    }
+
+    private void DrawItemControls(Inventory inventory)
+    {
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("아이템 및 장비 지급", EditorStyles.boldLabel);
+        itemToGrant = (BasicItemData)EditorGUILayout.ObjectField("지급할 아이템", itemToGrant, typeof(BasicItemData), false);
+        bool consumable = itemToGrant is ConsumableItemData && itemToGrant.ItemType == ItemType.CONSUMABLE;
+        bool equipment = itemToGrant is EquipmentItemData && itemToGrant.ItemType == ItemType.EQUIPMENT;
+        if (consumable)
+            itemAmount = EditorGUILayout.IntField("지급 수량", itemAmount);
+        if (equipment)
+            EditorGUILayout.LabelField("지급 수량", "1개 · 장비칸이 비어 있으면 자동 장착");
+        using (new EditorGUI.DisabledScope(inventory == null || (!consumable && !equipment)
+            || (consumable && itemAmount <= 0)))
+        {
+            if (GUILayout.Button("선택 아이템 지급"))
+            {
+                bool success = inventory.GrantItemForEditor(itemToGrant, equipment ? 1 : itemAmount);
+                grantMessage = success ? "아이템을 지급했습니다." : "지급할 공간 또는 아이템 설정을 확인하세요.";
+                RefreshCharacterInfo();
+            }
+        }
+        if (!string.IsNullOrEmpty(grantMessage))
+            EditorGUILayout.HelpBox(grantMessage, MessageType.Info);
+    }
+
+    private void DrawBlacksmithWeaponControls(BlacksmithAbilityV2 ability)
+    {
+        var weapons = ability.WeaponsForEditor;
+        if (weapons == null || weapons.Count <= 1) return;
+        if (ability.CurWeaponData != null)
+            EditorGUILayout.LabelField("현재 무기", ability.IsActivated
+                ? $"{ability.CurWeaponData.WeaponName} · {WeaponGradeLabels[Mathf.Clamp(ability.CurWeaponData.Rank, 1, 4) - 1]} · +{ability.EnchantLevel}"
+                : ability.CurWeaponData.WeaponName);
+        var labels = new string[weapons.Count - 1];
+        for (int i = 1; i < weapons.Count; i++)
+            labels[i - 1] = weapons[i] != null ? weapons[i].WeaponName : "무기 없음";
+        weaponIndex = Mathf.Clamp(weaponIndex, 1, weapons.Count - 1);
+        weaponIndex = EditorGUILayout.Popup("지정할 무기", weaponIndex - 1, labels) + 1;
+        weaponRank = EditorGUILayout.Popup("무기 등급", weaponRank - 1, WeaponGradeLabels) + 1;
+        weaponLevel = EditorGUILayout.IntSlider("강화 단계", weaponLevel, 0, 5);
+        using var disabled = new EditorGUI.DisabledScope(ability.IsEnchanting || weapons[weaponIndex] == null);
+        if (GUILayout.Button("무기 상태 적용"))
+        {
+            ability.SetWeaponForEditor(weapons[weaponIndex], weaponRank, weaponLevel);
+            RefreshCharacterInfo();
         }
     }
 
