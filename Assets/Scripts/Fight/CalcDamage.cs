@@ -100,7 +100,9 @@ public class CalcDamage : MonoBehaviour
     {
         if (playerStatus == null || playerStatus.gameObject != GameManager.Instance.CurrentPlayer)
         {
-            playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
+            GameObject player = GameManager.Instance.CurrentPlayer;
+            playerStatus = player.GetComponent<PlayerStatus>();
+            playerBuffManager = player.GetComponent<BuffManager>();
         }
     }
 
