@@ -114,7 +114,8 @@ public class EnemyInRoom : MonoBehaviour
     int firstIdx, secondIdx;
     private void EnemyDied(Enemy monster)
     {
-        if(firstEnemyList.Contains(monster.gameObject))
+        bool isFirstWave = firstEnemyList.Contains(monster.gameObject);
+        if(isFirstWave)
         {
             firstIdx++;
         }
@@ -129,12 +130,14 @@ public class EnemyInRoom : MonoBehaviour
         GameStatisticsTracker.Instance.AddTotalKillCount(1);
 
         // 각 웨이브의 적을 전부 처치했을 때 실행되는 조건문
-        if (firstIdx >= firstEnemyList.Count)
+        if (isFirstWave && firstIdx >= firstEnemyList.Count)
         {
             GetComponent<RoomInstance>().onFirstWaveEnd?.Invoke();
             firstIdx = 0;
+            if (secondEnemyList.Count == 0)
+                GetComponent<RoomInstance>().onSecondWaveEnd?.Invoke();
         }
-        if (secondIdx >= secondEnemyList.Count)
+        if (!isFirstWave && secondIdx >= secondEnemyList.Count)
         {
             GetComponent<RoomInstance>().onSecondWaveEnd?.Invoke();
             secondIdx = 0;
@@ -153,4 +156,63 @@ public class EnemyInRoom : MonoBehaviour
             if (secondEnemyList[i] != null) secondEnemyList[i].GetComponent<Enemy>().Dead();
         }
     }
+
+#if UNITY_EDITOR
+    public bool IsClearingForEditor { get; private set; }
+
+    public void ClearRoomForEditor()
+    {
+        if (IsClearingForEditor || roomInstance == null
+            || roomInstance.GetRoomState != RoomState.Start) return;
+
+        IsClearingForEditor = true;
+        StartCoroutine(ClearRoomCoroutineForEditor());
+    }
+
+    private IEnumerator ClearRoomCoroutineForEditor()
+    {
+        try
+        {
+            if (firstEnemyList.Count == 0)
+                roomInstance.onFirstWaveEnd?.Invoke();
+            else
+                yield return DefeatWaveForEditor(firstEnemyList);
+
+            if (firstEnemyList.Count == 0 && secondEnemyList.Count == 0)
+                roomInstance.onSecondWaveEnd?.Invoke();
+            else
+                yield return DefeatWaveForEditor(secondEnemyList);
+        }
+        finally
+        {
+            IsClearingForEditor = false;
+        }
+    }
+
+    private IEnumerator DefeatWaveForEditor(List<GameObject> enemies)
+    {
+        bool waiting;
+        do
+        {
+            waiting = false;
+            foreach (var enemyObject in enemies)
+            {
+                if (enemyObject == null) continue;
+                var status = enemyObject.GetComponent<EnemyStatus>();
+                if (status == null || status.IsDead) continue;
+
+                var enemy = enemyObject.GetComponent<Enemy>();
+                if (!enemyObject.activeInHierarchy || enemy.StateMachine?.CurrentState == null)
+                {
+                    waiting = true;
+                    continue;
+                }
+
+                // 정상 사망 처리를 통해 보상, 처치 수, 웨이브 종료를 함께 반영한다.
+                status.Hp = 0f;
+            }
+            yield return null;
+        } while (waiting);
+    }
+#endif
 }

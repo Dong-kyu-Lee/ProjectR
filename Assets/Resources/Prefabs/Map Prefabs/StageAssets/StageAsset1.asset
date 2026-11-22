@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: StageAsset1
   m_EditorClassIdentifier: 
   stageName: Downtown
-  middleBossSceneName: TempMiddleBoss
-  finalBossSceneName: TempFinalBoss
   roomPrefabs:
   - {fileID: 3531850332450289258, guid: 03b285d41ee19a64aabdabca746751f9, type: 3}
   - {fileID: 4972015523166909312, guid: 35b02ffabd0edaf4bb959acdf8273ada, type: 3}
@@ -24,3 +22,77 @@ MonoBehaviour:
   - {fileID: 7915582734982918056, guid: 27ecc2341ea87d341ac210f922e2da8e, type: 3}
   - {fileID: 4636217558159047246, guid: 27a34adcd6019f74ea61f00958561c4f, type: 3}
   - {fileID: 7915582734982918056, guid: 7e8ef2d8c073e1d4cbfe7a141ae491e7, type: 3}
+  backgroundImagePrefab: {fileID: 0}
+  numberOfRooms: 3
+  dungeonBoxCount: 2
+  startNodeId: normal1
+  nodes:
+  - id: normal1
+    type: 0
+    sceneName: 
+    numberOfRoomsOverride: 3
+    dungeonBoxCountOverride: 2
+    playStory: 0
+    storyID: 0
+    branchMode: 0
+    edges:
+    - targetNodeId: normal2
+      weight: 0
+      choiceLabel: 
+  - id: normal2
+    type: 0
+    sceneName: 
+    numberOfRoomsOverride: 2
+    dungeonBoxCountOverride: 1
+    playStory: 0
+    storyID: 0
+    branchMode: 0
+    edges:
+    - targetNodeId: MiddleBoss
+      weight: 0
+      choiceLabel: 
+  - id: MiddleBoss
+    type: 1
+    sceneName: 
+    numberOfRoomsOverride: 2
+    dungeonBoxCountOverride: 1
+    playStory: 1
+    storyID: 0
+    branchMode: 0
+    edges:
+    - targetNodeId: normal3
+      weight: 0
+      choiceLabel: 
+  - id: normal3
+    type: 0
+    sceneName: 
+    numberOfRoomsOverride: 2
+    dungeonBoxCountOverride: 2
+    playStory: 1
+    storyID: 1
+    branchMode: 0
+    edges:
+    - targetNodeId: shop
+      weight: 0
+      choiceLabel: 
+  - id: shop
+    type: 3
+    sceneName: 
+    numberOfRoomsOverride: 2
+    dungeonBoxCountOverride: 1
+    playStory: 1
+    storyID: 1
+    branchMode: 0
+    edges:
+    - targetNodeId: FinalBoss
+      weight: 0
+      choiceLabel: 
+  - id: FinalBoss
+    type: 2
+    sceneName: 
+    numberOfRoomsOverride: 2
+    dungeonBoxCountOverride: 1
+    playStory: 1
+    storyID: 1
+    branchMode: 0
+    edges: []

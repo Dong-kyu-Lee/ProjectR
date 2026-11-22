@@ -33,6 +33,8 @@ public class BlacksmithAbilityUI : AbilityUIBase
     {
         if (blacksmithAbility == null) return;
 
+        enchantButton.interactable = !blacksmithAbility.IsEnchanting;
+
         var weaponData = blacksmithAbility.CurWeaponData;
 
         weaponNameText.text = weaponData.WeaponName;

@@ -28,6 +28,6 @@ public class CritPercentIncBuff : Buff
         PlayerStatus targetStatus = targetObject.GetComponent<PlayerStatus>();
         if (targetStatus == null) return;
 
-        targetStatus.CriticalPercent -= critPercentIncGap[currentBuffLevel];
+        targetStatus.CriticalPercent -= GetCurrentSumOfArray(critPercentIncGap);
     }
 }

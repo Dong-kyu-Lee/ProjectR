@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using static PlayerObj;
 
 public class PlayerStatus : Status
 {
@@ -132,6 +131,18 @@ public class PlayerStatus : Status
             CalcReceiveDamage.Instance.InduranceEffect13_IncreaseDamageReduction();
         }
     }
+
+#if UNITY_EDITOR
+    public bool SetHealthPercentForEditor(float percent)
+    {
+        if (!float.IsFinite(percent) || percent < 0f || percent > 100f
+            || MaxHp <= 0f || Hp <= 0f) return false;
+
+        // 안전 구역에서도 지정할 수 있으며, 0%는 기존 사망 처리로 이어진다.
+        base.Hp = MaxHp * (percent / 100f);
+        return true;
+    }
+#endif
 
     public float AdditionalDamage
     {
