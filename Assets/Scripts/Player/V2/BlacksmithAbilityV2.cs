@@ -39,6 +39,27 @@ public class BlacksmithAbilityV2 : MonoBehaviour, IAbilityV2
 
     public BlacksmithWeaponData CurWeaponData => curWeaponData;
 
+#if UNITY_EDITOR
+    public IReadOnlyList<BlacksmithWeaponData> WeaponsForEditor => weaponDataList;
+
+    public bool SetWeaponForEditor(BlacksmithWeaponData weapon, int rank, int level)
+    {
+        if (weapon == null || rank < 1 || rank > 4 || level < 0 || level > 5
+            || System.Array.IndexOf(weaponDataList, weapon) <= 0 || IsEnchanting) return false;
+
+        RemoveWeaponBonus();
+        SetRuntimeWeaponData(weapon);
+        isActivated = true;
+        curWeaponData.Rank = rank;
+        curWeaponData.EnchantLevel = level;
+        enchantLevel = level;
+        ApplyWeaponBonus();
+        ApplyWeaponAnimator();
+        onAbilityUpdated?.Invoke();
+        return true;
+    }
+#endif
+
     private List<float> enchantSuccessRates = new()
     {
         1.0f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f

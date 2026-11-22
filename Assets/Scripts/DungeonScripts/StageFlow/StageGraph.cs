@@ -11,6 +11,10 @@ public class StageGraph
 
     public StageNode StartNode { get; private set; }
 
+#if UNITY_EDITOR
+    public IReadOnlyCollection<StageNode> NodesForEditor => lookup.Values;
+#endif
+
     public StageGraph(StageData stageData)
     {
         stageName = stageData.name;

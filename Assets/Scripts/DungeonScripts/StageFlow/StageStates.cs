@@ -29,7 +29,12 @@ public class NormalDungeonState : IStageState
 {
     public void Enter(Stage stage, StageNode node)
     {
-        if (SceneManager.GetActiveScene().name == node.SceneName)
+        bool sceneReady = SceneManager.GetActiveScene().name == node.SceneName
+            || SceneManager.GetActiveScene().path == node.SceneName;
+#if UNITY_EDITOR
+        sceneReady &= !stage.ForceDungeonReloadForEditor;
+#endif
+        if (sceneReady)
             stage.CreateDungeon(node);
         else
             stage.LoadSceneThen(node.SceneType, node.SceneName, () => stage.CreateDungeon(node), true);

@@ -175,4 +175,39 @@ public class LevelUp : MonoBehaviour
         upgradeStatus = GameManager.Instance.CurrentPlayer.GetComponent<UpgradeStatus>();
         Debug.Log("캐릭터 정보 초기화");
     }
+
+#if UNITY_EDITOR
+    public int MaxLevelForEditor => Mathf.Min(maxlevel, requiredExp.Length - 1);
+    public UpgradeSystem UpgradeSystemForEditor => upgradeSystem;
+
+    public bool IsReadyForEditor(PlayerStatus player) =>
+        isActiveAndEnabled && player != null && playerStatus == player && upgradeStatus != null
+        && statusValueText != null && player.Level >= 1 && player.Level <= MaxLevelForEditor;
+
+    public void GrantExpForEditor(int amount)
+    {
+        IncreaseExp(amount);
+        if (playerStatus.Level >= MaxLevelForEditor)
+            InGameUIManager.Instance?.UpdateExpUI(0, 0);
+    }
+
+    public void GrowToLevelForEditor(int targetLevel)
+    {
+        int currentLevel = (int)playerStatus.Level;
+        if (targetLevel <= currentLevel || targetLevel > MaxLevelForEditor) return;
+
+        // 기존 레벨업은 요구 경험치를 초과해야 발생한다.
+        int totalRequired = 1;
+        for (int level = currentLevel; level < targetLevel; level++)
+            totalRequired += requiredExp[level];
+
+        GrantExpForEditor(Mathf.Max(1, Mathf.CeilToInt(totalRequired - playerStatus.Exp)));
+    }
+
+    public void GrantStatPointsForEditor(int amount)
+    {
+        upgradeStatus.StatPoint += amount;
+        statusValueText.SetupValueText(upgradeStatus);
+    }
+#endif
 }

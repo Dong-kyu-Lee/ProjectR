@@ -185,6 +185,29 @@ public class DungeonFlowManager : MonoBehaviour
         return stages[currentStageIndex].GetComponent<Stage>();
     }
 
+#if UNITY_EDITOR
+    public bool JumpToNodeForEditor(int stageNumber, string nodeId)
+    {
+        int targetIndex = stageNumber - 1;
+        if (currentStageIndex < 0 || targetIndex < 0 || targetIndex >= stages.Count
+            || GameManager.Instance.IsSceneTransitionPendingForEditor) return false;
+
+        var target = stages[targetIndex].GetComponent<Stage>();
+        var node = new StageGraph(target.stageData).GetNode(nodeId);
+        if (node == null || !Application.CanStreamedLevelBeLoaded(node.SceneName)) return false;
+        bool changingStage = currentStageIndex != targetIndex;
+        if (changingStage)
+        {
+            GetCurrentStage().ExitNodeForEditor();
+            stages[currentStageIndex].SetActive(false);
+            currentStageIndex = targetIndex;
+            isSceneChanged = false;
+            stages[targetIndex].SetActive(true);
+        }
+        return target.JumpToNodeForEditor(nodeId, changingStage);
+    }
+#endif
+
     // 플레이어 사망 시, 스테이지 초기화하는 함수
     public void ResetStages()
     {

@@ -146,6 +146,39 @@ public class Inventory : MonoBehaviour
         return success;
     }
 
+#if UNITY_EDITOR
+    public bool GrantItemForEditor(BasicItemData item, int amount)
+    {
+        if (item == null || amount <= 0) return false;
+        if (item is EquipmentItemData && item.ItemType == ItemType.EQUIPMENT)
+            return amount == 1 && AddItem(item);
+        if (item is not ConsumableItemData || item.ItemType != ItemType.CONSUMABLE
+            || item.MaxAmount <= 0) return false;
+
+        // 지급 가능 수량을 먼저 확인해 실패 시 일부 수량만 들어가는 것을 방지한다.
+        long capacity = 0;
+        foreach (var slot in inventorySlots)
+        {
+            if (slot.itemData.ItemType == ItemType.DUMMY)
+                capacity += item.MaxAmount;
+            else if (slot.itemData == item)
+                capacity += Math.Max(0, item.MaxAmount - slot.count);
+        }
+        if (amount > capacity) return false;
+
+        // 기존 획득 처리를 사용하되 한 번에 한 스택 이하로 넣는다.
+        int remaining = amount;
+        while (remaining > 0)
+        {
+            int chunk = Mathf.Min(remaining, item.MaxAmount);
+            if (!AddItem(item, chunk)) return false;
+            remaining -= chunk;
+        }
+        MyInventoryUI?.RefreshInventoryUI();
+        return true;
+    }
+#endif
+
     // 아이템 삭제 (버리기 기능용)
     public void RemoveItem(BasicItemData item)
     {

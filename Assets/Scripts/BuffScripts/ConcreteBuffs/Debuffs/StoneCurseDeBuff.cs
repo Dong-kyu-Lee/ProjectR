@@ -32,18 +32,13 @@ public class StoneCurseDeBuff : Buff
             }
         }
     }
-    public override void DoActionOnActivate(float tickDuration = 1)
-    {
-        ApplyBuffEffect();
-        base.DoActionOnActivate(tickDuration);
-    }
 
     public override void RemoveBuffEffect()
     {
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
 
-        targetStatus.AdditionalMoveSpeed -= moveSpeedDec;
+        targetStatus.AdditionalMoveSpeed += moveSpeedDec;
 
         if (targetStatus.gameObject.CompareTag("Player"))
         {

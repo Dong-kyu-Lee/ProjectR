@@ -18,6 +18,10 @@ public class StatusEffect : MonoBehaviour
         playerStatus = GameManager.Instance.CurrentPlayer.GetComponent<PlayerStatus>();
     }
 
+#if UNITY_EDITOR
+    internal void BindPlayer(PlayerStatus player) => playerStatus = player;
+#endif
+
     // 특수 효과 활성화.
     public void EnableEffect(string statName, int point)
     {

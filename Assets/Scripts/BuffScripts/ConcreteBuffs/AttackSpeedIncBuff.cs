@@ -30,6 +30,6 @@ public class AttackSpeedIncBuff : Buff
         Status targetStatus = targetObject.GetComponent<Status>();
         if (targetStatus == null) return;
 
-        targetStatus.AdditionalAttackSpeed -= attackSpeedIncGap[currentBuffLevel];
+        targetStatus.AdditionalAttackSpeed -= GetCurrentSumOfArray(attackSpeedIncGap);
     }
 }
